@@ -28,9 +28,6 @@ scn:
         create: Agghiunci cummentu
       message:
         create: Manna
-      client_application:
-        create: Riggistra
-        update: Agghiorna
       oauth2_application:
         update: Aggiorna
       redaction:
@@ -55,6 +52,7 @@ scn:
       message: Missaggiu
       node: Gruppu
       node_tag: Etichetta dû gruppu
+      note: nota
       notifier: Nutìfica
       old_node: Gruppu vecchiu
       old_node_tag: Etichetta vecchia dû gruppu
@@ -194,30 +192,11 @@ scn:
       entry:
         comment: Cummentu
         full: Nota cumpleta
-  account:
-    deletions:
-      show:
-        title: Cancella lu mè cuntu
-        delete_account: Cancella cuntu
-        confirm_delete: Sî sicuru?
-        cancel: Annulla
   accounts:
-    edit:
+    show:
       title: Cancia lu cuntu
-      my settings: Li mè mpustazzioni
       current email address: Nnirizzu email attuali
       external auth: Autinticazzioni esterna
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/IT:OpenID
-        link text: chi voli diri?
-      public editing:
-        heading: Canciu pùbblicu
-        enabled: Attivati. Nun sî anònimu e poi canciari li dati.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: chi voli diri?
-        disabled: Disattivati, e nun poi canciari li dati, tutti li canciamenti pricidenti
-          sunnu anònimi.
-        disabled link text: pirchì nun pozzu fari canciamenti?
       contributor terms:
         heading: Cunnizzioni di cuntribbuzzioni
         agreed: Accittasti li cunnizzioni di cuntribbuzzioni novi.
@@ -240,6 +219,29 @@ scn:
       success: Li nfurmazzioni di l'utenti foru aggiurnati boni.
     destroy:
       success: Cuntu cancillatu.
+    deletions:
+      show:
+        title: Cancella lu mè cuntu
+        delete_account: Cancella cuntu
+        confirm_delete: Sî sicuru?
+        cancel: Annulla
+    terms:
+      show:
+        title: Cunnizzioni
+        heading: Cunnizzioni
+        cancel: Annulla
+        you need to accept or decline: Pi cuntinuari, pi favuri leggi li cunnizzioni
+          di cuntribbuzzioni novi e appoi accèttali o rifiùtali.
+        legale_select: 'Paisi di risidenza:'
+        legale_names:
+          france: Francia
+          italy: Italia
+          rest_of_world: Restu dû munnu
+      update:
+        terms accepted: T'arringrazziamu d'aviri accittatu li cunnizzioni di cuntribbuzzioni
+          novi!
+      terms_declined_flash:
+        terms_declined_link: sta pàggina wiki
   browse:
     version: Virsioni
     in_changeset: Gruppu di canciamenti
@@ -252,17 +254,14 @@ scn:
     location: 'Locu:'
     node:
       title_html: 'Gruppu: %{name}'
-      history_title_html: 'Crunuluggìa dû gruppu: %{name}'
     way:
       title_html: 'Caminu: %{name}'
-      history_title_html: 'Crunuluggìa dû caminu: %{name}'
       nodes: Gruppa
       also_part_of_html:
         one: parti dû caminu %{related_ways}
         other: parti dî camini %{related_ways}
     relation:
       title_html: 'Rilazzioni: %{name}'
-      history_title_html: 'Crunuluggìa dâ rilazzioni: %{name}'
       members: Mèmmiri
       members_count:
         one: 1 mèmmiru
@@ -274,17 +273,9 @@ scn:
         way: Caminu
         relation: Rilazzioni
     containing_relation:
-      entry_html: Rilazzioni %{relation_name}
       entry_role_html: Rilazzioni %{relation_name} (comu %{relation_role})
     not_found:
       title: Nun attruvatu
-      sorry: 'Purtroppu, %{type} #%{id} nun si potti attruvari.'
-      type:
-        node: lu gruppu
-        way: lu caminu
-        relation: la rilazzioni
-        changeset: lu gruppu di canciamenti
-        note: nota
     timeout:
       title: Erruri di timeout
       sorry: Purtroppu, ci vosi troppu tempu pi pigghiari li dati %{type} cu id %{id}.
@@ -319,11 +310,20 @@ scn:
       telephone_link: Chiama lu %{phone_number}
       colour_preview: Antiprima culuri %{colour_value}
       email_link: Email %{email}
-    query:
+  feature_queries:
+    show:
       title: Arricerca di l'elimenti
       introduction: Clicca supra â cartina pi circari l'elimenti vicini.
       nearby: Elimenti vicini
       enclosing: Elimenti chi cuntèninu
+  old_elements:
+    index:
+      node:
+        title_html: 'Crunuluggìa dû gruppu: %{name}'
+      way:
+        title_html: 'Crunuluggìa dû caminu: %{name}'
+      relation:
+        title_html: 'Crunuluggìa dâ rilazzioni: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -335,13 +335,9 @@ scn:
         title_particular: 'Discussioni supra ô gruppu di canciamenti d''OpenHistoricalMap
           #%{changeset_id}'
   changesets:
-    changeset:
-      no_edits: (nuḍḍu canciamentu)
-      view_changeset_details: Ammustra li dittagghî dû gruppu di canciamenti
     index:
       title: Gruppi di canciamenti
       title_user: Gruppi di canciamenti di %{user}
-      title_friend: Gruppi di canciamenti dî tò amici
       title_nearby: Gruppi di canciamenti di l'utenti vicini
       empty: Nuḍḍu gruppu di canciamenti attruvatu.
       empty_area: Nuḍḍu gruppu di canciamenti nta st’ària.
@@ -349,7 +345,6 @@ scn:
       no_more: Nuḍḍu àutru gruppu di canciamenti attruvatu.
       no_more_area: Nuḍḍu àutru gruppu di canciamenti nta st'ària.
       no_more_user: Nuḍḍu àutru gruppu di canciamenti fattu di st’utenti.
-      load_more: Carrìcanni àutri
       feed:
         title: Gruppu di canciamenti %{id}
         title_comment: Gruppu di canciamenti %{id} - %{comment}
@@ -368,11 +363,8 @@ scn:
       changesetxml: XML dû gruppu di canciamenti
       osmchangexml: XML osmChange
     paging_nav:
-      nodes: Gruppa (%{count})
       nodes_paginated: Gruppa (%{x}-%{y} di %{count})
-      ways: Camini (%{count})
       ways_paginated: Camini (%{x}-%{y} di %{count})
-      relations: Rilazzioni (%{count})
       relations_paginated: Rilazzioni (%{x}-%{y} di %{count})
     timeout:
       sorry: Purtroppu, ci vosi troppu tempu pi pigghiari la lista dî gruppi di canciamenti
@@ -382,21 +374,18 @@ scn:
       km away: luntanu %{count} km
       m away: luntanu %{count} m
       latest_edit_html: 'Ùrtimu canciamentu (%{ago}):'
+      no_edits: (nuḍḍu canciamentu)
+      view_changeset_details: Ammustra li dittagghî dû gruppu di canciamenti
     popup:
       your location: La to pusizzioni
       nearby mapper: Mappaturi vicinu
-      friend: Amicu
     show:
       edit_your_profile: Cancia lu tò prufilu
-      my friends: Li mè amici
-      no friends: Ancora nun agghiuncisti nuḍḍu amicu.
       nearby users: Àutri utenti vicinu
       no nearby users: Ancora nun ci sunnu àutri utenti chi si dichiàranu mappatura
         ccà vicinu.
-      friends_changesets: gruppa di canciamenti di l'amici
-      friends_diaries: vuci dî diarî di l'amici
       nearby_changesets: gruppa di canciamenti di l'utenti vicini
-      nearby_diaries: vuci dî diarî di l'utenti vicini
+      nearby_diaries: vuci dî diari di l'utenti vicini
   diary_entries:
     new:
       title: Vuci nova dû diariu
@@ -405,13 +394,9 @@ scn:
       use_map_link: Usa la cartina
     index:
       title: Diarî di l'utenti
-      title_friends: Diarî di l'amici
       title_nearby: Diarî di l'utenti vicini
       user_title: Diariu di %{user}
       in_language_title: Vuci dô diariu n %{language}
-      new: Vuci nova dû diariu
-      new_title: Scrivi na vuci nova ntô mè diariu di l'utenti
-      my_diary: Lu mè diariu
       no_entries: Nuḍḍa vuci ntô diariu
     page:
       recent_entries: Vuci dû diariu ricenti
@@ -457,23 +442,12 @@ scn:
       all:
         title: Vuci dû diariu d'OpenStreetMap
         description: Vuci ricenti dû diariu di l'utenti d'OpenStreetMap
-  diary_comments:
-    page:
-      post: Missaggiu
-      when: Quannu
-      comment: Cummentu
-  friendships:
-    make_friend:
-      heading: Agghiùnciri a %{user} comu amicu?
-      button: Agghiunci comu amicu
-      success: Ora %{name} è amicu tò!
-      failed: Purtroppu la junta di %{name} comu amicu nun arriniscìu.
-      already_a_friend: Già siti amici cu %{name}.
-    remove_friend:
-      heading: Livari %{user} di l'amici?
-      button: Leva di l'amici
-      success: '%{name} fu livatu dî tò amici.'
-      not_a_friend: '%{name} nun è amicu tò.'
+    navigation:
+      my_diary: Lu mè diariu
+      new: Vuci nova dû diariu
+      new_title: Scrivi na vuci nova ntô mè diariu di l'utenti
+    profile_diaries:
+      date_label: Data
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -942,6 +916,9 @@ scn:
         tunnel:
           culvert: Tumbinatura
           "yes": Jallarìa
+        water:
+          lake: Lacu
+          reservoir: lacu artificiali
         waterway:
           artificial: Cursu d'acqua artificiali
           boatyard: Canteri navali
@@ -969,12 +946,18 @@ scn:
         level8: Cunfini di cumuni
         level9: Cunfini di villaggiu
         level10: Cunfini di quarteri
-    results:
-      no_results: Nuḍḍu risurtatu attruvatu
-      more_results: Àutri risurtati
+  searches:
+    queries:
+      create:
+        no_results: Nuḍḍu risurtatu attruvatu
+        more_results: Àutri risurtati
+  directions:
+    show:
+      title: Nnicazzioni
+      distance: Distanza
+      time: Tempu
+      directions_courtesy_html: Nnicazzioni pi cuncissioni gintili di %{link}
   issues:
-    index:
-      not_updated: Nun aggiurnatu
     page:
       user_not_found: L'utenti nun esisti
       status: Statu
@@ -1021,10 +1004,6 @@ scn:
       lìbbira a adupirari secunnu na licenza graputa.
     intro_2_create_account: Crìa un cuntu di l'utenti
     partners_title: cullabburatura
-    osm_offline: La basi di dati d'OpenStreetMap comu a ora nun è n lìnia pirchì si
-      stannu facennu travagghî di manutinzioni funnamintali.
-    osm_read_only: La basi di dati d'OpenStreetMap comu a ora è ntâ mudalità di sula
-      littura pirchì si stannu facennu travagghî di manutinzioni funnamintali.
     help: Guida
     about: Nfurmazzioni
     copyright: Dritti d'auturi
@@ -1047,14 +1026,10 @@ scn:
         cu l''oggettu %{subject}:'
       footer_html: Poi lèggiri lu missaggiu macari nta %{readurl} e ci poi arrispùnniri
         di %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Salutamu %{to_user},
-      subject: '[OpenStreetMap] %{user} t''agghiuncìu comu amicu'
-      had_added_you: '%{user} t''agghiuncìu comu amicu nta OpenStreetMap.'
       see_their_profile: Poi taliari lu sò prufilu nta %{userurl}.
       see_their_profile_html: Poi taliari lu sò prufilu nta %{userurl}.
-      befriend_them: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
-      befriend_them_html: Lu poi macari agghiùnciri comu amicu nta %{befriendurl}.
     gpx_failure:
       hi: Salutamu %{to_user},
       failed_to_import: 'nun arriniscìu a èssiri mpurtatu. Ccà c''è l''erruri:'
@@ -1063,7 +1038,7 @@ scn:
       hi: Salutamu %{to_user},
       subject: '[OpenStreetMap] Mpurtazzioni GPX arrinisciuta'
     signup_confirm:
-      subject: '[OpenStreetMap] Bimminutu nta OpenStreetMap'
+      subject: '[OpenHistoricalMap] Bimminutu nta OpenHistoricalMap'
       greeting: A tìa!
       created: Quarchidunu (spiramu chi fusti tu) criau ora ora un cuntu nta %{site_url}.
       confirm: 'Avanti chi facemu zocchegghiè, n''aggiuva la cunferma chi st''addumannata
@@ -1152,27 +1127,6 @@ scn:
       failure: Già cu stu còdici fu cunfirmatu nu nnirizzu di posta.
       unknown_token: Ddu còdici di cunferma o scadìu o nun esisti.
   messages:
-    inbox:
-      title: Posta arrivata
-      messages: Hai %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} missaggiu novu'
-        other: '%{count} missaggî novi'
-      old_messages:
-        one: '%{count} missaggiu vecchiu'
-        other: '%{count} missaggî vecchî'
-      no_messages_yet_html: Ancora nun hai nuḍḍu missaggiu. Pirchì nun fai canuscenza
-        cu quarchidunu dî %{people_mapping_nearby_link}?
-      people_mapping_nearby: mappatura vicinu a tìa
-    messages_table:
-      from: Di
-      to: A
-      subject: Oggettu
-      date: Data
-    message_summary:
-      unread_button: Signa comu di lèggiri
-      read_button: Signa comu già liggiutu
-      destroy_button: Cancella
     new:
       title: Manna un missaggiu
       send_message_to_html: Manna un missaggiu novu a %{name}
@@ -1185,18 +1139,6 @@ scn:
       title: Nuḍḍu missaggiu accussì
       heading: Nuḍḍu missaggiu accussì
       body: Purtroppu nun c'è nuḍḍu missaggiu cu l'id nnicatu.
-    outbox:
-      title: Posta mannata
-      messages:
-        one: Hai %{count} missaggiu mannatu
-        other: Hai %{count} missaggî mannati
-      no_sent_messages_html: Ancora nun mannasti nuḍḍu missaggiu. Pirchì nun fai canuscenza
-        cu quarchidunu dî %{people_mapping_nearby_link}?
-      people_mapping_nearby: mappatura vicinu a tìa
-    reply:
-      wrong_user: Trasisti comu «%{user}» pirò lu missaggiu ô quali vulivi arrispùnniri
-        nun fu mannatu a dd'utenti. Pi favuri trasi comu l'utenti giustu pi putiri
-        arrispùnniri.
     show:
       title: Leggi lu missaggiu
       reply_button: Arrispunni
@@ -1205,15 +1147,53 @@ scn:
       back: Torna n arreri
       wrong_user: Trasisti comu «%{user}» pirò lu missaggiu chi vulivi lèggiri nun
         fu mannatu a dd'utenti. Pi favuri trasi comu l'utenti giustu pi putiri liggìrilu.
-    sent_message_summary:
-      destroy_button: Cancella
-    heading:
-      my_inbox: La mè posta arrivata
-    mark:
-      as_read: Missaggiu signatu comu già liggiutu
-      as_unread: Missaggiu marcatu comu di lèggiri
     destroy:
       destroyed: Missaggiu cancillatu
+    read_marks:
+      create:
+        notice: Missaggiu signatu comu già liggiutu
+      destroy:
+        notice: Missaggiu marcatu comu di lèggiri
+    mailboxes:
+      heading:
+        my_inbox: La mè posta arrivata
+      messages_table:
+        from: Di
+        to: A
+        subject: Oggettu
+      message:
+        unread_button: Signa comu di lèggiri
+        read_button: Signa comu già liggiutu
+        destroy_button: Cancella
+    inboxes:
+      show:
+        title: Posta arrivata
+        messages: Hai %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} missaggiu novu'
+          other: '%{count} missaggî novi'
+        old_messages:
+          one: '%{count} missaggiu vecchiu'
+          other: '%{count} missaggî vecchî'
+        no_messages_yet_html: Ancora nun hai nuḍḍu missaggiu. Pirchì nun fai canuscenza
+          cu quarchidunu dî %{people_mapping_nearby_link}?
+        people_mapping_nearby: mappatura vicinu a tìa
+    outboxes:
+      show:
+        title: Posta mannata
+        messages:
+          one: Hai %{count} missaggiu mannatu
+          other: Hai %{count} missaggî mannati
+        no_sent_messages_html: Ancora nun mannasti nuḍḍu missaggiu. Pirchì nun fai
+          canuscenza cu quarchidunu dî %{people_mapping_nearby_link}?
+        people_mapping_nearby: mappatura vicinu a tìa
+      message:
+        destroy_button: Cancella
+    replies:
+      new:
+        wrong_user: Trasisti comu «%{user}» pirò lu missaggiu ô quali vulivi arrispùnniri
+          nun fu mannatu a dd'utenti. Pi favuri trasi comu l'utenti giustu pi putiri
+          arrispùnniri.
   passwords:
     new:
       title: Palora d'òrdini pirduta
@@ -1230,17 +1210,12 @@ scn:
     update:
       flash changed: La tò palora d'òrdini fu canciata.
   preferences:
-    show:
-      title: Li mè prifirenzi
-      preferred_editor: Editor prifirutu
-      preferred_languages: Lingui prifiruti
-      edit_preferences: Cancia prifirenzi
-    edit:
-      title: Cancia prifirenzi
-      save: Aggiurna prifirenzi
-      cancel: Annulla
+    basic_preferences:
+      show:
+        title: Li mè prifirenzi
+        save: Aggiurna prifirenzi
   profiles:
-    edit:
+    show:
       title: Cancia lu prufilu
       save: Aggiurna prufilu
       cancel: Annulla
@@ -1348,12 +1323,14 @@ scn:
           graputa
       remote_failed: 'Lu canciamentu nun arriniscìu: assicùrati chi JOSM o Merkaartor
         sunnu graputi e hannu l''opzioni telecumannu attivata'
-    edit:
+    not_public_flash:
       not_public: Nun mpustasti li tò canciamenti p'èssiri pùbblici.
       not_public_description_html: Nun poi canciari cchiù la cartina nfinu a quannu
         nun lu fai. Poi mpustari li tò canciamenti comu pùbblici dâ tò %{user_page}.
       user_page_link: pàggina di l'utenti
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Ti spigamu pirchì.
+    edit:
       id_not_configured: iD nun fu cunfiguratu
     export:
       title: Espurtazzioni
@@ -1366,7 +1343,7 @@ scn:
           Pi favuri zumma, o scegghî n'ària cchiù piccidda, o puru pû scarricamentu
           massizzu di dati adòpira una dî fonti ccassutta.
         planet:
-          title: Pianeta OSM
+          title: Pianeta OHM
           description: Copî dâ basi di dati cumpreta di OpenStreetMap ca vèninu aggiurnati
             rigularmenti
         overpass:
@@ -1400,7 +1377,7 @@ scn:
     help:
       title: Attruvari aiutu
       introduction: |-
-        OpenStreetMap havi tanti risorsi pi nzignàrisi comu funziona lu pruggettu, pi fari addumannati e dari arrispunnuti,
+        OpenHistoricalMap havi tanti risorsi pi nzignàrisi comu funziona lu pruggettu, pi fari addumannati e dari arrispunnuti,
         e pi discùtiri d'argumenti c'arriguàrdanu la mappatura e ducumintàrili n cullabburazzioni.
       welcome:
         url: /welcome
@@ -1445,60 +1422,6 @@ scn:
       where_am_i: Unni sugnu?
       where_am_i_title: Discrivi la pusizzioni attuali pi menzu d'un muturi d'arricerca
       submit_text: Vai
-    key:
-      table:
-        entry:
-          motorway: Autustrata
-          trunk: Supirstrata
-          primary: Strata primaria
-          secondary: Strata sicunnaria
-          unclassified: Strata senza classificazzioni
-          track: Trazzera
-          bridleway: Caminu pî cavaddi
-          cycleway: Pista ciclàbbili
-          footway: Caminu pidunali
-          rail: Ferruvìa
-          subway: Mitrupulitana
-          light_rail: Mitrupulitana leggia
-          tram: tram
-          cable_car: Funivìa
-          chair_lift: seggiuvìa
-          runway: Pista d’attirraggiu
-          taxiway: pista di rullaggiu
-          apron: Ària di parcheggiu ariupurtuali
-          admin: Cunfini amministrativu
-          forest: Furesta
-          wood: Voscu
-          meadow: Pratu
-          golf: Campu di golf
-          park: Villa
-          common: Cumuni
-          resident: Zona risidinziali
-          retail: Zona di nigozzî
-          industrial: Zona nnustriali
-          commercial: Zona cummirciali
-          heathland: Brughiera
-          lake: Lacu
-          reservoir: lacu artificiali
-          farm: Massarìa
-          brownfield: Zona di bunìfica
-          cemetery: Cimiteru
-          allotments: Tirritorî agrìculi o ricriativi
-          pitch: Campu di jocu
-          centre: Centru spurtivu
-          reserve: Riserva naturali
-          military: Zona militari
-          school: Scola
-          university: univirsità
-          building: Edificiu mpurtanti
-          station: Stazzioni dâ ferruvìa
-          summit: Muntagna
-          peak: Muntagna
-          tunnel: Cuntornu trattiatu = jallarìa
-          bridge: Cuntornu niurittu = ponti
-          private: Accessu privatu
-          destination: Sirvitù di passaggiu
-          construction: Strati n custruzzioni
     welcome:
       title: Bimminuti!
       introduction: Bimminuti nta OpenStreetMap, la cartina dû munnu lìbbira e canciàbbili.
@@ -1506,9 +1429,6 @@ scn:
         chi spiega li cosi cchiù mpurtanti c'aviti a sapiri.
       whats_on_the_map:
         title: Zocchi c'è supra â cartina
-        on_the_map_html: |-
-          OpenHistoricalMap è nu postu pi mappari cosi chi sù <em>veri e attuali</em> -
-          cunteni miliuna d'edificî, strati e àutri dittagghî dî posti. Poi mappari zocchegghiè dû munnu riali chi ti ntiressa.
         off_the_map_html: Chiddu chi mmeci <em>nun c'è</em> sunnu li dati d'opinioni
           comu p'esempiu li giudizzî, l'elimenti chi nun esìstinu cchiù o chi sunnu
           iputètici, e li dati chi vèninu di fonti prutetti dû drittu d'auturi. A
@@ -1528,11 +1448,63 @@ scn:
           e \n<a href='http://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct'>Canciamenti
           autumatizzati</a>."
       start_mapping: Accumenza a mappari
-      add_a_note:
-        title: Nun hai tempu pi fari canciamenti? Allura agghiunci na nota!
-        para_1: |-
-          Si voi sulamenti cunzata quarchi cosa piccidda, e nun hai lu tempu pi scrivìriti e nzignàriti a mappari, è
-          cchiù fàcili lassari na nota.
+    add_a_note:
+      title: Nun hai tempu pi fari canciamenti? Allura agghiunci na nota!
+      para_1: |-
+        Si voi sulamenti cunzata quarchi cosa piccidda, e nun hai lu tempu pi scrivìriti e nzignàriti a mappari, è
+        cchiù fàcili lassari na nota.
+  map_keys:
+    show:
+      entries:
+        motorway: Autustrata
+        trunk: Supirstrata
+        primary: Strata primaria
+        secondary: Strata sicunnaria
+        unclassified: Strata senza classificazzioni
+        track: Trazzera
+        bridleway: Caminu pî cavaddi
+        cycleway: Pista ciclàbbili
+        footway: Caminu pidunali
+        rail: Ferruvìa
+        subway: Mitrupulitana
+        light_rail: Mitrupulitana leggia
+        tram: tram
+        cable_car: Funivìa
+        chair_lift: seggiuvìa
+        runway: Pista d’attirraggiu
+        taxiway: pista di rullaggiu
+        apron: Ària di parcheggiu ariupurtuali
+        admin: Cunfini amministrativu
+        forest: Furesta
+        wood: Voscu
+        meadow: Pratu
+        golf: Campu di golf
+        park: Villa
+        common: Cumuni
+        resident: Zona risidinziali
+        retail: Zona di nigozzî
+        industrial: Zona nnustriali
+        commercial: Zona cummirciali
+        heathland: Brughiera
+        farm: Massarìa
+        brownfield: Zona di bunìfica
+        cemetery: Cimiteru
+        allotments: Tirritorî agrìculi o ricriativi
+        pitch: Campu di jocu
+        centre: Centru spurtivu
+        reserve: Riserva naturali
+        military: Zona militari
+        school: Scola
+        university: univirsità
+        building: Edificiu mpurtanti
+        station: Stazzioni dâ ferruvìa
+        summit: Muntagna
+        peak: Muntagna
+        tunnel: Cuntornu trattiatu = jallarìa
+        bridge: Cuntornu niurittu = ponti
+        private: Accessu privatu
+        destination: Sirvitù di passaggiu
+        construction: Strati n custruzzioni
   traces:
     visibility:
       private: Privata (cunnivisu sulu comu anònimu, òrdini dî punti nun mantinutu)
@@ -1608,13 +1580,14 @@ scn:
       heading: Mimurizzazzioni dî GPX fora sirvizziu
       message: Lu sistema di mimurizzazzioni e carricamentu dî file GPX pi com'ora
         è fora sirvizziu.
-    georss:
-      title: Tracciati GPS d'OpenStreetMap
-    description:
-      description_with_count:
-        one: File GPX cu %{count} punti di %{user}
-        other: File GPX cu %{count} punti di %{user}
-      description_without_count: File GPX di %{user}
+    feeds:
+      show:
+        title: Tracciati GPS d'OpenStreetMap
+      description:
+        description_with_count:
+          one: File GPX cu %{count} punti di %{user}
+          other: File GPX cu %{count} punti di %{user}
+        description_without_count: File GPX di %{user}
   application:
     require_cookies:
       cookies_needed: Pari chi hai li cookie disattivati; pi favuri attìvali ntô tò
@@ -1628,9 +1601,6 @@ scn:
     settings_menu:
       account_settings: Mpustazzioni cuntu
     auth_providers:
-      openid:
-        title: Trasi cu n'OpenID
-        alt: Trasi cu n'URL OpenID
       google:
         title: Trasi cu Google
         alt: Trasi cu n'OpenID di Google
@@ -1672,25 +1642,7 @@ scn:
       display name description: Lu tò nomu d'utenti comu veni ammustratu pubblicamenti.
         Appoi lu poi canciari ntê prifirenzi.
       continue: Scrìviti
-      terms accepted: T'arringrazziamu d'aviri accittatu li cunnizzioni di cuntribbuzzioni
-        novi!
       use external auth: O puru, trasi pi menzu di na terza parti
-    terms:
-      title: Cunnizzioni
-      heading: Cunnizzioni
-      consider_pd: Sparti dû cuntrattu ccassupra, cunzìddiru chi li mè cuntribbuti
-        sunnu ntô Duminiu Pùbblicu
-      consider_pd_why: chi voli diri?
-      you need to accept or decline: Pi cuntinuari, pi favuri leggi li cunnizzioni
-        di cuntribbuzzioni novi e appoi accèttali o rifiùtali.
-      legale_select: 'Paisi di risidenza:'
-      legale_names:
-        france: Francia
-        italy: Italia
-        rest_of_world: Restu dû munnu
-    terms_declined_flash:
-      terms_declined_link: sta pàggina wiki
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: St'utenti nun c'è
       heading: L’utenti %{user} nun esisti
@@ -1704,7 +1656,6 @@ scn:
       my notes: Li mè noti
       my messages: Li mè missaggi
       my profile: Lu mè prufilu
-      my settings: Li mè mpustazzioni
       my comments: Li mè cummenti
       my_preferences: Li mè prifirenzi
       blocks on me: Cu blocca a mìa
@@ -1715,8 +1666,6 @@ scn:
       edits: Canci
       traces: Tracciati
       notes: Noti dâ cartina
-      remove as friend: Leva di l'amici
-      add as friend: Agghiunci a l'amici
       mapper since: 'Mappaturi di:'
       ct status: 'Cunnizzioni di cuntribbuzzioni:'
       ct undecided: Nun dicisi
@@ -1747,15 +1696,37 @@ scn:
     go_public:
       flash success: Ora tutti li tò canciamenti sunnu pùbblici, e hai lu pirmissu
         di fari canciamenti.
-    index:
-      title: Utenti
-      heading: Utenti
-      summary_html: '%{name} criatu di %{ip_address} lu %{date}'
-      summary_no_ip_html: '%{name} criatu lu %{date}'
-      empty: Nun fu attruvatu nuḍḍu utenti chi currispunni
-    page:
-      confirm: Cunferma a l'utenti scigghiuti
-      hide: Ammuccia a l'utenti scigghiuti
+    issued_blocks:
+      show:
+        title: Blocchi fatti di %{name}
+        heading_html: Elencu dî blocchi fatti di %{name}
+        empty: '%{name} nun fici nuddu bloccu ancora.'
+    received_blocks:
+      show:
+        title: Blocchi di %{name}
+        heading_html: Elencu dî blocchi contra a %{name}
+        empty: '%{name} nun fu bluccatu ancora.'
+      edit:
+        revoke: Rèvuca!
+    lists:
+      show:
+        title: Utenti
+        heading: Utenti
+      page:
+        confirm: Cunferma a l'utenti scigghiuti
+        hide: Ammuccia a l'utenti scigghiuti
+        empty: Nun fu attruvatu nuḍḍu utenti chi currispunni
+      user:
+        summary_html: '%{name} criatu di %{ip_address} lu %{date}'
+        summary_no_ip_html: '%{name} criatu lu %{date}'
+    changeset_comments:
+      page:
+        changeset: lu gruppu di canciamenti
+        when: Quannu
+        comment: Cummentu
+    diary_comments:
+      page:
+        post: Missaggiu
     suspended:
       title: Cuntu suspinnutu
       heading: Cuntu suspinnutu
@@ -1802,8 +1773,6 @@ scn:
       title: Blocchi di l'utenti
       heading: Elencu dî blocchi di l'utenti
       empty: Ancora nun fu fattu nuḍḍu bloccu.
-    revoke_all:
-      revoke: Rèvuca!
     helper:
       time_future_html: Finisci tra %{time}
       until_login: Attivatu nfina a quannu l'utenti trasi.
@@ -1824,14 +1793,6 @@ scn:
         years:
           one: 1 annu
           other: '%{count} anni'
-    blocks_on:
-      title: Blocchi di %{name}
-      heading_html: Elencu dî blocchi contra a %{name}
-      empty: '%{name} nun fu bluccatu ancora.'
-    blocks_by:
-      title: Blocchi fatti di %{name}
-      heading_html: Elencu dî blocchi fatti di %{name}
-      empty: '%{name} nun fici nuddu bloccu ancora.'
     show:
       title: '%{block_on} bluccatu di %{block_by}'
       heading_html: '%{block_on} bluccatu di %{block_by}'
@@ -1841,7 +1802,6 @@ scn:
       reason: 'Mutivu dû bloccu:'
       revoker: 'Rivucaturi:'
     block:
-      not_revoked: (nun arrivucatu)
       show: Ammustra
       edit: Cancia
     page:
@@ -1849,7 +1809,6 @@ scn:
       creator_name: Criaturi
       reason: Mutivu dû bloccu
       status: Statu
-      revoker_name: Arrivucatu di
   notes:
     index:
       title: Noti scritti o cummintati di l'utenti %{user}
@@ -1938,12 +1897,6 @@ scn:
     edit_help: Sposta la cartina e zumma ntôn postu chi voi canciari, e appoi clicca
       ccà.
     directions:
-      engines:
-        fossgis_osrm_car: Câ màchina (OSRM)
-        graphhopper_bicycle: Câ bicicretta (GraphHopper)
-        graphhopper_foot: A pedi (GraphHopper)
-      directions: Nnicazzioni
-      distance: Distanza
       errors:
         no_route: Nun si potti attruvari nu caminu tra di sti dui posti.
         no_place: Purtroppu nun si potti attruvari ddu postu.
@@ -1967,7 +1920,6 @@ scn:
         end_oneway_without_exit: Fini dû senzu ùnicu nta %{name}
         roundabout_with_exit: Â rutunna pigghiari la nisciuta %{exit} pi %{name}
         unnamed: strata senza nomu
-        courtesy: Nnicazzioni pi cuncissioni gintili di %{link}
         exit_counts:
           first: 1ª
           second: 2ª
@@ -1979,7 +1931,6 @@ scn:
           eighth: 8ª
           ninth: 9ª
           tenth: 10ª
-      time: Tempu
     query:
       node: Gruppu
       way: Caminu

@@ -10,12 +10,23 @@
 ps:
   html:
     dir: rtl
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: '%{year} مخزېږديز'
+      brief_ce: '%{year} زېږديز'
+      range: '%{start} – %{end}'
+  time:
+    formats:
+      friendly: '%B %e, %Y په %H:%M'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: فایل غوره کړئ
     submit:
       diary_comment:
-        create: تبصره
+        create: څرگندونه
       diary_entry:
         create: خپرول
         update: تازه کول
@@ -23,9 +34,9 @@ ps:
         create: تبصره ورگډول
       message:
         create: لېږل
-      client_application:
-        create: ثبتول
-        update: تازه کول
+      oauth2_application:
+        create: نوم‌ليکنه
+        update: هم‌مهالول
       trace:
         create: پورته کول
         update: بدلونونه خوندي کول
@@ -33,9 +44,15 @@ ps:
     models:
       country: هېواد
       friend: ملگری
+      issue: ستونزه
       language: ژبه
       message: پيغام
+      note: ياداښت
       old_way: زړه لاره
+      relation: اړيکه
+      relation_member: اړيکې غړی
+      relation_tag: اړيکې نښلن
+      report: راپور
       user: کارن
       way: لار
     attributes:
@@ -59,9 +76,9 @@ ps:
         latitude: لوړوالی
         longitude: اوږدوالی
         public: ټولگړی
-        description: څرگندونه
+        description: څرگنداوی
         gpx_file: 'GPX دوتنه پورته کول:'
-        visibility: 'ښکارېدنه:'
+        visibility: ښکارېدنه
         tagstring: 'نښلنونه:'
       message:
         sender: لېږونکی
@@ -69,36 +86,68 @@ ps:
         body: جوسه
         recipient: اخيستونکی
       redaction:
-        description: څرگندونه
+        title: سرليک
+        description: څرگنداوی
       user:
         email: برېښليک
         new_email: 'نوې برېښليک پته:'
         active: فعال
         display_name: ښکارېدونکی نوم
         description: څرگندونه
+        home_lat: لوړوالی
+        home_lon: اوږدوالی
         languages: ژبې
+        preferred_editor: غوره سمونگر
         pass_crypt: پټنوم
+        pass_crypt_confirmation: پټنوم تاييدول
   editor:
     default: تلواليز (اوسنی %{name})
     id:
       name: iD
+  auth:
+    providers:
+      none: هېڅ
+      openid: پرانېستی‌پېژند
+      google: گوگل
+      facebook: فيسبوک
+      microsoft: مایکروسافټ
+      github: گيټ‌هاب
+      wikipedia: ويکيپېډيا
+      openstreetmap: پرانېستې‌کوڅې‌نخچه
+  api:
+    notes:
+      comment:
+        opened_at_html: جوړشوی %{when}
+      entry:
+        comment: څرگندونه
+        full: بشپړ یادښت
   accounts:
-    edit:
-      my settings: زما اوڼنې
-      openid:
-        link text: دا څه دی؟
-      public editing:
-        enabled link text: دا څه دی؟
+    show:
+      title: گڼون سمول
+      current email address: 'اوسنۍ برېښليک‌پته:'
+      external auth: بېرونۍ تاييدي
       contributor terms:
         link text: دا څه دی؟
       save changes button: بدلونونه خوندي کول
+    deletions:
+      show:
+        title: زما گڼون ړنگول
+        warning: خبرداری! د گڼون ړنگولو بهير وروستی دی او بېرته نشي راگرځېدلی.
+        delete_account: گڼون ړنگول
+        confirm_delete: آيا تاسې ډاډه ياست؟
+        cancel: ناگارل
+    terms:
+      show:
+        legale_names:
+          france: فرانسه
+          italy: اېټاليا
+    pd_declarations:
+      show:
+        confirm: تاييد
   browse:
     relation:
       members: غړي
     relation_member:
-      type:
-        way: لار
-    not_found:
       type:
         way: لار
     timeout:
@@ -117,8 +166,8 @@ ps:
     show:
       comment: تبصره
   dashboards:
-    popup:
-      friend: ملگری
+    show:
+      followings: کارنان چې تاسو يې څارئ
   diary_entries:
     form:
       location: 'ځای:'
@@ -134,15 +183,18 @@ ps:
       confirm: تاييد
     location:
       location: 'ځای:'
-  diary_comments:
-    page:
-      when: کله
-      comment: تبصره
-  friendships:
-    make_friend:
-      button: د ملگري په توگه ورگډول
+    profile_diaries:
+      date_label: نېټه
+  errors:
+    contact:
+      contact: اړيکه
   geocoder:
+    search:
+      title:
+        latlon: دنننۍ
+        latlon_url: https://openhistoricalmap.org/
     search_osm_nominatim:
+      suffix_format: '[%{dates}]'
       prefix:
         amenity:
           bank: بانک
@@ -204,6 +256,9 @@ ps:
           church: کليسا
           house: کور
           tower: برج
+        information:
+          map: نخچه
+          office: گرځندوی منځی
         landuse:
           cemetery: هديره
           forest: ځنگل
@@ -266,15 +321,33 @@ ps:
           zoo: ژوبڼ
         tunnel:
           "yes": تونل
+        water:
+          lake: ډنډ
+          reservoir: زېرمتون
         waterway:
           canal: کانال
           dam: برېښناکوټ
           river: رود
           stream: لښتی
           waterfall: ځوړاوبی
-    results:
-      no_results: کومې پايلې و  نه موندل شوې
-      more_results: نورې پايلې
+      border_types:
+        city: ښار پوله
+        state: ايالت پوله
+        township: ښارگوټي پوله
+        village: کاي پوله
+  searches:
+    queries:
+      create:
+        no_results: کومې پايلې و  نه موندل شوې
+        more_results: نورې پايلې
+  directions:
+    show:
+      distance: واټن
+      time: وخت
+      button_km: ک‌م
+  issues:
+    page:
+      reporting_users: د کارنانو راپور ورکول
   layouts:
     home: کور
     logout: وتل
@@ -289,6 +362,9 @@ ps:
       hi: '%{to_user} سلامونه،'
     message_notification:
       hi: '%{to_user} سلامونه،'
+    gpx_details:
+      url: وېبتړ
+      description: څرگنداوی
     email_confirm:
       greeting: سلامونه،
     lost_password:
@@ -299,26 +375,38 @@ ps:
     confirm_email:
       button: تاييد
   messages:
-    messages_table:
-      date: نېټه
-    message_summary:
-      destroy_button: ړنگول
     new:
       title: پيغام لېږل
     show:
       title: پيغام لوستل
       reply_button: ځواب
-    sent_message_summary:
-      destroy_button: ړنگول
+    mailboxes:
+      messages_table:
+        date: نېټه
+      message:
+        destroy_button: ړنگول
+    outboxes:
+      message:
+        destroy_button: ړنگول
   passwords:
     new:
       heading: آيا پټنوم مو هېر شوی؟
       email address: 'برېښليک پته:'
+  preferences:
+    preferences:
+      navigation:
+        preferences: غوره‌توبونه
+    basic_preferences:
+      show:
+        site_color_schemes:
+          dark: تياره
   profiles:
-    edit:
+    show:
       image: 'انځور:'
       new image: يو انځور ورگډول
       show: ښکاره کول
+      social_links:
+        add: ټولنيز تړونی ورگډول
   sessions:
     new:
       tab_title: ننوتل
@@ -327,6 +415,10 @@ ps:
     destroy:
       title: وتل
       logout_button: وتل
+  shared:
+    pagination:
+      changeset_comments:
+        older: زړې څرگندونې
   site:
     copyright:
       foreign:
@@ -336,7 +428,7 @@ ps:
       legal_babble:
         credit_1_html: موږ غواړو چې تاسو کریډیټ وکاروي لپاره &ldquo;&copy; د اوفن
           سټریټ ميپ مرسته کوونکی&rdquo;.
-    edit:
+    not_public_flash:
       user_page_link: د کارن مخ
     export:
       licence: منښتليک
@@ -346,18 +438,17 @@ ps:
       search: پلټل
       where_am_i: زه چېرته يم؟
       submit_text: ورځه
-    key:
-      table:
-        entry:
-          forest: ځنگل
-          park: پارک
-          lake: ډنډ
-          reservoir: زېرمتون
-          farm: کرونده
-          cemetery: هديره
-          military: پوځي سيمه
-          school: ښوونځی
-          university: پوهنتون
+  map_keys:
+    show:
+      entries:
+        forest: ځنگل
+        park: پارک
+        lake: ډنډ
+        farm: کرونده
+        cemetery: هديره
+        military: پوځي سيمه
+        school: ښوونځی
+        university: پوهنتون
   traces:
     new:
       visibility_help: دا څه مانا لري؟
@@ -380,19 +471,25 @@ ps:
       github:
         title: د گېټ هب له لارې ننوتل
         alt: د يو گېټ هب گڼون له لارې ننوتل
+    share:
+      email:
+        alt: برېښليک نښه
+      facebook:
+        title: د فيسبوک له لارې شريکول
+  oauth:
+    scopes:
+      write_changeset_comments: بدلون‌ټولگو باندې څرگندونه
   users:
     new:
       title: نومليکنه
-    terms:
-      legale_names:
-        france: فرانسه
-        italy: اېټاليا
     show:
       my edits: زما سمونونه
       my messages: زما پيغامونه
+      my_account: زما گڼون
       send message: پيغام لېږل
       edits: سمونونه
-      add as friend: ملگری ورگډول
+      home location: کورځی
+      company: ملتون
       email address: 'برېښليک پته:'
       status: 'دريځ:'
       block_history: فعاله بنديزونه
@@ -405,10 +502,25 @@ ps:
       unhide_user: دا کارن ښکاره کول
       delete_user: دا کارن ړنگول
       confirm: تاييد
-    index:
-      title: کارنان
-      heading: کارنان
+    lists:
+      show:
+        title: کارنان
+        heading: کارنان
+        states:
+          pending: په تمه
+          active: کارنده
+        ip_address: وېب پته
+    changeset_comments:
+      page:
+        when: کله
+        comment: تبصره
+    diary_comments:
+      page:
+        when: کله
   user_blocks:
+    helper:
+      short:
+        active: کارنده
     show:
       created: جوړ شو
       status: دريځ
@@ -418,17 +530,17 @@ ps:
       edit: سمول
     page:
       creator_name: جوړونکی
+      end: پای
       status: دريځ
   notes:
     show:
+      description_when_there_is_no_opening_comment: ناجوت
       hide: پټول
       comment: تبصره
   javascripts:
     directions:
-      distance: واټن
       instructions:
         unnamed: بې نومه
-      time: وخت
   redactions:
     show:
       description: 'څرگندونه:'

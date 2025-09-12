@@ -58,9 +58,6 @@ en-GB:
         create: Add Comment
       message:
         create: Send
-      client_application:
-        create: Register
-        update: Update
       oauth2_application:
         create: Register
         update: Update
@@ -87,6 +84,7 @@ en-GB:
       message: Message
       node: Node
       node_tag: Node Tag
+      note: note
       notifier: Notifier
       old_node: Old Node
       old_node_tag: Old Node Tag
@@ -276,47 +274,11 @@ en-GB:
       entry:
         comment: Comment
         full: Full note
-  account:
-    deletions:
-      show:
-        title: Delete My Account
-        warning: Warning! The account deletion process is final, and cannot be reversed.
-        delete_account: Delete Account
-        delete_introduction: 'You can delete your OpenHistoricalMap account using
-          the button below. Please note the following details:'
-        delete_profile: Your profile information, including your avatar, description
-          and home location will be removed.
-        delete_display_name: Your display name will be removed, and can be reused
-          by other accounts.
-        retain_caveats: 'However, some information about you will be retained on OpenHistoricalMap,
-          even after your account is deleted:'
-        retain_edits: Your edits to the map database, if any, will be retained.
-        retain_traces: Your uploaded traces, if any, will be retained.
-        retain_diary_entries: Your diary entries and diary comments, if any, will
-          be retained but hidden from view.
-        retain_notes: Your map notes and note comments, if any, will be retained but
-          hidden from view.
-        retain_changeset_discussions: Your changeset discussions, if any, will be
-          retained.
-        retain_email: Your email address will be retained.
-        confirm_delete: Are you sure?
-        cancel: Cancel
   accounts:
-    edit:
+    show:
       title: Edit account
-      my settings: My settings
       current email address: Current Email Address
       external auth: External Authentication
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: what is this?
-      public editing:
-        heading: Public editing
-        enabled: Enabled. Not anonymous and can edit data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: what is this?
-        disabled: Disabled and cannot edit data, all previous edits are anonymous.
-        disabled link text: why can't I edit?
       contributor terms:
         heading: Contributor Terms
         agreed: You have agreed to the new Contributor Terms.
@@ -338,6 +300,55 @@ en-GB:
       success: User information updated successfully.
     destroy:
       success: Account Deleted.
+    deletions:
+      show:
+        title: Delete My Account
+        warning: Warning! The account deletion process is final, and cannot be reversed.
+        delete_account: Delete Account
+        delete_profile: Your profile information, including your avatar, description
+          and home location will be removed.
+        delete_display_name: Your display name will be removed, and can be reused
+          by other accounts.
+        retain_edits: Your edits to the map database, if any, will be retained.
+        retain_traces: Your uploaded traces, if any, will be retained.
+        retain_diary_entries: Your diary entries and diary comments, if any, will
+          be retained but hidden from view.
+        retain_notes: Your map notes and note comments, if any, will be retained but
+          hidden from view.
+        retain_changeset_discussions: Your changeset discussions, if any, will be
+          retained.
+        retain_email: Your email address will be retained.
+        confirm_delete: Are you sure?
+        cancel: Cancel
+    terms:
+      show:
+        title: Terms
+        heading: Terms
+        heading_ct: Contributor terms
+        read and accept with tou: Please read the contributor agreement and the terms
+          of use, check both checkboxes when done and then press the continue button.
+        contributor_terms_explain: This agreement governs the terms for your existing
+          and future contributions.
+        read_ct: I have read and agree to the above contributor terms
+        tou_explain_html: These %{tou_link} govern the use of the website and other
+          infrastructure provided by the OSMF. Please click on the link, read and
+          agree to the text.
+        read_tou: I have read and agree to the Terms of Use
+        cancel: Cancel
+        you need to accept or decline: Please read and then either accept or decline
+          the new Contributor Terms to continue.
+        legale_select: 'Country of residence:'
+        legale_names:
+          france: France
+          italy: Italy
+          rest_of_world: Rest of the world
+      update:
+        terms accepted: Thanks for accepting the new contributor terms!
+      terms_declined_flash:
+        terms_declined_html: We are sorry that you have decided to not accept the
+          new Contributor Terms. For more information, please see %{terms_declined_link}.
+        terms_declined_link: this wiki page
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     version: Version
     in_changeset: Changeset
@@ -358,10 +369,8 @@ en-GB:
       coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Node: %{name}'
-      history_title_html: 'Node History: %{name}'
     way:
       title_html: 'Way: %{name}'
-      history_title_html: 'Way History: %{name}'
       nodes: Nodes
       nodes_count:
         other: '%{count} nodes'
@@ -370,7 +379,6 @@ en-GB:
         other: part of ways %{related_ways}
     relation:
       title_html: 'Relation: %{name}'
-      history_title_html: 'Relation History: %{name}'
       members: Members
       members_count:
         one: 1 member
@@ -383,17 +391,9 @@ en-GB:
         way: Way
         relation: Relation
     containing_relation:
-      entry_html: Relation %{relation_name}
       entry_role_html: Relation %{relation_name} (as %{relation_role})
     not_found:
       title: Not Found
-      sorry: 'Sorry, %{type} #%{id} could not be found.'
-      type:
-        node: node
-        way: way
-        relation: relation
-        changeset: changeset
-        note: note
     timeout:
       title: Timeout Error
       sorry: Sorry, the data for the %{type} with the id %{id}, took too long to retrieve.
@@ -426,11 +426,20 @@ en-GB:
       wikimedia_commons_link: The %{page} item on Wikimedia Commons
       telephone_link: Call %{phone_number}
       colour_preview: Colour %{colour_value} preview
-    query:
+  feature_queries:
+    show:
       title: Query Features
       introduction: Click on the map to find nearby features.
       nearby: Nearby features
       enclosing: Enclosing features
+  old_elements:
+    index:
+      node:
+        title_html: 'Node History: %{name}'
+      way:
+        title_html: 'Way History: %{name}'
+      relation:
+        title_html: 'Relation History: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -443,13 +452,9 @@ en-GB:
         sorry: Sorry, the list of changeset comments you requested took too long to
           retrieve.
   changesets:
-    changeset:
-      no_edits: (no edits)
-      view_changeset_details: View changeset details
     index:
       title: Changesets
       title_user: Changesets by %{user}
-      title_friend: Changesets by my friends
       title_nearby: Changesets by nearby users
       empty: No changesets found.
       empty_area: No changesets in this area.
@@ -457,7 +462,6 @@ en-GB:
       no_more: No more changesets found.
       no_more_area: No more changesets in this area.
       no_more_user: No more changesets by this user.
-      load_more: Load more
       feed:
         title: Changeset %{id}
         title_comment: Changeset %{id} - %{comment}
@@ -478,11 +482,8 @@ en-GB:
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Nodes (%{count})
       nodes_paginated: Nodes (%{x}-%{y} of %{count})
-      ways: Ways (%{count})
       ways_paginated: Ways (%{x}-%{y} of %{count})
-      relations: Relations (%{count})
       relations_paginated: Relations (%{x}-%{y} of %{count})
     timeout:
       sorry: Sorry, the list of changesets you requested took too long to retrieve.
@@ -491,21 +492,18 @@ en-GB:
       km away: '%{count}km away'
       m away: '%{count}m away'
       latest_edit_html: 'Latest edit (%{ago}):'
+      no_edits: (no edits)
+      view_changeset_details: View changeset details
     popup:
       your location: Your location
       nearby mapper: Nearby mapper
-      friend: Friend
     show:
       title: My Dashboard
       no_home_location_html: '%{edit_profile_link} and set your home location to see
         nearby users.'
       edit_your_profile: Edit your profile
-      my friends: My friends
-      no friends: You have not added any friends yet.
       nearby users: Other nearby users
       no nearby users: There are no other users who admit to mapping nearby yet.
-      friends_changesets: friends' changesets
-      friends_diaries: friends' diary entries
       nearby_changesets: nearby user changesets
       nearby_diaries: nearby user diary entries
   diary_entries:
@@ -516,13 +514,9 @@ en-GB:
       use_map_link: Use Map
     index:
       title: Users' Diaries
-      title_friends: Friends' Diaries
       title_nearby: Nearby Users' Diaries
       user_title: '%{user}''s Diary'
       in_language_title: Diary Entries in %{language}
-      new: New Diary Entry
-      new_title: Compose a new entry in my user diary
-      my_diary: My Diary
       no_entries: No diary entries
     page:
       recent_entries: Recent diary entries
@@ -574,15 +568,12 @@ en-GB:
         description: Recent diary entries from users of OpenStreetMap
     comments:
       title: Diary Comments added by %{user}
-  diary_comments:
-    index:
-      title: Diary Comments added by %{user}
-      heading: '%{user}''s Diary Comments'
-      no_comments: No diary comments
-    page:
-      post: Post
-      when: When
-      comment: Comment
+    navigation:
+      my_diary: My Diary
+      new: New Diary Entry
+      new_title: Compose a new entry in my user diary
+    profile_diaries:
+      date_label: Date
   doorkeeper:
     errors:
       messages:
@@ -595,20 +586,6 @@ en-GB:
       applications:
         create:
           notice: Application Registered.
-  friendships:
-    make_friend:
-      heading: Add %{user} as a friend?
-      button: Add as friend
-      success: '%{name} is now your friend!'
-      failed: Sorry, failed to add %{name} as a friend.
-      already_a_friend: You are already friends with %{name}.
-      limit_exceeded: You have friended a lot of users recently. Please wait a while
-        before trying to friend any more.
-    remove_friend:
-      heading: Unfriend %{user}?
-      button: Unfriend
-      success: '%{name} was removed from your friends.'
-      not_a_friend: '%{name} is not one of your friends.'
   geocoder:
     search_osm_nominatim:
       prefix_format: '%{name}'
@@ -1351,6 +1328,9 @@ en-GB:
           building_passage: Building Passage
           culvert: Culvert
           "yes": Tunnel
+        water:
+          lake: Lake
+          reservoir: reservoir
         waterway:
           artificial: Artificial Waterway
           boatyard: Boatyard
@@ -1381,17 +1361,25 @@ en-GB:
         level9: Village Boundary
         level10: Suburb Boundary
         level11: Neighbourhood Boundary
-    results:
-      no_results: No results found
-      more_results: More results
+  searches:
+    queries:
+      create:
+        no_results: No results found
+        more_results: More results
+  directions:
+    show:
+      title: Directions
+      distance: Distance
+      time: Time
+      ascend: Ascend
+      descend: Descend
+      directions_courtesy_html: Directions courtesy of %{link}
   issues:
     index:
       title: Issues
       select_status: Select Status
       select_type: Select Type
-      select_last_updated_by: Select Last Updated By
       reported_user: Reported User
-      not_updated: Not Updated
       search: Search
       search_guidance: 'Search Issues:'
       states:
@@ -1406,7 +1394,6 @@ en-GB:
       last_updated: Last Updated
       reported_item: Reported Item
     show:
-      title: '%{status} Issue #%{issue_id}'
       reports:
         zero: No reports
         one: 1 report
@@ -1431,7 +1418,6 @@ en-GB:
       reopened: Issue status has been set to 'Open'
     comments:
       comment_from_html: Comment from %{user_link} on %{comment_created_at}
-      reassign_param: Reassign Issue?
     reports:
       reported_by_html: Reported as %{category} by %{user} on %{updated_at}
     helper:
@@ -1505,10 +1491,6 @@ en-GB:
       a 501(c)(3) non-profit organisation affiliated with the %{osmf}. Technical development
       is supported by %{greeninfo} and %{devseed}.
     tou: Terms of Use
-    osm_offline: The OpenStreetMap database is currently offline while essential database
-      maintenance work is carried out.
-    osm_read_only: The OpenStreetMap database is currently in read-only mode while
-      essential database maintenance work is carried out.
     help: Help
     about: About
     copyright: Copyright
@@ -1537,19 +1519,10 @@ en-GB:
         to the author at %{replyurl}
       footer_html: You can also read the message at %{readurl} and you can send a
         message to the author at %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Hi %{to_user},
-      subject: '[OpenStreetMap] %{user} added you as a friend'
-      had_added_you: '%{user} has added you as a friend on OpenStreetMap.'
       see_their_profile: You can see their profile at %{userurl}.
       see_their_profile_html: You can see their profile at %{userurl}.
-      befriend_them: You can also add them as a friend at %{befriendurl}.
-      befriend_them_html: You can also add them as a friend at %{befriendurl}.
-    gpx_description:
-      description_with_tags_html: 'It looks like your GPX file %{trace_name} with
-        the description %{trace_description} and the following tags: %{tags}'
-      description_with_no_tags_html: It looks like your GPX file %{trace_name} with
-        the description %{trace_description} and no tags
     gpx_failure:
       hi: Hi %{to_user},
       failed_to_import: 'failed to import. Here is the error:'
@@ -1561,7 +1534,7 @@ en-GB:
       hi: Hi %{to_user},
       subject: '[OpenStreetMap] GPX Import success'
     signup_confirm:
-      subject: '[OpenStreetMap] Welcome to OpenStreetMap'
+      subject: '[OpenHistoricalMap] Welcome to OpenHistoricalMap'
       greeting: Hi there!
       created: Someone (hopefully you) just created an account at %{site_url}.
       confirm: 'Before we do anything else, we need to confirm that this request came
@@ -1667,27 +1640,6 @@ en-GB:
         please make sure you whitelist %{sender} as we are unable to reply to any
         confirmation requests.
   messages:
-    inbox:
-      title: Inbox
-      messages: You have %{new_messages} and %{old_messages}
-      new_messages:
-        one: '%{count} new message'
-        other: '%{count} new messages'
-      old_messages:
-        one: '%{count} old message'
-        other: '%{count} old messages'
-      no_messages_yet_html: You have no messages yet. Why not get in touch with some
-        of the %{people_mapping_nearby_link}?
-      people_mapping_nearby: people mapping nearby
-    messages_table:
-      from: From
-      to: To
-      subject: Subject
-      date: Date
-    message_summary:
-      unread_button: Mark as unread
-      read_button: Mark as read
-      destroy_button: Delete
     new:
       title: Send message
       send_message_to_html: Send a new message to %{name}
@@ -1700,18 +1652,6 @@ en-GB:
       title: No such message
       heading: No such message
       body: Sorry, there is no message with that id.
-    outbox:
-      title: Outbox
-      messages:
-        one: You have %{count} sent message
-        other: You have %{count} sent messages
-      no_sent_messages_html: You have no sent messages yet. Why not get in touch with
-        some of the %{people_mapping_nearby_link}?
-      people_mapping_nearby: people mapping nearby
-    reply:
-      wrong_user: You are logged in as `%{user}' but the message you have asked to
-        reply to was not sent to that user. Please login as the correct user in order
-        to reply.
     show:
       title: Read message
       reply_button: Reply
@@ -1721,16 +1661,54 @@ en-GB:
       wrong_user: You are logged in as `%{user}' but the message you have asked to
         read was not sent by or to that user. Please login as the correct user in
         order to read it.
-    sent_message_summary:
-      destroy_button: Delete
-    heading:
-      my_inbox: My Inbox
-      my_outbox: My Outbox
-    mark:
-      as_read: Message marked as read
-      as_unread: Message marked as unread
     destroy:
       destroyed: Message deleted
+    read_marks:
+      create:
+        notice: Message marked as read
+      destroy:
+        notice: Message marked as unread
+    mailboxes:
+      heading:
+        my_inbox: My Inbox
+        my_outbox: My Outbox
+      messages_table:
+        from: From
+        to: To
+        subject: Subject
+      message:
+        unread_button: Mark as unread
+        read_button: Mark as read
+        destroy_button: Delete
+    inboxes:
+      show:
+        title: Inbox
+        messages: You have %{new_messages} and %{old_messages}
+        new_messages:
+          one: '%{count} new message'
+          other: '%{count} new messages'
+        old_messages:
+          one: '%{count} old message'
+          other: '%{count} old messages'
+        no_messages_yet_html: You have no messages yet. Why not get in touch with
+          some of the %{people_mapping_nearby_link}?
+        people_mapping_nearby: people mapping nearby
+    outboxes:
+      show:
+        title: Outbox
+        messages:
+          one: You have %{count} sent message
+          other: You have %{count} sent messages
+        no_sent_messages_html: You have no sent messages yet. Why not get in touch
+          with some of the %{people_mapping_nearby_link}?
+        people_mapping_nearby: people mapping nearby
+      message:
+        destroy_button: Delete
+    replies:
+      new:
+        wrong_user: You are logged in as `%{user}' but the message you have asked
+          to reply to was not sent to that user. Please login as the correct user
+          in order to reply.
   passwords:
     new:
       title: Lost password
@@ -1746,21 +1724,17 @@ en-GB:
     update:
       flash changed: Your password has been changed.
   preferences:
-    show:
-      title: My Preferences
-      preferred_editor: Preferred Editor
-      preferred_languages: Preferred Languages
-      edit_preferences: Edit Preferences
-    edit:
-      title: Edit Preferences
-      save: Update Preferences
-      cancel: Cancel
-    update:
-      failure: Couldn't update preferences.
-    update_success_flash:
-      message: Preferences updated.
+    preferences:
+      update:
+        failure: Couldn't update preferences.
+      update_success_flash:
+        message: Preferences updated.
+    basic_preferences:
+      show:
+        title: My Preferences
+        save: Update Preferences
   profiles:
-    edit:
+    show:
       title: Edit Profile
       save: Update Profile
       cancel: Cancel
@@ -1878,13 +1852,15 @@ en-GB:
         copyright: Copyright OpenStreetMap and contributors, under an open licence
       remote_failed: Editing failed - make sure JOSM or Merkaartor is loaded and that
         the remote control option is enabled
-    edit:
+    not_public_flash:
       not_public: You have not set your edits to be public.
       not_public_description_html: You can no longer edit the map unless you do so.
         You can set your edits as public from your %{user_page}.
       user_page_link: user page
       anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Find out why this is the case.
+    edit:
       id_not_configured: iD has not been configured
     export:
       title: Export
@@ -1897,7 +1873,7 @@ en-GB:
           zoom in or select a smaller area, or use one of the sources listed below
           for bulk data downloads.
         planet:
-          title: Planet OSM
+          title: Planet OHM
           description: Regularly updated copies of the complete OpenStreetMap database
         overpass:
           title: Overpass API
@@ -1929,12 +1905,12 @@ en-GB:
         title: Other concerns
     help:
       title: Getting Help
-      introduction: OpenStreetMap has several resources for learning about the project,
-        asking and answering questions, and collaboratively discussing and documenting
-        mapping topics.
+      introduction: OpenHistoricalMap has several resources for learning about the
+        project, asking and answering questions, and collaboratively discussing and
+        documenting mapping topics.
       welcome:
         url: /welcome
-        title: Welcome to OpenStreetMap
+        title: Welcome to OpenHistoricalMap
         description: Start with this quick guide covering the OpenStreetMap basics.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Open_Historical_Map/OHM_Basics
@@ -1979,67 +1955,6 @@ en-GB:
       where_am_i_title: Describe the current location using the search engine
       submit_text: Go
       reverse_directions_text: Reverse Directions
-    key:
-      table:
-        entry:
-          motorway: Motorway
-          main_road: Main road
-          trunk: Trunk road
-          primary: Primary road
-          secondary: Secondary road
-          unclassified: Unclassified road
-          track: Track
-          bridleway: Bridleway
-          cycleway: Cycleway
-          cycleway_national: National cycleway
-          cycleway_regional: Regional cycleway
-          cycleway_local: Local cycleway
-          footway: Footway
-          rail: Railway
-          subway: Subway
-          light_rail: Light rail
-          tram: tram
-          cable_car: Cable car
-          chair_lift: chair lift
-          runway: Airport Runway
-          taxiway: taxiway
-          apron: Airport apron
-          admin: Administrative boundary
-          forest: Forest
-          wood: Wood
-          meadow: meadow
-          golf: Golf course
-          park: Park
-          common: Common
-          resident: Residential area
-          retail: Retail area
-          industrial: Industrial area
-          commercial: Commercial area
-          heathland: Heathland
-          lake: Lake
-          reservoir: reservoir
-          farm: Farm
-          brownfield: Brownfield site
-          cemetery: Cemetery
-          allotments: Allotments
-          pitch: Sports pitch
-          centre: Sports centre
-          reserve: Nature reserve
-          military: Military area
-          school: School
-          university: university
-          building: Significant building
-          station: Railway station
-          summit: Summit
-          peak: peak
-          tunnel: Dashed casing = tunnel
-          bridge: Black casing = bridge
-          private: Private access
-          destination: Destination access
-          construction: Roads under construction
-          bicycle_shop: Bicycle shop
-          bicycle_parking: Bicycle parking
-          toilets: Toilets
     welcome:
       title: Welcome!
       introduction: Welcome to OpenStreetMap, the free and editable map of the world.
@@ -2047,11 +1962,6 @@ en-GB:
         quick guide with the most important things you need to know.
       whats_on_the_map:
         title: What's on the Map
-        on_the_map_html: |-
-          OpenHistoricalMap is a place for mapping things that are <em>in the past</em> -
-          it includes buildings, roads, and other details about places. You can map
-          whatever historical features are interesting to you. Please map from any old
-          or out-of-copyright maps you can find. We're very import-friendly, as well.
         off_the_map_html: "What it <em>doesn't</em> include is opinionated data like
           ratings, and data \nfrom copyrighted sources."
       basic_terms:
@@ -2064,10 +1974,66 @@ en-GB:
           OpenHistoricalMap has few formal rules but we expect all participants to collaborate
           with, and communicate with, the community with courtesy and respect.
       start_mapping: Start Mapping
-      add_a_note:
-        title: No Time To Edit? Add a Note!
-        para_1: If you just want something small fixed and don't have the time to
-          sign up and learn how to edit, it's easy to add a note.
+    add_a_note:
+      title: No Time To Edit? Add a Note!
+      para_1: If you just want something small fixed and don't have the time to sign
+        up and learn how to edit, it's easy to add a note.
+  map_keys:
+    show:
+      entries:
+        motorway: Motorway
+        main_road: Main road
+        trunk: Trunk road
+        primary: Primary road
+        secondary: Secondary road
+        unclassified: Unclassified road
+        track: Track
+        bridleway: Bridleway
+        cycleway: Cycleway
+        footway: Footway
+        rail: Railway
+        subway: Subway
+        light_rail: Light rail
+        tram: tram
+        cable_car: Cable car
+        chair_lift: chair lift
+        runway: Airport Runway
+        taxiway: taxiway
+        apron: Airport apron
+        admin: Administrative boundary
+        forest: Forest
+        wood: Wood
+        meadow: meadow
+        golf: Golf course
+        park: Park
+        common: Common
+        resident: Residential area
+        retail: Retail area
+        industrial: Industrial area
+        commercial: Commercial area
+        heathland: Heathland
+        farm: Farm
+        brownfield: Brownfield site
+        cemetery: Cemetery
+        allotments: Allotments
+        pitch: Sports pitch
+        centre: Sports centre
+        reserve: Nature reserve
+        military: Military area
+        school: School
+        university: university
+        building: Significant building
+        station: Railway station
+        summit: Summit
+        peak: peak
+        tunnel: Dashed casing = tunnel
+        bridge: Black casing = bridge
+        private: Private access
+        destination: Destination access
+        construction: Roads under construction
+        bicycle_shop: Bicycle shop
+        bicycle_parking: Bicycle parking
+        toilets: Toilets
   traces:
     visibility:
       private: Private (only shared as anonymous, unordered points)
@@ -2145,7 +2111,7 @@ en-GB:
       upload_trace: Upload a trace
       all_traces: All Traces
       my_traces: My Traces
-      traces_from: Public Traces from %{user}
+      traces_from_html: Public Traces from %{user}
       remove_tag_filter: Remove Tag Filter
     destroy:
       scheduled_for_deletion: Trace scheduled for deletion
@@ -2154,13 +2120,14 @@ en-GB:
     offline:
       heading: GPX Storage Offline
       message: The GPX file storage and upload system is currently unavailable.
-    georss:
-      title: OpenStreetMap GPS Traces
-    description:
-      description_with_count:
-        one: GPX file with %{count} point from %{user}
-        other: GPX file with %{count} points from %{user}
-      description_without_count: GPX file from %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS Traces
+      description:
+        description_with_count:
+          one: GPX file with %{count} point from %{user}
+          other: GPX file with %{count} points from %{user}
+        description_without_count: GPX file from %{user}
   application:
     permission_denied: You do not have permission to access that action
     require_cookies:
@@ -2251,39 +2218,7 @@ en-GB:
       display name description: Your publicly displayed username. You can change this
         later in the preferences.
       continue: Sign Up
-      terms accepted: Thanks for accepting the new contributor terms!
       use external auth: Alternatively, use a third party to login
-    terms:
-      title: Terms
-      heading: Terms
-      heading_ct: Contributor terms
-      read and accept with tou: Please read the contributor agreement and the terms
-        of use, check both checkboxes when done and then press the continue button.
-      contributor_terms_explain: This agreement governs the terms for your existing
-        and future contributions.
-      read_ct: I have read and agree to the above contributor terms
-      tou_explain_html: These %{tou_link} govern the use of the website and other
-        infrastructure provided by the OSMF. Please click on the link, read and agree
-        to the text.
-      read_tou: I have read and agree to the Terms of Use
-      consider_pd: In addition to the above, I consider my contributions to be in
-        the Public Domain
-      consider_pd_why: what's this?
-      consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
-      continue: Continue
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      you need to accept or decline: Please read and then either accept or decline
-        the new Contributor Terms to continue.
-      legale_select: 'Country of residence:'
-      legale_names:
-        france: France
-        italy: Italy
-        rest_of_world: Rest of the world
-    terms_declined_flash:
-      terms_declined_html: We are sorry that you have decided to not accept the new
-        Contributor Terms. For more information, please see %{terms_declined_link}.
-      terms_declined_link: this wiki page
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: No such user
       heading: The user %{user} does not exist
@@ -2297,7 +2232,6 @@ en-GB:
       my notes: My Notes
       my messages: My Messages
       my profile: My Profile
-      my settings: My Settings
       my comments: My Comments
       my_preferences: My Preferences
       my_dashboard: My Dashboard
@@ -2309,8 +2243,6 @@ en-GB:
       edits: Edits
       traces: Traces
       notes: Map Notes
-      remove as friend: Unfriend
-      add as friend: Add Friend
       mapper since: 'Mapper since:'
       ct status: 'Contributor terms:'
       ct undecided: Undecided
@@ -2343,15 +2275,39 @@ en-GB:
       report: Report this User
     go_public:
       flash success: All your edits are now public, and you are now allowed to edit.
-    index:
-      title: Users
-      heading: Users
-      summary_html: '%{name} created from %{ip_address} on %{date}'
-      summary_no_ip_html: '%{name} created on %{date}'
-      empty: No matching users found
-    page:
-      confirm: Confirm Selected Users
-      hide: Hide Selected Users
+    issued_blocks:
+      show:
+        title: Blocks by %{name}
+        heading_html: List of Blocks by %{name}
+        empty: '%{name} has not made any blocks yet.'
+    received_blocks:
+      show:
+        title: Blocks on %{name}
+        heading_html: List of Blocks on %{name}
+        empty: '%{name} has not been blocked yet.'
+      edit:
+        revoke: Revoke!
+    lists:
+      show:
+        title: Users
+        heading: Users
+      page:
+        confirm: Confirm Selected Users
+        hide: Hide Selected Users
+        empty: No matching users found
+      user:
+        summary_html: '%{name} created from %{ip_address} on %{date}'
+        summary_no_ip_html: '%{name} created on %{date}'
+    changeset_comments:
+      page:
+        changeset: changeset
+        when: When
+        comment: Comment
+    diary_comments:
+      index:
+        title: Diary Comments added by %{user}
+      page:
+        post: Post
     suspended:
       title: Account Suspended
       heading: Account Suspended
@@ -2364,7 +2320,7 @@ en-GB:
       invalid_scope: Invalid scope
       unknown_error: Authentication failed
     auth_association:
-      heading: Your ID is not associated with a OpenStreetMap account yet.
+      heading: Your ID is not associated with a OpenHistoricalMap account yet.
       option_1: |-
         If you are new to OpenStreetMap, please create a new account
         using the form below.
@@ -2412,8 +2368,6 @@ en-GB:
       title: User blocks
       heading: List of user blocks
       empty: No blocks have been made yet.
-    revoke_all:
-      revoke: Revoke!
     helper:
       time_future_html: Ends in %{time}.
       until_login: Active until the user logs in.
@@ -2436,14 +2390,6 @@ en-GB:
         years:
           one: 1 year
           other: '%{count} years'
-    blocks_on:
-      title: Blocks on %{name}
-      heading_html: List of Blocks on %{name}
-      empty: '%{name} has not been blocked yet.'
-    blocks_by:
-      title: Blocks by %{name}
-      heading_html: List of Blocks by %{name}
-      empty: '%{name} has not made any blocks yet.'
     show:
       title: '%{block_on} blocked by %{block_by}'
       heading_html: '%{block_on} blocked by %{block_by}'
@@ -2454,7 +2400,6 @@ en-GB:
       reason: 'Reason for block:'
       revoker: 'Revoker:'
     block:
-      not_revoked: (not revoked)
       show: Show
       edit: Edit
     page:
@@ -2462,7 +2407,6 @@ en-GB:
       creator_name: Creator
       reason: Reason for block
       status: Status
-      revoker_name: Revoked by
   notes:
     index:
       title: Notes submitted or commented on by %{user}
@@ -2519,7 +2463,6 @@ en-GB:
       center_marker: Centre map on marker
       paste_html: Paste HTML to embed in website
       view_larger_map: View Larger Map
-      only_standard_layer: Only the standard layer can be exported as an image
     embed:
       report_problem: Report a problem
     key:
@@ -2564,17 +2507,6 @@ en-GB:
     edit_help: Move the map and zoom in on a location you want to edit, then click
       here.
     directions:
-      ascend: Ascend
-      engines:
-        fossgis_osrm_bike: Bicycle (OSRM)
-        fossgis_osrm_car: Car (OSRM)
-        fossgis_osrm_foot: Foot (OSRM)
-        graphhopper_bicycle: Bicycle (GraphHopper)
-        graphhopper_car: Car (GraphHopper)
-        graphhopper_foot: Foot (GraphHopper)
-      descend: Descend
-      directions: Directions
-      distance: Distance
       errors:
         no_route: Couldn't find a route between those two places.
         no_place: Sorry - couldn't locate '%{place}'.
@@ -2639,7 +2571,6 @@ en-GB:
         roundabout_with_exit_ordinal: At roundabout take %{exit} exit onto %{name}
         exit_roundabout: Exit roundabout onto %{name}
         unnamed: unnamed road
-        courtesy: Directions courtesy of %{link}
         exit_counts:
           first: 1st
           second: 2nd
@@ -2651,7 +2582,6 @@ en-GB:
           eighth: 8th
           ninth: 9th
           tenth: 10th
-      time: Time
     query:
       node: Node
       way: Way

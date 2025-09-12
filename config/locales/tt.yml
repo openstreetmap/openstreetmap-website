@@ -4,6 +4,7 @@
 # Author: Blackisnewyellow
 # Author: KhayR
 # Author: Marat-avgust
+# Author: Minh Nguyen
 # Author: Ерней
 # Author: З. ӘЙЛЕ
 # Author: Ильгиз
@@ -25,9 +26,6 @@ tt:
         create: Шәрехне өстәү
       message:
         create: Җибәрү
-      client_application:
-        create: Теркәлү
-        update: Яңарту
       redaction:
         create: Кертем ясарга
         update: Кертемне сакларга
@@ -51,6 +49,7 @@ tt:
       message: Хәбәр
       node: Төен
       node_tag: Төен тамгасы
+      note: искәрмә
       old_node: Иске нокта
       old_node_tag: Ноктаның иске тәге
       old_relation: Иске мөнәсәбәт
@@ -234,45 +233,11 @@ tt:
       entry:
         comment: Шәрех
         full: Тулы текст
-  account:
-    deletions:
-      show:
-        title: Минем хисапъязмамны бетерү
-        warning: Игътибар! Хисапъязманы бетерү нәтиҗәләрен кире алып булмый.
-        delete_account: Хисапъязманы бетерергә
-        delete_introduction: 'Сез астагы төймә ярдәмендә OpenStreetMap хисапъязмагызны
-          бетерә аласыз. Түбәндәге нечкәлекләргә күз салып алыгыз:'
-        delete_profile: Профилегыз турында мәгълүмат (монда аватар, тасвирлама һәм
-          урнашу урыны керә) бетереләчәк.
-        delete_display_name: Күрсәтелә торган исемегез бетереләчәк, һәм башка кулланучылар
-          аны куллана алачак.
-        retain_caveats: 'Әмма OpenStreetMap сайтында сезнең турында күпмедер мәгълүмат
-          хисапъязмагызны бетергәч тә сакланыр:'
-        retain_edits: Харитада сез ясаган үзгәртүләр булса, алар сакланыр.
-        retain_traces: Йөкләгән трекларыгыз булса, алар сакланыр.
-        retain_diary_entries: Көндәлеккә керткән язмаларыгыз һәм язмаларыгызга ясалган
-          шәрехләр булса, алар сакланыр, ләкин беркемгә дә күренмәс.
-        retain_notes: Ясалган искәрмәләрегез һәм аларга шәрехләр булса, алар сакланыр,
-          ләкин беркемгә дә күренмәс.
-        retain_changeset_discussions: Үзгәртү пакетлары бәхәсләре булса, алар сакланыр.
-        retain_email: Электрон почтагызның юлламасы сакланыр.
-        confirm_delete: Сез инанасызмы?
-        cancel: Кире алу
   accounts:
-    edit:
+    show:
       title: Хисапъязманы үзгәртергә
-      my settings: Көйләнмәләрем
       current email address: Хәзерге электрон почта адресы
       external auth: Тышкы аутентификация
-      openid:
-        link text: бу нәрсә?
-      public editing:
-        heading: Барысына күренерлек үзгәртүләр
-        enabled: Кабызылган. Мөхәррирләргә була. Үзгәртүләр аноним түгел.
-        enabled link text: бу нәрсә?
-        disabled: Сүндерелгән һәм яңа кертемнәр ясый алмый, моңарчы ясалган үзгәртүләр
-          аноним була кала.
-        disabled link text: мин ник үзгәртүләр кертә алмыйм?
       contributor terms:
         heading: Катнашу шартлары
         agreed: Сез яңа Катнашу Шартлары белән ризалаштыгыз.
@@ -302,6 +267,25 @@ tt:
       success: Кулланучы турында мәгълүмат уңышлы яңартылды.
     destroy:
       success: Хисапъязма бетерелде.
+    deletions:
+      show:
+        title: Минем хисапъязмамны бетерү
+        warning: Игътибар! Хисапъязманы бетерү нәтиҗәләрен кире алып булмый.
+        delete_account: Хисапъязманы бетерергә
+        delete_profile: Профилегыз турында мәгълүмат (монда аватар, тасвирлама һәм
+          урнашу урыны керә) бетереләчәк.
+        delete_display_name: Күрсәтелә торган исемегез бетереләчәк, һәм башка кулланучылар
+          аны куллана алачак.
+        retain_edits: Харитада сез ясаган үзгәртүләр булса, алар сакланыр.
+        retain_traces: Йөкләгән трекларыгыз булса, алар сакланыр.
+        retain_diary_entries: Көндәлеккә керткән язмаларыгыз һәм язмаларыгызга ясалган
+          шәрехләр булса, алар сакланыр, ләкин беркемгә дә күренмәс.
+        retain_notes: Ясалган искәрмәләрегез һәм аларга шәрехләр булса, алар сакланыр,
+          ләкин беркемгә дә күренмәс.
+        retain_changeset_discussions: Үзгәртү пакетлары бәхәсләре булса, алар сакланыр.
+        retain_email: Электрон почтагызның юлламасы сакланыр.
+        confirm_delete: Сез инанасызмы?
+        cancel: Кире алу
   browse:
     deleted_ago_by_html: 'Күпме вакыт элек бетерелде: %{time_ago}, кем тарафыннан:
       %{user}'
@@ -324,10 +308,8 @@ tt:
     location: 'Урын:'
     node:
       title_html: 'Нокта: %{name}'
-      history_title_html: 'Нокта тарихы: %{name}'
     way:
       title_html: 'Сызык: %{name}'
-      history_title_html: 'Сызык тарихы: %{name}'
       nodes: Нокталар
       nodes_count:
         other: '%{count} төен'
@@ -336,7 +318,6 @@ tt:
         other: '%{related_ways} сызыкларында бар'
     relation:
       title_html: 'Мөнәсәбәт: %{name}'
-      history_title_html: 'Мөнәсәбәт тарихы: %{name}'
       members: Катнашучылар
     relation_member:
       entry_role_html: '%{type} %{name} %{role} роленда'
@@ -345,16 +326,9 @@ tt:
         way: Юл
         relation: Мөнәсәбәт
     containing_relation:
-      entry_html: Мөнәсәбәт %{relation_name}
       entry_role_html: Мөнәсәбәт %{relation_name} (%{relation_role} сыйфатында)
     not_found:
       title: Табылмады
-      type:
-        node: төен
-        way: юл
-        relation: мөнәсәбәт
-        changeset: төзәтмәләр пакеты
-        note: искәрмә
     timeout:
       title: Тайм-аут хата
       type:
@@ -375,12 +349,17 @@ tt:
     tag_details:
       tags: Тамгалар
       wikipedia_link: Википедиядә %{page} мәкаләсе
+  old_elements:
+    index:
+      node:
+        title_html: 'Нокта тарихы: %{name}'
+      way:
+        title_html: 'Сызык тарихы: %{name}'
+      relation:
+        title_html: 'Мөнәсәбәт тарихы: %{name}'
   changesets:
-    changeset:
-      no_edits: (төзәтмәләр юк)
     index:
       title: Үзгәрешләр пакетлары
-      load_more: Күбрәк төяү
       feed:
         created: Төзелгән
         closed: Ябык
@@ -393,17 +372,13 @@ tt:
   dashboards:
     contact:
       latest_edit_html: 'Соңгы төзәтмә (%{ago}):'
-    popup:
-      friend: Дус
-    show:
-      my friends: Дусларым
+      no_edits: (төзәтмәләр юк)
   diary_entries:
     form:
       location: Урын
       use_map_link: Хаританы кулланырга
     index:
       title: Көндәлекләр
-      title_friends: Дуслар көндәлекләре
       user_title: '%{user} кулланучының көндәлеге'
     show:
       user_title: '%{user} кулланучының көндәлеге'
@@ -415,10 +390,8 @@ tt:
       confirm: Раслау
     location:
       location: 'Урын:'
-  diary_comments:
-    page:
-      when: Кайчан
-      comment: Шәрех
+    profile_diaries:
+      date_label: Вакыт
   errors:
     contact:
       contact: элемтә
@@ -427,8 +400,8 @@ tt:
         туры килгән URL турында искәрмә ясагыз.
     forbidden:
       title: Тыйган
-      description: Сез OpenStreetMap серверыннан сораган гамәл идарәчеләргә генә рөхсәт
-        ителә (HTTP 403)
+      description: Сез OpenHistoricalMap серверыннан сораган гамәл идарәчеләргә генә
+        рөхсәт ителә (HTTP 403)
     internal_server_error:
       description: OpenStreetMap серверы көтелмәгән шарт белән очрашты, бу вакыйга
         сорауга җавап бирергә комачаулады (HTTP 500)
@@ -704,6 +677,9 @@ tt:
           information: Мәгълүмат
           museum: Музей
           zoo: Зоопарк
+        water:
+          lake: Күл
+          reservoir: сусаклагыч
         waterway:
           canal: Канал
           dam: Дамба
@@ -723,8 +699,17 @@ tt:
         level6: Өяз чиге
         level8: Шәһәр чиге
         level9: Авыл чиге
-    results:
-      no_results: Берни дә табылмады
+  searches:
+    queries:
+      create:
+        no_results: Берни дә табылмады
+  directions:
+    show:
+      title: Юнәлешләр
+      distance: Ераклык
+      time: Вакыт
+      ascend: Менү
+      descend: Төшү
   issues:
     index:
       search: Эзләү
@@ -774,25 +759,26 @@ tt:
     confirm_email:
       button: Раслау
   messages:
-    inbox:
-      messages: Сезнең %{new_messages} һәм %{old_messages} бар
-      new_messages:
-        other: '%{count} яңа хәбәрегез'
-      old_messages:
-        other: '%{count} иске хәбәрегез'
-    messages_table:
-      from: 'Кемнән:'
-      subject: Тема
-      date: Вакыт
-    message_summary:
-      destroy_button: Бетерү
     new:
       title: Хәбәр җибәрү
+    mailboxes:
+      messages_table:
+        from: 'Кемнән:'
+        subject: Тема
+      message:
+        destroy_button: Бетерү
+    inboxes:
+      show:
+        messages: Сезнең %{new_messages} һәм %{old_messages} бар
+        new_messages:
+          other: '%{count} яңа хәбәрегез'
+        old_messages:
+          other: '%{count} иске хәбәрегез'
   passwords:
     new:
       email address: 'Электрон почта адресы:'
   profiles:
-    edit:
+    show:
       image: 'Сурәт:'
       new image: Сурәтне өстәү
       show: Күрсәтү
@@ -814,7 +800,7 @@ tt:
       licence: Лицензия
       too_large:
         planet:
-          title: OSM планетасы
+          title: OHM планетасы
       export_button: Чыгару
     sidebar:
       search_results: Эзләү нәтиҗәләре
@@ -822,64 +808,65 @@ tt:
       search: Эзләү
       where_am_i: Кайда бу?
       submit_text: Табу
-    key:
-      table:
-        entry:
-          main_road: Баш юл
-          primary: Беренче дәрәҗәдәге юл
-          secondary: Икенче дәрәҗәдәге юл
-          unclassified: Җирле юл
-          track: Авылара юл
-          cycleway: Әйләнаяк юлы
-          rail: Тимер юл
-          subway: Метро
-          light_rail: Җиңел рельслы т/ю транспорты
-          tram: трамвай
-          cable_car: Канат юлы
-          admin: Административ чик
-          forest: Урман
-          wood: Агачлык
-          meadow: болын
-          park: Парк
-          resident: Торак районы
-          industrial: Сәнәгый район
-          heathland: Буш җир
-          lake: Күл
-          reservoir: сусаклагыч
-          farm: Ферма
-          cemetery: Зират
-          pitch: Спорт мәйданчыгы
-          centre: Спорт үзәге
-          reserve: Тыюлык
-          military: Хәрби зона
-          school: Мәктәп
-          university: университет
-          station: Тимер юл станциясе
-          toilets: Бәдрәф
+  map_keys:
+    show:
+      entries:
+        main_road: Баш юл
+        primary: Беренче дәрәҗәдәге юл
+        secondary: Икенче дәрәҗәдәге юл
+        unclassified: Җирле юл
+        track: Авылара юл
+        cycleway: Әйләнаяк юлы
+        rail: Тимер юл
+        subway: Метро
+        light_rail: Җиңел рельслы т/ю транспорты
+        tram: трамвай
+        cable_car: Канат юлы
+        admin: Административ чик
+        forest: Урман
+        wood: Агачлык
+        meadow: болын
+        park: Парк
+        resident: Торак районы
+        industrial: Сәнәгый район
+        heathland: Буш җир
+        farm: Ферма
+        cemetery: Зират
+        pitch: Спорт мәйданчыгы
+        centre: Спорт үзәге
+        reserve: Тыюлык
+        military: Хәрби зона
+        school: Мәктәп
+        university: университет
+        station: Тимер юл станциясе
+        toilets: Бәдрәф
   traces:
     show:
-      download: күчереп алу
+      download: йөкләп ал
       uploaded: 'Төялде:'
       none: Һични
   users:
-    terms:
-      continue: Дәвам итү
     no_such_user:
       deleted: бетерелгән
     show:
       my diary: Көндәлегем
       my edits: Төзәтмәләрем
       my messages: Хәбәрләрем
-      my settings: Көйләнмәләрем
       send message: Хәбәр җибәрү
       diary: Көндәлек
       edits: Төзәтмәләр
       email address: 'Электрон почта адресы:'
       status: 'Халәт:'
       confirm: Раслау
-    index:
-      title: Кулланучылар
-      heading: Кулланучылар
+    lists:
+      show:
+        title: Кулланучылар
+        heading: Кулланучылар
+    changeset_comments:
+      page:
+        changeset: төзәтмәләр пакеты
+        when: Кайчан
+        comment: Шәрех
   user_blocks:
     helper:
       block_duration:
@@ -930,7 +917,7 @@ tt:
       short_link: Кыска сылтама
       format: 'Формат:'
       scale: 'Масштаб:'
-      download: Күчереп алу
+      download: Йөкләп ал
       short_url: Кыска URL
     map:
       base:
@@ -938,19 +925,10 @@ tt:
       layers:
         title: Катламнар
     directions:
-      ascend: Менү
-      engines:
-        fossgis_osrm_bike: Велосипед (OSRM)
-        fossgis_osrm_foot: Җәяү (OSRM)
-        graphhopper_foot: Җәяү (GraphHopper)
-        fossgis_valhalla_bicycle: Велосипед (Валхалла)
-        fossgis_valhalla_car: Машина (Валхалла)
-        fossgis_valhalla_foot: Аяк (Валхалла)
-      descend: Төшү
-      directions: Юнәлешләр
-      distance: Ераклык
-      distance_m: '%{distance}м'
-      distance_km: '%{distance}км'
+      distance_in_units:
+        meters:
+          m: '%{distance}м'
+          km: '%{distance}км'
       instructions:
         exit_counts:
           first: 1 нче
@@ -963,7 +941,6 @@ tt:
           eighth: 8 нче
           ninth: 9 нчы
           tenth: 10 нчы
-      time: Вакыт
     query:
       relation: Мөнәсәбәт
   redactions:

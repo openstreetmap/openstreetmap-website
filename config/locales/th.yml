@@ -37,9 +37,6 @@ th:
         create: เพิ่มความคิดเห็น
       message:
         create: ส่ง
-      client_application:
-        create: ลงทะเบียน
-        update: ปรับปรุง
       oauth2_application:
         create: ลงทะเบียน
         update: ปรับปรุง
@@ -72,6 +69,7 @@ th:
       message: ข้อความ
       node: โหนด
       node_tag: ป้ายกำกับโหนด
+      note: โน้ต
       notifier: ผู้แจ้ง
       old_node: โหนดเก่า
       old_node_tag: แท็กกำกับโหนดเก่า
@@ -246,42 +244,11 @@ th:
       entry:
         comment: ความคิดเห็น
         full: เนื้อความเต็มในโน้ต
-  account:
-    deletions:
-      show:
-        title: ลบบัญชีของฉัน
-        warning: คำเตือน! ขั้นตอนการลบบัญชีถือเป็นที่สิ้นสุด และไม่สามารถย้อนกลับได้
-        delete_account: ลบบัญชี
-        delete_introduction: 'คุณสามารถลบบัญชี OpenStreetMap ของคุณโดยใช้ปุ่มด้านล่าง
-          โปรดทราบรายละเอียดต่อไปนี้:'
-        delete_profile: ข้อมูลโปรไฟล์ของคุณ รวมถึงภาพอวาตาร์ คำอธิบาย และตำแหน่งบ้านจะถูกลบออก
-        delete_display_name: ชื่อที่แสดงของคุณจะถูกลบออก และบัญชีอื่นสามารถนำชื่อนั้นไปใช้ได้
-        retain_caveats: 'อย่างไรก็ตาม ข้อมูลเกี่ยวกับคุณบางอย่างจะยังคงอยู่บน OpenStreetMap
-          แม้ว่าบัญชีของคุณจะถูกลบไปแล้วก็ตาม:'
-        retain_edits: การแก้ไขของคุณในฐานข้อมูลแผนที่ ถ้ามีจะยังคงถูกเก็บไว้
-        retain_traces: รอยทางที่อัพโหลดไป ถ้ามีจะยังคงถูกเก็บไว้
-        retain_diary_entries: รายการบันทึกของผู้ใช้และความคิดเห็นในนั้นของคุณ ถ้ามีจะยังถูกเก็บไว้แต่จะถูกซ่อนไว้
-        retain_notes: โน้ตแผนที่และความคิดเห็นในนั้น ถ้ามีจะยังคงถูกเก็บไว้ แต่จะถูกซ่อนไว้
-        retain_changeset_discussions: การอภิปรายชุดการเปลี่ยนแปลงของคุณ ถ้ามีจะยังคงถูกเก็บไว้
-        retain_email: ที่อยู่อีเมลของคุณจะยังคงถูกเก็บไว้
-        recent_editing_html: เนื่องจากที่คุณพึ่งได้แก้ไขบัญชีของคุณไม่นานมานี้ บัญชีของคุณจะยังไม่สามารถลบได้ในขณะนี้
-          การลบจะสามารถทําได้ใน %{time}
-        confirm_delete: คุณแน่ใจหรือไม่?
-        cancel: ยกเลิก
   accounts:
-    edit:
+    show:
       title: แก้ไขบัญชี
-      my settings: การตั้งค่าของฉัน
       current email address: ที่อยู่อีเมลปัจจุบัน
       external auth: การยืนยันตัวตนด้วยบริการภายนอก
-      openid:
-        link text: นี่คืออะไร?
-      public editing:
-        heading: การแก้ไขสาธารณะ
-        enabled: 'เปิดใช้: สามารถแก้ไขแผนที่ได้โดยเปิดเผยนาม'
-        enabled link text: นี่คืออะไร?
-        disabled: ปิดใช้ และไม่สามารถแก้ไขแผนที่ได้อีก โดยการแก้ไขในอดีตทั้งหมดจะยังคงความนิรนามไว้
-        disabled link text: ทำไมถึงแก้ไขไม่ได้?
       contributor terms:
         heading: ข้อกำหนดผู้มีส่วนร่วม
         agreed: คุณได้ยอมรับข้อกำหนดผู้มีส่วนร่วมใหม่แล้ว
@@ -305,6 +272,39 @@ th:
       success: การปรับปรุงข้อมูลผู้ใช้งานสำเร็จเรียบร้อย
     destroy:
       success: ลบบัญชีแล้ว
+    deletions:
+      show:
+        title: ลบบัญชีของฉัน
+        warning: คำเตือน! ขั้นตอนการลบบัญชีถือเป็นที่สิ้นสุด และไม่สามารถย้อนกลับได้
+        delete_account: ลบบัญชี
+        delete_profile: ข้อมูลโปรไฟล์ของคุณ รวมถึงภาพอวาตาร์ คำอธิบาย และตำแหน่งบ้านจะถูกลบออก
+        delete_display_name: ชื่อที่แสดงของคุณจะถูกลบออก และบัญชีอื่นสามารถนำชื่อนั้นไปใช้ได้
+        retain_edits: การแก้ไขของคุณในฐานข้อมูลแผนที่ ถ้ามีจะยังคงถูกเก็บไว้
+        retain_traces: รอยทางที่อัพโหลดไป ถ้ามีจะยังคงถูกเก็บไว้
+        retain_diary_entries: รายการบันทึกของผู้ใช้และความคิดเห็นในนั้นของคุณ ถ้ามีจะยังถูกเก็บไว้แต่จะถูกซ่อนไว้
+        retain_notes: โน้ตแผนที่และความคิดเห็นในนั้น ถ้ามีจะยังคงถูกเก็บไว้ แต่จะถูกซ่อนไว้
+        retain_changeset_discussions: การอภิปรายชุดการเปลี่ยนแปลงของคุณ ถ้ามีจะยังคงถูกเก็บไว้
+        retain_email: ที่อยู่อีเมลของคุณจะยังคงถูกเก็บไว้
+        recent_editing_html: เนื่องจากที่คุณพึ่งได้แก้ไขบัญชีของคุณไม่นานมานี้ บัญชีของคุณจะยังไม่สามารถลบได้ในขณะนี้
+          การลบจะสามารถทําได้ใน %{time}
+        confirm_delete: คุณแน่ใจหรือไม่?
+        cancel: ยกเลิก
+    terms:
+      show:
+        title: ข้อกำหนด
+        heading: ข้อกำหนด
+        heading_ct: ข้อกำหนดผู้มีส่วนร่วม
+        read_tou: ข้าพเจ้าได้อ่านและเห็นด้วยในข้อกำหนดการใช้งาน
+        you need to accept or decline: กรุณาตรวจทานและเลือกยอมรับหรือไม่ยอมรับข้อกำหนดของผู้มีส่วนร่วมเพื่อไปต่อ
+        legale_select: 'ประเทศที่พำนัก:'
+        legale_names:
+          france: ฝรั่งเศส
+          italy: อิตาลี
+          rest_of_world: พื้นที่อื่น ๆ ในโลก
+      update:
+        terms accepted: ขอบคุณสำหรับการตอบรับเงื่อนไขผู้ร่วมสร้างสรรค์!
+      terms_declined_flash:
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: ลบเมื่อ %{time_ago} โดย %{user}
     edited_ago_by_html: แก้ไขเมื่อ %{time_ago} โดย %{user}
@@ -322,15 +322,11 @@ th:
     view_history: ดูประวัติ
     view_unredacted_history: ดูประวัติที่ยังไม่ได้ถูกแก้ไข
     view_details: ดูรายละเอียด
-    view_redacted_data: ดูข้อมูลที่ยังไม่ได้ถูกแก้ไข
-    view_redaction_message: ดูข้อมูลที่ยังไม่ได้ถูกแก้ไข
     location: 'ที่ตั้ง:'
     node:
       title_html: 'โหนด: %{name}'
-      history_title_html: 'ประวัติโหนด: %{name}'
     way:
       title_html: 'เส้นทาง: %{name}'
-      history_title_html: 'ประวัติเส้นทาง: %{name}'
       nodes: โหนด
       nodes_count:
         other: '%{count} โหนด'
@@ -338,7 +334,6 @@ th:
         other: ส่วนของเส้นทาง%{related_ways}
     relation:
       title_html: 'ความสัมพันธ์: %{name}'
-      history_title_html: 'ประวัติความสัมพันธ์: %{name}'
       members: สมาชิก
       members_count:
         other: '%{count} สมาชิก'
@@ -349,17 +344,9 @@ th:
         way: เส้นทาง
         relation: ความสัมพันธ์
     containing_relation:
-      entry_html: ความสัมพันธ์%{relation_name}
       entry_role_html: ความสัมพันธ์%{relation_name} (ในฐานะ%{relation_role})
     not_found:
       title: ไม่พบข้อมูล
-      sorry: 'ขออภัย ไม่พบ%{type} #%{id}'
-      type:
-        node: โหนด
-        way: เส้นทาง
-        relation: ความสัมพันธ์
-        changeset: ชุดการเปลี่ยนแปลง
-        note: โน้ต
     timeout:
       title: หมดเวลาค้น
       sorry: ขออภัย ข้อมูลสำหรับประเภท%{type} ที่กำกับด้วยรหัส %{id} ใช้เวลานานเกินสมควรในการเรียกดู
@@ -393,16 +380,28 @@ th:
       telephone_link: โทรไปที่หมายเลข %{phone_number}
       colour_preview: แสดงตัวอย่างสี %{colour_value}
       email_link: ที่อยู่อีเมล %{email}
-    query:
+  feature_queries:
+    show:
       title: เรียกดูคุณลักษณะในพื้นที่
       introduction: คลิกบนแผนที่เพื่อค้นหาคุณลักษณะต่าง ๆ ที่อยู่ใกล้เคียง
       nearby: คุณลักษณะที่อยู่ใกล้เคียง
       enclosing: คุณลักษณะปิดล้อม
+  old_elements:
+    index:
+      node:
+        title_html: 'ประวัติโหนด: %{name}'
+      way:
+        title_html: 'ประวัติเส้นทาง: %{name}'
+      relation:
+        title_html: 'ประวัติความสัมพันธ์: %{name}'
+    actions:
+      view_redacted_data: ดูข้อมูลที่ยังไม่ได้ถูกแก้ไข
+      view_redaction_message: ดูข้อมูลที่ยังไม่ได้ถูกแก้ไข
   nodes:
     timeout:
       sorry: ขออภัย ข้อมูลสำหรับจุดหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'ขออภัย ไม่พบโหนดที่ #%{id} รุ่น %{version}'
     timeout:
       sorry: ขออภัย ประวัติสำหรับจุดหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
@@ -410,7 +409,7 @@ th:
     timeout:
       sorry: ขออภัย ข้อมูลสำหรับเส้นทางหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'ขออภัย ไม่พบเส้นที่ #%{id} เวอร์ชัน %{version}'
     timeout:
       sorry: ขออภัย ประวัติสำหรับเส้นทางหมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
@@ -418,7 +417,7 @@ th:
     timeout:
       sorry: ขออภัย ข้อมูลสำหรับความสัมพันธ์หมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'ขออภัย ไม่พบความสัมพันธ์ที่ #%{id} รุ่น %{version}'
     timeout:
       sorry: ขออภัย ประวัติสำหรับความสัมพันธ์หมายเลข %{id} ใช้เวลานานเกินสมควรในการเรียกดู
@@ -433,14 +432,10 @@ th:
       timeout:
         sorry: ขออภัย รายการชุดการเปลี่ยนแปลงที่ท่านร้องขอใช้เวลานานเกินสมควรในการสืบค้น
   changesets:
-    changeset:
-      no_edits: (ไม่มีรายการแก้ไข)
-      view_changeset_details: ดูรายละเอียดชุดการเปลี่ยนแปลง
     index:
       title: ชุดการเปลี่ยนแปลง
       title_user: ชุดการเปลี่ยนแปลงที่ทำโดย %{user}
       title_user_link_html: ชุดการเปลี่ยนแปลงที่ทำโดย %{user_link}
-      title_friend: ชุดการเปลี่ยนแปลงที่ทำโดยเพื่อนของฉัน
       title_nearby: ชุดการเปลี่ยนแปลงที่ทำโดยผู้ใช้ที่อยู่ใกล้เคียง
       empty: ไม่พบชุดการเปลี่ยนแปลง
       empty_area: ไม่พบชุดการเปลี่ยนแปลงในพื้นที่นี้
@@ -448,26 +443,12 @@ th:
       no_more: ไม่พบชุดการเปลี่ยนแปลงอีก
       no_more_area: ไม่พบชุดการเปลี่ยนแปลงอีกในพื้นที่นี้
       no_more_user: ไม่พบชุดการเปลี่ยนแปลงอีกโดยผู้ใช้คนนี้
-      load_more: แสดงเพิ่มขึ้น
       feed:
         title: ชุดการเปลี่ยนแปลง %{id}
         title_comment: ชุดการเปลี่ยนแปลง %{id} - %{comment}
         created: สร้างเมื่อ
         closed: ปิดเมื่อ
         belongs_to: ผู้สร้างสรรค์
-    subscribe:
-      heading: สมัครสมาชิกการอภิปรายเซ็ตการแก้ไขต่อไปนี้หรือไม่
-      button: สมัครสมาชิกการอภิปราย
-    unsubscribe:
-      heading: ยกเลิกการสมัครสมาชิกการอภิปรายต่อไปนี้หรือไม่
-      button: ยกเลิกการสมัครสมาชิกการอภิปราย
-    heading:
-      title: ชุดการเปลี่ยนแปลง %{id}
-      created_by_html: สร้างโดย %{link_user} บน %{created}
-    no_such_entry:
-      heading: 'ไม่มีรายการที่มีรหัส: %{id}'
-      body: ขออภัย ไม่มีชุดการเปลี่ยนแปลงที่มีรหัส %{id} โปรดตรวจสอขความถูกต้องของการสะกด
-        หรือลิงก์ที่กดมานั้นมีข้อผิดพลาด
     show:
       title: 'ชุดการเปลี่ยนแปลง: %{id}'
       created: 'สร้างเมื่อ: %{when}'
@@ -484,33 +465,42 @@ th:
       changesetxml: ชุดการเปลี่ยนแปลง XML
       osmchangexml: เอ็กซ์เอ็มแอลของ osmChange
     paging_nav:
-      nodes: หมุด (%{count})
       nodes_paginated: หมุดที่ (%{x}-%{y} จากทั้งหมด %{count})
-      ways: เส้นทาง (%{count})
       ways_paginated: เส้นทางที่ (%{x}-%{y} จาก %{count})
-      relations: ความสัมพันธ์ (%{count})
       relations_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
     timeout:
       sorry: ขออภัย รายการชุดการเปลี่ยนแปลงที่ร้องขอใช้เวลานานเกินสมควรในการสืบค้น
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: สมัครสมาชิกการอภิปรายเซ็ตการแก้ไขต่อไปนี้หรือไม่
+        button: สมัครสมาชิกการอภิปราย
+      unsubscribe:
+        heading: ยกเลิกการสมัครสมาชิกการอภิปรายต่อไปนี้หรือไม่
+        button: ยกเลิกการสมัครสมาชิกการอภิปราย
+    heading:
+      title: ชุดการเปลี่ยนแปลง %{id}
+      created_by_html: สร้างโดย %{link_user} บน %{created}
+    no_such_entry:
+      heading: 'ไม่มีรายการที่มีรหัส: %{id}'
+      body: ขออภัย ไม่มีชุดการเปลี่ยนแปลงที่มีรหัส %{id} โปรดตรวจสอขความถูกต้องของการสะกด
+        หรือลิงก์ที่กดมานั้นมีข้อผิดพลาด
   dashboards:
     contact:
       km away: ห่างออกไป %{count} กม.
       m away: ห่างออกไป %{count} ม.
       latest_edit_html: 'การแก้ไขล่าสุด (%{ago}):'
+      no_edits: (ไม่มีรายการแก้ไข)
+      view_changeset_details: ดูรายละเอียดชุดการเปลี่ยนแปลง
     popup:
       your location: ตำแหน่งของคุณ
       nearby mapper: คนทำแผนที่ ที่อยู่ใกล้เคียง
-      friend: เพื่อน
     show:
       title: แผงควบคุมของฉัน
       no_home_location_html: '%{edit_profile_link} และตั้งตำแหน่งบ้านของให้ผู้ใช้ไกล้เคียงเห็น'
       edit_your_profile: แก้ไขโปรไฟล์ของคุณ
-      my friends: รายการเพื่อน
-      no friends: ท่านยังไม่ได้เพิ่มเพื่อนใด ๆ
       nearby users: ผู้ใช้อื่นที่ใกล้เคียง
       no nearby users: ไม่ได้มีผู้ใดแสดงตัวว่าทำแผนที่อยู่ใกล้เคียง
-      friends_changesets: ชุดการเปลี่ยนแปลงของเพื่อน
-      friends_diaries: บันทึกของเพื่อน
       nearby_changesets: ชุดการเปลี่ยนแปลงของผู้ใช้ใกล้เคียง
       nearby_diaries: บันทึกของผู้ใช้ใกล้เคียง
   diary_entries:
@@ -521,13 +511,9 @@ th:
       use_map_link: ใช้แผนที่
     index:
       title: บันทึกของผู้ใช้
-      title_friends: บันทึกของเพื่อน
       title_nearby: บันทึกของผู้ใช้ที่อยู่ใกล้เคียง
       user_title: บันทึกของ %{user}
       in_language_title: รายการบันทึกทั้งหมดในภาษา %{language}
-      new: สร้างรายการบันทึกใหม่
-      new_title: สร้างรายการบันทึกใหม่
-      my_diary: บันทึกของฉัน
       no_entries: ไม่มีรายการบันทึก
     page:
       recent_entries: รายการบันทึกล่าสุด
@@ -585,13 +571,12 @@ th:
     unsubscribe:
       heading: เลิกติดตามการอภิปรายต่อไปนี้หรือไม่
       button: เลิกติดตามการอภิปราย
-  diary_comments:
-    index:
-      subheading_html: ความคิดเห็นในรายการบันทึกที่เพิ่มโดย %{user}
-    page:
-      post: เผยแพร่
-      when: เมื่อ
-      comment: แสดงความเห็น
+    navigation:
+      my_diary: บันทึกของฉัน
+      new: สร้างรายการบันทึกใหม่
+      new_title: สร้างรายการบันทึกใหม่
+    profile_diaries:
+      date_label: วันที่
   doorkeeper:
     errors:
       messages:
@@ -634,7 +619,7 @@ th:
         (HTTP 400)
     forbidden:
       title: ถูกต้องห้าม
-      description: การดำเนินการที่คุณร้องขอบนเซิร์ฟเวอร์ OpenStreetMap นั้นใช้ได้เฉพาะผู้ดูแลระบบเท่านั้น
+      description: การดำเนินการที่คุณร้องขอบนเซิร์ฟเวอร์ OpenHistoricalMap นั้นใช้ได้เฉพาะผู้ดูแลระบบเท่านั้น
         (HTTP 403)
     internal_server_error:
       title: แอพพลิเคชันเกิดข้อผิดพลาด
@@ -644,19 +629,6 @@ th:
       title: ไม่พบไฟล์
       description: ไม่พบการดำเนินการของไฟล์/ไดเรกทอรี/API ตามชื่อนั้นบนเซิร์ฟเวอร์
         OpenStreetMap (HTTP 404)
-  friendships:
-    make_friend:
-      heading: เพิ่มผู้ใช้ %{user} ในรายการเพื่อนหรือไม่?
-      button: เพิ่มในรายการเพื่อน
-      success: ผู้ใช้ %{name} อยู่ในรายการเพื่อนเรียบร้อย!
-      failed: ขออภัย ไม่สามารถเพิ่มผู้ใช้ %{name} ในรายการเพื่อน
-      already_a_friend: มีผู้ใช้ %{name}ในรายการเพื่อนอยู่แล้ว
-      limit_exceeded: คุณได้เป็นเพื่อนกับผู้ใช้จำนวนมากเมื่อไม่นานมานี้ โปรดรอสักครู่ก่อนที่จะพยายามเป็นเพื่อนต่อไป
-    remove_friend:
-      heading: ต้องการลบผู้ใช้ %{user} ออกจากรายการเพื่อนหรือไม่?
-      button: ลบจากรายการเพื่อน
-      success: ท่านได้ลบผู้ใช้ %{name} ออกจากรายการเพื่อน
-      not_a_friend: ผู้ใช้ %{name} ไม่ได้อยู่ในรายการเพื่อน
   geocoder:
     search:
       title:
@@ -1399,6 +1371,9 @@ th:
           building_passage: ทางลอดใต้อาคาร
           culvert: ท่อระบายน้ำ
           "yes": อุโมงค์
+        water:
+          lake: ทะเลสาบ
+          reservoir: อ่างเก็บน้ำ
         waterway:
           artificial: ทางน้ำที่มนุษย์สร้าง
           boatyard: ที่จอดเรือ
@@ -1429,17 +1404,25 @@ th:
         level9: แนวเขตหมู่บ้าน
         level10: แนวเขตชานเมือง
         level11: แนวเขตชุมชน
-    results:
-      no_results: ไม่พบผลลัพธ์
-      more_results: ดูผลลัพธ์เพิ่ม
+  searches:
+    queries:
+      create:
+        no_results: ไม่พบผลลัพธ์
+        more_results: ดูผลลัพธ์เพิ่ม
+  directions:
+    show:
+      title: เส้นทาง
+      distance: ระยะทาง
+      time: เวลา
+      ascend: ลาดขึ้น
+      descend: ลาดลง
+      directions_courtesy_html: เอื้อเฟื้อเส้นทางโดย %{link}
   issues:
     index:
       title: ปัญหา
       select_status: เลือกสถานะ
       select_type: เลือกชนิด
-      select_last_updated_by: เลือกที่ปรับปรุงล่าสุดโดย
       reported_user: ผู้ใช้ที่รายงาน
-      not_updated: ไม่ได้ปรับปรุง
       search: ค้นหา
       search_guidance: 'ปัญหาในการค้นหา:'
       states:
@@ -1452,12 +1435,10 @@ th:
       status: สถานะ
       reports: รายการปัญหาที่รับแจ้งจากผู้ใช้
       last_updated: ปรับปรุงล่าสุดเมื่อ
-      last_updated_time_ago_user_html: '%{time_ago}โดย%{user}'
       reports_count:
         other: '%{count} การรายงาน'
       reported_item: รายการที่รายงาน
     show:
-      title: 'ปัญหา %{status} #%{issue_id}'
       reports:
         other: '%{count} การรายงาน'
       no_reports: ไม่มีรายงาน
@@ -1481,7 +1462,6 @@ th:
       reopened: สถานะปัญหาได้ถูกตั้งค่าเป็น 'เปิด'
     comments:
       comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
-      reassign_param: กำหนดปัญหาใหม่หรือไม่
     reports:
       reported_by_html: รายงานเป็น %{category} โดย %{user} เมื่อ %{updated_at}
     helper:
@@ -1547,8 +1527,6 @@ th:
     intro_2_create_account: สร้างบัญชีผู้ใช้ใหม่
     partners_title: องค์กรพันธมิตร
     tou: ข้อกำหนดการใช้งาน
-    osm_offline: ฐานข้อมูลของ OpenStreetMap กำลังออฟไลน์เพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
-    osm_read_only: ฐานข้อมูลของ OpenStreetMap กำลังอยู่ในโหมดอ่านอย่างเดียวเพื่อให้สามารถดำเนินการบำรุงรักษาตามปกติได้
     help: วิธีใช้
     about: เกี่ยวกับ
     copyright: ลิขสิทธิ์
@@ -1581,19 +1559,10 @@ th:
         %{replyurl} หากต้องการ
       footer_html: คุณสามารถอ่านข้อความที่ลิงก์ %{readurl} และถ้าต้องการสามารถตอบกลับที่ลิงก์
         %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: เรียนคุณ %{to_user},
-      subject: '[OpenStreetMap] %{user} เพิ่มคุณในรายการเพื่อน'
-      had_added_you: ผู้ใช้ %{user} เพิ่มคุณในรายการเพื่อนบน OpenStreetMap
       see_their_profile: สามารถดูหน้าโปรไฟล์ของผู้ใช้นี้ได้ที่ %{userurl}
       see_their_profile_html: สามารถดูหน้าโปรไฟล์ของผู้ใช้นี้ได้ที่ %{userurl}
-      befriend_them: นอกจากนี้ คุณสามารถเพิ่มผู้ใช้นี้ในรายการเพื่อนได้ที่ %{befriendurl}.
-      befriend_them_html: คุณยังสามารถเพิ่มผู้ใช้นี้ไปในรายการเพื่อนได้ที่ %{befriendurl}
-    gpx_description:
-      description_with_tags_html: 'ดูเหมือนว่าไฟล์ GPX %{trace_name}ของคุณมีคำอธิบาย
-        %{trace_description} และมีแท็กต่อไปนี้: %{tags}'
-      description_with_no_tags_html: ดูเหมือนว่าไฟล์ GPX %{trace_name}ของคุณมีคำอธิบาย
-        %{trace_description} แต่ไม่มีแท็กแท็ก
     gpx_failure:
       hi: เรียนคุณ %{to_user},
       failed_to_import: 'การนำเข้าล้มเหลว เนื่องจาก:'
@@ -1601,7 +1570,7 @@ th:
     gpx_success:
       subject: '[OpenStreetMap] การนำเข้า GPX เรียบร้อย'
     signup_confirm:
-      subject: '[OpenStreetMap] ยินดีต้อนรับสู่ OpenStreetMap'
+      subject: '[OpenHistoricalMap] ยินดีต้อนรับสู่ OpenHistoricalMap'
       greeting: เรียนท่านผู้ใช้งาน
       created: มีบางคน (ซึ่งอาจเป็นท่าน) ได้สร้างบัญชีผู้ใช้ใหม่ไว้ที่ %{site_url}
       confirm: 'ก่อนที่ทางเราจะดำเนินการต่อไปได้ เราขอให้ท่านยืนยันว่า ท่านได้สมัครสมาชิกจริงหรือไม่
@@ -1678,26 +1647,6 @@ th:
       failure: อีเมลนี้ถูกยืนยันกับคำขอนี้เรียบร้อย
       unknown_token: รหัสยืนยันหมดอายุหรือผิดพลาด
   messages:
-    inbox:
-      title: จดหมายรับ
-      messages: ท่านมี %{new_messages} และ %{old_messages}
-      new_messages:
-        one: ข้อความใหม่ %{count} ข้อความ
-        other: ข้อความใหม่ %{count} ข้อความ
-      old_messages:
-        one: ข้อความเก่า %{count} ข้อความ
-        other: ข้อความเก่า %{count} ข้อความ
-      no_messages_yet_html: ท่านยังไม่มีข้อความใด ๆ ทำไมไม่ลองติดต่อกับ%{people_mapping_nearby_link}บ้าง?
-      people_mapping_nearby: ผู้คนที่กำลังทำแผนที่ที่อยู่ใกล้เคียง
-    messages_table:
-      from: จาก
-      to: ถึง
-      subject: เรื่อง
-      date: วันที่
-    message_summary:
-      unread_button: ทำเครื่องหมายว่ายังไม่ได้อ่าน
-      read_button: ทำเครื่องหมายว่าอ่านแล้ว
-      destroy_button: ลบ
     new:
       title: ส่งข้อความ
       send_message_to_html: ส่งข้อความใหม่หาผู้ใช้ %{name}
@@ -1709,16 +1658,6 @@ th:
       title: ไม่พบข้อความที่ระบุ
       heading: ไม่พบข้อความที่ระบุ
       body: ขออภัย ไม่พบข้อความที่กำกับด้วยรหัสดังกล่าว
-    outbox:
-      title: จดหมายออก
-      messages:
-        one: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
-        other: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
-      no_sent_messages_html: ท่านยังไม่มีข้อความใด ๆ ทำไมไม่ลองติดต่อกับ%{people_mapping_nearby_link}บ้าง?
-      people_mapping_nearby: ผู้คนที่กำลังทำแผนที่ที่อยู่ใกล้เคียง
-    reply:
-      wrong_user: ท่านเข้าระบบโดยใช้ชื่อผู้ใช้ `%{user}' แต่ข้อความที่ท่านกำลังจะตอบกลับไม่ได้ส่งถึงผู้ใช้ดังกล่าว
-        โปรดเข้าระบบใหม่โดยใช้ชื่อผู้ใช้นั้นเพื่อตอบกลับ
     show:
       title: อ่านข้อความ
       reply_button: ตอบกลับ
@@ -1727,16 +1666,51 @@ th:
       back: ย้อนกลับ
       wrong_user: ท่านเข้าระบบโดยใช้ชื่อผู้ใช้ `%{user}' แต่ข้อความที่ท่านกำลังจะตอบกลับไม่ได้ส่งโดยหรือส่งถึงผู้ใช้ดังกล่าว
         โปรดเข้าระบบใหม่โดยใช้ชื่อผู้ใช้นั้นเพื่อตอบกลับ
-    sent_message_summary:
-      destroy_button: ลบ
-    heading:
-      my_inbox: จดหมายรับส่วนตัว
-      my_outbox: กล่องจดหมายขาออกส่วนตัว
-    mark:
-      as_read: ข้อความถูกทำเครื่องหมายว่าอ่านแล้ว
-      as_unread: ข้อความถูกทำเครื่องหมายว่ายังไม่ได้อ่าน
     destroy:
       destroyed: ข้อความถูกลบแล้ว
+    read_marks:
+      create:
+        notice: ข้อความถูกทำเครื่องหมายว่าอ่านแล้ว
+      destroy:
+        notice: ข้อความถูกทำเครื่องหมายว่ายังไม่ได้อ่าน
+    mailboxes:
+      heading:
+        my_inbox: จดหมายรับส่วนตัว
+        my_outbox: กล่องจดหมายขาออกส่วนตัว
+      messages_table:
+        from: จาก
+        to: ถึง
+        subject: เรื่อง
+      message:
+        unread_button: ทำเครื่องหมายว่ายังไม่ได้อ่าน
+        read_button: ทำเครื่องหมายว่าอ่านแล้ว
+        destroy_button: ลบ
+    inboxes:
+      show:
+        title: จดหมายรับ
+        messages: ท่านมี %{new_messages} และ %{old_messages}
+        new_messages:
+          one: ข้อความใหม่ %{count} ข้อความ
+          other: ข้อความใหม่ %{count} ข้อความ
+        old_messages:
+          one: ข้อความเก่า %{count} ข้อความ
+          other: ข้อความเก่า %{count} ข้อความ
+        no_messages_yet_html: ท่านยังไม่มีข้อความใด ๆ ทำไมไม่ลองติดต่อกับ%{people_mapping_nearby_link}บ้าง?
+        people_mapping_nearby: ผู้คนที่กำลังทำแผนที่ที่อยู่ใกล้เคียง
+    outboxes:
+      show:
+        title: จดหมายออก
+        messages:
+          one: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
+          other: ท่านมีข้อความส่งแล้ว %{count} ฉบับ
+        no_sent_messages_html: ท่านยังไม่มีข้อความใด ๆ ทำไมไม่ลองติดต่อกับ%{people_mapping_nearby_link}บ้าง?
+        people_mapping_nearby: ผู้คนที่กำลังทำแผนที่ที่อยู่ใกล้เคียง
+      message:
+        destroy_button: ลบ
+    replies:
+      new:
+        wrong_user: ท่านเข้าระบบโดยใช้ชื่อผู้ใช้ `%{user}' แต่ข้อความที่ท่านกำลังจะตอบกลับไม่ได้ส่งถึงผู้ใช้ดังกล่าว
+          โปรดเข้าระบบใหม่โดยใช้ชื่อผู้ใช้นั้นเพื่อตอบกลับ
   passwords:
     new:
       title: ตั้งรหัสผ่านใหม่
@@ -1750,7 +1724,7 @@ th:
     update:
       flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
   profiles:
-    edit:
+    show:
       image: 'รูปภาพ:'
       gravatar:
         gravatar: ใช้ Gravatar
@@ -1841,12 +1815,13 @@ th:
         copyright: สงวนลิขสิทธิ์โดย OpenStreetMap และผู้มีส่วนร่วม ภายใต้สัญญาอนุญาตแบบเปิด
       remote_failed: การแก้ไขล้มเหลว - ตรวจสอบให้แน่ใจว่าได้โหลด JOSM หรือ Merkaartor
         และได้เปิดใช้งานตัวเลือกการควบคุมระยะไกลแล้ว
-    edit:
+    not_public_flash:
       not_public: ท่านยังไม่ได้ตั้งค่าการแก้ไขให้มองเห็นได้ทั่วไป
       not_public_description_html: ท่านไม่สามารถแก้ไขแผนที่นี้ได้เว้นแต่จะดำเนินการสิ่งอื่นบางอย่าง
         ท่านสามารถตั้งให้การแก้ไขของท่านมองเห็นได้ทั่วไปที่%{user_page}
       user_page_link: หน้าผู้ใช้
       anon_edits_link_text: ค้นหาว่าทำไมจึงเป็นเช่นนี้
+    edit:
       id_not_configured: ยังไม่ได้กำหนดค่า iD
     export:
       title: ส่งออก
@@ -1857,7 +1832,7 @@ th:
         body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
           หรืออาจจะใช้แหล่งข้อมูลข้างล่างในการดาวน์โหลดแฟ้มข้อมูลจำนวนมาก
         planet:
-          title: Planet OSM
+          title: Planet OHM
           description: สำเนาของฐานข้อมูล OpenStreetMap ซึ่งปรับปรุงอย่างสม่ำเสมอ
         overpass:
           title: API ของ Overpass
@@ -1884,7 +1859,7 @@ th:
     help:
       title: ขอรับความช่วยเหลือ
       welcome:
-        title: ยินดีต้อนรับสู่ OpenStreetMap
+        title: ยินดีต้อนรับสู่ OpenHistoricalMap
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
         title: คำแนะนำสำหรับผู้เริ่มต้น
@@ -1908,79 +1883,12 @@ th:
       where_am_i: ตรงนี้คือที่ไหน?
       where_am_i_title: อธิบายตำแหน่งปัจจุบันโดยใช้เครื่องมือค้นหา
       submit_text: ไป
-    key:
-      table:
-        entry:
-          motorway: ทางหลวงพิเศษ
-          main_road: ถนนสายหลัก
-          trunk: ถนนสายประธาน
-          primary: ถนนสายหลัก
-          secondary: ถนนสายรอง
-          unclassified: ถนนที่มิได้จำแนก
-          track: รอยทาง
-          bridleway: ทางเกวียน
-          cycleway: ทางจักรยาน
-          cycleway_national: ทางจักรยานระดับประเทศ
-          cycleway_regional: ทางจักรยานระดับภูมิภาค
-          cycleway_local: ทางจักรยานระดับท้องถิ่น
-          footway: ทางเดินเท้า
-          rail: ทางรถไฟ
-          subway: รถไฟใต้ดิน
-          light_rail: รถไฟเบา
-          tram: รถราง
-          cable_car: รถกระเช้า
-          chair_lift: รถกระเช้าเปลือย
-          runway: ทางวิ่งสนามบิน
-          taxiway: ทางขับเครื่องบิน
-          apron: โรงซ่อมบำรุงเครื่องบิน
-          admin: ขอบเขตการปกครอง
-          forest: ป่า
-          wood: ไม้
-          meadow: ทุ่งหญ้า
-          golf: สนามกอล์ฟ
-          park: สวน
-          common: ที่ส่วนกลาง
-          resident: เขตที่พักอาศัย
-          retail: พื้นที่พาณิชยกรรม
-          industrial: พื้นที่อุตสาหกรรม
-          commercial: พื้นที่พาณิชยกรรม
-          heathland: ทุ่งไม้พุ่ม
-          lake: ทะเลสาบ
-          reservoir: อ่างเก็บน้ำ
-          farm: ไร่นา
-          brownfield: พื้นที่อุตสาหกรรมเดิม
-          cemetery: สุสาน
-          allotments: ที่ดินแบ่งใช้
-          pitch: ลานกีฬา
-          centre: ศูนย์กีฬา
-          reserve: พื้นที่สงวนธรรมชาติ
-          military: เขตทหาร
-          school: โรงเรียน
-          university: มหาวิทยาลัย
-          building: อาคารสำคัญ
-          station: สถานีรถไฟ
-          railway_halt: ที่หยุดรถไฟ
-          subway_station: สถานีรถไฟใต้ดิน
-          summit: ยอดเขา
-          peak: ยอดเขา
-          tunnel: เส้นประ = อุโมงค์
-          bridge: เส้นทึบ = สะพาน
-          private: พื้นที่ส่วนบุคคล
-          destination: การเข้าถึงที่จุดปลายทาง
-          construction: ถนนกำลังก่อสร้าง
-          bicycle_shop: ร้านขายและเช่าจักรยาน
-          bicycle_parking: ที่จอดจักรยาน
-          toilets: ห้องน้ำ
     welcome:
       title: ยินดีต้อนรับ!
       introduction: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
         ซึ่งตอนนี้คุณได้ลงทะเบียนมาแล้ว ก่อนจะไปลุยกัน ด้านล่างมีสิ่งสำคัญที่คุณควรจะรู้ไว้ตลอดการทำแผนที่ของคุณ:'
       whats_on_the_map:
         title: บนแผนที่ควรมีอะไร
-        on_the_map_html: OpenHistoricalMap เป็นที่ที่คุณบันทึกสิ่งที่<em>มีอยู่จริงบนพื้นโลก</em>
-          และ<em>มีอยู่ในปัจจุบัน</em> - เช่นตึก หรือถนนที่คุณแห็นอยู่ดาษดื่นทั่วไป
-          รวมทั้งรายละเอียดเกี่ยวกับร้านรวงต่างๆ หรือข้อมูลอื่นๆ ที่เห็นได้ของสถานที่เหล่านั้น,
-          โดยคุณจะทำแผนที่โครงสร้างอะไรที่คุณเห็นอยู่บนพื้นดินก็ได้ แล้วแต่ความสนใจของคุณเอง
         off_the_map_html: แต่ที่นี่จะ<em>ไม่รับ</em>ข้อมูลที่มาจากข้อคิดเห็น เช่นคะแนนเรตติ้ง
           สถานที่ที่เคยมีอยู่แต่ในอดีต (ปัจจุบันไม่มีแล้ว) รวมทั้งสถานที่ที่คาดว่าจะมีในอนาคต,
           และจะไม่รับข้อมูลจากแหล่งที่มีลิขสิทธิ์อื่นๆ, ฉะนั้นอย่าได้คัดลอกข้อมูลจากแผนที่ออนไลน์หรือแผนที่กระดาษมาใส่
@@ -1992,15 +1900,68 @@ th:
       rules:
         title: อย่าลืมกติกา!
       start_mapping: เริ่มการทำแผนที่
-      add_a_note:
-        title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
-        para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
-          คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
-    ohm_privacy_policy:
-      right_to_object:
-        title_html: สิทธิในการโต้แย้ง
-      details:
-        title_html: รายละเอียด
+    add_a_note:
+      title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
+      para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
+        คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
+  map_keys:
+    show:
+      entries:
+        motorway: ทางหลวงพิเศษ
+        main_road: ถนนสายหลัก
+        trunk: ถนนสายประธาน
+        primary: ถนนสายหลัก
+        secondary: ถนนสายรอง
+        unclassified: ถนนที่มิได้จำแนก
+        track: รอยทาง
+        bridleway: ทางเกวียน
+        cycleway: ทางจักรยาน
+        footway: ทางเดินเท้า
+        rail: ทางรถไฟ
+        subway: รถไฟใต้ดิน
+        light_rail: รถไฟเบา
+        tram: รถราง
+        cable_car: รถกระเช้า
+        chair_lift: รถกระเช้าเปลือย
+        runway: ทางวิ่งสนามบิน
+        taxiway: ทางขับเครื่องบิน
+        apron: โรงซ่อมบำรุงเครื่องบิน
+        admin: ขอบเขตการปกครอง
+        forest: ป่า
+        wood: ไม้
+        meadow: ทุ่งหญ้า
+        golf: สนามกอล์ฟ
+        park: สวน
+        common: ที่ส่วนกลาง
+        resident: เขตที่พักอาศัย
+        retail: พื้นที่พาณิชยกรรม
+        industrial: พื้นที่อุตสาหกรรม
+        commercial: พื้นที่พาณิชยกรรม
+        heathland: ทุ่งไม้พุ่ม
+        farm: ไร่นา
+        brownfield: พื้นที่อุตสาหกรรมเดิม
+        cemetery: สุสาน
+        allotments: ที่ดินแบ่งใช้
+        pitch: ลานกีฬา
+        centre: ศูนย์กีฬา
+        reserve: พื้นที่สงวนธรรมชาติ
+        military: เขตทหาร
+        school: โรงเรียน
+        university: มหาวิทยาลัย
+        building: อาคารสำคัญ
+        station: สถานีรถไฟ
+        railway_halt: ที่หยุดรถไฟ
+        subway_station: สถานีรถไฟใต้ดิน
+        summit: ยอดเขา
+        peak: ยอดเขา
+        tunnel: เส้นประ = อุโมงค์
+        bridge: เส้นทึบ = สะพาน
+        private: พื้นที่ส่วนบุคคล
+        destination: การเข้าถึงที่จุดปลายทาง
+        construction: ถนนกำลังก่อสร้าง
+        bicycle_shop: ร้านขายและเช่าจักรยาน
+        bicycle_parking: ที่จอดจักรยาน
+        toilets: ห้องน้ำ
   traces:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -2062,18 +2023,16 @@ th:
       message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
     offline:
       message: หน่วยจัดเก็บแฟ้มข้อมูล GPX และระบบอัปโหลดไม่พร้อมใช้งานในขณะนี้
-    description:
-      description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
-      description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
+    feeds:
+      description:
+        description_with_count: แฟ้มข้อมูล GPX จำนวน %{count} จุด จากผู้ใช้ %{user}
+        description_without_count: แฟ้มข้อมูล GPX จากผู้ใช้ %{user}
   application:
     require_cookies:
       cookies_needed: ดูเหมือนว่าคุณปิดใช้งานคุกกี้อยู่, กรุณาเปิดใช้งานคุกกี้ในบราวเซอร์ของคุณก่อนจะดำเนินการต่อ
     setup_user_auth:
       blocked: คุณถูกระงับการเข้าถึง API, กรุณาเข้าระบบทางหน้าเว็บหลักหากต้องการทราบสาเหตุที่ถูกระงับในครั้งนี้
     auth_providers:
-      openid:
-        title: เข้าใช้งานด้วย OpenID
-        alt: เข้าใช้งานด้วยลิงก์ OpenID
       google:
         title: เข้าใช้งานด้วย Google
         alt: เข้าใช้งานด้วย Google OpenID
@@ -2107,23 +2066,7 @@ th:
         header: เสรีและแก้ไขได้
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
       continue: สมัครบัญชี
-      terms accepted: ขอบคุณสำหรับการตอบรับเงื่อนไขผู้ร่วมสร้างสรรค์!
       use external auth: นอกจากนี้ ท่านสามารถใช้บัญชีผู้ใช้จากเว็บอื่นในการเข้าใช้งานได้
-    terms:
-      title: ข้อกำหนด
-      heading: ข้อกำหนด
-      heading_ct: ข้อกำหนดผู้มีส่วนร่วม
-      read_tou: ข้าพเจ้าได้อ่านและเห็นด้วยในข้อกำหนดการใช้งาน
-      consider_pd: นอกเหนือจากข้อความข้างต้น ข้าพเจ้ายินดีสละการสร้างสรรค์ของข้าพเจ้าให้เป็นงานอันไม่มีลิขสิทธิ์
-      consider_pd_why: นี้คืออะไร?
-      continue: ถัดไป
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      you need to accept or decline: กรุณาตรวจทานและเลือกยอมรับหรือไม่ยอมรับข้อกำหนดของผู้มีส่วนร่วมเพื่อไปต่อ
-      legale_select: 'ประเทศที่พำนัก:'
-      legale_names:
-        france: ฝรั่งเศส
-        italy: อิตาลี
-        rest_of_world: พื้นที่อื่น ๆ ในโลก
     no_such_user:
       title: ไม่มีผู้ใช้ที่ระบุ
       heading: ไม่พบผู้ใช้ชื่อ %{user}
@@ -2136,7 +2079,6 @@ th:
       my notes: หมายเหตุของฉัน
       my messages: ข้อความของฉัน
       my profile: ประวัติของฉัน
-      my settings: การตั้งค่าของฉัน
       my comments: ความคิดเห็นของฉัน
       blocks on me: การถูกระงับของฉัน
       blocks by me: ผู้ใช้ที่ข้าพเจ้ากีดกัน
@@ -2148,8 +2090,6 @@ th:
       edits: การแก้ไข
       traces: รอยทาง
       notes: หมายเหตุแผนที่
-      remove as friend: ลบจากรายการเพื่อน
-      add as friend: เพิ่มเข้ารายการเพื่อน
       mapper since: 'ทำแผนที่นี้ตั้งแต่:'
       no activity yet: ยังไม่มีกิจกรรมใด ๆ
       ct status: 'เงื่อนไขผู้ร่วมสร้างสรรค์:'
@@ -2184,14 +2124,35 @@ th:
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
     go_public:
       flash success: การแก้ไขของท่านเป็นสาธารณะ ท่านสามารถแก้ไขได้
-    index:
-      title: ผู้ใช้
-      heading: ผู้ใช้
-      summary_html: '%{name} สร้างจากไอพี %{ip_address} เมื่อ %{date}'
-      empty: ไม่พบผู้ใช้ตรงตามที่กำหนด
-    page:
-      confirm: ยืนยันผู้ใช้ที่เลือก
-      hide: ซ่อนผู้ใช้ที่เลือก
+    issued_blocks:
+      show:
+        heading_html: แสดงการสั่งระงับใช้โดย %{name}
+        empty: '%{name} ไม่เคยได้สั่งระงับผู้ใช้คนใดเลย'
+    received_blocks:
+      show:
+        title: การถูกระงับใช้งานของ %{name}
+        heading_html: รายการการถูกระงับของผู้ใช้ %{name}
+        empty: '%{name} ยังไม่เคยถูกระงับใช้งาน'
+      edit:
+        revoke: เพิกถอน
+    lists:
+      show:
+        title: ผู้ใช้
+        heading: ผู้ใช้
+      page:
+        confirm: ยืนยันผู้ใช้ที่เลือก
+        hide: ซ่อนผู้ใช้ที่เลือก
+        empty: ไม่พบผู้ใช้ตรงตามที่กำหนด
+      user:
+        summary_html: '%{name} สร้างจากไอพี %{ip_address} เมื่อ %{date}'
+    changeset_comments:
+      page:
+        changeset: ชุดการเปลี่ยนแปลง
+        when: เมื่อ
+        comment: แสดงความเห็น
+    diary_comments:
+      page:
+        post: เผยแพร่
     suspended:
       title: บัญชีถูกระงับ
       heading: บัญชีถูกระงับ
@@ -2202,7 +2163,7 @@ th:
       unknown_signature_algorithm: ลายเซ็นดิจิตอลที่ใช้เป็นระบบที่ไม่รู้จัก
       invalid_scope: ขอบข่ายผิดพลาด
     auth_association:
-      heading: บัญชีภายนอกของท่านยังมิได้ต่อเชื่อมกับบัญชี OpenStreetMap
+      heading: บัญชีภายนอกของท่านยังมิได้ต่อเชื่อมกับบัญชี OpenHistoricalMap
       option_1: ถ้าท่านเป็นผู้ใช้ OpenStreetMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
       option_2: "ถ้าท่านมีบัญชีผู้ใช้แล้ว สามารถเข้าสู่ระบบโดยใช้ชื่อผู้ใช้ รหัสผ่าน
         \nแล้วผูกโยงบัญชีกับบัญชีภายนอกในหน้าการตั้งค่าา"
@@ -2244,21 +2205,12 @@ th:
       title: การระงับผู้ใช้
       heading: รายการการระงับผู้ใช้
       empty: ยังไม่มีการกีดกันใด ๆ
-    revoke_all:
-      revoke: เพิกถอน
     helper:
       time_future_html: จะสิ้นสุดใน %{time}
       until_login: มีผลจนถึงการเริ่มเข้าระบบครั้งถัดไป
       time_past_html: สิ้นสุดไปเมื่อ %{time}
       block_duration:
         years: '%{count} ปี'
-    blocks_on:
-      title: การถูกระงับใช้งานของ %{name}
-      heading_html: รายการการถูกระงับของผู้ใช้ %{name}
-      empty: '%{name} ยังไม่เคยถูกระงับใช้งาน'
-    blocks_by:
-      heading_html: แสดงการสั่งระงับใช้โดย %{name}
-      empty: '%{name} ไม่เคยได้สั่งระงับผู้ใช้คนใดเลย'
     show:
       heading_html: '%{block_on} โดนระงับโดย %{block_by}'
       created: ระงับเมื่อ
@@ -2266,7 +2218,6 @@ th:
       edit: แก้ไข
       reason: 'เหตุผลสำหรับการระงับใช้งาน:'
     block:
-      not_revoked: (ไม่ได้มีการยกเลิก)
       show: แสดง
       edit: แก้ไข
     page:
@@ -2274,7 +2225,6 @@ th:
       creator_name: ผู้สั่งให้ระงับ
       reason: เหตุผลที่ต้องระงับใช้งาน
       status: สถานะ
-      revoker_name: ยกเลิกโดย
   notes:
     index:
       heading: หมายเหตุของ %{user}
@@ -2353,15 +2303,6 @@ th:
       queryfeature_tooltip: เรียกดูคุณลักษณะ
       queryfeature_disabled_tooltip: ซูมเข้าเพื่อเรียกดูคุณลักษณะ
     directions:
-      ascend: ลาดขึ้น
-      engines:
-        fossgis_osrm_car: รถยนต์ (OSRM)
-        graphhopper_bicycle: จักยาน (GraphHopper)
-        graphhopper_car: รถยนต์ (GraphHopper)
-        graphhopper_foot: เดินเท้า (GraphHopper)
-      descend: ลาดลง
-      directions: เส้นทาง
-      distance: ระยะทาง
       errors:
         no_route: ไม่พบเส้นทางระหว่างสองจุดที่คุณต้องการ
         no_place: ขออภัย - ไม่พบสถานที่ "%{place}"
@@ -2397,7 +2338,6 @@ th:
         roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
         exit_roundabout: ออกจากวงเวียนไปทาง %{name}
         unnamed: ถนนไม่มีชื่อ
-        courtesy: เอื้อเฟื้อเส้นทางโดย %{link}
         exit_counts:
           first: แรก
           second: ที่สอง
@@ -2409,7 +2349,6 @@ th:
           eighth: ที่แปด
           ninth: ที่เก้า
           tenth: ที่สิบ
-      time: เวลา
     query:
       node: หมุด
       way: เส้นทาง

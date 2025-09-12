@@ -22,9 +22,6 @@ sat:
         create: ᱨᱚᱲ ᱥᱮᱞᱮᱫ ᱛᱟᱢ
       message:
         create: ᱵᱷᱮᱡᱟ
-      client_application:
-        create: ᱧᱩᱛᱩᱢ ᱚᱞ
-        update: ᱦᱟᱹᱞᱤᱭᱟᱹᱜ
       oauth2_application:
         update: ᱟᱹᱨᱩ ᱯᱷᱮᱨᱟᱣ
       trace:
@@ -43,6 +40,7 @@ sat:
       message: ᱠᱷᱚᱵᱚᱨ
       node: ᱜᱟᱸᱴᱷ
       node_tag: ᱜᱟᱸᱴᱷ ᱴᱮᱜ
+      note: ᱠᱷᱟᱴᱚ ᱚᱞ
       old_node: ᱢᱟᱨᱤ ᱜᱟᱸᱴᱷ
       old_node_tag: ᱢᱟᱨᱤᱭᱟ ᱜᱟᱸᱴᱷ ᱴᱮᱜ
       old_relation: ᱢᱟᱨᱤ ᱥᱟᱹᱜᱟᱹᱭ
@@ -131,14 +129,9 @@ sat:
         comment: ᱚᱠᱛᱟ
         full: ᱜᱚᱴᱟ ᱠᱷᱟᱴᱟᱹ ᱚᱞ
   accounts:
-    edit:
+    show:
       title: ᱠᱷᱟᱛᱟ ᱥᱟᱯᱲᱟᱣ ᱢᱮ
-      my settings: ᱤᱧᱟᱜ ᱥᱟᱡᱟᱣᱠᱚ
       current email address: 'ᱱᱮᱛᱚᱜ-ᱟᱜ ᱤᱢᱮᱞ ᱴᱷᱤᱠᱟᱹᱬᱟ:'
-      openid:
-        link text: ᱱᱤᱭᱟᱹ ᱫᱚ ᱪᱮᱫ?
-      public editing:
-        enabled link text: ᱱᱤᱭᱟᱹ ᱫᱚ ᱪᱮᱫ?
       contributor terms:
         link text: ᱱᱤᱭᱟᱹ ᱫᱚ ᱪᱮᱫ?
       save changes button: ᱵᱚᱫᱚᱞᱠᱚ ᱪᱟᱺᱪᱟᱣ ᱢᱮ
@@ -151,14 +144,11 @@ sat:
     location: 'ᱡᱟᱭᱜᱟ:'
     node:
       title_html: ᱜᱟᱸᱴᱷ:%{name}
-      history_title_html: 'ᱜᱟᱸᱴᱷ ᱨᱮᱭᱟᱜ ᱦᱤᱛᱟᱹᱞ: %{name}'
     way:
       title_html: '%{name} :ᱦᱚᱨ'
-      history_title_html: '%{name} :ᱦᱚᱨ ᱨᱮᱭᱟᱜ ᱦᱤᱛᱟᱹᱞ'
       nodes: ᱜᱟᱸᱴᱷᱠᱚ
     relation:
       title_html: 'ᱥᱟᱹᱜᱟᱹᱭ: %{name}'
-      history_title_html: 'ᱥᱟᱹᱜᱟᱹᱭ ᱱᱟᱜᱟᱢ: %{name}'
       members: ᱨᱟᱹᱥᱤᱭᱟᱹᱥ ᱠᱚ
     relation_member:
       type:
@@ -166,15 +156,9 @@ sat:
         way: ᱦᱚᱨ
         relation: ᱥᱟᱹᱜᱟᱹᱭ
     containing_relation:
-      entry_html: ᱥᱟᱹᱜᱟᱹᱭ %{relation_name}
       entry_role_html: ᱥᱟᱹᱜᱟᱹᱭ %{relation_name} (as %{relation_role})
     not_found:
       title: ᱵᱟᱝ ᱧᱟᱢ ᱞᱮᱱᱟ
-      type:
-        node: ᱜᱟᱸᱴᱷ
-        way: ᱦᱚᱨ
-        relation: ᱥᱟᱹᱜᱟᱹᱭ
-        note: ᱠᱷᱟᱴᱚ ᱚᱞ
     timeout:
       type:
         node: ᱜᱟᱸᱴᱷ
@@ -192,14 +176,20 @@ sat:
     tag_details:
       tags: ᱴᱮᱜᱠᱚ
       telephone_link: '%{phone_number}ᱠᱟᱸᱞ ᱢᱮ'
-    query:
+  feature_queries:
+    show:
       introduction: ᱱᱚᱠᱥᱟ ᱨᱮ ᱚᱛᱟᱭ ᱢᱮ ᱥᱩᱨᱠᱚᱣᱟ ᱜᱩᱱᱠᱚ ᱧᱟᱢ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱾
       nearby: ᱥᱩᱨᱠᱚᱣᱟ ᱜᱩᱱᱠᱚ
-  changesets:
-    changeset:
-      no_edits: (ᱥᱟᱯᱲᱟᱣ ᱵᱟᱝ)
+  old_elements:
     index:
-      load_more: ᱟᱨᱦᱚᱸ ᱞᱟᱫᱮ ᱢᱮ
+      node:
+        title_html: 'ᱜᱟᱸᱴᱷ ᱨᱮᱭᱟᱜ ᱦᱤᱛᱟᱹᱞ: %{name}'
+      way:
+        title_html: '%{name} :ᱦᱚᱨ ᱨᱮᱭᱟᱜ ᱦᱤᱛᱟᱹᱞ'
+      relation:
+        title_html: 'ᱥᱟᱹᱜᱟᱹᱭ ᱱᱟᱜᱟᱢ: %{name}'
+  changesets:
+    index:
       feed:
         created: ᱛᱮᱭᱟᱨᱱᱟ
         closed: ᱵᱚᱸᱫᱚ
@@ -209,17 +199,12 @@ sat:
       hide_comment: ᱫᱟᱱᱟᱝ
       comment: ᱚᱠᱛᱟ
     paging_nav:
-      nodes: (%{count}) ᱜᱟᱸᱴᱷᱠᱚ
-      ways: (%{count}) ᱦᱚᱨᱠᱚ
-      relations: ᱥᱟᱹᱜᱟᱹᱭᱠᱩ (%{count})
       relations_paginated: ᱥᱟᱹᱜᱟᱹᱭᱠᱩ (%{x}-%{y} of %{count})
   dashboards:
+    contact:
+      no_edits: (ᱥᱟᱯᱲᱟᱣ ᱵᱟᱝ)
     popup:
       your location: ᱟᱢᱟᱜ ᱡᱟᱭᱜᱟ
-      friend: ᱜᱟᱛᱮ
-    show:
-      my friends: ᱤᱧᱭᱟᱜ ᱜᱟᱛᱮ ᱠᱚ
-      no friends: ᱱᱤᱛ ᱫᱷᱟᱹᱵᱤᱡ ᱢᱤᱛᱴᱮᱱ ᱜᱟᱛᱮᱠᱩ ᱦᱚᱸ ᱵᱟᱢ ᱥᱮᱞᱮᱫ ᱠᱟᱛ ᱠᱚᱣᱟ᱾
   diary_entries:
     new:
       title: ᱱᱟᱶᱟ ᱰᱟᱭᱨᱤ ᱟᱫᱮᱨ
@@ -228,9 +213,6 @@ sat:
       use_map_link: ᱱᱚᱠᱥᱟ ᱵᱮᱵᱷᱟᱨ ᱢᱮ
     index:
       title: ᱵᱮᱵᱷᱟᱨᱤᱡ ᱠᱚᱣᱟ ᱰᱟᱭᱨᱤᱠᱚ
-      title_friends: ᱜᱟᱛᱮ ᱠᱚᱣᱟ ᱰᱟᱭᱨᱤᱠᱚ
-      new: ᱱᱟᱶᱟ ᱰᱟᱭᱨᱤ ᱟᱫᱮᱨ
-      my_diary: ᱤᱧᱭᱟᱜ ᱰᱟᱭᱨᱤ
       no_entries: ᱰᱟᱭᱨᱤ ᱟᱫᱮᱨᱠᱚ ᱵᱟᱹᱱᱩᱜ-ᱟ
     edit:
       title: ᱰᱟᱭᱨᱤ ᱟᱫᱮᱨ ᱥᱟᱯᱲᱟᱣ ᱢᱮ
@@ -251,14 +233,11 @@ sat:
       report: ᱱᱚᱶᱟ ᱚᱠᱛᱟ ᱨᱤᱯᱚᱴ ᱢᱮ
     location:
       location: 'ᱡᱟᱭᱜᱟ:'
-  diary_comments:
-    page:
-      when: ᱛᱤᱥ
-      comment: ᱚᱠᱛᱟ
-  friendships:
-    make_friend:
-      button: ᱜᱟᱛᱤ ᱞᱮᱠᱟ ᱥᱮᱞᱮᱫ ᱮᱢ
-      success: '%{name} ᱱᱤᱛᱚᱜ ᱫᱚ ᱟᱢᱨᱮᱱ ᱜᱟᱛᱮ ᱦᱚᱭ ᱱᱟ'
+    navigation:
+      my_diary: ᱤᱧᱭᱟᱜ ᱰᱟᱭᱨᱤ
+      new: ᱱᱟᱶᱟ ᱰᱟᱭᱨᱤ ᱟᱫᱮᱨ
+    profile_diaries:
+      date_label: ᱢᱟᱹᱦᱤᱛ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -438,6 +417,10 @@ sat:
         level4: ᱡᱤᱞᱟᱹ ᱜᱷᱮᱨᱟ
         level6: ᱫᱤᱥᱚᱢ ᱜᱷᱮᱨᱟ
         level8: ᱥᱚᱦᱚᱨ ᱜᱷᱮᱨᱟ
+  directions:
+    show:
+      title: ᱫᱤᱥᱟᱠᱚ
+      time: ᱚᱠᱛᱚ
   issues:
     index:
       search: ᱥᱮᱸᱫᱽᱨᱟ
@@ -485,18 +468,19 @@ sat:
     confirm_email:
       button: ᱜᱚᱴᱟᱭ ᱢᱮ
   messages:
-    messages_table:
-      subject: ᱵᱤᱥᱚᱭ
-      date: ᱢᱟᱹᱦᱤᱛ
-    message_summary:
-      destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
     new:
       title: ᱠᱷᱚᱵᱚᱨ ᱠᱩᱞ ᱢᱮ
     show:
       destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
       back: ᱛᱟᱭᱚᱢ
-    sent_message_summary:
-      destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
+    mailboxes:
+      messages_table:
+        subject: ᱵᱤᱥᱚᱭ
+      message:
+        destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
+    outboxes:
+      message:
+        destroy_button: ᱜᱮᱫ ᱜᱤᱰᱤ
   passwords:
     new:
       title: ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫᱽ ᱟᱫ ᱠᱮᱫᱟᱢ
@@ -504,7 +488,7 @@ sat:
     update:
       flash changed: ᱟᱢᱟᱜ ᱫᱟᱱᱟᱝ ᱥᱟᱵᱟᱫᱽ ᱫᱚ ᱵᱚᱫᱚᱞᱮᱱᱟ ᱾
   profiles:
-    edit:
+    show:
       image: ᱪᱤᱛᱟᱹᱨᱺ
       new image: ᱢᱤᱫᱴᱮᱱ ᱪᱤᱛᱟᱹᱨ ᱥᱮᱞᱮᱫ ᱢᱮ
       home location: 'ᱚᱲᱟᱜ ᱡᱟᱭᱜᱟ:'
@@ -539,29 +523,18 @@ sat:
     copyright:
       native:
         mapping_link: ᱱᱚᱠᱥᱟ ᱛᱮᱭᱟᱨ ᱮᱦᱚᱵ ᱢᱮ
-    edit:
+    not_public_flash:
       user_page_link: ᱵᱮᱵᱦᱟᱨᱤᱭᱟᱜ ᱥᱟᱦᱴᱟ
     export:
       title: ᱵᱷᱮᱡᱟ
       export_button: ᱵᱷᱮᱡᱟ
     help:
       welcome:
-        title: OpenStreetMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ
+        title: OpenHistoricalMap ᱨᱮ ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ
     search:
       search: ᱥᱮᱸᱫᱽᱨᱟ
       where_am_i: ᱱᱚᱣᱟ ᱚᱠᱟ ᱨᱮ ᱢᱮᱱᱟᱜ-ᱟ?
       submit_text: ᱜᱚ
-    key:
-      table:
-        entry:
-          footway: ᱛᱟᱲᱟᱢᱦᱚᱨ
-          forest: ᱵᱤᱨ
-          wood: ᱠᱟᱴᱷ
-          park: ᱵᱟᱜᱟᱱ
-          school: ᱤᱛᱩᱱ ᱟᱥᱲᱟ
-          bicycle_shop: ᱥᱟᱭᱠᱤᱞ ᱫᱩᱠᱟᱹᱱ
-          bicycle_parking: ᱥᱟᱭᱠᱤᱞ ᱯᱟᱨᱠᱤᱝ
-          toilets: ᱴᱚᱭᱞᱮᱴᱠᱚ
     welcome:
       title: ᱥᱟᱹᱜᱩᱱ ᱫᱟᱨᱟᱢ!
       whats_on_the_map:
@@ -569,6 +542,17 @@ sat:
       rules:
         title: ᱱᱤᱭᱚᱢᱠᱚ!
       start_mapping: ᱱᱚᱠᱥᱟ ᱛᱮᱭᱟᱨ ᱮᱦᱚᱵ ᱢᱮ
+  map_keys:
+    show:
+      entries:
+        footway: ᱛᱟᱲᱟᱢᱦᱚᱨ
+        forest: ᱵᱤᱨ
+        wood: ᱠᱟᱴᱷ
+        park: ᱵᱟᱜᱟᱱ
+        school: ᱤᱛᱩᱱ ᱟᱥᱲᱟ
+        bicycle_shop: ᱥᱟᱭᱠᱤᱞ ᱫᱩᱠᱟᱹᱱ
+        bicycle_parking: ᱥᱟᱭᱠᱤᱞ ᱯᱟᱨᱠᱤᱝ
+        toilets: ᱴᱚᱭᱞᱮᱴᱠᱚ
   traces:
     new:
       visibility_help: ᱱᱚᱶᱟ ᱨᱮᱭᱟᱜ ᱢᱟᱱᱮ ᱫᱚ ᱪᱮᱫ?
@@ -598,29 +582,29 @@ sat:
     new:
       title: ᱧᱩᱛᱩᱢ ᱚᱞ
       continue: ᱧᱩᱛᱩᱢ ᱚᱞ
-    terms:
-      consider_pd_why: ᱱᱤᱭᱟᱹ ᱫᱚ ᱪᱮᱫ?
-      continue: ᱞᱮᱛᱟᱲ
     show:
       my diary: ᱤᱧᱭᱟᱜ ᱰᱟᱭᱨᱤ
       my edits: ᱤᱧᱭᱟᱜ ᱥᱟᱯᱲᱟᱣᱠᱚ
       my notes: ᱤᱧᱭᱟᱜ ᱠᱷᱟᱴᱟᱹ ᱚᱞᱠᱚ
       my messages: ᱤᱧᱭᱟᱜ ᱠᱷᱚᱵᱚᱨ ᱠᱚ
       my profile: ᱤᱧᱭᱟᱜ ᱢᱚᱦᱲᱟ
-      my settings: ᱤᱧᱟᱜ ᱥᱟᱡᱟᱣᱠᱚ
       my comments: ᱤᱧᱭᱟᱜ ᱚᱠᱛᱟ ᱠᱚ
       send message: ᱠᱷᱚᱵᱚᱨ ᱠᱩᱞ ᱢᱮ
       diary: ᱰᱟᱭᱨᱤ
       edits: ᱥᱟᱯᱲᱟᱣᱠᱚ
       notes: ᱱᱚᱠᱥᱟ ᱠᱷᱟᱴᱟᱹ ᱚᱞᱠᱚ
-      add as friend: ᱜᱟᱛᱮ ᱥᱮᱞᱮᱫᱮᱢ
       email address: 'ᱤᱢᱮᱞ ᱴᱷᱤᱠᱟᱹᱬᱟ:'
       status: 'ᱫᱚᱥᱟ:'
       comments: ᱚᱠᱛᱟᱠᱚ
       confirm: ᱜᱚᱴᱟᱭ ᱢᱮ
-    index:
-      title: ᱵᱮᱵᱦᱟᱨᱤᱡᱽᱠᱩ
-      heading: ᱵᱮᱵᱦᱟᱨᱤᱡᱽᱠᱩ
+    lists:
+      show:
+        title: ᱵᱮᱵᱦᱟᱨᱤᱡᱽᱠᱩ
+        heading: ᱵᱮᱵᱦᱟᱨᱤᱡᱽᱠᱩ
+    changeset_comments:
+      page:
+        when: ᱛᱤᱥ
+        comment: ᱚᱠᱛᱟ
   user_blocks:
     show:
       status: ᱫᱚᱥᱟ
@@ -673,11 +657,6 @@ sat:
       edit_disabled_tooltip: ᱱᱚᱠᱥᱟ ᱥᱟᱯᱲᱟᱣ ᱞᱟᱹᱜᱤᱫᱛᱮ ᱵᱷᱤᱛᱨᱤ ᱥᱮᱫ ᱡᱩᱢ ᱢᱮ
       createnote_tooltip: ᱱᱚᱠᱥᱟ ᱨᱮ ᱠᱷᱟᱴᱟᱹ ᱚᱞ ᱥᱮᱞᱮᱫ ᱢᱮ
     directions:
-      engines:
-        fossgis_osrm_bike: ᱵᱟᱭᱥᱟᱭᱠᱤᱞ (OSRM)
-        fossgis_osrm_car: ᱠᱟᱨ (OSRM)
-        fossgis_osrm_foot: ᱛᱟᱲᱟᱢ (OSRM)
-      directions: ᱫᱤᱥᱟᱠᱚ
       instructions:
         exit_counts:
           first: ᱑
@@ -690,7 +669,6 @@ sat:
           eighth: ᱘
           ninth: ᱙
           tenth: ᱑᱐
-      time: ᱚᱠᱛᱚ
     query:
       node: ᱜᱟᱸᱴᱷ
       way: ᱦᱚᱨ

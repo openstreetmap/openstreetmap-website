@@ -10,6 +10,7 @@
 # Author: Gırd
 # Author: Kumkumuk
 # Author: Marmase
+# Author: Minh Nguyen
 # Author: Mirzali
 # Author: Orbot707
 ---
@@ -30,9 +31,6 @@ diq:
         create: Mışewre cı ke
       message:
         create: Bırışe
-      client_application:
-        create: Qeyd Be
-        update: Rocane kerê
       oauth2_application:
         create: Qeydbıyayış
         update: Rocane kerên
@@ -65,6 +63,7 @@ diq:
       message: Mesac
       node: Qedyin
       node_tag: Etiket Qedyin
+      note: Not
       notifier: Xeber ke
       old_node: Verên Qedya
       old_node_tag: Etiletê Qedyina Verên
@@ -192,23 +191,22 @@ diq:
         comment: Mışewre
         full: Note pêro
   accounts:
-    edit:
+    show:
       title: Hesabi bıvurne
-      my settings: Eyarê mı
       current email address: 'E-postay şımaya newki:'
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: no çıko?
-      public editing:
-        heading: 'Pêron rê akerde vurnayış:'
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: no çıko?
-        disabled link text: Ezo çı nêşena bıvurna?
       contributor terms:
         link text: no çıko?
       save changes button: Vurnayışan qeyd ke
     go_public:
       heading: 'Pêron rê akerde vırnayış:'
+    terms:
+      show:
+        title: Terimi
+        heading: Terimi
+        cancel: Bıtexelne
+        legale_names:
+          france: Fransa
+          italy: İtalya
   browse:
     version: Versiyon
     redacted_version: Timariyın ramıtek
@@ -228,17 +226,14 @@ diq:
     location: 'Lokasyon:'
     node:
       title_html: Noqta:%{name}
-      history_title_html: 'Verora nokta: %{name}'
     way:
       title_html: Ray:%{name}
-      history_title_html: Verora rayer:%{name}
       nodes: Noqtey
       also_part_of_html:
         one: letey ray %{related_ways}
         other: letey rayer %{related_ways}
     relation:
       title_html: 'Elaqe: %{name}'
-      history_title_html: 'Verorê eleqey: %{name}'
       members: Ezay
     relation_member:
       entry_role_html: '%{type} %{name}, de %{role}'
@@ -247,17 +242,9 @@ diq:
         way: Ray
         relation: Elaqe
     containing_relation:
-      entry_html: Elaqe %{relation_name}
       entry_role_html: Eleqe %{relation_name} (%{relation_role} deye)
     not_found:
       title: Nêvineya
-      sorry: 'Qısur mewni,  #%{id} numreya %{type} nêvine yê.'
-      type:
-        node: qedyin
-        way: ray
-        relation: elaqe
-        changeset: Qeydê Vurnayışan
-        note: Not
     timeout:
       type:
         node: qedyin
@@ -277,21 +264,25 @@ diq:
     tag_details:
       tags: 'Etiketi:'
       telephone_link: Veynd %{phone_number}
-    query:
+  feature_queries:
+    show:
       title: Xısusiyetan bıasne
       introduction: Xısusiyetanê nezdiyan vinayışi rê xeriter sero bıploğnê
       nearby: Nezdıra xısusiyeti
       enclosing: Muhtewa xısusiyeti
+  old_elements:
+    index:
+      node:
+        title_html: 'Verora nokta: %{name}'
+      way:
+        title_html: Verora rayer:%{name}
+      relation:
+        title_html: 'Verorê eleqey: %{name}'
   changesets:
-    changeset:
-      no_edits: (vırnayış çıniyo)
-      view_changeset_details: Teferuatê vurnayışê seti bıvin
     index:
       title: Qeydê vurnayışan
       title_user: Vurriyayışê qeydi %{user}
-      title_friend: Qeydê vurnayışê embazan
       title_nearby: Nezdıra vurriyayışê setê karberi
-      load_more: Tayêna bar ke
       feed:
         title: 'Koma vurnayışi: %{id}'
         title_comment: '%{id} - %{comment} vurniyayışi'
@@ -312,30 +303,24 @@ diq:
       changesetxml: Vurnayışê peyênê XML
       osmchangexml: OsmVurnayışê XML
     paging_nav:
-      nodes: '%{count} noqtey'
       nodes_paginated: pero piya (%{x}-%{y} - %{count}) noqtey
-      ways: '%{count} ray'
       ways_paginated: Ray (%{x}-%{y} - pêro piya  %{count})
-      relations: Elaqeyi %{count}
       relations_paginated: Elaqeyi %{x}-%{y} pêro piya %{count}
   dashboards:
     contact:
       km away: '%{count} km duriyo'
       m away: '%{count} metre nezdiyo'
       latest_edit_html: 'vurnayışê peyênê %{ago}:'
+      no_edits: (vırnayış çıniyo)
+      view_changeset_details: Teferuatê vurnayışê seti bıvin
     popup:
       your location: Heruna mı
       nearby mapper: Xeritoğo emıryan
-      friend: Embaz
     show:
       title: Panel Asengeni
       edit_your_profile: Wecê ho bıvurnên
-      my friends: Alwazê mı
-      no friends: Hona şoma qet alwazê neweyi nêkerdê cı
       nearby users: Nezdık ran yobina karkeri
       no nearby users: Nezdık ran qet alwazê neweyi nıka çıniyê
-      friends_changesets: Qeydê vurnayışê alwazan
-      friends_diaries: Qeydê rocek anê alwazan
   diary_entries:
     new:
       title: Roceko newe definayış
@@ -344,12 +329,9 @@ diq:
       use_map_link: Xerita bıgurene
     index:
       title: Rocekê Karberi
-      title_friends: Rocekê embazan
       title_nearby: Nezdı ra rocekê karberan
       user_title: '%{user} rocek'
       in_language_title: '%{language} dekewtekê roci'
-      new: Roceko newe definayış
-      my_diary: Rocekê mı
     edit:
       marker_text: Lokasyonê rocekê cıkewtışi
     show:
@@ -372,21 +354,16 @@ diq:
       report: Nê mışewreyi rapor ke
     location:
       location: 'Lokasyon:'
-  diary_comments:
-    page:
-      post: Rışte
-      when: Key
-      comment: Mışewre
+    navigation:
+      my_diary: Rocekê mı
+      new: Roceko newe definayış
+    profile_diaries:
+      date_label: Tarix
   errors:
     contact:
       contact: irtibat
     forbidden:
       title: Qedexe
-  friendships:
-    make_friend:
-      button: Xo rê embaz ke
-    remove_friend:
-      button: Embazan ra vec
   geocoder:
     search:
       title:
@@ -801,11 +778,16 @@ diq:
           motel: Motel
         tunnel:
           "yes": Tûnêl
+        water:
+          lake: Gol
         waterway:
           canal: Kenal
           dam: Berac
           lock: İskele
           river: Ro
+  directions:
+    show:
+      time: Zeman
   issues:
     index:
       states:
@@ -845,28 +827,30 @@ diq:
     confirm_email:
       button: Tesdiq ke
   messages:
-    inbox:
-      title: Ameyan
-    messages_table:
-      from: Rıştoğ
-      to: Gırewtoğ
-      subject: Mewzu
-      date: Tarix
-    message_summary:
-      destroy_button: Bestere
     new:
       title: Mesac bırışê
-    outbox:
-      title: Şıyenan
     show:
       title: Mesaci bıwane
       reply_button: Cewab bıde
       destroy_button: Bestere
       back: Peyser
-    sent_message_summary:
-      destroy_button: Bestere
-    heading:
-      my_inbox: Amayenê mı
+    mailboxes:
+      heading:
+        my_inbox: Amayenê mı
+      messages_table:
+        from: Rıştoğ
+        to: Gırewtoğ
+        subject: Mewzu
+      message:
+        destroy_button: Bestere
+    inboxes:
+      show:
+        title: Ameyan
+    outboxes:
+      show:
+        title: Şıyenan
+      message:
+        destroy_button: Bestere
   passwords:
     new:
       title: Parolaya vınibyayi
@@ -878,10 +862,12 @@ diq:
       heading: Parolay %{user} reset ke
       reset: Parola reset ke
   preferences:
-    edit:
-      cancel: Bıtexelne
+    basic_preferences:
+      show:
+        site_color_schemes:
+          dark: Tari
   profiles:
-    edit:
+    show:
       image: 'Resım:'
       new image: Yew resım cı ke
       home location: 'Herune:'
@@ -909,15 +895,16 @@ diq:
     copyright:
       native:
         title: Heqa na pele de
-    edit:
+    not_public_flash:
       user_page_link: pela karberi
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
     export:
       title: Teberdayış
       manually_select: Be desti ra yew cayo bin weçıne
       licence: Lisans
       too_large:
         planet:
-          title: Geyrenıka OSM
+          title: Geyrenıka OHM
         overpass:
           title: Overpass API
         other:
@@ -930,27 +917,26 @@ diq:
       from: Rıştoğ
       where_am_i: Kani no?
       submit_text: Şo
-    key:
-      table:
-        entry:
-          track: Raya Herın
-          bridleway: Raya Ancınıştan
-          cycleway: Raya Bisiklet
-          forest: Mêşe
-          wood: Meşe
-          golf: Saxay Golfi
-          park: Perk
-          common: Çimen
-          lake: Gol
-          farm: Cıtinin
-          cemetery: Mezlaser
-          allotments: Bostan
-          school: Wendxane
-          university: Uniwersita
-          summit: Sersıq
-          peak: Ko
     welcome:
       title: Xeyr amey!
+  map_keys:
+    show:
+      entries:
+        track: Raya Herın
+        bridleway: Raya Ancınıştan
+        cycleway: Raya Bisiklet
+        forest: Mêşe
+        wood: Meşe
+        golf: Saxay Golfi
+        park: Perk
+        common: Çimen
+        farm: Cıtinin
+        cemetery: Mezlaser
+        allotments: Bostan
+        school: Wendxane
+        university: Uniwersita
+        summit: Sersıq
+        peak: Ko
   traces:
     new:
       help: Peşti
@@ -989,14 +975,6 @@ diq:
   users:
     new:
       continue: Qeyd be
-    terms:
-      title: Terimi
-      heading: Terimi
-      consider_pd_why: no çıko?
-      continue: Dewam ke
-      legale_names:
-        france: Fransa
-        italy: İtalya
     no_such_user:
       title: Karbero do wuna çıniyo
       heading: '%{user} name dı karber çıniyo'
@@ -1005,7 +983,6 @@ diq:
       my diary: Rocekê mı
       my edits: İştırakê mı
       my traces: GPS rêçê mı
-      my settings: Eyarê Mı
       my comments: Mışewrey mı
       blocks on me: Bloqeyê mı
       blocks by me: Bloqe kerdışê mı
@@ -1013,8 +990,6 @@ diq:
       diary: Rocek
       edits: Vurnayışi
       traces: Rêçi
-      remove as friend: Embazan ra vec
-      add as friend: Embazi cı ke
       mapper since: 'Demê herdnigarwaniye:'
       ct undecided: Darıdeyo
       ct declined: Red kerd
@@ -1040,14 +1015,34 @@ diq:
       unhide_user: nê karberi menımnê
       delete_user: nê karberi esternê
       confirm: Tesdiq ke
-    index:
-      title: Karberi
-      heading: Karberi
-      summary_html: '%{name} %{ip_address} ra %{date} dı vıraşt'
-      summary_no_ip_html: '%{name} %{date} dı vıraşt'
-    page:
-      confirm: Karberê ke weçineyayê ena tesdiq ke
-      hide: Karbera weçinayışi bınımnê
+    issued_blocks:
+      show:
+        title: Blokeyê ke %{name} kerdê
+        heading_html: '%{name} ra lista blokan'
+    received_blocks:
+      show:
+        title: Blokeyê ke %{name} kerdê
+        heading_html: Blokeyê ke %{name} kerdê listey ênan
+      edit:
+        revoke: Terkne!
+    lists:
+      show:
+        title: Karberi
+        heading: Karberi
+      page:
+        confirm: Karberê ke weçineyayê ena tesdiq ke
+        hide: Karbera weçinayışi bınımnê
+      user:
+        summary_html: '%{name} %{ip_address} ra %{date} dı vıraşt'
+        summary_no_ip_html: '%{name} %{date} dı vıraşt'
+    changeset_comments:
+      page:
+        changeset: Qeydê Vurnayışan
+        when: Key
+        comment: Mışewre
+    diary_comments:
+      page:
+        post: Rışte
     suspended:
       title: Hesab Darideyo
       heading: Hesab Darideyo
@@ -1062,8 +1057,6 @@ diq:
       success: Bloqe noroc resneya.
     index:
       title: Bloqeyê karberi
-    revoke_all:
-      revoke: Terkne!
     helper:
       time_future_html: '%{time} dı bıqediyo'
       time_past_html: '%{time} qedya'
@@ -1071,12 +1064,6 @@ diq:
         hours:
           one: 1 seate
           other: '%{count} seati'
-    blocks_on:
-      title: Blokeyê ke %{name} kerdê
-      heading_html: Blokeyê ke %{name} kerdê listey ênan
-    blocks_by:
-      title: Blokeyê ke %{name} kerdê
-      heading_html: '%{name} ra lista blokan'
     show:
       title: Karber %{block_by} karber %{block_on} ke bloqe
       heading_html: Karber %{block_by} karber %{block_on} ke bloqe
@@ -1084,14 +1071,12 @@ diq:
       edit: Bıvurne
       revoker: 'Terkner:'
     block:
-      not_revoked: (nê terkiyayo)
       show: Bımocne
       edit: Bıvurne
     page:
       display_name: Karberê kılitbiyayey
       creator_name: Vıraştoğ
       status: Weziyet
-      revoker_name: Terknoğ
   notes:
     index:
       description: Şınasnayış
@@ -1125,11 +1110,6 @@ diq:
         transport_map: Xeritay Resnayışi
     site:
       edit_tooltip: Xeriti timar ke
-    directions:
-      engines:
-        fossgis_osrm_bike: Bisiklet (OSRM)
-        fossgis_osrm_foot: Lınge (OSRM)
-      time: Zeman
     query:
       way: Raye
       relation: Elaqe

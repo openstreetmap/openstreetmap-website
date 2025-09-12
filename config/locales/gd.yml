@@ -26,9 +26,6 @@ gd:
         create: Cuir beachd ris
       message:
         create: Cuir
-      client_application:
-        create: Clàraich
-        update: Ùraich
       redaction:
         create: Cruthaich ath-sgrùdadh
         update: Sàbhail an ath-sgrùdadh
@@ -51,6 +48,7 @@ gd:
       message: Teachdaireachd
       node: Nòd
       node_tag: Taga nòid
+      note: an aire
       notifier: Inneal-caismeachd
       old_node: Seann nòd
       old_node_tag: Taga seann nòid
@@ -234,28 +232,11 @@ gd:
       entry:
         comment: Beachd
         full: Nòta slàn
-  account:
-    deletions:
-      show:
-        confirm_delete: A bheil thu cinnteach?
-        cancel: Sguir dheth
   accounts:
-    edit:
+    show:
       title: Deasaich an cunntas
-      my settings: Na roghainnean agam
       current email address: An seòladh puist-d làithreach
       external auth: Dearbhadh taobh a-muigh
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: dè th`ann?
-      public editing:
-        heading: Deasachadh poblach
-        enabled: An comas. Nochdaidh d' ainm agus faodaidh tu dàta a dheasachadh.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: dè th`ann?
-        disabled: À comas agus chan fhaod thu dàta a dheasachadh, bith gach deasachadh
-          a rinn thu roimhe gun urra.
-        disabled link text: Carson nach urrainn dhomh deasachadh?
       contributor terms:
         heading: 'Teirmichean a'' chom-pàirtiche:'
         agreed: Dh'aontaich thu ri teirmichean ùra a' chom-pàirtiche.
@@ -266,7 +247,7 @@ gd:
         agreed_with_pd: Thuirt thu cuideachd gun dèid gach rud a dheasaicheas tu a
           chur ris a' Public Domain.
         link: http://www.osmfoundation.org/wiki/License/Contributor_Terms
-        link text: Dè th`ann?
+        link text: dè th`ann?
       save changes button: Sàbhail na dh'atharraich thu
     go_public:
       heading: 'Deasachadh poblach:'
@@ -275,6 +256,25 @@ gd:
       success_confirm_needed: Chaidh fiosrachadh a' chleachdaiche ùrachadh gu soirbheachail.
         Thoir sùil air a' phost-d agad gus an seòladh puist-d ùr agad a dhearbhadh.
       success: Chaidh fiosrachadh a' chleachdaiche ùrachadh gu soirbheachail.
+    deletions:
+      show:
+        confirm_delete: A bheil thu cinnteach?
+        cancel: Sguir dheth
+    terms:
+      show:
+        title: Teirmichean a' chom-pàirtiche
+        heading: Teirmichean a' chom-pàirtiche
+        you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
+          agus an uairsin aontaich no nach gabh riutha mus lean thu air adhart.
+        legale_select: 'Dùthaich còmhnaidh:'
+        legale_names:
+          france: An Fhraing
+          italy: An Eadailt
+          rest_of_world: An corr dhen t-saoghail
+      update:
+        terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
+      terms_declined_flash:
+        terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     version: Tionndadh
     in_changeset: Seata atharraichean
@@ -297,10 +297,8 @@ gd:
     location: 'Àite:'
     node:
       title_html: 'Nòd: %{name}'
-      history_title_html: 'Eachdraidh an nòd: %{name}'
     way:
       title_html: 'Slighe: %{name}'
-      history_title_html: 'Eachdraidh na slighe: %{name}'
       nodes: Nòdan
       nodes_count:
         one: '%{count} nòd'
@@ -311,7 +309,6 @@ gd:
         other: pàirt dhen t-slighe %{related_ways}
     relation:
       title_html: 'Dàimh: %{name}'
-      history_title_html: 'Eachdraidh na dàimh: %{name}'
       members: Buill
       members_count:
         one: '%{count} bhall'
@@ -326,16 +323,7 @@ gd:
         way: Slighe
         relation: Dàimh
     containing_relation:
-      entry_html: Dàimh %{relation_name}
       entry_role_html: Dàimh %{relation_name} ('na %{relation_role})
-    not_found:
-      sorry: Duilich ach cha deach %{type} àireamh %{id} a lorg.
-      type:
-        node: an nòd
-        way: an t-slighe
-        relation: an dàimh
-        changeset: seata atharraichean
-        note: an aire
     timeout:
       sorry: Duilich ach thug e ro fhada an dàta airson %{type} air a bheil an id
         %{id} fhaighinn.
@@ -369,11 +357,20 @@ gd:
       wikipedia_link: An artaigil %{page} air Wikidata
       telephone_link: Cuir fòn gu %{phone_number}
       email_link: Post-d %{email}
-    query:
+  feature_queries:
+    show:
       title: Lorg feartan sònraichte
       introduction: Briog air a' mhapa gus feartan faisg air a lorg.
       nearby: Feartan am fagas
       enclosing: Feartan timcheall air
+  old_elements:
+    index:
+      node:
+        title_html: 'Eachdraidh an nòd: %{name}'
+      way:
+        title_html: 'Eachdraidh na slighe: %{name}'
+      relation:
+        title_html: 'Eachdraidh na dàimh: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -385,14 +382,10 @@ gd:
         title_particular: Deasbaireachd air seata atharraichean OpenHistoricalMap
           %{changeset_id}
   changesets:
-    changeset:
-      no_edits: (cha deach a dheasachadh)
-      view_changeset_details: Seall mion-fhiosrachadh air an t-seata atharraichean
     index:
       title: Seataichean atharraichean
       title_user: Seataichean atharraichean le %{user}
       title_user_link_html: Seataichean atharraichean le %{user_link}
-      title_friend: Seataichean atharraichean le mo charaidean
       title_nearby: Seataichean atharraichean le cleachdaichean am fagas
       empty: Cha deach seata atharraichean a lorg.
       empty_area: Chan eil seata atharraichean san raon seo.
@@ -401,15 +394,12 @@ gd:
       no_more_area: Chan eil seata atharraichean eile san raon seo.
       no_more_user: Cha do chruthaich an cleachdaiche seo seata atharraichean sam
         bith eile.
-      load_more: Luchdaich barrachd dhiubh
       feed:
         title: Seata atharraichean %{id}
         title_comment: Seata atharraichean %{id} - %{comment}
         created: Air a chruthachadh
         closed: Dùinte
         belongs_to: Ùghdar
-    heading:
-      title: Seata atharraichean %{id}
     show:
       title: 'Seata atharraichean: %{id}'
       created: 'Air a chruthachadh: %{when}'
@@ -423,31 +413,29 @@ gd:
       changesetxml: XML le seata atharraichean
       osmchangexml: XML osmChange
     paging_nav:
-      nodes: Nòdan (%{count})
       nodes_paginated: Nòdan (%{x}-%{y} à %{count})
-      ways: Slighean (%{count})
       ways_paginated: Slighean (%{x}-%{y} à %{count})
-      relations: Dàimhean (%{count})
       relations_paginated: Dàimhean (%{x}-%{y} à %{count})
     timeout:
       sorry: Duilich ach thug e ro fhada gus an seata atharraichean a dh'iarr thu
         fhaighinn.
+  changeset_subscriptions:
+    heading:
+      title: Seata atharraichean %{id}
   dashboards:
     contact:
       km away: '%{count}km air falbh'
       m away: '%{count}m air falbh'
       latest_edit_html: 'An deasachadh mu dheireadh %{ago}:'
+      no_edits: (cha deach a dheasachadh)
+      view_changeset_details: Seall mion-fhiosrachadh air an t-seata atharraichean
     popup:
       your location: Far a bheil thu
       nearby mapper: Neach-mapachaidh am fagas
-      friend: Caraid
     show:
-      no friends: Cha do chuir thu caraid ris fhathast.
       nearby users: Cleachdaichean am fagas eile
       no nearby users: Chan eil cleachdaiche sam bith eile ann a dh'innis gu bheil
         iad ris an obair-mhapa am fagas.
-      friends_changesets: seata atharraichean nan caraidean
-      friends_diaries: clàran leabhair-latha nan caraidean
       nearby_changesets: seata atharraichean nan cleachdaichean am fagas
       nearby_diaries: clàran leabhair-latha am fagas
   diary_entries:
@@ -458,12 +446,9 @@ gd:
       use_map_link: Cleachd mapa
     index:
       title: Leabhraichean-latha
-      title_friends: Leabhraichean-latha do charaidean
       title_nearby: Leabhraichean-latha am fagas
       user_title: An leabhar-latha aig %{user}
       in_language_title: Is %{language} cànan nan clàran san leabhar-latha
-      new: Clàr ùr an leabhair-latha
-      new_title: Sgrìobh clàr ùr san leabhar-latha agad
       no_entries: Chan eil clàr san leabhar-latha
     page:
       recent_entries: Clàran an leabhair-latha o chionn goirid
@@ -512,26 +497,14 @@ gd:
         title: Clàran san leabhar-latha OpenStreetMap
         description: Clàran leabhair-latha le cleachdaichean OpenStreetMap o chionn
           goirid
-  diary_comments:
-    page:
-      post: Post
-      when: Àm
-      comment: Beachd
+    navigation:
+      new: Clàr ùr an leabhair-latha
+      new_title: Sgrìobh clàr ùr san leabhar-latha agad
+    profile_diaries:
+      date_label: Ceann-là
   errors:
     forbidden:
       title: Toirmisgte
-  friendships:
-    make_friend:
-      heading: An cuir thu %{user} ris na caraidean agad?
-      button: Cuir caraid ris
-      success: Chaidh %{name} a chur ris na caraidean agad!
-      failed: Duilich ach cha deach leinn %{name} a chur ris na caraidean agad.
-      already_a_friend: Tha càirdeas eadar thu fhèin agus %{name} mar-thà.
-    remove_friend:
-      heading: An toir thu %{user} air falbh o na caraidean agad?
-      button: Thoir an càirdeas air falbh
-      success: Chaidh %{name} a thoirt air falbh o na caraidean agad.
-      not_a_friend: Chan eil càirdeas eadar thu fhèin agus %{name}.
   geocoder:
     search_osm_nominatim:
       prefix_format: '%{name}'
@@ -1004,6 +977,9 @@ gd:
         tunnel:
           culvert: Cùlbhart
           "yes": Tunail
+        water:
+          lake: Loch
+          reservoir: Loch-tasgaidh
         waterway:
           artificial: Slighe-uisge fhuadain
           boatyard: Bàta-lann
@@ -1031,9 +1007,17 @@ gd:
         level8: Crìoch baile
         level9: Crìoch baile bhig
         level10: Crìoch frith-bhaile
-    results:
-      no_results: Cha deach toradh a lorg
-      more_results: Barrachd toraidhean
+  searches:
+    queries:
+      create:
+        no_results: Cha deach toradh a lorg
+        more_results: Barrachd toraidhean
+  directions:
+    show:
+      title: Seòlaidhean
+      distance: Astar
+      time: Ùine
+      directions_courtesy_html: Chaidh na seòlaidhean a thoirt dhuinn le cead %{link}
   issues:
     index:
       search: Lorg
@@ -1073,10 +1057,6 @@ gd:
       le daoine mar thu fhèin ''s a tha saor fo cheadachas fhosgailte.'
     intro_2_create_account: Cruthaich cunntas cleachdaiche
     partners_title: com-pàirtichean eile
-    osm_offline: Tha an stòr-dàta aig OpenStreetMap far loidhńe an-dràsta on a tha
-      sinn a' dèanamh obair-charaidh riatanach air.
-    osm_read_only: Tha an stòr-dàta aig OpenStreetMap sa mhodh leughaidh a-mhàin an-dràsta
-      on a tha sinn a' dèanamh obair-charaidh riatanach air.
     help: Cobhair
     about: Mu dhèidhinn
     copyright: Còir-lethbhreac
@@ -1097,14 +1077,10 @@ gd:
         bheil an cuspair "%{subject}":'
       footer_html: '''S urrainn dhut an teachdaireachd a leughadh air %{readurl} cuideachd
         agus freagairt a sgrìobhadh air %{replyurl}'
-    friendship_notification:
+    follow_notification:
       hi: Shin thu, %{to_user},
-      subject: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu'
-      had_added_you: '[OpenStreetMap] Chuir %{user} ''na charaid ris thu air OpenStreetMap.'
       see_their_profile: '''S urrainn dhut a'' phròifil aig an neach ud a shealltainn
         air %{userurl}.'
-      befriend_them: '''S urrainn dhut an neach ud a a chur ''nad caraid ris air %{befriendurl}
-        cuideachd.'
     gpx_failure:
       hi: Shin thu, %{to_user},
       failed_to_import: 'ion-phortachadh. Seo a'' mhearachd:'
@@ -1114,7 +1090,7 @@ gd:
       hi: Shin thu, %{to_user},
       subject: '[OpenStreetMap] Shoirbhich le ion-phortadh GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Fàilte gu OpenStreetMap'
+      subject: '[OpenHistoricalMap] Fàilte gu OpenHistoricalMap'
       greeting: Shin thu!
       created: Tha cuideigin (an dòchas gur e tusa a bh' ann) air cunntas a chruthachadh
         air %{site_url}.
@@ -1205,25 +1181,6 @@ gd:
       failure: Chaidh seòladh puist-d aig a bheil an tòcan seo a dhearbhadh mar-thà.
       unknown_token: Dh'fhalbh an ùine air a' chòd dearbhaidh seo no chan eil e ann.
   messages:
-    inbox:
-      title: Am bogsa a-steach
-      messages: Tha %{new_messages} agus %{old_messages} agad
-      new_messages:
-        other: '%{count} teachdaireachd ùr'
-      old_messages:
-        other: '%{count} teachdaireachd shean'
-      no_messages_yet_html: Chan eil teachdaireachd agad fhathast. Nach tòisich thu
-        conaltradh le %{people_mapping_nearby_link}?
-      people_mapping_nearby: daoine a nì obair-mhapa faisg ort
-    messages_table:
-      from: O
-      to: Gu
-      subject: Cuspair
-      date: Ceann-là
-    message_summary:
-      unread_button: Cuir comharra nach deach a leughadh
-      read_button: Cuir comharra gun deach a leughadh
-      destroy_button: Sguab às
     new:
       title: Cuir teachdaireachd
       send_message_to_html: Cuir teachdaireachd ùr gu %{name}
@@ -1236,17 +1193,6 @@ gd:
       title: Chan eil an teachdaireachd seo ann
       heading: Chan eil an teachdaireachd seo ann
       body: Duilich ach chan eil teachdaireachd air a bheil an id seo ann.
-    outbox:
-      title: Am bogsa a-mach
-      messages:
-        other: Tha %{count} teachdaireachd chuirte agad
-      no_sent_messages_html: Cha do chuir thu teachdaireachd fhathast. Nach tòisich
-        thu conaltradh le %{people_mapping_nearby_link}?
-      people_mapping_nearby: daoine a nì obair-mhapa faisg ort
-    reply:
-      wrong_user: Rinn thu clàradh a-steach mar `%{user}' ach cha deach an teachdaireachd
-        a tha thu a' feuchainn ri freagairt dhi a chur gun neach-chleachdaidh ud.
-        Feuch an clàraich thu a-steach 'na chleachdaiche a bu chòir airson freagairt.
     show:
       title: Teachdaireachd air a leughadh
       reply_button: Freagair
@@ -1255,15 +1201,50 @@ gd:
       wrong_user: Rinn thu clàradh a-steach mar `%{user}' ach cha deach an teachdaireachd
         a tha thu a' feuchainn ri leughadh a chur gun neach-chleachdaidh ud. Feuch
         an clàraich thu a-steach 'na chleachdaiche a bu chòir airson a leughadh.
-    sent_message_summary:
-      destroy_button: Sguab às
-    heading:
-      my_inbox: Am bogsa a-steach agam
-    mark:
-      as_read: Chuir thu comharra gun deach an teachdaireachd a leughadh
-      as_unread: Chuir thu comharra nach deach an teachdaireachd a leughadh
     destroy:
       destroyed: Chaidh an teachdaireachd a sguabadh às
+    read_marks:
+      create:
+        notice: Chuir thu comharra gun deach an teachdaireachd a leughadh
+      destroy:
+        notice: Chuir thu comharra nach deach an teachdaireachd a leughadh
+    mailboxes:
+      heading:
+        my_inbox: Am bogsa a-steach agam
+      messages_table:
+        from: O
+        to: Gu
+        subject: Cuspair
+      message:
+        unread_button: Cuir comharra nach deach a leughadh
+        read_button: Cuir comharra gun deach a leughadh
+        destroy_button: Sguab às
+    inboxes:
+      show:
+        title: Am bogsa a-steach
+        messages: Tha %{new_messages} agus %{old_messages} agad
+        new_messages:
+          other: '%{count} teachdaireachd ùr'
+        old_messages:
+          other: '%{count} teachdaireachd shean'
+        no_messages_yet_html: Chan eil teachdaireachd agad fhathast. Nach tòisich
+          thu conaltradh le %{people_mapping_nearby_link}?
+        people_mapping_nearby: daoine a nì obair-mhapa faisg ort
+    outboxes:
+      show:
+        title: Am bogsa a-mach
+        messages:
+          other: Tha %{count} teachdaireachd chuirte agad
+        no_sent_messages_html: Cha do chuir thu teachdaireachd fhathast. Nach tòisich
+          thu conaltradh le %{people_mapping_nearby_link}?
+        people_mapping_nearby: daoine a nì obair-mhapa faisg ort
+      message:
+        destroy_button: Sguab às
+    replies:
+      new:
+        wrong_user: Rinn thu clàradh a-steach mar `%{user}' ach cha deach an teachdaireachd
+          a tha thu a' feuchainn ri freagairt dhi a chur gun neach-chleachdaidh ud.
+          Feuch an clàraich thu a-steach 'na chleachdaiche a bu chòir airson freagairt.
   passwords:
     new:
       title: Facal-faire air chall
@@ -1282,7 +1263,7 @@ gd:
     update:
       flash changed: Chaidh am facal-faire agad atharrachadh.
   profiles:
-    edit:
+    show:
       image: Dealbh
       gravatar:
         gravatar: Cleachd Gravatar
@@ -1386,14 +1367,16 @@ gd:
           cheadachas fosgailte
       remote_failed: Dh'fhàillig leis an deasachadh - dèan cinnteach gun deach JOSM
         no Merkaartor a luchdadh agus gu bheil gleus an t-smachd chèin an comas
-    edit:
+    not_public_flash:
       not_public: Cha do cuir thu romhad gum bi na dheasaicheas tu poblach.
       not_public_description_html: Chan urrainn dhut am mapa a dheasachadh tuilleadh
         mus dèan thu seo. 'S urrainn dhut na dheasaicheas tu a dhèanamh poblach air
         %{user_page} agad.
       user_page_link: duilleag a' chleachdaiche
       anon_edits_html: (%{link})
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Faigh a-mach carson
+    edit:
       id_not_configured: Cha deach iD a rèiteachadh
     export:
       title: Às-phortaich
@@ -1406,7 +1389,7 @@ gd:
           Feuch an sùm thu a-steach no gun tagh thu raon nas lugha no gun cleachd
           thu aon dhe na tùsan gu h-ìosal airson tomad de dhàta a luchdadh a-nuas.
         planet:
-          title: Planet OSM
+          title: Planet OHM
           description: Lethbhreacan dhen stòr-dàta shlàn aig OpenStreetMap a thèid
             ùrachadh gu cunbhalach.
         overpass:
@@ -1441,12 +1424,12 @@ gd:
         title: Cùisean eile
     help:
       title: A' faighinn cobhair
-      introduction: Tha iomadh goireas aig OpenStreetMap gus faighinn a-mach mun phròiseact,
-        ceistean a chur 's a fhreagairt agus deasbad a dhèanamh is cuspairean mun
-        mhapa a chlàradh còmhla.
+      introduction: Tha iomadh goireas aig OpenHistoricalMap gus faighinn a-mach mun
+        phròiseact, ceistean a chur 's a fhreagairt agus deasbad a dhèanamh is cuspairean
+        mun mhapa a chlàradh còmhla.
       welcome:
         url: /welcome
-        title: Fàilte gu OpenStreetMap
+        title: Fàilte gu OpenHistoricalMap
         description: Faigh toiseach tòiseachaidh air OpenStreetMap leis an stiùireadh
           luath seo.
       beginners_guide:
@@ -1477,73 +1460,6 @@ gd:
       where_am_i: Càit a bheil seo?
       where_am_i_title: Mìnich an t-àite làithreach leis an inneal-rannsachaidh
       submit_text: Siuthad
-    key:
-      table:
-        entry:
-          motorway: Mòr-rathad
-          main_road: Prìomh-rathad
-          trunk: Prìomh-rathad
-          primary: Prìomh-rathad
-          secondary: Rathad dàrnach
-          unclassified: Rathad neo-sheòrsaichte
-          track: Slighe
-          bridleway: Ceum marcachd
-          cycleway: Slighe baidhseagail
-          cycleway_national: Slighe baidhseagail nàiseanta
-          cycleway_regional: Slighe baidhseagail roinneil
-          cycleway_local: Slighe baidhseagail ionadail
-          footway: Àrainn-choisichean
-          rail: Rèile
-          train: Trèana
-          subway: Meatro
-          ferry: Aiseag
-          light_rail: Rèile aotrom
-          tram: Trama
-          bus: Bus
-          cable_car: Carbad-càbaill
-          chair_lift: Lioft-sèitheir
-          runway: Raon-laighe puirt-adhair
-          taxiway: Raon-cuairteachaidh
-          apron: Aparan puirt-adhair
-          admin: Crìoch rianachd
-          forest: Coille
-          wood: Coille
-          grass: Feur
-          meadow: Faiche
-          sand: Gainmheach
-          golf: Raon goilf
-          park: Pàirc
-          common: Coitcheann
-          resident: Raon-còmhnaidh
-          retail: Raon bhuitean
-          industrial: Raon gnìomhachais
-          commercial: Raon malairt
-          heathland: Aonach
-          lake: Loch
-          reservoir: Loch-tasgaidh
-          farm: Tuathanas
-          brownfield: Fearann fàs
-          cemetery: Cladh
-          allotments: Cuibhreann talmhainn
-          pitch: Raon spòrs
-          centre: Ionad-spòrs
-          beach: Tràigh
-          reserve: Tèarmann nàdair
-          military: Raon an airm
-          school: Sgoil
-          university: Oilthigh
-          building: Togalach cudromach
-          station: Stèisean-rèile
-          summit: Mullach
-          peak: Sgurr
-          tunnel: Oir-strìochagan = tunail
-          bridge: Oir-loidhnichean = drochaid
-          private: Cead-inntrigidh prìobhaideach
-          destination: Inntrigeadh a' chinn-uidhe
-          construction: Rathaidean 'gan togail
-          bicycle_shop: Bùth bhaidhseagalan
-          bicycle_parking: Pàirceadh bhaidhseagalan
-          toilets: Taighean-beaga
     welcome:
       title: Fàilte!
       introduction: Fàilte gu OpenStreetMap, mapa saor an t-saoghail a ghabhas deasachadh.
@@ -1551,9 +1467,6 @@ gd:
         Seo treòir luath a bheir eòlas dhut air na rudan as cudromaiche.
       whats_on_the_map:
         title: Na tha air a' mhapa
-        on_the_map_html: |-
-          'S e àite a tha san OpenHistoricalMap gus mapa a dhèanamh de nithean a tha an dà chuid <em>fìos is làithreach</em> -
-          gabhaidh seo a-steach milleanan de thogalaichean, rathaidean agus fiosrachadh eile mu àiteachan. 'S urrainn dhut feart sam bith an t-saoghail fhìrinnich sa bheil ùidh agad a chur ris a' mhapa.
         off_the_map_html: '''S ann <em>nach gabh e a-steach</em> dàta mu bheachdan
           a leithid rangachaidhean, feartan eachdraidheil no baralach no dàta o thùsan
           fo chòir-lethbhreac. Mur eil cead soilleir agad, na dèan lethbhreac o mhapaichean
@@ -1567,11 +1480,73 @@ gd:
       rules:
         title: Riaghailtean!
       start_mapping: Tòisich air an obair-mhapa
-      add_a_note:
-        title: Nach eil ùine agad airson deasachadh? Cuir nòta ris!
-        para_1: Ma thogras tu rud beag a chàradh ach chan eil ùine agad gus clàradh
-          agus ionnsachadh mar a nì thu deasachadh, tha e furasta nòta a chur ris.
-        the_map: am mapa
+    add_a_note:
+      title: Nach eil ùine agad airson deasachadh? Cuir nòta ris!
+      para_1: Ma thogras tu rud beag a chàradh ach chan eil ùine agad gus clàradh
+        agus ionnsachadh mar a nì thu deasachadh, tha e furasta nòta a chur ris.
+      the_map: am mapa
+  map_keys:
+    show:
+      entries:
+        motorway: Mòr-rathad
+        main_road: Prìomh-rathad
+        trunk: Prìomh-rathad
+        primary: Prìomh-rathad
+        secondary: Rathad dàrnach
+        unclassified: Rathad neo-sheòrsaichte
+        track: Slighe
+        bridleway: Ceum marcachd
+        cycleway: Slighe baidhseagail
+        footway: Àrainn-choisichean
+        rail: Rèile
+        train: Trèana
+        subway: Meatro
+        ferry: Aiseag
+        light_rail: Rèile aotrom
+        tram: Trama
+        bus: Bus
+        cable_car: Carbad-càbaill
+        chair_lift: Lioft-sèitheir
+        runway: Raon-laighe puirt-adhair
+        taxiway: Raon-cuairteachaidh
+        apron: Aparan puirt-adhair
+        admin: Crìoch rianachd
+        forest: Coille
+        wood: Coille
+        grass: Feur
+        meadow: Faiche
+        sand: Gainmheach
+        golf: Raon goilf
+        park: Pàirc
+        common: Coitcheann
+        resident: Raon-còmhnaidh
+        retail: Raon bhuitean
+        industrial: Raon gnìomhachais
+        commercial: Raon malairt
+        heathland: Aonach
+        farm: Tuathanas
+        brownfield: Fearann fàs
+        cemetery: Cladh
+        allotments: Cuibhreann talmhainn
+        pitch: Raon spòrs
+        centre: Ionad-spòrs
+        beach: Tràigh
+        reserve: Tèarmann nàdair
+        military: Raon an airm
+        school: Sgoil
+        university: Oilthigh
+        building: Togalach cudromach
+        station: Stèisean-rèile
+        summit: Mullach
+        peak: Sgurr
+        tunnel: Oir-strìochagan = tunail
+        bridge: Oir-loidhnichean = drochaid
+        private: Cead-inntrigidh prìobhaideach
+        destination: Inntrigeadh a' chinn-uidhe
+        construction: Rathaidean 'gan togail
+        bicycle_shop: Bùth bhaidhseagalan
+        bicycle_parking: Pàirceadh bhaidhseagalan
+        toilets: Taighean-beaga
   traces:
     visibility:
       private: Prìobhaideach (cha dèid a cho-roinneadh ach 'na phuingean gun urra
@@ -1652,15 +1627,16 @@ gd:
       heading: Tha stòras GPX far loidhne
       message: Chan eil stòras no siostam luchdaidh suas nam faidhlichean GPX ri fhaighinn
         an-dràsta
-    georss:
-      title: Lorgaidhean GPS aig OpenStreetMap
-    description:
-      description_with_count:
-        one: faidhle GPX le %{count} phuing o %{user}
-        two: faidhle GPX le %{count} phuing o %{user}
-        few: faidhle GPX le %{count} puingean o %{user}
-        other: faidhle GPX le %{count} puing o %{user}
-      description_without_count: Faidhle GPX o %{user}
+    feeds:
+      show:
+        title: Lorgaidhean GPS aig OpenStreetMap
+      description:
+        description_with_count:
+          one: faidhle GPX le %{count} phuing o %{user}
+          two: faidhle GPX le %{count} phuing o %{user}
+          few: faidhle GPX le %{count} puingean o %{user}
+          other: faidhle GPX le %{count} puing o %{user}
+        description_without_count: Faidhle GPX o %{user}
   application:
     require_cookies:
       cookies_needed: Tha coltas gun do chuir thu briosgaidean à comas - feuch an
@@ -1673,9 +1649,6 @@ gd:
         chom-pàirtiche a shealltainn. Cha leig thu leas aontachadh riutha, ach feumaidh
         tu an leughadh.
     auth_providers:
-      openid:
-        title: Clàraich a-steach le OpenID
-        alt: Suaicheantas OpenID
       google:
         title: Clàraich a-steach le Google
         alt: Suaicheantas Google
@@ -1701,26 +1674,8 @@ gd:
       display name description: An t-ainm-cleachdaiche agad a thèid a shealltainn
         gu poblach. 'S urrainn dhut seo atharrachadh uair sam bith sna roghainnean.
       continue: Clàraich
-      terms accepted: Mòran taing gun do dh'aontaich thu ri teirmichean a' chom-pàirtiche!
       or: "no"
       use external auth: No cleachd treas-phàrtaidh airson clàradh a-steach
-    terms:
-      title: Teirmichean a' chom-pàirtiche
-      heading: Teirmichean a' chom-pàirtiche
-      consider_pd: A bharrachd air an aonta gu h-àrd, aontaichidh mi gun dèid na bheir
-        mi dhuibh 'nam cho-thabhartaiche a chur sa Public Domain
-      consider_pd_why: Dè th`ann?
-      consider_pd_why_url: http://www.osmfoundation.org/wiki/License/Why_would_I_want_my_contributions_to_be_public_domain
-      declined: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      you need to accept or decline: Feuch an leugh thu teirmichean ùra a' chom-pàirtiche
-        agus an uairsin aontaich no nach gabh riutha mus lean thu air adhart.
-      legale_select: 'Dùthaich còmhnaidh:'
-      legale_names:
-        france: An Fhraing
-        italy: An Eadailt
-        rest_of_world: An corr dhen t-saoghail
-    terms_declined_flash:
-      terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Chan eil an cleachdaiche seo ann
       heading: Chan eil an cleachdaiche %{user} ann
@@ -1735,7 +1690,6 @@ gd:
       my notes: Na nòtaichean agam
       my messages: Na teachdaireachdan agam
       my profile: A' phròifil agam
-      my settings: Na roghainnean agam
       my comments: Na beachdan agam
       blocks on me: Bacaidhean orm
       blocks by me: Bacaidhean a rinn mi
@@ -1744,8 +1698,6 @@ gd:
       edits: Deasachaidhean
       traces: Lorgaidhean
       notes: Nòtaichean a' mhapa
-      remove as friend: Thoir an càirdeas air falbh
-      add as friend: Cuir caraid ris
       mapper since: 'Ris an obair-mhapa o:'
       ct status: 'Teirmichean a'' chom-pàirtiche:'
       ct undecided: Gun taghadh
@@ -1776,15 +1728,37 @@ gd:
     go_public:
       flash success: Tha gach deasachadh a rinn 's a nì thu poblach agus faodaidh
         tu deasachadh a dhèanamh a-nis.
-    index:
-      title: Cleachdaichean
-      heading: Cleachdaichean
-      summary_html: Chaidh %{name} a chruthachadh o %{ip_address} %{date}
-      summary_no_ip_html: Chaidh %{name} a chruthachadh %{date}
-      empty: Cha deach cleachdaiche a fhreagras a lorg
-    page:
-      confirm: Dearbhaich na cleachdaichean a thagh thu
-      hide: Falaich na cleachdaichean a thagh thu
+    issued_blocks:
+      show:
+        title: Bacaidhean le %{name}
+        heading_html: Liosta dhe na bacaidhean le %{name}
+        empty: Cha do rinn %{name} bacadh fhathast.
+    received_blocks:
+      show:
+        title: Bacaidhean air %{name}
+        heading_html: Liosta dhe na bacaidhean air %{name}
+        empty: Cha deach %{name} a bhacadh fhathast.
+      edit:
+        revoke: Cùl-ghairm!
+    lists:
+      show:
+        title: Cleachdaichean
+        heading: Cleachdaichean
+      page:
+        confirm: Dearbhaich na cleachdaichean a thagh thu
+        hide: Falaich na cleachdaichean a thagh thu
+        empty: Cha deach cleachdaiche a fhreagras a lorg
+      user:
+        summary_html: Chaidh %{name} a chruthachadh o %{ip_address} %{date}
+        summary_no_ip_html: Chaidh %{name} a chruthachadh %{date}
+    changeset_comments:
+      page:
+        changeset: seata atharraichean
+        when: Àm
+        comment: Beachd
+    diary_comments:
+      page:
+        post: Post
     suspended:
       title: Chaidh an cunntas a chur à rèim
       heading: Chaidh an cunntas a chur à rèim
@@ -1834,8 +1808,6 @@ gd:
       title: Bacadh chleachdaichean
       heading: Liosta dhe na cleachdaichean a chaidh a bhacadh.
       empty: Cha deach duine sam bith a bhacadh fhathast.
-    revoke_all:
-      revoke: Cùl-ghairm!
     helper:
       time_future_html: Falbhaidh an ùine air an ceann %{time}.
       until_login: Gnìomhach gus an clàraich an cleachdaiche a-steach.
@@ -1843,14 +1815,6 @@ gd:
       block_duration:
         hours:
           other: '%{count} uair a thìde'
-    blocks_on:
-      title: Bacaidhean air %{name}
-      heading_html: Liosta dhe na bacaidhean air %{name}
-      empty: Cha deach %{name} a bhacadh fhathast.
-    blocks_by:
-      title: Bacaidhean le %{name}
-      heading_html: Liosta dhe na bacaidhean le %{name}
-      empty: Cha do rinn %{name} bacadh fhathast.
     show:
       title: Chaidh %{block_on} a bhacadh le %{block_by}
       heading_html: Chaidh %{block_on} a bhacadh le %{block_by}
@@ -1859,7 +1823,6 @@ gd:
       reason: 'Adhbhar a'' bhacaidh:'
       revoker: 'Cùl-ghairm le:'
     block:
-      not_revoked: (cha deach a chùl-ghairm)
       show: Seall
       edit: Deasaich
     page:
@@ -1867,7 +1830,6 @@ gd:
       creator_name: Cruthadair
       reason: Adhbhar a' bhacaidh
       status: Staid
-      revoker_name: Air a chùl-ghairm le
   notes:
     index:
       title: Nòtaichean a chuir %{user} a-null no a thug %{user} beachd dhaibh
@@ -1956,18 +1918,6 @@ gd:
     edit_help: Gluais am mapa agus sùm a-steach air ionad a tha thu airson deasachadh.
       Briog an-seo an uairsin.
     directions:
-      engines:
-        fossgis_osrm_bike: Rothair (OSRM)
-        fossgis_osrm_car: Càr (OSRM)
-        fossgis_osrm_foot: Coiseachd (OSRM)
-        graphhopper_bicycle: Baidhseagal (GraphHopper)
-        graphhopper_car: Càr (GraphHopper)
-        graphhopper_foot: Coiseachd (GraphHopper)
-        fossgis_valhalla_bicycle: Rothair (Valhalla)
-        fossgis_valhalla_car: Càr (Valhalla)
-        fossgis_valhalla_foot: Coiseachd (Valhalla)
-      directions: Seòlaidhean
-      distance: Astar
       errors:
         no_route: Cha deach slighe a lorg eadar an dà àite ud.
         no_place: Duilich - cha deach an t-àite ud a lorg.
@@ -1976,7 +1926,6 @@ gd:
         uturn_without_exit: Thoir car iomlan air %{name}
         turn_left_without_exit: Tionndaidh gu clì dha %{name}
         unnamed: gun ainm
-        courtesy: Chaidh na seòlaidhean a thoirt dhuinn le cead %{link}
         exit_counts:
           first: 1d
           second: 2na
@@ -1988,7 +1937,6 @@ gd:
           eighth: 8mh
           ninth: 9mh
           tenth: 10mh
-      time: Ùine
     query:
       node: Nòd
       way: Slighe

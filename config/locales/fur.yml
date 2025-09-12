@@ -25,9 +25,6 @@ fur:
         create: Zonte un coment
       message:
         create: Mande
-      client_application:
-        create: Regjistre
-        update: Inzorne
       oauth2_application:
         create: Regjistre
         update: Inzorne
@@ -51,6 +48,7 @@ fur:
       message: Messaç
       node: Grop
       node_tag: Etichete dal grop
+      note: note
       notifier: Promemorie
       old_node: Vecjo grop
       old_node_tag: Vecje etichete dal grop
@@ -219,30 +217,11 @@ fur:
       entry:
         comment: Coment
         full: Note complete
-  account:
-    deletions:
-      show:
-        title: Elimine il gno profîl
-        delete_account: Elimine profîl
-        confirm_delete: Sêstu sigûr?
-        cancel: Scancele
   accounts:
-    edit:
+    show:
       title: Modifiche profîl
-      my settings: Mês impostazions
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
-      openid:
-        link: http://wiki.openstreetmap.org/wiki/OpenID
-        link text: ce isal chest?
-      public editing:
-        heading: Modifiche publiche
-        enabled: Ativâts. No anonims e si pues cambiâ i dâts.
-        enabled link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ce isal chest?
-        disabled: Disativâts e no si pues cambiâ i dâts, ducj i cambiaments precedents
-          a son anonims.
-        disabled link text: parcè no puedio cambiâ?
       contributor terms:
         heading: Tiermins par contribuî
         agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
@@ -263,6 +242,26 @@ fur:
       success: Informazions dal utent inzornadis cun sucès.
     destroy:
       success: Profîl eliminât.
+    deletions:
+      show:
+        title: Elimine il gno profîl
+        delete_account: Elimine profîl
+        confirm_delete: Sêstu sigûr?
+        cancel: Scancele
+    terms:
+      show:
+        title: Tiermins
+        heading: Tiermins
+        cancel: Scancele
+        you need to accept or decline: Par plasê lei e po acete o refude i gnûfs Tiermins
+          par Contribuî par lâ indevant.
+        legale_select: 'Sielç il stât dulà che tu âs la residences:'
+        legale_names:
+          france: France
+          italy: Italie
+          rest_of_world: Rest dal mont
+      update:
+        terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
   browse:
     deleted_ago_by_html: Eliminât di %{user} %{time_ago}
     edited_ago_by_html: Modificât di %{user} %{time_ago}
@@ -283,10 +282,8 @@ fur:
     location: 'Lûc:'
     node:
       title_html: 'Grop: %{name}'
-      history_title_html: 'Storic dal grop: %{name}'
     way:
       title_html: 'Vie: %{name}'
-      history_title_html: 'Storic de vie: %{name}'
       nodes: Grops
       nodes_count:
         one: '%{count} grop'
@@ -296,7 +293,6 @@ fur:
         other: part des viis %{related_ways}
     relation:
       title_html: 'Relazion: %{name}'
-      history_title_html: 'Storic de relazion: %{name}'
       members: Membris
       members_count:
         one: '%{count} membri'
@@ -308,17 +304,9 @@ fur:
         way: Vie
         relation: Relazion
     containing_relation:
-      entry_html: Relazion %{relation_name}
       entry_role_html: Relazion %{relation_name} (come %{relation_role})
     not_found:
       title: No cjatât
-      sorry: 'Nus displâs, nol è stât pussibil cjatâ il %{type} cun id #%{id}.'
-      type:
-        node: grop
-        way: vie
-        relation: relazion
-        changeset: 'Non dal file:'
-        note: note
     timeout:
       type:
         node: grop
@@ -344,11 +332,20 @@ fur:
       wikidata_link: L'element %{page} su Wikidata
       wikipedia_link: La vôs su %{page} te Vichipedie
       telephone_link: Clame %{phone_number}
-    query:
+  feature_queries:
+    show:
       title: Ce ch'al è intun lûc
       introduction: Frache su la mape par cjatâ lis robis dongje.
       nearby: Elements dongje
       enclosing: Elements includûts
+  old_elements:
+    index:
+      node:
+        title_html: 'Storic dal grop: %{name}'
+      way:
+        title_html: 'Storic de vie: %{name}'
+      relation:
+        title_html: 'Storic de relazion: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -359,14 +356,10 @@ fur:
         title_particular: 'Discussion sul grup di cambiaments #%{changeset_id} di
           OpenHistoricalMap'
   changesets:
-    changeset:
-      no_edits: (nissun cambiament)
-      view_changeset_details: Viôt detais dal grup di cambiaments
     index:
       title: Grups di cambiaments
       title_user: Grups di cambiaments di %{user}
       title_user_link_html: Grups di cambiaments di %{user_link}
-      title_friend: Grups di cambiaments dai tiei amîs
       title_nearby: Grups di cambiaments dai utents dongje
       empty: Nissun grup di cambiaments cjatât.
       empty_area: Nissun grup di cambiaments in cheste zone.
@@ -374,7 +367,6 @@ fur:
       no_more: Nissun altri grup di cambiaments cjatât.
       no_more_area: Nissun altri grup di cambiaments in cheste zone cjatât.
       no_more_user: Nissun altri grup di cambiaments par chest utent.
-      load_more: Cjame di plui
       feed:
         title: Grup di cambiaments %{id}
         title_comment: Grup di cambiaments %{id} - %{comment}
@@ -393,11 +385,8 @@ fur:
       changesetxml: Grup di cambiaments XML
       osmchangexml: XML in formât osmChange
     paging_nav:
-      nodes: Grops (%{count})
       nodes_paginated: Grops (%{x}-%{y} su %{count})
-      ways: Viis (%{count})
       ways_paginated: Viis (%{x}-%{y} su %{count})
-      relations: Relazions (%{count})
       relations_paginated: Relazions (%{x}-%{y} su %{count})
     timeout:
       sorry: Nus displâs, la liste dai grups di cambiaments che tu âs domandât e je
@@ -407,22 +396,19 @@ fur:
       km away: '%{count}km di distance'
       m away: '%{count}m di distance'
       latest_edit_html: 'Ultin cambiament (%{ago}):'
+      no_edits: (nissun cambiament)
+      view_changeset_details: Viôt detais dal grup di cambiaments
     popup:
       your location: La tô posizion
       nearby mapper: Mapadôr dongje
-      friend: Amì
     show:
       title: La mê pagjine iniziâl
       no_home_location_html: '%{edit_profile_link} e impueste il to lûc iniziâl par
         viodi utents dongje di te.'
       edit_your_profile: Cambie il to profîl
-      my friends: I miei amîs
-      no friends: No tu âs ancjemò nissun amì.
       nearby users: Altris utents dongje
       no nearby users: Nol è ancjemò nissun utent che al declare di mapâ dongje di
         te.
-      friends_changesets: grups di cambiaments dai amîs
-      friends_diaries: vôs di diari dai amîs
       nearby_changesets: grups di cambiaments dai utents dongje
       nearby_diaries: vôs di diari dai utents dongje
   diary_entries:
@@ -433,13 +419,9 @@ fur:
       use_map_link: Dopre mape
     index:
       title: Diaris dai utents
-      title_friends: Diaris dai amîs
       title_nearby: Diaris dai utents dongje
       user_title: Diari di %{user}
       in_language_title: Vôs dai diaris par %{language}
-      new: Gnove vôs dal diari
-      new_title: Scrîf une gnove vôs tal mê diari
-      my_diary: Il gno diari
       no_entries: Nissune vôs tal diari
     page:
       recent_entries: Ultimis vôs dal diari
@@ -489,16 +471,12 @@ fur:
         description: Lis ultimis vôs dai diaris dai utents di OpenStreetMap
     comments:
       title: Coments ai diaris zontâts par %{user}
-  diary_comments:
-    index:
-      title: Coments ai diaris zontâts di %{user}
-      heading: Coments ai diaris di %{user}
-      subheading_html: Coments ai diaris zontâts di %{user}
-      no_comments: Nissun coment ai diaris
-    page:
-      post: Messaç
-      when: Cuant
-      comment: Coment
+    navigation:
+      my_diary: Il gno diari
+      new: Gnove vôs dal diari
+      new_title: Scrîf une gnove vôs tal mê diari
+    profile_diaries:
+      date_label: Date
   doorkeeper:
     flash:
       applications:
@@ -509,17 +487,6 @@ fur:
       title: Proibît
     not_found:
       title: File no cjatât
-  friendships:
-    make_friend:
-      heading: Zontâ %{user} ai amîs?
-      button: Zonte ai amîs
-      success: '%{name} al è cumò to amì!'
-      already_a_friend: Tu sês za amì di %{name}.
-    remove_friend:
-      heading: Vuelistu gjavâ dai amîs %{user}?
-      button: Gjave dai amîs
-      success: '%{name} al è stât gjavât dai tiei amîs.'
-      not_a_friend: '%{name} nol è un dai tiei amîs.'
   geocoder:
     search:
       title:
@@ -873,6 +840,8 @@ fur:
           zoo: Zoo
         tunnel:
           "yes": Galarie
+        water:
+          lake: Lâc
         waterway:
           canal: Canâl
           dam: Dighe
@@ -887,9 +856,19 @@ fur:
         level7: Confine municipâl
         level8: Confin di citât
         level9: Confin di vilaç
-    results:
-      no_results: Nissun risultât
-      more_results: Altris risultâts
+  searches:
+    queries:
+      create:
+        no_results: Nissun risultât
+        more_results: Altris risultâts
+  directions:
+    show:
+      title: Indicazions
+      distance: Distance
+      time: Timp
+      ascend: Disnivel positîf
+      descend: Disnivel negatîf
+      directions_courtesy_html: Indicazions furnidis di %{link}
   issues:
     index:
       reported_user: Utent segnalât
@@ -939,10 +918,6 @@ fur:
     intro_2_create_account: Cree il to profîl utent
     partners_title: associâts
     tou: Cundizions pal ûs
-    osm_offline: La base di dâts di OpenStreetMap e je par cumò fûr linie parcè che
-      o sin daûr a fâ lavôrs essenziâi di manutenzion de base di dâts.
-    osm_read_only: La base di dâts di OpenStreetMap e je par cumò dome in leture dilunc
-      la esecuzion di lavôrs essenziâi di manutenzion de base di dâts.
     help: Jutori
     about: Informazions
     copyright: Copyright
@@ -963,15 +938,12 @@ fur:
       header: '%{from_user} ti à mandât un messaç su OpenStreetMap cun sogjet %{subject}:'
       footer_html: Tu puedis ancje lei il messaç su %{readurl} e tu puedis rispuindi
         su %{replyurl}
-    friendship_notification:
-      subject: '[OpenStreetMap] %{user} ti à zontât come amì su OpenStreetMap.'
-      had_added_you: '%{user} ti à zontât come amì su OpenStreetMap.'
+    follow_notification:
       see_their_profile: Tu puedis viodi il sô profîl su %{userurl}.
-      befriend_them: Tu puedis ancje zontâlu/le come amì su %{befriendurl}.
     gpx_success:
       subject: '[OpenStreetMap] Impuartazion GPX completade cun sucès'
     signup_confirm:
-      subject: '[OpenStreetMap] Benvignût in OpenStreetMap'
+      subject: '[OpenHistoricalMap] Benvignût in OpenHistoricalMap'
     email_confirm:
       subject: '[OpenStreetMap] Conferme la tô direzion di pueste eletroniche'
       click_the_link: Se tu sês propite tu, par plasê frache sul leam ca sot par confermâ
@@ -1003,28 +975,6 @@ fur:
       button: Conferme
       success: Tu âs confermât la tô direzion di pueste, graziis par jessiti regjistrât
   messages:
-    inbox:
-      title: In jentrade
-      messages: Tu âs %{new_messages} e %{old_messages}
-      new_messages:
-        one: '%{count} messaç gnûf'
-        other: '%{count} messaçs gnûfs'
-      old_messages:
-        one: '%{count} messaç vieli'
-        other: '%{count} messaçs vielis'
-      no_messages_yet_html: No tu âs ancjemò nissun messaç. Parcè no tu contatis cualchidun
-        de %{people_mapping_nearby_link}?
-      people_mapping_nearby: int che e je daûr a mapâ dongje di te
-    messages_table:
-      from: Di
-      to: A
-      subject: Sogjet
-      date: Date
-      actions: Azions
-    message_summary:
-      unread_button: Segne come no let
-      read_button: Segne come let
-      destroy_button: Elimine
     new:
       title: Mande messaç
       send_message_to_html: Mande un gnûf messaç a %{name}
@@ -1034,30 +984,56 @@ fur:
     no_such_message:
       title: Messaç no cjatât
       heading: Messaç no cjatât
-    outbox:
-      title: In jessude
-      messages:
-        one: Tu âs %{count} messaç in jessude
-        other: Tu âs %{count} messaçs in jessude
-      no_sent_messages_html: No tu âs ancjemò mandât nissun messaç. Parcè no tu contatis
-        cualchidun de %{people_mapping_nearby_link}?
-      people_mapping_nearby: int che e je daûr a mapâ dongje di te
     show:
       title: Leture messaç
       reply_button: Rispuint
       unread_button: Segne come di lei
       destroy_button: Elimine
       back: Indaûr
-    sent_message_summary:
-      destroy_button: Elimine
-    heading:
-      my_inbox: I miei messaçs in jentrade
-      my_outbox: I miei messaçs in jessude
-    mark:
-      as_read: Messaç segnât come za let
-      as_unread: Messaç segnât come di lei
     destroy:
       destroyed: Messaç eliminât
+    read_marks:
+      create:
+        notice: Messaç segnât come za let
+      destroy:
+        notice: Messaç segnât come di lei
+    mailboxes:
+      heading:
+        my_inbox: I miei messaçs in jentrade
+        my_outbox: I miei messaçs in jessude
+      messages_table:
+        from: Di
+        to: A
+        subject: Sogjet
+        actions: Azions
+      message:
+        unread_button: Segne come no let
+        read_button: Segne come let
+        destroy_button: Elimine
+    inboxes:
+      show:
+        title: In jentrade
+        messages: Tu âs %{new_messages} e %{old_messages}
+        new_messages:
+          one: '%{count} messaç gnûf'
+          other: '%{count} messaçs gnûfs'
+        old_messages:
+          one: '%{count} messaç vieli'
+          other: '%{count} messaçs vielis'
+        no_messages_yet_html: No tu âs ancjemò nissun messaç. Parcè no tu contatis
+          cualchidun de %{people_mapping_nearby_link}?
+        people_mapping_nearby: int che e je daûr a mapâ dongje di te
+    outboxes:
+      show:
+        title: In jessude
+        messages:
+          one: Tu âs %{count} messaç in jessude
+          other: Tu âs %{count} messaçs in jessude
+        no_sent_messages_html: No tu âs ancjemò mandât nissun messaç. Parcè no tu
+          contatis cualchidun de %{people_mapping_nearby_link}?
+        people_mapping_nearby: int che e je daûr a mapâ dongje di te
+      message:
+        destroy_button: Elimine
   passwords:
     new:
       title: Password pierdude
@@ -1073,19 +1049,15 @@ fur:
     update:
       flash changed: La tô password e je stade cambiade.
   preferences:
-    show:
-      title: Preferencis
-      preferred_editor: Editôr preferît
-      preferred_languages: Lenghis preferidis
-      edit_preferences: Cambie lis preferencis
-    edit:
-      title: Cambie lis preferencis
-      save: Inzorna lis preferencis
-      cancel: Scancele
-    update_success_flash:
-      message: Preferencis inzornadis.
+    preferences:
+      update_success_flash:
+        message: Preferencis inzornadis.
+    basic_preferences:
+      show:
+        title: Preferencis
+        save: Inzorna lis preferencis
   profiles:
-    edit:
+    show:
       title: Cambie il profîl
       save: Inzorne il profîl
       cancel: Scancele
@@ -1170,11 +1142,12 @@ fur:
           licence vierte
       remote_failed: Cambiament falît - siguriti che JOSM o Merkaartor a sedin inviâts
         e la opzion pal remote control e sedi ativade
-    edit:
+    not_public_flash:
       not_public: Tu âs impuestât i tiei cambiaments come no publics.
       not_public_description_html: No tu puedis plui cambiâ la mape se tu lu fasis.
         Tu puedis impuestâ come publics i tiei cambiaments de tô %{user_page}.
       user_page_link: pagjine dal utent
+      anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Discuvierç parcè che al è cussì.
     export:
       title: Espuarte
@@ -1202,7 +1175,7 @@ fur:
       title: Cemût vê un jutori
       welcome:
         url: /welcome
-        title: Benvignûts in OpenStreetMap
+        title: Benvignûts in OpenHistoricalMap
       beginners_guide:
         title: Guide pai principiants
       irc:
@@ -1228,51 +1201,6 @@ fur:
       where_am_i_title: Descrîf il lûc atuâl doprant il motôr di ricercje
       submit_text: Va
       reverse_directions_text: Invertìs la direzion
-    key:
-      table:
-        entry:
-          motorway: Autostrade
-          main_road: Strade principâl
-          trunk: Strade rapide
-          primary: Strade primarie
-          secondary: Strade secondarie
-          unclassified: Strade no classificade
-          pedestrian: Strade pedonâl
-          track: Piste
-          rail: Ferade
-          subway: Metropolitane
-          ferry: Traghet
-          light_rail: Metropolitana leggera
-          tram: tram
-          runway: Piste dal aeropuart
-          admin: Confin aministratîf
-          forest: Bosc
-          grass: Prât
-          meadow: prâts
-          sand: Savalon
-          golf: Troi di golf
-          park: Parc
-          common: Comugnâi
-          resident: Zone residenziâl
-          retail: Zone di buteghis
-          industrial: Zone industriâl
-          commercial: Aree comerciâl
-          lake: Lâc
-          cemetery: Simiteri
-          pitch: Cjamp sportîf
-          centre: Centri sportîf
-          reserve: Riserve naturâl
-          military: Zone militâr
-          school: Scuele
-          university: universitât
-          hospital: Ospedâl
-          station: stazion de ferade
-          tunnel: Rie a trats = galarie
-          bridge: Rie nere = puint
-          private: Acès privât
-          construction: Stradis in costruzion
-          bus_stop: Fermade autobus
-          bicycle_shop: Buteghe di bicicletis
     welcome:
       title: Benvignût!
       whats_on_the_map:
@@ -1284,12 +1212,56 @@ fur:
       rules:
         title: Regulis!
       start_mapping: Scomence a mapâ
-      add_a_note:
-        title: No tu âs timp par fâ i cambiaments? Zonte une note!
+    add_a_note:
+      title: No tu âs timp par fâ i cambiaments? Zonte une note!
     communities:
       title: Comunitâts
       other_groups:
         title: Altris grups
+  map_keys:
+    show:
+      entries:
+        motorway: Autostrade
+        main_road: Strade principâl
+        trunk: Strade rapide
+        primary: Strade primarie
+        secondary: Strade secondarie
+        unclassified: Strade no classificade
+        pedestrian: Strade pedonâl
+        track: Piste
+        rail: Ferade
+        subway: Metropolitane
+        ferry: Traghet
+        light_rail: Metropolitana leggera
+        tram: tram
+        runway: Piste dal aeropuart
+        admin: Confin aministratîf
+        forest: Bosc
+        grass: Prât
+        meadow: prâts
+        sand: Savalon
+        golf: Troi di golf
+        park: Parc
+        common: Comugnâi
+        resident: Zone residenziâl
+        retail: Zone di buteghis
+        industrial: Zone industriâl
+        commercial: Aree comerciâl
+        cemetery: Simiteri
+        pitch: Cjamp sportîf
+        centre: Centri sportîf
+        reserve: Riserve naturâl
+        military: Zone militâr
+        school: Scuele
+        university: universitât
+        hospital: Ospedâl
+        station: stazion de ferade
+        tunnel: Rie a trats = galarie
+        bridge: Rie nere = puint
+        private: Acès privât
+        construction: Stradis in costruzion
+        bus_stop: Fermade autobus
+        bicycle_shop: Buteghe di bicicletis
   traces:
     new:
       upload_trace: Cjame percors GPS
@@ -1351,20 +1323,18 @@ fur:
       upload_trace: Cjame un percors
       all_traces: Ducj i percors
       my_traces: I miei percors
-      traces_from: Percors publics di %{user}
-    georss:
-      title: Percors GPS di OpenStreetMap
-    description:
-      description_without_count: File GPS di %{user}
+      traces_from_html: Percors publics di %{user}
+    feeds:
+      show:
+        title: Percors GPS di OpenStreetMap
+      description:
+        description_without_count: File GPS di %{user}
   application:
     settings_menu:
       account_settings: Impostazions dal profîl
       oauth2_applications: Aplicazions OAuth 2
       oauth2_authorizations: Autorizazions OAuth 2
     auth_providers:
-      openid:
-        title: Jentre cun OpenID
-        alt: Jentre cuntun URL OpenID
       google:
         title: Jentre cun Google
         alt: Jentre cuntun OpenID Google
@@ -1431,22 +1401,7 @@ fur:
       display name description: Il non utent che al vignarà mostrât a ducj. Tu podarâs
         gambiâlu plui tart tes preferencis.
       continue: Regjistriti
-      terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
       use external auth: In alternative, dopre une tierce part par jentrâ
-    terms:
-      title: Tiermins
-      heading: Tiermins
-      consider_pd: In plui di dut ce che al è parsore, jo o consideri i miei contribûts
-        come di Public Domini
-      consider_pd_why: ce isal chest?
-      continue: Va indevant
-      you need to accept or decline: Par plasê lei e po acete o refude i gnûfs Tiermins
-        par Contribuî par lâ indevant.
-      legale_select: 'Sielç il stât dulà che tu âs la residences:'
-      legale_names:
-        france: France
-        italy: Italie
-        rest_of_world: Rest dal mont
     no_such_user:
       title: Utent no cjatât
       heading: L'utent %{user} nol esist
@@ -1460,7 +1415,6 @@ fur:
       my notes: Lis mês notis
       my messages: I miei messaçs
       my profile: Il gno profîl
-      my settings: Impostazions
       my comments: I mei coments
       my_preferences: Preferencis
       my_dashboard: La mê pagjine iniziâl
@@ -1472,8 +1426,6 @@ fur:
       edits: Cambiaments
       traces: Percors
       notes: Notis ae mape
-      remove as friend: Gjave dai amîs
-      add as friend: Zonte ai amîs
       mapper since: 'Al mape dai:'
       ct status: 'Tiermins par contribuî:'
       ct undecided: Nol à decidût
@@ -1501,14 +1453,38 @@ fur:
     go_public:
       flash success: Ducj i tiei cambiaments a son cumò publics e tu puedis za scomençâ
         a lavorâ.
-    index:
-      title: Utents
-      heading: Utents
-      summary_html: '%{name} creât di %{ip_address} ai %{date}'
-      summary_no_ip_html: '%{name} creât ai %{date}'
-    page:
-      confirm: Conferme i utents selezionâts
-      hide: Plate i utents selezionâts
+    issued_blocks:
+      show:
+        title: Blocs fats di %{name}
+        heading_html: Liste dai blocs di %{name}
+        empty: '%{name} nol à ancjemò metût blocs.'
+    received_blocks:
+      show:
+        title: Blocs su %{name}
+        heading_html: Liste dai blocs su %{name}
+        empty: '%{name} nol è ancjemò stât blocât.'
+      edit:
+        revoke: Revoche!
+    lists:
+      show:
+        title: Utents
+        heading: Utents
+      page:
+        confirm: Conferme i utents selezionâts
+        hide: Plate i utents selezionâts
+      user:
+        summary_html: '%{name} creât di %{ip_address} ai %{date}'
+        summary_no_ip_html: '%{name} creât ai %{date}'
+    changeset_comments:
+      page:
+        changeset: 'Non dal file:'
+        when: Cuant
+        comment: Coment
+    diary_comments:
+      index:
+        title: Coments ai diaris zontâts di %{user}
+      page:
+        post: Messaç
     suspended:
       support: assistence
     auth_failure:
@@ -1525,8 +1501,6 @@ fur:
       title: Blocs dal utent
       heading: Liste dai blocs dal utent
       empty: No son stâts metûts blocs fin cumò.
-    revoke_all:
-      revoke: Revoche!
     helper:
       time_future_html: Finìs ca di %{time}.
       time_past_html: Finît %{time} indaûr.
@@ -1534,14 +1508,6 @@ fur:
         hours:
           one: '%{count} ore'
           other: '%{count} oris'
-    blocks_on:
-      title: Blocs su %{name}
-      heading_html: Liste dai blocs su %{name}
-      empty: '%{name} nol è ancjemò stât blocât.'
-    blocks_by:
-      title: Blocs fats di %{name}
-      heading_html: Liste dai blocs di %{name}
-      empty: '%{name} nol à ancjemò metût blocs.'
     show:
       title: '%{block_on} blocât di %{block_by}'
       heading_html: '%{block_on} blocât di %{block_by}'
@@ -1552,7 +1518,6 @@ fur:
       reason: 'Reson dal bloc:'
       revoker: 'Chel che al à revocât:'
     block:
-      not_revoked: (no revocât)
       show: Mostre
       edit: Cambie
     page:
@@ -1560,7 +1525,6 @@ fur:
       creator_name: Creadôr
       reason: Reson dal bloc
       status: Stât
-      revoker_name: Revocât di
   user_mutes:
     index:
       table:
@@ -1686,22 +1650,10 @@ fur:
     edit_help: Môf la mape e aumente il zoom tal lûc che tu vuelis cambiâ, po frache
       culì
     directions:
-      ascend: Disnivel positîf
-      engines:
-        fossgis_osrm_bike: Biciclete (OSRM)
-        fossgis_osrm_car: Machine (OSRM)
-        fossgis_osrm_foot: A pît (OSRM)
-        graphhopper_bicycle: Biciclete (OSRM)
-        graphhopper_car: Machine (GraphHopper)
-        graphhopper_foot: A pît (GraphHopper)
-        fossgis_valhalla_bicycle: Biciclete (Valhalla)
-        fossgis_valhalla_car: Machine (Valhalla)
-        fossgis_valhalla_foot: A pît (Valhalla)
-      descend: Disnivel negatîf
-      directions: Indicazions
-      distance: Distance
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: No si à rivât a cjatâ une strade tra chescj doi puescj.
         no_place: No si à rivât a cjatâ "%{place}".
@@ -1767,7 +1719,6 @@ fur:
         roundabout_with_exit_ordinal: Ae taronde cjape la %{exit} jessude su %{name}
         exit_roundabout: Jes de taronde su %{name}
         unnamed: cence non
-        courtesy: Indicazions furnidis di %{link}
         exit_counts:
           first: 1e
           second: 2e
@@ -1779,7 +1730,6 @@ fur:
           eighth: 8e
           ninth: 9e
           tenth: 10e
-      time: Timp
     query:
       node: Grop
       way: Vie

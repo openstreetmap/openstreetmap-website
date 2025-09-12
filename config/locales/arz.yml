@@ -14,9 +14,6 @@ arz:
         create: تعليق
       message:
         create: أرسل
-      client_application:
-        create: سجِّل
-        update: عدّل
       trace:
         create: ارفع
         update: حفظ التغييرات
@@ -108,16 +105,8 @@ arz:
       user:
         new_email: (لا يظهر علنًا)
   accounts:
-    edit:
+    show:
       title: عدّل الحساب
-      my settings: إعداداتي
-      public editing:
-        heading: تعديل عام
-        enabled: مفعّل. غير مجهول ويمكنك تعديل البيانات.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: ما هذا؟
-        disabled: مُعطل ولا يمكن تعديل البيانات، جميع التعديلات السابقه مجهوله الهويه.
-        disabled link text: لماذا لا أستطيع التعديل؟
       save changes button: حفظ التغييرات
     go_public:
       heading: 'تعديل عام:'
@@ -134,24 +123,13 @@ arz:
         way: طريق
         relation: علاقة
     containing_relation:
-      entry_html: العلاقه %{relation_name}
       entry_role_html: العلاقه %{relation_name} (كــ %{relation_role})
-    not_found:
-      sorry: عفوًا، لم يتم العثور على %{type} بالمعرّف %{id}.
-      type:
-        node: عقدة
-        way: طريق
-        relation: علاقة
-        changeset: حزمه التغييرات
     start_rjs:
       load_data: تحميل البيانات
       loading: تحميل...
     tag_details:
       tags: الوسوم
   changesets:
-    changeset:
-      no_edits: (لا تعديلات)
-      view_changeset_details: اعرض تفاصيل حزمه التغييرات
     index:
       title: حزم التغييرات
       title_user: حزم التغييرات بواسطه %{user}
@@ -167,11 +145,12 @@ arz:
     contact:
       km away: على بعد %{count}كم
       m away: على بعد %{count}متر
+      no_edits: (لا تعديلات)
+      view_changeset_details: اعرض تفاصيل حزمه التغييرات
     popup:
       your location: موقعك
       nearby mapper: مخطط بالجوار
     show:
-      no friends: لم تقم بإضافه أى أصدقاء بعد.
       nearby users: 'مستخدمين بالجوار:'
       no nearby users: لا يوجد بعد مستخدمين أفصحوا عن تخطيطهم بالجوار.
   diary_entries:
@@ -184,8 +163,6 @@ arz:
       title: يوميات المستخدمين
       user_title: يوميه %{user}
       in_language_title: مدخلات اليوميه باللغه %{language}
-      new: مدخله يوميه جديدة
-      new_title: اكتب مدخله يوميه جديده فى يوميتك
       no_entries: لا يوجد مدخلات يومية
     page:
       recent_entries: 'المدخلات اليوميه الحديثة:'
@@ -232,14 +209,11 @@ arz:
       all:
         title: مدخلات اليوميه فى خريطه الشارع المفتوحة
         description: المدخلات الحديثه فى يوميه مستخدمى خريطه الشارع المفتوحة
-  friendships:
-    make_friend:
-      success: '%{name} الآن صديقك!'
-      failed: عفوًا، تعذر إضافه %{name} كصديق.
-      already_a_friend: حاليًا أنت و %{name} أصدقاء.
-    remove_friend:
-      success: تم إزاله %{name} من قائمه أصدقائك.
-      not_a_friend: '%{name} ليس من أحد أصدقائك.'
+    navigation:
+      new: مدخله يوميه جديدة
+      new_title: اكتب مدخله يوميه جديده فى يوميتك
+    profile_diaries:
+      date_label: التاريخ
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -556,6 +530,9 @@ arz:
           theme_park: حديقه ملاهي
           viewpoint: موقع كاشف
           zoo: حديقه حيوانات
+        water:
+          lake: بحيرة
+          reservoir: خزان
         waterway:
           boatyard: حوض سفن
           canal: قناة
@@ -569,8 +546,10 @@ arz:
           stream: جدول
           wadi: وادي
           waterfall: شلال
-    results:
-      no_results: لم يتم العثور على نتائج
+  searches:
+    queries:
+      create:
+        no_results: لم يتم العثور على نتائج
   layouts:
     logo:
       alt_text: شعار خريطه الشارع المفتوحة
@@ -584,10 +563,6 @@ arz:
     gps_traces: آثار جى بى أس
     user_diaries: يوميات المستخدمين
     tag_line: ويكى خريطه العالم الحرة
-    osm_offline: حاليًا قاعده بيانات خريطه الشارع المفتوحه مغلقه بينما يتم الانتهاء
-      من أعمال الصيانه الأساسيه لقاعده البيانات.
-    osm_read_only: حاليًا قاعده بيانات خريطه الشارع المفتوحه فى وضع القراءه بينما
-      يتم الانتهاء من أعمال الصيانه الأساسيه لقاعده البيانات.
   user_mailer:
     diary_comment_notification:
       subject: '[خريطه الشارع المفتوحة] %{user} أضاف تعليقًا على مدخلتك فى اليومية'
@@ -600,9 +575,7 @@ arz:
       hi: مرحبًا %{to_user}،
       header: '%{from_user} قام بإرسال رساله لك عبر خريطه الشارع المفتوحه بالعنوان
         %{subject}:'
-    friendship_notification:
-      subject: '[خريطه الشارع المفتوحة] %{user} أضافك كصديق.'
-      had_added_you: '%{user} قام بإضافتك كصديق على خريطه الشارع المفتوحه.'
+    follow_notification:
       see_their_profile: يمكنك أن تشاهد ملفه الشخصى على %{userurl} وإضافته كصديق أيضًا
         إن كنت ترغب فى ذلك.
     gpx_failure:
@@ -638,20 +611,6 @@ arz:
       success: تم تأكيد تغيير عنوان بريدك الإلكترونى!
       failure: عنوان بريد إلكترونى تم تفعيله مسبقًا بهذه البيانات.
   messages:
-    inbox:
-      title: الوارد
-      no_messages_yet_html: لا يوجد لديك رسائل بعد. لماذا لا تقوم بالاتصال مع بعض
-        %{people_mapping_nearby_link}؟
-      people_mapping_nearby: مخططون فى جواري
-    messages_table:
-      from: من
-      to: إلى
-      subject: الموضوع
-      date: التاريخ
-    message_summary:
-      unread_button: علّم كغير مقروءة
-      read_button: علّم كمقروءة
-      destroy_button: احذف
     new:
       title: أرسل رسالة
       send_message_to_html: أرسل رساله جديده إلى %{name}
@@ -660,24 +619,42 @@ arz:
       message_sent: تم إرسال الرسالة
       limit_exceeded: لقد أرسلت الكثير من الرسائل مؤخرًا. الرجاء الانتظار بعض الوقت
         قبل أن تحاول إرسال المزيد.
-    outbox:
-      title: صندوق الصادر
-      no_sent_messages_html: لا يوجد لديك رسائل مرسله بعد. لماذا لا تقوم بالاتصال
-        مع بعض %{people_mapping_nearby_link}؟
-      people_mapping_nearby: مخططون فى جواري
     show:
       title: اقرأ الرسالة
       reply_button: رد
       unread_button: علّم كغير مقروءة
-    sent_message_summary:
-      destroy_button: احذف
-    heading:
-      my_inbox: الوارد
-    mark:
-      as_read: عُلّمت الرساله مقروءة
-      as_unread: عُلّمت الرساله كغير مقروءة
     destroy:
       destroyed: حُذفت الرسالة
+    read_marks:
+      create:
+        notice: عُلّمت الرساله مقروءة
+      destroy:
+        notice: عُلّمت الرساله كغير مقروءة
+    mailboxes:
+      heading:
+        my_inbox: الوارد
+      messages_table:
+        from: من
+        to: إلى
+        subject: الموضوع
+      message:
+        unread_button: علّم كغير مقروءة
+        read_button: علّم كمقروءة
+        destroy_button: احذف
+    inboxes:
+      show:
+        title: الوارد
+        no_messages_yet_html: لا يوجد لديك رسائل بعد. لماذا لا تقوم بالاتصال مع بعض
+          %{people_mapping_nearby_link}؟
+        people_mapping_nearby: مخططون فى جواري
+    outboxes:
+      show:
+        title: صندوق الصادر
+        no_sent_messages_html: لا يوجد لديك رسائل مرسله بعد. لماذا لا تقوم بالاتصال
+          مع بعض %{people_mapping_nearby_link}؟
+        people_mapping_nearby: مخططون فى جواري
+      message:
+        destroy_button: احذف
   passwords:
     new:
       title: نسيان كلمه المرور
@@ -694,7 +671,7 @@ arz:
     update:
       flash changed: كلمه المرور الخاصه بك قد تغيرت.
   profiles:
-    edit:
+    show:
       home location: 'موقع المنزل:'
       no home location: لم تدخل موقع منزلك.
       update home location on click: حدّث موقع المنزل عندما أنقر على الخريطة؟
@@ -716,11 +693,12 @@ arz:
     index:
       js_1: أنت إما تستخدم متصفح لا يدعم جافا سكريبت، أو أنك عطلت استعمال جافا سكريبت.
       js_2: خريطه الشارع المفتوحه تستخدم جافا سكريبت لخريطتها المنزلقه.
-    edit:
+    not_public_flash:
       not_public: لم تقم بتعيين تعديلاتك لتظهر بشكل علنى.
       not_public_description_html: أنت لم تعد قادر على تعديل الخريطه إلا إذا قمت بذلك.
         يمكنك تعيين تعديلاتك لتظهر بشكل علنى من حسابك %{user_page}.
       user_page_link: صفحه مستخدم
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
     export:
       manually_select: اختر يدويًا منطقه أخرى
@@ -733,53 +711,51 @@ arz:
       where_am_i: أين أنا؟
       where_am_i_title: صِف الموقع الحالى باستخدام محرك البحث
       submit_text: اذهب
-    key:
-      table:
-        entry:
-          motorway: طريق سريع
-          trunk: طريق رئيسي
-          primary: طريق رئيسي
-          secondary: طريق ثانوي
-          unclassified: طريق غير مصنّف
-          track: مسار
-          bridleway: مسلك خيول
-          cycleway: طريق دراجات
-          footway: طريق مشاة
-          rail: سكه حديدية
-          subway: قطار الأنفاق
-          light_rail: ترام
-          tram: ترام
-          runway: مدرج مطار للإقلاع/الهبوط
-          taxiway: ممر الطائرات
-          apron: ساحه مطار
-          admin: حدود إدارية
-          forest: غابة
-          wood: الخشب
-          meadow: مرج
-          golf: ملعب غولف
-          park: منتزه
-          common: شائع
-          resident: منطقه سكنية
-          retail: منطقه بيع بالمفرق
-          industrial: منطقه صناعية
-          commercial: منطقه تجارية
-          lake: بحيرة
-          reservoir: خزان
-          farm: أرض زراعية
-          cemetery: مقبرة
-          allotments: حصص سكنية
-          pitch: ملعب رياضي
-          centre: مركز رياضي
-          reserve: محميه طبيعية
-          military: منطقه عسكرية
-          school: مدرسة
-          university: جامعة
-          building: مبنى كبير
-          station: محطه قطار
-          summit: قمة
-          peak: قمة
-          private: استخدام خصوصي
-          construction: الطرق تحت الإنشاء
+  map_keys:
+    show:
+      entries:
+        motorway: طريق سريع
+        trunk: طريق رئيسي
+        primary: طريق رئيسي
+        secondary: طريق ثانوي
+        unclassified: طريق غير مصنّف
+        track: مسار
+        bridleway: مسلك خيول
+        cycleway: طريق دراجات
+        footway: طريق مشاة
+        rail: سكه حديدية
+        subway: قطار الأنفاق
+        light_rail: ترام
+        tram: ترام
+        runway: مدرج مطار للإقلاع/الهبوط
+        taxiway: ممر الطائرات
+        apron: ساحه مطار
+        admin: حدود إدارية
+        forest: غابة
+        wood: الخشب
+        meadow: مرج
+        golf: ملعب غولف
+        park: منتزه
+        common: شائع
+        resident: منطقه سكنية
+        retail: منطقه بيع بالمفرق
+        industrial: منطقه صناعية
+        commercial: منطقه تجارية
+        farm: أرض زراعية
+        cemetery: مقبرة
+        allotments: حصص سكنية
+        pitch: ملعب رياضي
+        centre: مركز رياضي
+        reserve: محميه طبيعية
+        military: منطقه عسكرية
+        school: مدرسة
+        university: جامعة
+        building: مبنى كبير
+        station: محطه قطار
+        summit: قمة
+        peak: قمة
+        private: استخدام خصوصي
+        construction: الطرق تحت الإنشاء
   traces:
     visibility:
       private: خصوصى (يظهر كمجهول الهويه ونقاط غير مرتبة)
@@ -867,15 +843,12 @@ arz:
       my diary: يوميتي
       my edits: مساهمات
       my traces: آثاري
-      my settings: إعداداتي
       blocks on me: العرقلات علي
       blocks by me: العرقلات بواسطتي
       send message: أرسل رسالة
       diary: يومية
       edits: مساهمات
       traces: آثار
-      remove as friend: أزل كصديق
-      add as friend: أضف كصديق
       mapper since: 'مُخطط منذ:'
       email address: 'عنوان البريد الإلكتروني:'
       created from: 'أُنشىء من:'
@@ -898,6 +871,21 @@ arz:
       confirm: أكّد
     go_public:
       flash success: جميع تعديلاتك الآن عامه، ومسموح لك بالتعديل الآن.
+    issued_blocks:
+      show:
+        title: العرقلات بواسطه %{name}
+        heading_html: لائحه العرقلات بواسطه %{name}
+        empty: '%{name} لم يقم بعد بأى عرقلة'
+    received_blocks:
+      show:
+        title: العرقلات على %{name}
+        heading_html: لائحه العرقلات على %{name}
+        empty: '%{name} لم يتم عرقلته بعد.'
+      edit:
+        revoke: ابطل!
+    changeset_comments:
+      page:
+        changeset: حزمه التغييرات
   user_role:
     filter:
       not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
@@ -934,8 +922,6 @@ arz:
       title: عرقلات المستخدم
       heading: لائحه بعرقلات المستخدم
       empty: لم يتم إنشاء عرقلات حتى الآن.
-    revoke_all:
-      revoke: ابطل!
     helper:
       time_future_html: ينتهى فى %{time}.
       until_login: نشط حتى يقوم المستخدم بتسجيل الدخول.
@@ -948,14 +934,6 @@ arz:
           few: ساعات قليلة
           many: ساعات كثيرة
           other: '%{count} ساعة'
-    blocks_on:
-      title: العرقلات على %{name}
-      heading_html: لائحه العرقلات على %{name}
-      empty: '%{name} لم يتم عرقلته بعد.'
-    blocks_by:
-      title: العرقلات بواسطه %{name}
-      heading_html: لائحه العرقلات بواسطه %{name}
-      empty: '%{name} لم يقم بعد بأى عرقلة'
     show:
       title: '%{block_on} عُرقل بواسطه %{block_by}'
       heading_html: '%{block_on} عُرقل بواسطه %{block_by}'
@@ -964,7 +942,6 @@ arz:
       reason: 'سبب العرقلة:'
       revoker: 'المبطل:'
     block:
-      not_revoked: (لم تلغ)
       show: اعرض
       edit: عدّل
     page:
@@ -972,7 +949,6 @@ arz:
       creator_name: المنشئ
       reason: السبب للعرقلة
       status: الحالة
-      revoker_name: مُبطل بواسطة
   notes:
     notes_paging_nav:
       showing_page: الصفحه %{page}

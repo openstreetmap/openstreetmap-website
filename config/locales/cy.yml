@@ -26,9 +26,6 @@ cy:
         create: Ychwanegu sylw
       message:
         create: Anfon
-      client_application:
-        create: Cofrestru
-        update: Diweddaru
       oauth2_application:
         create: Cofrestru
         update: Diweddaru
@@ -61,6 +58,7 @@ cy:
       message: Neges
       node: Nod
       node_tag: Tag Nod
+      note: nod
       notifier: Hysbysydd
       old_node: Hen Nod
       old_node_tag: Tag Hen Nod
@@ -294,44 +292,11 @@ cy:
       entry:
         comment: Sylw
         full: Nodyn llawn
-  account:
-    deletions:
-      show:
-        title: Dileu fy nghyfrif
-        warning: Rhybudd! Mae'r broses dileu cyfrif yn derfynol, ac ni ellir ei gwrthdroi.
-        delete_account: Dileu cyfrif
-        delete_introduction: 'Gallwch chi ddileu eich cyfrif OpenStreetMap gan ddefnyddio''r
-          botwm isod. Nodwch y manylion canlynol:'
-        delete_profile: Bydd eich gwybodaeth broffil, gan gynnwys eich afatar, disgrifiad
-          a lleoliad cartref yn cael eu dileu.
-        delete_display_name: Bydd eich enw defnyddiwr yn cael ei ddileu, a gellir
-          ei ailddefnyddio gan gyfrifon eraill.
-        retain_edits: Bydd eich golygiadau i'r gronfa ddata mapiau, os ydynt yn bodoli,
-          yn cael eu cadw.
-        retain_traces: Cedwir unrhyw olion rydych chi wedi uwchlwytho os ydynt yn
-          bodoli.
-        retain_notes: Bydd eich nodiadau map a'ch sylwadau nodyn, os ydynt yn bodoli,
-          yn cael eu cadw ond wedi'u cuddio o'r cyhoedd.
-        retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
-          yn bodoli, yn cael eu cadw.
-        retain_email: Bydd eich cyfeiriad e-bost yn cael ei gadw.
-        confirm_delete: Ydych chi'n siŵr?
-        cancel: Canslo
   accounts:
-    edit:
+    show:
       title: Golygu cyfrif
-      my settings: Fy ngosodiadau
       current email address: Cyfeiriad e-bost cyfredol
       external auth: Dilysu Allanol
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: beth yw hwn?
-      public editing:
-        heading: Golygu cyhoeddus
-        enabled: Galluogwyd. Ddim yn anhysbys ac yn gallu golygu data.
-        enabled link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-        enabled link text: beth yw hwn?
-        disabled link text: pam na allaf olygu?
       contributor terms:
         heading: Telerau Cyfranwyr
         agreed: Rydych chi wedi cytuno â'r Telerau Cyfranwyr newydd.
@@ -362,6 +327,49 @@ cy:
       success: Diweddarwyd gwybodaeth defnyddiwr yn llwyddiannus.
     destroy:
       success: Cyfrif wedi'i ddileu.
+    deletions:
+      show:
+        title: Dileu fy nghyfrif
+        warning: Rhybudd! Mae'r broses dileu cyfrif yn derfynol, ac ni ellir ei gwrthdroi.
+        delete_account: Dileu cyfrif
+        delete_profile: Bydd eich gwybodaeth broffil, gan gynnwys eich afatar, disgrifiad
+          a lleoliad cartref yn cael eu dileu.
+        delete_display_name: Bydd eich enw defnyddiwr yn cael ei ddileu, a gellir
+          ei ailddefnyddio gan gyfrifon eraill.
+        retain_edits: Bydd eich golygiadau i'r gronfa ddata mapiau, os ydynt yn bodoli,
+          yn cael eu cadw.
+        retain_traces: Cedwir unrhyw olion rydych chi wedi uwchlwytho os ydynt yn
+          bodoli.
+        retain_notes: Bydd eich nodiadau map a'ch sylwadau nodyn, os ydynt yn bodoli,
+          yn cael eu cadw ond wedi'u cuddio o'r cyhoedd.
+        retain_changeset_discussions: Bydd eich trafodaethau grwpiau newid, os ydynt
+          yn bodoli, yn cael eu cadw.
+        retain_email: Bydd eich cyfeiriad e-bost yn cael ei gadw.
+        confirm_delete: Ydych chi'n siŵr?
+        cancel: Canslo
+    terms:
+      show:
+        title: Telerau
+        heading: Telerau
+        heading_ct: Telerau Cyfranwyr
+        read_ct: Rwyf wedi darllen ac yn cytuno â'r telerau cyfranwyr uchod
+        read_tou: Rwyf wedi darllen ac yn cytuno â'r Telerau Defnyddio
+        guidance_info_html: 'Gwybodaeth i helpu i ddeall y termau hyn: %{readable_summary_link}
+          a rhai %{informal_translations_link}'
+        readable_summary: crynodeb darllenadwy
+        informal_translations: cyfieithiadau anffurfiol
+        continue: Parhau
+        cancel: Canslo
+        legale_select: 'Gwlad breswyl:'
+        legale_names:
+          france: Ffrainc
+          italy: Yr Eidal
+          rest_of_world: Gweddill y byd
+      update:
+        terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
+      terms_declined_flash:
+        terms_declined_link: y dudalen wici hon
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
   browse:
     deleted_ago_by_html: Dilëwyd %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
@@ -389,15 +397,11 @@ cy:
     view_history: Gweld hanes
     view_unredacted_history: Gweld Hanes Heb Ei Orchuddio
     view_details: Gweld manylion
-    view_redacted_data: Gweld Data Wedi'i Gorchuddio
-    view_redaction_message: Gweld Neges Orchuddio
     location: Lleoliadː
     node:
       title_html: 'Nod: %{name}'
-      history_title_html: 'Hanes y nod: %{name}'
     way:
       title_html: 'Llwybr: %{name}'
-      history_title_html: 'Hanes Llwybr: %{name}'
       nodes: Nodau
       nodes_count:
         zero: '%{count} nod'
@@ -415,7 +419,6 @@ cy:
         other: rhan o lwybr %{related_ways}
     relation:
       title_html: 'Perthynas: %{name}'
-      history_title_html: 'Hanes y Perthynas: %{name}'
       members: Aelodau
       members_count:
         zero: '%{count} aelod'
@@ -431,17 +434,9 @@ cy:
         way: Llwybr
         relation: Perthynas
     containing_relation:
-      entry_html: Perthynas %{relation_name}
       entry_role_html: Perthynas %{relation_name} (fel %{relation_role})
     not_found:
       title: Heb ei Ganfod
-      sorry: 'Ymddiheurwn, ni ellir canfod %{type} #%{id}.'
-      type:
-        node: nod
-        way: llwybr
-        relation: perthynas
-        changeset: grŵp newid
-        note: nod
     timeout:
       title: Gwall Goramser
       sorry: Sori, cymerodd yn rhy hir i adalw data math %{type} gyda'r id %{id}.
@@ -475,16 +470,28 @@ cy:
       telephone_link: Galw %{phone_number}
       colour_preview: Rhagolwg lliw %{colour_value}
       email_link: E-bost %{email}
-    query:
+  feature_queries:
+    show:
       title: Nodweddion Ymholiad
       introduction: Cliciwch ar y map i ddarganfod nodweddion gerllaw.
       nearby: Nodweddion gerllaw
       enclosing: Nodweddion amgáu
+  old_elements:
+    index:
+      node:
+        title_html: 'Hanes y nod: %{name}'
+      way:
+        title_html: 'Hanes Llwybr: %{name}'
+      relation:
+        title_html: 'Hanes y Perthynas: %{name}'
+    actions:
+      view_redacted_data: Gweld Data Wedi'i Gorchuddio
+      view_redaction_message: Gweld Neges Orchuddio
   nodes:
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw data'r nod gyda'r id %{id}.
   old_nodes:
-    not_found:
+    not_found_message:
       sorry: 'Sori, ni ellir canfod fersiwn %{version} o''r nod #%{id}.'
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw hanes y nod gyda'r id %{id}.
@@ -492,7 +499,7 @@ cy:
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw data'r llwybr gyda'r id %{id}.
   old_ways:
-    not_found:
+    not_found_message:
       sorry: 'Sori, ni ellir canfod fersiwn %{version} o lwybr #%{id}.'
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw hanes y llwybr gyda'r id %{id}.
@@ -500,7 +507,7 @@ cy:
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw data'r perthynas gyda'r id %{id}.
   old_relations:
-    not_found:
+    not_found_message:
       sorry: 'Sori, ni ellir canfod fersiwn %{version} o''r perthynas #%{id}.'
     timeout:
       sorry: Sori, cymerodd yn rhy hir i adalw hanes y perthynas gyda'r id %{id}.
@@ -513,14 +520,10 @@ cy:
         title_all: Trafodaeth grŵp newid OpenHistoricalMap
         title_particular: Trafodaeth grŵp newid OpenHistoricalMap %{changeset_id}
   changesets:
-    changeset:
-      no_edits: (dim golygiadau)
-      view_changeset_details: Gweld manylion y grŵp newid
     index:
       title: Grwpiau newid
       title_user: Grwpiau newid gan %{user}
       title_user_link_html: Grwpiau newid gan %{user_link}
-      title_friend: Grwpiau newid gan fy ffrindiau
       title_nearby: Grwpiau newid gan ddefnyddwyr cyfagos
       empty: Heb ganfod grwpiau newid.
       empty_area: Heb ganfod grwpiau newid yn yr ardal hon.
@@ -528,26 +531,12 @@ cy:
       no_more: Heb ganfod mwy o grwpiau newid.
       no_more_area: Heb ganfod mwy o grwpiau newid yn yr ardal hon.
       no_more_user: Heb ganfod mwy o grwpiau newid gan y defnyddiwr hwn.
-      load_more: Llwytho mwy
       feed:
         title: Grŵp newid %{id}
         title_comment: Grŵp newid %{id} - %{comment}
         created: Crëwyd
         closed: Wedi cau
         belongs_to: Awdur
-    subscribe:
-      heading: Tanysgrifio i'r drafodaeth grŵp newid ganlynol?
-      button: Tanysgrifio i drafodaeth
-    unsubscribe:
-      heading: Dad-danysgrifio i'r drafodaeth grŵp newid ganlynol?
-      button: Dad-danysgrifio o'r drafodaeth
-    heading:
-      title: Grŵp newid %{id}
-      created_by_html: Crëwyd gan %{link_user} ar %{created}.
-    no_such_entry:
-      heading: 'Dim cofnod gyda''r id: %{id}'
-      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
-        sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
     show:
       title: '%{id}'
       created: 'Crëwyd: %{when}'
@@ -570,35 +559,44 @@ cy:
       changesetxml: XML grŵp newid
       osmchangexml: XML osmChange
     paging_nav:
-      nodes: Nodau (%{count})
       nodes_paginated: Nodau (%{x}-%{y} o %{count})
-      ways: Llwybrau %{count}
       ways_paginated: Llwybrau (%{x}-%{y} o %{count})
-      relations: Perthnasoedd (%{count})
       relations_paginated: Perthnasoedd (%{x}-%{y} o %{count})
     timeout:
       sorry: Mae'n ddrwg gennym, cymerodd y rhestr o grwpiau newid y gofynnoch amdanynt
         rhy hir i'w hadalw.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Tanysgrifio i'r drafodaeth grŵp newid ganlynol?
+        button: Tanysgrifio i drafodaeth
+      unsubscribe:
+        heading: Dad-danysgrifio i'r drafodaeth grŵp newid ganlynol?
+        button: Dad-danysgrifio o'r drafodaeth
+    heading:
+      title: Grŵp newid %{id}
+      created_by_html: Crëwyd gan %{link_user} ar %{created}.
+    no_such_entry:
+      heading: 'Dim cofnod gyda''r id: %{id}'
+      body: Mae'n ddrwg gennym, nid oes grŵp newid gyda'r id %{id}. Gwiriwch eich
+        sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
   dashboards:
     contact:
       km away: '%{count}km i ffwrdd'
       m away: '%{count}m i ffwrdd'
       latest_edit_html: 'Golygiad diweddaraf (%{ago}):'
+      no_edits: (dim golygiadau)
+      view_changeset_details: Gweld manylion y grŵp newid
     popup:
       your location: Eich lleoliad
       nearby mapper: Mapiwr gerllaw
-      friend: Ffrind
     show:
       title: Dangosfwrdd
       no_home_location_html: '%{edit_profile_link} a gosodwch eich lleoliad i weld
         defnyddwyr cyfagos.'
       edit_your_profile: Golygu eich proffil
-      my friends: Fy ffrindiau
-      no friends: Nid ydych wedi ychwanegu unrhyw ffrindiau eto.
       nearby users: Defnyddwyr eraill gerllaw
       no nearby users: Nid oes defnyddwyr gerllaw sy'n dweud eu bod yn mapio eto.
-      friends_changesets: Grwpiau newid eich ffrindiau
-      friends_diaries: cofnodion dyddiaduron ffrindiau
       nearby_changesets: grwpiau newid defnyddwyr gerllaw
       nearby_diaries: cofnodion dyddiaduron defnyddwyr gerllaw
   diary_entries:
@@ -609,13 +607,9 @@ cy:
       use_map_link: Defnyddio Map
     index:
       title: Dyddiaduron Defnyddwyr
-      title_friends: Dyddiaduron Ffrindiau
       title_nearby: Dyddiaduron Defnyddwyr Gerllaw
       user_title: Dyddiadur %{user}
       in_language_title: Cofnodion Dyddiadur %{language}
-      new: Cofnod Dyddiadur Newydd
-      new_title: Creu cofnod newydd yn fy nyddiadur defnyddiwr
-      my_diary: Fy Nyddiadur
       no_entries: Dim cofnodion dyddiadur
     page:
       recent_entries: Cofnodion dyddiadur diweddar
@@ -682,16 +676,12 @@ cy:
     unsubscribe:
       heading: Dad-danysgrifio o'r drafodaeth cofnod dyddiadur ganlynol?
       button: Dad-danysgrifio o'r drafodaeth
-  diary_comments:
-    index:
-      title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
-      heading: Sylwadau Dyddiadur %{user}
-      subheading_html: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
-      no_comments: Dim sylwadau dyddiadur
-    page:
-      post: Post
-      when: Pryd
-      comment: Sylw
+    navigation:
+      my_diary: Fy Nyddiadur
+      new: Cofnod Dyddiadur Newydd
+      new_title: Creu cofnod newydd yn fy nyddiadur defnyddiwr
+    profile_diaries:
+      date_label: Dyddiad
   doorkeeper:
     flash:
       applications:
@@ -734,18 +724,6 @@ cy:
       title: Gwall ap
     not_found:
       title: Heb ganfod ffeil
-  friendships:
-    make_friend:
-      heading: Ychwanegu %{user} fel ffrind?
-      button: Ychwanegu fel ffrind
-      success: Mae %{name} nawr yn ffrind i chi!
-      failed: Ymddiheuriadau, methwyd ychwanegu %{name} fel ffrind.
-      already_a_friend: Rydych chi eisoes yn ffrindiau gyda %{name}.
-    remove_friend:
-      heading: Dad-ffrindio %{user}?
-      button: Dad-ffrindio
-      success: Tynnwyd %{name} o'ch ffrindiau.
-      not_a_friend: Nid yw %{name} yn un o'ch ffrindiau.
   geocoder:
     search:
       title:
@@ -1496,6 +1474,9 @@ cy:
           building_passage: Ffordd Trwodd
           culvert: Cwlfer
           "yes": Twnnel
+        water:
+          lake: Llyn
+          reservoir: chronfa ddŵr
         waterway:
           artificial: Dyfrffyrdd Artiffisial
           boatyard: Iard Gychod
@@ -1526,17 +1507,25 @@ cy:
         level9: Ffin Pentref
         level10: Ffin Maesdref
         level11: Ffin Cymdogaeth
-    results:
-      no_results: Dim canlyniadau
-      more_results: Rhagor o ganlyniadau
+  searches:
+    queries:
+      create:
+        no_results: Dim canlyniadau
+        more_results: Rhagor o ganlyniadau
+  directions:
+    show:
+      title: Cyfeiriadau
+      distance: Pellter
+      time: Amser
+      ascend: Esgyn
+      descend: Disgyn
+      directions_courtesy_html: Cyfarwyddiadau trwy garedigrwydd %{link}
   issues:
     index:
       title: Gwallau
       select_status: Dewis Statws
       select_type: Dewis Math
-      select_last_updated_by: Dewiswch Diweddarwyd Diwethaf Gan
       reported_user: Defnyddiwr a roddwyd gwybod
-      not_updated: Heb ei Ddiweddaru
       search: Chwilio
       search_guidance: 'Chwilio Gwallau:'
       states:
@@ -1550,7 +1539,6 @@ cy:
       status: Statws
       reports: Adroddiadau
       last_updated: Diweddariad Diwethaf
-      last_updated_time_ago_user_html: '%{time_ago} gan %{user}'
       reports_count:
         zero: '%{count} Adroddiad'
         one: '%{count} Adroddiad'
@@ -1564,7 +1552,6 @@ cy:
         open: Agored
         resolved: Wedi datrys
     show:
-      title: '%{status} Gwall #%{issue_id}'
       reports:
         zero: '%{count} adroddiad'
         one: '%{count} adroddiad'
@@ -1593,7 +1580,6 @@ cy:
       reopened: Mae statws y mater wedi'i osod i 'Agored'
     comments:
       comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
-      reassign_param: Ailbennu'r Mater?
     reports:
       reported_by_html: Adroddwyd fel %{category} gan %{user} ar %{updated_at}
     helper:
@@ -1662,10 +1648,6 @@ cy:
     intro_2_create_account: Creu cyfrif defnyddiwr
     partners_title: Partneriaid
     tou: Telerau Gwasanaeth
-    osm_offline: Mae cronfa ddata OpenStreetMap all-lein ar hyn o bryd er mwyn gwaith
-      cynnal a chadw hanfodol.
-    osm_read_only: Nid yw'n bosib golygu cronfa ddata OpenStreetMap ar hyn o bryd
-      tra bod gwaith cynnal a chadw hanfodol yn digwydd.
     nothing_to_preview: Dim rhagolwg.
     help: Cymorth
     about: Ynghylch
@@ -1691,23 +1673,10 @@ cy:
         yr awdur yn %{replyurl}
       footer_html: Gallwch hefyd ddarllen y neges yn %{readurl} a gallwch anfon neges
         at yr awdur yn %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Helo %{to_user},
-      subject: '[OpenStreetMap] Ychwanegodd %{user} chi fel ffrind'
-      had_added_you: Mae %{user} wedi eich ychwanegu fel ffrind ar OpenStreetMap.
       see_their_profile: 'Gallwch weld eu proffil yma: %{userurl}.'
       see_their_profile_html: 'Gallwch weld eu proffil yma: %{userurl}.'
-      befriend_them: Gallwch hefyd eu hychwanegu fel ffrind ar %{befriendurl}.
-      befriend_them_html: Gallwch hefyd eu hychwanegu fel ffrind ar %{befriendurl}.
-    gpx_description:
-      description_with_tags: 'Mae''n edrych fel eich ffeil %{trace_name} gyda''r disgrifiad
-        %{trace_description} a''r tagiau canlynol: %{tags}'
-      description_with_tags_html: 'Mae''n edrych fel eich ffeil %{trace_name} gyda''r
-        disgrifiad %{trace_description} a''r tagiau canlynol: %{tags}'
-      description_with_no_tags: Mae'n edrych fel eich ffeil %{trace_name} gyda'r disgrifiad
-        %{trace_description} a dim tagiau
-      description_with_no_tags_html: Mae'n edrych fel eich ffeil %{trace_name} gyda'r
-        disgrifiad %{trace_description} a dim tagiau
     gpx_failure:
       hi: Helo %{to_user},
       failed_to_import: 'methwyd â mewnforio fel ffeil trac GPS. Gwnewch yn siŵr bod
@@ -1718,21 +1687,13 @@ cy:
       subject: '[OpenStreetMap] Methiant Mewnforio GPX'
     gpx_success:
       hi: Helo %{to_user},
-      loaded:
-        zero: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} pwynt posib.
-        one: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} pwynt posib.
-        two: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} bwynt posib.
-        few: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} phwynt posib.
-        many: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} pwynt posib.
-        other: llwythwyd yn llwyddiannus gyda %{trace_points} o %{count} pwynt posib.
-      trace_location: Mae eich ôl ar gael yn %{trace_url}
       all_your_traces: Gellir dod o hyd i'ch holl olion GPX a uwchlwythwyd yn llwyddiannus
         yn %{url}
       all_your_traces_html: Gellir dod o hyd i'ch holl olion GPX a uwchlwythwyd yn
         llwyddiannus yn %{url}.
       subject: '[OpenStreetMap] Llwyddiant Mewnforio GPX'
     signup_confirm:
-      subject: '[OpenStreetMap] Croeso i OpenStreetMap'
+      subject: '[OpenHistoricalMap] Croeso i OpenHistoricalMap'
       greeting: Shwmae!
       created: Mae rhywun (chi gobeithio!) newydd greu cyfrif yn %{site_url}.
     email_confirm:
@@ -1745,7 +1706,7 @@ cy:
       subject: '[OpenStreetMap] Cais ailosod cyfrinair'
       greeting: Helo,
       hopefully_you: Mae rhywun (chi o bosib) wedi gofyn i'r cyfrinair gael ei ailosod
-        ar gyfrif openstreetmap.org y cyfeiriad e-bost hwn.
+        ar gyfrif openhistoricalmap.org y cyfeiriad e-bost hwn.
       click_the_link: Os mai chi yw hwn, cliciwch ar y ddolen isod i ailosod eich
         cyfrinair.
     note_comment_notification:
@@ -1809,8 +1770,6 @@ cy:
       button: Cadarnhau
       success: Wedi cadarnhau eich cyfrif, diolch am gofrestru!
       already active: Mae'r cyfrif hwn eisoes wedi'i gadarnhau.
-      resend_html: Os oes angen inni ailanfon yr e-bost cadarnhau, %{reconfirm_link}.
-      click_here: cliciwch yma
     confirm_resend:
       failure: Heb ganfod y defnyddiwr %{name}.
     confirm_email:
@@ -1821,37 +1780,6 @@ cy:
       success: Wedi cadarnhau eich newid cyfeiriad e-bost!
       failure: Mae cyfeiriad e-bost eisoes wedi'i gadarnhau gyda'r tocyn hwn.
   messages:
-    inbox:
-      title: Mewnflwch
-      messages: Mae gennych %{new_messages} a %{old_messages}
-      new_messages:
-        zero: '%{count} neges newydd'
-        one: '%{count} neges newydd'
-        two: '%{count} new messages'
-        few: '%{count} neges newydd'
-        many: '%{count} neges newydd'
-        other: '%{count} neges newydd'
-      old_messages:
-        zero: '%{count} hen neges'
-        one: '%{count} hen neges'
-        two: '%{count} hen neges'
-        few: '%{count} hen neges'
-        many: '%{count} hen neges'
-        other: '%{count} hen neges'
-      no_messages_yet_html: Nid oes gennych unrhyw negeseuon eto. Beth am gysylltu
-        â'r %{people_mapping_nearby_link}?
-      people_mapping_nearby: pobl yn mapio gerllaw
-    messages_table:
-      from: Gan
-      to: I
-      subject: Pwnc
-      date: Dyddiad
-      actions: Gweithredoedd
-    message_summary:
-      unread_button: Marcio fel heb ei ddarllen
-      read_button: Marcio fel wedi'i ddarllen
-      destroy_button: Dileu
-      unmute_button: Symud i'r Mewnflwch
     new:
       title: Anfon neges
       send_message_to_html: Anfon neges newydd at %{name}
@@ -1864,42 +1792,79 @@ cy:
       title: Dim neges o'r fath
       heading: Dim neges o'r fath
       body: Sori, nid oes neges gyda'r id yno.
-    outbox:
-      title: Blwch Allan
-      messages:
-        one: Mae gennych %{count} neges wedi ei anfon
-        other: Mae gennych %{count} neges wedi eu hanfon
-      no_sent_messages_html: Nid oes gennych unrhyw negeseuon wedi'u hanfon eto. Beth
-        am gysylltu â'r %{people_mapping_nearby_link}?
-      people_mapping_nearby: pobl yn mapio gerllaw
-    muted:
-      title: Negeseuon ag Anwybyddwyd
-      messages:
-        zero: '%{count} neges wedi''i anwybyddu'
-        one: '%{count} neges wedi''i anwybyddu'
-        two: Mae gennych %{count} neges wedi'i anwybyddu
-        few: Mae gennych %{count} neges wedi'i anwybyddu
-        many: Mae gennych %{count} neges wedi'i anwybyddu
-        other: Mae gennych %{count} neges wedi'i anwybyddu
     show:
       title: Darllen neges
       reply_button: Ateb
       unread_button: Marcio fel heb ei ddarllen
       destroy_button: Dileu
       back: Yn ôl
-    sent_message_summary:
-      destroy_button: Dileu
-    heading:
-      my_inbox: Fy Mewnflwch
-      my_outbox: Fy Mlwch Allan
-      muted_messages: Negeseuon ag anwybyddwyd
-    mark:
-      as_read: Nodwyd fod y neges wedi ei ddarllen
-      as_unread: Nodwyd nad yw'r neges wedi ei ddarllen
-    unmute:
-      notice: Symudwyd y neges i'r Mewnflwch
     destroy:
       destroyed: Neges wedi'i dileu
+    read_marks:
+      create:
+        notice: Nodwyd fod y neges wedi ei ddarllen
+      destroy:
+        notice: Nodwyd nad yw'r neges wedi ei ddarllen
+    mutes:
+      destroy:
+        notice: Symudwyd y neges i'r Mewnflwch
+    mailboxes:
+      heading:
+        my_inbox: Fy Mewnflwch
+        my_outbox: Fy Mlwch Allan
+        muted_messages: Negeseuon ag anwybyddwyd
+      messages_table:
+        from: Gan
+        to: I
+        subject: Pwnc
+        actions: Gweithredoedd
+      message:
+        unread_button: Marcio fel heb ei ddarllen
+        read_button: Marcio fel wedi'i ddarllen
+        destroy_button: Dileu
+        unmute_button: Symud i'r Mewnflwch
+    inboxes:
+      show:
+        title: Mewnflwch
+        messages: Mae gennych %{new_messages} a %{old_messages}
+        new_messages:
+          zero: '%{count} neges newydd'
+          one: '%{count} neges newydd'
+          two: '%{count} new messages'
+          few: '%{count} neges newydd'
+          many: '%{count} neges newydd'
+          other: '%{count} neges newydd'
+        old_messages:
+          zero: '%{count} hen neges'
+          one: '%{count} hen neges'
+          two: '%{count} hen neges'
+          few: '%{count} hen neges'
+          many: '%{count} hen neges'
+          other: '%{count} hen neges'
+        no_messages_yet_html: Nid oes gennych unrhyw negeseuon eto. Beth am gysylltu
+          â'r %{people_mapping_nearby_link}?
+        people_mapping_nearby: pobl yn mapio gerllaw
+    muted_inboxes:
+      show:
+        title: Negeseuon ag Anwybyddwyd
+        messages:
+          zero: '%{count} neges wedi''i anwybyddu'
+          one: '%{count} neges wedi''i anwybyddu'
+          two: Mae gennych %{count} neges wedi'i anwybyddu
+          few: Mae gennych %{count} neges wedi'i anwybyddu
+          many: Mae gennych %{count} neges wedi'i anwybyddu
+          other: Mae gennych %{count} neges wedi'i anwybyddu
+    outboxes:
+      show:
+        title: Blwch Allan
+        messages:
+          one: Mae gennych %{count} neges wedi ei anfon
+          other: Mae gennych %{count} neges wedi eu hanfon
+        no_sent_messages_html: Nid oes gennych unrhyw negeseuon wedi'u hanfon eto.
+          Beth am gysylltu â'r %{people_mapping_nearby_link}?
+        people_mapping_nearby: pobl yn mapio gerllaw
+      message:
+        destroy_button: Dileu
   passwords:
     new:
       title: Ailosod cyfrinair
@@ -1914,21 +1879,17 @@ cy:
       flash changed: Mae'ch cyfrinair wedi'i newid.
       flash token bad: Methu dod o hyd i'r tocyn hwnnw, gwiriwch yr URL?
   preferences:
-    show:
-      title: Dewisiadau
-      preferred_editor: Hoff Olygydd
-      preferred_languages: Ieithoedd
-      edit_preferences: Golygu Dewisiadau
-    edit:
-      title: Golygu Dewisiadau
-      save: Diweddaru Dewisiadau
-      cancel: Canslo
-    update:
-      failure: Ni ellir diweddaru'r dewisiadau.
-    update_success_flash:
-      message: Diweddarwyd eich dewisiadau.
+    preferences:
+      update:
+        failure: Ni ellir diweddaru'r dewisiadau.
+      update_success_flash:
+        message: Diweddarwyd eich dewisiadau.
+    basic_preferences:
+      show:
+        title: Dewisiadau
+        save: Diweddaru Dewisiadau
   profiles:
-    edit:
+    show:
       title: Golygu proffil
       save: Diweddaru proffil
       cancel: Canslo
@@ -2025,8 +1986,8 @@ cy:
       legal_1_terms_of_use: Telerau Gwasanaeth
       legal_1_aup: Polisïau Defnydd Derbyniol
       legal_1_privacy_policy: Polisi Preifatrwydd
-      legal_2_html: '%{contact_the_osmf_link} os oes gennych gwestiynau am drwydded,
-        hawlfraint neu gwestiynau cyfreithiol eraill.'
+      legal_2_html: '%{contact_team_link} os oes gennych gwestiynau am drwydded, hawlfraint
+        neu gwestiynau cyfreithiol eraill.'
       partners_title: Partneriaid
     copyright:
       title: Hawlfraint a Thrwydded
@@ -2076,10 +2037,12 @@ cy:
       js_2: Mae OpenStreetMap yn defnyddio JavaScript ar gyfer ei fap llithrig.
       license:
         copyright: Hawlfraint OpenStreetMap a chyfranwyr, dan drwydded agored
-    edit:
+    not_public_flash:
       not_public: Nid ydych wedi gosod eich golygiadau i fod yn gyhoeddus.
       user_page_link: tudalen defnyddiwr
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Gweld pam.
+    edit:
       id_not_configured: iD heb ei ffurfweddu
     export:
       title: Allforio
@@ -2088,7 +2051,7 @@ cy:
       too_large:
         advice: 'Os yw''r allforio''n methu, ystyriwch un o''r canlynol:'
         planet:
-          title: Planet OSM
+          title: Planet OHM
         overpass:
           title: Overpass API
         geofabrik:
@@ -2169,95 +2132,6 @@ cy:
         chwilio.
       submit_text: Mynd
       reverse_directions_text: Newid y cyfeiriad
-    key:
-      table:
-        entry:
-          motorway: Traffordd
-          main_road: Prif ffordd
-          trunk: Cefnffordd
-          primary: Priffordd
-          secondary: Ffordd eilaidd
-          unclassified: Ffordd annosbarthedig
-          pedestrian: Llwybr cerddwyr
-          track: Trac
-          bridleway: Llwybr ceffylau
-          cycleway: Llwybr beiciau
-          cycleway_national: Llwybr beiciau cenedlaethol
-          cycleway_regional: Llwybr beiciau rhanbarthol
-          cycleway_local: Llwybr beiciau lleol
-          cycleway_mtb: Ffordd Feicio Mynydd
-          footway: Troedffordd
-          rail: Rheilffordd
-          train: Trên
-          subway: Trenau tanddaear
-          ferry: Fferi
-          light_rail: Rheilffordd ysgafn
-          tram: tram
-          trolleybus: Bws Drydan
-          bus: Bws
-          cable_car: Car cebl
-          chair_lift: lifft cadair
-          runway: Llwybr glanio
-          taxiway: thacsiffordd maes awyr
-          apron: Llain
-          admin: Ffin gweinyddol
-          capital: Prifddinas
-          city: Dinas
-          orchard: Perllan
-          vineyard: Gwinllan
-          forest: Coedwig
-          wood: Coedlan
-          farmland: Tir Ffermio
-          grass: Gwair
-          meadow: gwaun
-          bare_rock: Carreg Plaen
-          sand: Tywod
-          golf: Maes golff
-          park: Parc
-          common: Comin
-          built_up: Ardal Adeiledig
-          resident: Ardal breswyl
-          retail: Ardal adwerthu
-          industrial: Ardal ddiwydiannol
-          commercial: Ardal fasnachol
-          heathland: Rhos
-          scrubland: Prysgoed
-          lake: Llyn
-          reservoir: chronfa ddŵr
-          intermittent_water: Dŵr ysbeidiol
-          glacier: Rhewlif
-          reef: Riff
-          wetland: Gwlyptir
-          farm: Fferm
-          brownfield: Safle tir llwyd
-          cemetery: Mynwent
-          allotments: Rhandiroedd
-          pitch: Cae chwaraeon
-          centre: Canolfan chwaraeon
-          beach: Traeth
-          reserve: Gwarchodfa natur
-          military: Ardal filwrol
-          school: Ysgol
-          university: phrifysgol
-          hospital: Ysbyty
-          building: Adeilad arwyddocâol
-          station: Gorsaf drên
-          railway_halt: Arhosfa drenau
-          subway_station: Gorsaf Isffordd
-          tram_stop: Safle Tramiau
-          summit: Copa
-          peak: chrib
-          tunnel: Border toredig = twnnel
-          bridge: Border du = pont
-          private: Mynediad preifat
-          destination: Mynediad cyrchfan
-          construction: Ffyrdd yn cael eu hadeiladu
-          bus_stop: Safle Bws
-          bicycle_shop: Siop feiciau
-          bicycle_rental: Beic Hur
-          bicycle_parking: Man parcio beiciau
-          bicycle_parking_small: Parcio Beiciau Bach
-          toilets: Toiledau
     welcome:
       title: Croeso!
       introduction: Croeso i OpenStreetMap, map y byd rhydd ac agored. Nawr eich bod
@@ -2265,10 +2139,6 @@ cy:
         hyn pwysicaf i wybod cyn ichi ddechrau arni.
       whats_on_the_map:
         title: Beth sydd ar y Map
-        on_the_map_html: Mae OpenStreetMap yn addas i fapio pethau sy'n %{real_and_current}
-          - mae'n cynnwys miliynau o adeiladau, strydoedd, a manylion eraill am lefydd.
-          Gallwch chi fapio unrhyw beth sydd o ddiddordeb ichi.
-        real_and_current: bodoli'n go iawn ac yn gyfoes
         off_the_map_html: '%{doesnt} cynnwys barn defnyddwyr fel sgoriau, nodweddion
           hanesyddol neu dybiedig, a data o ffynonellau o dan hawlfraint. Oni bai
           bod gennych chi ganiatâd arbennig, peidiwch â chopio o fapiau ar-lein neu
@@ -2298,15 +2168,11 @@ cy:
         automated_edits: Golygiadau Awtomatig
       start_mapping: Dechrau Mapio
       continue_authorization: Parhau Awdurdodi
-      add_a_note:
-        title: Dim amser i olygu? Ychwanegwch nodyn!
-        para_1: Os ydych chi eisiau trwsio rhywbeth bach ond nad oes amser i gofrestru
-          a dysgu sut i olygu, mae'n mor hawdd ychwanegu nodyn.
-        para_2_html: |-
-          Ewch i'r %{map_link} a chliciwch ar yr eicon nodyn: %{note_icon}.
-          Bydd hyn yn dangos marciwr ar y map, a gallwch ei symud drwy lusgo.
-          Ysgrifennwch eich neges a chliciwch gadw, a bydd mapwyr eraill yn gweithio arni.
-        the_map: map
+    add_a_note:
+      title: Dim amser i olygu? Ychwanegwch nodyn!
+      para_1: Os ydych chi eisiau trwsio rhywbeth bach ond nad oes amser i gofrestru
+        a dysgu sut i olygu, mae'n mor hawdd ychwanegu nodyn.
+      the_map: map
     communities:
       title: Cymunedau
       lede_text: |-
@@ -2330,6 +2196,90 @@ cy:
           Nid oes rhaid sefydlu grŵp ffurfiol yn yr un modd â'r Siapteri Lleol.
           Mae llawer o grwpiau llwyddiannus yn bodoli fel grwpiau anffurfiol neu fel grŵp cymunedol. Gall unrhyw un ddechrau neu ymuno â grwp. Darllenwch fwy ar y %{communities_wiki_link}.
         communities_wiki: dudalen wici Cymunedau
+  map_keys:
+    show:
+      entries:
+        motorway: Traffordd
+        main_road: Prif ffordd
+        trunk: Cefnffordd
+        primary: Priffordd
+        secondary: Ffordd eilaidd
+        unclassified: Ffordd annosbarthedig
+        pedestrian: Llwybr cerddwyr
+        track: Trac
+        bridleway: Llwybr ceffylau
+        cycleway: Llwybr beiciau
+        mountain_bike_route: Ffordd Feicio Mynydd
+        footway: Troedffordd
+        rail: Rheilffordd
+        train: Trên
+        subway: Trenau tanddaear
+        ferry: Fferi
+        light_rail: Rheilffordd ysgafn
+        tram: tram
+        trolleybus: Bws Drydan
+        bus: Bws
+        cable_car: Car cebl
+        chair_lift: lifft cadair
+        runway: Llwybr glanio
+        taxiway: thacsiffordd maes awyr
+        apron: Llain
+        admin: Ffin gweinyddol
+        capital: Prifddinas
+        city: Dinas
+        orchard: Perllan
+        vineyard: Gwinllan
+        forest: Coedwig
+        wood: Coedlan
+        farmland: Tir Ffermio
+        grass: Gwair
+        meadow: gwaun
+        bare_rock: Carreg Plaen
+        sand: Tywod
+        golf: Maes golff
+        park: Parc
+        common: Comin
+        built_up: Ardal Adeiledig
+        resident: Ardal breswyl
+        retail: Ardal adwerthu
+        industrial: Ardal ddiwydiannol
+        commercial: Ardal fasnachol
+        heathland: Rhos
+        scrubland: Prysgoed
+        intermittent_water: Dŵr ysbeidiol
+        glacier: Rhewlif
+        reef: Riff
+        wetland: Gwlyptir
+        farm: Fferm
+        brownfield: Safle tir llwyd
+        cemetery: Mynwent
+        allotments: Rhandiroedd
+        pitch: Cae chwaraeon
+        centre: Canolfan chwaraeon
+        beach: Traeth
+        reserve: Gwarchodfa natur
+        military: Ardal filwrol
+        school: Ysgol
+        university: phrifysgol
+        hospital: Ysbyty
+        building: Adeilad arwyddocâol
+        station: Gorsaf drên
+        railway_halt: Arhosfa drenau
+        subway_station: Gorsaf Isffordd
+        tram_stop: Safle Tramiau
+        summit: Copa
+        peak: chrib
+        tunnel: Border toredig = twnnel
+        bridge: Border du = pont
+        private: Mynediad preifat
+        destination: Mynediad cyrchfan
+        construction: Ffyrdd yn cael eu hadeiladu
+        bus_stop: Safle Bws
+        bicycle_shop: Siop feiciau
+        bicycle_rental: Beic Hur
+        bicycle_parking: Man parcio beiciau
+        bicycle_parking_small: Parcio Beiciau Bach
+        toilets: Toiledau
   traces:
     visibility:
       private: Preifat (dim ond yn cael ei rannu fel pwyntiau dienw, heb eu trefnu)
@@ -2424,7 +2374,7 @@ cy:
       upload_trace: Uwchlwytho ôl
       all_traces: Pob Ôl
       my_traces: Fy Olion
-      traces_from: Olion Cyhoeddus gan %{user}
+      traces_from_html: Olion Cyhoeddus gan %{user}
       remove_tag_filter: Dileu Hidlydd Tagiau
     destroy:
       scheduled_for_deletion: Mae'r ôl wedi'i drefnu i'w ddileu
@@ -2433,17 +2383,18 @@ cy:
     offline:
       heading: Storio GPX All-lein
       message: Nid yw'r system uwchlwytho a storio ffeiliau GPX ar gael ar hyn o bryd.
-    georss:
-      title: Olion GPS OpenStreetMap
-    description:
-      description_with_count:
-        zero: Ffeil GPX â %{count} pwynt gan %{user}
-        one: Ffeil GPX ag %{count} pwynt gan %{user}
-        two: Ffeil GPX â %{count} bwynt gan %{user}
-        few: Ffeil GPX â %{count} phwynt gan %{user}
-        many: Ffeil GPX â %{count} pwynt gan %{user}
-        other: Ffeil GPX â %{count} pwynt gan %{user}
-      description_without_count: Ffeil GPX gan %{user}
+    feeds:
+      show:
+        title: Olion GPS OpenStreetMap
+      description:
+        description_with_count:
+          zero: Ffeil GPX â %{count} pwynt gan %{user}
+          one: Ffeil GPX ag %{count} pwynt gan %{user}
+          two: Ffeil GPX â %{count} bwynt gan %{user}
+          few: Ffeil GPX â %{count} phwynt gan %{user}
+          many: Ffeil GPX â %{count} pwynt gan %{user}
+          other: Ffeil GPX â %{count} pwynt gan %{user}
+        description_without_count: Ffeil GPX gan %{user}
   application:
     permission_denied: Nid oes gennych ganiatâd i gael mynediad at y weithred honno
     require_cookies:
@@ -2463,11 +2414,6 @@ cy:
       oauth2_authorizations: Awdurdodiadau OAuth 2
       muted_users: Defnyddwyr ag Anwybyddwyd
     auth_providers:
-      openid_url: URL OpenID
-      openid_login_button: Parhau
-      openid:
-        title: Mewngofnodi ag OpenID
-        alt: Logo OpenID
       google:
         title: Mewngofnodi â Google
         alt: Logo Google
@@ -2549,44 +2495,17 @@ cy:
       about:
         header: Rhydd a golygadwy.
         paragraph_2: Cofrestrwch i ddechrau cyfrannu.
-        welcome: Croeso i OpenStreetMap
+        welcome: Croeso i OpenHistoricalMap
       display name description: Eich enw defnyddiwr cyhoeddus. Gallwch newid hyn yn
         nes ymlaen yn eich dewisiadau.
       by_signing_up:
         privacy_policy: polisi preifatrwydd
         contributor_terms: thelerau cyfranwyr
       continue: Cofrestru
-      terms accepted: Diolch am dderbyn telerau newydd cyfranwyr!
       email_help:
         privacy_policy: polisi preifatrwydd
-      consider_pd_html: Rwy'n ystyried fy nghyfraniadau i fod yn y %{consider_pd_link}.
-      consider_pd: parth cyhoeddus
       or: neu
       use external auth: neu gofrestru gyda thrydydd parti
-    terms:
-      title: Telerau
-      heading: Telerau
-      heading_ct: Telerau Cyfranwyr
-      read_ct: Rwyf wedi darllen ac yn cytuno â'r telerau cyfranwyr uchod
-      read_tou: Rwyf wedi darllen ac yn cytuno â'r Telerau Defnyddio
-      consider_pd: Yn ogystal â'r uchod, ystyriaf fod fy nghyfraniadau yn y Parth
-        Cyhoeddus
-      consider_pd_why: beth yw hwn?
-      guidance_info_html: 'Gwybodaeth i helpu i ddeall y termau hyn: %{readable_summary_link}
-        a rhai %{informal_translations_link}'
-      readable_summary: crynodeb darllenadwy
-      informal_translations: cyfieithiadau anffurfiol
-      continue: Parhau
-      declined: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
-      cancel: Canslo
-      legale_select: 'Gwlad breswyl:'
-      legale_names:
-        france: Ffrainc
-        italy: Yr Eidal
-        rest_of_world: Gweddill y byd
-    terms_declined_flash:
-      terms_declined_link: y dudalen wici hon
-      terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     no_such_user:
       title: Dim defnyddiwr o'r fath
       heading: Nid yw'r defnyddiwr %{user} yn bodoli.
@@ -2598,7 +2517,6 @@ cy:
       my notes: Nodiadau
       my messages: Negeseuon
       my profile: Proffil
-      my settings: Gosodiadau
       my comments: Sylwadau
       my_preferences: Dewisiadau
       my_dashboard: Dangosfwrdd
@@ -2612,8 +2530,6 @@ cy:
       edits: Golygiadau
       traces: Olion
       notes: Nodiadau Map
-      remove as friend: Dad-ffrindio
-      add as friend: Ychwanegu ffrind
       mapper since: 'Yn mapio ers:'
       last map edit: 'Golygiad map diwethaf:'
       no activity yet: Dim gweithgaredd eto
@@ -2654,20 +2570,56 @@ cy:
     go_public:
       flash success: Mae eich holl olygiadau nawr yn gyhoeddus a gallech nawr parhau
         i olygu.
-    index:
-      title: Defnyddwyr
-      heading: Defnyddwyr
-      summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
-      summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
-      empty: Heb ganfod unrhyw defnyddwyr sy'n cyfateb
-    page:
-      found_users:
-        zero: Canfuwyd %{count} defnyddiwr
-        one: Canfuwyd %{count} defnyddiwr
-        two: Canfuwyd %{count} ddefnyddiwr
-        few: Canfuwyd %{count} defnyddiwr
-        many: Canfuwyd %{count} defnyddiwr
-        other: Canfuwyd %{count} defnyddiwr
+    issued_blocks:
+      show:
+        title: Blociau gan %{name}
+        heading_html: Rhestr Blociau gan %{name}
+        empty: Nid oes unrhyw blociau gan %{name} eto.
+    received_blocks:
+      show:
+        title: Blociau ar %{name}
+        heading_html: Rhestr Blociau ar %{name}
+        empty: Nid oes unrhyw blociau ar %{name} eto.
+      edit:
+        title: Diddymu pob bloc ar %{block_on}
+        heading_html: Diddymu pob bloc ar %{block_on}
+        empty: Nid oes gan %{name} flociau gweithredol.
+        confirm: Ydych chi wir eisiau diddymu %{active_blocks}?
+        active_blocks:
+          zero: '%{count} blociau cyfredol.'
+          one: '%{count} %{count} bloc cyfredol.'
+          two: '%{count} floc cyfredol.'
+          few: '%{count} bloc cyfredol.'
+          many: '%{count} bloc cyfredol.'
+          other: '%{count} bloc cyfredol.'
+      destroy:
+        flash: Diddymwyd pob bloc gweithredol.
+    lists:
+      show:
+        title: Defnyddwyr
+        heading: Defnyddwyr
+      page:
+        found_users:
+          zero: Canfuwyd %{count} defnyddiwr
+          one: Canfuwyd %{count} defnyddiwr
+          two: Canfuwyd %{count} ddefnyddiwr
+          few: Canfuwyd %{count} defnyddiwr
+          many: Canfuwyd %{count} defnyddiwr
+          other: Canfuwyd %{count} defnyddiwr
+        empty: Heb ganfod unrhyw defnyddwyr sy'n cyfateb
+      user:
+        summary_html: Crëwyd %{name} o %{ip_address} ar %{date}
+        summary_no_ip_html: '%{name} wedi''i greu ar %{date}'
+    changeset_comments:
+      page:
+        changeset: grŵp newid
+        when: Pryd
+        comment: Sylw
+    diary_comments:
+      index:
+        title: Sylwadau Dyddiadur wedi'u hychwanegu gan %{user}
+      page:
+        post: Post
     suspended:
       title: Cyfrif wedi'i atal
       heading: Cyfrif wedi'i atal
@@ -2679,7 +2631,7 @@ cy:
       invalid_scope: Sgop annilys
       unknown_error: Methodd y dilysu
     auth_association:
-      heading: Nid yw eich ID yn gysylltiedig â chyfrif OpenStreetMap eto.
+      heading: Nid yw eich ID yn gysylltiedig â chyfrif OpenHistoricalMap eto.
       option_1: "Os ydych yn newydd i OpenStreetMap, crëwch \ngyfrif newydd\ngan ddefnyddio'r
         ffurflen isod."
   user_blocks:
@@ -2706,19 +2658,6 @@ cy:
       title: Blociau defnyddiwr
       heading: Rhestr o flociau defnyddwyr
       empty: Dim blociau eto.
-    revoke_all:
-      title: Diddymu pob bloc ar %{block_on}
-      heading_html: Diddymu pob bloc ar %{block_on}
-      empty: Nid oes gan %{name} flociau gweithredol.
-      confirm: Ydych chi wir eisiau diddymu %{active_blocks}?
-      active_blocks:
-        zero: '%{count} blociau cyfredol.'
-        one: '%{count} %{count} bloc cyfredol.'
-        two: '%{count} floc cyfredol.'
-        few: '%{count} bloc cyfredol.'
-        many: '%{count} bloc cyfredol.'
-        other: '%{count} bloc cyfredol.'
-      flash: Diddymwyd pob bloc gweithredol.
     helper:
       time_future_html: Yn dod i ben mewn %{time}.
       until_login: Gweithredol hyd nes bod y defnyddiwr yn mewngofnodi.
@@ -2761,14 +2700,6 @@ cy:
           few: '%{count} blynedd'
           many: '%{count} blynedd'
           other: '%{count} blynedd'
-    blocks_on:
-      title: Blociau ar %{name}
-      heading_html: Rhestr Blociau ar %{name}
-      empty: Nid oes unrhyw blociau ar %{name} eto.
-    blocks_by:
-      title: Blociau gan %{name}
-      heading_html: Rhestr Blociau gan %{name}
-      empty: Nid oes unrhyw blociau gan %{name} eto.
     show:
       title: Blociwyd %{block_on} gan %{block_by}
       heading_html: Blociwyd %{block_on} gan %{block_by}
@@ -2779,7 +2710,6 @@ cy:
       reason: 'Rheswm dros y bloc:'
       revoker: 'Dad-flociwr:'
     block:
-      not_revoked: (heb ei ddirymu)
       show: Dangos
       edit: Golygu
     page:
@@ -2787,9 +2717,9 @@ cy:
     navigation:
       all_blocks: Pob Bloc
       blocks_on_me: Blociau arnaf i
-      blocks_on_user: Blociau ar %{user}
+      blocks_on_user_html: Blociau ar %{user}
       blocks_by_me: Blociau gennyf i
-      blocks_by_user: Blociau gan %{user}
+      blocks_by_user_html: Blociau gan %{user}
       block: 'Bloc #%{id}'
       new_block: Bloc Newydd
   user_mutes:
@@ -2952,22 +2882,10 @@ cy:
     edit_help: Symudwch y map a chwyddwch i mewn i leoliad rydych chi am ei olygu,
       yna cliciwch yma.
     directions:
-      ascend: Esgyn
-      engines:
-        fossgis_osrm_bike: Beic (OSRM)
-        fossgis_osrm_car: Car (OSRM)
-        fossgis_osrm_foot: Troed (OSRM)
-        graphhopper_bicycle: Beic (GraphHopper)
-        graphhopper_car: Car (GraphHopper)
-        graphhopper_foot: Troed (GraphHopper)
-        fossgis_valhalla_bicycle: Beic (Valhalla)
-        fossgis_valhalla_car: Car (Valhalla)
-        fossgis_valhalla_foot: Troed (Valhalla)
-      descend: Disgyn
-      directions: Cyfeiriadau
-      distance: Pellter
-      distance_m: '%{distance}m'
-      distance_km: '%{distance}km'
+      distance_in_units:
+        meters:
+          m: '%{distance}m'
+          km: '%{distance}km'
       errors:
         no_route: Ni ellir dod o hyd i'r llwybr rhwng y ddau le.
         no_place: Ymddiheuriadau - ni ellir canfod '%{place}'.
@@ -3033,7 +2951,6 @@ cy:
         roundabout_with_exit_ordinal: Ar y gylchfan cymerwch %{exit} allanfa i %{name}
         exit_roundabout: Gadael y gylchfan i %{name}
         unnamed: ffordd heb enw
-        courtesy: Cyfarwyddiadau trwy garedigrwydd %{link}
         exit_counts:
           first: 1af
           second: yr 2il
@@ -3045,7 +2962,6 @@ cy:
           eighth: 8fed
           ninth: 9fed
           tenth: 10fed
-      time: Amser
     query:
       node: Nod
       way: Llwybr

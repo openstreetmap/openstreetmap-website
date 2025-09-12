@@ -41,9 +41,6 @@ lv:
         create: Pievienot komentāru
       message:
         create: Sūtīt
-      client_application:
-        create: Reģistrēties
-        update: Atjaunināt
       redaction:
         create: Izveidot redakciju
         update: Saglabāt redakciju
@@ -66,6 +63,7 @@ lv:
       message: Ziņa
       node: Punkts
       node_tag: Punkta apzīmējums
+      note: piezīme
       notifier: Paziņotājs
       old_node: Vecais punkts
       old_node_tag: Vecā punkta birka
@@ -197,30 +195,11 @@ lv:
       entry:
         comment: Komentārs
         full: Pilna piezīme
-  account:
-    deletions:
-      show:
-        title: Dzēst manu kontu
-        warning: Brīdinājums! Konta dzēšanas process ir galīgs, un to nevar atsaukt.
-        delete_account: Dzēst kontu
-        confirm_delete: Vai esat pārliecināts?
-        cancel: Atcelt
   accounts:
-    edit:
+    show:
       title: Rediģēt kontu
-      my settings: Mani iestatījumi
       current email address: Pašreizējā e-pasta adrese
       external auth: Ārējā autentifikācija
-      openid:
-        link: https://wiki.openstreetmap.org/wiki/OpenID
-        link text: Kas tas ir?
-      public editing:
-        heading: Publiska rediģēšana
-        enabled: Ieslēgts. Nav anonīms, un var rediģēt datus.
-        enabled link: https://wiki.OpenHistoricalMap.org/wiki/Anonymous_edits
-        enabled link text: Kas tas ir?
-        disabled: Atspējots un nevar labot datus, visi iepriekšējie labojumi ir anonīmi.
-        disabled link text: Kāpēc nevar rediģēt?
       contributor terms:
         heading: Devuma noteikumi
         agreed: Tu esi pieņēmis jaunos Veidotāju Noteikumus.
@@ -229,7 +208,7 @@ lv:
           Veidotāju Noteikumus.
         agreed_with_pd: Tu arī esi paziņojis, ka tavi labojumi var būt Publiskajā
           Domēnā.
-        link text: kas tas ir?
+        link text: Kas tas ir?
       save changes button: Saglabāt izmaiņas
       delete_account: Dzēst kontu...
     go_public:
@@ -248,6 +227,28 @@ lv:
       success: Lietotāja informācija veiksmīgi atjaunināta.
     destroy:
       success: Konts dzēsts.
+    deletions:
+      show:
+        title: Dzēst manu kontu
+        warning: Brīdinājums! Konta dzēšanas process ir galīgs, un to nevar atsaukt.
+        delete_account: Dzēst kontu
+        confirm_delete: Vai esat pārliecināts?
+        cancel: Atcelt
+    terms:
+      show:
+        title: Dalībnieka noteikumi
+        heading: Dalībnieka noteikumi
+        informal_translations: neformāli tulkojumi
+        cancel: Atcelt
+        you need to accept or decline: Lūdzu izlasi un vai nu pieņem vai noraidi jaunos
+          Veidotāju Noteikumus, lai turpinātu.
+        legale_select: 'Lūdzu, atlasiet savu dzīvesvietas valsti:'
+        legale_names:
+          france: Francija
+          italy: Itālija
+          rest_of_world: Pārējā pasaule
+      update:
+        terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
   browse:
     version: Versija
     in_changeset: Izmaiņu kopa
@@ -264,17 +265,14 @@ lv:
     location: 'Atrašanās vieta:'
     node:
       title_html: 'Punkts: %{name}'
-      history_title_html: 'Punkta vēsture: %{name}'
     way:
       title_html: 'Līnija: %{name}'
-      history_title_html: 'Ceļa Vēsture: %{name}'
       nodes: Punkts
       also_part_of_html:
         one: daļa no ceļa %{related_ways}
         other: daļa no ceļiem %{related_ways}
     relation:
       title_html: 'Relācija: %{name}'
-      history_title_html: 'Relācijas vēsture: %{name}'
       members: Lietotāji
     relation_member:
       entry_role_html: '%{type} %{name} kā %{role}'
@@ -283,16 +281,7 @@ lv:
         way: Līnija
         relation: Relācija
     containing_relation:
-      entry_html: Relācija %{relation_name}
       entry_role_html: Relācija %{relation_name} (kā %{relation_role})
-    not_found:
-      sorry: 'Atvainojiet, %{type} ar id #%{id} nevarējām atrast.'
-      type:
-        node: punkts
-        way: līnija
-        relation: relācija
-        changeset: izmaiņu kopa
-        note: piezīme
     timeout:
       sorry: Diemžēl dati %{type} ar id %{id}, prasīja pārāk daudz laika, lai ielādētu.
       type:
@@ -322,11 +311,20 @@ lv:
       wikidata_link: '%{page} ieraksts Vikidatos'
       wikipedia_link: '%{page} šķirklis Vikipēdijā'
       telephone_link: Zvanīt %{phone_number}
-    query:
+  feature_queries:
+    show:
       title: Vaicājuma funkcijas
       introduction: Noklikšķiniet uz kartes, lai atrastu tuvumā esošos objektus.
       nearby: Tuvējie objekti
       enclosing: Ietvertās funkcijas
+  old_elements:
+    index:
+      node:
+        title_html: 'Punkta vēsture: %{name}'
+      way:
+        title_html: 'Ceļa Vēsture: %{name}'
+      relation:
+        title_html: 'Relācijas vēsture: %{name}'
   changeset_comments:
     feeds:
       comment:
@@ -336,13 +334,9 @@ lv:
         title_all: Diskusija par izmaiņām OpenHistoricalMap
         title_particular: 'Diskusija par OpenHistoricalMap izmaiņām #%{changeset_id}'
   changesets:
-    changeset:
-      no_edits: (nav labojumu)
-      view_changeset_details: Skatīt sīkāku informāciju par izmaiņu kopu
     index:
       title: Izmaiņu kopas
       title_user: Lietotāja %{user} izmaiņu kopas
-      title_friend: Tavu draugu izmaiņu kopas
       title_nearby: Tuvējo lietotāju izmaiņu kopas
       empty: Nav atrasta neviena izmaiņu kopa.
       empty_area: Šajā apgabalā nav izmaiņu kopu.
@@ -350,7 +344,6 @@ lv:
       no_more: Vairāk izmaiņu kopu neatrada.
       no_more_area: Nav vairāk izmaiņu kopu šajā apgabalā.
       no_more_user: Nav vairāk izmaiņu kopu no šī lietotāja.
-      load_more: Ielādēt vairāk
       feed:
         title: Izmaiņu kopa %{id}
         title_comment: Izmaiņu kopa %{id} - %{comment}
@@ -369,11 +362,8 @@ lv:
       changesetxml: Izmaiņu kopas XML
       osmchangexml: osmChange XML
     paging_nav:
-      nodes: Punkti (%{count})
       nodes_paginated: Punkti (%{x}-%{y} no %{count})
-      ways: Ceļi (%{count})
       ways_paginated: Ceļi (%{x}-%{y} no %{count})
-      relations: Relācijas (%{count})
       relations_paginated: Relācijas (%{x}-%{y} no %{count})
     timeout:
       sorry: Atvainojiet, jūsu pieprasīto izmaiņu kopu ielāde prasīja pārāk daudz
@@ -383,20 +373,17 @@ lv:
       km away: '%{count} km attālumā'
       m away: '%{count} m attālumā'
       latest_edit_html: 'Pēdējais labojums %{ago}:'
+      no_edits: (nav labojumu)
+      view_changeset_details: Skatīt sīkāku informāciju par izmaiņu kopu
     popup:
       your location: Jūsu atrašanās vieta
       nearby mapper: Kartētājs tuvējā apkārtnē
-      friend: Draugs
     show:
       title: Mans vadības panelis
       no_home_location_html: '%{edit_profile_link} un iestatiet savu atrašanās vietu,
         lai redzētu tuvumā esošos lietotājus.'
-      my friends: Mani draugi
-      no friends: Tu  vēl neesi pievienojis draugus.
       nearby users: Citi tuvumā esoši lietotāji
       no nearby users: Nav citu lietotāju kas tuvumā kartētu.
-      friends_changesets: Skatīt visas draugu izmaiņu kopas
-      friends_diaries: Skatīt visus draugu dienasgrāmatu ierakstus
       nearby_changesets: Skatīt visas tuvējo lietotāju izmaiņu kopas
       nearby_diaries: Skatīt visus tuvējo lietotāju dienasgrāmatu ierakstus
   diary_entries:
@@ -407,13 +394,9 @@ lv:
       use_map_link: Izmantot karti
     index:
       title: Lietotāju dienasgrāmatas
-      title_friends: Draugu dienasgrāmatas
       title_nearby: Tuvumā esošu lietotāju dienasgrāmatas
       user_title: '%{user} dienasgrāmata'
       in_language_title: Dienasgrāmatas ieraksti valodā %{language}
-      new: Jauns dienasgrāmatas ieraksts
-      new_title: Izveidot jaunu ierakstu jūsu dienasgrāmatā
-      my_diary: Mana dienasgrāmata
       no_entries: Dienasgrāmatā nav ierakstu
     page:
       recent_entries: Pēdējie dienasgrāmatas ieraksti
@@ -463,23 +446,12 @@ lv:
       all:
         title: OpenStreetMap dienasgrāmatu ieraksti
         description: Pēdējie dienasgrāmatu ieraksti no OpenStreetMap lietotājiem
-  diary_comments:
-    page:
-      post: Publicēt
-      when: Kad
-      comment: Komentārs
-  friendships:
-    make_friend:
-      heading: Pievienot %{user} kā draugu?
-      button: Pievienot kā draugu
-      success: '%{name} tagad ir jūsu draugs.'
-      failed: Atvainojiet, neizdevās pievienot %{name} kā draugu.
-      already_a_friend: Jūs jau esat draugos ar %{name}.
-    remove_friend:
-      heading: Noņemt %{user} kā draugu?
-      button: Atcelt draudzību
-      success: '%{name} tika izņemts no jūsu draugiem.'
-      not_a_friend: '%{name} nav no jūsu draugs.'
+    navigation:
+      my_diary: Mana dienasgrāmata
+      new: Jauns dienasgrāmatas ieraksts
+      new_title: Izveidot jaunu ierakstu jūsu dienasgrāmatā
+    profile_diaries:
+      date_label: Datums
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1111,6 +1083,9 @@ lv:
         tunnel:
           culvert: Drenāžas caurule
           "yes": Tunelis
+        water:
+          lake: Ezeri
+          reservoir: ūdenskrātuves
         waterway:
           artificial: Mākslīgais ūdensceļš
           boatyard: Jahtu piestātne
@@ -1141,13 +1116,22 @@ lv:
         level9: Ciema robeža
         level10: Priekšpilsētas robeža
         level11: Apkaimes robeža
-    results:
-      no_results: Nav atrasts neviens rezultāts
-      more_results: Vairāk rezultātu
+  searches:
+    queries:
+      create:
+        no_results: Nav atrasts neviens rezultāts
+        more_results: Vairāk rezultātu
+  directions:
+    show:
+      title: Norādes
+      distance: Attālums
+      time: Laiks
+      ascend: Kāpums
+      descend: Kritums
+      directions_courtesy_html: Norādes no %{link}
   issues:
     index:
       select_type: Izvēlēties veidu
-      not_updated: Nav atjaunināts
       search: Meklēt
       search_guidance: 'Meklēšanas problēmas:'
       states:
@@ -1183,10 +1167,6 @@ lv:
     intro_2_create_account: Izveidot lietotāja kontu
     partners_title: partneri
     tou: Lietošanas noteikumi
-    osm_offline: OpenStreetMap datubāze šobrīd nav pieejama, tiek veikti svarīgi datubāzes
-      apkalpošanas darbi.
-    osm_read_only: OpenStreetMap datubāze šobrīd ir pieejama tikai-lasāmā režīmā,
-      jo tiek veikti svarīgi datubāzes apkalpes darbi.
     help: Palīdzība
     about: Par
     copyright: Autortiesības
@@ -1206,19 +1186,16 @@ lv:
       header: 'OpenStreetMap lietotājs %{from_user} ir jums nosūtījis ziņu ar tematu
         %{subject}:'
       footer_html: Tu arī vari izlasīt ziņojumu iekš %{readurl} un atbildēt iekš %{replyurl}
-    friendship_notification:
+    follow_notification:
       hi: Sveiks, %{to_user}
-      subject: '[OpenStreetMap] %{user} pievienoja Jūs kā draugu'
-      had_added_you: '%{user} pievienoja jūs kā draugu OpenStreetMap.'
       see_their_profile: Jūs variet redzēt viņu profilu %{userurl}.
-      befriend_them: Jūs variet viņus arī pievienot par draugiem %{befriendurl}.
     gpx_failure:
       failed_to_import: 'imports neizdevās. Kļūda:'
       subject: '[OpenStreetMap] GPX importēšanas kļūme'
     gpx_success:
       subject: '[OpenStreetMap] GPX imports paveikts'
     signup_confirm:
-      subject: '[OpenStreetMap] Laipni lūgti OpenStreetMap'
+      subject: '[OpenHistoricalMap] Laipni lūgti OpenHistoricalMap'
       greeting: Sveicināti!
       created: Kāds (cerams tu) tikko izveidoja lietotāju %{site_url}.
       confirm: 'Pirms mēs turpinām, mums vajag pārliecināties, ka pieprasījums nāca
@@ -1295,7 +1272,6 @@ lv:
       success: Jūsu e-pasta adrese ir apstiprināta, paldies par reģistrēšanos!
       already active: Šis lietotājs jau ir apstiprināts.
       unknown token: Apstiprinājuma kods ir novecojis, nav derīģs vai neeksistē.
-      click_here: klikšķini šeit
     confirm_resend:
       failure: Lietotājs %{name} nav atrasts.
     confirm_email:
@@ -1308,27 +1284,6 @@ lv:
       unknown_token: Šim apstiprinājuma kodam ir izbeidzies derīguma termiņš vai arī
         tas neeksistē.
   messages:
-    inbox:
-      title: iesūtne
-      messages: Jums ir %{new_messages} un  %{old_messages}
-      new_messages:
-        one: '%{count} jauna ziņa'
-        other: '%{count} jaunas ziņas'
-      old_messages:
-        one: '%{count} veca ziņa'
-        other: '%{count} vecas ziņas'
-      no_messages_yet_html: Jums vēl nav ziņojumu. Kāpēc gan nesazināties ar kādu
-        no %{people_mapping_nearby_link}?
-      people_mapping_nearby: cilvēkiem, kuri zīmē karti tavā apkaimē
-    messages_table:
-      from: "No"
-      to: Kam
-      subject: Temats
-      date: Datums
-    message_summary:
-      unread_button: Atzīmēt kā nelasītu
-      read_button: Atzīmēt kā lasītu
-      destroy_button: Dzēst
     new:
       title: Nosūtīt ziņu
       send_message_to_html: Sūtīt jaunu ziņu %{name}
@@ -1341,18 +1296,6 @@ lv:
       title: Neesoša ziņa
       heading: Neesoša ziņa
       body: Atvainojiet, ziņa ar norādīto identifikatoru nav atrodama.
-    outbox:
-      title: izsūtne
-      messages:
-        one: Tev ir %{count} nosūtīta ziņa
-        other: Tev ir %{count} nosūtītas ziņas
-      no_sent_messages_html: Tev pašlaik nav ziņojumu. Kāpēc nesazināties ar kādu
-        no %{people_mapping_nearby_link}?
-      people_mapping_nearby: cilvēki kartē tuvā apkārtnē
-    reply:
-      wrong_user: Tu esi autorizējies kā `%{user}', bet ziņojums, kuram tu vēlies
-        atbildēt, nav sūtīts šim lietotājam. Lūdzu  autorizējies, kā pareizais lietotājs,
-        lai atbildētu.
     show:
       title: Lasīt ziņu
       reply_button: Atbildēt
@@ -1362,15 +1305,53 @@ lv:
       wrong_user: Jūs esat autorizējies kā `%{user}', bet ziņojums, kuru vēlaties
         izlasīt, nav sūtīts šim lietotājam. Lūdzu autorizējaties kā pareizais lietotājs,
         lai izlasītu to.
-    sent_message_summary:
-      destroy_button: Dzēst
-    heading:
-      my_inbox: Mana iesūtne
-    mark:
-      as_read: Ziņa atzīmēta kā lasīta
-      as_unread: Ziņa atzīmēta kā nelasīta
     destroy:
       destroyed: Ziņa izdzēsta
+    read_marks:
+      create:
+        notice: Ziņa atzīmēta kā lasīta
+      destroy:
+        notice: Ziņa atzīmēta kā nelasīta
+    mailboxes:
+      heading:
+        my_inbox: Mana iesūtne
+      messages_table:
+        from: "No"
+        to: Kam
+        subject: Temats
+      message:
+        unread_button: Atzīmēt kā nelasītu
+        read_button: Atzīmēt kā lasītu
+        destroy_button: Dzēst
+    inboxes:
+      show:
+        title: iesūtne
+        messages: Jums ir %{new_messages} un  %{old_messages}
+        new_messages:
+          one: '%{count} jauna ziņa'
+          other: '%{count} jaunas ziņas'
+        old_messages:
+          one: '%{count} veca ziņa'
+          other: '%{count} vecas ziņas'
+        no_messages_yet_html: Jums vēl nav ziņojumu. Kāpēc gan nesazināties ar kādu
+          no %{people_mapping_nearby_link}?
+        people_mapping_nearby: cilvēkiem, kuri zīmē karti tavā apkaimē
+    outboxes:
+      show:
+        title: izsūtne
+        messages:
+          one: Tev ir %{count} nosūtīta ziņa
+          other: Tev ir %{count} nosūtītas ziņas
+        no_sent_messages_html: Tev pašlaik nav ziņojumu. Kāpēc nesazināties ar kādu
+          no %{people_mapping_nearby_link}?
+        people_mapping_nearby: cilvēki kartē tuvā apkārtnē
+      message:
+        destroy_button: Dzēst
+    replies:
+      new:
+        wrong_user: Tu esi autorizējies kā `%{user}', bet ziņojums, kuram tu vēlies
+          atbildēt, nav sūtīts šim lietotājam. Lūdzu  autorizējies, kā pareizais lietotājs,
+          lai atbildētu.
   passwords:
     new:
       title: Aizmirsāt paroli
@@ -1387,20 +1368,17 @@ lv:
     update:
       flash changed: Jūsu parole ir nomainīta.
   preferences:
-    show:
-      title: Mani uzstādījumi
-      preferred_languages: Vēlamās valodas
-      edit_preferences: Labot uzstādījumus
-    edit:
-      title: Labot uzstādījumus
-      save: Atjaunināt uzstādījumus
-      cancel: Atcelt
-    update:
-      failure: Nevarēja atjaunināt uzstādījumus.
-    update_success_flash:
-      message: Uzstādījumi saglabāti
+    preferences:
+      update:
+        failure: Nevarēja atjaunināt uzstādījumus.
+      update_success_flash:
+        message: Uzstādījumi saglabāti
+    basic_preferences:
+      show:
+        title: Mani uzstādījumi
+        save: Atjaunināt uzstādījumus
   profiles:
-    edit:
+    show:
       save: Atjaunot profilu
       cancel: Atcelt
       image: Attēls
@@ -1506,12 +1484,14 @@ lv:
         copyright: Autortiesības OpenStreetMap un tā veidotāji, zem atvērtas licences
       remote_failed: Rediģēšana neizdevās - pārbaudi, ka JOSM vai Merkaartor ir ieslēgts
         un attālinātās vadības iespēja ir aktivizēta
-    edit:
+    not_public_flash:
       not_public: Tu neesi iestādījis, lai tavi labojumi būtu publiski.
       not_public_description_html: Tu vairs nevari rediģēt karti, ja vien tā neizdari.
         Tu vari uzstādīt savus labojumus kā publiskus no savas %{user_page}s.
       user_page_link: dalībnieka lapa
+      anon_edits_link: https://wiki.OpenHistoricalMap.org/wiki/Anonymous_edits
       anon_edits_link_text: Uzzini, kāpēc tā notiek.
+    edit:
       id_not_configured: iD nav konfigurēts
     export:
       title: Eksportēt
@@ -1523,7 +1503,7 @@ lv:
         body: Šis apgabals ir pārāk liels, lai to eksportētu kā OpenStreetMap XML
           datus. Lūdzu tuvini vai izvēlies mazāku apgabalu.
         planet:
-          title: OSM Planēta
+          title: OHM Planēta
           description: Regulāri atjauninātas kopijas no pilnās OpenStreetMap datubāzes
         overpass:
           title: Overpass API
@@ -1554,11 +1534,12 @@ lv:
         title: Citas bažas
     help:
       title: Palīdzības saņemšana
-      introduction: OpenStreetMap ir vairāki resursi, lai uzzinātu par projektu, uzdotu
-        un atbildētu uz jautājumiem, un diskutētu un dokumentētu kartēšanas tēmas.
+      introduction: OpenHistoricalMap ir vairāki resursi, lai uzzinātu par projektu,
+        uzdotu un atbildētu uz jautājumiem, un diskutētu un dokumentētu kartēšanas
+        tēmas.
       welcome:
         url: /sveicināts
-        title: Laipni lūgti OpenStreetMap
+        title: Laipni lūgti OpenHistoricalMap
         description: Sāc ar šo īso ceļvedi, kurš aptver OpenStreetMap pamatus.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Lv:Beginners%27_guide
@@ -1605,67 +1586,6 @@ lv:
       where_am_i_title: Aprakstiet pašreizējo atrašanās vietu izmantojot meklētāju
       submit_text: OK
       reverse_directions_text: Apgriezt virzienu
-    key:
-      table:
-        entry:
-          motorway: Automaģistrāle
-          main_road: Galvenais ceļš
-          trunk: Maģistrālais ceļš
-          primary: Galvenais valsts ceļš
-          secondary: Sekundāras nozīmes ceļš
-          unclassified: Neklasificēts ceļš
-          track: Zemesceļš
-          bridleway: Izjādes taka
-          cycleway: Veloceliņš
-          cycleway_national: Valsts velosipēdceļš
-          cycleway_regional: Reģionālais velosipēdceļš
-          cycleway_local: Vietējais velosipēdceļš
-          footway: Gājēju ceļš
-          rail: Dzelzceļš
-          subway: Metro
-          light_rail: Tramvaja sliedes
-          tram: Tramvajs
-          cable_car: Trošu ceļš
-          chair_lift: krēslu pacēlājs
-          runway: Lidostas skrejceļš
-          taxiway: manevrēšanas ceļš
-          apron: Lidostas rampa
-          admin: Administratīvā robeža
-          forest: Mežs
-          wood: Pirmatnējs mežs
-          meadow: Pļava
-          golf: Golfa laukums
-          park: Parks
-          common: Koplietošanas zeme
-          resident: Dzīvojamā zona
-          retail: Mazumtirdzniecības zona
-          industrial: Rūpniecības zona
-          commercial: Tirdzniecības zona
-          heathland: Tīrelis
-          lake: Ezeri
-          reservoir: ūdenskrātuves
-          farm: Saimniecība
-          brownfield: Nekopta vieta
-          cemetery: Kapsēta
-          allotments: Mazdārziņi
-          pitch: Sporta laukums
-          centre: Sporta centrs
-          reserve: Dabas rezervāts
-          military: Militārā zona
-          school: Skola
-          university: universitāte
-          building: Ēka
-          station: Dzelzceļa stacija
-          summit: Virsotne
-          peak: smaile
-          tunnel: Tunelis
-          bridge: Tilts
-          private: Privāta pieeja
-          destination: Galamērķa pieeja
-          construction: Ceļi būvniecības stadijā
-          bicycle_shop: Velosipēdu veikals
-          bicycle_parking: Velosipēdu novietne
-          toilets: Tualetes
     welcome:
       title: Laipni lūdzam!
       introduction: Sveicināts OpenStreetMap, bezmaksas un rediģējamā pasaules karte.
@@ -1673,10 +1593,6 @@ lv:
         ar svarīgākajām lietām, kuras tev jāzina.
       whats_on_the_map:
         title: Kas ir uz kartes
-        on_the_map_html: OpenHistoricalMap ir karte, kurā iezīmē lietas, kuras ir
-          <em>reālas un esošas</em> - tā iekļauj miljonus ar namiem, ceļiem un citām
-          detaļām par vietām. Tu vari kartēt jebko no reālās pasaules, kas tev liekas
-          interesants.
         off_the_map_html: Ko tā <em>neiekļauj</em> ir viedokļa dati kā reitings, vēsture
           vai hipotētiskas īpašības, un datus no ar autortiesībām aizsargātiem avotiem.
           Ja vien tev nav speciāla atļauja, nekopē no tiešsaistes vai papīra kartēm.
@@ -1696,11 +1612,11 @@ lv:
           rediģēšana</a>.
         automated_edits: Automatizēti labojumi
       start_mapping: Sākt Kartēt
-      add_a_note:
-        title: Nav laika labošanai? Pievienojiet piezīmi!
-        para_1: Ja tu vēlies labot ko mazu un nav laika lai piereģistrētos vai iemācītos
-          kā rediģēt, ir iespējams vienkārši atstāt piezīmi.
-        the_map: karte
+    add_a_note:
+      title: Nav laika labošanai? Pievienojiet piezīmi!
+      para_1: Ja tu vēlies labot ko mazu un nav laika lai piereģistrētos vai iemācītos
+        kā rediģēt, ir iespējams vienkārši atstāt piezīmi.
+      the_map: karte
     communities:
       title: Kopienas
       lede_text: |-
@@ -1715,6 +1631,62 @@ lv:
           Nav nepieciešams formāli izveidot grupu tādā pašā apjomā kā vietējās nodaļas.
           Patiešām, daudzas grupas ļoti veiksmīgi pastāv kā neformāla cilvēku pulcēšanās vai kā
           kopienas grupa. Tās var izveidot vai pievienoties ikviens. Vairāk lasiet %{communities_wiki_link}.
+  map_keys:
+    show:
+      entries:
+        motorway: Automaģistrāle
+        main_road: Galvenais ceļš
+        trunk: Maģistrālais ceļš
+        primary: Galvenais valsts ceļš
+        secondary: Sekundāras nozīmes ceļš
+        unclassified: Neklasificēts ceļš
+        track: Zemesceļš
+        bridleway: Izjādes taka
+        cycleway: Veloceliņš
+        footway: Gājēju ceļš
+        rail: Dzelzceļš
+        subway: Metro
+        light_rail: Tramvaja sliedes
+        tram: Tramvajs
+        cable_car: Trošu ceļš
+        chair_lift: krēslu pacēlājs
+        runway: Lidostas skrejceļš
+        taxiway: manevrēšanas ceļš
+        apron: Lidostas rampa
+        admin: Administratīvā robeža
+        forest: Mežs
+        wood: Pirmatnējs mežs
+        meadow: Pļava
+        golf: Golfa laukums
+        park: Parks
+        common: Koplietošanas zeme
+        resident: Dzīvojamā zona
+        retail: Mazumtirdzniecības zona
+        industrial: Rūpniecības zona
+        commercial: Tirdzniecības zona
+        heathland: Tīrelis
+        farm: Saimniecība
+        brownfield: Nekopta vieta
+        cemetery: Kapsēta
+        allotments: Mazdārziņi
+        pitch: Sporta laukums
+        centre: Sporta centrs
+        reserve: Dabas rezervāts
+        military: Militārā zona
+        school: Skola
+        university: universitāte
+        building: Ēka
+        station: Dzelzceļa stacija
+        summit: Virsotne
+        peak: smaile
+        tunnel: Tunelis
+        bridge: Tilts
+        private: Privāta pieeja
+        destination: Galamērķa pieeja
+        construction: Ceļi būvniecības stadijā
+        bicycle_shop: Velosipēdu veikals
+        bicycle_parking: Velosipēdu novietne
+        toilets: Tualetes
   traces:
     visibility:
       private: Privāts (kopīgots kā anonīms, nesakārtoti punkti)
@@ -1786,13 +1758,14 @@ lv:
     offline:
       heading: GPX bezsaistes glabātuve
       message: GPX datņu glabātuve un augšupielādes sistēma pašlaik nav pieejama.
-    georss:
-      title: OpenStreetMap GPS Trases
-    description:
-      description_with_count:
-        one: GPX fails ar %{count} punktu no %{user}
-        other: GPX fails ar %{count} punktiem no %{user}
-      description_without_count: GPX fails no %{user}
+    feeds:
+      show:
+        title: OpenStreetMap GPS Trases
+      description:
+        description_with_count:
+          one: GPX fails ar %{count} punktu no %{user}
+          other: GPX fails ar %{count} punktiem no %{user}
+        description_without_count: GPX fails no %{user}
   application:
     require_cookies:
       cookies_needed: Izskatā, ka jums cookies ir atslēgti, pirms turpināt, lūdzu,
@@ -1806,9 +1779,6 @@ lv:
         mājaslapas interfeisā, lai apskatītu Veidotāju Noteikumus. Tev nevajag piekrist,
         bet tev tie ir jāapskata.
     auth_providers:
-      openid:
-        title: Pieslēgties ar OpenID
-        alt: Pieslēgties ar OpenID saiti
       google:
         title: Pieslēgties ar Google
         alt: Pieslēgties ar Google OpenID
@@ -1836,22 +1806,7 @@ lv:
       display name description: Vārds, kas tiks rādīts publiski. Jūs to vēlāk varēsiet
         izmainīt iestatījumos.
       continue: Reģistrēties
-      terms accepted: Paldies, ka pieņēmāt jaunos devuma noteikumus!
       use external auth: Alternatīvi, varat izmantot trešās puses 'ielogošanās' opciju
-    terms:
-      title: Dalībnieka noteikumi
-      heading: Dalībnieka noteikumi
-      consider_pd: Papildinājumā augstākminētajai vienošanai, Es pieņemu mana devuma
-        būšanu Publiskajā Domēnā
-      consider_pd_why: kas tas ir?
-      informal_translations: neformāli tulkojumi
-      you need to accept or decline: Lūdzu izlasi un vai nu pieņem vai noraidi jaunos
-        Veidotāju Noteikumus, lai turpinātu.
-      legale_select: 'Lūdzu, atlasiet savu dzīvesvietas valsti:'
-      legale_names:
-        france: Francija
-        italy: Itālija
-        rest_of_world: Pārējā pasaule
     no_such_user:
       title: Neesošs lietotājs
       heading: Lietotājs %{user} neeksistē
@@ -1865,7 +1820,6 @@ lv:
       my notes: Manas piezīmes
       my messages: Manas ziņas
       my profile: Mans profils
-      my settings: Mani iestatījumi
       my comments: Mani komentāri
       my_preferences: Mani iestatījumi
       my_dashboard: Mans vadības panelis
@@ -1876,8 +1830,6 @@ lv:
       edits: Labojumi
       traces: Trases
       notes: Kartes piezīmes
-      remove as friend: Atcelt draudzību
-      add as friend: Pievienot kā draugu
       mapper since: 'Kartētājs kopš:'
       ct status: 'Dalībnieka noteikumi:'
       ct undecided: Nav izlēmis
@@ -1908,15 +1860,37 @@ lv:
       report: Ziņot par šo lietotāju
     go_public:
       flash success: Visi tavi labojumi tagad ir publiski, un tu drīksti labot.
-    index:
-      title: Lietotāji
-      heading: Lietotāji
-      summary_html: '%{name} izveidoja no %{ip_address} @ %{date}'
-      summary_no_ip_html: '%{name} izveidoja @ %{date}'
-      empty: Nav atrasti atbilstoši lietotāji
-    page:
-      confirm: Apstiprināt atlasītos lietotājus
-      hide: Paslēpt atlasītos lietotājus
+    issued_blocks:
+      show:
+        title: Liegumi no %{name}
+        heading_html: Liegumu saraksts no %{name}
+        empty: '%{name} vēl nav izveidojis nevienu liegumu.'
+    received_blocks:
+      show:
+        title: Liegumi uz %{name}
+        heading_html: Liegumu saraksts uz %{name}
+        empty: '%{name} vēl nav ticis bloķēts.'
+      edit:
+        revoke: Atsaukt!
+    lists:
+      show:
+        title: Lietotāji
+        heading: Lietotāji
+      page:
+        confirm: Apstiprināt atlasītos lietotājus
+        hide: Paslēpt atlasītos lietotājus
+        empty: Nav atrasti atbilstoši lietotāji
+      user:
+        summary_html: '%{name} izveidoja no %{ip_address} @ %{date}'
+        summary_no_ip_html: '%{name} izveidoja @ %{date}'
+    changeset_comments:
+      page:
+        changeset: izmaiņu kopa
+        when: Kad
+        comment: Komentārs
+    diary_comments:
+      page:
+        post: Publicēt
     suspended:
       title: Konta darbība apturēta
       heading: Konta darbība apturēta
@@ -1927,7 +1901,7 @@ lv:
       unknown_signature_algorithm: Nezināms paraksta algoritms
       invalid_scope: Nederīgs lauks
     auth_association:
-      heading: Jūsu ID nav vēl asociēts ar OpenStreetMap kontu.
+      heading: Jūsu ID nav vēl asociēts ar OpenHistoricalMap kontu.
       option_1: Ja jūs tikko iepazināties ar OpenStreetMap tad lūdzu izveidojiet jaunu
         kontu izmantojot zemāk esošo formu.
       option_2: Ja jums jau ir konts, jūs varat ieiet savā kontā izmantojot jūsu lietotājvārdu
@@ -1970,8 +1944,6 @@ lv:
       title: Lietotāja liegumi
       heading: Lietotāja liegumu saraksts
       empty: Pašlaik nav izveidotu liegumu.
-    revoke_all:
-      revoke: Atsaukt!
     helper:
       time_future_html: Beidzas %{time}.
       until_login: Aktīvs līdz lietotājs autorizēsies.
@@ -1980,14 +1952,6 @@ lv:
         hours:
           one: 1 stunda
           other: '%{count} stundas'
-    blocks_on:
-      title: Liegumi uz %{name}
-      heading_html: Liegumu saraksts uz %{name}
-      empty: '%{name} vēl nav ticis bloķēts.'
-    blocks_by:
-      title: Liegumi no %{name}
-      heading_html: Liegumu saraksts no %{name}
-      empty: '%{name} vēl nav izveidojis nevienu liegumu.'
     show:
       title: '%{block_on} bloķēts pēc %{block_by}'
       heading_html: '%{block_on} bloķēts pēc %{block_by}'
@@ -1997,7 +1961,6 @@ lv:
       reason: 'Bloķēšanas iemesls:'
       revoker: 'Atsaucējs:'
     block:
-      not_revoked: (nav atsaukts)
       show: Rādīt
       edit: Labot
     page:
@@ -2005,7 +1968,6 @@ lv:
       creator_name: Autors
       reason: Iemesls liegumam
       status: Statuss
-      revoker_name: Atsaucis
   notes:
     index:
       title: Piezīmes, kuras veidojis vai komentējis %{user}
@@ -2071,7 +2033,6 @@ lv:
       center_marker: Centrēt karti uz marķieri
       paste_html: Ielīmē HTML, lai ievietotu mājaslapā
       view_larger_map: Skatīt lielāku karti
-      only_standard_layer: Tikai standarta slāni var eksportēt kā attēlu
     embed:
       report_problem: Ziņot par problēmu
     key:
@@ -2108,14 +2069,6 @@ lv:
       queryfeature_disabled_tooltip: Tuvināt pie kārtas funkcijām
     edit_help: Pārvieto karti un pietuvini vietai, kuru vēlies labot, tad spied šeit.
     directions:
-      ascend: Kāpums
-      engines:
-        fossgis_osrm_car: Ar mašīnu (OSRM)
-        graphhopper_bicycle: Ar velosipēdu (GraphHopper)
-        graphhopper_foot: Ar kājām (GraphHopper)
-      descend: Kritums
-      directions: Norādes
-      distance: Attālums
       errors:
         no_route: Nevarēja atrast maršrutu starp šīm divām vietām.
         no_place: Atvainojiet - nevarēja atrast šo vietu.
@@ -2149,7 +2102,6 @@ lv:
         end_oneway_without_exit: Vienvirziena ceļa beigas pie %{name}
         roundabout_with_exit: Pēc apkārtceļa nogriezieties uz izejas %{exit} pie %{name}
         unnamed: nenosaukts ceļš
-        courtesy: Norādes no %{link}
         exit_counts:
           first: "1."
           second: "2."
@@ -2161,7 +2113,6 @@ lv:
           eighth: "8."
           ninth: "9."
           tenth: "10."
-      time: Laiks
     query:
       node: Punkts
       way: Ceļš
