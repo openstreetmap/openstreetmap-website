@@ -148,4 +148,15 @@ class DiaryEntrySystemTest < ApplicationSystemTestCase
     assert_content body
     assert_no_content I18n.t("diary_entries.diary_entry.full_entry")
   end
+
+  test "contents after diary entry should be below floated images" do
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :body => "<img width=100 height=1000 align=left alt='Floated Image'>")
+
+    sign_in_as(user)
+    visit diary_entry_path(user, diary_entry)
+
+    img = find "img[alt='Floated Image']"
+    assert_link "Edit this entry", :below => img
+  end
 end

@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
 
   def self.allow_social_login(**options)
     content_security_policy(options) do |policy|
-      policy.form_action(*policy.form_action, "accounts.google.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
+      policy.form_action(*policy.form_action, "accounts.google.com", "appleid.apple.com", "*.facebook.com", "login.microsoftonline.com", "github.com", "meta.wikimedia.org")
     end
   end
 
@@ -38,6 +38,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def site_layout
+    turbo_frame_request? ? "turbo_frame" : "site"
+  end
 
   def authorize_web(skip_terms: false)
     if session[:user]
@@ -245,9 +249,12 @@ class ApplicationController < ActionController::Base
 
   def map_layout
     policy = request.content_security_policy.clone
-
-    policy.connect_src(*policy.connect_src, "http://127.0.0.1:8111", Settings.nominatim_url, Settings.overpass_url, Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url)
-    policy.form_action(*policy.form_action, "render.openstreetmap.org")
+    policy.connect_src(*policy.connect_src, "http://127.0.0.1:8111", "https://vector.openstreetmap.org", "https://api.maptiler.com",
+                       "https://tile.thunderforest.com", "https://render.openstreetmap.org", Settings.nominatim_url, Settings.overpass_url,
+                       Settings.fossgis_osrm_url, Settings.graphhopper_url, Settings.fossgis_valhalla_url, Settings.wikidata_api_url)
+    policy.form_action(*policy.form_action, "render.openstreetmap.org", "tile.thunderforest.com")
+    policy.img_src(*policy.img_src, Settings.wikimedia_commons_url, "upload.wikimedia.org")
+    policy.script_src(*policy.script_src, :wasm_unsafe_eval)
     policy.style_src(*policy.style_src, :unsafe_inline)
 
     request.content_security_policy = policy

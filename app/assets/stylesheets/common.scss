@@ -2,6 +2,7 @@
 @import "parameters";
 @import "bootstrap";
 @import "rails_bootstrap_forms";
+@import "colors";
 
 /* Styles common to large and small screens */
 
@@ -20,13 +21,6 @@ time[title] {
 
 .text-body-secondary a {
   color: $blue;
-}
-
-/* Utility for transparent color */
-
-.text-transparent {
-  color: transparent !important;
-  user-select: none;
 }
 
 /* Bootstrap contextual table classes overrides in dark mode */
@@ -73,23 +67,10 @@ time[title] {
 
 /* Rules for the header */
 
-#menu-icon {
-  display: none;
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: image-url("menu-icon.svg") no-repeat;
-  background-size: 30px 30px;
-  width: 30px;
-  height: 30px;
-  margin: 14px 10px 0 0;
+#menu-icon svg {
+  fill: var(--bs-emphasis-color);
+  stroke: var(--bs-body-bg);
   opacity: 0.6;
-}
-
-@include color-mode(dark) {
-  #menu-icon {
-    filter: invert(1);
-  }
 }
 
 header {
@@ -104,6 +85,7 @@ header {
   h1 {
     height: $headerHeight;
     font-size: 18px;
+    gap: $lineheight * 0.5;
   }
 
   .btn {
@@ -167,12 +149,7 @@ nav.primary, nav.secondary {
 }
 
 body.small-nav {
-  #menu-icon {
-    display: block;
-  }
-
   header {
-    flex-direction: column;
     height: auto;
     min-height: $headerHeight;
 
@@ -180,35 +157,22 @@ body.small-nav {
       display: none !important;
     }
 
-    .search_forms {
-      display: block;
-    }
-
     .username {
       max-width: unset;
     }
   }
 
-  #sidebar .search_forms {
-    display: none;
-  }
-
   nav.primary {
-    margin-right: 0;
     padding: 0;
 
     #edit_tab {
-      width: 100%;
       padding: 10px;
     }
   }
 
   nav.secondary {
-    flex-direction: column;
-
     > ul {
       height: auto;
-      justify-content: center;
     }
 
     .user-menu, .login-menu {
@@ -220,16 +184,27 @@ body.small-nav {
     display: none;
   }
 
-  .compact-hide {
-    display: inline-block;
+  .overlay-sidebar #sidebar {
+    .welcome,
+    #banner {
+      display: none;
+    }
   }
+}
 
-  .overlay-sidebar #sidebar .welcome {
-    display: none;
-  }
+/* Rules for language selector */
 
-  .overlay-sidebar #sidebar #banner {
-    display: none;
+.select_language_list {
+  column-width: 160px;
+
+  a {
+    .native_name small {
+      font-size: 10px;
+    }
+
+    &:hover .english_name {
+      text-decoration: underline;
+    }
   }
 }
 
@@ -314,11 +289,8 @@ body.small-nav {
     height: auto;
     overflow: hidden;
 
+    .welcome,
     #banner {
-      display: block;
-    }
-
-    .welcome {
       display: block;
     }
 
@@ -329,17 +301,14 @@ body.small-nav {
     }
   }
 
-  .welcome {
+  .welcome,
+  #banner {
     display: none;
   }
 
-  #banner {
-    display: none;
-
-    img {
-      display: block;
-      width: $sidebarWidth;
-    }
+  #banner img {
+    display: block;
+    width: $sidebarWidth;
   }
 
   #map {
@@ -482,7 +451,7 @@ body.small-nav {
 
 @mixin dark-map-color-scheme {
   .leaflet-tile-container,
-  #mapkey .filtered-image {
+  #legend .filtered-image {
     filter: var(--dark-mode-map-filter);
   }
 
@@ -540,7 +509,6 @@ legend {
 
 /* Rules for the search and direction forms */
 
-header .search_forms,
 .directions_form {
   display: none;
 }
@@ -549,6 +517,21 @@ header .search_forms,
   .describe_location {
     font-size: 10px;
   }
+
+  input:not(:placeholder-shown) + .input-group-text .describe_location {
+    display: none;
+  } 
+}
+
+/* Rules for search results */
+
+.search_results_entry li.list-group-item {
+  border-right: 1em solid var(--marker-color);
+}
+
+.leaflet-marker-icon.activatable:is(.active, :hover) > svg {
+  transform: scale(1.5);
+  transform-origin: bottom;
 }
 
 /* Rules for routing */
@@ -565,7 +548,7 @@ tr.turn {
   margin-right: .35rem;
   width: 15px;
 
-  img {
+  svg {
     cursor: move;
   }
 }
@@ -612,36 +595,47 @@ tr.turn {
   }
 }
 
+#sidebar .changeset_line .changeset_num_comments {
+  min-width: 2.5em;
+}
+
 /* Rules for the browse sidebar */
 
 #sidebar_content {
-  .browse-section {
-    padding-bottom: $spacer;
-    margin-bottom: $spacer;
-    border-bottom: 1px solid $grey;
+  .browse-tag-list {
+    table-layout: fixed;
 
-    h4:first-child {
+    tr > *:not([colspan]) {
+      white-space: pre-wrap;
       word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    tr:last-child > * {
+      border-bottom: 0;
     }
   }
 
-  .browse-section:last-of-type {
-    border-bottom: none;
-  }
+  .browse-element-list {
+    line-height: 1.25rem;
 
-  .browse-tag-list {
-    table-layout: fixed;
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-word;
+    .browse-icon {
+      height: 1.25rem;
+    }
 
-    tr:last-child th, tr:last-child td {
-      border-bottom: 0;
+    .d-flex > .browse-icon {
+      height: max(20px, 1.25rem);
     }
   }
 
   .query-results {
     display: none;
+  }
+}
+
+@include color-mode(dark) {
+  #sidebar_content .browse-element-list .browse-icon-invertible {
+    filter: invert(.8) hue-rotate(180deg);
   }
 }
 
@@ -953,34 +947,6 @@ img.trace_image {
   img.trace_image {
     filter: invert(1);
     mix-blend-mode: lighten;
-  }
-}
-
-/* Rules for map sidebar icons */
-
-.browse-section .browse-element-list {
-  line-height: 1.25rem;
-
-  .browse-icon {
-    height: 1.25rem;
-  }
-
-  .d-flex > .browse-icon {
-    height: max(20px, 1.25rem);
-  }
-
-  @include color-mode(dark) {
-    .browse-icon-invertible {
-      filter: invert(.8) hue-rotate(180deg);
-    }
-  }
-}
-
-/* Rules for the social links */
-
-@include color-mode(dark) {
-  .social_links img {
-    filter: invert(1);
   }
 }
 

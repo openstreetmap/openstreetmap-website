@@ -1,3 +1,5 @@
+//= require download_util
+
 OSM.Export = function (map) {
   const page = {};
 
@@ -44,8 +46,8 @@ OSM.Export = function (map) {
     $("#maxlat").val(truncated[1][0]);
 
     $("#export_overpass").attr("href",
-      "https://overpass-api.de/api/map?bbox=" +
-      truncated.map(p => p.reverse()).join());
+                               "https://overpass-api.de/api/map?bbox=" +
+                               truncated.map(p => p.reverse()).join());
   }
 
   function validateControls() {
@@ -72,6 +74,17 @@ OSM.Export = function (map) {
       $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
       $("#drag_box").click(enableFilter);
       $(".export_form").on("submit", checkSubmit);
+
+      document.querySelector(".export_form")
+        .addEventListener("turbo:submit-end", OSM.getTurboBlobHandler("map.osm"));
+
+      document.querySelector(".export_form")
+        .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
+
+      document.querySelector(".export_form")
+        .addEventListener("turbo:before-fetch-request", function (event) {
+          event.detail.fetchOptions.headers.Accept = "application/xml";
+        });
 
       update();
       return map.getState();

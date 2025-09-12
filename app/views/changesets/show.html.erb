@@ -2,7 +2,7 @@
 
 <%= render "sidebar_header", :title => t(".title", :id => @changeset.id) %>
 
-<div class="browse-section">
+<div class="mb-3 border-bottom border-secondary-subtle pb-3">
   <p class="fs-6 overflow-x-auto" dir="auto">
     <%= linkify(@changeset.tags["comment"].to_s.presence || t("browse.no_comment")) %>
   </p>
@@ -50,12 +50,7 @@
                          :data => { :method => comment.visible ? "DELETE" : "POST",
                                     :url => api_changeset_comment_visibility_path(comment) } %>
         <% end %>
-        <a href="#c<%= comment.id %>">
-          <svg width="16" height="16" fill="currentColor">
-            <path d="M4.715 6.542 3.343 7.914a3 3 0 1 0 4.243 4.243l1.828-1.829A3 3 0 0 0 8.586 5.5L8 6.086a1 1 0 0 0-.154.199 2 2 0 0 1 .861 3.337L6.88 11.45a2 2 0 1 1-2.83-2.83l.793-.792a4 4 0 0 1-.128-1.287z" />
-            <path d="M6.586 4.672A3 3 0 0 0 7.414 9.5l.775-.776a2 2 0 0 1-.896-3.346L9.12 3.55a2 2 0 1 1 2.83 2.83l-.793.792c.112.42.155.855.128 1.287l1.372-1.372a3 3 0 1 0-4.243-4.243z" />
-          </svg>
-        </a>
+        <%= link_to inline_svg_tag("icons/link.svg"), "#c#{comment.id}" %>
       </small>
       <div class="mx-2">
         <%= comment.body.to_html %>
@@ -94,15 +89,15 @@
   <% end %>
 
   <% unless @ways.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "way", :elements => @ways, :pages => @way_pages } %>
+    <%= render :partial => "elements", :locals => { :type => "way", :elements => @ways, :elements_count => @ways_count, :current_page => @current_way_page } %>
   <% end %>
 
   <% unless @relations.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :pages => @relation_pages } %>
+    <%= render :partial => "elements", :locals => { :type => "relation", :elements => @relations, :elements_count => @relations_count, :current_page => @current_relation_page } %>
   <% end %>
 
   <% unless @nodes.empty? %>
-    <%= render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :pages => @node_pages } %>
+    <%= render :partial => "elements", :locals => { :type => "node", :elements => @nodes, :elements_count => @nodes_count, :current_page => @current_node_page } %>
   <% end %>
 </div>
 

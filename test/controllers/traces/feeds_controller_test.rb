@@ -83,24 +83,24 @@ module Traces
       assert_template "traces/feeds/show"
       assert_equal "application/rss+xml", @response.media_type
       assert_select "rss", :count => 1 do
-        assert_select "channel", :count => 1 do
+        assert_select "channel", :count => 1 do |channel|
           assert_select "title"
           assert_select "description"
           assert_select "link"
           assert_select "image"
-          assert_select "item", :count => traces.length do |items|
-            traces.zip(items).each do |trace, item|
-              assert_select item, "title", trace.name
-              assert_select item, "link", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-              assert_select item, "guid", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
-              assert_select item, "description" do
-                assert_dom_encoded do
-                  assert_select "img[src='#{trace_icon_url trace.user, trace}']"
-                end
+          assert_select "item", :count => traces.length
+
+          traces.zip(channel.css("item")).each do |trace, item|
+            assert_select item, "title", trace.name
+            assert_select item, "link", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
+            assert_select item, "guid", "http://www.example.com/user/#{ERB::Util.u(trace.user.display_name)}/traces/#{trace.id}"
+            assert_select item, "description" do
+              assert_dom_encoded do
+                assert_select "img[src='#{trace_icon_url trace.user, trace}']"
               end
-              # assert_select item, "dc:creator", trace.user.display_name
-              assert_select item, "pubDate", trace.timestamp.rfc822
             end
+            # assert_select item, "dc:creator", trace.user.display_name
+            assert_select item, "pubDate", trace.timestamp.rfc822
           end
         end
       end

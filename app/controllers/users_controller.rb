@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   include SessionMethods
   include UserMethods
 
-  layout "site"
+  layout :site_layout
 
   skip_before_action :verify_authenticity_token, :only => [:auth_success]
   before_action :authorize_web
@@ -52,17 +52,17 @@ class UsersController < ApplicationController
       else
         flash.now[:warning] = t ".duplicate_social_email"
       end
-    else
-      check_signup_allowed
-
+    elsif check_signup_allowed?
       self.current_user = User.new
+    else
+      render :action => "blocked"
     end
   end
 
   def create
     self.current_user = User.new(user_params)
 
-    if check_signup_allowed(current_user.email)
+    if check_signup_allowed?(current_user.email)
       if current_user.auth_uid.present?
         # We are creating an account with external authentication and
         # no password was specified so create a random one
@@ -94,6 +94,8 @@ class UsersController < ApplicationController
           render :action => "new", :referer => params[:referer]
         end
       end
+    else
+      render :action => "blocked"
     end
   end
 
@@ -116,7 +118,7 @@ class UsersController < ApplicationController
     email = auth_info[:info][:email]
 
     email_verified = case provider
-                     when "google", "facebook", "microsoft", "github", "wikipedia", "openstreetmap"
+                     when "google", "apple", "facebook", "microsoft", "github", "wikipedia", "openstreetmap"
                        true
                      else
                        false
@@ -228,7 +230,7 @@ class UsersController < ApplicationController
 
   ##
   # check signup acls
-  def check_signup_allowed(email = nil)
+  def check_signup_allowed?(email = nil)
     domain = if email.nil?
                nil
              else
@@ -241,19 +243,15 @@ class UsersController < ApplicationController
                    domain_mx_servers(domain)
                  end
 
-    return true if Acl.allow_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+    return true if Acl.allow_account_creation?(request.remote_ip, :domain => domain, :mx => mx_servers)
 
-    blocked = Acl.no_account_creation(request.remote_ip, :domain => domain, :mx => mx_servers)
+    blocked = Acl.no_account_creation?(request.remote_ip, :domain => domain, :mx => mx_servers)
 
     blocked ||= SIGNUP_IP_LIMITER && !SIGNUP_IP_LIMITER.allow?(request.remote_ip)
 
     blocked ||= email && SIGNUP_EMAIL_LIMITER && !SIGNUP_EMAIL_LIMITER.allow?(canonical_email(email))
 
-    if blocked
-      logger.info "Blocked signup from #{request.remote_ip} for #{email}"
-
-      render :action => "blocked"
-    end
+    logger.info "Blocked signup from #{request.remote_ip} for #{email}" if blocked
 
     !blocked
   end

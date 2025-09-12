@@ -22,7 +22,7 @@ module Users
                    .where(:num_changes => 1..)
                    .group("date_trunc('day', created_at)")
                    .select("date_trunc('day', created_at) AS date, SUM(num_changes) AS total_changes, MAX(id) AS max_id")
-                   .order("date")
+                   .order(:date)
                    .map do |changeset|
                      {
                        :date => changeset.date.to_date,

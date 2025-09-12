@@ -142,9 +142,13 @@ OpenStreetMap::Application.routes.draw do
   get "/node/:id" => "nodes#show", :id => /\d+/, :as => :node
   get "/node/:id/history" => "old_nodes#index", :id => /\d+/, :as => :node_history
   resources :old_nodes, :path => "/node/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+
   get "/relation/:id" => "relations#show", :id => /\d+/, :as => :relation
+  get "/relation/:id/members" => "relation_members#show", :id => /\d+/, :as => :relation_members
+
   get "/relation/:id/history" => "old_relations#index", :id => /\d+/, :as => :relation_history
   resources :old_relations, :path => "/relation/:id/history", :id => /\d+/, :version => /\d+/, :param => :version, :only => :show
+  get "/relation/:id/history/:version/members" => "old_relation_members#show", :id => /\d+/, :version => /\d+/, :as => :old_relation_members
 
   resources :changesets, :path => "changeset", :id => /\d+/, :only => :show do
     resource :subscription, :controller => :changeset_subscriptions, :only => [:show, :create, :destroy]
@@ -201,7 +205,9 @@ OpenStreetMap::Application.routes.draw do
   post "/login" => "sessions#create"
   match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
-  resource :map_key, :path => "key", :only => :show
+  resource :layers_pane, :path => "/panes/layers", :only => :show
+  resource :legend_pane, :path => "/panes/legend", :only => :show
+  resource :share_pane, :path => "/panes/share", :only => :show
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
@@ -274,7 +280,7 @@ OpenStreetMap::Application.routes.draw do
   get "/user/:display_name/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/:language/rss" => "diary_entries#rss", :defaults => { :format => :rss }
   get "/diary/rss" => "diary_entries#rss", :defaults => { :format => :rss }
-  get "/user/:display_name/diary" => "diary_entries#index"
+  get "/user/:display_name/diary" => "diary_entries#index", :as => :user_diary_entries
   get "/diary/:language" => "diary_entries#index"
   scope "/user/:display_name" do
     resources :diary_entries, :path => "diary", :only => [:edit, :update, :show], :id => /\d+/ do
@@ -317,8 +323,16 @@ OpenStreetMap::Application.routes.draw do
   get "/account/edit", :to => redirect(:path => "/account"), :as => nil
 
   resource :dashboard, :only => [:show]
-  resource :profile, :only => [:show, :update]
-  get "/profile/edit", :to => redirect(:path => "/profile"), :as => nil
+
+  namespace :profile, :module => :profiles do
+    resource :description, :only => [:show, :update]
+    resource :links, :only => [:show, :update]
+    resource :image, :only => [:show, :update]
+    resource :company, :only => [:show, :update]
+    resource :location, :only => [:show, :update]
+  end
+  get "/profile", :to => redirect(:path => "/profile/description"), :as => nil
+  get "/profile/edit", :to => redirect(:path => "/profile/description"), :as => nil
 
   scope :preferences, :module => :preferences do
     resource :basic_preferences, :path => "basic", :only => [:show, :update]

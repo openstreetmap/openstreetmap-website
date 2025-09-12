@@ -20,14 +20,9 @@ window.onload = function () {
 
   const options = {
     mapnik: {
-      <% if Settings.key?(:tile_cdn_url) %>
+<% if Settings.key?(:tile_cdn_url) %>
       url: <%= Settings.tile_cdn_url.to_json %>
-      <% end %>
-    },
-    thunderforest: {
-      <% if Settings.key?(:thunderforest_key) %>
-      apikey: <%= Settings.thunderforest_key.to_json %>
-      <% end %>
+<% end %>
     }
   };
 
@@ -42,28 +37,12 @@ window.onload = function () {
   const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
   new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
 
-  if (!args.layer || args.layer === "mapnik" || args.layer === "osmarender" || args.layer === "mapquest") {
-    new L.OSM.Mapnik().addTo(map);
-  } else if (args.layer === "historical") {
-    new L.OSM.Historical().addTo(map);
-  } else if (args.layer === "cyclemap" || args.layer === "cycle map") {
-    new L.OSM.CycleMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "transportmap") {
-    new L.OSM.TransportMap(thunderforestOptions).addTo(map);
-  } else if (args.layer === "hot") {
-    new L.OSM.HOT().addTo(map);
-  } else {
-    new L.OSM.Mapnik(mapnikOptions).addTo(map);
-  }
-
   if (args.has("marker")) {
-    L.marker(args.get("marker").split(","), { icon: L.icon({
-        iconUrl: <%= asset_path('leaflet/dist/images/marker-icon.png').to_json %>,
-        iconSize: new L.Point(25, 41),
-        iconAnchor: new L.Point(12, 41),
-        shadowUrl: <%= asset_path('leaflet/dist/images/marker-shadow.png').to_json %>,
-        shadowSize: new L.Point(41, 41)
-      }) }).addTo(map);
+    L.marker(args.get("marker").split(","), { icon: L.divIcon({
+      html: "<svg viewBox='0 0 25 40' overflow='visible'><use href='#pin-shadow' /><use href='#pin-dot' color='#0b8ef1' /></svg>",
+      iconSize: [25, 40],
+      iconAnchor: [12.5, 40]
+    }) }).addTo(map);
   }
 
   const bbox = (args.get("bbox") || "-180,-90,180,90").split(",");

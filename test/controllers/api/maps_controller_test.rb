@@ -125,10 +125,6 @@ module Api
       maxlat = node.lat + 0.1
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
       get api_map_path(:bbox => bbox)
-      if $VERBOSE
-        print @request.to_yaml
-        print @response.body
-      end
       assert_response :success, "Expected success with the map call"
       assert_select "osm[version='#{Settings.api_version}'][generator='#{Settings.generator}']", :count => 1 do
         assert_select "bounds[minlon='#{format('%<lon>.7f', :lon => minlon)}']" \
@@ -168,10 +164,6 @@ module Api
       maxlat = node.lat + 0.1
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
       get api_map_path(:bbox => bbox, :format => "json")
-      if $VERBOSE
-        print @request.to_yaml
-        print @response.body
-      end
       assert_response :success, "Expected success with the map call"
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
@@ -194,11 +186,11 @@ module Api
       result_node = result_nodes.first
 
       assert_equal result_node["tags"], tag.k => tag.v
-      assert_equal 2, (js["elements"].count { |a| a["type"] == "way" })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" })
-      assert_equal 1, (js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
+      assert_equal(2, js["elements"].count { |a| a["type"] == "way" })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "way" && a["id"] == way1.id })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "way" && a["id"] == way2.id })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "relation" })
+      assert_equal(1, js["elements"].count { |a| a["type"] == "relation" && a["id"] == relation.id })
     end
 
     # This differs from the above test in that we are making the bbox exactly

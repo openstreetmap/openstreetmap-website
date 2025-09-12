@@ -14,4 +14,11 @@ class DirectionsControllerTest < ActionDispatch::IntegrationTest
     get directions_path
     assert_response :success
   end
+
+  def test_sprite
+    get directions_path
+    assert_dom "svg>symbol[id*='-right']"
+    assert_dom "svg>symbol[id*='-left']"
+    assert_dom "svg>symbol[id*='-straight']"
+  end
 end

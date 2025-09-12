@@ -23,13 +23,13 @@
       <%= t(".next") %>
       <%= next_page_svg_tag :class => "flex-shrink-0" %>
     <% end %>
-    <% if @notes.size < @page_size %>
-      <li class="page-item disabled">
-        <%= tag.span next_link_content, :class => link_class %>
-      </li>
-    <% else %>
+    <% if @next_page %>
       <li class="page-item">
         <%= link_to next_link_content, @params.merge(:page => @page + 1), :class => link_class %>
+      </li>
+    <% else %>
+      <li class="page-item disabled">
+        <%= tag.span next_link_content, :class => link_class %>
       </li>
     <% end %>
   </ul>

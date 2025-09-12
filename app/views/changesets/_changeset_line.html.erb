@@ -1,0 +1,44 @@
+<%# locals: (changeset:, show_num_changes: true, show_num_comments: true) %>
+<div class="changeset_line d-flex gap-2 align-items-center">
+  <span class="me-auto">
+    <%= yield %>
+  </span>
+
+  <% if show_num_changes %>
+    <% if changeset.num_type_changes_in_sync? %>
+      <span class="d-flex rounded overflow-hidden lh-sm text-body-emphasis">
+        <%= tag.span :class => ["px-1 bg-success bg-opacity-50",
+                                { "text-body-secondary" => changeset.num_created_elements.zero? }],
+                     :title => t(".n_elements_created", :count => changeset.num_created_elements) do %>
+          <%= changeset.num_created_elements %>
+        <% end %>
+        <%= tag.span :class => ["px-1 bg-warning bg-opacity-50",
+                                { "text-body-secondary" => changeset.num_modified_elements.zero? }],
+                     :title => t(".n_elements_modified", :count => changeset.num_modified_elements) do %>
+          <%= changeset.num_modified_elements %>
+        <% end %>
+        <%= tag.span :class => ["px-1 bg-danger bg-opacity-50",
+                                { "text-body-secondary" => changeset.num_deleted_elements.zero? }],
+                     :title => t(".n_elements_deleted", :count => changeset.num_deleted_elements) do %>
+          <%= changeset.num_deleted_elements %>
+        <% end %>
+      </span>
+    <% else %>
+      <% num_changes = changeset.num_changes %>
+      <%= tag.span :class => ["d-flex align-items-baseline gap-1", { "opacity-50" => num_changes.zero? }],
+                   :title => t(".changes", :count => num_changes) do %>
+        <%= num_changes %>
+        <%= inline_svg_tag "icons/pencil.svg" %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if show_num_comments %>
+    <% num_comments = changeset.comments.length %>
+    <%= tag.span :class => ["changeset_num_comments d-flex align-items-baseline gap-1 justify-content-end", { "opacity-50" => num_comments.zero? }],
+                 :title => t(".comments", :count => num_comments) do %>
+      <%= num_comments %>
+      <%= inline_svg_tag num_comments.zero? ? "icons/chat.svg" : "icons/chat-fill.svg", :size => "12px" %>
+    <% end %>
+  <% end %>
+</div>

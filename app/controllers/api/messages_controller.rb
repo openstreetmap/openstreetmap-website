@@ -40,7 +40,7 @@ module Api
         raise OSM::APIBadUserInput, "No recipient was given"
       end
 
-      raise OSM::APIRateLimitExceeded if current_user.sent_messages.where(:sent_on => Time.now.utc - 1.hour..).count >= current_user.max_messages_per_hour
+      raise OSM::APIRateLimitExceeded if current_user.sent_messages.where(:sent_on => (Time.now.utc - 1.hour)..).count >= current_user.max_messages_per_hour
 
       @message = Message.new(:sender => current_user,
                              :recipient => recipient,

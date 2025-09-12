@@ -1,0 +1,13 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update }, :html => { :multipart => true, :autocomplete => :off } do |f| %>
+  <%= f.richtext_field :description, :cols => 80, :rows => 20 %>
+
+  <%= f.primary t(".save") %>
+  <%= link_to t(".cancel"), current_user, :class => "btn btn-link" %>
+<% end %>

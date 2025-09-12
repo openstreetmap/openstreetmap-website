@@ -22,8 +22,6 @@ RUN apt-get update \
   libyaml-dev \
   locales \
   postgresql-client \
-  ruby-dev \
-  ruby-bundler \
   tzdata \
   unzip \
   nodejs \

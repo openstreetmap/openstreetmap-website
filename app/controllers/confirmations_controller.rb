@@ -2,7 +2,7 @@ class ConfirmationsController < ApplicationController
   include SessionMethods
   include UserMethods
 
-  layout "site"
+  layout :site_layout
 
   before_action :authorize_web
   before_action :set_locale
@@ -101,9 +101,9 @@ class ConfirmationsController < ApplicationController
   # display a message about the current status of the Gravatar setting
   def gravatar_status_message(user)
     if user.image_use_gravatar
-      t "profiles.show.gravatar.enabled"
+      t ".gravatar.enabled"
     else
-      t "profiles.show.gravatar.disabled"
+      t ".gravatar.disabled"
     end
   end
 end

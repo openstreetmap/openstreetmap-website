@@ -118,8 +118,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal spammy_text, comment.body
     assert_equal "suspended", User.find(other_user.id).status
 
-    # Follow the redirect
-    get diary_entries_path(:display_name => user.display_name)
+    follow_redirect!
     assert_redirected_to :controller => :users, :action => :suspended
 
     # Now show the diary entry, and check the new comment is not present

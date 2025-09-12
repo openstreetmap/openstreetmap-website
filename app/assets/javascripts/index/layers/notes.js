@@ -16,14 +16,14 @@ OSM.initializeNotesLayer = function (map) {
     map.fire("overlayremove", { layer: noteLayer });
   }).on("click", function (e) {
     if (e.layer.id) {
-      OSM.router.route("/note/" + e.layer.id);
+      OSM.router.click(e.originalEvent, "/note/" + e.layer.id);
     }
   });
 
   function updateMarker(old_marker, feature) {
     let marker = old_marker;
     if (marker) {
-      marker.setIcon(OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }));
+      marker.setIcon(OSM.noteMarkers[feature.properties.status]);
     } else {
       let title;
       const description = feature.properties.comments[0];
@@ -33,7 +33,7 @@ OSM.initializeNotesLayer = function (map) {
       }
 
       marker = L.marker(feature.geometry.coordinates.reverse(), {
-        icon: OSM.getMarker({ icon: `${feature.properties.status}_NOTE_MARKER`, shadow: false, height: 40 }),
+        icon: OSM.noteMarkers[feature.properties.status],
         title,
         opacity: 0.8,
         interactive: true

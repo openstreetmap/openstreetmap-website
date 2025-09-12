@@ -20,6 +20,9 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
       }]
     });
     rectangle.id = changeset.id;
+    rectangle.on("click", function (e) {
+      OSM.router.click(e.originalEvent, $(`#changeset_${changeset.id} a.changeset_id`).attr("href"));
+    });
     return this.addLayer(rectangle);
   },
 

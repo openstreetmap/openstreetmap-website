@@ -17,8 +17,6 @@
 
 //= link_tree ../../../vendor/assets/leaflet .png
 
-//= link leaflet/dist/images/marker-icon.png
-//= link leaflet/dist/images/marker-icon-2x.png
 //= link leaflet/dist/images/marker-shadow.png
 
-//= link @mapbox/mapbox-gl-rtl-text/mapbox-gl-rtl-text.min.js
+//= link @mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js

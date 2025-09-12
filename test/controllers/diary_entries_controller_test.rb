@@ -247,8 +247,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "en", entry.language_code
     assert_equal "suspended", User.find(user.id).status
 
-    # Follow the redirect
-    get diary_entries_path(:display_name => user.display_name)
+    follow_redirect!
     assert_redirected_to :controller => :users, :action => :suspended
   end
 
@@ -315,7 +314,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entry_path(entry.user, entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' Diaries | /, :count => 1
+    assert_select "head title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
@@ -334,7 +333,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     get diary_entry_path(entry.user, entry)
     assert_response :success
     assert_template "show"
-    assert_select "title", :text => /Users' Diaries | /, :count => 1
+    assert_select "head title", :text => /Users' Diaries | /, :count => 1
     assert_select "div.content-heading", :count => 1 do
       assert_select "h1", :text => /#{entry.user.display_name}'s Diary/, :count => 1
     end
@@ -469,48 +468,20 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_index_paged
-    # Create several pages worth of diary entries
     create_list(:diary_entry, 50)
+    check_pagination_of_50_entries diary_entries_path
+  end
 
-    # Try and get the index
-    get diary_entries_path
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
-
-    # Try and get the second page
-    get css_select("li.page-item .page-link").last["href"]
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
-
-    # Try and get the third page
-    get css_select("li.page-item .page-link").last["href"]
-    assert_response :success
-    assert_select "article.diary_post", :count => 10
-    assert_select "li.page-item.disabled span.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
-
-    # Go back to the second page
-    get css_select("li.page-item .page-link").first["href"]
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item a.page-link", :text => "Newer Entries", :count => 1
-
-    # Go back to the first page
-    get css_select("li.page-item .page-link").first["href"]
-    assert_response :success
-    assert_select "article.diary_post", :count => 20
-    assert_select "li.page-item a.page-link", :text => "Older Entries", :count => 1
-    assert_select "li.page-item.disabled span.page-link", :text => "Newer Entries", :count => 1
+  def test_index_user_paged
+    user = create(:user)
+    create_list(:diary_entry, 50, :user => user)
+    user.confirm!
+    check_pagination_of_50_entries user_diary_entries_path(user)
   end
 
   def test_index_invalid_paged
     # Try some invalid paged accesses
-    %w[-1 0 fred].each do |id|
+    %w[-1 fred].each do |id|
       get diary_entries_path(:before => id)
       assert_redirected_to :controller => :errors, :action => :bad_request
 
@@ -993,6 +964,53 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     entries.each do |entry|
       assert_select "a[href=?]", "/user/#{ERB::Util.u(entry.user.display_name)}/diary/#{entry.id}"
+    end
+  end
+
+  def check_pagination_of_50_entries(path)
+    # Try and get the index
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_no_page_link "Newer Entries"
+    path = check_page_link "Older Entries"
+
+    # Try and get the second page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_page_link "Newer Entries"
+    path = check_page_link "Older Entries"
+
+    # Try and get the third page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 10
+    path = check_page_link "Newer Entries"
+    check_no_page_link "Older Entries"
+
+    # Go back to the second page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    path = check_page_link "Newer Entries"
+    check_page_link "Older Entries"
+
+    # Go back to the first page
+    get path
+    assert_response :success
+    assert_select "article.diary_post", :count => 20
+    check_no_page_link "Newer Entries"
+    check_page_link "Older Entries"
+  end
+
+  def check_no_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/, :count => 0 }, "unexpected #{name} page link"
+  end
+
+  def check_page_link(name)
+    assert_select "a.page-link", { :text => /#{Regexp.quote(name)}/ }, "missing #{name} page link" do |buttons|
+      return buttons.first.attributes["href"].value
     end
   end
 end

@@ -1,14 +1,17 @@
-<header class="d-flex bg-body text-nowrap closed z-3">
-  <h1 class="d-flex m-0 fw-semibold">
-    <a href="<%= root_path %>" class="icon-link gap-1 text-body-emphasis text-decoration-none geolink">
+<header class="d-flex bg-body flex-column flex-md-row text-nowrap closed z-3">
+  <h1 class="d-flex m-0 align-items-center fw-semibold">
+    <a href="<%= root_path %>" class="icon-link gap-1 me-auto text-body-emphasis text-decoration-none geolink">
       <%= image_tag "ohm_logo.svg", :alt => t("layouts.logo.alt_text"), :size => 30 %>
       <%= t "layouts.project_name.h1" %>
     </a>
+    <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none"] %>
+    <a href="#" id="menu-icon" class="d-md-none">
+      <%= inline_svg_tag "menu-icon.svg", :size => "30px" %>
+    </a>
   </h1>
-  <a href="#" id="menu-icon"></a>
   <nav class='primary'>
     <%= content_for :header %>
-    <div id="edit_tab" class="btn-group">
+    <div id="edit_tab" class="btn-group w-100">
       <%= link_to t("layouts.edit"),
                   edit_path,
                   :class => "btn btn-outline-primary geolink editlink",
@@ -27,8 +30,8 @@
       </ul>
     </div>
   </nav>
-  <nav class='secondary d-flex gap-2 flex-grow-1 align-items-center'>
-    <ul id='secondary-nav-menu' class='nav flex-grow-1' data-turbo-permanent>
+  <nav class='secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center'>
+    <ul id='secondary-nav-menu' class='nav flex-grow-1 justify-content-center justify-content-md-start' data-turbo-permanent>
       <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="nav-item">
           <%= link_to issues_path(:status => "open"), :class => header_nav_link_class(issues_path) do %>
@@ -63,16 +66,9 @@
         <ul class="dropdown-menu">
         </ul>
       </li>
-      <li class="nav-item ps-1 not-collapsible">
-        <% if current_user && current_user.id %>
-          <%= link_to(basic_preferences_path, :class => "nav-link text-secondary") do %>
-            <%= render "shared/language_selector", :classes => "", :disabled => true %>
-          <% end %>
-        <% else %>
-          <%= render "shared/language_selector", :classes => "nav-link text-secondary", :disabled => false %>
-        <% end %>
-      </li>
     </ul>
+
+    <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block", { "border-secondary-subtle" => current_user&.id }] %>
     <% if current_user && current_user.id %>
       <div class='d-inline-flex dropdown user-menu logged-in'>
         <button class='d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100' type='button' data-bs-toggle='dropdown'>
@@ -108,3 +104,41 @@
     <% end %>
   </nav>
 </header>
+
+<div class="modal fade" id="select_language_dialog" tabindex="-1" aria-labelledby="select_language_dialog_label" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="select_language_dialog_label"><%= t ".select_language" %></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+      </div>
+      <div class="modal-body px-1">
+        <% if current_user&.id %>
+          <%= form_tag basic_preferences_path, :method => "PUT" do %>
+            <%= hidden_field_tag "referer", request.fullpath %>
+            <%= hidden_field_tag "language", I18n.locale %>
+            <%= render "layouts/select_language_list" %>
+          <% end %>
+        <% else %>
+          <%= render "layouts/select_language_list" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="osm_alert_modal" tabindex="-1" aria-labelledby="osm_alert_title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="osm_alert_title"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+      </div>
+      <div class="modal-body" id="osm_alert_message">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><%= t ".ok" %></button>
+      </div>
+    </div>
+  </div>
+</div>

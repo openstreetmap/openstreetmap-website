@@ -1,6 +1,14 @@
 OSM.Changeset = function (map) {
   const page = {},
-    content = $("#sidebar_content");
+        content = $("#sidebar_content");
+
+  content.on("turbo:before-frame-render", "turbo-frame", function () {
+    $(this).find(".numbered_pagination").trigger("numbered_pagination:disable");
+  });
+
+  content.on("turbo:frame-render", "turbo-frame", function () {
+    $(this).find(".numbered_pagination").trigger("numbered_pagination:enable");
+  });
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path, function () {
@@ -24,6 +32,7 @@ OSM.Changeset = function (map) {
           });
         }
       })
+      $(".numbered_pagination").trigger("numbered_pagination:enable");
     }// end originalLoadFunction
 
     // "if map.timeslider" only try to add the timeslider if we don't already have it
@@ -79,7 +88,7 @@ OSM.Changeset = function (map) {
 
     content.find("textarea").on("input", function (e) {
       const form = e.target.form,
-        disabled = $(e.target).val() === "";
+            disabled = $(e.target).val() === "";
       form.comment.disabled = disabled;
     });
 
@@ -88,6 +97,7 @@ OSM.Changeset = function (map) {
 
   page.unload = function () {
     map.removeObject();
+    $(".numbered_pagination").trigger("numbered_pagination:disable");
   };
 
   return page;

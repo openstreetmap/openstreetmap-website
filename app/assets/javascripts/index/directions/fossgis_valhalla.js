@@ -24,8 +24,8 @@
       "exit-right", // kExitRight = 20;
       "exit-left", // kExitLeft = 21;
       "straight", // kStayStraight = 22;
-      "slight-right", // kStayRight = 23;
-      "slight-left", // kStayLeft = 24;
+      "fork-right", // kStayRight = 23;
+      "fork-left", // kStayLeft = 24;
       "merge-left", // kMerge = 25;
       "roundabout", // kRoundaboutEnter = 26;
       "roundabout", // kRoundaboutExit = 27;

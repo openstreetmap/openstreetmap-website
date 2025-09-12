@@ -371,7 +371,7 @@ module OSM
     end
 
     def status
-      :payload_too_large
+      :content_too_large
     end
   end
 
