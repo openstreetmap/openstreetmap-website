@@ -115,9 +115,6 @@ gem "dalli"
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails"
 
-# Used to generate logstash friendly log files
-gem "logstasher"
-
 # Used to generate images for traces
 gem "bzip2-ffi"
 gem "ffi-libarchive"

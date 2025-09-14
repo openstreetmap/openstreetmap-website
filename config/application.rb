@@ -39,13 +39,5 @@ module OpenStreetMap
     config.i18n.fallbacks = true
     # Enables custom error message formats
     config.active_model.i18n_customize_full_message = true
-
-    # Use logstash for logging if required
-    if Settings.key?(:logstash_path)
-      config.logstasher.enabled = true
-      config.logstasher.suppress_app_log = false
-      config.logstasher.logger_path = Settings.logstash_path
-      config.logstasher.log_controller_parameters = true
-    end
   end
 end
