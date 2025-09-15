@@ -115,6 +115,11 @@ gem "dalli"
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails"
 
+# Use to generate telemetry
+gem "opentelemetry-exporter-otlp", :require => false
+gem "opentelemetry-instrumentation-all", :require => false
+gem "opentelemetry-sdk", :require => false
+
 # Used to generate images for traces
 gem "bzip2-ffi"
 gem "ffi-libarchive"
