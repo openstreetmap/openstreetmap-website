@@ -9,7 +9,6 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
-//= require leaflet.contextmenu
 //= require index/contextmenu
 //= require index/search
 //= require index/layers/data
@@ -141,7 +140,7 @@ $(function () {
   L.control.scale()
     .addTo(map);
 
-  OSM.initializeContextMenu(map);
+  // OSM.initializeContextMenu(map);
 
   if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
     OSM.initializeNotesLayer(map);

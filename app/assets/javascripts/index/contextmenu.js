@@ -1,3 +1,4 @@
+/*
 OSM.initializeContextMenu = function (map) {
   map.contextmenu.addItem({
     text: OSM.i18n.t("javascripts.context.directions_from"),
@@ -78,3 +79,4 @@ OSM.initializeContextMenu = function (map) {
   map.on("zoomend", updateMenu);
   updateMenu();
 };
+*/
