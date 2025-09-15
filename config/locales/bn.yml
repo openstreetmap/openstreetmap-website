@@ -428,7 +428,7 @@ bn:
         way: রাস্তা
         relation: সম্পর্ক
     containing_relation:
-      entry_role_html: সম্পর্ক %{relation_name} (যখন %{relation_role})
+      entry_role_html: '%{relation_name} (%{relation_role} হিসেবে)'
     not_found:
       title: পাওয়া যায়নি
     timeout:
@@ -1421,12 +1421,17 @@ bn:
       distance: দূরত্ব
       time: সময়
       kilometers: কিলোমিটার
+      miles_feet: মাইল, ফুট
+      miles_yards: মাইল, গজ
+      distance_units_settings: দূরত্বের একক সেটিং
+      download: GeoJSON হিসেবে রুট ডাউনলোড করুন
+      filename: রুট
   issues:
     index:
       title: সমস্যা
       select_status: স্থিতি নির্বাচন করুন
       select_type: প্রকার নির্বাচন করুন
-      search: অনুসন্ধান
+      search: অনুসন্ধান করুন
       states:
         ignored: উপেক্ষিত
         open: খুলুন
@@ -1763,6 +1768,11 @@ bn:
     basic_preferences:
       show:
         title: আমার পছন্দ
+        preferred_map_color_scheme: মানচিত্রের জন্য পছন্দের রঙের স্কিম
+        map_color_schemes:
+          auto: স্বয়ংক্রিয়
+          light: উজ্জ্বল
+          dark: আঁধার
         save: পছন্দ হালনাগাদ করুন
   profiles:
     profile_sections:
@@ -1941,7 +1951,7 @@ bn:
     sidebar:
       search_results: অনুসন্ধানের ফলাফল
     search:
-      search: অনুসন্ধান
+      search: অনুসন্ধান করুন
       get_directions_title: দুটি বিন্দুর মধ্যে নির্দেশনী খুঁজুন
       from: এ থেকে
       to: এ পর্যন্ত
@@ -2057,14 +2067,14 @@ bn:
       heading: অনুসরণ সম্পাদনা %{name}
       visibility_help: এটার মানে কি?
     show:
-      title: '%{name} অনুসরণটি দেখছেন'
-      heading: '%{name} অনুসরণটি দেখছেন'
+      title: ট্রেস %{name} দেখছেন
+      heading: ট্রেস %{name} দেখছেন
       pending: অমিমাংসিত
       filename: 'ফাইলের নাম:'
       download: ডাউনলোড
       uploaded: 'আপলোড হয়েছে:'
       points: 'পয়েন্ট:'
-      start_coordinates: 'প্রারম্ভের কোঅর্ডিনেট:'
+      start_coordinates: 'শুরুর স্থানাঙ্ক:'
       coordinates_html: '%{latitude}; %{longitude}'
       map: মানচিত্র
       edit: সম্পাদনা
@@ -2072,8 +2082,8 @@ bn:
       description: 'বিবরণ:'
       tags: 'ট্যাগসমূহ:'
       none: কোনটিই নয়
-      edit_trace: এই অনুসরণটি সম্পাদনা করুন
-      delete_trace: এই অনুসরণটি মুছে ফেলুন
+      edit_trace: এই ট্রেস সম্পাদনা করুন
+      delete_trace: এই ট্রেস মুছে ফেলুন
       trace_not_found: অনুসরণ পাওযা যায়নি।
       visibility: 'দৃষ্টিযোগ্যতা:'
     trace:
@@ -2105,6 +2115,9 @@ bn:
       google:
         title: গুগল দিয়ে প্রবেশ করুন
         alt: গুগল লোগো
+      apple:
+        title: অ্যাপল দিয়ে প্রবেশ করুন
+        alt: অ্যাপলের লোগো
       facebook:
         title: ফেসবুক দিয়ে প্রবেশ করুন
         alt: ফেসবুক লোগো
@@ -2142,15 +2155,25 @@ bn:
   users:
     new:
       title: নিবন্ধন করুন
+      tab_title: নিবন্ধন করুন
       about:
         header: মুক্ত ও সম্পাদনাযোগ্য।
+        paragraph_2: অবদান রাখতে নিবন্ধন করুন।
+      display name description: আপনার সর্বজনীনভাবে প্রদর্শিত ব্যবহারকারী নাম। আপনি
+        পরে পছন্দসমূহে গিয়ে এটি পরিবর্তন করতে পারবেন।
       by_signing_up:
+        html: নিবন্ধন করার মাধ্যমে, আপনি আমাদের %{tou_link}, %{privacy_policy_link}
+          ও %{contributor_terms_link}র সাথে সম্মত হচ্ছেন।
         tou: ব্যবহারের শর্তাবলী
         privacy_policy: গোপনীয়তার নীতি
+        contributor_terms: অবদানের শর্তাবলী
       continue: নিবন্ধন করুন
       email_help:
         privacy_policy: গোপনীয়তার নীতি
+        html: আপনার ঠিকানা সর্বজনীনভাবে প্রদর্শন করা হয় না, আরও তথ্যের জন্য আমাদের
+          %{privacy_policy_link} দেখুন।
       or: বা
+      use external auth: অথবা তৃতীয় পক্ষের পরিষেবা দিয়ে নিবন্ধন করুন
     no_such_user:
       title: এরকম কোনো ব্যবহারকারী নেই
       heading: ব্যবহারকারী %{user} বিদ্যমান নয়
@@ -2168,9 +2191,10 @@ bn:
       my_preferences: আমার পছন্দ
       send message: বার্তা পাঠান
       diary: দিনলিপি
-      edits: সম্পাদনাসমূহ
+      edits: সম্পাদনা
       notes: মানচিত্রের নোট
       mapper since: 'এ থেকে মানচিত্র বানাচ্ছেন:'
+      last map edit: 'সর্বশেষ মানচিত্র সম্পাদনা:'
       ct status: 'অবদানকারী শর্তাবলী:'
       ct undecided: সিদ্ধান্তহীন
       ct declined: বাতিলকৃত
@@ -2178,7 +2202,7 @@ bn:
       status: 'অবস্থা:'
       block_history: সক্রিয় বাধাসমূহ
       moderator_history: প্রদত্ত বাধাগুলি
-      comments: মন্তব্যসমূহ
+      comments: মন্তব্য
       create_block: এই ব্যবহারকারীকে বাধা দিন
       activate_user: এই ব্যবহাকারীকে সক্রিয় করুন
       confirm_user: এই ব্যবহারকারীকে নিশ্চিত করুন
@@ -2187,6 +2211,9 @@ bn:
       delete_user: এই ব্যবহাকারীকে অপসারণ করুন
       confirm: নিশ্চিত করুন
       report: এই ব্যবহারকারীকে প্রতিবেদন করুন
+      contributions:
+        one: গত বছরে %{count}টি অবদান
+        other: গত বছরে %{count}টি অবদান
     go_public:
       flash success: আপনার সকল সম্পাদনা এখন উন্মুক্ত, এবং এখন আপনার সম্পাদনের অনুমতি
         রয়েছে।
@@ -2199,7 +2226,7 @@ bn:
         heading: ব্যবহারকারীগণ
         states:
           deleted: অপসারিত
-        search: অনুসন্ধান
+        search: অনুসন্ধান করুন
       page:
         confirm: নির্বাচিত ব্যবহারকারীদের নিশ্চিত করুন
         hide: নির্বাচিত ব্যবহারকারীদের লুকান
@@ -2297,6 +2324,7 @@ bn:
         %{link}।
     new:
       title: নতুন টীকা
+      anonymous_warning_sign_up: নিবন্ধন করুন
       add: টীকাযুক্ত করুন
     notes_paging_nav:
       showing_page: '%{page}টি পাতা'
@@ -2315,11 +2343,18 @@ bn:
         out: জুম আউট করুন
       locate:
         title: আমার অবস্থান দেখান
+      base:
+        standard: মানক
+        cycle_map: সাইকেল মানচিত্র
+        transport_map: পরিবহন মানচিত্র
+        tracestracktop_topo: ট্রেসেসট্র্যাক টোপো
+        hot: মানবিক
       layers:
         header: মানচিত্রের স্তর
         notes: মানচিত্রের নোট
         data: মানচিত্র উপাত্ত
         title: স্তর
+      openstreetmap_contributors: ওপেনস্ট্রিটম্যাপ অবদানকারী
       make_a_donation: দান করুন
       website_and_api_terms: ওয়েবসাইট এবং API শর্তাবলী
       andy_allan: অ্যান্ডি অ্যালান
@@ -2328,7 +2363,7 @@ bn:
       edit_disabled_tooltip: মানচিত্রটি সম্পাদনা করতে জুম ইন করুন
       createnote_tooltip: মানচিত্রে একটি নোট যোগ করুন
       createnote_disabled_tooltip: মানচিত্রে একটি নোট যোগ করতে জুম ইন করুন
-      queryfeature_tooltip: বৈশিষ্ট্য অনুসন্ধান
+      queryfeature_tooltip: বৈশিষ্ট্য অনুসন্ধান করুন
       queryfeature_disabled_tooltip: অনুসন্ধানের বৈশিষ্ট্যগুলিতে জুম ইন করুন
     edit_help: মানচিত্রটি সরান এবং আপনি যে অবস্থানটিতে সম্পাদনা করতে চান সেখানে জুম
       করুন, তারপর এখানে ক্লিক করুন।
@@ -2336,16 +2371,19 @@ bn:
       distance_in_units:
         m: '%{distance}মি'
         km: '%{distance}কিমি'
+      errors:
+        no_place:
+          title: অনুসন্ধান ব্যর্থ হয়েছে
       instructions:
         continue_without_exit: '%{name}-এ যেতে থাকুন'
         slight_right_without_exit: '%{name}-এ সামান্য ডান দিকে সরান'
         turn_right_without_exit: '%{name}-এ ডানদিকে মোড় নিন'
         turn_left_without_exit: '%{name}-এ ডানদিকে মোড় নিন'
-        slight_left_without_exit: '%{name}-এ সামান্য বামে'
+        slight_left_without_exit: '%{name}-এ সামান্য বামে যান'
         via_point_without_exit: (বিন্দুর মাধ্যমে)
         follow_without_exit: '%{name} অনুসরণ করুন'
-        start_without_exit: '%{name}-এ শুরু'
-        destination_without_exit: গন্তব্যে পৌঁছানো
+        start_without_exit: '%{name}-এ শুরু করুন'
+        destination_without_exit: গন্তব্যে পৌঁছে গেছেন
         against_oneway_without_exit: '%{name}-এ একমুখীর বিরুদ্ধে যান'
         end_oneway_without_exit: '%{name}-এর একমুখী শেষ'
         unnamed: নামহীন সড়ক
@@ -2368,9 +2406,12 @@ bn:
     element:
       wikipedia: উইকিপিডিয়া
     context:
+      directions_from: এখান থেকে দিকনির্দেশ
+      directions_to: এখান পর্যন্ত দিকনির্দেশ
       add_note: এখানে একটি টীকা যোগ করুন
       show_address: ঠিকানা দেখান
-      query_features: বৈশিষ্ট্য অনুসন্ধান
+      query_features: বৈশিষ্ট্য অনুসন্ধান করুন
+      centre_map: এখানে মানচিত্রের কেন্দ্র আনুন
     home:
       marker_title: আমার বাড়ির অবস্থান
     edit:
