@@ -15,7 +15,8 @@ L.OSM.TileLayer = L.TileLayer.extend({
 L.OSM.Mapnik = L.OSM.TileLayer.extend({
   options: {
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    maxZoom: 19
+    maxZoom: 19,
+    referrerPolicy: 'strict-origin-when-cross-origin'
   }
 });
 
