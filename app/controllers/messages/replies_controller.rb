@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class RepliesController < ApplicationController
     layout :site_layout

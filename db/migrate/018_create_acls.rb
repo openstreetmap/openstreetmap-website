@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAcls < ActiveRecord::Migration[4.2]
   def self.up
     create_table "acls", :id => false do |t|

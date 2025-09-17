@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateOsmDb < ActiveRecord::Migration[4.2]
   def self.up
     create_table "current_nodes", :id => false do |t|

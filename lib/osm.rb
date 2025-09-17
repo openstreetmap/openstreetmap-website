@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # The OSM module provides support functions for OSM.
 module OSM
   require "time"

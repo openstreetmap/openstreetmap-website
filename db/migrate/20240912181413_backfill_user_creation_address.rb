@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BackfillUserCreationAddress < ActiveRecord::Migration[7.1]
   class User < ApplicationRecord
   end

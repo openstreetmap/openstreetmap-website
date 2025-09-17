@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Messages
   class OutboxesController < MailboxesController
     # Display the list of messages that the user has sent to other users.

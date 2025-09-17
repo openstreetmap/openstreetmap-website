@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.instruct!
 
 xml.rss("version" => "2.0",

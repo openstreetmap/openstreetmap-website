@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 xml.tag! "user", :id => user.id,
                  :display_name => user.display_name,
                  :account_created => user.created_at.xmlschema do

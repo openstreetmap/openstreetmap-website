@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Get PR number
 pr_number = github.pr_json["number"]
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class WaysController < ApiController
     before_action :check_api_writable, :only => [:create, :update, :destroy]

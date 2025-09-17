@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.type "FeatureCollection"
 
 json.features do

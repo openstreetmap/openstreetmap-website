@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameIds < ActiveRecord::Migration[4.2]
   def change
     rename_column :changeset_tags, :id, :changeset_id

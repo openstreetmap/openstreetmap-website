@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Oauth
   SCOPES = %w[
     read_prefs write_prefs write_diary

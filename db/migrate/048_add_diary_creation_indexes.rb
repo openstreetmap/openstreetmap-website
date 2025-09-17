@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddDiaryCreationIndexes < ActiveRecord::Migration[4.2]
   def self.up
     add_index :diary_entries, [:created_at], :name => "diary_entry_created_at_index"

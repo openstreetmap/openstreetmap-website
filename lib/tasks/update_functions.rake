@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :db do
   desc "Update database function definitions"
   task :update_functions => :environment do

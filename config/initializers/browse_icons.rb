@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   BROWSE_ICONS = YAML.load_file(Rails.root.join("config/browse_icons.yml")).transform_values do |tag_key_data|
     transformed_tag_key_data = {}

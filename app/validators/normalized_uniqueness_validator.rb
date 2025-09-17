@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NormalizedUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     relation = if options.fetch(:case_sensitive, true)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 json.type "relation"
 json.id old_relation.relation_id
 json.timestamp old_relation.timestamp.xmlschema

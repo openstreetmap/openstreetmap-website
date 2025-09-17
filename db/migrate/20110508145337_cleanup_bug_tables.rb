@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CleanupBugTables < ActiveRecord::Migration[4.2]
   def self.up
     rename_column :map_bugs, :date_created, :created_at

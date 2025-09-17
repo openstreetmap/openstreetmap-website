@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Auth
   @providers = []
   @providers << "google" if Settings.key?(:google_auth_id)

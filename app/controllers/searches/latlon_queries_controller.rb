@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Searches
   class LatlonQueriesController < QueriesController
     def create

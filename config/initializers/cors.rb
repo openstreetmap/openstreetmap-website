@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Be sure to restart your server when you modify this file.
 
 # Allow any and all cross-origin requests to the API. Allow any origin, and

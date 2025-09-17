@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNotesAndDiaryCommentsCounterCaches < ActiveRecord::Migration[7.1]
   def self.up
     add_column :users, :diary_comments_count, :integer, :default => 0

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DatabaseFunctions
   API_RATE_LIMIT = %(
     CREATE OR REPLACE FUNCTION api_rate_limit(user_id int8)

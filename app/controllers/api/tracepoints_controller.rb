@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class TracepointsController < ApiController
     authorize_resource

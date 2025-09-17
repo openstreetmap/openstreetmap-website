@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Locale < I18n::Locale::Tag::Rfc4646
   class List < Array
     attr_reader :locales

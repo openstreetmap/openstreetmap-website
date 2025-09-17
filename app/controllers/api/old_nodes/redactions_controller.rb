@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module OldNodes
     class RedactionsController < OldElements::RedactionsController

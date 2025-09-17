@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :oauth do
   desc "Register the built-in apps with specified user as owner; append necessary changes to settings file"
   task :register_apps, [:display_name] => :environment do |task, args|

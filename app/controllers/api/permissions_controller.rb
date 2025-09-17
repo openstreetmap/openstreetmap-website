@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   class PermissionsController < ApiController
     authorize_resource :class => false
