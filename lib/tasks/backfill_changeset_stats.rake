@@ -91,7 +91,16 @@ namespace :db do
             num_deleted_ways       = total.num_deleted_ways,
             num_created_relations  = total.num_created_relations,
             num_modified_relations = total.num_modified_relations,
-            num_deleted_relations  = total.num_deleted_relations
+            num_deleted_relations  = total.num_deleted_relations,
+            num_changes            = total.num_created_nodes +
+                                     total.num_modified_nodes +
+                                     total.num_deleted_nodes +
+                                     total.num_created_ways +
+                                     total.num_modified_ways +
+                                     total.num_deleted_ways +
+                                     total.num_created_relations +
+                                     total.num_modified_relations +
+                                     total.num_deleted_relations
         FROM total
         WHERE changesets.id = total.changeset_id
       SQL
