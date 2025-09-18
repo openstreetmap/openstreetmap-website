@@ -8,6 +8,7 @@
 # Author: GeographieMan
 # Author: Gravitystorm
 # Author: HairyFotr
+# Author: JanezPavelZebovec
 # Author: Lesko987
 # Author: Macofe
 # Author: Marwin H.H.
@@ -402,6 +403,10 @@ sl:
         consider_pd: Svoje prispevke štejem za javno domeno
         consider_pd_why: Zakaj bi želel_a, da so moji prispevki javna domena?
         confirm: Potrdi
+      create:
+        successfully_declared: Uspešno ste izjavili, da so vaša urejana v javni domeni.
+        already_declared: Ste že izjavili, da so vaša urejanja del javne domene.
+        did_not_confirm: Niste potrdili, da so vaša urejanja del javne domene.
   browse:
     deleted_ago_by_html: Izbrisal %{user} %{time_ago}
     edited_ago_by_html: Uredil_a %{user} %{time_ago}
@@ -475,6 +480,7 @@ sl:
     start_rjs:
       feature_warning: Nalaganje %{num_features}-ih značilnosti, kar lahko upočasni
         brskalnik ali ga naredi neodzivnega. Ali res želite prikazati te podatke?
+      feature_error: 'Predmet ni bilo mogoče naložiti: %{message}'
       load_data: Naloži podatke
       loading: Nalaganje ...
     tag_details:
@@ -483,11 +489,23 @@ sl:
         key: Vikstran z opisom oznake %{key}
         tag: Viki stran z opisom oznake %{key}=%{value}
       wikidata_link: Predmet %{page} v Wikipodatkih
+      wikidata_preview:
+        one: predogled Wikidata
+        two: predogleda Wikidata
+        few: predogledi Wikidata
+        other: predlog Wikidata
       wikipedia_link: Članek %{page} v Wikipediji
       wikimedia_commons_link: Predmet %{page} v Wikimedijini zbirki
       telephone_link: Pokliči %{phone_number}
       colour_preview: Predogled barve %{colour_value}
       email_link: E-pošta %{email}
+    versions_navigation:
+      node: Vozlišče
+      way: Pot
+      relation: Zveza
+      history: Zgodovina
+      version: 'Različica #%{version}'
+      versions_label: 'Različice:'
   feature_queries:
     show:
       title: Preveri značilnosti
@@ -502,18 +520,51 @@ sl:
         title_html: 'Zgodovina poti: %{name}'
       relation:
         title_html: 'Zgodovina povezave: %{name}'
+      older_versions: 'Starejše različice:'
+      newer_versions: Novejše različice
     actions:
       view_redacted_data: Ogled skritih podatkov
       view_redaction_message: Ogled sporočila o redigiranju
+  nodes:
+    not_found_message:
+      sorry: 'Žal ni bilo mogoče najti vozlišča #%{id}.'
+    timeout:
+      sorry: Žal je pridobivanje podatkov za vozlišče z ID-jem %{id} trajalo predolgo.
   old_nodes:
     not_found_message:
       sorry: 'Žal vozlišča #%{id} različice %{version} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je pridobivanje zgodovine vozlišča z ID-jem %{id} trajalo predolgo.
+  ways:
+    not_found_message:
+      sorry: Žal ni bilo mogoče najti poti %{id}.
+    timeout:
+      sorry: Žal je pridobivanje podatkov poti z ID-jem %{id} trajalo predolgo.
   old_ways:
     not_found_message:
       sorry: 'Žal načina #%{id} različice %{version} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je pridobivanje zgodovine poti z ID-jem %{id} trajalo predolgo.
+  relations:
+    not_found_message:
+      sorry: 'Žal zveze #%{id} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je prodobivanje podatkov za zvezo z ID-jem %{id} trajalo predolgo.
+  relation_members:
+    not_found_message:
+      sorry: 'Žal zveze #%{id} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je prodobivanje podatkov za relacijo z ID-jem %{id} trajalo predolgo.
   old_relations:
     not_found_message:
       sorry: 'Žal relacije #%{id} različice %{version} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je pridobivanje zgodovine relacije z ID-jem %{id} trajalo predolgo.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Žal relacije #%{id} različice %{version} ni bilo mogoče najti.'
+    timeout:
+      sorry: Žal je pridobivanje članov relacije z ID-jem %{id} trajalo predolgo.
   changeset_comments:
     feeds:
       comment:
@@ -526,10 +577,37 @@ sl:
         sorry: Žal je trajalo pridobivanje seznama komentarjev nabora sprememb, ki
           ste ga zahtevali, predolgo.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} komentar'
+        two: '%{count} komentarja'
+        few: '%{count} komentarji'
+        other: '%{count} komentarjev'
+      changes:
+        one: '%{count} sprememba'
+        two: '%{count} spremembi'
+        few: '%{count} spremembe'
+        other: '%{count} sprememb'
+      n_elements_created:
+        one: '%{count} ustvarjeni element'
+        two: '%{count} ustvarjena elementa'
+        few: '%{count} ustvarjeni elementi'
+        other: '%{count} ustvarjenih elementov'
+      n_elements_modified:
+        one: '%{count} element spremenjen'
+        two: '%{count} elementa spremenjena'
+        few: '%{count} elementi spremenjeni'
+        other: '%{count} elementov spremenjenih'
+      n_elements_deleted:
+        one: '%{count} element izbrisan'
+        two: '%{count} elementa izbrisana'
+        few: '%{count} elementi izbrisani'
+        other: '%{count} elementov izbrisanih'
     index:
       title: Sklopi sprememb
       title_user: Sklopi sprememb od %{user}
       title_user_link_html: Sklopi sprememb uporabnika_ce %{user_link}
+      title_followed: Sklopi srememb uporabnikov, ki jim sledite.
       title_nearby: Sklopi sprememb bližnjih uporabnikov
       empty: Ni najdenih množic sprememb.
       empty_area: Na tem območju ni naborov sprememb.
@@ -537,6 +615,8 @@ sl:
       no_more: Ni drugih najdenih naborov sprememb.
       no_more_area: Na tem območju ni drugih množic sprememb.
       no_more_user: Ni drugih naborov sprememb tega uporabnika.
+      older_changesets: Starejši sklopi sprememb.
+      newer_changesets: Novejši sklopi sprememb.
       feed:
         title: Nabor sprememb %{id}
         title_comment: Nabor sprememb %{id} – %{comment}
@@ -565,9 +645,15 @@ sl:
       changesetxml: Nabor sprememb XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Vozlišča
       nodes_paginated: Vozlišča (%{x}-%{y} od %{count})
+      ways_title: Poti
       ways_paginated: Poti (%{x}-%{y} od %{count})
+      relations_title: Zveze
       relations_paginated: Zveze (%{x}-%{y} od %{count})
+      range: '%{x}-%{y} od %{count}'
+    not_found_message:
+      sorry: Žal sklopa sprememb %{id} ni bilo mogoče najti.
     timeout:
       sorry: Žal je trajalo pridobivanje zahtevanega nabora sprememb predolgo.
   changeset_subscriptions:
@@ -595,14 +681,19 @@ sl:
     popup:
       your location: Vaša lokacija
       nearby mapper: Bližnji kartograf
+      following: Spremljajoč
     show:
       title: Moja nadzorna plošča
       no_home_location_html: '%{edit_profile_link} in nastavite svojo domačo lokacijo
         za prikaz bližnjih uporabnikov.'
       edit_your_profile: Uredite svoj profil
+      followings: Uporabniki, ki jih spremljate
+      no followings: Ne spremljate še nobenega uporabnika.
       nearby users: Drugi bližnji uporabniki
       no nearby users: Ni drugih uporabnikov, ki bi sporočili, da kartirajo v vaši
         bližini.
+      followed_changesets: sklopi sprememb
+      followed_diaries: dnevniški vpisi
       nearby_changesets: sklopi sprememb bližnjih uporabnikov
       nearby_diaries: dnevniški vnosi bližnjih uporabnikov
   diary_entries:
@@ -613,6 +704,7 @@ sl:
       use_map_link: Uporabi zemljevid
     index:
       title: Dnevniki uporabnikov
+      title_followed: Dnevniki spremljanih uporabnikov
       title_nearby: Dnevniki bližnjih uporabnikov
       user_title: Dnevnik uporabnika %{user}
       in_language_title: Dnevniški zapisi v jeziku %{language}
@@ -626,6 +718,8 @@ sl:
       title: Dnevnik uporabnika %{user} | %{title}
       user_title: Dnevnik uporabnika %{user}
       discussion: Pogovor
+      subscribe: Naroči se
+      unsubscribe: Odnaroči se
       leave_a_comment: Napiši komentar
       login_to_leave_a_comment_html: '%{login_link} za vpis komentarja'
       login: Prijava
@@ -637,6 +731,7 @@ sl:
     diary_entry:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}.
       updated_at_html: Nazadnje posodobljeno %{updated}.
+      full_entry: Poglej celotni vnos
       comment_link: Komentiraj ta vnos
       reply_link: Pošlji sporočilo avtorju
       comment_count:
@@ -668,10 +763,30 @@ sl:
       all:
         title: Dnevniški zapisi OpenStreetMap
         description: Nedavni dnevniški zapisi uporabnikov OpenStreetmap
+    subscribe:
+      heading: Želite spremljati sledečo razpravo dnevniškega vpisa?
+      button: Spremljaj razpravo
+    unsubscribe:
+      heading: Želite prenehati spremljati razpravo sledečega dnevniškega vpisa?
+      button: Prenehaj spremljati razpravo
     navigation:
+      in_language: Dnevniški vnosi v %{language}
       my_diary: Moj dnevnik
       new: Nov dnevniški zapis
       new_title: Sestavi nov zapis v mojem uporabniškem dnevniku
+    profile_diaries:
+      latest_diaries: Najnovejši dnevniki
+      comments:
+        one: '%{count} komentar'
+        two: '%{count} komentarja'
+        few: '%{count} komentarji'
+        other: '%{count} komentarjev'
+      title_label: Dnevniški vpis
+      comments_label: Komentarji
+      date_label: Datum
+  diary_comments:
+    new:
+      heading: Želite dodati komentar k sledečemu dnevniškemu vpisu?
   doorkeeper:
     errors:
       messages:
@@ -710,6 +825,10 @@ sl:
       contact: kontaktirati
       contact_the_community_html: Če ste našli nedelujočo povezavo/hrošča, ne oklevajte
         %{contact_link} skupnosti OpenStreetMap. Zabeležite si točen URL vašega zahtevka.
+    bad_request:
+      title: Spodletel ukaz
+      description: Operacija, ki ste jo zahtevali na strežniku OpenStreetMap, ni veljavna
+        (HTTP 400)
     forbidden:
       title: Prepovedano
       description: Operacija, ki ste jo zahtevali v strežniku OpenStreetMap, je na
@@ -722,6 +841,23 @@ sl:
       title: Datoteka ni bila najdena
       description: Datoteke/imenika/API-operacije s tem imenom v strežniku OpenStreetMap
         ni bilo mogoče najti (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Ali želite spremljati uporabnika %{user}?
+        button: Spremljaj uporabnika
+      unfollow:
+        heading: Ali želite prenehati slediti %{user}?
+        button: Odsledi uporabnika
+    create:
+      success: Zdaj sledite %{name}!
+      failed: Žal vaš zahtevek za sledenje %{name} ni bil uspešen.
+      already_followed: Že spremljate uporabnika %{name}.
+      limit_exceeded: V kratkem času ste začeli slediti številne uporabnike. Prosimo,
+        nekoliko počakajte, preden začnete slediti nove uporabnike.
+    destroy:
+      success: Uspešno ste prenehali slediti %{name}.
+      not_followed: Ne sledite %{name}.
   geocoder:
     search_osm_nominatim:
       prefix_format: '%{name}'
@@ -887,6 +1023,7 @@ sl:
           college: VIsokošolska stavba
           commercial: Poslovna stavba
           construction: Stavba v gradnji
+          cowshed: Hlev za krave
           detached: Samostojna hiša
           dormitory: Študentski dom
           duplex: Dvostanovanjska hiša
@@ -916,6 +1053,7 @@ sl:
           shed: Lopa
           stable: Hlev za konje
           static_caravan: Stanovanjska prikolica
+          sty: Svinjak
           temple: Tempelj
           terrace: Vrstne hiše
           train_station: Poslopje železniške postaje
@@ -970,6 +1108,7 @@ sl:
           bridleway: Jahalna pot
           bus_guideway: Turistični avtobus
           bus_stop: Avtobusna postaja
+          busway: Avtobusna proga
           construction: Cesta v izgradnji
           corridor: Hodnik
           crossing: Prehod
@@ -1052,6 +1191,14 @@ sl:
           wayside_shrine: Kapelica
           wreck: Razbitina
           "yes": Zgodovinski kraj
+        information:
+          guidepost: Kažipot
+          board: Informativna tabla
+          map: Zemljevid
+          office: Turistična pisarna
+          terminal: Informacijski terminal
+          sign: Informacijski znak
+          stele: Informacijska stela
         junction:
           "yes": Križišče
         landuse:
@@ -1124,6 +1271,8 @@ sl:
           track: Tekaška proga
           water_park: Vodni park
           "yes": Prosti čas
+        lock:
+          "yes": Zapornica
         man_made:
           adit: Rudarski jašek
           advertising: Oglaševanje
@@ -1464,6 +1613,17 @@ sl:
           building_passage: Prehod skozi stavbo
           culvert: Podzemni kanal
           "yes": Predor
+        water:
+          lake: Jezero
+          pond: Ribnik
+          reservoir: Vodni zbiralnik
+          basin: Vodna kotanja
+          fishpond: Ribnik
+          lagoon: Laguna
+          wastewater: Odpadne vode
+          oxbow: Rečni okljuk
+          stream_pool: Potočni bazen
+          lock: Zapornica
         waterway:
           artificial: Umetni vodotok
           boatyard: Ladjedelnica
@@ -1484,20 +1644,49 @@ sl:
           weir: Nizek jez
           "yes": Vodotok
       admin_levels:
-        level2: Državna meja
+        level2: Mednarodna državna meja
         level3: Meja regije
         level4: Meja pokrajine
-        level5: Meja regije
-        level6: Meja upravne enote
-        level7: Meja občine
-        level8: Meja občine
-        level9: Meja mesta
-        level10: Meja predmestja
-        level11: Meja soseske
+        level5: Upravna meja (raven 5)
+        level6: Upravna meja (raven 6)
+        level7: Upravna meja (raven 7)
+        level8: Upravna meja (raven 8)
+        level9: Upravna meja (raven 9)
+        level10: Upravna meja (raven 10)
+        level11: Upravna meja (raven 11)
+      border_types:
+        arrondissement: Meja okrožja
+        borough: Meja okraja
+        cercle: Meja okroga
+        city: Meja mesta
+        comarca: Meja comarce
+        county: Meja okrožja
+        departement: Meja departmaja
+        department: Meja departmaja
+        district: Meja distrikta
+        distrito: Meja distrikta
+        freguesia: Meja freguesie
+        local_authority: Meja lokalne oblasti
+        municipality: Meja občine
+        municipi: Občinska meja
+        município: Občinska meja
+        nation: Mednarodna meja
+        national: Mednarodna meja
+        neighbourhood: Meja soseske
+        parish: Meja županije
+        province: Meja province
+        região: Regionalna meja
+        region: Regionalna meja
+        state: Državna meja
+        town: Meja mesta
+        township: Meja townshipa
+        village: Meja vasi
   searches:
     show:
       title:
         latlon: Notranji
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Ni zadetkov
@@ -1509,13 +1698,21 @@ sl:
       time: Čas
       ascend: Vzpon
       descend: Spust
+      kilometers: kilometri
+      miles_feet: milje, čevlji
+      miles_yards: milje, jardi
+      distance_units_settings: Nastavitve enot razdalj
+      download: Prenesi pot kot GeoJSON
+      filename: pot
       directions_courtesy_html: Navodila prispeva %{link}
   issues:
     index:
       title: Težave
       select_status: Izberite stanje
       select_type: Izberite vrsto
+      select_last_managed_by: Izberi, kar je nazadnje urejal
       reported_user: Prijavljeni uporabnik
+      not_managed: Neurejeno
       search: Iskanje
       search_guidance: 'Preišči težave:'
       states:
@@ -1525,6 +1722,7 @@ sl:
     page:
       user_not_found: Uporabnik ne obstaja
       issues_not_found: Ni najdenih tovrstnih težav
+      reported_user: Prijavljeni uporabnik
       status: Stanje
       reports: Prijave
       last_updated: Zadnja posodobitev
@@ -1632,6 +1830,107 @@ sl:
     communities: Skupnosti
     learn_more: Več o tem
     more: Več
+    header:
+      ok: Potrdi
+      select_language: Izberite jezik
+    select_language_button:
+      title: Izberite jezik
+    select_language_list:
+      languages:
+        af: afrikanščina
+        az: azerbajdžanščina
+        id: indonezijščina
+        ms: malajščina
+        bs: bosanščina
+        br: bretonščina
+        ca: katalonščina
+        cs: češčina
+        cy: valižanščina
+        da: danščina
+        de: nemščina
+        dsb: spodnja lužiška srbščina
+        et: estonščina
+        en: angleščina
+        en-GB: Angleščina (VB)
+        es: španščina
+        eo: Esperanto
+        eu: baskovščina
+        fr: francoščina
+        fy: Zahodnofrizijščina
+        ga: irščina
+        gd: škotska gelščina
+        hsb: zgornja lužiška srbščina
+        hr: hrvaščina
+        is: islandščina
+        it: italijanščina
+        gcf: gvadalupska kreolščina
+        ku-Latn: kurdščina (latinična)
+        lv: latvijščina
+        lb: luksemburščina
+        lt: litovščina
+        hu: madžarščina
+        nl: nizozemščina
+        nb: norveščina (Bokmål)
+        nn: norveščina (Nynorsk)
+        oc: okcitanščina
+        pl: poljščina
+        pt-PT: portugalščina
+        pt: portugalščina (Brazilija)
+        ro: romunščina
+        sc: sardinščina
+        sco: škotščina
+        sq: albanščina
+        scn: sicilijanščina
+        sk: slovaščina
+        sl: slovenščina
+        sr-Latn: srbščina (latinična)
+        sh: srbohrvaščina (latinična)
+        fi: finščina
+        sv: švedščina
+        tl: tagaloščina
+        kab: kabilščina
+        vi: vietnamščina
+        tr: turščina
+        yo: jorubščina
+        el: grščina
+        ba: baškirščina
+        be: beloruščina
+        be-Tarask: beloruščina (tarašk.)
+        bg: bolgarščina
+        mk: makedonščina
+        mo: moldavščina
+        ce: čečenščina
+        ru: ruščina
+        sr: Srbščina (cirilična)
+        tt: tatarščina (cirilična)
+        uk: ukrajinščina
+        kk-cyrl: kazaščina (cirilična)
+        yi: jidiš
+        he: hebrejščina
+        ar: arabščina
+        fa: perzijščina
+        arz: egpiptovska arabščina
+        pnb: zahodna pandžabščina
+        nqo: nkojščina
+        ne: nepalščina
+        mr: maratščina
+        hi: hindijščina
+        bn: bengalščina
+        pa: pandžabščina
+        gu: gudžaratščina
+        ta: tamilščina
+        te: teluščina
+        th: tajščina
+        my: burmajščina
+        shn: šanščina
+        xmf: mingrelščina
+        km: kmerščina
+        sat: santalščina
+        zh-CN: kitajščina (poenostavljena)
+        zh-TW: kitajščina (tradicionalna)
+        zh-HK: kitajščina (hongkongška)
+        ja: japonščina
+        ko: korejščina
   user_mailer:
     diary_comment_notification:
       description: Dnevniški vnos OpenStreetMap št. %{id}

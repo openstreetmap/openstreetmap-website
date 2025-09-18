@@ -416,7 +416,7 @@ lb:
         title_html: 'Versioune vum Wee: %{name}'
       relation:
         title_html: 'Versioune vun der Relatioun: %{name}'
-      older_versions: Eeler Versiounen
+      older_versions: Méi al Versiounen
       newer_versions: Méi nei Versiounen
   nodes:
     not_found_message:
@@ -1690,9 +1690,9 @@ lb:
         yi: Jiddesch
         he: Hebräesch
         ar: Arabesch
-        skr-arab: Saraiki (Arabesch Schrëft)
+        skr-arab: Saraiki
         fa: Persesch
-        arz: Arabesch (Egypten)
+        arz: Egyptescht Arabesch
         ne: Nepaleesesch
         mr: Marathi
         hi: Hindi
@@ -1829,6 +1829,7 @@ lb:
       details: Äntweren oder méi gewuer ginn iwwer d'Notiz op %{url}.
       details_html: Äntwert oder méi gewuer ginn iwwer d'Notiz ënner %{url}.
     changeset_comment_notification:
+      description: 'OpenStreetMap-Ännerungssaz #%{id}'
       hi: Salut %{to_user},
       commented:
         subject_own: '[OpenStreetMap] %{commenter} huet ee vun dengen Ännerungssätz
@@ -1916,6 +1917,10 @@ lb:
         notice: Message als gelies markéiert
       destroy:
         notice: Message als net gelies markéiert
+    mutes:
+      destroy:
+        notice: De Message gouf an de Postagang geréckelt
+        error: De Message konnt net an de Postagang geréckelt ginn.
     mailboxes:
       heading:
         my_inbox: Mäi Postagang
@@ -1931,6 +1936,7 @@ lb:
         unread_button: Als net gelies markéieren
         read_button: Als gelies markéieren
         destroy_button: Läschen
+        unmute_button: An de Postagang réckelen
     inboxes:
       show:
         title: Postagang
@@ -2114,6 +2120,8 @@ lb:
       help: Hëllef
     pagination:
       changeset_comments:
+        older: Méi al Kommentaren
+        newer: Méi nei Kommentaren
         oldest: Eelst Kommentaren
         newest: Neist Kommentaren
       diary_comments:
@@ -2134,6 +2142,8 @@ lb:
       traces:
         older: Eeler Spueren
         newer: Méi nei Spueren
+        oldest: Eelst Spueren
+        newest: Neist Spueren
       user_blocks:
         older: Eeler Spären
         newer: Méi nei Spären
@@ -2159,8 +2169,18 @@ lb:
       community_driven_title: Communautéitsbedriwwen
       community_driven_osm_blog: OpenStreetMap-Blog
       community_driven_community_blogs: Communautéits-Bloggen
+      community_driven_osm_foundation: OSM Foundation
       open_data_title: Open Data
+      open_data_1_html: 'OpenStreetMap ass %{open_data}: Dir kënnt et fir all Zweck
+        benotzen, soulaang Dir OpenStreetMap a seng Contributeure ernimmt. Wann Dir
+        op iergendeng Aart a Weis d''Donnéeë verännert oder dorop opbaut, dann däerft
+        Dir d''Resultat dovunner nëmmen ënner där selwechter Lizenz weiderverbreeden.
+        Kuckt d''%{copyright_license_link} fir d''Detailer.'
+      open_data_open_data: Open Data
+      open_data_copyright_license: Säit iwwer de Copyright an d'Lizenz
       legal_title: Rechtlech Hiweiser
+      legal_1_1_openstreetmap_foundation: OpenStreetMap Foundation
+      legal_1_1_terms_of_use: Benotzungskonditiounen
       legal_1_1_privacy_policy: Dateschutzrichtlinnen
       legal_2_1_contact_the_osmf: d'OSMF kontaktéieren
       partners_title: Partneren
@@ -2179,12 +2199,18 @@ lb:
         lead_2_learn_more_about_osm: Méi iwwer OpenStreetMap gewuer ginn
         lead_2_osm_blog: OpenStreetMap-Blog
         lead_2_osm_community: OSM-Communautéit
+        lead_2_osm_foundation: OSM Foundation
         licensing_title: OpenStreetMap-Lizenzéierung
+        licensing_1_html: 'OpenStreetMap ass %{open} Data, lizenzéiert ënner der %{odc_odbl_link}
+          (ODbL) vun der %{osm_foundation_link} (OSMF). Am Resümmee:'
+        licensing_1_odc_odbl: Open-Data-Commons-Open-Database-Lizenz
+        licensing_1_osm_foundation: OpenStreetMap Foundation
         licensing_4_osmf_license_page: OSMF-Lizenzsäit
         credit_title_html: Wéi een op d'Urhiewerschaft vun OpenStreetMap hiweist
         credit_1_html: 'Wann Dir Donnéeë vun OpenStreetMap benotzt, muss Dir dës zwou
           Saache respektéieren:'
         infringement_title_html: Copyright-Verletzung
+        services_title_html: Zousätzlech Servicer
         contributors_title_html: Eis Matwierkend
         contributors_intro_html: 'Eis Matwierkend sinn dausende vun eenzele Mënschen.
           Mir bezéien och oppe lizenzéiert Donnéeë vu nationale Kaartenagenturen an
@@ -2414,14 +2440,18 @@ lb:
       cancel: Ofbriechen
       heading: Spuer %{name} beaarbechten
       visibility_help: wat heescht dat?
+    update:
+      updated: Spuer aktualiséiert
     show:
       title: Spuer %{name} ukucken
+      heading: Spuer %{name} ukucken
       pending: AM SUSPENS
       filename: 'Numm vum Fichier:'
       download: eroflueden
       uploaded: 'Eropgelueden:'
       points: 'Punkten:'
       start_coordinates: 'Ufankskoordinaten:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: Kaart
       edit: änneren
       owner: 'Besëtzer:'
@@ -2429,6 +2459,7 @@ lb:
       tags: 'Markéierungen:'
       none: Keen
       edit_trace: Dës Spuer änneren
+      delete_trace: Dës Spuer läschen
       trace_not_found: Spuer net fonnt!
       visibility: 'Visibilitéit:'
       confirm_delete: Dës Spuer läschen?
@@ -2447,9 +2478,13 @@ lb:
       details_without_tags_html: viru(n) %{time_ago} vum %{user}
     index:
       public_traces: Ëffentlech GPS Spueren
+      my_gps_traces: Meng GPS-Spueren
       public_traces_from: Ëffentlech GPS-Spuere vu(n) %{user}
       description: Lescht GPS-Spuer-Uploads duerchsichen
+      empty_title: Nach näischt hei
+      upload_new: Eng nei Spuer eroplueden
       wiki_page: Wiki-Säit
+      upload_trace: Eng Spuer eroplueden
       all_traces: All Spuren
       my_traces: Meng Spueren
       traces_from_html: Ëffentlech Spuere vum %{user}
@@ -2460,6 +2495,9 @@ lb:
       show:
         title: OpenStreetMap-GPS-Spueren
       description:
+        description_with_count:
+          one: GPX-Fichier mat %{count} Punkt vum %{user}
+          other: GPX-Fichier mat %{count} Punkte vum %{user}
         description_without_count: GPX-Fichier vum %{user}
   application:
     setup_user_auth:
@@ -2492,6 +2530,7 @@ lb:
     share:
       share:
         title: Deelen
+        alt: Deelen-Symbol
       email:
         title: Per E-Mail deelen
         alt: E-Mail-Symbol
@@ -2515,6 +2554,7 @@ lb:
         alt: X-Symbol
   oauth:
     scopes:
+      openid: Mat OpenStreetMap umellen
       read_prefs: Benotzerastellunge liesen
       write_prefs: Benotzerastellungen änneren
       write_diary: Bloganträg a Commentairë schreiwen
@@ -2620,6 +2660,9 @@ lb:
       edit_links: Linken änneren
       change_image: Bild änneren
       edit_company: Firma änneren
+      contributions:
+        one: '%{count} Kontributioun am leschte Joer'
+        other: '%{count} Kontributiounen am leschte Joer'
     sidebar_section:
       home_location: Doheem
       company: Firma
@@ -2666,9 +2709,15 @@ lb:
         empty: Et goufe keng sou Benotzer fonnt
     comments:
       index:
+        heading_html: Kommentare vum %{user}
         changesets: Ännerungssätz
+        diary_entries: Blog-Anträg
+        no_comments: Keng Kommentaren
     changeset_comments:
+      index:
+        title: Ännerungssaz-Kommentaren derbäigesat vum %{user}
       page:
+        changeset: Ännerungssaz
         when: Wéini
         comment: Bemierkung
     diary_comments:
@@ -2677,11 +2726,13 @@ lb:
       page:
         post: Blogantrag
         when: Wéini
+        comment: Kommentar
     suspended:
       support: Ënnerstëtzung
     auth_failure:
       no_authorization_code: Keen Autorisatiouns-Code
     auth_association:
+      heading: Är ID ass nach net mat engem OpenStreetMap-Kont verbonnen.
       option_1: Wann Dir nei sidd bei OpenSrreetMap da leet wgl. e Benotzerkont un
         andeem Dir de Formulaire hei drënner benotzt.
     role_icons:
