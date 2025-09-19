@@ -137,6 +137,11 @@ L.OSM.DataLayer = L.FeatureGroup.extend({
         } else {
           layer = L.polyline(latLngs, this.options.styles.way);
         }
+
+        const style = this.options.styles[feature.type];
+        if (style?.arrowheads) {
+          layer.arrowheads(style.arrowheads);
+        }
       }
 
       if (this.options.asynchronous) {
