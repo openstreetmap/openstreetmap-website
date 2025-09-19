@@ -5,8 +5,8 @@ OSM.initializeContextMenu = function (map) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
       OSM.router.route("/directions?" + new URLSearchParams({
-        "from": latlng.join(","),
-        "to": getDirectionsEndpointCoordinatesFromInput($("#route_to"))
+        from: latlng.join(","),
+        to: getDirectionsEndpointCoordinatesFromInput($("#route_to"))
       }));
     }
   });
@@ -17,8 +17,8 @@ OSM.initializeContextMenu = function (map) {
       const latlng = OSM.cropLocation(e.latlng, map.getZoom());
 
       OSM.router.route("/directions?" + new URLSearchParams({
-        "from": getDirectionsEndpointCoordinatesFromInput($("#route_from")),
-        "to": latlng.join(",")
+        from: getDirectionsEndpointCoordinatesFromInput($("#route_from")),
+        to: latlng.join(",")
       }));
     }
   });

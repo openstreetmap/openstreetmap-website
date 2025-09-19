@@ -40,7 +40,7 @@
 
     page._addObject = function (type, id, version, center) {
       const hashParams = OSM.parseHash();
-      map.addObject({ "type": type, "id": parseInt(id, 10), "version": version && parseInt(version, 10) }, function (bounds) {
+      map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
             (center || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
@@ -111,7 +111,7 @@
   }
 
   function renderWikidataResponse({ icon, label, article, description }, $link) {
-    const localeName = new Intl.DisplayNames(OSM.preferred_languages, { "type": "language" });
+    const localeName = new Intl.DisplayNames(OSM.preferred_languages, { type: "language" });
     const cell = $("<td>")
       .attr("colspan", 2)
       .addClass("bg-body-tertiary");

@@ -130,7 +130,7 @@ OSM.DirectionsRouteOutput = function (map) {
       writeSteps(route);
     });
 
-    const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { "type": "application/json" });
+    const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/json" });
     URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(blob);
     $("#directions_route_download").prop("href", downloadURL);

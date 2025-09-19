@@ -59,7 +59,7 @@ export default [
       "@stylistic/eol-last": "error",
       "@stylistic/function-call-spacing": "error",
       "@stylistic/indent": ["error", 2, {
-        CallExpression: { "arguments": "first" },
+        CallExpression: { arguments: "first" },
         FunctionDeclaration: { parameters: "first" },
         FunctionExpression: { parameters: "first" },
         SwitchCase: 1,

@@ -8,15 +8,15 @@
 describe("OSM", function () {
   describe(".apiUrl", function () {
     it("returns a URL for a way", function () {
-      expect(OSM.apiUrl({ "type": "way", "id": 10 })).to.eq("/api/0.6/way/10/full");
+      expect(OSM.apiUrl({ type: "way", id: 10 })).to.eq("/api/0.6/way/10/full");
     });
 
     it("returns a URL for a node", function () {
-      expect(OSM.apiUrl({ "type": "node", "id": 10 })).to.eq("/api/0.6/node/10");
+      expect(OSM.apiUrl({ type: "node", id: 10 })).to.eq("/api/0.6/node/10");
     });
 
     it("returns a URL for a specific version", function () {
-      expect(OSM.apiUrl({ "type": "node", "id": 10, "version": 2 })).to.eq("/api/0.6/node/10/2");
+      expect(OSM.apiUrl({ type: "node", id: 10, version: 2 })).to.eq("/api/0.6/node/10/2");
     });
   });
 
@@ -41,15 +41,15 @@ describe("OSM", function () {
     it("parses object params", function () {
       let params = OSM.mapParams("?node=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({ "type": "node", "id": 1 });
+      expect(params.object).to.eql({ type: "node", id: 1 });
 
       params = OSM.mapParams("?way=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({ "type": "way", "id": 1 });
+      expect(params.object).to.eql({ type: "way", id: 1 });
 
       params = OSM.mapParams("?relation=1");
       expect(params).to.have.property("object");
-      expect(params.object).to.eql({ "type": "relation", "id": 1 });
+      expect(params.object).to.eql({ type: "relation", id: 1 });
     });
 
     it("parses bbox params", function () {

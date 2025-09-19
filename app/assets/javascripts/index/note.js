@@ -66,10 +66,10 @@ OSM.Note = function (map) {
     if (data) {
       const hashParams = OSM.parseHash();
       map.addObject({
-        "type": "note",
-        "id": parseInt(id, 10),
-        "latLng": L.latLng(data.coordinates.split(",")),
-        "icon": OSM.noteMarkers[data.status]
+        type: "note",
+        id: parseInt(id, 10),
+        latLng: L.latLng(data.coordinates.split(",")),
+        icon: OSM.noteMarkers[data.status]
       }, function () {
         if (!hashParams.center && !skipMoveToNote) {
           const latLng = L.latLng(data.coordinates.split(","));
