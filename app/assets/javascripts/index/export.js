@@ -37,6 +37,28 @@ OSM.Export = function (map) {
     validateControls();
   }
 
+  async function showConfirmationModal() {
+    const $modal = $("#export_confirmation");
+    const $downloadButton = $modal.find("[data-action=\"download\"]");
+    $modal.appendTo("body").modal("show");
+
+    return new Promise(resolve => {
+      const onOkClick = () => {
+        resolve(true);
+        $modal.modal("hide");
+      };
+
+      const onModalHidden = () => {
+        $downloadButton.off("click", onOkClick);
+        $modal.off("hidden.bs.modal", onModalHidden);
+        resolve(false);
+      };
+
+      $downloadButton.on("click", onOkClick);
+      $modal.on("hidden.bs.modal", onModalHidden);
+    });
+  }
+
   function setBounds(bounds) {
     const truncated = [bounds.getSouthWest(), bounds.getNorthEast()]
       .map(c => OSM.cropLocation(c, map.getZoom()));
@@ -82,6 +104,15 @@ OSM.Export = function (map) {
       .addEventListener("turbo:before-fetch-request", function (event) {
         event.detail.fetchOptions.headers.Accept = "application/xml";
       });
+
+    $("#export_overpass").on("click", async function (event) {
+      event.preventDefault();
+      const downloadUrl = $(this).attr("href");
+      const confirmed = await showConfirmationModal();
+      if (confirmed) {
+        window.location.href = downloadUrl;
+      }
+    });
 
     update();
     return map.getState();
