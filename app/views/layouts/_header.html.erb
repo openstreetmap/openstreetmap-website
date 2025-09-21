@@ -116,15 +116,13 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
       </div>
       <div class="modal-body px-1">
-        <% if current_user&.id %>
-          <%= form_tag basic_preferences_path, :method => "PUT" do %>
-            <%= hidden_field_tag "referer", request.fullpath %>
-            <%= hidden_field_tag "language", I18n.locale %>
-            <%= render "layouts/select_language_list" %>
-          <% end %>
-        <% else %>
-          <%= render "layouts/select_language_list" %>
-        <% end %>
+        <turbo-frame id="select_language_list" src="<%= languages_pane_path %>?source=<%= ERB::Util.url_encode(request.fullpath) %>" loading="lazy">
+          <div class="text-center py-3">
+            <div class="spinner-border text-secondary" role="status">
+              <span class="visually-hidden"><%= t ".loading" %></span>
+            </div>
+          </div>
+        </turbo-frame>
       </div>
     </div>
   </div>

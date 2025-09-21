@@ -201,4 +201,40 @@ $(function () {
 
   $("#edit_tab")
     .attr("title", OSM.i18n.t("javascripts.site.edit_disabled_tooltip"));
+
+  document.addEventListener("turbo:frame-load", function (event) {
+    if (event.target.id === "select_language_list") {
+      const $search = $("#language_search");
+      if ($search.length) {
+        $search.off("input");
+        $search.on("input", function () {
+          const query = $(this).val().toLowerCase();
+          $(".language-item").each(function () {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.indexOf(query) > -1);
+          });
+        });
+      }
+      $search
+        .val("")
+        .trigger("input")
+        .trigger("focus");
+    }
+  });
+
+  $("#select_language_dialog").on("shown.bs.modal", function () {
+    $("#language_search")
+      .val("")
+      .trigger("input")
+      .trigger("focus");
+    const $frame = $("#select_language_list");
+    const originalSrc = new URL($frame.attr("src"), window.location.origin);
+
+    // Set `source` query param to current page path + query string
+    originalSrc.searchParams.set("source", window.location.pathname + window.location.search);
+
+    if ($frame.attr("src") !== originalSrc.toString()) {
+      $frame.attr("src", originalSrc.toString());
+    }
+  });
 });
