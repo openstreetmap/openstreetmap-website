@@ -25,10 +25,10 @@
 sl:
   date:
     formats:
-      heatmap: '%B %-d'
+      heatmap: '%-d. %B'
   time:
     formats:
-      friendly: '%e. %B %Y ob %H:%M'
+      friendly: '%e. %B %Y, ob %H:%M'
       blog: '%e %B %Y'
   helpers:
     file:
@@ -1726,13 +1726,23 @@ sl:
       status: Stanje
       reports: Prijave
       last_updated: Zadnja posodobitev
+      last_managed: Zadnje upravljano
+      reporting_users: Prijavljeni uporabniki
       reports_count:
         one: '%{count} poročilo'
         two: '%{count} poročili'
         few: '%{count} poročila'
         other: '%{count} poročil'
       reported_item: Prijavljeni predmet
+      states:
+        ignored: Prezrto
+        open: Odprto
+        resolved: Rešeno
     show:
+      title:
+        open: 'Odprta težava #%{issue_id}'
+        ignored: 'Prezrta težava #%{issue_id}'
+        resolved: 'Rešena težava #%{issue_id}'
       reports:
         one: '%{count} prijava'
         two: '%{count} prijavi'
@@ -1759,12 +1769,27 @@ sl:
       reopened: Stanje težave je nastavljeno na »Odprto«
     comments:
       comment_from_html: Komentar uporabnika %{user_link} dne %{comment_created_at}
+      reassign_to_moderators: Predodeli težavo moderatorjem
+      reassign_to_administrators: Predodeli težavo administratorjem
     reports:
       reported_by_html: Sporočil_a %{user} kot %{category} dne %{updated_at}
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, komentar #%{comment_id}'
         note: 'Opomba #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Dnevniški komentar %{title}, ustvarjen dne %{datetime_created},
+          posodobljen dne %{datetime_updated}
+        diary_entry_html: Dnevniški vnos %{title}, ustvarjen dne %{datetime_created},
+          posodobljen dne %{datetime_updated}
+        note_html: '%{title}, ustvarjeno dne %{datetime_created}, posodobljeno dne
+          %{datetime_updated}'
+        user_html: Uporabnik %{title} je ustvaril dne %{datetime_created}
+    reporters:
+      index:
+        title: 'Prijavitelji težave #%{issue_id}'
+      reporters:
+        more_reporters: in še %{count}
   issue_comments:
     create:
       comment_created: Vaš komentar je bil uspešno ustvarjen
@@ -1822,8 +1847,12 @@ sl:
     intro_header: Pozdravljeni v OpenStreetMap!
     intro_text: OpenStreetMap je zemljevid sveta, ki ga ustvarjajo ljudje, kot ste
       vi, in brezplačen za uporabo pod odprto licenco.
+    hosting_partners_2024_html: Gostovanje podpirajo %{fastly}, %{corpmembers} in
+      drugi %{partners}.
+    partners_corpmembers: Korporativni člani OSMF
     partners_partners: partnerji
     tou: Pogoji uporabe
+    nothing_to_preview: Ničesar ni za predogled.
     help: Pomoč
     about: O projektu
     copyright: Avtorske pravice
@@ -1838,6 +1867,9 @@ sl:
     select_language_list:
       languages:
         af: afrikanščina
+        gsw: alemanščina
+        frp: arpitanščina
+        ast: asturijščina
         az: azerbajdžanščina
         id: indonezijščina
         ms: malajščina
@@ -1857,10 +1889,14 @@ sl:
         eu: baskovščina
         fr: francoščina
         fy: Zahodnofrizijščina
+        fur: furlanščina
         ga: irščina
         gd: škotska gelščina
+        gl: galicijščina
+        aln: gegovska albanščina
         hsb: zgornja lužiška srbščina
         hr: hrvaščina
+        ia: interlingua
         is: islandščina
         it: italijanščina
         gcf: gvadalupska kreolščina
@@ -1869,13 +1905,16 @@ sl:
         lb: luksemburščina
         lt: litovščina
         hu: madžarščina
+        fit: tornedalska finščina
         nl: nizozemščina
         nb: norveščina (Bokmål)
         nn: norveščina (Nynorsk)
         oc: okcitanščina
+        nds: nizka nemščina
         pl: poljščina
         pt-PT: portugalščina
         pt: portugalščina (Brazilija)
+        ksh: kölnščina
         ro: romunščina
         sc: sardinščina
         sco: škotščina
@@ -1892,6 +1931,7 @@ sl:
         vi: vietnamščina
         tr: turščina
         yo: jorubščina
+        diq: zazaščina
         el: grščina
         ba: baškirščina
         be: beloruščina
@@ -1908,9 +1948,11 @@ sl:
         yi: jidiš
         he: hebrejščina
         ar: arabščina
+        skr-arab: sarajščina
         fa: perzijščina
         arz: egpiptovska arabščina
         pnb: zahodna pandžabščina
+        ps: paštunščina
         nqo: nkojščina
         ne: nepalščina
         mr: maratščina
@@ -1920,10 +1962,12 @@ sl:
         gu: gudžaratščina
         ta: tamilščina
         te: teluščina
+        kn: kanareščina
         th: tajščina
         my: burmajščina
         shn: šanščina
         xmf: mingrelščina
+        ka: gruzinščina
         km: kmerščina
         sat: santalščina
         zh-CN: kitajščina (poenostavljena)
@@ -1931,6 +1975,13 @@ sl:
         zh-HK: kitajščina (hongkongška)
         ja: japonščina
         ko: korejščina
+    offline_flash:
+      osm_offline: Baza OpenStreetMap zaradi izvajanja nujnih vzdrževalnih del trenutno
+        ni dostopna.
+      osm_read_only: Baza OpenStreetMap je zaradi izvajanja nujnih vzdrževalnih del
+        trenutno dostopna samo za branje.
+      expected_restore_html: Storitve bodo predvidoma znova vzpostavljene v %{time}.
+      announcement: Objavo si lahko preberete tukaj.
   user_mailer:
     diary_comment_notification:
       description: Dnevniški vnos OpenStreetMap št. %{id}
@@ -1943,6 +1994,8 @@ sl:
         ali odgovorite na %{replyurl}
       footer_html: Komentar lahko preberete tudi na %{readurl}, komentirate na %{commenturl}
         ali odgovorite na %{replyurl}
+      footer_unsubscribe: Od razprave se lahko odjavite na %{unsubscribeurl}
+      footer_unsubscribe_html: Od razprave se lahko odjavite na %{unsubscribeurl}
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Pozdravljeni, %{to_user},
@@ -1956,17 +2009,37 @@ sl:
         na %{replyurl}
     follow_notification:
       hi: Pozdravljeni, %{to_user},
+      subject: Posledil_a vas je [OpenStreetMap] %{user}
+      followed_you: '%{user} vas zdaj sledi na OpenStreetMap.'
       see_their_profile: Njegov profil si lahko ogledate na %{userurl}.
       see_their_profile_html: Njegov profil si lahko ogledate na %{userurl}.
+      follow_them: Tudi vi ga_jo ga lahko posledite na %{followurl}.
+      follow_them_html: Tudi vi ga_jo lahko posledite na %{followurl}.
+    gpx_details:
+      details: 'Podrobnosti vaše datoteke:'
+      filename: Ime datoteke
+      url: URL
+      description: Opis
+      tags: Oznake
+      total_points: Skupno število točk
+      imported_points: Število uvoženih točk
     gpx_failure:
       hi: Pozdravljeni, %{to_user},
-      failed_to_import: ' vsebovala neko napako, zaradi katere je ni bilo mogoče uvoziti.
-        Napaka:'
+      failed_to_import: Zdi se, da vaše datoteke ni bilo mogoče uvoziti kot sled GPS.
+      verify: 'Prosimo, potrdite, da je vaša datoteka veljavna datoteka GPX ali arhiv,
+        ki vsebuje datoteko/e GPX v podprtem formatu (.tar.gz, .tar.bz2, .tar, .zip,
+        .gpx.gz, .gpx.bz2). Bi lahko prišlo do težave s formatom ali skladnjo vaše
+        datoteke? Tu je napaka uvoza:'
+      more_info: Več informacij o napakah pri uvozu GPX in o tem, kako se jim izogniti,
+        lahko najdete na %{url}.
       more_info_html: Več informacij o napakah pri uvozu GPX in o tem, kako se jim
         izogniti, lahko najdete na %{url}.
       subject: '[OpenStreetMap] Neuspeh uvoza datoteke GPX'
     gpx_success:
       hi: Pozdravljeni, %{to_user},
+      imported_successfully: Zdi se, da je bila vaša datoteka uspešno uvožena kot
+        sled GPS.
+      all_your_traces: Vse vaše uspešno naložene sledi GPX najdete na %{url}.
       all_your_traces_html: Vse vaše uspešno naložene sledi GPX najdete na %{url}.
       subject: '[OpenStreetMap] Uspeh uvoza datoteke GPX'
     signup_confirm:
@@ -2070,6 +2143,9 @@ sl:
       success: Vaš uporabniški račun je potrjen. Hvala, da ste se vpisali!
       already active: Ta račun je že bil potrjen.
       unknown token: Ta potrditvena koda je potekla ali ne obstaja.
+      if_need_resend: Če želite, da vam ponovno pošljemo potrditveno e-pošto, kliknite
+        spodnji gumb.
+      resend_button: Ponovno pošlji potrditveno e-pošto
     confirm_resend:
       failure: Uporabnika %{name} ni bilo mogoče najti.
     confirm_email:
@@ -2108,8 +2184,9 @@ sl:
       unread_button: Označi kot neprebrano
       destroy_button: Izbriši
       back: Nazaj
-      wrong_user: Prijavljeni ste kot '%{user}', ampak sporočilo, ko ga \elite prebrati
-        ni bilo poslano vam. Prosimo, prijavite se, kot pravi uporabnik za branje.
+      wrong_user: Prijavljeni ste kot »%{user}«, toda sporočilo, ki ga želite prebrati,
+        ni bilo poslano od ali do tega uporabnika. Da ga boste lahko prebrali, se
+        prijavite kot pravi uporabnik.
     destroy:
       destroyed: Sporočilo izbrisano
     read_marks:
@@ -2187,6 +2264,10 @@ sl:
       new password button: Pošlji mi novo geslo
       help_text: Vpišite e-poštni naslov, s katerim ste se registrirali. Poslali vam
         bomo povezavo za ponastavitev gesla.
+    create:
+      send_paranoid_instructions: Če vaš e-poštni naslov obstaja v naši podatkovni
+        zbirki, boste v nekaj minutah na svoj e-poštni naslov prejeli povezavo za
+        obnovitev gesla.
     edit:
       title: Ponastavitev gesla
       heading: Ponastavi geslo za %{user}
@@ -2203,24 +2284,61 @@ sl:
         failure: Prilagoditev ni bilo mogoče posodobiti.
       update_success_flash:
         message: Nastavitve posodobljene.
+      navigation:
+        preferences: Nastavitve
+        advanced_preferences: Napredne nastavitve
     basic_preferences:
       show:
         title: Moje prilagoditve
+        preferred_language: Prednostni jezik
+        preferred_site_color_scheme: Prednostna barvna shema spletnega mesta
+        site_color_schemes:
+          auto: Samodejno
+          light: Svetlo
+          dark: Temno
+        preferred_map_color_scheme: Prednostna barvna shema zemljevida
+        map_color_schemes:
+          auto: Samodejno
+          light: Svetlo
+          dark: Temno
         save: Posodobi prilagoditve
+    advanced_preferences:
+      show:
+        title: Moje napredne nastavitve
+        save: Posodobi nastavitve
   profiles:
     profile_sections:
       navigation:
+        description: Opis
+        links: Povezave
         image: Slika
+        company: Podjetje
+        location: Lokacija
     descriptions:
       show:
         title: Uredi profil
         save: Posodobi profil
         cancel: Prekliči
+      update:
+        success: Opis profila je posodobljen.
+        failure: Opisa profila ni bilo mogoče posodobiti.
     links:
       show:
         title: Uredi profil
+        save: Posodobi profil
+        cancel: Prekliči
+        social_links:
+          title: Povezave do družbenih profilov
+          remove: Odstrani
+          add: Dodaj družbeno povezavo
+      update:
+        success: Povezave profila so posodobljene.
+        failure: Povezav profila ni bilo mogoče posodobiti.
     images:
       show:
+        title: Uredi profil
+        save: Posodobi profil
+        cancel: Prekliči
         gravatar:
           gravatar: Uporabi Gravatar
           what_is_gravatar: Kaj je Gravatar?
@@ -2229,17 +2347,40 @@ sl:
         delete image: Odstrani trenutno sliko
         replace image: Zamenjaj trenutno sliko
         image size hint: (najbolje delujejo kvadratne slike vsaj 100x100 točk)
+      update:
+        success: Profilna slika je posodobljena.
+        failure: Profilne slike ni bilo mogoče posodobiti.
+    companies:
+      show:
+        title: Uredi profil
+        save: Posodobi profil
+        cancel: Prekliči
+      update:
+        success: Podjetje v profilu je posodobljeno.
+        failure: Podjetja v profilu ni bilo mogoče posodobiti.
     locations:
       show:
+        title: Uredi profil
+        save: Posodobi profil
+        cancel: Prekliči
         no home location: Niste nastavili vaše domače lokacije.
         update home location on click: Posodobim domačo lokacijo ob kliku zemljevida?
         show: Prikaži
         delete: Izbriši
         undelete: Razvljavi izbris
+      update:
+        success: Lokacija profila je posodobljena.
+        failure: Lokacije profila ni bilo mogoče posodobiti.
   sessions:
     new:
       tab_title: Prijava
       login_to_authorize_html: Za dostop do %{client_app_name} se prijavite z OpenStreetMap
+      already_logged_in_html: Prijavljeni ste že kot %{user}. Ponovna prijava bo spremenila
+        vaš trenutni račun.
+      access_another_page: 'Prispeli ste sem, medtem ko ste poskušali dostopati do
+        druge strani. Če želite do te strani dostopati s svojim trenutnim računom,
+        kliknite spodnji gumb:'
+      visit_referring_page: Obišči referenčno stran
       email or username: E-poštni naslov ali uporabniško ime
       password: Geslo
       remember: Zapomni si me
@@ -2275,16 +2416,43 @@ sl:
     richtext_field:
       edit: Uredi
       preview: Predogled
+      help: Pomoč
     pagination:
+      changeset_comments:
+        older: Starejši komentarji
+        newer: Novejši komentarji
+        oldest: Najstarejši komentarji
+        newest: Najnovejši komentarji
       diary_comments:
         older: Starejši komentarji
         newer: Novejši komentarji
+        oldest: Najstarejši komentarji
+        newest: Najnovejši komentarji
       diary_entries:
         older: Starejši zapisi
         newer: Novejši zapisi
+        oldest: Najstarejši vnosi
+        newest: Najnovejši vnosi
+      issues:
+        older: Starejše težave
+        newer: Novejše težave
+        oldest: Najstarejše težave
+        newest: Najnovejše težave
       traces:
         older: Starejše sledi
         newer: Novejše sledi
+        oldest: Najstarejše sledi
+        newest: Najnovejše sledi
+      user_blocks:
+        older: Starejša blokiranja
+        newer: Novejša blokiranja
+        oldest: Najstarejša blokiranja
+        newest: Najnovejša blokiranja
+      users:
+        older: Starejši uporabniki
+        newer: Novejši uporabniki
+        oldest: Najstarejši uporabniki
+        newest: Najnovejši uporabniki
   site:
     about:
       heading_html: Sodelavci %{copyright}OpenStreetMap %{br}
@@ -2351,6 +2519,22 @@ sl:
         native_link: Slovensko verzijo
         mapping_link: začnete kartirati
       legal_babble:
+        lead_1_html: OpenStreetMap ponuja odprte kartografske podatke za tisoče spletnih
+          mest, mobilnih aplikacij in naprav strojne opreme. OpenStreetMap gradi skupnost
+          ljudi, kot ste vi, ki prispevajo in vzdržujejo kartografske podatke o cestah,
+          poteh, kavarnah, železniških postajah in še veliko več po vsem svetu.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} in %{get_started_mapping_link}!
+          Več si lahko preberete na %{osm_blog_link} in se naročite na %{weeklyosm_link}.
+          Poiščite druge kartografe v vaši lokalni %{osm_community_link}.
+          Podprite projekt tako, da se pridružite %{osm_foundation_link} in %{making_donation_link}.
+        lead_2_learn_more_about_osm: Več o OpenStreetMap
+        lead_2_get_started_mapping: začnite kartirati
+        lead_2_osm_blog: Blog OpenStreetMap
+        lead_2_osm_community: Skupnost OSM
+        lead_2_osm_foundation: Fundaciji OSM
+        lead_2_making_donation: donirate
+        licensing_title: Licence OpenStreetMap
         licensing_1_odc_odbl: Licenca za odprte podatkovne zbirke Open Data Commons
         licensing_1_osm_foundation: Fundacija OpenStreetMap
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.sl
@@ -2665,6 +2849,9 @@ sl:
           obstajajo kot neformalno srečevanje ali kot skupina v skupnosti. Vsakdo
           jih lahko ustanovi ali se jim pridruži. Preberite več na %{communities_wiki_link}.
         communities_wiki: Vikistran skupnosti
+  social_links:
+    show:
+      website: spletno mesto
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Približaj za ogled opomb zemljevida
@@ -2907,6 +3094,9 @@ sl:
       wikipedia:
         title: Prijavi se z Wikipedijo
         alt: Logotip Wikipedije
+    share:
+      share:
+        title: Deli
   oauth:
     permissions:
       missing: Aplikaciji niste dovolili dostopa do te funkcije
@@ -3025,6 +3215,7 @@ sl:
       my notes: Moje opombe
       my messages: Sporočila
       my profile: Moj profil
+      my_account: Moj račun
       my comments: Moji komentarji
       my_preferences: Moje prilagoditve
       my_dashboard: Moja nadzorna plošča
@@ -3037,7 +3228,10 @@ sl:
       edits: Prispevki
       traces: Sledi
       notes: Opombe na zemljevidu
+      follow: Spremljaj
       mapper since: 'Kartograf od:'
+      last map edit: 'Zadnje urejanje zemljevida:'
+      no activity yet: Še ni dejavnosti
       uid: 'ID uporabnika:'
       ct status: 'Pogoji sodelovanja:'
       ct undecided: Neodločen
@@ -3060,6 +3254,15 @@ sl:
       delete_user: Izbriši uporabnika
       confirm: Potrdi
       report: Prijavi tega uporabnika
+      edit_profile_details: Uredi podrobnosti profila
+      edit_description: Uredi opis
+      edit_links: Uredi povezave
+      change_image: Spremeni sliko
+      edit_company: Uredi podjetje
+      edit_location: Uredi lokacijo
+    sidebar_section:
+      home_location: Domača lokacija
+      company: Podjetje
     go_public:
       flash success: Zdaj so vsi vaši prispevki javni in lahko urejate podatke.
     issued_blocks:
@@ -3089,6 +3292,12 @@ sl:
       show:
         title: Uporabniki
         heading: Uporabniki
+        select_status: Izberi stanje
+        ip_address: Naslov IP
+        edits: Urejanja?
+        has_edits: Ima urejanja
+        no_edits: Brez urejanj
+        search: Išči
       page:
         confirm: Potrdi izbrane uporabnike
         hide: Skrij izbrane uporabnike
@@ -3096,8 +3305,16 @@ sl:
       user:
         summary_html: '%{name} ustvarjen iz %{ip_address} dne %{date}'
         summary_no_ip_html: '%{name} ustvarjen dne %{date}'
+    comments:
+      index:
+        changesets: Sklopi sprememb
+        diary_entries: Dnevniški vpisi
+        no_comments: Brez komentarjev
     changeset_comments:
+      index:
+        title: Komentarji k sklopom sprememb, ki jih je dodal(a) %{user}
       page:
+        changeset: Sklop sprememb
         when: Kdaj
         comment: Komentar
     diary_comments:
@@ -3105,6 +3322,8 @@ sl:
         title: Dnevniški komentarji, ki jih je dodal_a %{user}
       page:
         post: Objavi
+        when: Kdaj
+        comment: Komentar
     suspended:
       title: Račun zaklenjen
       heading: Račun zaklenjen
@@ -3134,7 +3353,7 @@ sl:
         administrator: Podeli administratorski dostop
         moderator: Podeli moderatorski dostop
         importer: Podeli dostop uvoznika
-        are_you_sure: Ali res želite podeliti vlogo »%{role}« uporabniku »%{name}«?
+        are_you_sure: Ali res želite podeliti vlogo '%{role}' uporabniku_ci '%{name}'?
       revoke:
         administrator: Odvzemi administratorski dostop
         moderator: Odvzemi moderatorski dostop
@@ -3264,6 +3483,7 @@ sl:
       description: Opis
       created_at: Ustvarjeno
       last_changed: Zadnja sprememba
+      all: Vse
     show:
       title: 'Opomba: %{id}'
       description: Opis
