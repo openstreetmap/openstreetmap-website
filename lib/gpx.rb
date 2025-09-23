@@ -60,7 +60,7 @@ module GPX
 
         case Marcel::MimeType.for(io)
         when "application/gzip" then io = Zlib::GzipReader.open(@file)
-        when "application/x-bzip" then io = Bzip2::FFI::Reader.open(@file)
+        when "application/x-bzip2" then io = Bzip2::FFI::Reader.open(@file)
         end
 
         parse_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
