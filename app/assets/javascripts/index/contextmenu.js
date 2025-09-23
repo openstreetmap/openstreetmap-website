@@ -1,12 +1,7 @@
+/* global Popper */
+
 OSM.initializeContextMenu = function (map) {
   const $contextMenu = $("#map-context-menu");
-  const $menuList = $contextMenu.find(".dropdown-menu");
-
-  const getDirectionsCoordinates = ($input) => {
-    return $input.attr("data-lat") && $input.attr("data-lon") ?
-      `${$input.attr("data-lat")},${$input.attr("data-lon")}` :
-      $input.val();
-  };
 
   const toggleMenuItem = ($element, enable) => {
     $element.toggleClass("disabled", !enable);
@@ -40,22 +35,64 @@ OSM.initializeContextMenu = function (map) {
     }
   });
 
+  let popperInstance = null;
+
   map.on("contextmenu", function (e) {
     e.originalEvent.preventDefault();
     $contextMenu.removeClass("d-none");
+    const contextMenu = document.querySelector("#map-context-menu .dropdown-menu");
 
-    const { x, y, absoluteX, absoluteY } = calculateContextMenuPosition(e);
-    const { top, left, dropup, dropleft } = adjustContextMenuPosition($menuList[0], x, y, absoluteX, absoluteY);
+    // Create a virtual element at the mouse position
+    const virtualReference = {
+      getBoundingClientRect: () => ({
+        width: 0,
+        height: 0,
+        top: e.originalEvent.clientY,
+        left: e.originalEvent.clientX,
+        right: e.originalEvent.clientX,
+        bottom: e.originalEvent.clientY
+      }),
+      contextElement: contextMenu
+    };
 
-    $contextMenu.css({ top: `${top}px`, left: `${left}px` });
-    $contextMenu.toggleClass("dropup", dropup);
-    $contextMenu.toggleClass("dropleft", dropleft);
+    if (popperInstance) {
+      popperInstance.destroy();
+    }
+
+    popperInstance = Popper.createPopper(virtualReference, contextMenu, {
+      placement: "bottom-start",
+      strategy: "absolute",
+      modifiers: [
+        {
+          name: "offset",
+          options: {
+            offset: [0, 0] // no offset, exactly aligned to placement corner
+          }
+        },
+        {
+          name: "preventOverflow",
+          options: { boundary: document.getElementById("map") }
+        },
+        {
+          name: "flip",
+          options: {
+            fallbackPlacements: ["top-start", "bottom-end", "top-end"]
+          }
+        }
+      ]
+    });
 
     $contextMenu.data("lat", e.latlng.lat);
     $contextMenu.data("lng", e.latlng.lng);
 
     updateContextMenuState();
   });
+
+  const getDirectionsCoordinates = ($input) => {
+    return $input.attr("data-lat") && $input.attr("data-lon") ?
+      `${$input.attr("data-lat")},${$input.attr("data-lon")}` :
+      $input.val();
+  };
 
   // Action handlers
   const actions = {
@@ -95,46 +132,4 @@ OSM.initializeContextMenu = function (map) {
       $contextMenu.addClass("d-none");
     });
   });
-
-  // Utility functions
-  function calculateContextMenuPosition(e) {
-    const mapRect = map.getContainer().getBoundingClientRect();
-    const contentRect = $("#content")[0].getBoundingClientRect();
-    const point = map.latLngToContainerPoint(e.latlng);
-
-    const x = mapRect.left + point.x - contentRect.left;
-    const y = mapRect.top + point.y - contentRect.top;
-    const absoluteX = mapRect.left + point.x;
-    const absoluteY = mapRect.top + point.y;
-
-    return { x, y, absoluteX, absoluteY };
-  }
-
-  function adjustContextMenuPosition(menu, x, y, absX, absY) {
-    const rtl = document.documentElement.dir === "rtl";
-    const h = menu.offsetHeight;
-    const w = menu.offsetWidth;
-
-    const flipVertically = absY + h > window.innerHeight && absY > h;
-    let flipHorizontally;
-    if (rtl) {
-      flipHorizontally = absX - w < 0;
-    } else {
-      flipHorizontally = absX + w > window.innerWidth && absX > w;
-    }
-
-    let left;
-    if (rtl) {
-      left = flipHorizontally ? x + w : x;
-    } else {
-      left = flipHorizontally ? x - w : x;
-    }
-
-    return {
-      top: flipVertically ? y - h : y,
-      left: left,
-      dropup: flipVertically,
-      dropleft: flipHorizontally
-    };
-  }
 };
