@@ -14,8 +14,16 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   Capybara.configure do |config|
     config.enable_aria_label = true
   end
+  if ENV["CAPYBARA_SERVER_PORT"]
+    served_by host: "rails-app", port: ENV["CAPYBARA_SERVER_PORT"]
 
-  driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
+    driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ], options: {
+      browser: :remote,
+      url: "http://#{ENV["SELENIUM_HOST"]}:4444"
+    }
+  else
+    driven_by :selenium, using: :headless_chrome, screen_size: [ 1400, 1400 ]
+  end
     options.add_preference("intl.accept_languages", "en")
     options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   end
