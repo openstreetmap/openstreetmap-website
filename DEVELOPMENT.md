@@ -26,3 +26,15 @@ docker volume rm ohm-website_db-data
 docker volume rm ohm-website_web-storage
 docker volume rm ohm-website_web-tmp
 ```
+
+
+## User Login
+This environment comes with pre-registered users that you can use to log in and make edits in iD:
+
+Admin: admin / 12345678
+Regular user: test / 12345678
+
+
+## ⚠️ Do Not Commit
+This workflow modifies config/settings.yml by replacing values to make the development environment work properly.
+If you're working on site improvements, please remember not to commit this file, as it has been customized specifically for local development purposes.
