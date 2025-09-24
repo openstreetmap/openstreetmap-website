@@ -8,6 +8,7 @@ services:
 
     volumes:
     - ../..:/workspaces:cached
+    - mise-cache:/home/vscode/.local/share/mise
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
@@ -19,18 +20,11 @@ services:
     # (Adding the "ports" property to this file will not forward from a Codespace.)
     depends_on:
     - selenium
-    - redis
     - postgres
 
   selenium:
-    image: selenium/standalone-chromium
+    image: selenium/standalone-firefox
     restart: unless-stopped
-
-  redis:
-    image: redis:7.2
-    restart: unless-stopped
-    volumes:
-    - redis-data:/data
 
   postgres:
     image: postgres:16.1
@@ -40,9 +34,10 @@ services:
     volumes:
     - postgres-data:/var/lib/postgresql/data
     environment:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: openstreetmap
+      POSTGRES_USER: openstreetmap
+      POSTGRES_PASSWORD: openstreetmap
 
 volumes:
-  redis-data:
   postgres-data:
+  mise-cache:
