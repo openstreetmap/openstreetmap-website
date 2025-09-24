@@ -25,6 +25,15 @@ development:
   encoding: utf8
 EOF
 
+
+######### set up database
+cat <<EOF > "$workdir/config/storage.yml"
+local:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
+EOF
+
+
 #### Setting up server_url and server_protocol
 sed -i -e 's/^server_protocol: ".*"/server_protocol: "'$SERVER_PROTOCOL'"/g' $workdir/config/settings.yml
 sed -i -e 's/^server_url: ".*"/server_url: "'$SERVER_URL'"/g' $workdir/config/settings.yml
