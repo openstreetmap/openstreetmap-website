@@ -12,6 +12,7 @@ restore_db() {
   export PGPASSWORD="$POSTGRES_PASSWORD"
   curl -s -o backup.sql "$BACKUP_FILE_URL" 
   psql -h "$POSTGRES_HOST" -U "$POSTGRES_USER" -d "$POSTGRES_DB" -f backup.sql 
+  rm backup.sql
 }
 
 ######### set up database
@@ -25,6 +26,7 @@ development:
   encoding: utf8
 EOF
 
+touch $workdir/config/settings.local.yml
 
 ######### set up database
 cat <<EOF > "$workdir/config/storage.yml"
