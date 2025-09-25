@@ -94,42 +94,107 @@ OSM.initializeContextMenu = function (map) {
       $input.val();
   };
 
-  // Action handlers
-  const actions = {
-    "menu-action-directions-from": () => {
-      OSM.router.route("/directions?" + new URLSearchParams({
-        from: croppedLatLon().join(","),
-        to: getDirectionsCoordinates($("#route_to"))
-      }));
+  const contextmenuItems = [
+    {
+      id: "menu-action-directions-from",
+      icon: "bi-geo-alt",
+      text: OSM.i18n.t("javascripts.context.directions_from"),
+      callback: () => {
+        OSM.router.route("/directions?" + new URLSearchParams({
+          from: croppedLatLon().join(","),
+          to: getDirectionsCoordinates($("#route_to"))
+        }));
+      }
     },
-    "menu-action-directions-to": () => {
-      OSM.router.route("/directions?" + new URLSearchParams({
-        from: getDirectionsCoordinates($("#route_from")),
-        to: croppedLatLon().join(",")
-      }));
+    {
+      id: "menu-action-directions-to",
+      icon: "bi-flag",
+      text: OSM.i18n.t("javascripts.context.directions_to"),
+      callback: () => {
+        OSM.router.route("/directions?" + new URLSearchParams({
+          from: getDirectionsCoordinates($("#route_from")),
+          to: croppedLatLon().join(",")
+        }));
+      }
     },
-    "menu-action-add-note": () => {
-      const [lat, lon] = croppedLatLon();
-      OSM.router.route("/note/new?" + new URLSearchParams({ lat, lon }));
+    {
+      separator: true
     },
-    "menu-action-show-address": () => {
-      const [lat, lon] = croppedLatLon();
-      OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom: map.getZoom() }));
+    {
+      id: "menu-action-add-note",
+      icon: "bi-pencil",
+      text: OSM.i18n.t("javascripts.context.add_note"),
+      callback: () => {
+        const [lat, lon] = croppedLatLon();
+        OSM.router.route("/note/new?" + new URLSearchParams({ lat, lon }));
+      }
     },
-    "menu-action-query-features": () => {
-      const [lat, lon] = croppedLatLon();
-      OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
+    {
+      separator: true
     },
-    "menu-action-centre-map": () => {
-      map.panTo(latLngFromContext());
+    {
+      id: "menu-action-show-address",
+      icon: "bi-compass",
+      text: OSM.i18n.t("javascripts.context.show_address"),
+      callback: () => {
+        const [lat, lon] = croppedLatLon();
+        OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom: map.getZoom() }));
+      }
+    },
+    {
+      id: "menu-action-query-features",
+      icon: "bi-question-circle",
+      text: OSM.i18n.t("javascripts.context.query_features"),
+      callback: () => {
+        const [lat, lon] = croppedLatLon();
+        OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
+      }
+    },
+    {
+      id: "menu-action-centre-map",
+      icon: "bi-crosshair",
+      text: OSM.i18n.t("javascripts.context.centre_map"),
+      callback: () => {
+        map.panTo(latLngFromContext());
+      }
     }
-  };
+  ];
 
-  $.each(actions, (id, handler) => {
-    $(`#${id}`).on("click", function (e) {
+  OSM.renderContextMenu($contextMenu, contextmenuItems);
+};
+
+OSM.createSeparator = function () {
+  return $("<li>").append(
+    $("<hr>").addClass("dropdown-divider")
+  );
+};
+
+OSM.createMenuItem = function (item, $contextMenu) {
+  const $icon = $("<i>").addClass(`bi ${item.icon}`);
+  const $label = $("<span>").text(item.text);
+
+  const $link = $("<a>")
+    .addClass("dropdown-item d-flex align-items-center gap-3")
+    .attr({ href: "#", id: item.id })
+    .append($icon, $label)
+    .on("click", (e) => {
       e.preventDefault();
-      handler();
+      item.callback?.();
       $contextMenu.addClass("d-none");
     });
+
+  return $("<li>").append($link);
+};
+
+OSM.renderContextMenu = function ($contextMenu, contextmenuItems) {
+  const $menuList = $("<ul>").addClass("dropdown-menu show shadow cm_dropdown_menu");
+
+  contextmenuItems.forEach((item) => {
+    const $menuItem = item.separator ?
+      OSM.createSeparator() :
+      OSM.createMenuItem(item, $contextMenu);
+    $menuList.append($menuItem);
   });
+
+  $contextMenu.empty().append($menuList);
 };
