@@ -1,0 +1,11 @@
+<%= turbo_frame_tag "select_language_list" do %>
+  <% if current_user&.id %>
+    <%= form_tag basic_preferences_path, :method => "PUT" do %>
+      <%= hidden_field_tag "referer", @source_page %>
+      <%= hidden_field_tag "language", I18n.locale %>
+      <%= render "select_language_list" %>
+    <% end %>
+  <% else %>
+    <%= render "select_language_list" %>
+  <% end %>
+<% end %>

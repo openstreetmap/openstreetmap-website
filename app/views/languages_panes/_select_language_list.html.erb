@@ -1,0 +1,44 @@
+<div class="mb-3 px-2">
+  <%= text_field_tag :language_search,
+                     params[:language_search],
+                     :placeholder => t(".search_language", :default => "Search..."),
+                     :autocomplete => "off",
+                     :dir => "auto",
+                     :class => "form-control py-2 px-3" %>
+</div>
+<ul class="select_language_list list-unstyled column-gap-0">
+  <% AVAILABLE_LANGUAGES.each do |language| %>
+    <li class="language-item">
+      <% target_path = begin
+           uri = URI.parse(@source_page)
+           query_params = Rack::Utils.parse_nested_query(uri.query)
+           query_params["locale"] = language[:code]
+           uri.query = query_params.to_query
+           uri.to_s
+         rescue StandardError
+           "#{@source_page}?locale=#{language[:code]}"
+         end %>
+
+      <%= link_to target_path,
+                  :class => ["btn btn-link text-start",
+                             { "bg-body-secondary text-secondary-emphasis" => language[:code] == I18n.locale.to_s }],
+                  :data => { :turbo_prefetch => false,
+                             :bs_dismiss => "modal",
+                             :language_code => language[:code] } do %>
+        <span class="native_name d-block">
+          <% if language[:short_native_name] %>
+            <%= language[:short_native_name] %>
+            <% if language[:short_native_note] %>
+              <small>(<%= language[:short_native_note] %>)</small>
+            <% end %>
+          <% else %>
+            <%= language[:native_name] %>
+          <% end %>
+        </span>
+        <small class="current_locale_name d-block text-secondary">
+          <%= t ".languages.#{language[:code]}" %>
+        </small>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

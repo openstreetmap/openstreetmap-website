@@ -12,6 +12,11 @@ class SelectLanguageTest < ApplicationSystemTestCase
     end
 
     click_on "Select Language"
+
+    assert_content "English"
+    fill_in "Search...", :with => "fra"
+    assert_no_content "English"
+
     click_on "français"
 
     within_content_heading do
@@ -33,6 +38,11 @@ class SelectLanguageTest < ApplicationSystemTestCase
     end
 
     click_on "Select Language"
+
+    assert_content "English"
+    fill_in "Search...", :with => "fra"
+    assert_no_content "English"
+
     click_on "français"
 
     assert_text "Préférences mises à jour"
