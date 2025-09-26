@@ -9,7 +9,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
 
       get "/login"
       follow_redirect!
-      post "/login", :params => { :username => user.email, :password => "test" }
+      post "/login", :params => { :username => user.email, :password => "s3cr3t" }
       follow_redirect!
 
       get "/diary/new"
@@ -34,7 +34,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
 
       get "/login"
       follow_redirect!
-      post "/login", :params => { :username => user.email, :password => "test" }
+      post "/login", :params => { :username => user.email, :password => "s3cr3t" }
       follow_redirect!
 
       get "/diary"

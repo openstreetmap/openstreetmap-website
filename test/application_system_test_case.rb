@@ -37,7 +37,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit login_path
     within "form", :text => "Email Address or Username" do
       fill_in "username", :with => user.email
-      fill_in "password", :with => "test"
+      fill_in "password", :with => "s3cr3t"
       click_on "Log in"
     end
   end

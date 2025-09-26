@@ -42,24 +42,24 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
 
-    get login_path, :params => { :username => user.display_name, :password => "test" }
+    get login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
     assert_response :success
     assert_template "sessions/new"
 
-    post login_path, :params => { :username => user.display_name, :password => "test" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
     assert_redirected_to root_path
 
-    post login_path, :params => { :username => " #{user.display_name}", :password => "test" }
+    post login_path, :params => { :username => " #{user.display_name}", :password => "s3cr3t" }
     assert_redirected_to root_path
 
-    post login_path, :params => { :username => "#{user.display_name} ", :password => "test" }
+    post login_path, :params => { :username => "#{user.display_name} ", :password => "s3cr3t" }
     assert_redirected_to root_path
   end
 
   def test_login_remembered
     user = create(:user)
 
-    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "yes" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "yes" }
     assert_redirected_to root_path
 
     assert_equal 28 * 86400, session[:_remember_for]
@@ -68,7 +68,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def test_login_not_remembered
     user = create(:user)
 
-    post login_path, :params => { :username => user.display_name, :password => "test", :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "0" }
     assert_redirected_to root_path
 
     assert_nil session[:_remember_for]
