@@ -36,7 +36,7 @@ require "rails/test_help"
 require "webmock/minitest"
 require "minitest/focus" unless ENV["CI"]
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium rails-app])
 
 module ActiveSupport
   class TestCase
