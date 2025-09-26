@@ -43,15 +43,21 @@ module ActiveSupport
     include FactoryBot::Syntax::Methods
     include ActiveJob::TestHelper
 
-    # Run tests in parallel with specified workers
-    parallelize(:workers => :number_of_processors)
+    if ENV.key?("SELENIUM_HOST")
+      # Running in the devcontainer. Can't figure out how
+      # to run things in parallel at the moment, so for now
+      # we are not doing it.
+    else
+      # Run tests in parallel with specified workers
+      parallelize(:workers => :number_of_processors)
 
-    parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
-    end
+      parallelize_setup do |worker|
+        SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+      end
 
-    parallelize_teardown do
-      SimpleCov.result
+      parallelize_teardown do
+        SimpleCov.result
+      end
     end
 
     ##
