@@ -15,26 +15,40 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     config.enable_aria_label = true
   end
 
-  if ENV["CAPYBARA_SERVER_PORT"]
-    served_by :host => "rails-app", :port => ENV["CAPYBARA_SERVER_PORT"]
+  cattr_accessor(:capybara_server_port) { ENV.fetch("CAPYBARA_SERVER_PORT", nil) }
+
+  served_by :host => "rails-app", :port => capybara_server_port if capybara_server_port
+
+  def self.driven_by_selenium(config_name = "default", opts = {})
+    preferences = opts.fetch(:preferences, {}).reverse_merge(
+      "intl.accept_languages" => "en"
+    )
+
+    options = {
+      :name => config_name
+    }
+
+    if capybara_server_port
+      selenium_host = "http://selenium-#{config_name}:4444"
+      options = options.merge(
+        :url => selenium_host,
+        :browser => :remote
+      )
+    end
 
     driven_by(
       :selenium,
       :using => Settings.system_test_headless ? :headless_firefox : :firefox,
-      :options => {
-        :url => "http://#{ENV.fetch('SELENIUM_HOST', nil)}:4444",
-        :browser => :remote
-      }
+      :options => options
     ) do |options|
-      options.add_preference("intl.accept_languages", "en")
-      options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
-    end
-  else
-    driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
-      options.add_preference("intl.accept_languages", "en")
+      preferences.each do |name, value|
+        options.add_preference(name, value)
+      end
       options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
     end
   end
+
+  driven_by_selenium
 
   def before_setup
     super
