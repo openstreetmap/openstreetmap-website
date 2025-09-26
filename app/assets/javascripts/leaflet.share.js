@@ -21,6 +21,8 @@ L.OSM.share = function (options) {
 
     $ui.find(".share-tab [id]").on("click", select);
 
+    $("#geo_uri").on("mouseover click focus", askToHandleGeoURI);
+
     // Image
 
     $ui.find("#mapnik_scale").on("change", update);
@@ -225,6 +227,16 @@ L.OSM.share = function (options) {
     function roundScale(scale) {
       const precision = 5 * Math.pow(10, Math.floor(Math.LOG10E * Math.log(scale)) - 2);
       return precision * Math.ceil(scale / precision);
+    }
+
+    function askToHandleGeoURI() {
+      if (sessionStorage.getItem("wasAbleToAskForHandler")) return;
+      try {
+        navigator.registerProtocolHandler("geo", "/?geouri=%s");
+        sessionStorage.setItem("wasAbleToAskForHandler", "yes");
+      } catch (e) {
+        sessionStorage.setItem("wasAbleToAskForHandler", "no");
+      }
     }
   }
 
