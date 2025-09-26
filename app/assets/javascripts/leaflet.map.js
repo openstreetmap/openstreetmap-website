@@ -313,7 +313,17 @@ L.OSM.Map = L.Map.extend({
           map._objectLayer = new L.OSM.DataLayer(null, {
             styles: {
               node: objectStyle,
-              way: objectStyle,
+              way: {
+                ...objectStyle,
+                arrowheads: {
+                  size: '6px',
+                  frequency: 'allvertices',
+                  yawn: 60,
+                  fill: true,
+                  fillColor: objectStyle.color,
+                  color: objectStyle.color
+                }
+              },
               area: objectStyle,
               changeset: changesetStyle
             }
