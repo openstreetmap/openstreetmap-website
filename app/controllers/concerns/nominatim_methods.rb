@@ -7,7 +7,7 @@ module NominatimMethods
 
   def nominatim_url(method, parameters)
     url = URI.join(Settings.nominatim_url, method)
-    url.query = parameters.merge("accept-language" => http_accept_language.user_preferred_languages.join(",")).to_query
+    url.query = parameters.merge("accept-language" => preferred_languages.join(",")).to_query
     url
   end
 
