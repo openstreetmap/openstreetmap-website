@@ -38,9 +38,16 @@ xmf:
         update: ბლოკირაფაშ გოახალაფა
   activerecord:
     errors:
+      messages:
+        display_name_is_user_n: ვეშილებე ორდას user_n, დო n ვა რე თქავანი მახვარებუშ
+          იდენტიფიკატორი-და
       models:
         user_mute:
           is_already_muted: უკვე აკორანგვილი რე
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL იჭყაფუდას ოკო http:// ვარ-და https://
     models:
       acl: ხემეჭირნაფაშ კონტროლიშ ერკებული
       changeset: თირაფეფიშ პაკეტი
@@ -140,15 +147,22 @@ xmf:
         active: აქტიური
         display_name: ჯოხო ეკრანს
         description: პროფილიშ ეჭარუა
+        company: კომპანია
         home_lat: განედი
         home_lon: გრძედი
+        home_location_name: ჸუდეშ ორენიშ ჯოხოდვალა
         languages: კორინელი ნინეფი
         preferred_editor: კორინელი რედაქტორი
         pass_crypt: პაროლი
         pass_crypt_confirmation: დადასურით პაროლი
     help:
       doorkeeper/application:
+        confidential: აპლიკაცია გჷმირინაუფუ თექ, სოდე მახვარებუშ ნოფულიშ ჩუალა შილებე
+          ოფულარონ (დორხველი მობილური აპლიკაციეფი დო ართხასჷლამი აპლიკაციეფი ვა რენა
+          კონფიდენციალურეფი)
         redirect_uri: ართი ღოზი ართი URI-შო
+      trace:
+        tagstring: კანწიშ უკული
       user_block:
         needs_view: ალობა მებჩათ დო ვარი მახვარებუს სისტემაშა გემშაღთასჷნ, სოიშახ
           ბლოკირაფა მინწყუმუნ?
@@ -157,41 +171,41 @@ xmf:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: დოხ. 1 სათიშ კინოხ
+        one: დოხ. %{count} სათიშ კინოხ
         other: დოხ. %{count} სათიშ კინოხ
       about_x_months:
-        one: დოხ. 1 თუთაშ კინოხ
+        one: დოხ. %{count} თუთაშ კინოხ
         other: დოხ. %{count} თუთაშ კინოხ
       about_x_years:
-        one: დოხ. 1 წანაშ კინოხ
+        one: დოხ. %{count} წანაშ კინოხ
         other: დოხ. %{count} წანაშ კინოხ
       almost_x_years:
-        one: დახე 1 წანაშ კინოხ
+        one: დახე %{count} წანაშ კინოხ
         other: დახე %{count} წანაშ კინოხ
       half_a_minute: გვერდწუთიშ კინოხ
       less_than_x_seconds:
-        one: 1 მერკაშ კინოხ
+        one: '%{count} მერქაშ კინოხ'
         other: '%{count} მერქაშ კინოხ'
       less_than_x_minutes:
-        one: 1 წუთიშ კინოხ
+        one: '%{count} წუთიშ კინოხ'
         other: '%{count} წუთიშ კინოხ'
       over_x_years:
-        one: 1 წანაშე უმოსიშ კინოხ
+        one: '%{count} წანაშე უმოსიშ კინოხ'
         other: '%{count} წანაშე უმოსიშ კინოხ'
       x_seconds:
-        one: 1 მერქაშ კინოხ
+        one: '%{count} მერქაშ კინოხ'
         other: '%{count} მერქაშ კინოხ'
       x_minutes:
-        one: 1 წუთიშ კინოხ
+        one: '%{count} წუთიშ კინოხ'
         other: '%{count} წუთიშ კინოხ'
       x_days:
-        one: 1 დღაშ კინოხ
+        one: '%{count} დღაშ კინოხ'
         other: '%{count} დღაშ კინოხ'
       x_months:
-        one: 1 თუთაშ კინოხ
+        one: '%{count} თუთაშ კინოხ'
         other: '%{count} თუთაშ კინოხ'
       x_years:
-        one: 1 წანაშ კინოხ
+        one: '%{count} წანაშ კინოხ'
         other: '%{count} წანაშ კინოხ'
   editor:
     default: უზალებუთ (ასე %{name})
@@ -205,6 +219,7 @@ xmf:
     providers:
       none: აკა ვარი
       google: Google
+      apple: Apple
       facebook: Facebook
       github: GitHub
       wikipedia: ვიკიპედია
@@ -238,6 +253,8 @@ xmf:
       contributor_terms:
         heading: კათაფაშ პიჯალეფი
         agreed: თქვა დუთმოჸუნთ კათაფაშ ახალი პიჯალეფს.
+      terms_of_use:
+        heading: გჷმორინაფაშ წესეფი
       save changes button: თირუეფიშ ჩუალა
       delete_account: ანგარიშიშ ლასუა...
     go_public:
@@ -358,6 +375,12 @@ xmf:
       telephone_link: რეკუა %{phone_number}
       colour_preview: ფერი %{colour_value} გიწოთოლორაფა
       email_link: ელექტრონული ფოშტა %{email}
+    versions_navigation:
+      way: ღოზი
+      relation: ურთიართობა
+      history: ისტორია
+      version: 'ვერსია #%{version}'
+      versions_label: 'ვერსიეფი:'
   feature_queries:
     show:
       title: მუ რე თაქ?
@@ -372,8 +395,14 @@ xmf:
         title_html: 'ღოზიშ ისტორია: %{name}'
       relation:
         title_html: 'ურთიართობაშ ისტორია: %{name}'
+      older_versions: უმოსი ჯვეში ვერსიეფი
+      newer_versions: უახალაში ვერსიეფი
     actions:
       view_redacted_data: რედაქტირებული მუნაჩემეფშა გინოჯინა
+      view_redaction_message: რედაქტირაფილი გინაფეფიშ ძირაფა
+  nodes:
+    not_found_message:
+      sorry: 'სანარღოთ, ჭურჭულქ #%{id} ვეგორუ.'
   changeset_comments:
     feeds:
       comment:
@@ -428,6 +457,7 @@ xmf:
     contact:
       km away: თქვანდე %{count}კმ.
       m away: თქვანდე %{count}მ.
+      latest_edit_html: 'ბოლო რედაქტირაფა (%{ago}):'
       no_edits: (რედაქტირაფა ვა რე)
       view_changeset_details: თირუეფიშ პაკეტიშ კილიშკილი ინფორმაციაშ ძირაფა
     popup:
