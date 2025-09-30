@@ -8,6 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install system packages then clean up to minimize image size
 RUN apt-get update \
   && apt-get install --no-install-recommends -y \
+  file \
   libarchive-dev \
   libgd-dev
   #   build-essential \
