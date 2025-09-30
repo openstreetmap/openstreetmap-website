@@ -5,6 +5,12 @@ module NominatimMethods
 
   private
 
+  def nominatim_url(method, parameters)
+    url = URI.join(Settings.nominatim_url, method)
+    url.query = parameters.merge("accept-language" => preferred_languages.join(",")).to_query
+    url
+  end
+
   def nominatim_query_url(format: nil)
     # get query parameters
     query = params[:query]
@@ -13,14 +19,21 @@ module NominatimMethods
     maxlon = params[:maxlon]
     maxlat = params[:maxlat]
 
-    # get view box
-    viewbox = "&viewbox=#{minlon},#{maxlat},#{maxlon},#{minlat}" if minlon && minlat && maxlon && maxlat
+    # get nominatim parameters
+    parameters = {
+      "format" => format,
+      "extratags" => 1,
+      "q" => query
+    }
 
-    # get objects to excude
-    exclude = "&exclude_place_ids=#{params[:exclude]}" if params[:exclude]
+    # add any view box
+    parameters["viewbox"] = "#{minlon},#{maxlat},#{maxlon},#{minlat}" if minlon && minlat && maxlon && maxlat
+
+    # add any objects to excude
+    parameters["exclude_place_ids"] = params[:exclude] if params[:exclude]
 
     # build url
-    "#{Settings.nominatim_url}search?format=#{format}&extratags=1&q=#{CGI.escape(query)}#{viewbox}#{exclude}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+    nominatim_url("search", parameters)
   end
 
   def nominatim_reverse_query_url(format: nil)
@@ -29,7 +42,15 @@ module NominatimMethods
     lon = params[:lon]
     zoom = params[:zoom]
 
+    # get nominatim parameters
+    parameters = {
+      "format" => format,
+      "lat" => lat,
+      "lon" => lon,
+      "zoom" => zoom
+    }
+
     # build url
-    "#{Settings.nominatim_url}reverse?format=#{format}&lat=#{lat}&lon=#{lon}&zoom=#{zoom}&accept-language=#{http_accept_language.user_preferred_languages.join(',')}"
+    nominatim_url("reverse", parameters)
   end
 end
