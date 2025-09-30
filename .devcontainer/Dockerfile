@@ -1,8 +1,8 @@
-ARG RUBY_VERSION=3.2
-ARG LOCAL_WORKSPACE_FOLDER_BASENAME=openstreetmap-website
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version
+ARG RUBY_VERSION=3.4.4
+FROM ghcr.io/rails/devcontainer/images/ruby:$RUBY_VERSION
 
-FROM ruby:$RUBY_VERSION-bookworm
-
+USER root
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Install system packages then clean up to minimize image size
@@ -33,8 +33,7 @@ RUN apt-get update \
 #   ca-certificates \
 #   firefox-esr
 
-# TODO: do in bin/setup
-# # Install yarn globally
+# Install yarn globally
 # RUN npm install --global yarn
 
 # TODO: I think unnecessary with devcontainer
@@ -50,4 +49,4 @@ RUN apt-get update \
 # # Install NodeJS packages using yarn
 # COPY package.json yarn.lock /app/
 # COPY bin/yarn /app/bin/
-# RUN bundle exec bin/yarn install
+# RUN bin/yarn install
