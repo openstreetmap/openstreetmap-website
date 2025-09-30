@@ -19,18 +19,11 @@ services:
     # (Adding the "ports" property to this file will not forward from a Codespace.)
     depends_on:
     - selenium
-    - redis
     - postgres
 
   selenium:
     image: selenium/standalone-firefox
     restart: unless-stopped
-
-  redis:
-    image: redis:7.2
-    restart: unless-stopped
-    volumes:
-    - redis-data:/data
 
   postgres:
     image: postgres:16.1
@@ -44,5 +37,4 @@ services:
         POSTGRES_PASSWORD: postgres
 
 volumes:
-  redis-data:
   postgres-data:
