@@ -16,7 +16,7 @@ FileUtils.chdir APP_ROOT do
 
   puts "== Installing dependencies =="
   system("bundle check") || system!("bundle install")
-  system!("bin/yarn install")
+  system("bin/yarn check") || system!("bin/yarn install")
 
   # puts "\n== Copying sample files =="
   # unless File.exist?("config/database.yml")
