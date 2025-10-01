@@ -10,7 +10,8 @@ RUN apt-get update \
   && apt-get install --no-install-recommends -y \
   file \
   libarchive-dev \
-  libgd-dev
+  libgd-dev \
+  osmosis
   #   build-essential \
 #   curl \
 #   default-jre-headless \
@@ -30,7 +31,6 @@ RUN apt-get update \
 #   unzip \
 #   nodejs \
 #   npm \
-#   osmosis \
 #   ca-certificates \
 #   firefox-esr
 
