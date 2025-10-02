@@ -230,12 +230,11 @@ L.OSM.share = function (options) {
     }
 
     function askToHandleGeoURI() {
-      if (sessionStorage.getItem("wasAbleToAskForHandler")) return;
+      if (sessionStorage.getItem("askedForGeoProtocolHandler")) return;
       try {
         navigator.registerProtocolHandler("geo", "/?geouri=%s");
-        sessionStorage.setItem("wasAbleToAskForHandler", "yes");
-      } catch (e) {
-        sessionStorage.setItem("wasAbleToAskForHandler", "no");
+      } finally {
+        sessionStorage.setItem("askedForGeoProtocolHandler", true);
       }
     }
   }
