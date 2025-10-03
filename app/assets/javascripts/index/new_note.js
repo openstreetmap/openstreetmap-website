@@ -146,8 +146,8 @@ OSM.NewNote = function (map) {
 
       createNote(location, text, (feature) => {
         if (typeof OSM.user === "undefined") {
-          const anonymousNotesCount = Number(Cookies.get("_osm_anonymous_notes_count")) || 0;
-          Cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { secure: true, expires: 30, path: "/", samesite: "lax" });
+          const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
+          OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 30 });
         }
         content.find("textarea").val("");
         addCreatedNoteMarker(feature);
