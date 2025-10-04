@@ -36,22 +36,28 @@ require "rails/test_help"
 require "webmock/minitest"
 require "minitest/focus" unless ENV["CI"]
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium seleniumde seleniumnolang rails-app])
 
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
     include ActiveJob::TestHelper
 
-    # Run tests in parallel with specified workers
-    parallelize(:workers => :number_of_processors)
+    if ENV.key?("SELENIUM_HOST")
+      # Running in the devcontainer. Can't figure out how
+      # to run things in parallel at the moment, so for now
+      # we are not doing it.
+    else
+      # Run tests in parallel with specified workers
+      parallelize(:workers => :number_of_processors)
 
-    parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
-    end
+      parallelize_setup do |worker|
+        SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+      end
 
-    parallelize_teardown do
-      SimpleCov.result
+      parallelize_teardown do
+        SimpleCov.result
+      end
     end
 
     ##
@@ -210,7 +216,7 @@ module ActiveSupport
 
     def session_for(user)
       get login_path
-      post login_path, :params => { :username => user.display_name, :password => "test" }
+      post login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
       follow_redirect!
     end
 

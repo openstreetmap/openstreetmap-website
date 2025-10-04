@@ -15,7 +15,7 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     # We can now login
-    post "/login", :params => { "username" => user.email, "password" => "test", :referer => "/diary/new" }
+    post "/login", :params => { "username" => user.email, "password" => "s3cr3t", :referer => "/diary/new" }
     assert_response :redirect
     follow_redirect!
     assert_response :success

@@ -10,7 +10,15 @@ class EmbedTest < ApplicationSystemTestCase
 end
 
 class GermanEmbedTest < ApplicationSystemTestCase
-  driven_by :selenium, :using => :headless_firefox, :options => { :name => :selenium_de } do |options|
+  driven_by(
+    :selenium,
+    :using => :headless_firefox,
+    :options => {
+      :url => "http://seleniumde:4444",
+      :browser => :remote,
+      :name => :selenium_de
+    }
+  ) do |options|
     options.add_preference("intl.accept_languages", "de")
   end
 
@@ -21,8 +29,17 @@ class GermanEmbedTest < ApplicationSystemTestCase
 end
 
 class UnknownLanguageEmbedTest < ApplicationSystemTestCase
-  driven_by :selenium, :using => :headless_firefox, :options => { :name => :selenium_unknown_language } do |options|
+  driven_by(
+    :selenium,
+    :using => :headless_firefox,
+    :options => {
+      :url => "http://seleniumnolang:4444",
+      :browser => :remote,
+      :name => :selenium_unknown_language
+    }
+  ) do |options|
     options.add_preference("intl.accept_languages", "unknown-language")
+    options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
   end
 
   test "shows report link in fallback language" do

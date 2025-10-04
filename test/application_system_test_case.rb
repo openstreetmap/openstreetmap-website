@@ -15,9 +15,25 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     config.enable_aria_label = true
   end
 
-  driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
-    options.add_preference("intl.accept_languages", "en")
-    options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
+  if ENV["CAPYBARA_SERVER_PORT"]
+    served_by :host => "rails-app", :port => ENV["CAPYBARA_SERVER_PORT"]
+
+    driven_by(
+      :selenium,
+      :using => Settings.system_test_headless ? :headless_firefox : :firefox,
+      :options => {
+        :url => "http://#{ENV.fetch('SELENIUM_HOST', nil)}:4444",
+        :browser => :remote
+      }
+    ) do |options|
+      options.add_preference("intl.accept_languages", "en")
+      options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
+    end
+  else
+    driven_by :selenium, :using => Settings.system_test_headless ? :headless_firefox : :firefox do |options|
+      options.add_preference("intl.accept_languages", "en")
+      options.binary = Settings.system_test_firefox_binary if Settings.system_test_firefox_binary
+    end
   end
 
   def before_setup
@@ -37,7 +53,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     visit login_path
     within "form", :text => "Email Address or Username" do
       fill_in "username", :with => user.email
-      fill_in "password", :with => "test"
+      fill_in "password", :with => "s3cr3t"
       click_on "Log in"
     end
   end
