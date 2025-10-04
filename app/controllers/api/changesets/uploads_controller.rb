@@ -28,11 +28,11 @@ module Api
       # Returns: a diffResult document, as described in
       # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
       def create
-        changeset = Changeset.find(params[:changeset_id])
-        check_changeset_consistency(changeset, current_user)
-
-        diff_reader = DiffReader.new(request.raw_post, changeset)
         Changeset.transaction do
+          changeset = Changeset.lock.find(params[:changeset_id])
+          check_changeset_consistency(changeset, current_user)
+
+          diff_reader = DiffReader.new(request.raw_post, changeset)
           result = diff_reader.commit
           # the number of changes in this changeset has already been
           # updated and is visible in this transaction so we don't need
