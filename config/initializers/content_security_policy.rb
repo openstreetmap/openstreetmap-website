@@ -22,7 +22,7 @@ Rails.application.configure do
     policy.default_src :self
     policy.child_src(:self)
     policy.connect_src(*connect_src)
-    policy.font_src(:none)
+    policy.font_src(:self)
     policy.form_action(:self)
     policy.frame_ancestors(:self)
     policy.frame_src(:self)

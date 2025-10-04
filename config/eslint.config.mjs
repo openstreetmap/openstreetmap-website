@@ -29,6 +29,7 @@ export default [
         L: "readonly",
         Matomo: "readonly",
         OSM: "writable",
+        Popper: "readonly",
         Turbo: "readonly",
         bootstrap: "readonly",
         maplibregl: "readonly",
