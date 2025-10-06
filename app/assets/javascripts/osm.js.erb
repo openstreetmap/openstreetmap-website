@@ -27,7 +27,7 @@ OSM = {
       end.to_json
   %>,
 
-  cookies: Cookies.withAttributes({ path: "/", samesite: "lax", secure: true }),
+  cookies: Cookies.withAttributes({ path: "/", samesite: "lax", secure: <%= (Settings.server_protocol == "https").to_json %> }),
 
   DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
 
