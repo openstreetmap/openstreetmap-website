@@ -27,6 +27,8 @@ OSM = {
       end.to_json
   %>,
 
+  cookies: Cookies.withAttributes({ path: "/", samesite: "lax", secure: <%= (Settings.server_protocol == "https").to_json %> }),
+
   DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
 
   LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/legend.yml").to_json %>,
@@ -73,7 +75,7 @@ OSM = {
 
     const hash = OSM.parseHash();
 
-    const loc = Cookies.get("_osm_location")?.split("|");
+    const loc = OSM.cookies.get("_osm_location")?.split("|");
 
     function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
       return L.latLngBounds([minlat, minlon], [maxlat, maxlon]);

@@ -137,17 +137,17 @@ OSM.Directions = function (map) {
   }
 
   setEngine("fossgis_osrm_car");
-  setEngine(Cookies.get("_osm_directions_engine"));
+  setEngine(OSM.cookies.get("_osm_directions_engine"));
 
   modeGroup.on("change", "input[name='modes']", function (e) {
     setEngine(chosenEngine.provider + "_" + e.target.value);
-    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
+    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires: expiry });
     getRoute(true, true);
   });
 
   select.on("change", function (e) {
     setEngine(e.target.value + "_" + chosenEngine.mode);
-    Cookies.set("_osm_directions_engine", chosenEngine.id, { secure: true, expires: expiry, path: "/", samesite: "lax" });
+    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires: expiry });
     getRoute(true, true);
   });
 

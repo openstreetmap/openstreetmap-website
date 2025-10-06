@@ -8,7 +8,7 @@ $(document).on("click", "#select_language_dialog [data-language-code]", function
     form.elements.language.value = code;
     form.submit();
   } else {
-    Cookies.set("_osm_locale", code, { secure: true, path: "/", samesite: "lax" });
+    OSM.cookies.set("_osm_locale", code);
     location.reload();
   }
 });
