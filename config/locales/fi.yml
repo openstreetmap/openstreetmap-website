@@ -274,6 +274,7 @@ fi:
     providers:
       none: Ei mitään
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -315,6 +316,9 @@ fi:
         agreed_with_pd: Olet myös ilmaissut muokkaustesi olevan tekijänoikeudesta
           vapaita (Public Domain).
         not_agreed_with_pd: Et ole hyväksynyt, että muokkauksesi ovat tekijänoikeudettomia.
+      terms_of_use:
+        heading: Käyttöehdot
+        not_agreed: Et ole vielä hyväksynyt käyttöehtoja.
       save changes button: Tallenna muutokset
       delete_account: Poista käyttäjä...
     go_public:
@@ -369,6 +373,7 @@ fi:
         tou_explain:
           html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n tarjoaman
             infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin sisältöön.
+          tou: Käyttöehdot
         read_tou: Olen lukenut ja hyväksynyt käyttöehdot
         guidance_info_html: 'Vaihtoehtoisia lukutapoja: %{readable_summary_link} ja
           %{informal_translations_link}'
@@ -475,6 +480,8 @@ fi:
       colour_preview: Värin %{colour_value} esikatselu
       email_link: Sähköposti %{email}
     versions_navigation:
+      node: Solmu
+      way: Tie
       history: Historia
       version: 'Versio #%{version}'
       versions_label: 'Versiot:'
@@ -1637,6 +1644,88 @@ fi:
     create:
       successful_report: Ilmianto on rekisteröity
       provide_details: Täydennä puuttuvat tiedot
+  languages_panes:
+    select_language_list:
+      search_language: Hae...
+      languages:
+        af: Afrikaans
+        az: Azeri
+        id: Indonesia
+        ms: Malaiji
+        bs: Bosnia
+        br: Breton
+        ca: Katalaani
+        cs: Tšekki
+        cy: Kymri
+        da: Tanska
+        de: Saksa
+        et: Viro
+        en: Englanti
+        en-GB: Englanti (UK)
+        es: Espanja
+        eo: Esperanto
+        eu: Baski
+        fr: Ranska
+        ga: Iiri
+        gl: Galego
+        hr: Kroaatti
+        ia: Interlingua
+        is: Islanti
+        it: Italia
+        ku-Latn: Kurdi (latina)
+        lv: Latvia
+        lb: Luxemburg
+        lt: Liettua
+        hu: Unkari
+        fit: Tornionlaakson suomi
+        nl: Hollanti
+        pl: Puola
+        pt-PT: Portugali
+        pt: Portugali (Brasilia)
+        ro: Romania
+        sc: Sardi
+        sco: Skotti
+        sq: Albania
+        sk: Slovakki
+        sl: Sloveeni
+        sr-Latn: Serbi (latina)
+        fi: Suomi
+        sv: Ruotsi
+        tl: Tagalog
+        vi: Vietnam
+        tr: Turkki
+        yo: Joruba
+        el: Kreikka
+        ba: Baškiiri
+        be: Valkovenäjä
+        bg: Bulgaria
+        mk: Makedonia
+        ce: Tšetšeeni
+        ru: Venäjä
+        sr: Serbi (kyrillinen)
+        tt: Tataari (kyrillinen)
+        uk: Ukraina
+        yi: Jiddiš
+        he: Heprea
+        ar: Arabia
+        fa: Persia
+        arz: Egyptin arabia
+        ne: Nepali
+        hi: Hindi
+        pa: Punjabi
+        gu: Gudžarati
+        ta: Tamili
+        te: Telugu
+        kn: Kannada
+        th: Thai
+        my: Burma
+        ka: Georgia
+        km: Khmer
+        zh-CN: Kiina (yksinkertaistettu)
+        zh-TW: Kiina (perinteinen)
+        zh-HK: Kiina (Hongkong)
+        ja: Japani
+        ko: Korea
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
@@ -1669,6 +1758,7 @@ fi:
     more: Lisää
     header:
       select_language: Valitse kieli
+      loading: Ladataan...
     select_language_button:
       title: Valitse kieli
   user_mailer:
@@ -1708,7 +1798,7 @@ fi:
       imported_points: Tuotujen pisteiden määrä
     gpx_failure:
       hi: Hei %{to_user}!
-      failed_to_import: 'epäonnistui tuoda. Tässä virhe:'
+      failed_to_import: Näyttäisi siltä, että tiedostosi tuonti GPS-jälkenä epäonnistui.
       subject: '[OpenStreetMap] GPX-tuonti epäonnistui'
     gpx_success:
       hi: Hei %{to_user}!
@@ -1970,7 +2060,9 @@ fi:
         failure: Profiilin linkkien päivittäminen epäonnistui.
     images:
       show:
+        title: Muokkaa profiilia
         save: Päivitä profiili
+        cancel: Peruuta
         gravatar:
           gravatar: Käytä Gravataria
           what_is_gravatar: Mikä on Gravatar?
@@ -1981,14 +2073,18 @@ fi:
         image size hint: (parhaat kuvat ovat neliönmuotoisia, joiden koko on vähintään
           100x100)
       update:
+        success: Profiilikuva päivitetty.
         failure: Profiilin kuvan päivittäminen epäonnistui.
     companies:
       show:
+        title: Muokkaa profiilia
         save: Päivitä profiili
+        cancel: Peruuta
       update:
         failure: Profiilin yrityksen päivittäminen epäonnistui.
     locations:
       show:
+        title: Muokkaa profiilia
         save: Päivitä profiili
         cancel: Peruuta
         no home location: Kotipaikkaa ei ole vielä määritetty.
@@ -2042,9 +2138,13 @@ fi:
       changeset_comments:
         older: Vanhemmat kommentit
         newer: Uudemmat kommentit
+        oldest: Vanhimmat kommentit
+        newest: Uusimmat kommentit
       diary_comments:
         older: Vanhemmat kommentit
         newer: Uudemmat kommentit
+        oldest: Vanhimmat kommentit
+        newest: Uusimmat kommentit
       diary_entries:
         older: Vanhempia...
         newer: Uudempia...
@@ -2060,6 +2160,8 @@ fi:
       users:
         older: Vanhemmat käyttäjät
         newer: Uudemmat käyttäjät
+        oldest: Vanhimmat käyttäjät
+        newest: Uusimmat käyttäjät
   site:
     about:
       heading_html: '%{copyright}OpenStreetMapin %{br} kartoittajat'
@@ -2291,6 +2393,7 @@ fi:
           title: Muut lähteet
           description: Muut lähteet ovat esillä OpenStreetMap-wikissä
       export_button: Vie
+      export_download: Ladataan...
     fixthemap:
       title: Ilmoita ongelmasta / Korjaa karttaa
       how_to_help:
@@ -2414,6 +2517,9 @@ fi:
       other_groups:
         title: Muut ryhmät
         communities_wiki: Yhteisöjen wiki-sivu
+  social_links:
+    show:
+      website: verkkosivu
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
@@ -2526,6 +2632,7 @@ fi:
       custom_dimensions: Rajaa alue itse
       image_dimensions_html: '%{layer}-karttanäkymä koossa %{width} x %{height}'
       download: Lataa
+      downloading: Ladataan...
   traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
@@ -2648,6 +2755,9 @@ fi:
       google:
         title: Kirjaudu käyttämällä Google-tunnustasi
         alt: Google-logo
+      apple:
+        title: Kirjaudu Applella
+        alt: Applen logo
       facebook:
         title: Kirjaudu Facebookin avulla
         alt: Facebook-logo
@@ -2777,6 +2887,7 @@ fi:
         muuttaa asetuksista.
       by_signing_up:
         html: Rekisteröitymällä hyväksyt %{tou_link}, %{privacy_policy_link} ja %{contributor_terms_link}.
+        tou: Käyttöehdot
         privacy_policy: tietosuojakäytäntö
         privacy_policy_title: OSM-säätiön tietosuojakäytäntö, mukaan lukien sähköpostiosoitteita
           koskeva osio
@@ -3080,8 +3191,9 @@ fi:
       last_changed: Viimeksi muutettu
       apply: Käytä
       all: Kaikki
-      open: Avoin
-      closed: Suljettu
+      open: Ratkaisematon
+      closed: Ratkaistu
+      hidden: Piilotettu
       status: Tila
     show:
       title: 'Karttailmoitus: %{id}'
@@ -3158,6 +3270,8 @@ fi:
     share:
       title: Jakaminen
       view_larger_map: Näytä isommalla kartalla
+      export_failed_title: Kartan vienti epäonnistui
+      filename: kartta
     embed:
       report_problem: Ilmoita ongelmasta
     legend:
@@ -3218,6 +3332,8 @@ fi:
         mi: '%{distance} mailia'
       errors:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
+        no_place:
+          title: Haku epäonnistui
       instructions:
         continue_without_exit: Jatka tiellä %{name}
         slight_right_without_exit: Kaarra oikealle tielle %{name}
@@ -3302,6 +3418,8 @@ fi:
       nothing_found: Karttakohteita ei löytynyt
       error: 'Yhteysvirhe palvelimeen %{server}: %{error}'
       timeout: Yhteyden aikakatkaisu palvelimeen %{server}
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Reittiohjeet täältä
       directions_to: Reittiohjeet tänne
@@ -3319,6 +3437,9 @@ fi:
         contributions:
           one: '%{count} muokkaus %{date}'
           other: '%{count} muokkausta %{date}'
+    remote_edit:
+      failed:
+        title: Muokkaaminen epäonnistui
     edit:
       id_not_configured:
         title: iD-ohjelmaa ei ole asetettu

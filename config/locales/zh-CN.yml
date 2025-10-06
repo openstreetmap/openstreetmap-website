@@ -562,11 +562,21 @@ zh-CN:
       sorry: '抱歉，未能找到编号为 #%{id} 的关联关系。'
     timeout:
       sorry: 抱歉，检索id为%{id}的关系数据花费时间过长。
+  relation_members:
+    not_found_message:
+      sorry: 抱歉，未能找到编号为#%{id}的关联关系。
+    timeout:
+      sorry: 抱歉，检索id为%{id}的关系数据花费时间过长。
   old_relations:
     not_found_message:
       sorry: '抱歉，无法找到关系 #%{id} 的版本 %{version}。'
     timeout:
       sorry: 抱歉，检索id为%{id}的关系历史花费时间过长。
+  old_relation_members:
+    not_found_message:
+      sorry: 抱歉，无法找到关系#%{id}的版本%{version}。
+    timeout:
+      sorry: 抱歉，与ID%{id}关联的成员数据获取耗时过长。
   changeset_comments:
     feeds:
       comment:
@@ -1789,7 +1799,112 @@ zh-CN:
       provide_details: 请提供所需详情
   languages_panes:
     select_language_list:
+      search_language: 搜索...
       languages:
+        af: 南非语
+        gsw: 阿勒曼尼语
+        frp: 阿皮坦语
+        ast: 阿斯图里亚斯语
+        az: 阿塞拜疆语
+        id: 印度尼西亚语
+        ms: 马来语
+        bs: 波斯尼亚语
+        br: 布列塔尼语
+        ca: 加泰罗尼亚语
+        cs: 捷克语
+        cy: 威尔士语
+        da: 丹麦语
+        de: 德语
+        dsb: 下索布语
+        et: 爱沙尼亚语
+        en: 英语
+        en-GB: 英语（英国）
+        es: 西班牙语
+        eo: 世界语
+        eu: 巴斯克语
+        fr: 法语
+        fy: 西弗里斯兰语
+        fur: 弗留利语
+        ga: 爱尔兰语
+        gd: 苏格兰盖尔语
+        gl: 加利西亚语
+        aln: 阿尔巴尼亚语盖格方言
+        hsb: 上索布语
+        hr: 克罗地亚语
+        ia: 国际语
+        is: 冰岛语
+        it: 意大利语
+        gcf: 瓜德罗普克里奥尔语
+        ku-Latn: 库尔德语（拉丁字母）
+        lv: 拉脱维亚语
+        lb: 卢森堡语
+        lt: 立陶宛语
+        hu: 匈牙利语
+        fit: 托尔讷河谷芬兰语
+        nl: 荷兰语
+        nb: 书面挪威语
+        nn: 新挪威语
+        oc: 奥克语
+        nds: 低地德语
+        pl: 波兰语
+        pt-PT: 葡萄牙语
+        pt: 葡萄牙语（巴西）
+        ksh: 科隆方言
+        ro: 罗马尼亚语
+        sc: 撒丁语
+        sco: 低地苏格兰语
+        sq: 阿尔巴尼亚语
+        scn: 西西里语
+        sk: 斯洛伐克语
+        sl: 斯洛文尼亚语
+        sr-Latn: 塞尔维亚语（拉丁字母）
+        sh: 塞尔维亚-克罗地亚语（拉丁字母）
+        fi: 芬兰语
+        sv: 瑞典语
+        tl: 他加禄语
+        kab: 卡拜尔语
+        vi: 越南语
+        tr: 土耳其语
+        yo: 约鲁巴语
+        diq: 扎扎其语
+        el: 希腊语
+        ba: 巴什基尔语
+        be: 白俄罗斯语
+        be-Tarask: 白俄罗斯语（传统正写法）
+        bg: 保加利亚语
+        mk: 马其顿语
+        mo: 摩尔多瓦语
+        ce: 车臣语
+        ru: 俄语
+        sr: 塞尔维亚语（西里尔字母）
+        tt: 鞑靼语（西里尔字母）
+        uk: 乌克兰语
+        kk-cyrl: 哈萨克语（西里尔字母）
+        yi: 意第绪语
+        he: 希伯来语
+        ar: 阿拉伯语
+        skr-arab: 色莱基语
+        fa: 波斯语
+        arz: 埃及阿拉伯语
+        pnb: 西旁遮普语
+        ps: 普什图语
+        nqo: 西非书面文字
+        ne: 尼泊尔语
+        mr: 马拉地语
+        hi: 印地语
+        bn: 孟加拉语
+        pa: 旁遮普语
+        gu: 古吉拉特语
+        ta: 泰米尔语
+        te: 泰卢固语
+        kn: 卡纳达语
+        th: 泰语
+        my: 缅甸语
+        shn: 掸语
+        xmf: 明格列尔语
+        ka: 格鲁吉亚语
+        km: 高棉语
+        sat: 桑塔利语
         zh-CN: 简体中文
         zh-TW: 繁体中文
         zh-HK: 中文（香港）
@@ -2312,10 +2427,24 @@ zh-CN:
         licensing_4_osmf_license_page: OSMF 许可页面
         credit_title_html: 如何表明作者是 OpenStreetMap
         credit_1_html: 当您使用 OpenStreetMap 的数据，您会被要求遵循两件事：
+        credit_2_attribution: 通过显示我们的署名声明，为OpenStreetMap提供署名。
         credit_2_license: 明确数据在开放数据库许可证下可用。
+        credit_3_v2025_html: |-
+          对于署名通知，我们根据您使用我们数据的方式，有不同的%{requirements_on_how_displayed_link}。
+          例如，关于如何展示署名通知，适用不同的规则，这取决于您是否
+          创建了一个可浏览的地图、打印的地图或静态图像。
+          更多详细信息可在%{licensing_requirements_link}的%{attribution_guidelines_link}部分中找到。
         credit_3_v2025_requirements_on_how_displayed: 关于如何显示的要求
         credit_3_v2025_attribution_guidelines: 署名指南
         credit_3_v2025_licensing_requirements: 许可证要求
+        credit_4_v2025_html: |-
+          一般来说，
+          为了明确数据遵循开放数据库许可协议，
+          您可以链接至%{this_copyright_page_link}。
+          如果您正在分发OSM（开放街道地图）
+          数据表格，请直接命名并链接至相关许可证。
+          若无法提供链接（如印刷作品），
+          请在页面上包含完整的URL，例如%{copyright_page_url}。
         credit_4_v2025_this_copyright_page: 该版权页
         credit_5_v2025_html: 在此示例中，署名置于地图的角落：
         attribution_example:
@@ -2788,6 +2917,9 @@ zh-CN:
       google:
         title: 使用Google登录
         alt: Google 标志
+      apple:
+        title: 使用Apple登录
+        alt: Apple标志
       facebook:
         title: 使用Facebook登录
         alt: Facebook 标志
@@ -3309,6 +3441,7 @@ zh-CN:
         tracestracktop_topo: 地形地貌地图
         hot: 人道救援地图
         shortbread: 黄油酥饼
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: 地图图层
         notes: 地图注记
@@ -3327,6 +3460,7 @@ zh-CN:
       tracestrack: 踪迹地图
       hotosm_credit: 由%{osm_france_link}托管的%{hotosm_link}图块风格
       hotosm_name: 人道主义开放街图团队
+      openmaptiles_credit: 来自%{openmaptiles_link}的矢量图砖，由%{maptiler_link}托管
     site:
       edit_tooltip: 编辑地图
       edit_disabled_tooltip: 放大地图以编辑
@@ -3334,6 +3468,9 @@ zh-CN:
       createnote_disabled_tooltip: 放大地图以添加注记
       queryfeature_tooltip: 查询特征
       queryfeature_disabled_tooltip: 放大以查询特征
+    profile:
+      social_link_n: 社交资料链接%{n}
+      remove_social_link_n: 删除社交资料链接%{n}
     edit_help: 移动地图并在您想编辑的位置放大，然后点击这里。
     directions:
       distance_in_units:
@@ -3440,6 +3577,7 @@ zh-CN:
     remote_edit:
       failed:
         title: 编辑失败
+        body: 确保JOSM或Merkaartor已加载并且远程控制选项已启用
     edit:
       id_not_configured:
         title: iD 尚未配置
