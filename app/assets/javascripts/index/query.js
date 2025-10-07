@@ -68,8 +68,15 @@ OSM.Query = function (map) {
   function featurePrefix(feature) {
     const tags = feature.tags;
     let prefix = "";
+    // Keep in sync with qualified_boundary_types in Searches.NominatimQueriesController.create.
+    const qualifiedBoundaryTypes = [
+      "administrative",
+      "census",
+      "religious_administration",
+      "statistical"
+    ];
 
-    if (tags.boundary === "administrative" && (tags.border_type || tags.admin_level)) {
+    if (qualifiedBoundaryTypes.includes(tags.boundary) && (tags.border_type || tags.admin_level)) {
       prefix = OSM.i18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
         defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
           defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")

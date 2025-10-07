@@ -32,7 +32,14 @@ module Searches
                       else
                         t "geocoder.search_osm_nominatim.prefix.#{klass}.#{type}", :default => type.tr("_", " ").capitalize
                       end
-        if klass == "boundary" && type == "administrative"
+        # Keep in sync with qualifiedBoundaryTypes in OSM.Query.featurePrefix.
+        qualified_boundary_types = %w[
+          administrative
+          census
+          religious_administrative
+          statistical
+        ]
+        if klass == "boundary" && qualified_boundary_types.include?(type)
           rank = (place.attributes["address_rank"].to_i + 1) / 2
           prefix_name = t "geocoder.search_osm_nominatim.admin_levels.level#{rank}", :default => prefix_name
           border_type = nil
