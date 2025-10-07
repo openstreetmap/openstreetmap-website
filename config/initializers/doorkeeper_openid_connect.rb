@@ -27,7 +27,7 @@ Doorkeeper::OpenidConnect.configure do
   end
 
   claims do
-    claim :preferred_username, :scope => :openid do |resource_owner, _scopes, _access_token|
+    claim :preferred_username, :scope => :openid, :response => [:id_token, :user_info] do |resource_owner, _scopes, _access_token|
       resource_owner.display_name
     end
 

@@ -110,7 +110,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     end
 
     assert_equal user.id.to_s, data["sub"]
-    assert_not data.key?("preferred_username")
+    assert_equal user.display_name, data["preferred_username"]
 
     get oauth_userinfo_path
     assert_response :unauthorized
