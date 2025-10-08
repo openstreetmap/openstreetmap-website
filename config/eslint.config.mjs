@@ -146,7 +146,6 @@ export default [
       "no-useless-return": "error",
       "no-var": "error",
       "no-void": "error",
-      "no-warning-comments": "warn",
       "operator-assignment": "error",
       "prefer-const": "error",
       "prefer-object-spread": "error",
