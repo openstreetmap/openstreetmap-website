@@ -3,17 +3,19 @@
 class ExportController < ApplicationController
   before_action :authorize_web
   before_action :set_locale
-  before_action :update_totp, :only => [:finish]
+  before_action :update_totp, :only => [:create]
   authorize_resource :class => false
 
-  content_security_policy(:only => :embed) do |policy|
+  content_security_policy(:only => :show) do |policy|
     policy.frame_ancestors("*")
   end
 
-  caches_page :embed
+  caches_page :show
+
+  def show; end
 
   # When the user clicks 'Export' we redirect to a URL which generates the export download
-  def finish
+  def create
     bbox = BoundingBox.from_lon_lat_params(params)
     style = params[:format]
     format = params[:mapnik_format]
@@ -39,6 +41,4 @@ class ExportController < ApplicationController
       redirect_to "https://tile.thunderforest.com/static/#{style[..-4]}/#{lon},#{lat},#{zoom}/#{width}x#{height}.#{format}?apikey=#{Settings.thunderforest_key}", :allow_other_host => true
     end
   end
-
-  def embed; end
 end
