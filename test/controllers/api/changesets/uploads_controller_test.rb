@@ -198,6 +198,35 @@ module Api
         assert_dom "osmError>message", 1
       end
 
+      def test_upload_race_condition
+        user = create(:user)
+        changeset = create(:changeset, :user => user)
+
+        diff = <<~CHANGESET
+          <osmChange>
+            <create>
+              <node id='-1' lon='1' lat='2' changeset='#{changeset.id}'/>
+            </create>
+          </osmChange>
+        CHANGESET
+
+        auth_header = bearer_authorization_header user, :scopes => %w[write_api]
+        path = api_changeset_upload_path(changeset)
+        concurrency_level = 16
+
+        threads = Array.new(concurrency_level) do
+          Thread.new do
+            post path, :params => diff, :headers => auth_header
+          end
+        end
+        threads.each(&:join)
+
+        changeset.reload
+        assert_equal concurrency_level, changeset.num_changes
+        assert_predicate changeset, :num_type_changes_in_sync?
+        assert_equal concurrency_level, changeset.num_created_nodes
+      end
+
       # -------------------------------------
       # Test creating elements.
       # -------------------------------------
