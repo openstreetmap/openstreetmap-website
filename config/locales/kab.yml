@@ -17,6 +17,8 @@
 # Author: SlimaneAmiri
 ---
 kab:
+  html:
+    dir: ltr
   time:
     formats:
       friendly: '%e %B %Y ɣef %H:%M'
@@ -25,7 +27,7 @@ kab:
       prompt: Fren afaylu
     submit:
       diary_comment:
-        create: Sekles
+        create: Awennit
       diary_entry:
         create: Suffeɣ-d
         update: Leqqem
@@ -142,6 +144,7 @@ kab:
         active: Urmid
         display_name: Mefffer isem
         description: Aglam n umaɣnu
+        company: Taṛmist
         home_lat: Tarrut
         home_lon: Tazegrart
         languages: Tutlayin tebɣiḍ
@@ -180,15 +183,18 @@ kab:
   auth:
     providers:
       none: Ulac
+      openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipidya
   api:
     notes:
       comment:
-        opened_at_html: Yattwarna %{when}
-        opened_at_by_html: Yettwarna %{when} sɣur %{user}
+        opened_at_html: Yattwasnulfa-d %{when}
+        opened_at_by_html: Yettwasnulfa-d %{when} sɣur %{user}
         commented_at_html: Yettwalqem %{when}
         commented_at_by_html: Yettwalqem %{when} aya sɣur %{user}
         closed_at_html: Yefra %{when} aya
@@ -851,6 +857,7 @@ kab:
   messages:
     new:
       title: Azen izen
+      send_message_to_html: Azen-as izen amaynut i %{name}
     create:
       message_sent: Izen yettwazen
     no_such_message:
@@ -886,6 +893,12 @@ kab:
       show:
         title: Tanaka n urmas
         messages: Ɣur-k %{new_messages} akked %{old_messages}
+        new_messages:
+          one: '%{count} n yizen amaynut'
+          other: '%{count} n yiznan imaynuten'
+        old_messages:
+          one: '%{count} n yizen aqbur'
+          other: '%{count} n yiznan iqburen'
     outboxes:
       show:
         title: Tanaka n tuzna
@@ -1231,6 +1244,11 @@ kab:
       creator_name: Amernay
       reason: Taɣzint n  usewḥel
       status: Addad
+  user_mutes:
+    index:
+      table:
+        tbody:
+          send_message: Azen izen
   notes:
     index:
       heading: Tizmilin n %{user}
