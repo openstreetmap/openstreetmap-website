@@ -133,7 +133,6 @@ OSM.Directions = function (map) {
     routeOutput.remove();
     sidebarReadyPromise = null;
     map.setSidebarOverlaid(true);
-    // TODO: collapse width of sidebar back to previous
   }
 
   setEngine("fossgis_osrm_car");
