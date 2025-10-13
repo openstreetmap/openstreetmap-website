@@ -82,7 +82,6 @@ module BrowseHelper
     (locale_keys + %w[name ref addr:housename]).each do |key|
       return tags[key] if tags[key]
     end
-    # TODO: Localize format to country of address
     return "#{tags['addr:housenumber']} #{tags['addr:street']}" if tags["addr:housenumber"] && tags["addr:street"]
 
     nil

@@ -112,7 +112,6 @@ OSM.Query = function (map) {
     for (const key of [...localeKeys, "name", "ref", "addr:housename"]) {
       if (tags[key]) return tags[key];
     }
-    // TODO: Localize format to country of address
     if (tags["addr:housenumber"] && tags["addr:street"]) return `${tags["addr:housenumber"]} ${tags["addr:street"]}`;
 
     return "#" + feature.id;
