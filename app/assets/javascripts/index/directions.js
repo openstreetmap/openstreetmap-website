@@ -101,6 +101,7 @@ OSM.Directions = function (map) {
     $("#directions_loader").prop("hidden", false);
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
+    modeGroup.off("click", "input[name='modes']:checked", getRoute);
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(async function (route) {
@@ -129,6 +130,7 @@ OSM.Directions = function (map) {
     e.stopPropagation();
     routeOutput.remove();
     sidebarReadyPromise = null;
+    modeGroup.on("click", "input[name='modes']:checked", getRoute);
     map.setSidebarOverlaid(true);
   }
 
