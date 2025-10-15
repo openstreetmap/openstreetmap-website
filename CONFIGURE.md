@@ -189,6 +189,10 @@ Rails has its own log. To inspect the log during development:
 tail -f log/development.log
 ```
 
+### Email Previews
+
+We use [ActionMailer Previews](https://guides.rubyonrails.org/action_mailer_basics.html#previewing-and-testing-mailers) to generate previews of the emails sent by the application. Visit [http://localhost:3000/rails/mailers](http://localhost:3000/rails/mailers) to see the list of available previews.
+
 ### Maintaining Your Installation
 
 > [!TIP]
