@@ -116,7 +116,7 @@ module BrowseHelper
     when :deleted
       "tag-deleted"
     else
-      ""
+      "tag-unmodified"
     end
   end
 
