@@ -72,6 +72,67 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
+  # Tag change highlighting methods for history view
+  def tag_changes_for_version(current_version, all_versions)
+    return {} unless current_version && all_versions
+
+    current_tags = current_version.tags || {}
+
+    # Find the previous version by sorting all versions and finding the one before current
+    sorted_versions = all_versions.sort_by(&:version)
+    current_index = sorted_versions.find_index { |v| v.version == current_version.version }
+    previous_version = current_index && current_index > 0 ? sorted_versions[current_index - 1] : nil
+    previous_tags = previous_version&.tags || {}
+
+    changes = {}
+
+    # Check for added and modified tags
+    current_tags.each do |key, value|
+      if !previous_tags.key?(key)
+        changes[key] = { type: :added, current: value }
+      elsif previous_tags[key] != value
+        changes[key] = { type: :modified, current: value, previous: previous_tags[key] }
+      else
+        changes[key] = { type: :unchanged, current: value }
+      end
+    end
+
+    # Check for deleted tags
+    previous_tags.each do |key, value|
+      unless current_tags.key?(key)
+        changes[key] = { type: :deleted, previous: value }
+      end
+    end
+
+    changes
+  end
+
+  def tag_change_class(change_type)
+    case change_type
+    when :added
+      "tag-added"
+    when :modified
+      "tag-modified"
+    when :deleted
+      "tag-deleted"
+    else
+      ""
+    end
+  end
+
+  def format_tag_value_with_change(key, change_info)
+    case change_info[:type]
+    when :added
+      format_value(key, change_info[:current])
+    when :modified
+      "#{format_value(key, change_info[:previous])} → #{format_value(key, change_info[:current])}".html_safe
+    when :deleted
+      tag.em("deleted")
+    else
+      format_value(key, change_info[:current])
+    end
+  end
+
   private
 
   def feature_name(tags)

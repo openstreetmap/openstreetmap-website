@@ -1033,3 +1033,42 @@ img.trace_image {
     }
   }
 }
+
+/* Tag change highlighting for history views */
+.tag-added {
+  background-color: rgba(var(--bs-success-rgb), 0.15) !important;
+  border-left: 4px solid var(--bs-success);
+}
+
+.tag-modified {
+  background-color: rgba(var(--bs-warning-rgb), 0.15) !important;
+  border-left: 4px solid var(--bs-warning);
+}
+
+.tag-deleted {
+  background-color: rgba(var(--bs-danger-rgb), 0.15) !important;
+  border-left: 4px solid var(--bs-danger);
+}
+
+.tag-added th,
+.tag-added td,
+.tag-modified th,
+.tag-modified td,
+.tag-deleted th,
+.tag-deleted td {
+  border-color: inherit !important;
+}
+
+@include color-mode(dark) {
+  .tag-added {
+    background-color: rgba(var(--bs-success-rgb), 0.25) !important;
+  }
+
+  .tag-modified {
+    background-color: rgba(var(--bs-warning-rgb), 0.25) !important;
+  }
+
+  .tag-deleted {
+    background-color: rgba(var(--bs-danger-rgb), 0.25) !important;
+  }
+}
