@@ -18,25 +18,25 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Layers"
   end
 
-  test "tooltip shows for Map Key button on Standard layer" do
+  test "tooltip shows for Legend button on Standard layer" do
     visit "/"
 
     assert_no_selector ".tooltip"
     button = find ".control-legend .control-button"
     button.hover
     tooltip = find ".tooltip"
-    tooltip.assert_text "Map Key"
+    tooltip.assert_text "Legend"
     tooltip.assert_no_text "not available"
   end
 
-  test "tooltip shows for Map Key button on a layer without a key provided" do
-    visit "/#layers=H" # assumes that HOT layer has no map key
+  test "tooltip shows for Legend button on a layer without a legend provided" do
+    visit "/#layers=H" # assumes that HOT layer has no legend
 
     assert_no_selector ".tooltip"
     button = find ".control-legend .control-button"
     button.hover
     tooltip = find ".tooltip"
-    tooltip.assert_text "Map Key"
+    tooltip.assert_text "Legend"
     tooltip.assert_text "not available"
   end
 
