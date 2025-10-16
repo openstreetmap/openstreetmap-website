@@ -82,7 +82,13 @@ module BrowseHelper
     sorted_versions = all_versions.sort_by(&:version)
     current_index = sorted_versions.find_index { |v| v.version == current_version.version }
     previous_version = current_index&.positive? ? sorted_versions[current_index - 1] : nil
-    previous_tags = previous_version&.tags || {}
+
+    # Don't compare with redacted versions unless we're showing redactions
+    previous_tags = if previous_version && (!previous_version.redacted? || params[:show_redactions])
+                      previous_version.tags || {}
+                    else
+                      {}
+                    end
 
     # Check for added and modified tags
     changes = current_tags.each_with_object({}) do |(key, value), memo|
