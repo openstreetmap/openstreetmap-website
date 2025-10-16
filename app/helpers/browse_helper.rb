@@ -72,6 +72,14 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
+  def wrap_tags_with_version_changes(tags_to_values)
+    tags_to_values.transform_values do |value|
+      {
+        :current => value
+      }
+    end
+  end
+
   # Tag change highlighting methods for history view
   def tag_changes_for_version(current_version, all_versions)
     return {} unless current_version && all_versions
@@ -96,8 +104,10 @@ module BrowseHelper
                     { :type => :added, :current => value }
                   elsif previous_tags[key] != value
                     { :type => :modified, :current => value, :previous => previous_tags[key] }
-                  else
+                  elsif previous_tags[key] == value
                     { :type => :unmodified, :current => value }
+                  else
+                    { :current => value }
                   end
     end
 
@@ -114,7 +124,7 @@ module BrowseHelper
       :added => "tag-added",
       :modified => "tag-modified",
       :deleted => "tag-deleted",
-      :unmodified => "tag-unmodified"
+      :unmodified => "tag-unmodified",
     }.fetch(change_type, "")
   end
 
@@ -126,6 +136,8 @@ module BrowseHelper
       safe_join([format_value(key, change_info[:previous]), " → ", format_value(key, change_info[:current])])
     when :deleted
       tag.em("deleted")
+    else
+      change_info[:current]
     end
   end
 
