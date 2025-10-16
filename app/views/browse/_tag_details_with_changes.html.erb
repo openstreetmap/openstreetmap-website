@@ -2,9 +2,8 @@
   <h4><%= t ".tags" %></h4>
   <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
     <table class='mb-0 browse-tag-list table align-middle'>
-      <% if defined?(@old_features) && @old_features %>
-        <% tag_changes = tag_changes_for_version(tag_details_object, @old_features) %>
-        <% tag_changes.sort.each do |key, change_info| %>
+      <% if @old_features %>
+        <% tag_changes_for_version(tag_details_object, @old_features).sort.each do |key, change_info| %>
           <tr class="<%= tag_change_class(change_info[:type]) %>">
             <th class='py-1 border-secondary-subtle table-secondary fw-normal' dir='auto'><%= format_key(key) %></th>
             <td class='py-1 border-secondary-subtle border-start' dir='auto'><%= format_tag_value_with_change(key, change_info) %></td>

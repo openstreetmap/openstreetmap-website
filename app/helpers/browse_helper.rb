@@ -84,24 +84,20 @@ module BrowseHelper
     previous_version = current_index && current_index > 0 ? sorted_versions[current_index - 1] : nil
     previous_tags = previous_version&.tags || {}
 
-    changes = {}
-
     # Check for added and modified tags
-    current_tags.each do |key, value|
+    changes = current_tags.each_with_object({}) do |(key, value), memo|
       if !previous_tags.key?(key)
-        changes[key] = { type: :added, current: value }
+        memo[key] = { type: :added, current: value }
       elsif previous_tags[key] != value
-        changes[key] = { type: :modified, current: value, previous: previous_tags[key] }
+        memo[key] = { type: :modified, current: value, previous: previous_tags[key] }
       else
-        changes[key] = { type: :unchanged, current: value }
+        memo[key] = { type: :unchanged, current: value }
       end
     end
 
     # Check for deleted tags
-    previous_tags.each do |key, value|
-      unless current_tags.key?(key)
-        changes[key] = { type: :deleted, previous: value }
-      end
+    previous_tags.keys.difference(current_tags.keys).each do |key|
+      changes[key] = { type: :deleted }
     end
 
     changes
