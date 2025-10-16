@@ -81,51 +81,45 @@ module BrowseHelper
     # Find the previous version by sorting all versions and finding the one before current
     sorted_versions = all_versions.sort_by(&:version)
     current_index = sorted_versions.find_index { |v| v.version == current_version.version }
-    previous_version = current_index && current_index > 0 ? sorted_versions[current_index - 1] : nil
+    previous_version = current_index&.positive? ? sorted_versions[current_index - 1] : nil
     previous_tags = previous_version&.tags || {}
 
     # Check for added and modified tags
     changes = current_tags.each_with_object({}) do |(key, value), memo|
-      if !previous_tags.key?(key)
-        memo[key] = { type: :added, current: value }
-      elsif previous_tags[key] != value
-        memo[key] = { type: :modified, current: value, previous: previous_tags[key] }
-      else
-        memo[key] = { type: :unchanged, current: value }
-      end
+      memo[key] = if !previous_tags.key?(key)
+                    { :type => :added, :current => value }
+                  elsif previous_tags[key] != value
+                    { :type => :modified, :current => value, :previous => previous_tags[key] }
+                  else
+                    { :type => :unmodified, :current => value }
+                  end
     end
 
     # Check for deleted tags
     previous_tags.keys.difference(current_tags.keys).each do |key|
-      changes[key] = { type: :deleted }
+      changes[key] = { :type => :deleted }
     end
 
     changes
   end
 
   def tag_change_class(change_type)
-    case change_type
-    when :added
-      "tag-added"
-    when :modified
-      "tag-modified"
-    when :deleted
-      "tag-deleted"
-    else
-      "tag-unmodified"
-    end
+    {
+      :added => "tag-added",
+      :modified => "tag-modified",
+      :deleted => "tag-deleted",
+      :unmodified => "tag-unmodified"
+    }.fetch(change_type, "")
   end
 
   def format_tag_value_with_change(key, change_info)
     case change_info[:type]
-    when :added
+    when :added, :unmodified
       format_value(key, change_info[:current])
     when :modified
-      "#{format_value(key, change_info[:previous])} → #{format_value(key, change_info[:current])}".html_safe
+      safe_join([format_value(key, change_info[:previous]), " → ", format_value(key, change_info[:current])])
     when :deleted
       tag.em("deleted")
-    else
-      format_value(key, change_info[:current])
     end
   end
 
