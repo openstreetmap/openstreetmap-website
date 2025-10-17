@@ -1,13 +1,12 @@
-<% current_feature ||= nil %>
+<%
+  current_version ||= nil
+  all_versions ||= []
+%>
 <% unless tag_details.empty? %>
   <h4><%= t ".tags" %></h4>
   <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
     <table class='mb-0 browse-tag-list table align-middle'>
-      <% if current_feature && @old_features %>
-        <%= render :partial => "browse/tag", :collection => tag_changes_for_version(current_feature, @old_features).sort %>
-      <% else %>
-        <%= render :partial => "browse/tag", :collection => wrap_tags_with_version_changes(tag_details).sort %>
-      <% end %>
+      <%= render :partial => "browse/tag", :collection => wrap_tags_with_version_changes(tag_details, current_version, all_versions).sort %>
     </table>
   </div>
 <% end %>
