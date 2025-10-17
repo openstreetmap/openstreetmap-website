@@ -72,24 +72,10 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
-  def wrap_tags_with_version_changes(tags_to_values)
-    tags_to_values.transform_values do |value|
-      {
-        :current => value
-      }
-    end
-  end
-
-  # Tag change highlighting methods for history view
-  def tag_changes_for_version(current_version, all_versions)
-    return {} unless current_version && all_versions
-
-    current_tags = current_version.tags || {}
-
+  def wrap_tags_with_version_changes(tags_to_values, current_version = nil, all_versions = [])
     # Find the previous version by sorting all versions and finding the one before current
-    sorted_versions = all_versions.sort_by(&:version)
-    current_index = sorted_versions.find_index { |v| v.version == current_version.version }
-    previous_version = current_index&.positive? ? sorted_versions[current_index - 1] : nil
+    current_index = all_versions.find_index { |v| v.version == current_version }
+    previous_version = current_index&.positive? ? all_versions[current_index - 1] : nil
 
     # Don't compare with redacted versions unless we're showing redactions
     previous_tags = if previous_version && (!previous_version.redacted? || params[:show_redactions])
@@ -98,25 +84,33 @@ module BrowseHelper
                       {}
                     end
 
-    # Check for added and modified tags
-    changes = current_tags.each_with_object({}) do |(key, value), memo|
-      memo[key] = if !previous_tags.key?(key)
-                    { :type => :added, :current => value }
-                  elsif previous_tags[key] != value
-                    { :type => :modified, :current => value, :previous => previous_tags[key] }
-                  elsif previous_tags[key] == value
-                    { :type => :unmodified, :current => value }
-                  else
-                    { :current => value }
-                  end
+    tags_added = tags_modified = tags_unmodified = tags_deleted = tags_with_unknown_versioning = {}
+
+    if all_versions.present?
+      tags_added = tags_to_values
+        .filter { |name, value| previous_tags.exclude?(name) }
+        .transform_values { |value| { :type => :added, :current => value } }
+
+      tags_modified = tags_to_values
+        .filter { |name, value| previous_tags.key?(name) && previous_tags[name] != value }
+        .each_with_object({}) { |(name, value), memo|
+          memo[name] = { :type => :modified, :current => value, :previous => previous_tags[name] }
+        }
+
+      tags_unmodified = tags_to_values
+        .filter { |name, value| previous_tags[name] == value }
+        .transform_values { |value| { :type => :unmodified, :current => value } }
+
+      tags_deleted = previous_tags.keys.difference(tags_to_values.keys).to_h do |name|
+        [name, { :type => :deleted }]
+      end
+    else
+      tags_with_unknown_versioning = tags_to_values.transform_values { |value|
+        { :current => value }
+      }
     end
 
-    # Check for deleted tags
-    previous_tags.keys.difference(current_tags.keys).each do |key|
-      changes[key] = { :type => :deleted }
-    end
-
-    changes
+    tags_with_unknown_versioning.merge(tags_added, tags_modified, tags_unmodified, tags_deleted)
   end
 
   def tag_change_class(change_type)
