@@ -75,9 +75,9 @@ module BrowseHelper
   def wrap_tags_with_version_changes(tags_to_values, current_version = nil, all_versions = [])
     # Find the previous usable version by looking backwards through all versions
     previous_version = all_versions
-      .find_index { |v| v.version == current_version }
-      &.yield_self { |index| index.positive? ? all_versions[0...index].reverse : nil }
-      &.find { |v| !v.redacted? || params[:show_redactions] }
+                       .find_index { |v| v.version == current_version }
+                       &.then { |index| index.positive? ? all_versions[0...index].reverse : nil }
+                       &.find { |v| !v.redacted? || params[:show_redactions] }
 
     previous_tags = previous_version&.tags || {}
 
@@ -85,26 +85,24 @@ module BrowseHelper
 
     if all_versions.present?
       tags_added = tags_to_values
-        .filter { |name, value| previous_tags.exclude?(name) }
-        .transform_values { |value| { :type => :added, :current => value } }
+                   .except(*previous_tags.keys)
+                   .transform_values { |value| { :type => :added, :current => value } }
 
       tags_modified = tags_to_values
-        .filter { |name, value| previous_tags.key?(name) && previous_tags[name] != value }
-        .each_with_object({}) { |(name, value), memo|
-          memo[name] = { :type => :modified, :current => value, :previous => previous_tags[name] }
-        }
+                      .filter { |name, value| previous_tags.key?(name) && previous_tags[name] != value }
+                      .each_with_object({}) do |(name, value), memo|
+        memo[name] = { :type => :modified, :current => value, :previous => previous_tags[name] }
+      end
 
       tags_unmodified = tags_to_values
-        .filter { |name, value| previous_tags[name] == value }
-        .transform_values { |value| { :type => :unmodified, :current => value } }
+                        .filter { |name, value| previous_tags[name] == value }
+                        .transform_values { |value| { :type => :unmodified, :current => value } }
 
-      tags_deleted = previous_tags.keys.difference(tags_to_values.keys).to_h do |name|
-        [name, { :type => :deleted }]
-      end
+      tags_deleted = previous_tags.keys.difference(tags_to_values.keys).index_with { { :type => :deleted } }
     else
-      tags_with_unknown_versioning = tags_to_values.transform_values { |value|
+      tags_with_unknown_versioning = tags_to_values.transform_values do |value|
         { :current => value }
-      }
+      end
     end
 
     tags_with_unknown_versioning.merge(tags_added, tags_modified, tags_unmodified, tags_deleted)
@@ -115,7 +113,7 @@ module BrowseHelper
       :added => "tag-added",
       :modified => "tag-modified",
       :deleted => "tag-deleted",
-      :unmodified => "tag-unmodified",
+      :unmodified => "tag-unmodified"
     }.fetch(change_type, "")
   end
 
