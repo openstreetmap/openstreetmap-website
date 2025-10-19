@@ -73,16 +73,13 @@ module BrowseHelper
   end
 
   def wrap_tags_with_version_changes(tags_to_values, current_version = nil, all_versions = [])
-    # Find the previous version by sorting all versions and finding the one before current
-    current_index = all_versions.find_index { |v| v.version == current_version }
-    previous_version = current_index&.positive? ? all_versions[current_index - 1] : nil
+    # Find the previous usable version by looking backwards through all versions
+    previous_version = all_versions
+      .find_index { |v| v.version == current_version }
+      &.yield_self { |index| index.positive? ? all_versions[0...index].reverse : nil }
+      &.find { |v| !v.redacted? || params[:show_redactions] }
 
-    # Don't compare with redacted versions unless we're showing redactions
-    previous_tags = if previous_version && (!previous_version.redacted? || params[:show_redactions])
-                      previous_version.tags || {}
-                    else
-                      {}
-                    end
+    previous_tags = previous_version&.tags || {}
 
     tags_added = tags_modified = tags_unmodified = tags_deleted = tags_with_unknown_versioning = {}
 
