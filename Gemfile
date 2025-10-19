@@ -159,7 +159,7 @@ group :test do
   gem "erb_lint", :require => false
   gem "factory_bot_rails"
   gem "jwt"
-  gem "minitest", "~> 5.1"
+  gem "minitest"
   gem "minitest-focus", :require => false
   gem "puma", "~> 6.6"
   gem "rails-controller-testing"
