@@ -98,7 +98,9 @@ module BrowseHelper
                         .filter { |name, value| previous_tags[name] == value }
                         .transform_values { |value| { :type => :unmodified, :current => value } }
 
-      tags_deleted = previous_tags.keys.difference(tags_to_values.keys).index_with { { :type => :deleted } }
+      tags_deleted = previous_tags.keys.difference(tags_to_values.keys).each_with_object({}) do |key, memo|
+        memo[key] = { :type => :deleted, :previous => previous_tags[key] }
+      end
     else
       tags_with_unknown_versioning = tags_to_values.transform_values do |value|
         { :current => value }
@@ -119,12 +121,17 @@ module BrowseHelper
 
   def format_tag_value_with_change(key, change_info)
     case change_info[:type]
-    when :added, :unmodified
-      format_value(key, change_info[:current])
+    when :added
+      tag.div(safe_join(["+", format_value(key, change_info[:current])], " "), :class => "diff-new")
+    when :unmodified
+      tag.div(safe_join([tag.nbsp, format_value(key, change_info[:current])], " "), :class => "diff-unchanged")
     when :modified
-      safe_join([format_value(key, change_info[:previous]), " → ", format_value(key, change_info[:current])])
+      safe_join([
+        tag.div(safe_join(["-", format_value(key, change_info[:previous])], " "), :class => "diff-old"),
+        tag.div(safe_join(["+", format_value(key, change_info[:current])], " "), :class => "diff-new")
+      ])
     when :deleted
-      tag.em("deleted")
+      tag.div(safe_join(["-", format_value(key, change_info[:previous] || "")], " "), :class => "diff-old")
     else
       change_info[:current]
     end
