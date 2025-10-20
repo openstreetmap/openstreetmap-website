@@ -127,7 +127,7 @@ module BrowseHelper
       tag.div(safe_join([tag.nbsp, format_value(key, change_info[:current])], " "), :class => "diff-unchanged")
     when :modified
       safe_join([
-                  tag.div(safe_join(["-", format_value(key, change_info[:previous])], " "), :class => "diff-old"),
+                  tag.div(safe_join(["−", format_value(key, change_info[:previous])], " "), :class => "diff-old"),
                   tag.div(safe_join(["+", format_value(key, change_info[:current])], " "), :class => "diff-new")
                 ])
     when :deleted
