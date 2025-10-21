@@ -1,7 +1,5 @@
 OSM.Query = function (map) {
-  const control = $(".control-query"),
-        queryButton = control.find(".control-button"),
-        uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
+  const uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
 
   const featureStyle = {
@@ -11,29 +9,6 @@ OSM.Query = function (map) {
     fillOpacity: 0.5,
     interactive: false
   };
-
-  queryButton.on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (control.hasClass("active")) {
-      disableQueryMode();
-    } else if (!queryButton.hasClass("disabled")) {
-      enableQueryMode();
-    }
-  }).on("disabled", function () {
-    if (control.hasClass("active")) {
-      map.off("click", clickHandler);
-      $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
-      $(this).tooltip("show");
-    }
-  }).on("enabled", function () {
-    if (control.hasClass("active")) {
-      map.on("click", clickHandler);
-      $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
-      $(this).tooltip("hide");
-    }
-  });
 
   function showResultGeometry() {
     const geometry = $(this).data("geometry");
@@ -268,25 +243,6 @@ OSM.Query = function (map) {
     runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
 
-  function clickHandler(e) {
-    const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
-
-    OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
-  }
-
-  function enableQueryMode() {
-    control.addClass("active");
-    map.on("click", clickHandler);
-    $(map.getContainer()).addClass("query-active");
-  }
-
-  function disableQueryMode() {
-    if (marker) map.removeLayer(marker);
-    $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
-    map.off("click", clickHandler);
-    control.removeClass("active");
-  }
-
   const page = {};
 
   page.pushstate = page.popstate = function (path) {
@@ -310,7 +266,6 @@ OSM.Query = function (map) {
 
   page.unload = function (sameController) {
     if (!sameController) {
-      disableQueryMode();
       $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
     }
   };

@@ -7,15 +7,6 @@ OSM.NewNote = function (map) {
   let newNoteMarker,
       halo;
 
-  addNoteButton.on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if ($(this).hasClass("disabled")) return;
-
-    OSM.router.route("/note/new");
-  });
-
   function createNote(location, text, callback) {
     fetch("/api/0.6/notes.json", {
       method: "POST",

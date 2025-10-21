@@ -11,6 +11,7 @@
 //= require leaflet.query
 //= require leaflet.contextmenu
 //= require index/contextmenu
+//= require index/map-buttons
 //= require index/search
 //= require index/layers/data
 //= require index/export
@@ -142,6 +143,7 @@ $(function () {
     .addTo(map);
 
   OSM.initializeContextMenu(map);
+  OSM.initializeMapButtons(map);
 
   if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
     OSM.initializeNotesLayer(map);
@@ -158,8 +160,6 @@ $(function () {
       map.addLayer(map.gpsLayer);
     }
   }
-
-  $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
   const expiry = new Date();
   expiry.setYear(expiry.getFullYear() + 10);
