@@ -1,31 +1,29 @@
 # Installation
 
-These instructions are designed for setting up `openstreetmap-website` development enviroment. If you want to deploy the software for your own project, then see the [Production Deployment Notes](#production-deployment-notes).
+These instructions are designed for setting up `openstreetmap-website` development environment. If you want to deploy the software for your own project, then see the [Production Deployment Notes](#production-deployment-notes).
 
 ## Installation Options
 
-You can setup development enviroment by:
+There is more than one way to set up a development environment.
 
 ### Containerized Installation
 
-We also offer a containerized environment with Docker which may avoid installation difficulties. See [DOCKER.md](DOCKER.md) for complete instructions.
+We offer a containerized environment with Docker which may avoid installation difficulties. See [DOCKER.md](DOCKER.md) for complete instructions.
 
 ### Manual Installation
 
 Install dependencies directly on your machine (traditional approach, covered in this guide). This gives you the most control and is often preferred by experienced developers on Linux systems.
 
----
-
-**Platform Support:** These instructions are based on Ubuntu 24.04 LTS, though the OSMF servers are currently running Debian 12. The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and macOS.
-
 > [!WARNING]
-> **Windows Note:** We don't recommend using this approach for development and deployment on Windows. Some Ruby gems may not be supported. If you are using Windows, we recommend containerized setup using [Docker](DOCKER.md).
+> **Windows Note:** We don't recommend using this approach on Windows, as some Ruby gems may not be supported. If you are using Windows, we recommend containerized setup using [Docker](DOCKER.md).
 
 ## Manual Installation Guide
 
+These instructions are based on Ubuntu 24.04 LTS, though the OSMF servers are currently running Debian 12. The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and macOS.
+
 ### Prerequisites
 
-Many of the dependencies are managed through the standard Ruby on Rails mechanisms - i.e. ruby gems specified in the Gemfile and installed using bundler. However, there are some packages required before you can get the various gems installed.
+Many of the dependencies are managed through the standard Ruby on Rails mechanisms - i.e. Ruby gems specified in the Gemfile and installed using Bundler. Some system packages are also required before you can get the various gems installed.
 
 **Minimum requirements:**
 * Ruby 3.2+
@@ -40,10 +38,11 @@ Many of the dependencies are managed through the standard Ruby on Rails mechanis
 ```bash
 sudo apt-get update
 sudo apt-get install ruby ruby-dev ruby-bundler \
-                     libvips-dev libxml2-dev libxslt1-dev nodejs \
-                     build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev libsasl2-dev \
-                     libffi-dev libgd-dev libarchive-dev libyaml-dev libbz2-dev npm
+                     libvips-dev libxml2-dev libxslt1-dev \
+                     nodejs build-essential git-core \
+                     postgresql postgresql-contrib libpq-dev \
+                     libsasl2-dev libffi-dev libgd-dev \
+                     libarchive-dev libyaml-dev libbz2-dev npm
 sudo npm install --global yarn
 ```
 
@@ -57,12 +56,13 @@ sudo npm install --global yarn
 #### Fedora
 
 ```bash
-sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems \
-                 libxml2-devel nodejs \
-                 gcc gcc-c++ git \
-                 postgresql postgresql-server postgresql-contrib libpq-devel \
-                 perl-podlators libffi-devel gd-devel libarchive-devel \
-                 libyaml-devel bzip2-devel nodejs-yarn vips-devel
+sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler \
+                 rubygems libxml2-devel nodejs gcc gcc-c++ git \
+                 postgresql postgresql-server \
+                 postgresql-contrib libpq-devel \
+                 perl-podlators libffi-devel gd-devel \
+                 libarchive-devel libyaml-devel bzip2-devel \
+                 nodejs-yarn vips-devel
 ```
 
 On Fedora, if you didn't already have PostgreSQL installed then create a PostgreSQL instance and start the server:
@@ -80,7 +80,7 @@ sudo systemctl enable postgresql.service
 
 #### macOS
 
-For macOS, you will need [Xcode Command Line Tools](https://mac.install.guide/commandlinetools/); OS X 10.7 (Lion) or later; and some familiarity with Unix development via the Terminal.
+For macOS, you will need [Xcode Command Line Tools](https://mac.install.guide/commandlinetools/); macOS 14 (Sonoma) or later; and some familiarity with Unix development via the Terminal.
 
 **Installing PostgreSQL:**
 
@@ -103,8 +103,12 @@ After this, you may need to start a new shell window, or source the profile agai
 **Installing other dependencies:**
 
 * Install Homebrew from https://brew.sh/
-* Install the latest version of Ruby: `brew install ruby`
-* Install other dependencies: `brew install libxml2 gd yarn pngcrush optipng pngquant jhead jpegoptim gifsicle svgo advancecomp vips`
+* Install system dependencies, including Ruby:
+```bash
+brew install ruby libxml2 gd yarn pngcrush optipng \
+             pngquant jhead jpegoptim gifsicle svgo \
+             advancecomp vips
+```
 * Install Bundler: `gem install bundler` (you might need to `sudo gem install bundler` if you get an error about permissions - or see note below about [developer Ruby setup](#ruby-version-manager-optional))
 
 You will need to tell `bundler` that `libxml2` is installed in a Homebrew location. If it uses the system-installed one then you will get errors installing the `libxml-ruby` gem later on.
@@ -122,24 +126,20 @@ brew install geckodriver
 > [!NOTE]
 > OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
-</details>
-
 ### Step 2: Clone the Repository
 
-The repository is reasonably large (~150MB) and it's unlikely that you need the full history. If you are happy to wait for it all to download, run:
-
+The repository is reasonably large (~560MB) and it's unlikely that you'll need the full history. Therefore you can probably do with a shallow clone (~100MB):
 ```bash
-git clone https://github.com/openstreetmap/openstreetmap-website.git
+git clone --depth=1 https://github.com/openstreetmap/openstreetmap-website.git
 ```
 
+If you want to add in the full history later on, perhaps to run `git blame` or `git log`, run `git fetch --unshallow`.
+
 > [!TIP]
-> To clone only the most recent version (~23MB), instead use a 'shallow clone':
->
+> To download the full history from the start, run:
 > ```bash
-> git clone --depth=1 https://github.com/openstreetmap/openstreetmap-website.git
+> git clone https://github.com/openstreetmap/openstreetmap-website.git
 > ```
->
-> If you want to add in the full history later on, perhaps to run `git blame` or `git log`, run `git fetch --depth=1000000`
 
 ### Step 3: Install Application Dependencies
 
@@ -242,7 +242,7 @@ bundle exec rails server
 You can now view the site in your favourite web-browser at [http://localhost:3000/](http://localhost:3000/)
 
 > [!NOTE]
-> The OSM map tiles you see aren't created from your local database - they are just the standard map tiles.
+> The OSM map tiles you see aren't created from your local database - they are the production map tiles, served from a separate service over the Internet.
 
 ## What's Next?
 
@@ -254,9 +254,11 @@ You can now view the site in your favourite web-browser at [http://localhost:300
 
 ## Ruby Version Manager (Optional)
 
-For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this is simpler, and usually faster, you might want more control over the process or the ability to install multiple different versions of software alongside each other. For many developers, [`rbenv`](https://github.com/rbenv/rbenv) is the easiest way to manage multiple different Ruby versions on the same computer - with the added advantage that the installs are all in your home directory, so you don't need administrator permissions.
+For simplicity, this document explains how to install all the website dependencies as "system" dependencies. While this can be simpler and faster, you might want more control over the process or the ability to install multiple different versions of Ruby alongside each other.
 
-If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
+Several tools exist that allow managing multiple different Ruby versions on the same computer. They also provide the additional advantage that the installs are all in your home directory, so you don't need administrator permissions. These tools are typically known as "version managers".
+
+This section shows how to install Ruby and Bundler with [`rbenv`](https://github.com/rbenv/rbenv), which is one of these tools. If you choose to install Ruby and Bundler via `rbenv`, then you do not need to install the system libraries for Ruby:
 
 * For Ubuntu, you do not need to install the following packages: `ruby ruby-dev ruby-bundler`,
 * For Fedora, you do not need to install the following packages: `ruby ruby-devel rubygem-rdoc rubygem-bundler rubygems`
