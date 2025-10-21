@@ -20,8 +20,6 @@
 #
 
 class Relation < ApplicationRecord
-  require "xml/libxml"
-
   include ConsistencyValidations
   include NotRedactable
 

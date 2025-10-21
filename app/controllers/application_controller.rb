@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  require "timeout"
-
   include SessionPersistence
 
   protect_from_forgery :with => :exception

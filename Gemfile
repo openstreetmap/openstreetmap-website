@@ -92,8 +92,9 @@ gem "kramdown"
 # For status transitions of Issues
 gem "aasm"
 
-# Load libxml support for XML parsing and generation
+# XML parsing and generation
 gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
+gem "rexml"
 
 # Use for HTML sanitisation
 gem "htmlentities"
@@ -138,6 +139,15 @@ gem "inline_svg"
 
 # Used to validate widths
 gem "unicode-display_width"
+
+# Stop when running for too long
+gem "timeout"
+
+# To run the `file` command and read the output
+gem "open3"
+
+# Cryptographic tools
+gem "digest"
 
 # Gems useful for development
 group :development do

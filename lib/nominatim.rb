@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module Nominatim
-  require "timeout"
-
   extend ActionView::Helpers::NumberHelper
 
   def self.describe_location(lat, lon, zoom = nil, language = nil)

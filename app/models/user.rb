@@ -50,7 +50,6 @@
 #
 
 class User < ApplicationRecord
-  require "digest"
   include AASM
 
   has_many :traces, -> { where(:visible => true) }

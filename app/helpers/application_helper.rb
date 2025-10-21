@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  require "rexml/document"
-
   def linkify(text)
     link_attr = 'rel="nofollow" dir="auto"'
     if text.html_safe?

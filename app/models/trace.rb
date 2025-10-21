@@ -29,8 +29,6 @@
 #
 
 class Trace < ApplicationRecord
-  require "open3"
-
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true

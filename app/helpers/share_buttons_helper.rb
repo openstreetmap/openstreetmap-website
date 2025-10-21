@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module ShareButtonsHelper
-  require "uri"
-
   SHARE_BUTTONS_CONFIG = {
     :email => "share_button_icons/email.svg",
     :bluesky => "share_button_icons/bluesky.svg",

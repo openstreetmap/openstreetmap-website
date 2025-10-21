@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 module OpenGraphHelper
-  require "addressable/uri"
-
   def opengraph_tags(title, properties)
     tags = {
       "og:site_name" => t("layouts.project_name.title"),
