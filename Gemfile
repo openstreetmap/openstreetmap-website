@@ -93,7 +93,7 @@ gem "kramdown"
 gem "aasm"
 
 # XML parsing and generation
-gem "libxml-ruby", ">= 2.0.5", :require => "libxml"
+gem "libxml-ruby", ">= 2.0.5"
 gem "rexml"
 
 # Use for HTML sanitisation
