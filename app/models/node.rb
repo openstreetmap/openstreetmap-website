@@ -24,8 +24,6 @@
 #
 
 class Node < ApplicationRecord
-  require "xml/libxml"
-
   include GeoRecord
   include ConsistencyValidations
   include NotRedactable

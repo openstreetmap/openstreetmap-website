@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "ostruct"
-
 module ReportsHelper
   Category = Struct.new(:id, :label)
 
