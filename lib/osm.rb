@@ -5,7 +5,6 @@ module OSM
   require "time"
   require "rexml/parsers/sax2parser"
   require "rexml/text"
-  require "xml/libxml"
 
   # The base class for API Errors.
   class APIError < RuntimeError
