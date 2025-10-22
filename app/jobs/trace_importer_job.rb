@@ -12,7 +12,7 @@ class TraceImporterJob < ApplicationJob
       UserMailer.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver
       trace.destroy
     end
-  rescue XML::Error => e
+  rescue LibXML::XML::Error => e
     logger.info e.to_s
     UserMailer.gpx_failure(trace, e).deliver
     trace.destroy
