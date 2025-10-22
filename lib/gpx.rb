@@ -2,8 +2,6 @@
 
 module GPX
   class File
-    require "libxml"
-
     include LibXML
 
     attr_reader :possible_points, :actual_points, :tracksegs

@@ -5,7 +5,6 @@ module OSM
   require "time"
   require "rexml/parsers/sax2parser"
   require "rexml/text"
-  require "xml/libxml"
 
   # The base class for API Errors.
   class APIError < RuntimeError
@@ -470,9 +469,9 @@ module OSM
 
   class API
     def xml_doc
-      doc = XML::Document.new
-      doc.encoding = XML::Encoding::UTF_8
-      root = XML::Node.new "osm"
+      doc = LibXML::XML::Document.new
+      doc.encoding = LibXML::XML::Encoding::UTF_8
+      root = LibXML::XML::Node.new "osm"
       xml_root_attributes.each do |k, v|
         root[k] = v
       end

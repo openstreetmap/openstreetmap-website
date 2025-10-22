@@ -35,7 +35,7 @@ module Api
 
       new_preferences = {}
 
-      doc = XML::Parser.string(request.raw_post, :options => XML::Parser::Options::NOERROR).parse
+      doc = LibXML::XML::Parser.string(request.raw_post, :options => LibXML::XML::Parser::Options::NOERROR).parse
 
       doc.find("//preferences/preference").each do |pt|
         if preference = old_preferences.delete(pt["k"])
