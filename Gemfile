@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 # Require rails
-gem "rails", "~> 8.0.0"
+gem "rails", "~> 8.1.0"
 gem "turbo-rails"
 
 # Use postgres as the database
@@ -114,7 +114,7 @@ gem "connection_pool"
 gem "dalli"
 
 # Load canonical-rails to generate canonical URLs
-gem "canonical-rails"
+gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rails-8-1"
 
 # Use to generate telemetry
 gem "opentelemetry-exporter-otlp", :require => false
