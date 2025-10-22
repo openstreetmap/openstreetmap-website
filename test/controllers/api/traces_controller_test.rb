@@ -142,7 +142,7 @@ module Api
 
       # Validate tracepoints
       assert_equal 1, trace.points.size
-      tp = trace.points.first
+      tp = trace.points.order(:timestamp).first
       assert_equal 10000000, tp.latitude
       assert_equal 10000000, tp.longitude
       assert_equal 3221331576, tp.tile
