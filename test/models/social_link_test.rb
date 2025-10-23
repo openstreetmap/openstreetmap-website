@@ -71,4 +71,20 @@ class SocialLinkTest < ActiveSupport::TestCase
     assert_nil social_link.parsed[:platform]
     assert_equal social_link.parsed[:name], expected
   end
+
+  def test_parsed_platform_hdyc_with_spaces
+    social_link = create(:social_link, :url => "https://hdyc.neis-one.org/?example user")
+
+    assert_predicate social_link, :valid?
+    assert_equal "hdyc", social_link.parsed[:platform]
+    assert_equal "example user", social_link.parsed[:name]
+  end
+
+  def test_parsed_platform_hdyc_encoded_space
+    social_link = create(:social_link, :url => "https://hdyc.neis-one.org/?example%20user")
+
+    assert_predicate social_link, :valid?
+    assert_equal "hdyc", social_link.parsed[:platform]
+    assert_equal "example user", social_link.parsed[:name]
+  end
 end
