@@ -8,14 +8,17 @@ There is more than one way to set up a development environment.
 
 ### Containerized Installation
 
-We offer a containerized environment with Docker which may avoid installation difficulties. See [DOCKER.md](DOCKER.md) for complete instructions.
+We offer containerized environments with Docker which may avoid installation difficulties:
+
+- To use Docker manually, see [DOCKER](DOCKER.md).
+- Do use Docker via [Development Containers](https://containers.dev) (devcontainers), see [DEVCONTAINER.md](DEVCONTAINER.md).
 
 ### Manual Installation
 
 Install dependencies directly on your machine (traditional approach, covered in this guide). This gives you the most control and is often preferred by experienced developers on Linux systems.
 
 > [!WARNING]
-> **Windows Note:** We don't recommend using this approach on Windows, as some Ruby gems may not be supported. If you are using Windows, we recommend containerized setup using [Docker](DOCKER.md).
+> **Windows Note:** We don't recommend using this approach on Windows, as some Ruby gems may not be supported. If you are using Windows, we recommend a containerized setup as mentioned above.
 
 ## Manual Installation Guide
 
