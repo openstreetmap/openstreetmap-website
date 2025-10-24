@@ -1,6 +1,6 @@
 <% key = tag[0] %>
 <% version_details = tag[1] %>
-<tr class="<%= tag_change_class(version_details[:type]) %>">
-  <th class='py-1 border-secondary-subtle table-secondary fw-normal' dir='auto'><%= format_key(key) %></th>
-  <td class='py-1 border-secondary-subtle border-start' dir='auto'><%= format_tag_value_with_change(key, version_details) %></td>
-</tr>
+<% rows = format_tag_row_with_change(key, version_details) %>
+<% rows.each do |row| %>
+  <%= row.html_safe %>
+<% end %>

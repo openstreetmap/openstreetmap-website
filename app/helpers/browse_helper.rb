@@ -122,18 +122,78 @@ module BrowseHelper
   def format_tag_value_with_change(key, change_info)
     case change_info[:type]
     when :added
-      tag.div(safe_join(["+", format_value(key, change_info[:current])], " "), :class => "diff-new")
+      format_value(key, change_info[:current])
     when :unmodified
-      tag.div(safe_join([tag.nbsp, format_value(key, change_info[:current])], " "), :class => "diff-unchanged")
+      format_value(key, change_info[:current])
     when :modified
-      safe_join([
-                  tag.div(safe_join(["−", format_value(key, change_info[:previous])], " "), :class => "diff-old"),
-                  tag.div(safe_join(["+", format_value(key, change_info[:current])], " "), :class => "diff-new")
-                ])
+      # Return array of two values for the two rows that will be created
+      [
+        format_value(key, change_info[:previous]),
+        format_value(key, change_info[:current])
+      ]
     when :deleted
-      tag.div(safe_join(["-", format_value(key, change_info[:previous] || "")], " "), :class => "diff-old")
+      format_value(key, change_info[:previous] || "")
     else
-      change_info[:current]
+      format_key(key)
+    end
+  end
+
+  def get_change_indicator_text(change_type)
+    case change_type
+    when :added
+      "+"
+    when :deleted
+      "−"
+    else
+      " "
+    end
+  end
+
+  def get_indicator_cell_class(change_type)
+    case change_type
+    when :added
+      "diff-indicator-cell diff-added"
+    when :deleted
+      "diff-indicator-cell diff-removed"
+    when :unmodified
+      "diff-indicator-cell diff-unmodified"
+    else
+      "diff-indicator-cell"
+    end
+  end
+
+  # Helper method to generate table rows for tag changes
+  def format_tag_row_with_change(key, change_info)
+    case change_info[:type]
+    when :modified
+      # Generate two rows for modified tags
+      value_cells = format_tag_value_with_change(key, change_info)
+      [
+        tag.tr(:class => tag_change_class(change_info[:type])) do
+          safe_join([
+            tag.th(format_key(key), :class => "diff-key-modified", :rowspan => 2),
+            tag.td(get_change_indicator_text(:deleted), :class => get_indicator_cell_class(:deleted)),
+            tag.td(value_cells[0], :class => "diff-cell diff-old-row")
+          ])
+        end,
+        tag.tr(:class => tag_change_class(change_info[:type])) do
+          safe_join([
+            tag.td(get_change_indicator_text(:added), :class => get_indicator_cell_class(:added)),
+            tag.td(value_cells[1], :class => "diff-cell diff-new-row")
+          ])
+        end
+      ]
+    else
+      # Generate single row for other change types
+      [
+        tag.tr(:class => tag_change_class(change_info[:type])) do
+          safe_join([
+            tag.th(format_key(key)),
+            tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type])),
+            tag.td(format_tag_value_with_change(key, change_info), :class => "diff-cell")
+          ])
+        end
+      ]
     end
   end
 
