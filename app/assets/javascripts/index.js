@@ -9,7 +9,6 @@
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
-//= require leaflet.contextmenu
 //= require index/contextmenu
 //= require index/search
 //= require index/layers/data

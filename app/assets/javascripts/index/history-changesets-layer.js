@@ -5,20 +5,17 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
 
   addChangesetLayer: function (changeset) {
     const style = this._getChangesetStyle(changeset);
-    const rectangle = L.rectangle(changeset.bounds, {
-      ...style,
-      contextmenu: true,
-      contextmenuItems: [{
+    const rectangle = L.rectangle(changeset.bounds, { ...style });
+    rectangle.on("contextmenu", (e) => {
+      L.DomEvent.stopPropagation(e); // Prevent map context menu
+      const contextmenuItems = [{
+        icon: "bi-arrow-down-up",
         text: OSM.i18n.t("javascripts.context.scroll_to_changeset"),
-        callback: () => {
-          this.fire("requestscrolltochangeset", { id: changeset.id }, true);
-        },
-        index: 0
-      }, {
-        separator: true,
-        index: 1
-      }]
+        callback: () => this.fire("requestscrolltochangeset", { id: changeset.id }, true)
+      }];
+      this._map.fire("show-contextmenu", { event: e, items: contextmenuItems });
     });
+
     rectangle.id = changeset.id;
     rectangle.on("click", function (e) {
       OSM.router.click(e.originalEvent, $(`#changeset_${changeset.id} a.changeset_id`).attr("href"));
