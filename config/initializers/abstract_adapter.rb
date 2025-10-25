@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
+if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
   module OpenStreetMap
     module AbstractAdapter
       module PropagateTimeouts
@@ -15,5 +15,5 @@ if defined?(ActiveRecord::ConnectionAdaptors::AbstractAdapter)
     end
   end
 
-  ActiveRecord::ConnectionAdaptors::AbstractAdapter.prepend(OpenStreetMap::AbstractAdapter::PropagateTimeouts)
+  ActiveRecord::ConnectionAdapters::AbstractAdapter.prepend(OpenStreetMap::AbstractAdapter::PropagateTimeouts)
 end
