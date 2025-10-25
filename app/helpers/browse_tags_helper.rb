@@ -136,12 +136,10 @@ module BrowseTagsHelper
   end
 
   def tag2link_link(key, value)
-    # skip if it's a full URL
-    return nil if %r{^https?://}.match?(value)
+    link = Tag2link.link(key, value)
+    return nil unless link
 
-    return nil unless TAG2LINK[key]
-
-    link_to(h(value), TAG2LINK[key].gsub("$1", value), :rel => "nofollow")
+    link_to(h(value), link, :rel => "nofollow")
   end
 
   def email_link(key, value)
