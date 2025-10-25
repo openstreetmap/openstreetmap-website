@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module BrowseTagChangesHelper
+  include BrowseTagsHelper
+
   def wrap_tags_with_version_changes(tags_to_values, current_version = nil, all_versions = [])
     # Find the previous usable version by looking backwards through all versions
     previous_version = all_versions
@@ -43,7 +45,7 @@ module BrowseTagChangesHelper
     {
       :added => "tag-added",
       :modified => "tag-modified",
-      :removed => "tag-deleted",
+      :removed => "tag-removed",
       :unmodified => "tag-unmodified"
     }.fetch(change_type, "")
   end
@@ -92,20 +94,20 @@ module BrowseTagChangesHelper
   def format_tag_row_with_change(key, change_info)
     case change_info[:type]
     when :modified
-      # Generate two rows for modified tags
+      # Generate two rows for modified tags, using tag-removed and tag-added classes on rows
       value_cells = format_tag_value_with_change(key, change_info)
       [
-        tag.tr(:class => tag_change_class(change_info[:type])) do
+        tag.tr(:class => "tag-removed") do
           safe_join([
                       tag.th(format_key(key), :class => "diff-key-modified", :rowspan => 2),
                       tag.td(get_change_indicator_text(:removed), :class => get_indicator_cell_class(:removed)),
-                      tag.td(value_cells[0], :class => "diff-cell diff-old-row")
+                      tag.td(value_cells[0], :class => "diff-cell")
                     ])
         end,
-        tag.tr(:class => tag_change_class(change_info[:type])) do
+        tag.tr(:class => "tag-added") do
           safe_join([
                       tag.td(get_change_indicator_text(:added), :class => get_indicator_cell_class(:added)),
-                      tag.td(value_cells[1], :class => "diff-cell diff-new-row")
+                      tag.td(value_cells[1], :class => "diff-cell")
                     ])
         end
       ]

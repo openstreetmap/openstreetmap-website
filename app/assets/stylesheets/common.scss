@@ -1039,27 +1039,36 @@ img.trace_image {
   .tag-added {
     background-color: rgba(var(--bs-success-rgb), 0.08) !important;
     border-left: 4px solid var(--bs-success);
+
+    th, td {
+      background-color: inherit !important;
+    }
   }
 
   .tag-modified {
     background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
     border-left: 4px solid var(--bs-warning);
+
+    th, td {
+      background-color: inherit !important;
+    }
   }
 
-  .tag-deleted {
+  .tag-removed {
     background-color: rgba(var(--bs-danger-rgb), 0.08) !important;
     border-left: 4px solid var(--bs-danger);
+
+    th, td {
+      background-color: inherit !important;
+    }
   }
 
   .tag-unmodified {
     background-color: rgba(var(--bs-secondary-rgb), 0.05) !important;
     border-left: 4px solid var(--bs-border-color);
-  }
 
-  .tag-added, .tag-modified, .tag-deleted, .tag-unmodified {
     th, td {
       background-color: inherit !important;
-      border-color: inherit !important;
     }
   }
 
@@ -1086,40 +1095,29 @@ img.trace_image {
     background-color: var(--bs-border-color) !important;
     color: var(--bs-body-color) !important;
   }
-}
 
-.diff-indicator-cell {
-  padding: 0 !important;
-  width: 1em;
-  text-align: center;
-  font-family: monospace;
-  font-weight: bold;
-  color: white;
-}
+  /* Modified tag key cell styling */
+  .tag-removed .diff-key-modified,
+  .tag-added .diff-key-modified {
+    color: var(--bs-body-color) !important;
+    background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
+  }
 
-.diff-indicator-cell.diff-added {
-  background-color: var(--bs-success);
-}
+  .tag-removed:has(.diff-key-modified),
+  .tag-added:has(.diff-key-modified) {
+    border-left: 4px solid var(--bs-warning) !important;
+  }
 
-.diff-indicator-cell.diff-removed {
-  background-color: var(--bs-danger);
-}
+  .tag-removed:has(.diff-key-modified) + .tag-added {
+    border-left: 4px solid var(--bs-warning) !important;
+  }
 
-.diff-indicator-cell.diff-unmodified {
-  background-color: var(--bs-border-color);
-  color: var(--bs-body-color);
+  th {
+    font-weight: normal !important;
+    padding: 0.25rem 0.5rem !important;
+  }
 }
 
 .diff-cell {
-  padding: 0.25rem 0.5rem !important;
-}
-
-/* Modified tag key cell styling */
-.diff-key-modified {
-  color: var(--bs-body-color) !important;
-}
-
-.browse-tag-list th {
-  font-weight: normal !important;
   padding: 0.25rem 0.5rem !important;
 }
