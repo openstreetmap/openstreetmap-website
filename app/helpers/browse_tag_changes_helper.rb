@@ -53,15 +53,15 @@ module BrowseTagChangesHelper
   def format_tag_value_with_change(key, change_info)
     case change_info[:type]
     when :added, :unmodified
-      format_value(key, change_info[:current])
+      format_value(key, change_info[:current], true)
     when :modified
       # Return array of two values for the two rows that will be created
       [
-        format_value(key, change_info[:previous]),
-        format_value(key, change_info[:current])
+        format_value(key, change_info[:previous], true),
+        format_value(key, change_info[:current], true)
       ]
     when :removed
-      format_value(key, change_info[:previous] || "")
+      format_value(key, change_info[:previous] || "", true)
     else
       format_key(key)
     end
