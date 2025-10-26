@@ -4,7 +4,7 @@ if defined?(ActiveRecord::ConnectionAdapters::AbstractAdapter)
   module OpenStreetMap
     module AbstractAdapter
       module PropagateTimeouts
-        def translate_exception_class(e, sql)
+        def translate_exception_class(e, sql, binds)
           if e.is_a?(Timeout::Error) || e.is_a?(OSM::APITimeoutError)
             e
           else
