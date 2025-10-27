@@ -48,6 +48,8 @@
           });
         }
       });
+
+      addOpenHistoricalMapInspector();
     };
 
     page._removeObject = function () {
@@ -161,5 +163,20 @@
       }
     }
     return $("<tr>").append(cell);
+  }
+
+  // add the enhanced inspector
+  function addOpenHistoricalMapInspector() {
+    var inspector = new openhistoricalmap.OpenHistoricaMapInspector({
+      debug: true,
+      onFeatureFail: function (type, id) {
+        console.log([ 'failed to load feature', type, id ]);
+      },
+      onFeatureLoaded: function (type, id, xmldoc) {
+        console.log([ 'loaded feature', type, id, xmldoc ]);
+      },
+      apiBaseUrl: "/api",  // no trailing /
+    });
+    inspector.selectFeatureFromUrl();
   }
 }());
