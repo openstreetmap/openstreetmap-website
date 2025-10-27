@@ -7,6 +7,9 @@
 xmf:
   html:
     dir: ltr
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
@@ -164,6 +167,11 @@ xmf:
       trace:
         tagstring: კანწიშ უკული
       user_block:
+        reason: მახვარებუშ ბლოკუაშ სამანჯელი. ქორთხიინთ, მუჭო შეილებჷნან თეშ ქორდათ
+          თინჩალო დო გურ გოჩამილო. წჷმურინეთ მახვარებუს მუთ შილებე ბრელ ინფორმაცია
+          ბლოკუაშ სამანჯელიშ გეშა, მარა რშუდან, ნამჷ-და ნაჭარას არძა ძირუნსჷნ. გითოლწონეთ,
+          ნამჷ-და არძა მახვარებუს ვარჩქილე ჯარალუაშ ჟარგონი, თეშენ ქოცადით ქემუდირთათ
+          დილეტანტურო.
         needs_view: ალობა მებჩათ დო ვარი მახვარებუს სისტემაშა გემშაღთასჷნ, სოიშახ
           ბლოკირაფა მინწყუმუნ?
       user:
@@ -236,6 +244,7 @@ xmf:
         reopened_at_by_html: ახალშე ეიონწყჷ %{when} მახვარებუქ %{user}
       rss:
         title: OpenStreetMap ხვილაფეფი
+        description_all: გოჭყაფილ, კომენტირაფილ ვარ-და კილერ მოღანკუეფიშ ერკებული
         description_item: Rss-არხი მოღანკუაშო %{id}
         opened: ახალი მოღამკუა (%{place} გოხოლუას)
         commented: ახალი კომენტარი (%{place} გოხოლუას)
@@ -252,9 +261,14 @@ xmf:
       external auth: გალენი აუთენტიფიკაცია
       contributor_terms:
         heading: კათაფაშ პიჯალეფი
-        agreed: თქვა დუთმოჸუნთ კათაფაშ ახალი პიჯალეფს.
+        agreed: თქვა დუთმოჸუნთ კათაფაშ ახალი პიჯალეფს %{date}-ს
+        not_agreed: თქვა დიო ხოლო ვადმოჸუნთ კათაფაშ ახალ პიჯალეფს.
+        review: პიჯალეფიშ ძირაფა
+        review_and_accept: გეგნაჯინით დო პიჯალეფიშ დოჸუნა
       terms_of_use:
         heading: გჷმორინაფაშ წესეფი
+        review: პიჯალეფიშ ძირაფა
+        review_and_accept: გეგნაჯინით დო პიჯალეფიშ დოჸუნა
       save changes button: თირუეფიშ ჩუალა
       delete_account: ანგარიშიშ ლასუა...
     go_public:
@@ -485,6 +499,7 @@ xmf:
     show:
       title: '%{user}შ დღარი | %{title}'
       user_title: '%{user}შ დღარი'
+      discussion: სხუნუა
       subscribe: გიშაჭარუა
       unsubscribe: გიშაჭარუაშ გოუქვაფა
       leave_a_comment: კომენტარიშ დოტება
@@ -495,6 +510,7 @@ xmf:
       heading: 'ვა რე დინნაჭარა id-ით: %{id}'
     diary_entry:
       updated_at_html: Lეკონიას გეახალჷ %{updated}-ის.
+      full_entry: ედომუშამ დინნაჭარაშ ძირაფა
       comment_link: ათე დინნაჭარაშ კომენტარი
       reply_link: ავტორშა ნაჭარაშ ჯღონუა
       comment_count:
@@ -521,6 +537,9 @@ xmf:
     navigation:
       my_diary: ჩქიმი დღარი
       new: დღარს ახალი დინნაჭარაშ კეთება
+    profile_diaries:
+      comments_label: კომენტარეფი
+      date_label: თარიღი
   doorkeeper:
     flash:
       applications:
@@ -755,21 +774,28 @@ xmf:
           abandoned: მეტებული რზა
           bridleway: საცხენო რზა
           bus_stop: ავტობუსიშ გაჩემება
+          busway: ავტობუსიშ ღოზი
           construction: რზაშ ორემონტე სამუშეფი
           corridor: მაქდორი
           crossing: შარაოკართუ
           cycleway: ველოსიპედიშ რზა
           elevator: ლიფტი
           emergency_access_point: ბიწორი მოხვარაშ პუნქტი
+          emergency_bay: საავარიო გიორინალი
           footway: ტროტუარი
           give_way: რზაშ დოთმებაშ შანი
+          living_street: დოხორელ შოშე
+          milestone: კილომეტრულ სჷმეტი
           motorway: ავტომაგისტრალი
           motorway_junction: ოკართუ შარა
           path: ცალფა შარა
+          pedestrian: კუჩხგინალ რზა
           platform: ბაქანი
           primary: თარი რზა
           primary_link: თარი რზა
           proposed: პროექტირაფაფონი რზა
+          raceway: ორაჸალ ტრასა
+          residential: დოხორელ შოშე
           rest_area: მასვანჯაფალი ტერიტორია
           road: რზა
           speed_camera: ბიწორიშ მაკონტროლაფალი კამერა
@@ -780,6 +806,7 @@ xmf:
           tertiary_link: მასუმა კლასიშ რზა
           track: შუკა
           traffic_mirror: შარაშ სარკე
+          trunk: ტრასა
           unclassified: აბანობური რზა
           "yes": რზა
         historic:
@@ -808,6 +835,8 @@ xmf:
           "yes": ისტორიული აბანი
         information:
           map: რუკა
+          sign: საიმფორმაციო შანი
+          stele: საიმფორმაციო სტელა
         junction:
           "yes": შარაოკართუ
         landuse:
@@ -817,7 +846,7 @@ xmf:
           brownfield: მეტებული აბანი
           cemetery: ოსაფულე
           commercial: კომერციული ტერიტორია
-          conservation: კონსერვაცია
+          conservation: ტყაჩირი
           construction: აკოგაფა
           farmland: ორგებუ
           forest: ტყა
@@ -832,11 +861,12 @@ xmf:
           recreation_ground: რეკრეაციული ზონა
           reservoir: წყაროჩუაშე
           residential: ოხორუ ტერიტორია
-          retail: ოვაჭარე ტერიტორია
+          retail: ოვაჭრე ტერიტორია
           village_green: წვანე ოფუტე
           vineyard: ბინეხი
           "yes": დიხარგება
         leisure:
+          bleachers: ტრიბუნეფი
           dog_park: ჯოღორეფიშ პარკი
           fishing: ოჩხომებელი ტერიტორია
           fitness_centre: ფიტნეს-ცენტრი
@@ -980,6 +1010,7 @@ xmf:
           platform: რკინაშარაშ პლატფორმა
           preserved: ისტორიული რკინაშარა
           proposed: გეგმარაფილი რკინაშარა
+          rail: რელსი
           station: რკინაშარაშ დგჷმილი
           subway: მეტრო
           subway_entrance: მეტროშ მინაულარი
@@ -1022,6 +1053,7 @@ xmf:
           garden_centre: ბაღიშ ცენტრი
           gift: ოჩუქებელეფიშ მაღაზია
           greengrocer: ხილ-ორტვინობაშ მაღაზია
+          grocery: პროდუქტეფიშ მაღაზია
           lottery: ლატარია
           mall: მოლი
           massage: მასაჟი
@@ -1086,15 +1118,29 @@ xmf:
           wadi: გესქირაფილი კალაპოტი
           waterfall: წყარგელაფუ
       admin_levels:
-        level2: ქიანაშ ხურგი
-        level3: რეგიონიშ ხურგი
-        level4: შტატიშ ხურგი
-        level5: რეგიონიშ ხურგი
-        level6: ოლქიშ ხურგი
-        level7: მუნიციპალიტეტიშ ხურგი
-        level8: ნოღაშ ხურგი
-        level9: ოფუტეშ ხურგი
-        level11: სამეძობოშ ხურგი
+        level2: ერეფოშქაშე ხურგი
+        level3: ადმინისტრაციულ ხურგი (დონე 3)
+        level4: ადმინისტრაციულ ხურგი (დონე 4)
+        level5: ადმინისტრაციულ ხურგი (დონე 5)
+        level6: ადმინისტრაციულ ხურგი (დონე 6)
+        level7: ადმინისტრაციულ ხურგი (დონე 7)
+        level8: ადმინისტრაციულ ხურგი (დონე 8)
+        level9: ადმინისტრაციულ ხურგი (დონე 9)
+        level10: ადმინისტრაციულ ხურგი (დონე 10)
+        level11: ადმინისტრაციულ ხურგი (დონე 11)
+      border_types:
+        city: ნოღაშ ხურგი
+        comarca: კომარკაშ ხურგი
+        departement: დეპარტამენტიშ ხურგი
+        department: დეპარტამენტიშ ხურგი
+        municipality: მუნიციპალიტეტიშ ხურგი
+        municipi: მუნიციპალიტეტიშ ხურგი
+        município: მუნიციპალიტეტიშ ხურგი
+        nation: ერეფოშქაშე ხურგი
+        national: ერეფოშქაშე ხურგი
+        neighbourhood: სამეძობოშ ხურგი
+        province: პროვინციაშ ხურგი
+        região: რეფიონიშ ხურგი
   searches:
     show:
       title:
@@ -1103,10 +1149,160 @@ xmf:
       create:
         no_results: შედეგიქ ვეგორჷ
         more_results: უმოსი შედეგი
+  directions:
+    show:
+      title: მარშრუტი
+      distance: მეძენა
+      time: ბორჯი
+      kilometers: კილომეტრი
+      filename: მარშრუტი
+  issues:
+    index:
+      search: გორუა
+      states:
+        ignored: იგნორირებული
+        open: ღილე რე
+        resolved: დამუშებულ რე
+    page:
+      user_not_found: მახვარებუ ვა რე
+      issues_not_found: თეჯგურა პრობლემეფქ ვეგორჷ
+      status: სტატუსი
+      reports: ნაჭარეფი
+      last_updated: ეკონია მოახალება
+  languages_panes:
+    select_language_list:
+      search_language: გორუა...
+      languages:
+        af: აფრიკაანსი
+        gsw: ალემანური
+        ast: ასტურიული
+        az: აზერბაიჯანული
+        id: ინდონეზიური
+        ms: მალაიური
+        bs: ბოსნიური
+        br: ბრეტონული
+        ca: კატალანური
+        cs: ჩეხური
+        cy: უელსური
+        da: დანიური
+        de: გერმანული
+        dsb: თუდოლენი სორბული
+        et: ესტონური
+        en: ინგლისური
+        en-GB: ინგლისური (UK)
+        es: ესპანური
+        eo: ესპერანტო
+        eu: ბასკური
+        fr: ფრანგული
+        fy: ბჟადალ ფრიზული
+        ga: ირლანდიური
+        gd: შოტლანდიურ-გელური
+        gl: გალისიური
+        hsb: ჟიმოლენი სორბული
+        hr: ხორვატული
+        is: ისლანდიური
+        it: იტალიური
+        gcf: გვადელუპური კრეოლი
+        ku-Latn: ქურთული (ლათინური)
+        lv: ლატვიური
+        lb: ლუქსემბურგული
+        lt: ლიეტუვური
+        hu: უნგრული
+        fit: ტორნედალური ფინური
+        nl: ნიდერლანდური
+        nb: ნორვეგიული (ბუკმოლი)
+        nn: ნორვეგიული (ნიუნორსკი)
+        pl: პოლონური
+        pt-PT: პორტუგალიური
+        pt: პორტუგალიური (ბრაზილია)
+        ro: რუმინული
+        sc: სარდინული
+        sco: შოტლანდიური
+        sq: ალბანური
+        scn: სიცილიური
+        sk: სლოვაკური
+        sl: სლოვენური
+        sr-Latn: სერბული (ლათინური)
+        sh: სერბულ-ხორვატული (ლათინური)
+        fi: ფინური
+        sv: შვედური
+        tl: ტაგალოგი
+        kab: ქაბილე
+        vi: ვიეტნამური
+        tr: თურქული
+        yo: იორუბა
+        diq: დიმლი
+        el: ბერძენული
+        ba: ბაშკირული
+        be: ბელარუსული
+        bg: ბულგარული
+        mk: მაკედონური
+        mo: მოლდოვური
+        ce: ჩეჩენური
+        ru: რუსული
+        sr: სერბული (კირილიცა)
+        tt: თათარული (კირილიცა)
+        uk: უკრაინული
+        kk-cyrl: ყაზახეთი (კირილიცა)
+        yi: იდიში
+        he: ურიული
+        ar: არაბული
+        fa: სპარსული
+        arz: ეგვიპტური არაბული
+        pnb: ბჟადალ პენჯაბური
+        ps: პუშტუ
+        nqo: ნ’კო
+        ne: ნეპალური
+        mr: მარათული
+        hi: ჰინდი
+        bn: ბენგალური
+        pa: პენჯაბური
+        gu: გუჯარათული
+        ta: ტამილური
+        te: ტელუგუ
+        kn: კანნადა
+        th: ტაილანდური
+        my: ბირმული
+        shn: შანი
+        xmf: მარგალური
+        ka: ქორთული
+        km: ქმერული
+        zh-CN: ჩინური (გალენინებული)
+        zh-TW: ჩინური (ტრადიციული)
+        zh-HK: ჩინური (ჰონგ-კონგი)
+        ja: იაპონური
+        ko: კორეული
   layouts:
+    logo:
+      alt_text: OpenStreetMap-იშ ლოგო
+    logout: გიშულა
+    log_in: მიშულა
+    sign_up: რეგისტრაცია
+    start_mapping: კარტოგრაფირებაშ დოჭყაფა
+    edit: რედაქტირაფა
+    history: ისტორია
+    export: ექსპორტი
+    issues: პრობლემეფი
+    gps_traces: GPS-ტრეკეფი
+    user_diaries: მახვარებუეფიშ დღარეფი
+    edit_with: რედაქტირება %{editor}შ მოხვარათ
     intro_header: მოზოჯით OpenStreetMap-შა!
+    partners_partners: პარტნიორები
     tou: გჷმორინაფაშ წესეფი
+    help: მოხვარა
     about: გეშა
+    copyright: ოავტორე ნება
+    communities: ჯარალუეფი
+    learn_more: უმოსიშ გაგება
+    more: უმოსი
+    header:
+      select_language: გეგშაგორით ნინა
+      loading: იხარგუაფუ...
+    select_language_button:
+      title: გეგშაგორით ნინა
+  user_mailer:
+    gpx_details:
+      details: 'თქვან ფაილიშ დეტალეფი:'
   shared:
     pagination:
       diary_comments:
