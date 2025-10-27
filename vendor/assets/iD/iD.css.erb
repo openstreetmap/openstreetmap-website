@@ -144,7 +144,203 @@
 .ideditor .cf:after {
     clear: both;
 }
+.ideditor {
+    color-scheme: light;
+    --bg-color: #fff; /* ~Bootstrap .bg-body */
+    --bg-color-2: #f6f6f6; /* ~Bootstrap .bg-body-tertiary */
+    --bg-color-3: #ececec; /* ~Bootstrap .bg-body-secondary */
+    --active-bg-color: #f1f1f1; /* in the middle between --bg-color-2 and --bg-color-3 */
+    --transparent-bg-color: #fffc;
+    --transparent-button-color: #fff4;
+    --border-color: #ccc; /* ~Bootstrap .border-secondary-subtle */
+    --transparent-border-color: #cccccc94; /* --border-color with alpha value to match rgba(0, 0, 0, .1) over --bg-color-2 */
+    --border-color-2: #ddd; /* mix 66% of --border-color with white */
+    --outset-color: #fcfcfc; /* brighter than --border-color with white */
+    --shadow-color: #bbb; /* mix 91.5% of --border-color with black */
+    --text-color: #333;
+    --link-color: #7092ff;
+    --link-focus-color: #597be7;
+    --muted-text-color: #aaa;
+    --transparent-text-color: #2223;
+    --transparent-text-emphasis-color: #0007;
+    --passive-bg-color: #cccccc; /* = --border-color */
+    --passive-text-color: #888;
+    --widget-color: #222;
+    --widget-bg-color: #eee;
+    --nested-bg-color: #eff2f7;
+    --nested-highlight-color: #e3e8ef;
+    --nested-border-color: #ccd5e3;
+    --selected-bg-color: #e8ebff;
+    --dark-tooltip-text-color: #fff;
+    --dark-tooltip-bg-color: #444;
+
+    --bg-filter: none;
+    --mix-blend-mode: normal;
+    --bg-blend-mode: normal;
+
+    --valid-bg-color: #cfc;
+    --valid-label-color: #afa;
+    --valid-highlight-color: #8f8;
+    --valid-border-color: #2f2;
+    --valid-text-color: #0b0;
+    --valid-highlight-text-color: #080;
+    --valid-icon-color: #0f0;
+
+    --suggestion-bg-color: #cef;
+    --suggestion-label-color: #adf;
+    --suggestion-highlight-color: #8cf;
+    --suggestion-border-color: #29f;
+    --suggestion-text-color: #05b;
+    --suggestion-highlight-text-color: #038;
+    --suggestion-icon-color: #07f;
+
+    --warning-bg-color: #ffc; /* mix 60% of --warning-label-color with white */
+    --warning-label-color: #ffa;
+    --warning-highlight-color: #ff8; /* ~saturate(1.5) of --warning-label-color */
+    --warning-border-color: #fb2;
+    --warning-text-color: #b15500;
+    --warning-highlight-text-color: #7f3d00;
+    --warning-icon-color: #f90;
+
+    --error-bg-color: #fcc;
+    --error-label-color: #faa;
+    --error-highlight-color: #f88;
+    --error-border-color: #f22;
+    --error-text-color: #a00;
+    --error-highlight-text-color: #800;
+    --error-icon-color: #f00;
+}
+
+.ideditor.theme-dark {
+        color-scheme: dark;
+        --bg-color: #212529;
+        --bg-color-2: #2b3035;
+        --bg-color-3: #343a40;
+        --active-bg-color: #30353b;
+        --passive-bg-color: #41464b;
+        --transparent-bg-color: #111c;
+        --transparent-button-color: #3338;
+        --border-color: #41464b;
+        --transparent-border-color: #41464b94;
+        --border-color-2: #32363b;
+        --outset-color: #54595d;
+        --shadow-color: #3b4045;
+        --text-color: #dee2e6;
+        --link-color: #7b92db;
+        --link-focus-color: #7e9cff;
+        --muted-text-color: #6e7276;
+        --transparent-text-color: #eee3;
+        --transparent-text-emphasis-color: #fff7;
+        --widget-color: #e9ecef;
+        --widget-bg-color: #31373c;
+        --nested-bg-color: #2d2e33;
+        --nested-highlight-color: #33363b;
+        --nested-border-color: #3e434e;
+        --selected-bg-color: #3b3c49;
+        --dark-tooltip-text-color: #ccc;
+        --dark-tooltip-bg-color: #000;
+
+        --bg-filter: invert();
+        --mix-blend-mode: screen;
+        --bg-blend-mode: difference;
+
+        --valid-bg-color: #030;
+        --valid-label-color: #050;
+        --valid-highlight-color: #060;
+        --valid-border-color: #080;
+        --valid-text-color: #3e3;
+        --valid-highlight-text-color: #6e6;
+
+        --suggestion-bg-color: #023;
+        --suggestion-label-color: #047;
+        --suggestion-highlight-color: #036;
+        --suggestion-border-color: #06d;
+        --suggestion-text-color: #38e;
+        --suggestion-highlight-text-color: #6ae;
+
+        --warning-bg-color: #332701;
+        --warning-label-color: #554102;
+        --warning-highlight-color: #5f4100;
+        --warning-border-color: #7e3b00;
+        --warning-text-color: #e98c38;
+        --warning-highlight-text-color: #f0ac71;
+
+        --error-bg-color: #300;
+        --error-label-color: #500;
+        --error-highlight-color: #600;
+        --error-border-color: #800;
+        --error-text-color: #e33;
+        --error-highlight-text-color: #e66;
+    }
+
+@media (prefers-color-scheme: dark) {
+    .ideditor:not(.theme-light) {
+        color-scheme: dark;
+        --bg-color: #212529;
+        --bg-color-2: #2b3035;
+        --bg-color-3: #343a40;
+        --active-bg-color: #30353b;
+        --passive-bg-color: #41464b;
+        --transparent-bg-color: #111c;
+        --transparent-button-color: #3338;
+        --border-color: #41464b;
+        --transparent-border-color: #41464b94;
+        --border-color-2: #32363b;
+        --outset-color: #54595d;
+        --shadow-color: #3b4045;
+        --text-color: #dee2e6;
+        --link-color: #7b92db;
+        --link-focus-color: #7e9cff;
+        --muted-text-color: #6e7276;
+        --transparent-text-color: #eee3;
+        --transparent-text-emphasis-color: #fff7;
+        --widget-color: #e9ecef;
+        --widget-bg-color: #31373c;
+        --nested-bg-color: #2d2e33;
+        --nested-highlight-color: #33363b;
+        --nested-border-color: #3e434e;
+        --selected-bg-color: #3b3c49;
+        --dark-tooltip-text-color: #ccc;
+        --dark-tooltip-bg-color: #000;
+
+        --bg-filter: invert();
+        --mix-blend-mode: screen;
+        --bg-blend-mode: difference;
+
+        --valid-bg-color: #030;
+        --valid-label-color: #050;
+        --valid-highlight-color: #060;
+        --valid-border-color: #080;
+        --valid-text-color: #3e3;
+        --valid-highlight-text-color: #6e6;
+
+        --suggestion-bg-color: #023;
+        --suggestion-label-color: #047;
+        --suggestion-highlight-color: #036;
+        --suggestion-border-color: #06d;
+        --suggestion-text-color: #38e;
+        --suggestion-highlight-text-color: #6ae;
+
+        --warning-bg-color: #332701;
+        --warning-label-color: #554102;
+        --warning-highlight-color: #5f4100;
+        --warning-border-color: #7e3b00;
+        --warning-text-color: #e98c38;
+        --warning-highlight-text-color: #f0ac71;
+
+        --error-bg-color: #300;
+        --error-label-color: #500;
+        --error-highlight-color: #600;
+        --error-border-color: #800;
+        --error-text-color: #e33;
+        --error-highlight-text-color: #e66;
+    }
+}
 /* base styles */
+.ideditor {
+    background-color: var(--bg-color);
+}
+
 .ideditor .layer-osm path {
     fill: none;
 }
@@ -2464,7 +2660,7 @@
 .ideditor .map-in-map,
 .ideditor .main-map {
     cursor: auto; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-grab.png") %>) 9 9, auto; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/grab.png") %>) 9 9, auto; /* FF */
 }
 
 .ideditor.mode-browse .point,
@@ -2473,7 +2669,7 @@
 .ideditor.mode-select-error .point,
 .ideditor.mode-select-note .point {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-point.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-point.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-browse .vertex,
@@ -2482,7 +2678,7 @@
 .ideditor.mode-select-error .vertex,
 .ideditor.mode-select-note .vertex {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-vertex.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-vertex.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-browse .line,
@@ -2491,7 +2687,7 @@
 .ideditor.mode-select-error .line,
 .ideditor.mode-select-note .line {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-line.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-line.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-browse .area,
@@ -2500,7 +2696,7 @@
 .ideditor.mode-select-error .area,
 .ideditor.mode-select-note .area {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-area.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-area.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-browse .midpoint,
@@ -2509,7 +2705,7 @@
 .ideditor.mode-select-error .midpoint,
 .ideditor.mode-select-note .midpoint {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-split.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-split.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-select .behavior-multiselect .point,
@@ -2517,12 +2713,12 @@
 .ideditor.mode-select .behavior-multiselect .line,
 .ideditor.mode-select .behavior-multiselect .area {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-add.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-add.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-select .behavior-multiselect .selected {
     cursor: pointer; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-select-remove.png") %>), pointer; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/select-remove.png") %>), pointer; /* FF */
 }
 
 .ideditor.mode-add-preset .main-map,
@@ -2533,7 +2729,7 @@
 .ideditor.mode-drag-node .main-map,
 .ideditor.mode-drag-note .main-map {
     cursor: crosshair; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-draw.png") %>) 9 9, crosshair; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/draw.png") %>) 9 9, crosshair; /* FF */
 }
 
 .ideditor.mode-draw-line .way.target,
@@ -2542,7 +2738,7 @@
 .ideditor.mode-add-area  .way.target,
 .ideditor.mode-drag-node .way.target {
     cursor: crosshair; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-draw-connect-line.png") %>) 9 9, crosshair; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/draw-connect-line.png") %>) 9 9, crosshair; /* FF */
 }
 
 .ideditor.mode-draw-line .vertex.target,
@@ -2551,7 +2747,7 @@
 .ideditor.mode-add-area  .vertex.target,
 .ideditor.mode-drag-node .vertex.target {
     cursor: crosshair; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-draw-connect-vertex.png") %>) 9 9, crosshair; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/draw-connect-vertex.png") %>) 9 9, crosshair; /* FF */
 }
 
 .ideditor.mode-add-point .main-map,
@@ -2565,7 +2761,7 @@
 .ideditor.mode-select.lasso .vertex,
 .ideditor.mode-select.lasso .midpoint {
     cursor: crosshair; /* Opera */
-    cursor: url(<%= asset_path("iD/img/cursor-draw.png") %>) 9 9, crosshair; /* FF */
+    cursor: url(<%= asset_path("iD/img/cursor/draw.png") %>) 9 9, crosshair; /* FF */
 }
 
 .ideditor.mode-browse .note,
@@ -2616,7 +2812,7 @@
     width: 330px;
     height: 250px;
     padding: 5px;
-    background-color: #fff;
+    background-color: var(--bg-color);
 }
 .ideditor[dir='ltr'] .photoviewer {
     margin-left: 10px;
@@ -3142,9 +3338,12 @@
 .ideditor .photo-wrapper {
     position: relative;
     background-color: #000;
-    background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.ideditor .photo-wrapper.show-loader {
+    background-image: url(<%= asset_path("iD/img/loader-black.gif") %>);
 }
 
 .ideditor .photoviewer .plane-frame {
@@ -3154,11 +3353,17 @@
 }
 
 .ideditor .photoviewer .plane-frame > img.plane-photo {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    -o-object-fit: cover;
-       object-fit: cover;
+    cursor: grab;
+}
+.ideditor .photoviewer .plane-frame.grabbing > img.plane-photo {
+    cursor: grabbing;
+}
+/* override pannellum's custom cursors to use browser defaults */
+.ideditor .pnlm-grab {
+    cursor: grab !important;
+}
+.ideditor .pnlm-grabbing {
+    cursor: grabbing !important;
 }
 
 /* photo-controls (step forward, back, rotate) */
@@ -3290,7 +3495,7 @@
     filter: invert(1);
 }
 .ideditor .local-photos label.button {
-    background: #7092ff;
+    background: var(--link-color);
     color: #fff;
     font-weight: bold;
     padding: 10px 25px;
@@ -3642,7 +3847,7 @@
         "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
         "Fira Sans", "Droid Sans", "Helvetica Neue", "Arial",
         sans-serif;
-    color: #333;
+    color: var(--text-color);
 
     touch-action: none;
     -ms-user-select: none;
@@ -3765,14 +3970,14 @@
 .ideditor a,
 .ideditor a:visited,
 .ideditor a:active {
-    color: #7092ff;
+        color: var(--link-color);
 }
 .ideditor a:focus {
-    color: #597be7;
+    color: var(--link-focus-color);
 }
 @media (hover: hover) {
     .ideditor a:hover {
-        color: #597be7;
+        color: var(--link-focus-color);
     }
 }
 .ideditor kbd {
@@ -3783,12 +3988,12 @@
     line-height: 1.3;
     min-width: 0.9em;
     vertical-align: baseline;
-    background-color: #fcfcfc;
-    border: solid 1px #ccc;
+    background-color: var(--outset-color);
+    border: solid 1px var(--border-color);
     margin: 0 2px;
-    border-bottom-color: #bbb;
+    border-bottom-color: var(--shadow-color);
     border-radius: 3px;
-    box-shadow: inset 0 -1px 0 #bbb;
+    box-shadow: inset 0 -1px 0 var(--shadow-color);
 }
 
 .ideditor code {
@@ -3807,9 +4012,9 @@
 .ideditor input[type=tel],
 .ideditor input[type=email],
 .ideditor input[type=date] {
-    background-color: #fff;
-    color: #333;
-    border: 1px solid #ccc;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
     padding: 0px 10px 0px 10px;
     border-radius: 4px;
     text-overflow: ellipsis;
@@ -3841,13 +4046,13 @@
 .ideditor input:active,
 .ideditor textarea:focus,
 .ideditor input:focus {
-    background-color: #f1f1f1;
+    background-color: var(--active-bg-color);
 }
 
 .ideditor textarea.disabled,
 .ideditor input.disabled {
-    color: #777;
-    background-color: #eee;
+    color: var(--passive-text-color);
+    background-color: var(--bg-color-3);
     cursor: not-allowed;
 }
 
@@ -3897,7 +4102,7 @@
 
 /* tables */
 .ideditor table {
-    background-color: #fff;
+    background-color: var(--bg-color);
     border-collapse: collapse;
     width: 100%;
     border-spacing: 0;
@@ -3906,7 +4111,7 @@
     text-align: left;
 }
 .ideditor table.tags, .ideditor table.tags td, .ideditor table.tags th {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     padding: 4px;
 }
 
@@ -3923,16 +4128,16 @@
 /* Utility Classes
 ------------------------------------------------------- */
 .ideditor .fillL {
-    background: #fff;
-    color: #333;
+    background: var(--bg-color);
+    color: var(--text-color);
 }
 .ideditor .fillL2 {
-    background: #f6f6f6;
-    color: #333;
+    background: var(--bg-color-2);
+    color: var(--text-color);
 }
 .ideditor .fillL3 {
-    background: #ececec;
-    color: #333;
+    background: var(--bg-color-3);
+    color: var(--text-color);
 }
 .ideditor .fillD {
     background: rgba(0,0,0,.5);
@@ -3960,13 +4165,15 @@
 }
 
 .ideditor .deemphasize {
-    color: #a9a9a9;
+    color: var(--muted-text-color);
 }
 .ideditor .content {
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);
 }
-.ideditor .loading {
-    background: url(<%= asset_path("iD/img/loader_bg.gif") %>);
+.ideditor .loading.loading {
+    background-color: #aaa;
+    background-blend-mode: var(--bg-blend-mode);
+    background-image: url(<%= asset_path("iD/img/loader_bg.gif") %>);
     background-size: 5px 5px;
 }
 
@@ -3976,8 +4183,8 @@
 .ideditor button {
     text-align: center;
     border: 0;
-    background: #fff;
-    color: #333;
+    background: var(--bg-color);
+    color: var(--text-color);
     font-size: 12px;
     display: inline-block;
     border-radius: 4px;
@@ -3986,23 +4193,23 @@
 .ideditor button:focus,
 .ideditor button:active,
 .ideditor button.hover {
-    background-color: #ececec;
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor button:hover {
-        background-color: #ececec;
+        background-color: var(--bg-color-3);
     }
 }
 .ideditor button.active {
-    background: #7092ff;
+    background: var(--link-color);
 }
 .ideditor button.disabled {
-    background-color: rgba(255,255,255,.25);
-    color: rgba(0,0,0,.4);
+    background-color: var(--transparent-button-color);
+    color: var(--transparent-text-emphasis-color);
     cursor: not-allowed;
 }
 .ideditor button.disabled .icon {
-    fill: rgba(0,0,0,.4);
+    fill: var(--transparent-text-emphasis-color);
 }
 
 .ideditor .joined > * {
@@ -4015,7 +4222,7 @@
 }
 
 .ideditor .fillL .joined > * {
-    border-right: 1px solid #fff;
+    border-right: 1px solid var(--bg-color);
 }
 .ideditor .joined > *:first-child {
     border-radius: 4px 0 0 4px;
@@ -4034,27 +4241,27 @@
 
 /* Action buttons */
 .ideditor button.action {
-    background: #7092ff;
+    background: var(--link-color);
     color: #fff;
     font-weight: bold;
 }
 .ideditor button.action:focus,
 .ideditor button.action:active {
-    background: #597be7;
+    background: var(--link-focus-color);
 }
 .ideditor button.secondary-action {
-    background: #ececec;
+    background: var(--bg-color-3);
     font-weight: bold;
 }
 .ideditor button.secondary-action:focus,
 .ideditor button.secondary-action:active {
-    background: #cccccc;
+    background: var(--passive-bg-color);
 }
 
 .ideditor button.action.disabled,
 .ideditor button[disabled].action {
-    background: #cccccc;
-    color: #888;
+    background: var(--passive-bg-color);
+    color: var(--passive-text-color);
     cursor: not-allowed;
 }
 
@@ -4065,15 +4272,15 @@
 
 @media (hover: hover) {
     .ideditor button.action:hover {
-        background: #597be7;
+        background: var(--link-focus-color);
     }
     .ideditor button.secondary-action:hover {
-        background: #cccccc;
+        background: var(--passive-bg-color);
     }
     .ideditor button.action.disabled:hover,
     .ideditor button[disabled].action:hover {
-        background: #cccccc;
-        color: #888;
+        background: var(--passive-bg-color);
+        color: var(--passive-text-color);
         cursor: not-allowed;
     }
 }
@@ -4088,13 +4295,13 @@
 }
 
 .ideditor .icon.operation use {
-    fill: #222;
+    fill: var(--widget-color);
     color: #79f;
 }
 .ideditor button.disabled .icon.operation use,
 .ideditor .icon.operation.disabled use {
-    fill: rgba(32,32,32,.2);
-    color: rgba(40,40,40,.2);
+    fill: var(--transparent-text-color);
+    color: var(--transparent-text-color);
 }
 
 .ideditor .icon.monochrome use {
@@ -4255,7 +4462,7 @@
     display: none;
 }
 .ideditor button.bar-button.dragging.removing {
-    cursor: url(<%= asset_path("iD/img/cursor-select-remove.png") %>), pointer;
+    cursor: url(<%= asset_path("iD/img/cursor/select-remove.png") %>), pointer;
 }
 
 .ideditor button.save {
@@ -4272,7 +4479,7 @@
     height: 15px;
     width: 15px;
     color: rgba(0,0,0,0.25);
-    stroke: #333;
+    stroke: var(--text-color);
     stroke-width: 60px;
     margin-top: 3px;
 }
@@ -4329,7 +4536,7 @@
 /* Header for modals / panes
 ------------------------------------------------------- */
 .ideditor .header {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     padding: 20px 40px;
     position: relative;
     display: flex;
@@ -4406,8 +4613,8 @@
     bottom: 0;
     margin: 0;
     padding: 0 15px;
-    border-top: 1px solid #ccc;
-    background-color: #f6f6f6;
+    border-top: 1px solid var(--border-color);
+    background-color: var(--bg-color-2);
     width: 100%;
     height: 2.5em;
     z-index: 1;
@@ -4447,9 +4654,9 @@
     float: left;
     height: 100%;
     z-index: 10;
-    background: #f6f6f6;
+    background: var(--bg-color-2);
     -ms-user-select: element;
-    border: 0px solid #ccc;
+    border: 0px solid var(--border-color);
     border-right-width: 1px;
 }
 .ideditor[dir='rtl'] .sidebar {
@@ -4604,7 +4811,7 @@
 .ideditor .feature-list-item {
     width: 100%;
     position: relative;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     border-radius: 0;
 }
 .ideditor .no-results-item {
@@ -4645,20 +4852,20 @@
     opacity: 0.5;
 }
 .ideditor .feature-list-item .entity-type {
-    color: #7092ff;
+    color: var(--link-color);
     font-weight: bold;
 }
 .ideditor .feature-list-item:active .entity-type,
 .ideditor .feature-list-item:focus .entity-type {
-    color: #597be7;
+    color: var(--link-focus-color);
 }
 @media (hover: hover) {
     .ideditor .feature-list-item:hover .entity-type {
-        color: #597be7;
+        color: var(--link-focus-color);
     }
 }
 .ideditor .feature-list-item .entity-name {
-    color: #666;
+    color: var(--passive-text-color);
     padding-left: 10px;
 }
 .ideditor[dir='rtl'] .feature-list-item .entity-name {
@@ -4666,7 +4873,7 @@
     padding-right: 10px;
 }
 .ideditor .section-selected-features .feature-list {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     overflow: hidden;
     margin-top: 5px;
@@ -4706,7 +4913,7 @@
 .ideditor .preset-list-button-wrap {
     min-height: 62px;
     display: flex;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
@@ -4719,7 +4926,7 @@
 }
 
 .ideditor .preset-list.filtered .preset-list-item:first-child .preset-list-button {
-    background: #ececec;
+    background: var(--bg-color-3);
 }
 
 .ideditor .preset-icon-container {
@@ -4814,8 +5021,8 @@
 
 .ideditor .preset-icon-fill-vertex circle {
     stroke-width: 1.5px;
-    stroke: #333;
-    fill: #efefef;
+    stroke: var(--text-color);
+    fill: var(--bg-color-3);
     -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
 }
@@ -4867,17 +5074,17 @@
     display: flex;
     flex-flow: row wrap;
     align-items: center;
-    background: #f6f6f6;
+    background: var(--bg-color-2);
     text-align: left;
     padding: 5px 10px;
-    border-left: 1px solid rgba(0, 0, 0, .1);
+    border-left: 1px solid var(--transparent-border-color);
     flex: 1 1 100%;
     align-self: stretch;
 }
 .ideditor[dir='rtl'] .preset-list-button .label {
     text-align: right;
     border-left: none;
-    border-right: 1px solid rgba(0, 0, 0, .1);
+    border-right: 1px solid var(--transparent-border-color);
 }
 .ideditor[dir='ltr'] .preset-list-item.mixed-types .preset-list-button .label {
     border-top-right-radius: 4px;
@@ -4902,8 +5109,8 @@
     animation: flash-bg 750ms;
 }
 @keyframes flash-bg {
-    0% { background-color: #fff; }
-    100% { background-color: #f6f6f6; }
+    0% { background-color: var(--bg-color); }
+    100% { background-color: var(--bg-color-2); }
 }
 
 .ideditor .preset-list-button .label-inner {
@@ -4921,11 +5128,11 @@
 .ideditor .preset-list-button:active .label,
 .ideditor .preset-list-button.disabled,
 .ideditor .preset-list-button.disabled .label {
-    background-color: #ececec;
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .preset-list-button:hover .label {
-        background-color: #ececec;
+        background-color: var(--bg-color-3);
     }
 }
 
@@ -4934,13 +5141,13 @@
     flex: 0 0 auto;
 }
 .ideditor .preset-list-button-wrap button.tag-reference-button:not(:hover):not(:active):not(:focus) {
-    background: #f6f6f6;
+    background: var(--bg-color-2);
 }
 .ideditor[dir='ltr'] .preset-list-button-wrap button.tag-reference-button {
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
 }
 .ideditor[dir='rtl'] .preset-list-button-wrap button.tag-reference-button {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 .ideditor[dir='ltr'] .preset-list-button-wrap:not(.category) button:last-child {
     border-radius: 0 4px 4px 0;
@@ -4958,7 +5165,7 @@
 
 .ideditor .current .preset-list-button,
 .ideditor .current .preset-list-button .label {
-    background-color: #e8ebff;
+    background-color: var(--selected-bg-color);
 }
 
 .ideditor .category .preset-list-button:after,
@@ -4967,7 +5174,7 @@
     position: absolute;
     top: -5px;
     left: -1px; right: -1px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-bottom: none;
     border-radius: 6px 6px 0 0;
     height: 6px;
@@ -4991,7 +5198,7 @@
 .ideditor .subgrid .arrow {
     border: solid rgba(0, 0, 0, 0);
     border-width: 10px;
-    border-bottom-color: #ececec;
+    border-bottom-color: var(--bg-color-3);
     width: 0;
     height: 0;
     margin-left: 50%;
@@ -5018,7 +5225,7 @@
     padding: 10px;
     margin: 0 -10px 10px -10px;
     border-radius: 8px;
-    background: #ececec;
+    background: var(--bg-color-3);
 }
 .ideditor .section .grouped-items-area:empty {
     display: none;
@@ -5065,9 +5272,9 @@
     flex: 1 1 100%;
     position: relative;
     font-weight: bold;
-    color: #333;
-    background: #f6f6f6;
-    border: 1px solid #ccc;
+    color: var(--text-color);
+    background: var(--bg-color-2);
+    border: 1px solid var(--border-color);
     border-radius: 4px 4px 0 0;
     overflow: hidden;
 }
@@ -5095,20 +5302,20 @@
 
 .ideditor .field-label button {
     flex: 0 0 auto;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
     width: 32px;
     border-radius: 0;
 }
 .ideditor[dir='rtl'] .field-label button {
     border-left: none;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 .ideditor .field-label button:not(:hover):not(:active):not(:focus) {
     background: none;
 }
 .ideditor .field-label .icon {
     opacity: .5;
-
+    fill: var(--text-color);
 }
 
 .ideditor .field-label .modified-icon,
@@ -5141,7 +5348,7 @@
 .ideditor .form-field-input-wrap > textarea,
 .ideditor .form-field-input-wrap > ul.chiplist {
     flex: 1 1 auto;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-top: 0;
     border-radius: 0;
     position: relative;
@@ -5156,8 +5363,8 @@
     flex: 0 0 auto;
     width: 32px;
     position: relative;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 0;
     border-top-width: 0;
     border-left-width: 0;
@@ -5169,22 +5376,22 @@
 }
 .ideditor .form-field-button:active,
 .ideditor .form-field-button:focus {
-    background-color: #f1f1f1;
+    background-color: var(--active-bg-color);
 }
 @media (hover: hover) {
     .ideditor .form-field-button:hover {
-        background-color: #f1f1f1;
+        background-color: var(--active-bg-color);
     }
 }
 .ideditor .form-field-button .icon {
-    fill: #333;
+    fill: var(--text-color);
     opacity: .5;
 }
 .ideditor .form-field-button.colour-preview {
     border-radius: 0 0 4px 0;
 }
 .ideditor .form-field-button.colour-preview > div.colour-box {
-    border: 3px solid #fff;
+    border: 3px solid var(--bg-color);
     height: 100%;
     border-radius: 8px;
     cursor: pointer;
@@ -5193,15 +5400,15 @@
     padding: 1px 0 0 1px;
 }
 .ideditor .inspector-hover .form-field-button.colour-preview > div.colour-box {
-    border-color: #ececec;
+    border-color: var(--bg-color-3);
 }
 .ideditor .form-field-button.colour-preview:active > div.colour-box,
 .ideditor .form-field-button.colour-preview:focus > div.colour-box {
-    border-color: #f1f1f1;
+    border-color: var(--active-bg-color);
 }
 @media (hover: hover) {
     .ideditor .form-field-button.colour-preview:hover > div.colour-box {
-        border-color: #f1f1f1;
+        border-color: var(--active-bg-color);
     }
 }
 .ideditor input.colour-selector {
@@ -5236,14 +5443,14 @@
 ------------------------------------------------------- */
 .ideditor .form-field ul.rows {
     flex: 1 1 auto;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-top: 0;
     border-radius: 0 0 4px 4px;
     overflow: hidden;
     width: 100%;
 }
 .ideditor .form-field ul.rows li {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 .ideditor .form-field ul.rows li:first-child {
     border-top: 0;
@@ -5303,13 +5510,13 @@
 .ideditor .structure-extras-wrap {
     width: 100%;
     padding: 10px 10px;
-    background: #fff;
-    border: 1px solid #ccc;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-top: 0px;
     border-radius: 0 0 4px 4px;
 }
 .ideditor .structure-extras-wrap > ul.rows {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
@@ -5338,12 +5545,12 @@
 .ideditor .form-field-input-combo input.known-value,
 .ideditor .form-field-input-semicombo input.known-value,
 .ideditor .form-field-input-multicombo input.known-value {
-    color: #7092ff;
+    color: var(--link-color);
 }
 
 .ideditor .form-field-input-multicombo ul.chiplist {
     padding: 5px 8px 5px 8px;
-    background: #fff;
+    background: var(--bg-color);
     display: block;
     border-radius: 0 0 4px 4px;
     width: 100%;
@@ -5364,10 +5571,10 @@
 }
 
 .ideditor .form-field-input-multicombo li.chip {
-    background-color: #eff2f7;
-    border: 1px solid #ccd5e3;
+    background-color: var(--nested-bg-color);
+    border: 1px solid var(--nested-border-color);
     max-width: 100%;
-    color: #7092ff;
+    color: var(--link-color);
 }
 .ideditor .form-field-input-multicombo li.chip.negated span {
     text-decoration: line-through;
@@ -5393,11 +5600,11 @@
 }
 .ideditor .form-field-input-multicombo li.chip.raw-value {
     font-family: monospace;
-    color: #333;
+    color: var(--text-color);
 }
 .ideditor .form-field-input-multicombo li.mixed {
-    border-color: #eff2f7;
-    color: #888;
+    border-color: var(--nested-bg-color);
+    color: var(--passive-text-color);
     font-style: italic;
 }
 
@@ -5416,7 +5623,7 @@
     padding: 0px 5px 0px 5px;
     margin: 0;
     cursor: pointer;
-    color: #a6b4ce;
+    color: var(--muted-text-color);
     display: block;
     text-align: center;
     flex: 0 0 auto;
@@ -5456,7 +5663,7 @@
 }
 
 .ideditor .form-field-input-multicombo .input-wrap {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color-2);
     width: 180px;
 }
 .ideditor .form-field-input-multicombo input {
@@ -5573,12 +5780,12 @@
     margin: auto;
 }
 .ideditor .form-field-input-number button.decrement::after {
-    border-top: 5px solid #ccc;
+    border-top: 5px solid var(--border-color);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
 }
 .ideditor .form-field-input-number button.increment::after {
-    border-bottom: 5px solid #ccc;
+    border-bottom: 5px solid var(--border-color);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
 }
@@ -5589,10 +5796,10 @@
 .ideditor .form-field-input-check {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: var(--bg-color);
     padding: 5px 10px;
-    color: #7092ff;
-    border: 1px solid #ccc;
+    color: var(--link-color);
+    border: 1px solid var(--border-color);
     border-top: 0;
     cursor: pointer;
 }
@@ -5608,8 +5815,8 @@
 }
 .ideditor .form-field-input-check > .reverser {
     flex: 0 1 auto;
-    background-color: #eff2f7;
-    border: 1px solid #ccd5e3;
+    background-color: var(--nested-bg-color);
+    border: 1px solid var(--nested-border-color);
     border-radius: 2px;
     padding: 0px 8px;
     color: inherit;
@@ -5622,11 +5829,11 @@
 }
 .ideditor .form-field-input-check > .reverser:active,
 .ideditor .form-field-input-check > .reverser:focus {
-    background: #e3e8ef;
+    background: var(--nested-highlight-color);
 }
 @media (hover: hover) {
     .ideditor .form-field-input-check > .reverser:hover {
-        background: #e3e8ef;
+        background: var(--nested-highlight-color);
     }
 }
 .ideditor .form-field-input-check > .reverser.hide {
@@ -5634,11 +5841,11 @@
 }
 .ideditor .form-field-input-check:active,
 .ideditor .form-field-input-check:focus {
-    background: #f1f1f1;
+    background: var(--active-bg-color);
 }
 @media (hover: hover) {
     .ideditor .form-field-input-check:hover {
-        background: #f1f1f1;
+        background: var(--active-bg-color);
     }
 }
 .ideditor .form-field-input-check .set {
@@ -5663,8 +5870,8 @@
     align-items: center;
     width: 100%;
     padding: 5px 10px;
-    background-color: #fff;
-    color: #7092ff;
+    background-color: var(--bg-color);
+    color: var(--link-color);
     cursor: pointer;
 }
 .ideditor .form-field-input-radio > label.mixed {
@@ -5675,18 +5882,18 @@
 }
 .ideditor .form-field-input-radio > label:active,
 .ideditor .form-field-input-radio > label:focus {
-    background-color: #ececec;
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .form-field-input-radio > label:hover {
-        background-color: #ececec;
+        background-color: var(--bg-color-3);
     }
 }
 .ideditor .form-field-input-radio > label.active {
-    background-color: #e8ebff;
+    background-color: var(--selected-bg-color);
 }
 .ideditor .form-field-input-radio > label:not(:last-of-type) {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 .ideditor .form-field-input-radio > label > input[type="radio"] {
     flex: 0 1 auto;
@@ -5766,8 +5973,8 @@
 .ideditor .form-field-input-localized input.localized-main.disabled,
 .ideditor .form-field-input-localized input.localized-lang.disabled,
 .ideditor .form-field-input-localized input.localized-value.disabled {
-    color: #777;
-    background-color: #eee;
+    color: var(--passive-text-color);
+    background-color: var(--bg-color-3);
     cursor: not-allowed;
 }
 
@@ -5786,7 +5993,7 @@
     content: "";
     display: block;
     position: absolute;
-    background: #ccc;
+    background: var(--border-color);
     height: 11px;
     width: 1px;
     left: 0;
@@ -5813,7 +6020,7 @@
     flex: 1 1 auto;
     display: flex;
     flex-flow: row wrap;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-top: 0px;
 }
 
@@ -5830,7 +6037,7 @@
     border-bottom: 0;
 }
 .ideditor[dir='rtl'] .addr-row input {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
     border-left: 0;
 }
 
@@ -5912,16 +6119,16 @@
 ------------------------------------------------------- */
 .ideditor .form-field-input-restrictions {
     display: block;
-    border: 1px solid #ccc;
+    border: 1px solid var(--passive-bg-color);
     border-top: 0;
     border-radius: 0 0 4px 4px;
 }
 
 .ideditor .form-field-input-restrictions .restriction-controls-container {
-    background-color: #fff;
+    background-color: var(--bg-color);
     width: 100%;
     padding: 5px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
     border-radius: 0 0 4px 4px;
 }
 
@@ -5958,6 +6165,7 @@
 
 .ideditor .form-field-input-restrictions .restriction-container {
     position: relative;
+    color: #333;
     height: 370px;
 }
 /* zero width space, so container takes up space */
@@ -5977,8 +6185,8 @@
     left: 0;
     right: 0;
     padding: 2px 6px;
-    background-color: rgba(255, 255, 255, .8);
-    color: #888;
+    background-color: var(--transparent-bg-color);
+    color: var(--passive-text-color);
     text-align: center;
     pointer-events: none;
     -webkit-user-select: none;
@@ -6036,18 +6244,18 @@
     display: none;
     box-shadow: 0 4px 10px 1px rgba(0,0,0,.2);
     margin-top: -1px;
-    background: #fff;
+    background: var(--bg-color);
     max-height: 245px;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 0 0 4px 4px;
 }
 
 .ideditor .combobox a {
     display: block;
     padding: 5px 10px;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
     line-height: 0.95rem;
     break: all;
 }
@@ -6055,11 +6263,11 @@
 .ideditor .combobox a.selected,
 .ideditor .combobox a:active,
 .ideditor .combobox a:focus {
-    background: #ececec;
+    background: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .combobox a:hover {
-        background: #ececec;
+        background: var(--bg-color-3);
     }
 }
 
@@ -6089,19 +6297,19 @@
     position: absolute;
     left: 0; right: 0; bottom: 0; top: 0;
     margin: auto;
-    border-top: 5px solid #ccc;
+    border-top: 5px solid var(--border-color);
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
 }
 
 .ideditor .combobox .combobox-option.raw-option {
     font-family: monospace;
-    color: #333;
+    color: var(--text-color);
 }
 
 .ideditor .combobox .combobox-option.virtual-option {
     font-style: italic;
-    color: #333;
+    color: var(--text-color);
 }
 
 .ideditor .form-field-input-wrap {
@@ -6128,7 +6336,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background-color: #7092ff;
+    background-color: var(--link-color);
     border-right-style: solid;
     border-right-color: lightgray;
 }
@@ -6151,11 +6359,10 @@
     right: 20px;
     margin: 5px;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-top: 0;
-    border-radius: 0 0 4px 4px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
     z-index: 20;
-    background: rgba(255,255,255,0.95);
+    background: var(--transparent-bg-color);
     box-shadow: 0 0 30px 5px rgba(0,0,0,.4);
 }
 
@@ -6166,8 +6373,8 @@
 }
 .ideditor .field-help-title button {
     width: 45px;
-    height: 55px;
-    border-radius: 0;
+    height: 45px;
+    border-radius: 0 5px 0 0;
 }
 
 .ideditor .field-help-nav {
@@ -6179,21 +6386,21 @@
     display: inline-block;
     padding: 5px 10px;
     cursor: pointer;
-    color: #666;
+    color: var(--text-color);
 }
 .ideditor .field-help-nav-item.active {
-    color: #7092ff;
+    color: var(--link-color);
     border-bottom: 2px solid;
 }
 .ideditor .field-help-nav-item:active,
 .ideditor .field-help-nav-item:focus {
-    color: #597be7;
-    background-color: #efefef;
+    color: var(--link-focus-color);
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .field-help-nav-item:hover {
-        color: #597be7;
-        background-color: #efefef;
+        color: var(--link-focus-color);
+        background-color: var(--bg-color-3);
     }
 }
 
@@ -6274,7 +6481,7 @@
 }
 
 .ideditor .form-field-input-wrap .label {
-    background: #f6f6f6;
+    background: var(--bg-color-2);
     padding: 5px 10px;
 }
 
@@ -6290,24 +6497,24 @@
 .ideditor button.raw-tag-option {
     flex: 0 0 auto;
     padding: 3px;
-    background: #aaa;
-    color: #eee;
+    background: var(--muted-text-color);
+    color: var(--bg-color-3);
     margin: 0 3px;
 }
 .ideditor button.raw-tag-option:focus,
 .ideditor button.raw-tag-option.active {
-    color: #fff;
-    background: #597be7;
+    color: var(--bg-color);
+    background: var(--link-focus-color);
 }
 @media (hover: hover) {
     .ideditor button.raw-tag-option:hover {
-        color: #fff;
-        background: #597be7;
+        color: var(--bg-color);
+        background: var(--link-focus-color);
     }
 }
 .ideditor button.raw-tag-option.selected {
-    color: #fff;
-    background: #7092ff;
+    color: var(--bg-color);
+    background: var(--link-color);
 }
 .ideditor button.raw-tag-option svg.icon {
     width: 14px;
@@ -6353,38 +6560,38 @@
 .ideditor .tag-row.readonly input.key,
 .ideditor .tag-row.readonly input.value,
 .ideditor .tag-row.readonly button.remove {
-    color: #777;
-    background-color: #eee;
+    color: var(--passive-text-color);
+    background-color: var(--bg-color-3);
     cursor: not-allowed;
 }
 
 .ideditor .tag-row input {
     border: 0;
     border-radius: 0;
-    border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
     width: 100%;
 }
 .ideditor[dir='rtl'] .tag-row input {
     border-left: none;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 
 
 .ideditor .tag-row input.key {
     font-weight: bold;
-    background-color: #f6f6f6;
+    background-color: var(--bg-color-2);
 }
 
 .ideditor .tag-row input.value {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 .ideditor[dir='rtl'] .tag-row input.value {
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
 }
 
 .ideditor .tag-row:first-child input.key {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
     border-top-left-radius: 4px;
 }
 .ideditor[dir='rtl'] .tag-row:first-child input.key {
@@ -6393,12 +6600,12 @@
 }
 
 .ideditor .tag-row:first-child input.value {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 .ideditor .tag-row button {
     flex: 0 0 auto;
     width: 32px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-top-width: 0;
     border-left-width: 0;
 }
@@ -6409,11 +6616,11 @@
 
 .ideditor .tag-row button:active,
 .ideditor .tag-row button:focus {
-    background: #f1f1f1;
+    background: var(--active-bg-color);
 }
 @media (hover: hover) {
     .ideditor .tag-row button:hover {
-        background: #f1f1f1;
+        background: var(--active-bg-color);
     }
 }
 .ideditor .tag-row button .icon {
@@ -6449,7 +6656,7 @@
 
 /* Tag reference */
 .ideditor .tag-reference-loading {
-    background-color: #f5f5f5;
+    background-color: var(--bg-color-2);
 }
 .ideditor .tag-reference-loading .icon {
     background-image: url(<%= asset_path("iD/img/mini-loader.gif") %>);
@@ -6498,14 +6705,14 @@
     width: 100%;
 }
 .ideditor .raw-tag-editor .tag-row.readonly .tag-reference-body {
-    background: #f6f6f6;
-    color: #333;
+    background: var(--bg-color-2);
+    color: var(--text-color);
 }
 .ideditor .raw-tag-editor .tag-row:not(:last-child) .tag-reference-body.expanded {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 .ideditor .raw-tag-editor .tag-row.readonly .tag-reference-body.expanded {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 
 
@@ -6649,9 +6856,9 @@
 ------------------------------------------------------- */
 .ideditor .note-header,
 .ideditor .qa-header {
-    background-color: #f6f6f6;
+    background-color: var(--bg-color-2);
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -6659,19 +6866,19 @@
 
 .ideditor .note-header-icon,
 .ideditor .qa-header-icon {
-    background-color: #fff;
+    background-color: var(--bg-color);
     padding: 10px;
     flex: 0 0 auto;
     position: relative;
     width: 60px;
     height: 60px;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
     border-radius: 5px 0 0 5px;
 }
 .ideditor[dir='rtl'] .note-header-icon,
 .ideditor[dir='rtl'] .qa-header-icon {
     border-right: unset;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
     border-radius: 0 5px 5px 0;
 }
 
@@ -6693,7 +6900,7 @@
 
 .ideditor .note-header-label,
 .ideditor .qa-header-label {
-    background-color: #f6f6f6;
+    background-color: var(--bg-color-2);
     padding: 0 15px;
     flex: 1 1 100%;
     font-size: 14px;
@@ -6710,16 +6917,16 @@
 }
 
 .ideditor .comments-container {
-    background: #ececec;
+    background: var(--bg-color-3);
     padding: 1px 10px;
     border-radius: 8px;
     margin-top: 20px;
 }
 
 .ideditor .comment {
-    background-color: #fff;
+    background-color: var(--bg-color);
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     margin: 10px auto;
     display: flex;
     flex-flow: row nowrap;
@@ -6733,7 +6940,7 @@
     height: 40px;
     -o-object-fit: cover;
        object-fit: cover;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 20px;
 }
 .ideditor .comment-main {
@@ -6753,14 +6960,14 @@
 }
 .ideditor .comment-author {
     font-weight: bold;
-    color: #333;
+    color: var(--text-color);
 }
 .ideditor .comment-date {
-    color: #aaa;
+    color: var(--muted-text-color);
 }
 .ideditor .inspector-hover .comment-text,
 .ideditor .comment-text {
-    color: #333;
+    color: var(--text-color);
     margin-top: 10px;
     overflow-y: auto;
     max-height: 250px;
@@ -6775,11 +6982,11 @@
 }
 
 .ideditor .qa-details-container {
-    background: #ececec;
+    background: var(--bg-color-3);
     padding: 10px;
     margin-top: 20px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
 }
@@ -6820,27 +7027,27 @@
 /* Custom Data Editor
 ------------------------------------------------------- */
 .ideditor .data-header {
-    background-color: #f6f6f6;
+    background-color: var(--bg-color-2);
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
 }
 
 .ideditor .data-header-icon {
-    background-color: #fff;
+    background-color: var(--bg-color);
     padding: 10px;
     flex: 0 0 auto;
     position: relative;
     width: 60px;
     height: 60px;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
     border-radius: 5px 0 0 5px;
 }
 .ideditor[dir='rtl'] .data-header-icon {
     border-right: unset;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
     border-radius: 0 5px 5px 0;
 }
 
@@ -6850,7 +7057,7 @@
 }
 
 .ideditor .data-header-label {
-    background-color: #f6f6f6;
+    background-color: var(--bg-color-2);
     padding: 0 15px;
     flex: 1 1 100%;
     font-size: 14px;
@@ -6954,14 +7161,14 @@
 }
 .ideditor .map-control > button.active,
 .ideditor .map-control > button.active:active {
-    background: #7092ff;
+    background: var(--link-color);
 }
 @media (hover: hover) {
     .ideditor .map-control > button:not(.disabled):hover {
         background: rgba(0, 0, 0, .8);
     }
     .ideditor .map-control > button.active:hover {
-        background: #7092ff;
+        background: var(--link-color);
     }
 }
 
@@ -7054,13 +7261,13 @@
 
 .ideditor .layer-list, .ideditor .controls-list {
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
 .ideditor .layer-list > li {
-    background-color: #fff;
-    color: #7092ff;
+    background-color: var(--bg-color);
+    color: var(--link-color);
     position: relative;
     display: flex;
 }
@@ -7079,14 +7286,14 @@
     border-radius: 3px;
 }
 .ideditor .layer-list li:not(:last-child) {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 .ideditor .layer-list li:active {
-    background-color: #ececec;
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .layer-list li:hover {
-        background-color: #ececec;
+        background-color: var(--bg-color-3);
     }
 }
 
@@ -7094,7 +7301,7 @@
 .ideditor .layer-list li.switch button,
 .ideditor .layer-list li.active,
 .ideditor .layer-list li.switch {
-    background: #e8ebff;
+    background: var(--selected-bg-color);
 }
 
 .ideditor .layer-list li.best > div.best {
@@ -7148,7 +7355,7 @@
 
 .ideditor .map-data-pane .layer-list button,
 .ideditor .background-pane .layer-list button {
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
     border-radius: 0;
     padding-left: 4px;
     padding-right: 4px;
@@ -7156,7 +7363,7 @@
 .ideditor[dir='rtl'] .map-data-pane .layer-list button,
 .ideditor[dir='rtl'] .background-pane .layer-list button {
     border-left: none;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 
 .ideditor .map-data-pane .layer-list button .icon,
@@ -7204,20 +7411,16 @@
     flex: 1 1 auto;
     padding: 4px 5px;
 }
-.ideditor .issue-label .issue-autofix {
-    flex: 0 0 auto;
-    padding: 5px 8px;
-}
 .ideditor .issue-label .issue-info-button {
     height: unset;
     width: 32px;
     flex: 0 0 auto;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid var(--border-color);
     background-color: rgba(0,0,0,0);
 }
 .ideditor[dir='rtl'] .issue-label .issue-info-button {
     border-left: 0;
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 .ideditor .issue-container .issue-label .issue-info-button .icon {
     opacity: 0.5;
@@ -7232,92 +7435,54 @@
     border-radius: 4px 0 0 4px;
 }
 
-.ideditor button.autofix.action {
-    flex: 0 0 20px;
-    height: 20px;
-    width: 20px;
-    background: #7092ff;
-    color: #fff;
-}
-.ideditor button.autofix.action:focus,
-.ideditor button.autofix.action:active,
-.ideditor button.autofix.action.active {
-    background: #597be7;
-}
-@media (hover: hover) {
-    .ideditor button.autofix.action:hover {
-        background: #597be7;
-    }
-}
-
-/* fix all */
-.ideditor .autofix-all {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    margin-top: -25px;
-    padding-bottom: 5px;
-}
-.ideditor .autofix-all-link-text {
-    padding: 0;
-}
-.ideditor .autofix-all-link-icon svg {
-    margin: 0 9px;
-    background: currentColor;
-    border-radius: 4px;
-}
-.ideditor .autofix-all-link-icon svg use {
-    color: #fff;
-}
-
 /* suggestion styles */
 .ideditor .suggestions-list,
 .ideditor .suggestions-list *,
 .ideditor .issue-container.active .issue.severity-suggestion,
 .ideditor .issue-container.active .issue.severity-suggestion * {
-    border-color: #2f7eff;
+    border-color: var(--suggestion-border-color);
 }
 .ideditor .suggestions-list .issue.severity-suggestion .issue-label,
 .ideditor .issue.severity-suggestion .issue-fix-list,
 .ideditor .suggestion-section {
-    background: #e1effe;
+    background: var(--suggestion-bg-color);
 }
 
 .ideditor .issue-container.active .issue.severity-suggestion .issue-label {
-    background: #e1effe;
+    background: var(--suggestion-label-color);
 }
 
 .ideditor .issue.severity-suggestion .issue-icon {
-    color: #49f;
+    color: var(--suggestion-icon-color);
 }
 
 .ideditor .issue.severity-suggestion .issue-fix-item button.actionable,
 .ideditor .issue-container.active .issue.severity-suggestion .issue-info-button {
-    color: #0066cc;
-    fill: #0066cc;
+    color: var(--suggestion-text-color);
+    fill: var(--suggestion-text-color);
 }
 .ideditor .suggestions-list .issue.severity-suggestion .issue-label:active,
 .ideditor .suggestions-list .issue.severity-suggestion .issue-label:focus,
 .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:focus {
-    background: #abd5ff;
+    background: var(--suggestion-highlight-color);
 }
 .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:focus,
 .ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:active,
 .ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:focus {
-    color: #0066cc;
-    fill: #1f4d82;
+    color: var(--suggestion-highlight-text-color);
+    fill: var(--suggestion-highlight-text-color);
 }
 @media (hover: hover) {
     .ideditor .suggestions-list .issue.severity-suggestion .issue-label:hover,
     .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover {
-        background: #bdf;
+        background: var(--suggestion-highlight-color);
     }
     .ideditor .issue.severity-suggestion .issue-fix-item button.actionable:hover,
     .ideditor .issue-container.active .issue.severity-suggestion .issue-info-button:hover {
-        color: #1f4d82;
-        fill: #1f4d82;
+        color: var(--suggestion-highlight-text-color);
+        fill: var(--suggestion-highlight-text-color);
     }
 }
 
@@ -7326,50 +7491,50 @@
 .ideditor .warnings-list *,
 .ideditor .issue-container.active .issue.severity-warning,
 .ideditor .issue-container.active .issue.severity-warning * {
-    border-color: #fb2;
+    border-color: var(--warning-border-color);
 }
 
 .ideditor .warnings-list .issue.severity-warning .issue-label,
 .ideditor .issue.severity-warning .issue-fix-list,
 .ideditor .warning-section {
-    background: #ffc;
+    background: var(--warning-bg-color);
 }
 
 .ideditor .issue-container.active .issue.severity-warning .issue-label {
-    background: #ffa;
+    background: var(--warning-label-color);
 }
 
 .ideditor .issue.severity-warning .issue-icon {
-    color: #f90;
+    color: var(--warning-icon-color);
 }
 
 .ideditor .issue.severity-warning .issue-fix-item button.actionable,
 .ideditor .issue-container.active .issue.severity-warning .issue-info-button {
-    color: #b15500;
-    fill: #b15500;
+    color: var(--warning-text-color);
+    fill: var(--warning-text-color);
 }
 .ideditor .warnings-list .issue.severity-warning .issue-label:active,
 .ideditor .warnings-list .issue.severity-warning .issue-label:focus,
 .ideditor .issue.severity-warning .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-warning .issue-fix-item button.actionable:focus {
-    background: #ff8;
+    background: var(--warning-highlight-color);
 }
 .ideditor .issue.severity-warning .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-warning .issue-fix-item button.actionable:focus,
 .ideditor .issue-container.active .issue.severity-warning .issue-info-button:active,
 .ideditor .issue-container.active .issue.severity-warning .issue-info-button:focus {
-    color: #7f3d00;
-    fill: #7f3d00;
+    color: var(--warning-highlight-text-color);
+    fill: var(--warning-highlight-text-color);
 }
 @media (hover: hover) {
     .ideditor .warnings-list .issue.severity-warning .issue-label:hover,
     .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover {
-        background: #ff8;
+        background: var(--warning-highlight-color);
     }
     .ideditor .issue.severity-warning .issue-fix-item button.actionable:hover,
     .ideditor .issue-container.active .issue.severity-warning .issue-info-button:hover {
-        color: #7f3d00;
-        fill: #7f3d00;
+        color: var(--warning-highlight-text-color);
+        fill: var(--warning-highlight-text-color);
     }
 }
 
@@ -7379,49 +7544,49 @@
 .ideditor .errors-list *,
 .ideditor .issue-container.active .issue.severity-error,
 .ideditor .issue-container.active .issue.severity-error * {
-    border-color: #f77;
+    border-color: var(--error-border-color);
 }
 
 .ideditor .errors-list .issue.severity-error .issue-label,
 .ideditor .issue.severity-error .issue-fix-list,
 .ideditor .error-section {
-    background: #ffd6d6;
+    background: var(--error-bg-color);
 }
 
 .ideditor .issue-container.active .issue.severity-error .issue-label {
-    background: #ffc6c6;
+    background: var(--error-label-color);
 }
 
 .ideditor .issue.severity-error .issue-fix-item button.actionable,
 .ideditor .issue-container.active .issue.severity-error .issue-info-button {
-    color: #b91201;
-    fill: #b91201;
+    color: var(--error-text-color);
+    fill: var(--error-icon-color);
 }
 .ideditor .issue.severity-error .issue-icon {
-    color: #dd1400;
+    color: var(--error-icon-color);
 }
 .ideditor .errors-list .issue.severity-error .issue-label:active,
 .ideditor .errors-list .issue.severity-error .issue-label:focus,
 .ideditor .issue.severity-error .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-error .issue-fix-item button.actionable:focus {
-    background: #ffb6b6;
+    background: var(--error-highlight-color);
 }
 .ideditor .issue.severity-error .issue-fix-item button.actionable:active,
 .ideditor .issue.severity-error .issue-fix-item button.actionable:focus,
 .ideditor .issue-container.active .issue.severity-error .issue-info-button:active,
 .ideditor .issue-container.active .issue.severity-error .issue-info-button:focus {
-    color: #840c00;
-    fill: #840c00;
+    color: var(--error-highlight-text-color);
+    fill: var(--error-highlight-text-color);
 }
 @media (hover: hover) {
     .ideditor .errors-list .issue.severity-error .issue-label:hover,
     .ideditor .issue.severity-error .issue-fix-item button.actionable:hover {
-        background: #ffb6b6;
+        background: var(--error-highlight-color);
     }
     .ideditor .issue.severity-error .issue-fix-item button.actionable:hover,
     .ideditor .issue-container.active .issue.severity-error .issue-info-button:hover {
-        color: #840c00;
-        fill: #840c00;
+        color: var(--error-highlight-text-color);
+        fill: var(--error-highlight-text-color);
     }
 }
 
@@ -7471,13 +7636,13 @@
 
 .ideditor .section-issues-status .box {
     border-radius: 4px;
-    border: 1px solid #72d979;
-    background: #c6ffca;
+    border: 1px solid var(--valid-border-color);
+    background: var(--valid-bg-color);
     padding: 5px !important;
     display: flex;
 }
 .ideditor .section-issues-status .icon {
-    color: #05ac10;
+    color: var(--valid-icon-color);
 }
 
 .ideditor input.square-degrees-input {
@@ -7493,19 +7658,19 @@
 /* Entity Issues List */
 .ideditor .section-entity-issues .issue-container .issue {
     border-radius: 4px;
-    border: 1px solid #ccc;
-    background: #f6f6f6;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color-2);
 }
 .ideditor .section-entity-issues .issue-container:not(.active) .issue-text:active,
 .ideditor .section-entity-issues .issue-container:not(.active) .issue-text:focus,
 .ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:active,
 .ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:focus {
-    background: #f1f1f1;
+    background: var(--active-bg-color);
 }
 @media (hover: hover) {
     .ideditor .section-entity-issues .issue-container:not(.active) .issue-text:hover,
     .ideditor .section-entity-issues .issue-container:not(.active) .issue-info-button:hover {
-        background: #f1f1f1;
+        background: var(--active-bg-color);
     }
 }
 .ideditor .section-entity-issues .issue .issue-label .issue-text {
@@ -7591,22 +7756,22 @@
 .ideditor .issue-info .tagDiff-table {
     min-width: 60%;
     width: unset;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
 }
 .ideditor .issue-info .tagDiff-row {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
 }
 .ideditor .issue-info .tagDiff-cell {
     padding: 2px 10px;
     font-family: monospace;
     font-size: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
 }
 .ideditor .issue-info .tagDiff-cell-add {
-    background: #dfd;
+    background: var(--valid-bg-color);
 }
 .ideditor .issue-info .tagDiff-cell-remove {
-    background: #fdd;
+    background: var(--error-bg-color);
 }
 
 
@@ -7654,7 +7819,7 @@
 /* Background - Adjust Alignment
 ------------------------------------------------------- */
 .ideditor .background-pane .nudge-container {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 10px;
     position: relative;
@@ -7667,8 +7832,8 @@
 }
 
 .ideditor .nudge-container .nudge-outer-rect {
-    background-color: #eee;
-    border: 1px solid #ccc;
+    background-color: var(--widget-bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 2px;
     padding: 20px 0;
     display: flex;
@@ -7686,8 +7851,8 @@
 }
 
 .ideditor .nudge-container .nudge-inner-rect {
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 2px;
     width: 65%;
     min-height: 20px;
@@ -7711,9 +7876,9 @@
 }
 
 .ideditor .nudge-container input.error {
-    border: 1px solid #ff7878;
+    border: 1px solid var(--warning-border-color);
     border-radius: 2px;
-    background: #ffb;
+    background: var(--warning-bg-color);
 }
 
 .ideditor .nudge-container button {
@@ -7768,25 +7933,25 @@
 .ideditor .background-pane .nudge.right::after {
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-left: 5px solid #222;
+    border-left: 5px solid var(--widget-color);
 }
 
 .ideditor .background-pane .nudge.left::after {
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-right: 5px solid #222;
+    border-right: 5px solid var(--widget-color);
 }
 
 .ideditor .background-pane .nudge.top::after {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
-    border-bottom: 5px solid #222;
+    border-bottom: 5px solid var(--widget-color);
 }
 
 .ideditor .background-pane .nudge.bottom::after {
     border-right: 5px solid transparent;
     border-left: 5px solid transparent;
-    border-top: 5px solid #222;
+    border-top: 5px solid var(--widget-color);
 }
 
 
@@ -7817,7 +7982,7 @@
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     flex: 0 0 auto;
 }
 
@@ -7873,7 +8038,7 @@
 .ideditor .help-pane .toc li a,
 .ideditor .help-pane .nav a {
     display: block;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     padding: 5px 10px;
 }
 
@@ -7884,17 +8049,17 @@
 .ideditor .help-pane .nav a:focus,
 .ideditor .help-pane .toc li a:active,
 .ideditor .help-pane .nav a:active {
-    background: #ececec;
+    background: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .help-pane .toc li a:hover,
     .ideditor .help-pane .nav a:hover {
-        background: #ececec;
+        background: var(--bg-color-3);
     }
 }
 
 .ideditor .help-pane .toc li a.selected {
-    background: #e8ebff;
+    background: var(--selected-bg-color);
 }
 
 .ideditor .help-pane .toc li:first-child a {
@@ -7902,7 +8067,7 @@
 }
 
 .ideditor .help-pane .toc li:nth-last-child(3) a {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     border-radius: 0 0 4px 4px
 }
 
@@ -7910,7 +8075,7 @@
 .ideditor .help-pane .toc li.walkthrough a {
     overflow: hidden;
     margin-top: 10px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     border-radius: 4px;
 }
 
@@ -7958,23 +8123,23 @@
 .ideditor .inspector-hover input,
 .ideditor .inspector-hover textarea,
 .ideditor .inspector-hover label {
-    background: #ececec;
+    background: var(--bg-color-3);
 }
 .ideditor .inspector-hover .preset-list-button,
 .ideditor .inspector-hover .tag-row input {
-    background: #f6f6f6;
+    background: var(--bg-color-2);
 }
 
 .ideditor .inspector-hover a,
 .ideditor .inspector-hover .form-field-input-multicombo .chip,
 .ideditor .inspector-hover .form-field-input-check span,
 .ideditor .inspector-hover .section-entity-issues .issue .icon {
-    color: #666;
+    color: var(--passive-text-color);
 }
 
 .ideditor .inspector-hover .form-field-input-multicombo .chip {
-    background: #eee;
-    border: 1px solid #ccc;
+    background: var(--bg-color-3);
+    border: 1px solid var(--border-color);
 }
 
 /* no scrollbars */
@@ -8017,7 +8182,7 @@
     margin-bottom: 1px;
 }
 .ideditor .inspector-hover .section-entity-issues .issue-container * {
-    border-color: #ccc !important;
+    border-color: var(--border-color) !important;
 }
 .ideditor .inspector-hover .section-entity-issues .issue-container.active .issue-label {
     border-bottom: 0;
@@ -8067,7 +8232,7 @@
 .ideditor .inspector-hover .entity-editor-pane a.hide-toggle {
     opacity: 1;
     background-color: transparent;
-    color: #666;
+    color: var(--passive-text-color);
     padding-left: 0;
     border-width: 0;
 }
@@ -8077,13 +8242,13 @@
 
 /* Show placeholder on hover for radio buttons */
 .ideditor .inspector-hover .form-field-input-radio {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-top: 0;
     border-radius: 0 0 4px 4px;
 }
 .ideditor .inspector-hover .form-field-input-radio .placeholder {
     opacity: 1;
-    color: #666;
+    color: var(--passive-text-color);
     padding: 5px 10px;
     width: 100%;
     height: auto;
@@ -8176,6 +8341,7 @@
     height: 100%;
     width: 100%;
     background: #000;
+    color: #333;
     -webkit-user-select: none;
        -moz-user-select: none;
             user-select: none;
@@ -8394,7 +8560,7 @@
 
 .ideditor .panel-content .button {
     display: inline-block;
-    background: #7092ff;
+    background: var(--link-color);
     border-radius: 2px;
     padding: 0 4px;
     margin-top: 10px;
@@ -8551,7 +8717,7 @@
 .ideditor .flash-icon.disabled use,
 .ideditor .flash-icon.operation.disabled use {
     fill: rgba(32,32,32,0.7);
-    color: rgba(40,40,40,0.7);
+    color: #282828b3;
 }
 
 .ideditor .flash-text {
@@ -8774,6 +8940,8 @@
 
 .ideditor .modal .loader {
     margin-bottom: 10px;
+    filter: var(--bg-filter);
+    mix-blend-mode: var(--mix-blend-mode);
 }
 .ideditor .modal .description {
     text-align: center;
@@ -8797,7 +8965,7 @@
 
 .ideditor .modal-section {
     padding: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 .ideditor .modal-section p:not(:last-of-type) {
     padding-bottom: 20px;
@@ -8839,8 +9007,8 @@
     display: flex;
 }
 .ideditor .modal-actions button {
-    color: #7092ff;
-    border-bottom: 1px solid #ccc;
+    color: var(--link-color);
+    border-bottom: 1px solid var(--border-color);
     border-radius: 0;
     min-height: 160px;
     text-align: center;
@@ -8861,7 +9029,7 @@
 }
 
 .ideditor .modal-actions > :first-child {
-    border-right: 1px solid #ccc;
+    border-right: 1px solid var(--border-color);
 }
 
 .ideditor .modal-section:last-child {
@@ -8871,7 +9039,7 @@
 /* Restore Modal
 ------------------------------------------------------- */
 .ideditor .modal-actions .logo-restore {
-    color: #7092ff;
+    color: var(--link-color);
 }
 .ideditor .modal-actions .logo-reset {
     color: #e06c5e;
@@ -8897,7 +9065,7 @@
 
 .ideditor .save-supporting,
 .ideditor .save-communityLinks {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 
 .ideditor .save-success table,
@@ -8957,7 +9125,7 @@
 
 .ideditor .community-event,
 .ideditor .community-more {
-    background-color: #efefef;
+    background-color: var(--bg-color-2);
     padding: 8px;
     border-radius: 4px;
     margin-bottom: 5px;
@@ -8981,7 +9149,7 @@
 ------------------------------------------------------- */
 .ideditor .modal-actions .logo-walkthrough,
 .ideditor .modal-actions .logo-features {
-    color: #7092ff;
+    color: var(--link-color);
 }
 
 .ideditor .modal-splash .section-preferences-third-party {
@@ -9015,23 +9183,23 @@
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
-    color: #666;
+    color: var(--text-color);
     font-size: 16px;
     font-weight: bold;
 }
 .ideditor .modal-shortcuts a.tab.active {
-    color: #7092ff;
+    color: var(--link-color);
     border-bottom: 2px solid;
 }
 .ideditor .modal-shortcuts a.tab:focus,
 .ideditor .modal-shortcuts a.tab:active {
-    color: #597be7;
-    background-color: #efefef;
+    color: var(--link-focus-color);
+    background-color: var(--bg-color-3);
 }
 @media (hover: hover) {
     .ideditor .modal-shortcuts a.tab:hover {
-        color: #597be7;
-        background-color: #efefef;
+        color: var(--link-focus-color);
+        background-color: var(--bg-color-3);
     }
 }
 
@@ -9060,7 +9228,6 @@
 
 .ideditor .modal-shortcuts .shortcut-keys {
     padding: 0 10px;
-    color: #767676;
     text-align: right;
     white-space: nowrap;
 }
@@ -9068,12 +9235,7 @@
     text-align: left;
 }
 
-.ideditor .modal-shortcuts .shortcut-keys kbd {
-    color: #555;
-}
-
 .ideditor .modal-shortcuts .shortcut-keys .gesture {
-    color: #333;
     padding: 3px;
 }
 
@@ -9124,8 +9286,8 @@
 
 .ideditor .note-save .field-warning,
 .ideditor .field-warning {
-    background: #ffb;
-    border: 1px solid #ccc;
+    background: var(--warning-bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 10px;
 }
@@ -9150,9 +9312,9 @@
 }
 
 .ideditor .changeset-list {
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 4px;
-    background: #fff;
+    background: var(--bg-color);
     margin-bottom: 10px;
     overflow: hidden;
 }
@@ -9164,7 +9326,7 @@
     text-align: initial;
 }
 .ideditor .changeset-list li {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
 }
 .ideditor .changeset-list li:first-child {
     border-top: 0;
@@ -9178,8 +9340,8 @@
 ------------------------------------------------------- */
 .ideditor .conflicts-help {
     padding: 20px;
-    background-color: #ffffbb;
-    border-bottom: 1px solid #ccc;
+    background-color: var(--warning-bg-color);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .ideditor .conflicts-buttons {
@@ -9191,7 +9353,7 @@
 }
 
 .ideditor .conflict-container {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .ideditor .conflict-description {
@@ -9272,7 +9434,7 @@
     display: none;
 }
 .ideditor .tooltip {
-    color: #333;
+    color: var(--text-color);
     font-size: 12px;
     white-space: initial;
 }
@@ -9337,7 +9499,7 @@
     min-width: 80px;
     padding: 10px;
     font-weight: normal;
-    background-color: #fff;
+    background-color: var(--bg-color);
 }
 
 .ideditor .popover-arrow {
@@ -9351,28 +9513,28 @@
     bottom: -5px;
     left: 50%;
     margin-left: -5px;
-    border-top-color: #fff;
+    border-top-color: var(--bg-color);
     border-width: 5px 5px 0;
 }
 .ideditor .popover.right .popover-arrow {
     top: 50%;
     left: -5px;
     margin-top: -5px;
-    border-right-color: #fff;
+    border-right-color: var(--bg-color);
     border-width: 5px 5px 5px 0;
 }
 .ideditor .popover.left .popover-arrow {
     top: 50%;
     right: -5px;
     margin-top: -5px;
-    border-left-color: #fff;
+    border-left-color: var(--bg-color);
     border-width: 5px 0 5px 5px;
 }
 .ideditor .popover.bottom .popover-arrow {
     top: -5px;
     left: 50%;
     margin-left: -5px;
-    border-bottom-color: #fff;
+    border-bottom-color: var(--bg-color);
     border-width: 0 5px 5px;
 }
 .ideditor .popover:not(.arrowed) .popover-arrow {
@@ -9381,7 +9543,7 @@
 
 .ideditor .tooltip-heading {
     font-weight: bold;
-    background: #f6f6f6;
+    background: var(--bg-color-2);
     padding: 10px;
     margin: -10px -10px 10px -10px;
     border-radius: 3px 3px 0 0;
@@ -9389,7 +9551,7 @@
 }
 
 .ideditor .keyhint-wrap {
-    background: #f6f6f6;
+    background: var(--bg-color-2);
     padding: 10px;
     margin: 10px -10px -10px -10px;
     border-radius: 0 0 3px 3px;
@@ -9409,25 +9571,25 @@
 .ideditor .map-pane .tooltip.top .popover-arrow,
 .ideditor .sidebar .tooltip.top .popover-arrow,
 .ideditor .modal .tooltip.top .popover-arrow {
-    border-top-color: #000;
+    border-top-color: var(--dark-tooltip-bg-color);
 }
 .ideditor .tooltip.dark.bottom .popover-arrow,
 .ideditor .map-pane .tooltip.bottom .popover-arrow,
 .ideditor .sidebar .tooltip.bottom .popover-arrow,
 .ideditor .modal .tooltip.bottom .popover-arrow {
-    border-bottom-color: #000;
+    border-bottom-color: var(--dark-tooltip-bg-color);
 }
 .ideditor .tooltip.dark.left .popover-arrow,
 .ideditor .map-pane .tooltip.left .popover-arrow,
 .ideditor .sidebar .tooltip.left .popover-arrow,
 .ideditor .modal .tooltip.left .popover-arrow {
-    border-left-color: #000;
+    border-left-color: var(--dark-tooltip-bg-color);
 }
 .ideditor .tooltip.dark.right .popover-arrow,
 .ideditor .map-pane .tooltip.right .popover-arrow,
 .ideditor .sidebar .tooltip.right .popover-arrow,
 .ideditor .modal .tooltip.right .popover-arrow {
-    border-right-color: #000;
+    border-right-color: var(--dark-tooltip-bg-color);
 }
 .ideditor .tooltip.dark .popover-inner,
 .ideditor .tooltip.dark .tooltip-heading,
@@ -9439,8 +9601,8 @@
 .ideditor .sidebar .tooltip-heading,
 .ideditor .sidebar .keyhint-wrap,
 .ideditor .modal .popover-inner {
-    background: #000;
-    color: #ccc;
+    background: var(--dark-tooltip-bg-color);
+    color: var(--dark-tooltip-text-color);
 }
 .ideditor .tooltip.dark kbd,
 .ideditor .map-pane .tooltip kbd,
@@ -9487,7 +9649,7 @@
     position: absolute;
     display: flex;
     flex-direction: column;
-    background: #fff;
+    background: var(--bg-color);
     border-radius: 4px;
     /* padding is set in edit_menu.js */
 }
@@ -9537,7 +9699,7 @@
     height: 10px;
     overflow: visible;
     width: 10px;
-    border-left: 1px solid #DDD;
+    border-left: 1px solid var(--border-color-2);
 }
 
 .ideditor ::-webkit-scrollbar-track {
@@ -9624,8 +9786,8 @@
     animation-direction: alternate;
 }
 @keyframes pulse {
-    from  { background: #7092ff; }
-    to    { background: #c6d4ff; }
+    from  { background: var(--link-color); }
+    to    { background: var(--suggestion-label-color); }
 }
 
 .ideditor .intro-nav-wrap button.chapter.finished {
@@ -9664,7 +9826,7 @@
 .ideditor .curtain-tooltip .popover-inner .instruction {
     font-weight: bold;
     display: block;
-    border-top: 1px solid #ccc;
+    border-top: 1px solid var(--border-color);
     margin-top: 10px;
     margin-left: -20px;
     margin-right: -20px;
@@ -9740,5 +9902,5 @@
 .ideditor .huge-modal-button .illustration {
     height: 100px;
     width: 100px;
-    color: #7092ff;
+    color: var(--link-color);
 }
