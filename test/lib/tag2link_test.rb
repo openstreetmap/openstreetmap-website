@@ -37,6 +37,14 @@ class Tag2linkTest < ActiveSupport::TestCase
     assert_equal "http://example.com/$1", dict["example"]
 
     data = [
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "preferred", "source" => "wikidata:P1630" },
+      { "key" => "Key:example", "url" => "http://example3.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example.com/$1", dict["example"]
+
+    data = [
       { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
     ]
     dict = Tag2link.build_dict(data)
@@ -65,6 +73,33 @@ class Tag2linkTest < ActiveSupport::TestCase
       { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "normal", "source" => "osmwiki:P8" }
     ]
     dict = Tag2link.build_dict(data)
+    assert_not_includes dict, "example"
+  end
+
+  def test_build_dict_chooses_osmwiki_when_both_have_single_preferred
+    data = [
+      { "key" => "Key:example", "url" => "http://example1.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "wikidata:P1630" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example1.com/$1", dict["example"]
+
+    data = [
+      { "key" => "Key:example", "url" => "http://example1.com/$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "normal", "source" => "wikidata:P1630" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example1.com/$1", dict["example"]
+  end
+
+  def test_build_dict_multiple_sources_more_than_two
+    data = [
+      { "key" => "Key:example", "url" => "http://example1.com/$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "normal", "source" => "wikidata:P1630" },
+      { "key" => "Key:example", "url" => "http://example3.com/$1", "rank" => "normal", "source" => "other:source" }
+    ]
+    dict = Tag2link.build_dict(data)
+    # Should not happen with current tag2link schema, but ensure we handle it gracefully
     assert_not_includes dict, "example"
   end
 end
