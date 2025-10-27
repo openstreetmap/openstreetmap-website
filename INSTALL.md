@@ -27,6 +27,7 @@ Many of the dependencies are managed through the standard Ruby on Rails mechanis
 
 **Minimum requirements:**
 * Ruby 3.2+
+* Node.js 22.2+
 * PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#ruby-version-manager-optional))
 * JavaScript Runtime
