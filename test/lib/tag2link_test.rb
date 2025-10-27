@@ -15,4 +15,56 @@ class Tag2linkTest < ActiveSupport::TestCase
     url = Tag2link.link("wikidata", "Q936")
     assert_equal "https://www.wikidata.org/entity/Q936", url
   end
+
+  def test_build_dict_rejects_deprecated_and_third_party
+    data = [
+      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "deprecated", "source" => "osmwiki:P8" },
+      { "key" => "Key:example2", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "wikidata:P3303" },
+      { "key" => "Key:example3", "url" => "http://example3.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_not_includes dict, "example"
+    assert_not_includes dict, "example2"
+    assert_includes dict, "example3"
+  end
+
+  def test_build_dict_chooses_single_preferred_item
+    data = [
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example.com/$1", dict["example"]
+
+    data = [
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example2.com/$1", dict["example"]
+  end
+
+  def test_build_dict_deduplicates_urls
+    data = [
+      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "normal", "source" => "wikidata:P1630" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_equal "http://example.com/$1", dict["example"]
+  end
+
+  def test_build_dict_rejects_multiple_equally_preferred_items
+    data = [
+      { "key" => "Key:example", "url" => "http://example1.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_not_includes dict, "example"
+
+    data = [
+      { "key" => "Key:example", "url" => "http://example1.com/$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:example", "url" => "http://example2.com/$1", "rank" => "normal", "source" => "osmwiki:P8" }
+    ]
+    dict = Tag2link.build_dict(data)
+    assert_not_includes dict, "example"
+  end
 end
