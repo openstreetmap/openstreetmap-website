@@ -189,7 +189,7 @@ class UserMailer < ApplicationMailer
   end
 
   def changeset_comment_notification
-    comment, recipient = params.fetch_values(:comment, :recipient)
+    comment, recipient = params.fetch_values(:record, :recipient)
 
     with_recipient_locale recipient do
       @to_user = recipient.display_name

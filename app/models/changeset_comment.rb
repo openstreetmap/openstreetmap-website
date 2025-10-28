@@ -41,4 +41,8 @@ class ChangesetComment < ApplicationRecord
   def body
     RichText.new("text", self[:body])
   end
+
+  def notifiable_subscribers
+    changeset.visible_subscribers.where.not(:id => author_id)
+  end
 end
