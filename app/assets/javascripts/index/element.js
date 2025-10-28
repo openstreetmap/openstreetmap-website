@@ -49,6 +49,9 @@
         }
       });
 
+      if (!map.timeslider) {
+        addOpenHistoricalMapTimeSlider(map, hashParams);
+      }
       addOpenHistoricalMapInspector();
     };
 
