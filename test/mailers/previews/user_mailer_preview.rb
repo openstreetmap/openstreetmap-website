@@ -34,6 +34,23 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.lost_password(user, token)
   end
 
+  def gpx_success
+    user = create(:user, :languages => [I18n.locale])
+    trace = create(:trace, :user => user)
+    UserMailer.gpx_success(trace, trace.size + 2)
+  end
+
+  def gpx_failure
+    user = create(:user, :languages => [I18n.locale])
+    trace = create(:trace, :user => user)
+    error = begin
+      LibXML::XML::Parser.string("<gpx>").parse
+    rescue LibXML::XML::Error => e
+      e.message
+    end
+    UserMailer.gpx_failure(trace, error)
+  end
+
   def diary_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     diary_entry = create(:diary_entry)
