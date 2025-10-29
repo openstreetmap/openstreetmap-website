@@ -16,6 +16,24 @@ class UserMailerPreview < ActionMailer::Preview
     preview
   end
 
+  def signup_confirm
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    UserMailer.signup_confirm(user, token)
+  end
+
+  def email_confirm
+    user = create(:user, :languages => [I18n.locale], :new_email => "newemail@example.com")
+    token = "token-123456"
+    UserMailer.email_confirm(user, token)
+  end
+
+  def lost_password
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    UserMailer.lost_password(user, token)
+  end
+
   def diary_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     diary_entry = create(:diary_entry)
