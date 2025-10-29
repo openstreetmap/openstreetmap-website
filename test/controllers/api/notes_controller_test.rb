@@ -373,16 +373,8 @@ module Api
       assert_equal third_user, subscription.user
       assert_equal note_with_comments_by_users, subscription.note
 
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == first_user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on one of your notes", email.subject
-      assert_equal first_user.email, email.to.first
-
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == second_user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in", email.subject
+      assert_email_received first_user.email, "[OpenStreetMap] #{third_user.display_name} has commented on one of your notes"
+      assert_email_received second_user.email, "[OpenStreetMap] #{third_user.display_name} has commented on a note you are interested in"
 
       get api_note_path(note_with_comments_by_users, :format => "json")
       assert_response :success

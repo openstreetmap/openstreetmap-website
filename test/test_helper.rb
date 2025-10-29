@@ -183,6 +183,19 @@ module ActiveSupport
     end
 
     ##
+    # Check that an email was received on the given email address,
+    # with the given subject. Note that it assumes that there's only
+    # one recipient and will fail otherwise. If you need a different
+    # behaviour, please extend.
+    def assert_email_received(expected_address, expected_subject)
+      email = ActionMailer::Base.deliveries.find { |e| e.to.first == expected_address }
+      assert_not_nil email
+      assert_equal 1, email.to.length
+      assert_equal expected_address, email.to.first
+      assert_equal expected_subject, email.subject
+    end
+
+    ##
     # execute a block with a given set of HTTP responses stubbed
     def with_http_stubs(stubs_file)
       stubs = YAML.load_file(File.expand_path("../http/#{stubs_file}.yml", __FILE__))

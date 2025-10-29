@@ -242,15 +242,8 @@ module Api
         end
       end
 
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == creator_user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets", email.subject
-
-      email = ActionMailer::Base.deliveries.find { |e| e.to.first == other_user.email }
-      assert_not_nil email
-      assert_equal 1, email.to.length
-      assert_equal "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in", email.subject
+      assert_email_received creator_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets"
+      assert_email_received other_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in"
     end
 
     ##
