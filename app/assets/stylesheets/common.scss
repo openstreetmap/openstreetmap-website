@@ -4,6 +4,9 @@
 @import "rails_bootstrap_forms";
 @import "colors";
 
+$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+@import "bootstrap-icons/font/bootstrap-icons";
+
 /* Styles common to large and small screens */
 
 /* Default rules for the body of every page */
@@ -417,7 +420,6 @@ body.small-nav {
 }
 
 .leaflet-popup-content-wrapper, .leaflet-popup-tip,
-.leaflet-contextmenu, .leaflet-contextmenu-item,
 .leaflet-control-attribution, .leaflet-control-scale-line {
   @extend .bg-body, .text-body;
 }
@@ -425,10 +427,6 @@ body.small-nav {
 .leaflet-control-attribution, .leaflet-control-scale-line {
   @extend .bg-opacity-75;
   text-shadow: none !important;
-}
-
-.leaflet-contextmenu-item.over {
-  @extend .bg-body-secondary, .border-secondary, .border-opacity-10;
 }
 
 .leaflet-popup-content-wrapper {
@@ -1005,4 +1003,33 @@ img.trace_image {
 @media (prefers-color-scheme: dark) {
   .github-logo rect { fill: black; }
   .github-logo path { fill: white; }
+}
+
+/* Rules for contextmenu */
+
+#map-context-menu {
+  .dropdown-item {
+    &:hover, &:active {
+      background-color: $gray-200;
+    }
+  }
+  &.cm_dropdown {
+    position: absolute;
+    z-index: 1000;
+  }
+  &.cm_dropdown_menu {
+    position: absolute;
+    display: block;
+    min-width: 200px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #map-context-menu {
+    .dropdown-item {
+      &:hover, &:active {
+        background-color: $gray-700;
+      }
+    }
+  }
 }
