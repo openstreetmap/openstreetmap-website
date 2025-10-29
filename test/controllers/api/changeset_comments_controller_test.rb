@@ -228,10 +228,11 @@ module Api
       creator_user = create(:user)
       changeset = create(:changeset, :closed, :user => creator_user)
       changeset.subscribers << creator_user
-      other_user = create(:user)
-      changeset.subscribers << other_user
+      subscriber_user = create(:user)
+      changeset.subscribers << subscriber_user
       commenter_user = create(:user)
       auth_header = bearer_authorization_header commenter_user
+      unrelated_user = create(:user)
 
       assert_difference "ChangesetComment.count", 1 do
         assert_difference "ActionMailer::Base.deliveries.size", 2 do
@@ -243,7 +244,30 @@ module Api
       end
 
       assert_email_received creator_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets"
-      assert_email_received other_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in"
+      assert_email_received subscriber_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on a changeset you are interested in"
+      assert_email_not_received commenter_user.email
+      assert_email_not_received unrelated_user.email
+    end
+
+    def test_create_on_changeset_with_changeset_commenter_does_not_receive_email
+      creator_user = create(:user)
+      changeset = create(:changeset, :closed, :user => creator_user)
+      changeset.subscribers << creator_user
+      commenter_user = create(:user)
+      changeset.subscribers << commenter_user
+      auth_header = bearer_authorization_header commenter_user
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 1 do
+          perform_enqueued_jobs do
+            post api_changeset_changeset_comments_path(changeset, :text => "This is a comment"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+
+      assert_email_received creator_user.email, "[OpenStreetMap] #{commenter_user.display_name} has commented on one of your changesets"
+      assert_email_not_received commenter_user.email
     end
 
     ##
