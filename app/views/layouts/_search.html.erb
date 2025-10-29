@@ -26,11 +26,11 @@
     <div class="d-flex flex-column gap-2">
       <div class="d-flex gap-2 align-items-center">
         <div class="btn-group routing_modes" role="group">
-          <% %w[car bicycle foot].each do |mode| %>
+          <% { "car" => "car-front-fill", "bicycle" => "bicycle", "foot" => "person-walking" }.each do |mode, icon| %>
             <%= radio_button_tag "modes", mode, false, { :class => "btn-check", :autocomplete => "off", :disabled => true } %>
             <%= label_tag "modes_#{mode}",
-                          inline_svg_tag("search/#{mode}.svg", :class => "d-block"),
-                          :class => "btn btn-outline-secondary px-2",
+                          tag.i(:class => "bi bi-#{icon} fs-6", :aria => { :hidden => "true" }),
+                          :class => "btn btn-outline-secondary px-2 py-1",
                           :title => t("site.search.modes.#{mode}") %>
           <% end %>
         </div>
