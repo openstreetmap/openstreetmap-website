@@ -13,11 +13,13 @@
 
             <div class="card-text d-flex justify-content-between align-items-center mt-auto">
               <small class="text-body-secondary d-flex gap-1 align-items-center">
-                <%= inline_svg_tag entry.comments.empty? ? "icons/chat.svg" : "icons/chat-fill.svg", :size => "20px", :title => t(".comments_label") %>
+                <i class="bi bi-chat fs-5 my-n1" aria-hidden="true"></i>
+                <span class="visually-hidden"><%= t ".comments_label" %></span>
                 <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(@user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
               </small>
               <small class="text-body-secondary d-flex gap-1 align-items-center">
-                <%= inline_svg_tag "icons/calendar.svg", :size => "20px", :title => t(".date_label") %>
+                <i class="bi bi-calendar fs-5 my-n1" aria-hidden="true"></i>
+                <span class="visually-hidden"><%= t ".date_label" %></span>
                 <span><%= l(entry.created_at.to_date, :format => :long) %></span>
               </small>
             </div>
