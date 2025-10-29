@@ -51,10 +51,35 @@ class UserMailerPreview < ActionMailer::Preview
     UserMailer.gpx_failure(trace, error)
   end
 
+  def message_notification
+    recipient = create(:user, :languages => [I18n.locale])
+    message = create(:message, :recipient => recipient)
+    UserMailer.message_notification(message)
+  end
+
   def diary_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     diary_entry = create(:diary_entry)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
     UserMailer.diary_comment_notification(diary_comment, recipient)
+  end
+
+  def follow_notification
+    following = create(:user, :languages => [I18n.locale])
+    follow = create(:follow, :following => following)
+    UserMailer.follow_notification(follow)
+  end
+
+  def note_comment_notification
+    recipient = create(:user, :languages => [I18n.locale])
+    commenter = create(:user)
+    comment = create(:note_comment, :author => commenter)
+    UserMailer.note_comment_notification(comment, recipient)
+  end
+
+  def changeset_comment_notification
+    recipient = create(:user, :languages => [I18n.locale])
+    comment = create(:changeset_comment)
+    UserMailer.changeset_comment_notification(comment, recipient)
   end
 end
