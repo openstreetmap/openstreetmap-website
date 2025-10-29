@@ -1,30 +1,15 @@
-# To deliver this notification:
-#
-# ChangesetCommentNotifier.with(record: @post, message: "New post").deliver(User.all)
+# frozen_string_literal: true
 
 class ChangesetCommentNotifier < ApplicationNotifier
-  # Add your delivery methods
-  #
-  # deliver_by :email do |config|
-  #   config.mailer = "UserMailer"
-  #   config.method = "new_post"
-  # end
-  #
-  # bulk_deliver_by :slack do |config|
-  #   config.url = -> { Rails.application.credentials.slack_webhook_url }
-  # end
-  #
-  # deliver_by :custom do |config|
-  #   config.class = "MyDeliveryMethod"
-  # end
+  recipients lambda {
+    changeset = record.changeset
+    changeset.subscribers.visible.where.not(:id => record.author_id)
+  }
 
-  # Add required params
-  #
-  # required_param :message
+  validates :record, :presence => true
 
-  # Compute recipients without having to pass them in
-  #
-  # recipients do
-  #   params[:record].thread.all_authors
-  # end
+  deliver_by :email do |config|
+    config.mailer = "UserMailer"
+    config.method = "changeset_comment_notification"
+  end
 end

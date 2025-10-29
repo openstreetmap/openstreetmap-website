@@ -169,7 +169,8 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def changeset_comment_notification(comment, recipient)
+  def changeset_comment_notification
+    comment, recipient = params.fetch_values(:record, :recipient)
     with_recipient_locale recipient do
       @to_user = recipient.display_name
       @changeset_url = changeset_url(comment.changeset)
