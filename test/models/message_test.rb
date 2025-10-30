@@ -155,13 +155,13 @@ class MessageTest < ActiveSupport::TestCase
     assert_equal "text", message.body_format
   end
 
-  def test_from_mail_prefix
+  def test_from_mail_prefix_ohm
     sender_user = create(:user)
     recipient_user = create(:user)
     mail = Mail.new do
       from "from@example.com"
       to "to@example.com"
-      subject "[OpenHistoricalMap] Test message"
+      subject "Test message"
       date Time.now.utc
       content_type "text/plain; charset=utf-8"
       body "This is a test & a message"
