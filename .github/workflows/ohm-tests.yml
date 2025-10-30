@@ -13,7 +13,7 @@ jobs:
     name: Ruby ${{ matrix.ruby }}
     strategy:
       matrix:
-        ruby: ['3.4']
+        ruby: ['3.2']
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
@@ -35,6 +35,8 @@ jobs:
       run: |
         sudo apt-get -yqq update
         sudo apt-get -yqq install memcached libvips-dev
+    - name: Install node modules
+      run: bundle exec bin/yarn install
     - name: Create database
       run: |
         sudo systemctl start postgresql
@@ -52,8 +54,6 @@ jobs:
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
-    - name: Install node modules
-      run: bundle exec bin/yarn install
     - name: Export javascript strings
       run: bundle exec i18n export
     - name: Compile assets
