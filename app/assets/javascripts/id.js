@@ -14,10 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const idContext = iD.coreContext();
     idContext.connection().apiConnections([]);
     const url = location.protocol + "//" + location.host;
+
+    // Access user preferences from server-side rendered data
+    const userPreferences= container.dataset.userPreferences ? JSON.parse(container.dataset.userPreferences) : {};
+
     idContext.preauth({
       url: url,
       apiUrl: url.replace("www.openstreetmap.org", "api.openstreetmap.org"),
-      access_token: container.dataset.token
+      access_token: container.dataset.token,
+      userPreferences: userPreferences
     });
 
     const id = idContext
