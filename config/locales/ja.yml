@@ -71,10 +71,21 @@
 # Author: 아라
 ---
 ja:
+  html:
+    dir: 左書き
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: 紀元前%{year}年
+      brief_ce: 西暦 %{year}
+      heatmap: '%B %-d'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%Y年%m月%e日 %H:%M'
       blog: '%Y年%B%e日'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: ファイルを選択
@@ -106,7 +117,14 @@ ja:
         display_name_is_user_n: n がユーザIDでない限り、 user_n にすることはできません。
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: さんはすでにミュートされています
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URLの先頭は http:// または https:// でなければいけません
     models:
       acl: アクセスコントロールリスト
       changeset: 変更セット
@@ -121,7 +139,6 @@ ja:
       node: ノード
       node_tag: ノードのタグ
       note: メモ
-      notifier: 通知
       old_node: 古いノード
       old_node_tag: 古いノードのタグ
       old_relation: 古いリレーション
@@ -152,7 +169,7 @@ ja:
         support_url: サポート URL
         allow_read_prefs: 利用者設定を読み込む
         allow_write_prefs: 利用者設定を変更する
-        allow_write_diary: 日記エントリを作成する・コメントする・友達を作る
+        allow_write_diary: 日記エントリを作成する・コメントする
         allow_write_api: 地図を変更する
         allow_read_gpx: 非公開GPSトレースを読み込む
         allow_write_gpx: GPSトレースをアップロードする
@@ -207,6 +224,7 @@ ja:
         description: プロフィールの説明
         home_lat: 緯度
         home_lon: 経度
+        home_location_name: 自宅所在地名
         languages: 優先言語
         preferred_editor: 優先エディター
         pass_crypt: パスワード
@@ -221,13 +239,11 @@ ja:
         reason: 利用者がブロックされている理由です。メッセージは多くの人の目にふれることになるため、できるだけ冷静かつ理性的になり、できるだけ丁寧に状況を説明するようにしてください。すべての利用者がコミュニティ固有の用語を理解しているわけではないため、分かりやすい用語を使うように努めてください。
         needs_view: このブロックを解消するには、先に利用者がログインする必要がありますか？
       user:
-        email_confirmation: あなたのアドレスは非公開です。詳細は弊財団の<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="メール アドレスの節を含む、OSMFのプライバシーポリシー">プライバシーポリシー</a>をご参照ください。
         new_email: (非公開)
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        other: 約%{count}時間前
+        other: 約 %{count} 時間前
       about_x_months:
         other: 約%{count}ヶ月前
       about_x_years:
@@ -236,7 +252,7 @@ ja:
         other: ほぼ%{count}年前
       half_a_minute: 30秒前
       less_than_x_seconds:
-        other: '%{count}秒以内'
+        other: '%{count}秒以内前'
       less_than_x_minutes:
         other: '%{count}分以内'
       over_x_years:
@@ -252,7 +268,10 @@ ja:
       x_years:
         other: '%{count}年前'
   printable_name:
+    version: '%{version}版'
     with_name_html: '%{name} (%{id})'
+    with_date_html: '%{name} [%{dates}]'
+    current_and_old_links_html: '%{current_link}、%{old_link}'
   editor:
     default: 既定 (現在は %{name})
     id:
@@ -266,10 +285,12 @@ ja:
       none: なし
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: マイクロソフト
       github: GitHub
       wikipedia: ウィキペディア
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -297,16 +318,18 @@ ja:
   accounts:
     show:
       title: アカウントの編集
+      my_account: アカウント設定
       current email address: 現在のメールアドレス
       external auth: 外部認証
-      contributor terms:
+      contributor_terms:
         heading: 協力者規約
-        agreed: あなたは、新しい協力者規約を承諾しています。
-        not yet agreed: あなたは、新しい協力者規約をまだ承諾していません。
-        review link text: ご都合の良い時にこのリンクをクリックして新しい協力者規約を確認の上、承諾してください。
+        agreed: あなたは、%{date}付で新しい協力者規約を承諾しています。
+        not_agreed: あなたは貢献者規約にまだ同意していません。
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: これは何ですか?
+      terms_of_use:
+        heading: 利用規約
       save changes button: 変更を保存
       delete_account: アカウントを削除
     go_public:
@@ -347,7 +370,8 @@ ja:
         read and accept with tou: 貢献者同意と利用規約を読んで、読み終わりましたら、両方のチェックボックスをチェックし、次ボタンを押してください。
         contributor_terms_explain: この同意では、あなたが今まで行い、およびこれから行う貢献における規約について定めています。
         read_ct: 私は以下の貢献者同意を読み終え、これに同意します
-        tou_explain_html: これらの%{tou_link}では、OSMFによって提供されているウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして、読み、文書に同意してください。
+        tou_explain:
+          html: これらの%{tou_link}では、OpenHistoricalMapが提供するウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして通読し、文書に同意してください。
         read_tou: 私は利用規約を読み終え、これに同意します
         guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
         readable_summary: 人間が読める要約
@@ -381,9 +405,7 @@ ja:
     part_of_ways:
       other: '%{count}件のウェイ'
     download_xml: XMLをダウンロード
-    view_history: 履歴を表示
     view_unredacted_history: 未編集の履歴を表示
-    view_details: 詳細を表示
     location: '場所:'
     node:
       title_html: 'ノード: %{name}'
@@ -406,12 +428,12 @@ ja:
         way: ウェイ
         relation: リレーション
     containing_relation:
-      entry_role_html: リレーション %{relation_name} (%{relation_role} として)
+      entry_role_html: '%{relation_name} (%{relation_role} として)'
     not_found:
       title: 見つかりません
     timeout:
       title: タイムアウトエラー
-      sorry: 申し訳ありませんが、ID %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
+      sorry: 申し訳ありませんが、識別子 %{id} の %{type} のデータは時間がかかりすぎたため取得できませんでした。
       type:
         node: ノード
         way: ウェイ
@@ -1461,16 +1483,16 @@ ja:
           weir: ダム
           "yes": 水路
       admin_levels:
-        level2: 国境
-        level3: 行政境界
-        level4: 都道府県・州境
-        level5: 行政境界
-        level6: 郡境
-        level7: 市区町村境
-        level8: 区境
-        level9: 村境
-        level10: 街区境
-        level11: 町会の境界
+        level2: 国際境界
+        level3: 行政境界（レベル3）
+        level4: 行政境界（レベル4）
+        level5: 行政境界（レベル5）
+        level6: 行政境界（レベル6）
+        level7: 行政境界（レベル7）
+        level8: 行政境界（レベル8）
+        level9: 行政境界（レベル9）
+        level10: 行政境界（レベル10）
+        level11: 行政境界（レベル11）
   searches:
     queries:
       create:
@@ -1547,7 +1569,6 @@ ja:
   reports:
     new:
       title_html: '%{link} を報告'
-      missing_params: 新規報告を作成できません
       disclaimer:
         intro: サイトの仲裁者にレポートを送信する前に、以下の各点をご確認ください。
         not_just_mistake: 問題が単純ミスでないと確証している
@@ -1620,10 +1641,10 @@ ja:
       footer_unsubscribe: 議論の通知停止は %{unsubscribeurl} から実施してください。
       footer_unsubscribe_html: 議論の通知停止は %{unsubscribeurl} から実施してください。
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: こんにちは、%{to_user} さん。
-      header: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
-      header_html: '%{from_user} さんが、OpenStreetMap であなたに件名 %{subject} のメッセージを送信しました:'
+      header: '%{from_user} さんが、OpenHistoricalMap であなたに件名 %{subject} のメッセージを送信しました:'
+      header_html: '%{from_user} さんが、OpenHistoricalMap であなたに件名 %{subject} のメッセージを送信しました:'
       footer: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
       footer_html: メッセージを読むにはこちら %{readurl}、筆者に返信するにはこちら %{replyurl}
     follow_notification:
@@ -1632,9 +1653,10 @@ ja:
       see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
-      failed_to_import: 'GPS トレース ファイルとしてインポートできませんでした。ファイルが有効な GPXファイル、または、GPX ファイルを含む圧縮ファイル（対応形式は.tar.gz,
-        .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2）であることを確認してください。ファイルの形式または構造に問題がある可能性があります。エラー内容は次の通りです:'
-      more_info: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
+      failed_to_import: 'GPS トレース としてファイルをインポートできなかったようです。<!-- ファイルが有効な GPXファイル、または、GPX
+        ファイルを含む圧縮ファイル（対応形式は.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2）であることを確認してください。ファイルの形式または構造に問題がある可能性があります。エラー内容は次の通りです:
+        -->'
+      more_info: GPXインポートの失敗とその回避方法は、詳細を%{url}に記載
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] GPX インポートに失敗'
@@ -1650,17 +1672,17 @@ ja:
       confirm: 私たちが他に何かする前に、この要求があなたのものであることを確認する必要がありますので、その後であなたのアカウントを確認するために下のリンクをクリックしてください。
       welcome: アカウントを確認したあと、開始するための追加情報を提供します。
     email_confirm:
-      subject: '[OpenStreetMap] あなたのメール アドレスの確認'
+      subject: '[OpenHistoricalMap] あなたのメール アドレスの確認'
       greeting: こんにちは。
       hopefully_you: 誰か (おそらくあなた) が %{server_url} で、メール アドレスを %{new_address} に変更しようとしています。
       click_the_link: この要求を出したのがあなたなら、下のリンクをクリックして、変更の認証をしてください。
     lost_password:
-      subject: '[OpenStreetMap] パスワードリセットの要求'
+      subject: '[OpenHistoricalMap] パスワードリセットの要求'
       greeting: こんにちは、
       hopefully_you: 誰か (おそらくあなた) が、このメール アドレスの openstreetmap.org アカウントに対するパスワードをリセットするように依頼しました。
       click_the_link: これがあなたであれば、以下のリンクをクリックしてパスワードをリセットしてください。
     note_comment_notification:
-      description: 'OpenStreetMap地図メモ #%{id}'
+      description: 'OpenHistoricalMap地図メモ #%{id}'
       anonymous: IP利用者
       greeting: こんにちは。
       commented:
@@ -1687,7 +1709,7 @@ ja:
       details: メモについての詳細あるいは返答は %{url} を参照。
       details_html: メモについての詳細あるいは返信は %{url} を参照。
     changeset_comment_notification:
-      description: 'OpenStreetMap 変更セット #%{id}'
+      description: 'OpenHistoricalMap 変更セット #%{id}'
       hi: こんにちは、%{to_user} さん。
       commented:
         subject_own: '[OpenStreetMap] %{commenter} さんがあなたの変更セットにコメントしました'
@@ -1725,6 +1747,9 @@ ja:
     resend_success_flash:
       confirmation_sent: 新しい確認書を%{email}に送りましたので、アカウントを確認したらすぐにマッピングができるようになります。
       whitelist: 確認リクエストを送信するアンチスパムシステムを使用している場合は、確認リクエストに返信することができませんので、%{sender}をホワイトリストに登録してください。
+    gravatar:
+      disabled: Gravatarは無効です。
+      enabled: Gravatarの表示が有効になりました。
   messages:
     new:
       title: メッセージの送信
@@ -1796,7 +1821,7 @@ ja:
         destroy_button: 削除
     replies:
       new:
-        wrong_user: あなたは「%{user}」としてログインしていますが、返信しようとしたメッセージはこの利用者宛てではありません。返信するには、正しい利用者としてログインしてください。
+        wrong_user: 「%{user}」としてログインしていますが、返信しようとしているメッセージはこのユーザー宛てではありません。返信するには、正しい利用者名でログインしてください。
   passwords:
     new:
       title: パスワードを忘れた
@@ -1825,41 +1850,46 @@ ja:
         title: 個人設定
         save: 設定の更新
   profiles:
-    show:
-      title: プロフィールを編集
-      save: プロフィールを更新
-      cancel: キャンセル
-      image: 画像
-      gravatar:
-        gravatar: Gravatar を使用
-        link: http://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Gravatarってなに?
-        disabled: Gravatarは無効です。
-        enabled: Gravatarの表示が有効になりました。
-      new image: 画像を追加
-      keep image: 現在の画像を保持
-      delete image: 現在の画像を削除
-      replace image: 現在の画像を置換
-      image size hint: (100x100 以下の正方形の画像が最適)
-      home location: ホーム地点
-      no home location: あなたはまだホーム地点を登録していません。
-      update home location on click: ホーム地点を、地図上のクリックした地点に変更
-      show: 表示
-      delete: 削除
-      undelete: 削除を取り消し
-    update:
-      success: プロフィール更新済み。
-      failure: プロファイルを更新できませんでした。
+    profile_sections:
+      navigation:
+        image: 画像
+    descriptions:
+      show:
+        title: プロフィールを編集
+        save: プロフィールを更新
+        cancel: キャンセル
+    links:
+      show:
+        title: プロフィールを編集
+        cancel: キャンセル
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar を使用
+          link: http://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Gravatarってなに?
+        new image: 画像を追加
+        keep image: 現在の画像を保持
+        delete image: 現在の画像を削除
+        replace image: 現在の画像を置換
+        image size hint: (100x100 以下の正方形の画像が最適)
+    locations:
+      show:
+        no home location: あなたはまだホーム地点を登録していません。
+        update home location on click: ホーム地点を、地図上のクリックした地点に変更
+        show: 表示
+        delete: 削除
+        undelete: 削除を取り消し
   sessions:
     new:
       tab_title: ログイン
-      login_to_authorize_html: '%{client_app_name} へのアクセスにはOpenStreetMapでのログインが必要です。'
+      login_to_authorize_html: '%{client_app_name} へのアクセスにはOpenHistoricalMapへのログインが必要です。'
       email or username: 'メールアドレスまたは利用者名:'
-      password: 'パスワード:'
+      password: パスワード
       remember: ログイン状態を保持
       lost password link: パスワードを忘れた場合はこちら
       login_button: ログイン
-      with external: 'サードパーティのアカウントでもログインできます:'
+      with external: サードパーティのアカウントでもログインできます
       or: または
       auth failure: 申し訳ありませんが、入力された情報ではログインできませんでした。
     destroy:
@@ -1911,8 +1941,8 @@ ja:
         newer: 次のユーザー
   site:
     about:
-      used_by_html: '%{name} は数千ものウェブサイト、モバイル アプリ、ハードウェア機器に地図データを提供しています'
-      lede_text: OpenStreetMapは、道路、通路、カフェ、鉄道駅など、世界中にあるすべてのものに関するデータを提供・メンテナンスしているマッパーのコミュニティによって構築されています。
+      used_by_html: '%{name} を使って世界史のいずれの時期も探検できます。'
+      lede_text: OpenHistoricalMap は野心的でコミュニティ主導のプロジェクトとして、自然ならびに人工の地理の変化を全世界で……時代を超えて地図に記録しようとしています。
     about_section:
       contribute_1_user_diaries: 利用者の日記
       open_data_title: オープンデータ
@@ -1927,7 +1957,7 @@ ja:
         までお問い合わせください。
       partners_title: パートナー
     copyright:
-      title: 著作権とライセンス
+      title: 著作権と謝辞
       foreign:
         title: この翻訳について
         html: この翻訳版のページと%{english_original_link}の間で競合が発生した場合は、英語版の内容が優先されます
@@ -1939,20 +1969,21 @@ ja:
         mapping_link: マッピングを開始
       legal_babble:
         introduction_4_creative_commons: Creative Commons Attribution-ShareAlike 2.0
-        credit_title_html: OpenStreetMap のクレジット表記の仕方
-        credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
+        credit_title_html: OpenHistoricalMap のクレジット表記の仕方
+        credit_1_html: 公共財のコンテンツ利用には、著作権法のしばりもしくは条件付与を受けることはありませんが、私たちの地図やデータを再利用し改変し、またはその他の方法で使用する際には、クレジットを
+          OpenHistoricalMap としてくだされば誠に幸いです。
         credit_2_this_copyright_page: この著作権ページ
         attribution_example:
-          alt: ウェブページに OpenStreetMap を記述する方法の例
-          title: 権利表示の例
+          alt: 「OHM」というラベル付きのリンクは、ウェブページの右下隅、日付スライダー下に表示。
+          title: 特定のウェブサイトで OpenHistoricalMap の権利表示をする例
         more_title_html: 詳細を見る
-        more_2_1_html: OpenStreetMapはオープンデータですが、第三者に対して無料の地図利用APIを提供することはできません。詳しくは
-          %{api_usage_policy_link}、%{tile_usage_policy_link}、および%{nominatim_usage_policy_link}を参照ください。
+        more_2_1_html: OpenHistoricalMapはオープンデータですが、第三者に対して地図利用APIもしくは地図タイルを無償で提供することはできません。詳しくは
+          %{api_usage_policy_link}、%{tile_usage_policy_link}および%{nominatim_usage_policy_link}をご参照ください。
         more_2_1_api_usage_policy: API利用ポリシー
         more_2_1_tile_usage_policy: タイル利用規約
         more_2_1_nominatim_usage_policy: Nominatim利用規約
-        contributors_title_html: 協力者
-        contributors_intro_html: 数千人もの個人が協力者となっています。それに加え、各国の地図作成機関や、以下のように、その他の情報源も含め、公開されたライセンスによるデータを含みます。
+        contributors_title_html: 謝辞
+        contributors_intro_html: OpenHistoricalMapには、数千人もの個人協力者や組織の共同作業が注がれ、その人々には膨大な学術研究、ジャーナリズム、保存記録の成果が役立っています。これまでの主な情報源と貢献者は以下の通りです。
         contributors_footer_2_html: OpenStreetMapのデータに含めることは、元データの提供者がOpenStreetMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
         infringement_title_html: 著作権侵害
         infringement_1_html: 'OpenStreetMapの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google
@@ -1962,7 +1993,7 @@ ja:
       js_1: JavaScript に対応していないブラウザーを使用しているか、JavaScript を無効にしているかのどちらかです。
       js_2: OpenStreetMap は地図の表示に JavaScript を使用します。
       license:
-        copyright: オープンライセンスによるOpenStreetMapおよび協力者の著作権を保護する
+        copyright: OpenHistoricalMapは特筆する場合を除きパブリックドメインです。
       remote_failed: 編集に失敗しました - JOSM または Merkaartor を起動し、リモート制御オプションが有効になっていることを確認してください
     not_public_flash:
       not_public: あなたの編集結果を公開できません。
@@ -1970,8 +2001,6 @@ ja:
       user_page_link: 利用者ページ
       anon_edits_link: http://wiki.openstreetmap.org/wiki/JA:Anonymous_edits?uselang=ja
       anon_edits_link_text: なぜそうなのかを調べる。
-    edit:
-      id_not_configured: iDが設定されていません。
     export:
       title: エクスポート
       manually_select: ドラッグして別の領域を選択
@@ -2001,7 +2030,7 @@ ja:
           explanation_html: 道路やあなたの住所が抜けているなど地図データの問題を見つけた場合、OpenStreetMapのコミュニティに参加して自分でデータの修正や追加をすることが最善の方法です。
         add_a_note:
           instructions_1_html: |-
-            <a class='icon note'></a> をクリックするか、または地図上の同じアイコンをクリックしてください。
+            %{note_icon}をクリックするか、または地図上の同じアイコンをクリックしてください。
             地図にマーカーが追加されます。マーカーはドラッグで移動できます。
             メッセージを追加して保存をクリックすると、他のマッパーたちが調査します。
       other_concerns:
@@ -2013,7 +2042,7 @@ ja:
       welcome:
         url: /welcome
         title: OpenHistoricalMap へようこそ
-        description: OpenStreetMap の基礎を網羅しているこのクイック ガイドから始めましょう。
+        description: OpenHistoricalMap の基礎が網羅してありますから、このクイック ガイドから始めましょう。
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: 初心者向けの手引き
@@ -2038,11 +2067,11 @@ ja:
       slack:
         title: IRC
       wiki:
-        title: OpenStreetMap Wiki
+        title: Wiki
         description: 詳細な OpenStreetMap の説明が書かれたウィキを参照します。
     potlatch:
-      removed: お使いの OpenStreetMap エディタは既定では Potlatch が選択されています。 Adobe Flash Player
-        の撤退により、 Potlatch はウェブブラウザ上で利用できなくなりました。
+      removed: お使いの既定の OpenHistoricalMap エディタは Potlatch が選択されています。 Adobe Flash Player
+        の撤退により、 Potlatch はウェブブラウザ上でもう利用できません。
       desktop_application_html: 以下のリンクから引き続きPotlatchを利用することが可能です %{download_link}
         。
       download: MacOS および Windows 用のデスクトップ アプリケーションのダウンロード
@@ -2114,7 +2143,11 @@ ja:
           実際に多くのグループが非公式な集まりとして、または
           コミュニティグループとして非常にうまく存続しています。誰でもこれらを設定または参加できます。 %{communities_wiki_link} で詳細をお読みください。
         communities_wiki: コミュニティウィキのページ
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: 地図メモを閲覧するには拡大してください
+      map_data_zoom_in_tooltip: 地図データを閲覧するには拡大してください
+  legend_panes:
     show:
       entries:
         motorway: 自動車専用道路
@@ -2197,6 +2230,22 @@ ja:
         bicycle_parking: 駐輪場
         bicycle_parking_small: 小規模駐輪場
         toilets: トイレ
+  share_panes:
+    show:
+      link: リンクまたは HTML
+      include_marker: マーカーを含める
+      long_link: リンク
+      short_link: 短縮 URL
+      embed: HTML
+      embed_html_disabled: このマップレイヤーではHTML埋め込みは利用できません
+      paste_html: 以下の HTML をあなたのサイトに貼り付けてください
+      geo_uri: Geo URI
+      image: 画像
+      format: '形式:'
+      scale: '縮尺:'
+      custom_dimensions: 独自の寸法を設定
+      image_dimensions_html: 画像の表示は%{layer}レイヤで %{width} x %{height} となります
+      download: ダウンロード
   traces:
     visibility:
       private: 非公開 (匿名、点は順不同)
@@ -2294,7 +2343,8 @@ ja:
     setup_user_auth:
       blocked_zero_hour: OpenStreetMap Web サイトに緊急のメッセージがあります。まずメッセージを読まないと、編集内容を保存することができません。
       blocked: APIへのアクセスがブロックされました。Web インターフェイスからログインし直して詳細を確認してください。
-      need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約をご覧ください。同意しなくてもかまいませんが、必ずご覧ください。
+      need_to_see_terms: あなたは一時的にAPIの利用を停止されています。ウェブインターフェイスにログインして協力者規約（Contributor
+        Terms）をご一読ください。同意は必須ではありませんが、通読は義務とされています。
     settings_menu:
       account_settings: アカウント設定
       oauth2_applications: OAuth 2 アプリケーション
@@ -2320,10 +2370,10 @@ ja:
     permissions:
       missing: この機能についてアプリケーションにアクセスを許可していません。
     scopes:
-      openid: OpenStreetMapを使用してログイン
+      openid: OpenHistoricalMapを使用してログイン
       read_prefs: 利用者設定の読み込み
       write_prefs: 利用者設定の変更
-      write_diary: 日記エントリを作成する・コメントする・友達を作る
+      write_diary: 日記エントリを作成する・コメントする
       write_api: マップの修正
       read_gpx: 非公開GPSトレースを読む
       write_gpx: GPSトレースをアップロードする
@@ -2384,7 +2434,7 @@ ja:
     new:
       title: 利用者登録
       tab_title: 利用者登録
-      signup_to_authorize_html: '%{client_app_name} にアクセスするには、OpenStreetMap に利用者登録してください。'
+      signup_to_authorize_html: '%{client_app_name} にアクセスするには、OpenHistoricalMap に利用者登録してください。'
       no_auto_account_create: 残念ながら、現在、自動ではアカウントを作成できません。
       please_contact_support_html: アカウントの作成をご希望の場合は、%{support_link} までご連絡ください。 - できる限りすみやかに対応いたします。
       support: サポート
@@ -2393,7 +2443,7 @@ ja:
         paragraph_1: 他の地図とは異なり、OpenStreetMapは完全に皆さんのような人によって作成されており、誰でも自由に修正・更新・ダウンロード・利用ができます。
         paragraph_2: 投稿を通じて貢献するには、登録が必要です。
         welcome: OpenHistoricalMap へようこそ。
-      duplicate_social_email: すでに OpenStreetMap アカウントをお持ちで第三者認証プロバイダーを使用したい場合は、パスワードを使用してログインしたうえでアカウントの設定を変更してください。
+      duplicate_social_email: すでに OpenHistoricalMap アカウントをお持ちで第三者認証プロバイダーを使用したい場合は、パスワードを使用してログインしたうえでアカウントの設定を変更してください。
       display name description: あなたの公開利用者名です。あとで個人設定で変更できます。
       by_signing_up:
         html: 登録することで %{tou_link}、 %{privacy_policy_link}と %{contributor_terms_link}に同意したことになります。
@@ -2426,7 +2476,6 @@ ja:
       blocks by me: 自分が実行したブロック
       create_mute: この利用者をミュート
       destroy_mute: この利用者のミュートを解除
-      edit_profile: プロフィールを編集
       send message: メッセージを送信
       diary: 日記
       edits: 編集
@@ -2443,17 +2492,6 @@ ja:
       created from: '作成日:'
       status: '状態:'
       spam score: 'スパム評価:'
-      role:
-        administrator: この利用者は管理者です
-        moderator: この利用者はモデレーターです
-        importer: この利用者はインポーターです
-        grant:
-          administrator: 管理者権限を許可
-          moderator: モデレーター権限を許可
-          importer: importerアクセス権を付与する
-        revoke:
-          administrator: 管理者権限を剥奪
-          moderator: モデレーター権限を剥奪
       block_history: 有効なブロック
       moderator_history: 実行したブロック
       comments: コメント
@@ -2520,16 +2558,25 @@ ja:
       heading: あなたのIDはまだOpenHistoricalMapアカウントと関連付けが済んでいません。
       option_1: OpenStreetMapを初めてお使いの方は、以下のフォームを使用して新しいアカウントを作成してください。
       option_2: 既にアカウントをお持ちの場合は、利用者名とパスワードを使用してあなたの利用者設定でIDと関連付け、アカウントにログインできます。
+    role_icons:
+      title:
+        administrator: この利用者は管理者です
+        moderator: この利用者はモデレーターです
+      grant:
+        administrator: 管理者権限を許可
+        moderator: モデレーター権限を許可
+        importer: importerアクセス権を付与する
+        are_you_sure: 利用者「%{name}」に「%{role}」権限を本当に与えますか?
+      revoke:
+        administrator: 管理者権限を剥奪
+        moderator: モデレーター権限を剥奪
+        are_you_sure: 利用者「%{name}」の「%{role}」権限を本当に取り消しますか？
   user_role:
     filter:
       not_a_role: 文字列「%{role}」は、有効な権限ではありません。
       already_has_role: 利用者は既に %{role} 権限を付与されています。
       doesnt_have_role: 利用者に %{role} 権限が付与されていません。
       not_revoke_admin_current_user: 現在の利用者から管理者権限を剥奪することはできません。
-    grant:
-      are_you_sure: 利用者「%{name}」に「%{role}」権限を本当に与えますか?
-    revoke:
-      are_you_sure: 利用者「%{name}」の「%{role}」権限を本当に取り消しますか?
   user_blocks:
     model:
       non_moderator_update: ブロックの作成/更新にはモデレーター権限が必要です。
@@ -2653,8 +2700,8 @@ ja:
     new:
       title: 新しいメモ
       intro: 間違いや情報の抜けがありましたか？　他のマッパーが修正できるよう、お知らせください。マーカーを正しい位置に移動し、問題を説明するメモを入力します。
-      anonymous_warning_html: ログインしていません。メモの更新情報を受け取りたい場合は、%{log_in} または %{sign_up}
-        してください。
+      anonymous_warning_html: ログインしていません。メモの更新情報を受け取り、マッパーに解決を委ねるには、%{log_in} または
+        %{sign_up} してください。
       anonymous_warning_log_in: ログイン
       anonymous_warning_sign_up: 利用者登録
       advice: 投稿したメモは公開され、地図の更新に利用されます。そのため、著作権保護された地図や一覧情報からの転用情報や、個人情報の入力は行わないでください。
@@ -2666,26 +2713,10 @@ ja:
     close: 閉じる
     share:
       title: 共有
-      cancel: キャンセル
-      image: 画像
-      link: リンクまたは HTML
-      long_link: リンク
-      short_link: 短縮 URL
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: 独自の寸法を設定
-      format: '形式:'
-      scale: '縮尺:'
-      image_dimensions: 画像の表示は%{layer}レイヤで %{width} x %{height} となります
-      download: ダウンロード
-      short_url: 短縮 URL
-      include_marker: マーカーを含める
-      center_marker: マーカーを地図の中心にする
-      paste_html: 以下の HTML をあなたのサイトに貼り付けてください
       view_larger_map: 大きな地図を表示
     embed:
       report_problem: 問題を報告
-    key:
+    legend:
       title: 凡例
       tooltip: 凡例
       tooltip_disabled: このレイヤーでは凡例が使えません
@@ -2728,20 +2759,15 @@ ja:
       edit_disabled_tooltip: 地図を編集するには拡大してください
       createnote_tooltip: 地図にメモを残す
       createnote_disabled_tooltip: メモを地図に追加するには拡大してください
-      map_notes_zoom_in_tooltip: 地図メモを閲覧するには拡大してください
-      map_data_zoom_in_tooltip: 地図データを閲覧するには拡大してください
       queryfeature_tooltip: 地物を検索
       queryfeature_disabled_tooltip: 検索した地物にズーム
-      embed_html_disabled: このマップレイヤーではHTML埋め込みは利用できません
     edit_help: 編集したい位置に移動してズームインしてから、ここをクリックしてください。
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: ２点間のルートが見つかりません。
-        no_place: 残念ながら、場所「%{place}」は見つかりませんでした。
       instructions:
         continue_without_exit: '%{name}を続行'
         slight_right_without_exit: 道なりに右折して%{name}へ
@@ -2794,7 +2820,7 @@ ja:
         end_oneway_without_exit: '%{name}の一方通行の終わり'
         roundabout_with_exit: ロータリーの%{exit}出口で%{name}へ
         roundabout_with_exit_ordinal: ロータリーの%{exit}出口で%{name}へ
-        exit_roundabout: ロータリーで%{name}へ
+        exit_roundabout: ロータリーを出て%{name}へ
         unnamed: 名前なし
         exit_counts:
           first: 第1
@@ -2821,6 +2847,9 @@ ja:
       show_address: アドレスを表示
       query_features: 地物を検索
       centre_map: ここを地図の中心にする
+    edit:
+      id_not_configured:
+        title: iDが設定されていません。
   redactions:
     edit:
       heading: 改訂の編集

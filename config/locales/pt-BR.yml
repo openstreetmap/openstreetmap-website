@@ -60,10 +60,19 @@
 # Author: YuriNikolai
 ---
 pt-BR:
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: '%{year} a. C.'
+      brief_ce: '%{year} d. C.'
+      heatmap: '%B %-d'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%e de %B de %Y às %H:%M'
       blog: '%e %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Escolher arquivo
@@ -90,6 +99,20 @@ pt-BR:
         create: Criar bloqueio
         update: Atualizar bloqueio
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: Não pode ser user_n a menos que n seja o seu ID de
+          usuário.
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: já está silenciado
+        social_link:
+          attributes:
+            url:
+              http_parse_error: A URL deve começar com http:// ou https://
     models:
       acl: Lista de controle de acesso
       changeset: Conjunto de alterações
@@ -104,7 +127,6 @@ pt-BR:
       node: Nó
       node_tag: Etiqueta de nó
       note: Nota
-      notifier: Notificador
       old_node: Nó antigo
       old_node_tag: Etiqueta de nó antigo
       old_relation: Relação Antiga
@@ -137,6 +159,7 @@ pt-BR:
         allow_write_prefs: modificar preferências do usuário
         allow_write_diary: criar publicações no diário, comentários e adicionar amigos
         allow_write_api: modificar o mapa
+        allow_write_changeset_comments: comentar sobre conjuntos de alterações
         allow_read_gpx: ler as rotas GPS privadas do usuário
         allow_write_gpx: enviar rotas GPS
         allow_write_notes: modificar notas
@@ -166,7 +189,7 @@ pt-BR:
         longitude: Longitude
         public: Público
         description: Descrição
-        gpx_file: Enviar Arquivo GPX
+        gpx_file: Escolha o arquivo de rastreamento GPS
         visibility: Visibilidade
         tagstring: Etiquetas
       message:
@@ -188,6 +211,7 @@ pt-BR:
         active: Ativo
         display_name: Nome de exibição
         description: Descrição do perfil
+        company: Empresa
         home_lat: Latitude
         home_lon: Longitude
         languages: Idiomas preferidos
@@ -209,10 +233,6 @@ pt-BR:
           usar termos leigos.
         needs_view: O usuário precisa se logar para esse bloqueio ser retirado?
       user:
-        email_confirmation: Seu endereço não é exibido publicamente, consulte nossa
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="política
-          de privacidade da OSMF, incluindo seção sobre endereços de e-mail">privacy
-          policy</a> para maiores informações.
         new_email: (nunca exibido publicamente)
   datetime:
     distance_in_words_ago:
@@ -254,7 +274,10 @@ pt-BR:
         one: 1 ano atrás
         other: '%{count} anos atrás'
   printable_name:
+    version: v%{version}
     with_name_html: '%{name} (%{id})'
+    with_date_html: '%{name} [%{dates}]'
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -268,9 +291,12 @@ pt-BR:
       none: Nenhum
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipédia
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -284,6 +310,7 @@ pt-BR:
         reopened_at_by_html: Reativado %{when} por %{user}
       rss:
         title: Notas do OpenHistoricalMap
+        description_all: Uma lista de notas relatadas, comentadas ou encerradas.
         description_area: Uma lista de notas relatadas, comentadas ou encerradas na
           sua área [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Um feed RSS para a nota %{id}
@@ -297,22 +324,44 @@ pt-BR:
   accounts:
     show:
       title: Editar conta
+      my_account: Minha Conta
       current email address: Endereço de e-mail atual
       external auth: Autenticação externa
-      contributor terms:
+      contributor_terms:
         heading: Termos do contribuidor
-        agreed: Você aceitou os novos termos do contribuidor.
-        not yet agreed: Você não aceitou os novos termos do contribuidor.
-        review link text: Por favor siga este link quando você puder para revisar
-          e aceitar os novos Termos de Contribuição.
+        agreed: Você concordou com os Termos do Colaborador em %{date}.
+        not_agreed: Você ainda não concordou com os Termos para Colaboradores.
         agreed_with_pd: Você também declara que considera suas edições em Domínio
           Público.
-        link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: o que é isto?
+        not_agreed_with_pd: Você não declarou que considera suas edições como sendo
+          de domínio público.
+        review: Revise os Termos
+        review_and_accept: Revise e aceite os Termos
+        consider_pd: Considere o Domínio Público
+      terms_of_use:
+        heading: Termos de Uso
+        agreed: Você concordou com os Termos de Uso em %{date}.
+        not_agreed: Você ainda não concordou com os Termos de Uso.
+        review: Revise os Termos
+        review_and_accept: Revise e aceite os Termos
       save changes button: Salvar alterações
       delete_account: Eliminar Conta...
     go_public:
       heading: Edição pública
+      currently_not_public: Atualmente, suas edições são anônimas e as pessoas não
+        podem enviar mensagens para você nem ver sua localização. Para mostrar o que
+        você editou e permitir que as pessoas entrem em contato com você pelo site,
+        clique no botão abaixo.
+      only_public_can_edit: Desde a transição para a API 0.6, apenas usuários públicos
+        podem editar os dados do mapa.
+      find_out_why_html: (%{link}).
+      find_out_why: descubra por que
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
+      email_not_revealed: Seu endereço de e-mail não será divulgado ao se tornar público.
+      not_reversible: Esta ação não pode ser revertida e todos os novos usuários agora
+        são públicos por padrão.
       make_edits_public_button: Tornar públicas todas as minhas edições
     update:
       success_confirm_needed: Informação de usuário atualizada com sucesso. Confira
@@ -326,10 +375,14 @@ pt-BR:
         warning: Alerta! O processo de eliminação de contas é permanente, e não pode
           ser revertido.
         delete_account: Eliminar Conta
+        delete_introduction: 'Você pode excluir sua conta do OpenHistoricalMap usando
+          o botão abaixo. Observe os seguintes detalhes:'
         delete_profile: Suas informações de perfil, incluindo seu avatar, descrição,
           e localização, serão eliminadas.
         delete_display_name: Seu nome de exibição será removido, e poderá ser reutilizado
           por outras contas.
+        retain_caveats: 'No entanto, algumas informações sobre você serão mantidas
+          no OpenHistoricalMap, mesmo após a exclusão da sua conta:'
         retain_edits: Suas edições ao banco de dados de mapas, se houverem, serão
           mantidas.
         retain_traces: Seus rastros enviados, caso existam, serão retidos.
@@ -340,6 +393,8 @@ pt-BR:
         retain_changeset_discussions: Suas discussões em conjuntos de edições, se
           existirem, serão retidas.
         retain_email: Seu endereço de e-mail será retido.
+        recent_editing_html: Como você editou sua conta recentemente, ela não pode
+          ser excluída no momento. A exclusão será possível em %{time}.
         confirm_delete: Tem certeza?
         cancel: Cancelar
     terms:
@@ -353,9 +408,17 @@ pt-BR:
         contributor_terms_explain: Este contrato rege os termos de suas contribuições
           atuais e futuras.
         read_ct: Li e aceito os termos do contribuidor acima
-        tou_explain_html: Esses %{tou_link} governam o uso do site e de outras infraestruturas
-          fornecidas pelo OSMF. Por favor, clique no link, leia e concorde com o texto.
+        tou_explain:
+          html: Estes %{tou_link} regem o uso do site e de outras infraestruturas
+            fornecidas pelo OpenHistoricalMap. Por favor, clique no link, leia e concorde
+            com o texto.
+          tou: Termos de Uso
         read_tou: Li e aceito os Termos de uso
+        guidance_info_html: 'Informações para ajudar a entender estes termos: um %{readable_summary_link}
+          e algumas %{informal_translations_link}.'
+        readable_summary: resumo legível por humanos
+        informal_translations: traduções informais
+        continue: Continuar
         cancel: Cancelar
         you need to accept or decline: Por favor leia e, em seguida, aceite ou recuse
           os novos termos do contribuidor para continuar.
@@ -371,7 +434,24 @@ pt-BR:
           contribuidor. Para mais informações, consulta %{terms_declined_link}.
         terms_declined_link: esta página wiki
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Pt:Contributor_Terms_Declined?uselang=pt-br
+    pd_declarations:
+      show:
+        title: Considerem minhas contribuições como sendo de Domínio Público.
+        consider_pd: Considero minhas contribuições como sendo de Domínio Público.
+        consider_pd_why: Por que eu gostaria que minhas contribuições fossem de Domínio
+          Público?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: Confirmar
+      create:
+        successfully_declared: Você declarou com sucesso que considera suas edições
+          como sendo de Domínio Público.
+        already_declared: Você já declarou que considera suas edições como sendo de
+          Domínio Público.
+        did_not_confirm: Você não confirmou que considera suas edições como sendo
+          de Domínio Público.
   browse:
+    deleted_ago_by_html: Excluído há %{time_ago} por %{user}
+    edited_ago_by_html: Editado há %{time_ago} por %{user}
     version: Versão
     redacted_version: Versão reduzida
     in_changeset: Conjunto de alterações
@@ -385,9 +465,7 @@ pt-BR:
       one: '%{count} via'
       other: '%{count} vias'
     download_xml: Baixar XML
-    view_history: Ver histórico
     view_unredacted_history: Ver histórico não editado
-    view_details: Ver detalhes
     location: 'Localização:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -416,7 +494,7 @@ pt-BR:
         way: Linha
         relation: Relação
     containing_relation:
-      entry_role_html: Relação %{relation_name} (como %{relation_role})
+      entry_role_html: '%{relation_name} (como %{relation_role})'
     not_found:
       title: Não encontrado
     timeout:
@@ -440,6 +518,7 @@ pt-BR:
     start_rjs:
       feature_warning: Carregando %{num_features} elementos, o que pode deixar seu
         navegador lento ou travado. Deseja mesmo exibir estes dados?
+      feature_error: 'Não foi possível carregar os recursos: %{message}'
       load_data: Carregar dados
       loading: Carregando...
     tag_details:
@@ -448,11 +527,21 @@ pt-BR:
         key: A página wiki com a descrição da etiqueta %{key}
         tag: A página wiki com a descrição da etiqueta %{key}=%{value}
       wikidata_link: O item %{page} no Wikidata
+      wikidata_preview:
+        one: Pré-visualização do item no Wikidata
+        other: Pré-visualizações dos itens no Wikidata
       wikipedia_link: O artigo %{page} na Wikipédia
       wikimedia_commons_link: A %{page} de item mo Wikimedia Commons
       telephone_link: Ligar para %{phone_number}
       colour_preview: Pré-visualização da cor %{colour_value}
       email_link: E-mail %{email}
+    versions_navigation:
+      node: Ponto
+      way: Linha
+      relation: Relação
+      history: Histórico
+      version: 'Versão #%{version}'
+      versions_label: 'Versões:'
   feature_queries:
     show:
       title: Consultar elementos
@@ -467,10 +556,14 @@ pt-BR:
         title_html: 'Histórico da linha: %{name}'
       relation:
         title_html: 'Histórico da relação: %{name}'
+      older_versions: Versões mais antigas
+      newer_versions: Versões mais recentes
     actions:
       view_redacted_data: Ver dados reduzidos
       view_redaction_message: Ver mensagem de redação
   nodes:
+    not_found_message:
+      sorry: 'Desculpe, o ponto #%{id} não foi encontrado.'
     timeout:
       sorry: Desculpe, os dados para o nó com id %{id} demoraram demais para ser obtidos.
   old_nodes:
@@ -479,12 +572,20 @@ pt-BR:
     timeout:
       sorry: Desculpe, o histórico do nó com id %{id} demorou demais para ser obtido.
   ways:
+    not_found_message:
+      sorry: 'Desculpe, a rota #%{id} não pôde ser encontrada.'
     timeout:
       sorry: Desculpe, os dados do caminho com o id %{id} demoraram muito para serem
         recuperados.
   old_ways:
     not_found_message:
       sorry: 'Desculpe, não foi possível encontrar o caminho #%{id} versão %{version}.'
+    timeout:
+      sorry: Desculpe, a recuperação do histórico do percurso com o ID %{id} demorou
+        muito tempo.
+  relations:
+    not_found_message:
+      sorry: 'Desculpe, a relação #%{id} não pôde ser encontrada.'
   changeset_comments:
     feeds:
       comment:
@@ -501,6 +602,7 @@ pt-BR:
     index:
       title: Conjuntos de alterações
       title_user: Conjuntos de alterações de %{user}
+      title_followed: Conjuntos de alterações feitos por usuários que você segue
       title_nearby: Conjuntos de alterações de usuários próximos
       empty: Nenhum conjunto de alterações encontrado.
       empty_area: Nenhum conjunto de alterações nesta área.
@@ -508,6 +610,8 @@ pt-BR:
       no_more: Nenhum conjunto de alterações encontrado.
       no_more_area: Não há mais conjuntos de alterações nesta área.
       no_more_user: Não há mais conjuntos de alterações para este usuário.
+      older_changesets: Conjuntos de alterações mais antigos
+      newer_changesets: Novos conjuntos de alterações
       feed:
         title: Conjunto de alterações %{id}
         title_comment: Conjunto de alterações %{id} - %{comment}
@@ -516,24 +620,46 @@ pt-BR:
         belongs_to: Autor
     show:
       title: 'Conjunto de alterações: %{id}'
+      created: 'Criado: %{when}'
+      closed: 'Fechado: %{when}'
+      created_ago_html: Criado há %{time_ago}
+      closed_ago_html: Fechado em %{time_ago}
+      created_ago_by_html: Criado há %{time_ago} por %{user}
+      closed_ago_by_html: Fechado em %{time_ago} por %{user}
       discussion: Discussão
       join_discussion: Entrar para participar da discussão
       still_open: O conjunto de alterações continua em aberto - A discussão será iniciada
         assim que for fechado o conjunto de alterações.
       subscribe: Inscrever
       unsubscribe: Cancelar inscrição
+      comment_by_html: Comentário de %{user} há %{time_ago}
+      hidden_comment_by_html: Comentário ocultado por %{user} há %{time_ago}
       hide_comment: esconder
       unhide_comment: exibir
       comment: Comentário
       changesetxml: XML do conjunto de alterações
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Pontos
       nodes_paginated: Pontos (%{x}-%{y} de %{count})
+      ways_title: Rotas
       ways_paginated: Linhas (%{x}-%{y} de %{count})
+      relations_title: Relações
       relations_paginated: Relações (%{x}-%{y} de %{count})
+      range: '%{x}-%{y} de %{count}'
     timeout:
       sorry: A lista de conjuntos de alterações solicitada está demorando demais para
         chegar.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Deseja se inscrever na discussão sobre esta alteração?
+        button: Inscreva-se na discussão
+      unsubscribe:
+        heading: Deseja cancelar a inscrição nesta discussão sobre a alteração?
+        button: Cancelar inscrição da discussão
+    heading:
+      title: Conjunto de alterações %{id}
   dashboards:
     contact:
       km away: '%{count}km de distância'
@@ -544,13 +670,18 @@ pt-BR:
     popup:
       your location: Sua localização
       nearby mapper: Mapeador próximo
+      following: Seguindo
     show:
       title: Meu painel
       no_home_location_html: '%{edit_profile_link} e defina seu local de origem para
         ver usuários próximos.'
       edit_your_profile: Editar seu perfil
+      followings: Usuários que você segue
+      no followings: Você ainda não segue nenhum usuário.
       nearby users: Outros usuários próximos
       no nearby users: Ainda não há outros usuários mapeando por perto.
+      followed_changesets: conjuntos de alterações
+      followed_diaries: entradas de diário
       nearby_changesets: conjuntos de alterações de usuários próximos
       nearby_diaries: publicações no diário dos usuários próximos
   diary_entries:
@@ -561,6 +692,7 @@ pt-BR:
       use_map_link: Usar mapa
     index:
       title: Diários dos usuários
+      title_followed: Diários de usuários seguidos
       title_nearby: Diários dos usuários próximos
       user_title: Diário de %{user}
       in_language_title: Publicações de Diário em %{language}
@@ -573,6 +705,9 @@ pt-BR:
     show:
       title: Diário de %{user} | %{title}
       user_title: Diário de %{user}
+      discussion: Discussão
+      subscribe: Inscrever-se
+      unsubscribe: Cancelar inscrição
       leave_a_comment: Deixe um comentário
       login_to_leave_a_comment_html: '%{login_link} para deixar um comentário'
       login: Entrar
@@ -584,6 +719,7 @@ pt-BR:
     diary_entry:
       posted_by_html: Publicado por %{link_user} em %{created} em %{language_link}.
       updated_at_html: Última atualização em %{updated}.
+      full_entry: Veja a entrada completa
       comment_link: Comentar nesta publicação
       reply_link: Enviar uma mensagem ao autor
       comment_count:
@@ -616,21 +752,72 @@ pt-BR:
         title: Publicações no diário do OpenHistoricalMap
         description: Publicações no diário recentes de usuários do OpenHistoricalMap
     comments:
-      title: Comentários no diário feitos por %{user}
+      title: Entradas do diário OpenHistoricalMap
+      description: Entradas recentes do diário de usuários do OpenHistoricalMap
+    subscribe:
+      heading: Deseja se inscrever para receber notificações sobre as discussões desta
+        entrada do diário?
+      button: Inscreva-se na discussão
+    unsubscribe:
+      heading: Deseja cancelar a inscrição nesta discussão da entrada de diário?
+      button: Cancelar inscrição da discussão
     navigation:
+      in_language: Entradas de diário em %{language}
       my_diary: Meu diário
       new: Nova publicação no diário
       new_title: Escrever uma nova entrada no meu diário de usuário
     profile_diaries:
+      latest_diaries: Últimos Diários
+      comments:
+        one: '%{count} comentário'
+        other: '%{count} comentários'
+      title_label: Entrada de Diário
+      comments_label: Comentários
       date_label: Data
+  diary_comments:
+    new:
+      heading: Deseja adicionar um comentário à discussão desta entrada de diário?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: O servidor de autorização exige a seleção da conta
+          do usuário final.
+        consent_required: O servidor de autorização exige o consentimento do usuário
+          final.
+        interaction_required: O servidor de autorização requer interação do usuário
+          final.
+        login_required: O servidor de autorização exige autenticação do usuário final.
     flash:
       applications:
         create:
           notice: Aplicação registada.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Falha devido a Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            configuração ausente.
+    scopes:
+      address: Veja seu endereço físico
+      email: Ver seu endereço de e-mail
+      openid: Autentique sua conta
+      phone: Ver seu número de telefone
+      profile: Ver informações do seu perfil
+  errors:
+    contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
+      contact_url_title: Vários canais de contato explicados
+      contact: contato
+    forbidden:
+      title: Proibido
   geocoder:
+    search:
+      title:
+        latlon_url: https://openhistoricalmap.org/
+        osm_nominatim_url: https://nominatim.openhistoricalmap.org/
+        osm_nominatim_reverse_url: https://nominatim.openhistoricalmap.org/
     search_osm_nominatim:
       prefix_format: '%{name}'
+      suffix_format: '[%{dates}]'
       prefix:
         aerialway:
           cable_car: Teleférico
@@ -1472,7 +1659,6 @@ pt-BR:
   reports:
     new:
       title_html: Denuncia %{link}
-      missing_params: Não é possível criar um novo relatório
       disclaimer:
         intro: 'Antes de enviar sua denúncia para os moderadores do site, certifique-se
           de que:'
@@ -1689,6 +1875,9 @@ pt-BR:
       whitelist: Se usar um sistema antispam que envia pedidos de confirmação, certifica-te
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
+    gravatar:
+      disabled: O Gravatar foi desativado.
+      enabled: A exibição do seu Gravatar foi ativada.
   messages:
     new:
       title: Enviar mensagem
@@ -1784,29 +1973,34 @@ pt-BR:
         title: Minhas preferências
         save: Atualizar preferências
   profiles:
-    show:
-      title: Editar perfil
-      save: Atualizar perfil
-      cancel: Cancelar
-      image: Imagem
-      gravatar:
-        gravatar: Usar o Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=pt-br
-        what_is_gravatar: O que é o Gravatar?
-        disabled: O Gravatar foi desativado.
-        enabled: A exibição do seu Gravatar foi ativada.
-      new image: Adicionar uma imagem
-      keep image: Manter a imagem atual
-      delete image: Remover a imagem atual
-      replace image: Trocar a imagem atual
-      image size hint: (imagens quadradas, com pelo menos 100x100, funcionam melhor)
-      home location: Local principal
-      no home location: Você ainda não definiu o seu local principal.
-      update home location on click: Atualizar local principal ao clicar no mapa?
-      show: Exibir
-    update:
-      success: Perfil atualizado.
-      failure: Não foi possível atualizar o perfil.
+    profile_sections:
+      navigation:
+        image: Imagem
+    descriptions:
+      show:
+        title: Editar perfil
+        save: Atualizar perfil
+        cancel: Cancelar
+    links:
+      show:
+        title: Editar perfil
+        cancel: Cancelar
+    images:
+      show:
+        gravatar:
+          gravatar: Usar o Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=pt-br
+          what_is_gravatar: O que é o Gravatar?
+        new image: Adicionar uma imagem
+        keep image: Manter a imagem atual
+        delete image: Remover a imagem atual
+        replace image: Trocar a imagem atual
+        image size hint: (imagens quadradas, com pelo menos 100x100, funcionam melhor)
+    locations:
+      show:
+        no home location: Você ainda não definiu o seu local principal.
+        update home location on click: Atualizar local principal ao clicar no mapa?
+        show: Exibir
   sessions:
     new:
       email or username: 'E-mail ou nome de usuário:'
@@ -1822,6 +2016,7 @@ pt-BR:
       logout_button: Sair
   shared:
     markdown_help:
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
       headings: Títulos
       heading: Cabeçalho
       subheading: Subtítulo
@@ -1856,8 +2051,16 @@ pt-BR:
         trilhos, cafés, estações ferroviárias e muito mais por todo o mundo.
     about_section:
       scope_title: Grandes e pequenos, antes e agora
+      contribute_1_wiki_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
       open_data_title: Dados abertos
+      open_data_1_1_reuse_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
       legal_title: Jurídico
+      legal_1_group_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Governance
+      legal_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
+      legal_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
+      legal_1_privacy_policy: Politica de Privacidade
+      legal_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
+      legal_3_osmf_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Parceiros
     copyright:
       title: Direitos autorais e licença
@@ -1874,6 +2077,11 @@ pt-BR:
         native_link: Versão em Português do Brasil
         mapping_link: começar a mapear
       legal_babble:
+        introduction_1_cc0_url: https://creativecommons.org/publicdomain/zero/1.0/
+        introduction_2_cc_by_url: https://creativecommons.org/licenses/by/4.0/
+        introduction_2_cc_by_sa_url: https://creativecommons.org/licenses/by-sa/4.0/
+        introduction_2_license_key_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Tags/Key/license
+        introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
         credit_title_html: Como fazer atribuição ao OpenHistoricalMap
         credit_1_html: Embora a lei de direitos autorais não restrinja ou imponha
           quaisquer condições ao uso de conteúdo de domínio público, agradecemos muito
@@ -1912,8 +2120,6 @@ pt-BR:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Descubra se é esse o seu caso.
-    edit:
-      id_not_configured: iD não foi configurado
     export:
       title: Exportar
       manually_select: Selecionar outra área manualmente
@@ -2032,7 +2238,11 @@ pt-BR:
       title: Sem tempo para editar? Inclua uma nota!
       para_1: Se você só quer que algo pequeno seja arrumado, e não tem tempo para
         se inscrever e aprender como editar, é fácil adicionar uma nota.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Aproxime para ver notas no mapa
+      map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
+  legend_panes:
     show:
       entries:
         motorway: Autoestrada
@@ -2088,6 +2298,21 @@ pt-BR:
         bicycle_shop: Loja de bicicletas
         bicycle_parking: Bicicletário
         toilets: Banheiros
+  share_panes:
+    show:
+      link: Link ou HTML
+      include_marker: Incluir marcador
+      long_link: Link
+      short_link: Link curto
+      embed: HTML
+      paste_html: Cole o HTML para publicar no site
+      geo_uri: Geo URI
+      image: Imagem
+      format: 'Formato:'
+      scale: 'Escala:'
+      custom_dimensions: Definir dimensões personalizadas
+      image_dimensions_html: A imagem mostrará a camada padrão em %{width} x %{height}
+      download: Baixar
   traces:
     visibility:
       private: Privado (compartilhado apenas como pontos anônimos e não ordenados)
@@ -2292,7 +2517,6 @@ pt-BR:
       my_dashboard: Meu painel
       blocks on me: Bloqueios sobre mim
       blocks by me: Bloqueios por mim
-      edit_profile: Editar perfil
       send message: Enviar mensagem
       diary: Diário
       edits: Edições
@@ -2306,15 +2530,6 @@ pt-BR:
       created from: 'Criado de:'
       status: 'Estado:'
       spam score: 'Contagem de Spam:'
-      role:
-        administrator: Este usuário é um administrador
-        moderator: Este usuário é um moderador
-        grant:
-          administrator: Conceder acesso de administrador
-          moderator: Conceder acesso de moderador
-        revoke:
-          administrator: Revogar acesso de administrador
-          moderator: Revogar acesso de moderador
       block_history: Bloqueios ativos
       moderator_history: Bloqueios aplicados
       comments: Comentários
@@ -2384,6 +2599,18 @@ pt-BR:
         Se você já tem uma conta, você pode fazer login na sua conta
         usando seu nome de usuário e senha e, em seguida, associar a conta
         com o seu ID em suas configurações de usuário.
+    role_icons:
+      title:
+        administrator: Este usuário é um administrador
+        moderator: Este usuário é um moderador
+      grant:
+        administrator: Conceder acesso de administrador
+        moderator: Conceder acesso de moderador
+        are_you_sure: Deseja mesmo dar o papel "%{role}" ao usuário "%{name}"?
+      revoke:
+        administrator: Revogar acesso de administrador
+        moderator: Revogar acesso de moderador
+        are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
   user_role:
     filter:
       not_a_role: O texto "%{role}" não é um papel válido.
@@ -2391,10 +2618,6 @@ pt-BR:
       doesnt_have_role: O usuário não tem o papel %{role}.
       not_revoke_admin_current_user: Não foi possível retirar os direitos de administrador
         do atual usuário.
-    grant:
-      are_you_sure: Deseja mesmo dar o papel "%{role}" ao usuário "%{name}"?
-    revoke:
-      are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
   user_blocks:
     model:
       non_moderator_update: É necessário ser um moderador para criar ou atualizar
@@ -2479,26 +2702,10 @@ pt-BR:
     close: Fechar
     share:
       title: Compartilhar
-      cancel: Cancelar
-      image: Imagem
-      link: Link ou HTML
-      long_link: Link
-      short_link: Link curto
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Definir dimensões personalizadas
-      format: 'Formato:'
-      scale: 'Escala:'
-      image_dimensions: A imagem mostrará a camada padrão em %{width} x %{height}
-      download: Baixar
-      short_url: URL curta
-      include_marker: Incluir marcador
-      center_marker: Centralizar o mapa no marcador
-      paste_html: Cole o HTML para publicar no site
       view_larger_map: Ver mapa ampliado
     embed:
       report_problem: Reportar um problema
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: Legenda não disponível para esta camada
@@ -2534,8 +2741,6 @@ pt-BR:
       edit_disabled_tooltip: Aproxime para editar o mapa
       createnote_tooltip: Incluir uma nota no mapa
       createnote_disabled_tooltip: Aproxime para incluir uma nota no mapa
-      map_notes_zoom_in_tooltip: Aproxime para ver notas no mapa
-      map_data_zoom_in_tooltip: Aproxime para ver dados do mapa
       queryfeature_tooltip: Consultar elementos
       queryfeature_disabled_tooltip: Aproxime para consultar elementos
     edit_help: Mover o mapa e ampliar uma localização que pretende editar e clique
@@ -2543,7 +2748,6 @@ pt-BR:
     directions:
       errors:
         no_route: Rota entre esses dois lugares não encontrada.
-        no_place: Desculpe - não foi possível encontrar '%{place}'.
       instructions:
         continue_without_exit: Continuar em %{name}
         slight_right_without_exit: Curva suave à direita para %{name}
@@ -2631,6 +2835,9 @@ pt-BR:
       show_address: Mostrar endereço
       query_features: Consultar elementos
       centre_map: Centralizar o mapa aqui
+    edit:
+      id_not_configured:
+        title: iD não foi configurado
   redactions:
     edit:
       heading: Editar anulação

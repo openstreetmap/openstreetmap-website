@@ -113,7 +113,6 @@ ar:
       node: عقدة
       node_tag: وسم عقدة
       note: ملحوظة
-      notifier: المخطر
       old_node: عقدة قديمة
       old_node_tag: وسم عقدة قديمة
       old_relation: علاقة قديمة
@@ -217,9 +216,6 @@ ar:
           لذا يرجى محاولة استخدام مصطلحات الشخص العادي.
         needs_view: هل يحتاج المستخدم لتسجيل الدخول قبل أن يتم مسح هذه العرقلة؟
       user:
-        email_confirmation: لم يجري عرض عنوانك علنًا، راجع <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">سياسة الخصوصية</a>
-          الخاصة بنا للحصول على مزيد من المعلومات.
         new_email: (لا يظهر علنًا)
   datetime:
     distance_in_words_ago:
@@ -358,15 +354,14 @@ ar:
       title: عدل الحساب
       current email address: عنوان البريد الإلكرتروني الحالي
       external auth: مصادقة خارجية
-      contributor terms:
+      contributor_terms:
         heading: شروط المساهم
-        agreed: لقد وافقت على شروط المساهم الجديدة.
-        not yet agreed: لم توافق بعد على شروط المساهم الجديدة.
-        review link text: يُرجَى اتباع هذا الرابط في الوقت الذي يناسبك لمراجعة وقبول
-          شروط المساهمة الجديدة.
+        agreed: لقد وافقت على شروط المساهم في %{date}.
         agreed_with_pd: وقد أعلنت أيضًا أنك تعتبر تعديلاتك ملكية عامة.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: ما هذا؟
+      terms_of_use:
+        heading: شروط الاستخدام
       save changes button: حفظ التغييرات
       delete_account: حذف الحساب...
     go_public:
@@ -419,9 +414,10 @@ ar:
           من خانتي الاختيار عند الانتهاء، ثم اضغط على زر "متابعة".
         contributor_terms_explain: هذا الاتفاق يحكم شروط مساهماتك الحالية والمستقبلية
         read_ct: قرأت شروط المساهمة المعطاة في الأعلى وأوافق عليها
-        tou_explain_html: تُنظّم %{tou_link} والأحكام استخدام الموقع الإلكتروني والبنية
-          التحتية الأخرى التي تُقدّمها OpenHistoricalMap. يُرجى النقر على الرابط وقراءة
-          النص والموافقة عليه.
+        tou_explain:
+          html: تُنظّم %{tou_link} والأحكام استخدام الموقع الإلكتروني والبنية التحتية
+            الأخرى التي تُقدّمها OpenHistoricalMap. يُرجى النقر على الرابط وقراءة
+            النص والموافقة عليه.
         read_tou: قرأت شروط الاستخدام وأوافق عليها.
         cancel: إلغاء
         you need to accept or decline: الرجاء القراءة ومن ثم قبول أو رفض شروط المساهمة
@@ -452,9 +448,7 @@ ar:
       many: '%{count} طريقًا'
       other: '%{count} طريقٍ'
     download_xml: تنزيل XML
-    view_history: عرض السجل
     view_unredacted_history: عرض التاريخ غير المُحرف
-    view_details: شاهد التفاصيل
     location: 'الموقع:'
     node:
       title_html: 'عقدة: %{name}'
@@ -1550,7 +1544,6 @@ ar:
   reports:
     new:
       title_html: بلاغ %{link}
-      missing_params: لا يمكن إنشاء بلاغ جديد
       disclaimer:
         intro: 'قبل إرسال تقريرك إلى مشرف الموقع، يُرجَى التأكد مما يلي:'
         not_just_mistake: أنك متأكد من أن المشكلة ليست مجرد خطأ
@@ -1627,11 +1620,10 @@ ar:
       footer_html: يمكنك أيضًا قراءة التعليق على %{readurl} ويمكنك التعليق على %{commenturl}
         أو إرسال رسالة إلى المؤلف على %{replyurl}
     message_notification:
-      subject: '[خريطة الشارع المفتوحة] %{message_title}'
+      subject: '[الخريطة التاريخية المفتوحة] %{message_title}'
       hi: مرحبًا %{to_user}،
-      header: '%{from_user} قام بإرسال رسالة لك عبر خريطة الشارع المفتوحة بالعنوان
-        %{subject}:'
-      header_html: '%{from_user} أرسل إليك رسالة عبر OpenStreetMap بالموضوع %{subject}:'
+      header: 'لقد أرسل لك %{from_user} رسالة عبر OpenHistoricalMap بموضوع %{subject}:'
+      header_html: '%{from_user} أرسل إليك رسالة عبر OpenHistoricalMap بالموضوع %{subject}:'
       footer: يمكنك أيضًا قراءة الرسالة على %{readurl} ويمكنك إرسال رسالة إلى المؤلف
         على %{replyurl}
       footer_html: يمكنك أيضا قراءة الرسالة في %{readurl} ويمكنك الرد في %{replyurl}
@@ -1662,13 +1654,13 @@ ar:
         لذلك إذا كان كذلك، الرجاء الضغط على الرابط أدناه لتأكيد حسابك:'
       welcome: بعد تأكيد حسابك، سوف نقدم لك بعض المعلومات الإضافية للبدء.
     email_confirm:
-      subject: '[خريطة الشارع المفتوحة] أكّد عنوان بريدك الإلكتروني'
+      subject: '[OpenHistoricalMap] تأكيد عنوان بريدك الإلكتروني'
       greeting: تحياتي،
       hopefully_you: شخص ما (نأمل أن تكون أنت) يرغب في تغيير عنوان بريده الإلكتروني
         في %{server_url} إلى %{new_address}.
       click_the_link: إذا كان هذا أنت، يُرجَى الضغط على الرابط أدناه لتأكيد التغيير.
     lost_password:
-      subject: '[خريطة الشارع المفتوحة] طلب إعادة تعيين كلمة السر'
+      subject: '[OpenHistoricalMap] طلب إعادة تعيين كلمة المرور'
       greeting: مرحبًا،
       hopefully_you: لقد طلب شخص ما (ربما أنت) إعادة تعيين كلمة المرور على حساب openhistoricalmap.org
         الخاص بهذا العنوان الإلكتروني.
@@ -1759,6 +1751,9 @@ ar:
       whitelist: إذا كنت تستخدم نظام مكافحة البريد العشوائي الذي يرسل طلبات تأكيد
         ، فيرجى التأكد من إدراج %{sender} في القائمة البيضاء حيث يتعذر علينا الرد
         على أي طلبات تأكيد.
+    gravatar:
+      disabled: تم تعطيل Gravatar .
+      enabled: تم تمكين عرض Gravatar الخاص بك.
   messages:
     new:
       title: أرسل رسالة
@@ -1873,28 +1868,33 @@ ar:
         title: تفضيلاتي
         save: حدث التفضيلات
   profiles:
-    show:
-      title: عدل الملف
-      save: تحديث الملف الشخصي
-      cancel: إلغاء
-      image: "\uFEFFالصورة"
-      gravatar:
-        gravatar: استخدام Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        disabled: تم تعطيل Gravatar .
-        enabled: تم تمكين عرض Gravatar الخاص بك.
-      new image: أضف صورة
-      keep image: احتفظ بالصورة الحالية
-      delete image: أزل الصورة الحالية
-      replace image: "\uFEFFاستبدل الصورة الحالية"
-      image size hint: "\uFEFF(صورة مربعة على الأقل 100 × 100 تعمل بشكل أفضل)"
-      home location: موقع المنزل
-      no home location: لم تدخل موقع منزلك.
-      update home location on click: تحديث موقع المنزل عندما أنقر على الخريطة؟
-      show: اعرض
-    update:
-      success: تم تحديث الملف الشخصي.
-      failure: تعذر تحديث الملف الشخصي.
+    profile_sections:
+      navigation:
+        image: "\uFEFFالصورة"
+    descriptions:
+      show:
+        title: عدل الملف
+        save: تحديث الملف الشخصي
+        cancel: إلغاء
+    links:
+      show:
+        title: عدل الملف
+        cancel: إلغاء
+    images:
+      show:
+        gravatar:
+          gravatar: استخدام Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+        new image: أضف صورة
+        keep image: احتفظ بالصورة الحالية
+        delete image: أزل الصورة الحالية
+        replace image: "\uFEFFاستبدل الصورة الحالية"
+        image size hint: "\uFEFF(صورة مربعة على الأقل 100 × 100 تعمل بشكل أفضل)"
+    locations:
+      show:
+        no home location: لم تدخل موقع منزلك.
+        update home location on click: تحديث موقع المنزل عندما أنقر على الخريطة؟
+        show: اعرض
   sessions:
     new:
       tab_title: تسجيل الدخول
@@ -2011,8 +2011,6 @@ ar:
       anon_edits_html: (%{link})
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: ابحث عن السبب لماذا هو هذا الحال.
-    edit:
-      id_not_configured: لم يتم تكوين آي دي
     export:
       title: صدِّر
       manually_select: اختر يدويًا منطقة أخرى
@@ -2127,7 +2125,11 @@ ar:
       title: لا وقت للتعديل؟ أضف ملاحظة!
       para_1: إذا كنت تريد إصلاح مجرد شيء صغير وليس لديك الوقت للتسجيل ومعرفة كيفية
         التحرير، فإنه من السهل أن تضيف ملاحظة.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: تكبير الخريطة لرؤية ملاحظات الخريطة
+      map_data_zoom_in_tooltip: تكبير الخريطة لرؤية بيانات الخريطة
+  legend_panes:
     show:
       entries:
         motorway: طريق سريع
@@ -2190,6 +2192,20 @@ ar:
         bicycle_shop: متجر دراجات
         bicycle_parking: مرآب دراجات
         toilets: مرحاض
+  share_panes:
+    show:
+      link: وصلة أو HTML
+      include_marker: تتضمن علامة
+      long_link: وصلة
+      short_link: رابط قصير
+      embed: HTML
+      paste_html: ألصق HTML لتضمينه في موقع ويب
+      geo_uri: رابط جغرافي
+      image: صورة
+      format: 'التنسيق:'
+      scale: 'المقياس:'
+      custom_dimensions: تعيين المكونات المخصصة
+      download: نزل
   traces:
     visibility:
       private: خصوصي (يظهر كمجهول الهوية ونقاط غير مرتبة)
@@ -2389,7 +2405,6 @@ ar:
       my comments: تعليقاتي
       blocks on me: عمليات منعي
       blocks by me: عمليات المنع بواسطتي
-      edit_profile: عدل الملف
       send message: إرسل رسالة
       diary: يومية
       edits: مساهمات
@@ -2403,15 +2418,6 @@ ar:
       created from: 'أُنشِئ من:'
       status: 'الحالة:'
       spam score: 'نتيجة السخام:'
-      role:
-        administrator: هذا المستخدم إداري
-        moderator: هذا المستخدم مشرف
-        grant:
-          administrator: منح وصول إداري
-          moderator: منح وصول مشرف
-        revoke:
-          administrator: إبطال وصول إداري
-          moderator: إبطال وصول مشرف
       block_history: عمليات المنع المفعلة
       moderator_history: عمليات المنع المعطاة
       comments: التعليقات
@@ -2474,16 +2480,24 @@ ar:
         إذا كان لديك حساب بالفعل، فيمكنك تسجيل الدخول إلى حسابك
          باستخدام اسم المستخدم وكلمة المرور، ثم ربط الحساب
          بمعرفك في إعدادات المستخدم الخاصة بك.
+    role_icons:
+      title:
+        administrator: هذا المستخدم إداري
+        moderator: هذا المستخدم مشرف
+      grant:
+        administrator: منح وصول إداري
+        moderator: منح وصول مشرف
+        are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
+      revoke:
+        administrator: إبطال وصول إداري
+        moderator: إبطال وصول مشرف
+        are_you_sure: هل أنت متأكد أنك تريد إلغاء الدور '%{role}' من المستخدم '%{name}'؟
   user_role:
     filter:
       not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
       already_has_role: لدى المستخدم الدور  %{role} سابقًا
       doesnt_have_role: ليس للمستخدم الدور %{role}.
       not_revoke_admin_current_user: لا يمكن إبطال دور المشرف من المستخدم الحالي.
-    grant:
-      are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
-    revoke:
-      are_you_sure: هل أنت متأكد أنك تريد إلغاء الدور '%{role}' من المستخدم '%{name}'؟
   user_blocks:
     model:
       non_moderator_update: يجب أن تكون وسيط لإنشاء أو تحديث عرقلة.
@@ -2641,25 +2655,10 @@ ar:
     close: أغلق
     share:
       title: شارك
-      cancel: إلغاء
-      image: صورة
-      link: وصلة أو HTML
-      long_link: وصلة
-      short_link: رابط قصير
-      geo_uri: رابط جغرافي
-      embed: HTML
-      custom_dimensions: تعيين المكونات المخصصة
-      format: 'التنسيق:'
-      scale: 'المقياس:'
-      download: نزل
-      short_url: مسار قصير
-      include_marker: تتضمن علامة
-      center_marker: مركز الخريطة على العلامة
-      paste_html: ألصق HTML لتضمينه في موقع ويب
       view_larger_map: عرض خريطة بحجم أكبر
     embed:
       report_problem: أبلغ عن مشكلة
-    key:
+    legend:
       title: مفتاح الخريطة
       tooltip: مفتاح الخريطة
       tooltip_disabled: مفتاح الخريطة غير متاح لهذه الطبقة
@@ -2700,15 +2699,12 @@ ar:
       edit_disabled_tooltip: قم بالتكبير لتحرير الخريطة
       createnote_tooltip: إضافة ملاحظة إلى الخريطة
       createnote_disabled_tooltip: تكبير لإضافة ملاحظة إلى الخريطة
-      map_notes_zoom_in_tooltip: تكبير الخريطة لرؤية ملاحظات الخريطة
-      map_data_zoom_in_tooltip: تكبير الخريطة لرؤية بيانات الخريطة
       queryfeature_tooltip: ميزات الاستعلام
       queryfeature_disabled_tooltip: ميزات تكبير الاستعلام
     edit_help: انقل الخريطة وكبر الموقع الذي تريد تحريره، ثم اضغط هنا.
     directions:
       errors:
         no_route: لا يمكن أن تجد طريقا بين هذين المكانين.
-        no_place: عذرا - لا يمكن أن تجد هذا المكان %{place}.
       instructions:
         continue_without_exit: الاستمرار في %{name}
         slight_right_without_exit: اتجه إلى اليمين قليلا %{name}
@@ -2794,6 +2790,9 @@ ar:
       show_address: أظهر العنوان
       query_features: ميزات الاستعلام
       centre_map: مركز الخريطة هنا
+    edit:
+      id_not_configured:
+        title: لم يتم تكوين آي دي
   redactions:
     edit:
       heading: تحرير التنقيح

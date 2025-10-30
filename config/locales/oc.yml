@@ -58,7 +58,6 @@ oc:
       node: Nos
       node_tag: Etiqueta de nos
       note: nòta
-      notifier: Notificador
       old_node: Node Ancian
       old_node_tag: Etiqueta de node anciana
       old_relation: Relacion anciana
@@ -165,8 +164,6 @@ oc:
           de tèrmes simples e precís.
         needs_view: L’utilizaire se deu connectar avans qu'aqueste blòt expire ?
       user:
-        email_confirmation: Vòstra adreiça se mostrarà pas publicament (vejatz la
-          nòstra politica de privadança&#60;/a&#62; per mai d'informacion)
         new_email: (jamai afichat publicament)
   datetime:
     distance_in_words_ago:
@@ -253,12 +250,9 @@ oc:
       title: Modificar lo compte
       current email address: 'Adreiça de corrier electronic actuala:'
       external auth: 'Autentificacion extèrna:'
-      contributor terms:
+      contributor_terms:
         heading: Tèrmes de collaboracion
         agreed: Avètz acceptat lei tèrmes novèus dau contributor.
-        not yet agreed: Avètz pas encara acceptat los novèls tèrmes del contributor.
-        review link text: Seguissètz aquest ligame per revisar e acceptar lei tèrmes
-          novèus de collaboracion.
         agreed_with_pd: Declaratz tanben que consideratz que vòstrei modificacions
           son de domeni public.
         link: https://Www.osmfoundation.org/wiki/License/Contributor_Terms
@@ -325,8 +319,6 @@ oc:
       one: 1 linha
       other: '%{count} linhas'
     download_xml: Telecargar lo XML
-    view_history: Mostrar l’istoric
-    view_details: Mostrar lei detalhs
     location: 'Emplaçament :'
     node:
       title_html: 'Nos : %{name}'
@@ -1397,7 +1389,6 @@ oc:
   reports:
     new:
       title_html: Raportar %{link}
-      missing_params: Se pòt pas crear un rapòrt nòu
       disclaimer:
         intro: 'Abans d''enviar la denóncia ais moderadors dau luòc, se vos plai asseguratz-vos
           que:'
@@ -1468,12 +1459,12 @@ oc:
       footer: Tanben podètz legir lo comentari sus %{readurl}, lo comentar sus %{commenturl}
         o respondre sus %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Bonjorn %{to_user},
-      header: '%{from_user} vos a mandat un messatge dempuèi OpenStreetMap amb lo
-        subjècte %{subject} :'
-      header_html: '%{from_user} vos a mandat un messatge d''OpenStreetMap amb lo
-        subjècte %{subject} :'
+      header: '%{from_user} vos a mandat un messatge dempuèi OpenHistoricalMap amb
+        lo subjècte %{subject} :'
+      header_html: '%{from_user} vos a mandat un messatge d''OpenHistoricalMap amb
+        lo subjècte %{subject} :'
       footer: Podètz tanben legir lo messatge a %{readurl} e podètz enviar un messatge
         a l'autor a %{replyurl}
       footer_html: Tanben podètz legir lo messatge a %{readurl} e i podètz respondre
@@ -1503,14 +1494,14 @@ oc:
       welcome: Un còp confirmat lo còmpte, vos donarem quauqua informacion adicionala
         perque poscatz començar.
     email_confirm:
-      subject: '[OpenStreetMap] Confirmacion de vòstra adreiça de corrier electronic'
+      subject: '[OpenHistoricalMap] Confirmacion de vòstra adreiça de corrier electronic'
       greeting: Bonjorn,
       hopefully_you: Qualqu’un (vos, esperam-lo) voldriá modificar son adreça de corrièr
         electronic sus %{server_url} en %{new_address}.
       click_the_link: Se sètz a l'origina d'aquesta requèsta, clicatz sul ligam çaijós
         per confirmar aquesta modificacion.
     lost_password:
-      subject: '[OpenStreetMap] Demanda de reïnicializacion del senhal'
+      subject: '[OpenHistoricalMap] Demanda de reïnicializacion del senhal'
       greeting: Bonjorn,
       hopefully_you: Quauqu’un (possiblament vos) a demandat que lo senhau d'aqueu
         còmpte openstreetmap.org siegue remandat a vòstra adreiça de corrier electronic.
@@ -1598,6 +1589,9 @@ oc:
       failure: L'adreça de corrier electronic es ja estada confirmada amb aquesta
         ficha.
       unknown_token: Lo còde de confirmacion a expirat o existís pas.
+    gravatar:
+      disabled: Gravatar es estat desactivat.
+      enabled: L'afichatge de vòstre Gravatar es estat activat.
   messages:
     new:
       title: Mandar un messatge
@@ -1691,31 +1685,35 @@ oc:
         title: Preferéncias
         save: Actualizar lei preferéncias
   profiles:
-    show:
-      title: Modificar lo perfiu
-      save: Actualizar lo perfiu
-      cancel: Anullar
-      image: 'Imatge :'
-      gravatar:
-        gravatar: Utilizar Gravatar
-        link: https://wiki.openstreetmap.org/wiki/OC:Cargar
-        what_is_gravatar: Qu'es aquò Grava(ta)r?
-        disabled: Gravatar es estat desactivat.
-        enabled: L'afichatge de vòstre Gravatar es estat activat.
-      new image: Ajustar un imatge
-      keep image: Gardar l'imatge actual
-      delete image: Suprimir l'imatge actual
-      replace image: Remplaçar l'imatge actuala
-      image size hint: (los imatges carrats d'al mens 100×100 pixèls foncionan melhor)
-      home location: 'Emplaçament dau domicili :'
-      no home location: Avètz pas indicat l'emplaçament de vòstre domicili.
-      update home location on click: Metre a jorn l'emplaçament de vòstre domicili
-        quand clicatz sus la mapa ?
-      show: Afichar
-      delete: Suprimir
-    update:
-      success: S'es actualizat lo perfiu.
-      failure: S'es pas pogut actualizar lo perfiu.
+    profile_sections:
+      navigation:
+        image: 'Imatge :'
+    descriptions:
+      show:
+        title: Modificar lo perfiu
+        save: Actualizar lo perfiu
+        cancel: Anullar
+    links:
+      show:
+        cancel: Anullar
+    images:
+      show:
+        gravatar:
+          gravatar: Utilizar Gravatar
+          link: https://wiki.openstreetmap.org/wiki/OC:Cargar
+          what_is_gravatar: Qu'es aquò Grava(ta)r?
+        new image: Ajustar un imatge
+        keep image: Gardar l'imatge actual
+        delete image: Suprimir l'imatge actual
+        replace image: Remplaçar l'imatge actuala
+        image size hint: (los imatges carrats d'al mens 100×100 pixèls foncionan melhor)
+    locations:
+      show:
+        no home location: Avètz pas indicat l'emplaçament de vòstre domicili.
+        update home location on click: Metre a jorn l'emplaçament de vòstre domicili
+          quand clicatz sus la mapa ?
+        show: Afichar
+        delete: Suprimir
   sessions:
     new:
       tab_title: Connexion
@@ -1783,7 +1781,7 @@ oc:
         native_link: version occitana
         mapping_link: començar a contribuir
       legal_babble:
-        credit_title_html: Cossí creditar OpenStreetMap
+        credit_title_html: Cossí creditar OpenHistoricalMap
         credit_1_html: Demandam que vòstre crèdit compòrte la mencion « © lei contribueires
           d’OpenStreetMap ».
         attribution_example:
@@ -1808,8 +1806,6 @@ oc:
       user_page_link: pagina d'utilizaire
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Trobatz perqué aicí.
-    edit:
-      id_not_configured: iD es pas estat configurat
     export:
       title: Exportar
       manually_select: Seleccionar manualament una zòna diferenta
@@ -1915,7 +1911,11 @@ oc:
       title: Pas lo temps d'editar ? Apodètz una nòta !
       para_1: Se volètz solament far una pichona modificacion mai dispausatz pas de
         temps per vos enregistrar e aprene coma editar, laissatz una nòta a la mapa.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zoomez per legir las nòtas sus la mapa
+      map_data_zoom_in_tooltip: Zoomatz per veire las donadas sus la mapa
+  legend_panes:
     show:
       entries:
         motorway: Autorota
@@ -1971,6 +1971,20 @@ oc:
         bicycle_shop: Magazin de bicicletas
         bicycle_parking: Parcatge de bicicleta
         toilets: Comuns
+  share_panes:
+    show:
+      link: Ligam o HTML
+      include_marker: Inclure lo marcador
+      long_link: Ligam
+      short_link: Ligam cort
+      embed: HTML
+      paste_html: Pegatz lo còdi HTML a incorporar dins un site web.
+      geo_uri: URI geo
+      image: Imatge
+      format: 'Format :'
+      scale: 'Escala :'
+      custom_dimensions: Definir las dimensions personalizadas
+      download: Descargar
   traces:
     visibility:
       private: Privat (partejat anonimament, punts pas ordenats)
@@ -2121,15 +2135,6 @@ oc:
       created from: 'Creat dempuèi :'
       status: 'Estatut :'
       spam score: 'Nòta pel spam :'
-      role:
-        administrator: Aqueste utilizaire es un administrator
-        moderator: Aqueste utilizaire es un moderator
-        grant:
-          administrator: Autrejar l'accès administrator
-          moderator: Autrejar l'accès moderator
-        revoke:
-          administrator: Revocar l'accès administrator
-          moderator: Revocar l'accès moderador
       block_history: Blocatges actius
       moderator_history: Blocatges donats
       comments: Comentaris
@@ -2185,14 +2190,23 @@ oc:
       invalid_scope: Espandida invalida
     auth_association:
       heading: Vòstre ID es pas encara associat a un compte OpenHistoricalMap.
+    role_icons:
+      title:
+        administrator: Aqueste utilizaire es un administrator
+        moderator: Aqueste utilizaire es un moderator
+      grant:
+        administrator: Autrejar l'accès administrator
+        moderator: Autrejar l'accès moderator
+        are_you_sure: Sètz segur que volètz atribuir lo ròtle `%{role}' a l'utilizaire
+          `%{name}'?
+      revoke:
+        administrator: Revocar l'accès administrator
+        moderator: Revocar l'accès moderador
   user_role:
     filter:
       not_a_role: La cadena « %{role} » es un ròtle valid.
       already_has_role: L'utilizaire possedís ja lo ròtle %{role}.
       doesnt_have_role: L'utilizaire a pas lo ròtle %{role}.
-    grant:
-      are_you_sure: Sètz segur que volètz atribuir lo ròtle `%{role}' a l'utilizaire
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Vos cal èsser moderator per crear o modificar un blocatge.
@@ -2294,25 +2308,10 @@ oc:
     close: Plegar
     share:
       title: Partejar
-      cancel: Anullar
-      image: Imatge
-      link: Ligam o HTML
-      long_link: Ligam
-      short_link: Ligam cort
-      geo_uri: URI geo
-      embed: HTML
-      custom_dimensions: Definir las dimensions personalizadas
-      format: 'Format :'
-      scale: 'Escala :'
-      download: Descargar
-      short_url: URL corta
-      include_marker: Inclure lo marcador
-      center_marker: Centrar la mapa sul marcador
-      paste_html: Pegatz lo còdi HTML a incorporar dins un site web.
       view_larger_map: Mostrar una mapa pus granda
     embed:
       report_problem: Senhalar un problèma
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: La legenda es pas disponibla que per aqueste jaç
@@ -2345,8 +2344,6 @@ oc:
       edit_disabled_tooltip: Zoomatz en avant per modificar la mapa
       createnote_tooltip: Suggerir un melhorament de la mapa
       createnote_disabled_tooltip: Zoomar per apondre una nòta sus la mapa
-      map_notes_zoom_in_tooltip: Zoomez per legir las nòtas sus la mapa
-      map_data_zoom_in_tooltip: Zoomatz per veire las donadas sus la mapa
       queryfeature_tooltip: Requèsta suls objèctes
       queryfeature_disabled_tooltip: Zoomar mai per recercar d'objèctes
     edit_help: Movètz la mapa e fasètz zoom sus una posicion que volètz editar, e
@@ -2354,7 +2351,6 @@ oc:
     directions:
       errors:
         no_route: Impossible de trobar una rota entre aqueles dos luòcs.
-        no_place: O planhèm, impossible de trobar '%{place}'.
       instructions:
         continue_without_exit: Contunhar sus %{name}
         slight_right_without_exit: Viratz leugièrament a dreita sus %{name}
@@ -2447,6 +2443,9 @@ oc:
       show_address: Afichar l’adreça
       query_features: Requèsta sus las foncionalitats
       centre_map: Centrar la mapa aicí
+    edit:
+      id_not_configured:
+        title: iD es pas estat configurat
   redactions:
     edit:
       heading: Modificar la redaccion

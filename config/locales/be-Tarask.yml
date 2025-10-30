@@ -70,7 +70,6 @@ be-Tarask:
       node: Вузел
       node_tag: Тэг вузла
       note: Камэнтар
-      notifier: Абвяшчальнік
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
       old_relation: Старая сувязь
@@ -177,10 +176,6 @@ be-Tarask:
         needs_view: Ці трэба ўдзельніку ўвайсьці ў сыстэму, перад тым як блякаваньне
           будзе зьнятае?
       user:
-        email_confirmation: Ваш адрас ня будзе паказвацца публічна, глядзіце нашыя
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="правілы
-          OSMF адносна прыватнасьці, у тым ліку разьдзел пра адрасы электроннай пошты">правілы
-          адносна прыватнасьці</a> дзеля дадатковай інфармацыі
         new_email: (ніколі ня будзе паказаны публічна)
   datetime:
     distance_in_words_ago:
@@ -265,12 +260,9 @@ be-Tarask:
     show:
       title: Рэдагаваньне рахунку
       current email address: Цяперашні адрас электроннай пошты
-      contributor terms:
+      contributor_terms:
         heading: Умовы супрацоўніцтва
         agreed: Вы пагадзіліся з новымі ўмовамі супрацоўніцтва.
-        not yet agreed: Вы яшчэ не пагадзіліся з новымі ўмовамі супрацоўніцтва.
-        review link text: Калі ласка, перайдзіце па гэтай спасылцы ў зручны для Вас
-          час і пацьвердзіце згоду з новымі ўмовамі супрацоўніцтва.
         agreed_with_pd: Вы таксама заяўляеце, што перадаеце Вашыя рэдагаваньні ў грамадзкі
           набытак.
         link text: што гэта?
@@ -320,8 +312,6 @@ be-Tarask:
       many: '%{count} лініяў'
       other: '%{count} лініяў'
     download_xml: Спампаваць XML
-    view_history: Паглядзець гісторыю
-    view_details: Паглядзець зьвесткі
     location: 'Месцазнаходжаньне:'
     way:
       nodes: Вузлы
@@ -912,7 +902,8 @@ be-Tarask:
         на %{commenturl} ці адказаць на %{replyurl}
     message_notification:
       hi: Вітаем, %{to_user},
-      header: '%{from_user} даслаў Вам паведамленьне праз OpenStreetMap з тэмай %{subject}:'
+      header: '%{from_user} даслаў Вам паведамленьне праз OpenHistoricalMap з тэмай
+        %{subject}:'
     follow_notification:
       see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
     gpx_failure:
@@ -923,12 +914,12 @@ be-Tarask:
     signup_confirm:
       subject: '[OpenHistoricalMap] Вітаем у OpenHistoricalMap'
     email_confirm:
-      subject: '[OpenStreetMap] Пацьвердзіце Ваш адрас электроннай пошты'
+      subject: '[OpenHistoricalMap] Пацьвердзіце Ваш адрас электроннай пошты'
       greeting: Вітаем,
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         пацьвердзіць зьмену.
     lost_password:
-      subject: '[OpenStreetMap] Запыт на зьмену паролю'
+      subject: '[OpenHistoricalMap] Запыт на зьмену паролю'
       greeting: Вітаем,
       click_the_link: Калі гэта Вы, калі ласка, націсьніце на спасылку ніжэй, каб
         скінуць Ваш пароль.
@@ -1039,18 +1030,22 @@ be-Tarask:
     update:
       flash changed: Ваш пароль быў зьменены.
   profiles:
-    show:
-      image: Выява
-      new image: Дадаць выяву
-      keep image: Пакінуць цяперашнюю выяву
-      delete image: Выдаліць цяперашнюю выяву
-      replace image: Замяніць цяперашнюю выяву
-      image size hint: (найлепей пасуюць квадратныя выявы памерам 100×100)
-      home location: Асноўнае месцазнаходжаньне
-      no home location: Вы не падалі Вашае месцазнаходжаньне.
-      update home location on click: Абнаўляць маё месцазнаходжаньне, калі як націскаю
-        на мапу?
-      show: Паказаць
+    profile_sections:
+      navigation:
+        image: Выява
+    images:
+      show:
+        new image: Дадаць выяву
+        keep image: Пакінуць цяперашнюю выяву
+        delete image: Выдаліць цяперашнюю выяву
+        replace image: Замяніць цяперашнюю выяву
+        image size hint: (найлепей пасуюць квадратныя выявы памерам 100×100)
+    locations:
+      show:
+        no home location: Вы не падалі Вашае месцазнаходжаньне.
+        update home location on click: Абнаўляць маё месцазнаходжаньне, калі як націскаю
+          на мапу?
+        show: Паказаць
   sessions:
     new:
       tab_title: Увайсьці
@@ -1070,7 +1065,7 @@ be-Tarask:
         older: Старэйшыя запісы
         newer: Навейшыя запісы
   site:
-    about:
+    about_section:
       open_data_title: Адкрытыя зьвесткі
     copyright:
       title: Аўтарскія правы і падзякі
@@ -1087,7 +1082,7 @@ be-Tarask:
         native_link: беларускай вэрсіі
         mapping_link: пачаць стварэньне мапы
       legal_babble:
-        credit_title_html: Як спасылацца на OpenStreetMap
+        credit_title_html: Як спасылацца на OpenHistoricalMap
         credit_1_html: Хоць закон аб аўтарскім праве не забараняе і не стварае ніякіх
           умоваў што да вашага выкарыстаньня зьместу з грамадзкага набытку, мы вельмі
           ўдзячныя за любыя згадкі пра OpenHistoricalMap пры выкарыстаньні, адаптацыі
@@ -1133,7 +1128,7 @@ be-Tarask:
       where_am_i_title: Апішыце цяперашняе месцазнаходжаньне з дапамогай інструмэнту
         пошуку
       submit_text: Перайсьці
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: Аўтастрада
@@ -1300,15 +1295,6 @@ be-Tarask:
       created from: 'Створана з:'
       status: 'Статус:'
       spam score: 'Адзнака спаму:'
-      role:
-        administrator: Гэты карыстальнік зьяўляецца адміністратарам
-        moderator: Гэты карыстальнік зьяўляецца мадэратарам
-        grant:
-          administrator: Надаць правы адміністратара
-          moderator: Надаць правы мадэратара
-        revoke:
-          administrator: Скасаваць правы адміністратара
-          moderator: Скасаваць доступ мадэратара
       block_history: Актыўныя блякаваньні
       moderator_history: Пададзеныя блякаваньні
       create_block: Заблякаваць гэтага ўдзельніка
@@ -1355,16 +1341,24 @@ be-Tarask:
       heading: Рахунак заблякаваны
     auth_failure:
       invalid_credentials: Хібныя аўтэнтыфікацыйныя зьвесткі
+    role_icons:
+      title:
+        administrator: Гэты карыстальнік зьяўляецца адміністратарам
+        moderator: Гэты карыстальнік зьяўляецца мадэратарам
+      grant:
+        administrator: Надаць правы адміністратара
+        moderator: Надаць правы мадэратара
+        are_you_sure: Вы ўпэўнены, што жадаеце надаць ролю „%{role}“ удзельніку „%{name}“?
+      revoke:
+        administrator: Скасаваць правы адміністратара
+        moderator: Скасаваць доступ мадэратара
+        are_you_sure: Вы ўпэўненыя, што жадаеце скасаваць ролю „%{role}“ удзельніка
+          „%{name}“?
   user_role:
     filter:
       not_a_role: Радок „%{role}“ ня ёсьць слушнай роляй.
       already_has_role: Карыстальнік ужо мае ролю %{role}.
       doesnt_have_role: Карыстальнік ня мае ролі %{role}.
-    grant:
-      are_you_sure: Вы ўпэўнены, што жадаеце надаць ролю „%{role}“ удзельніку „%{name}“?
-    revoke:
-      are_you_sure: Вы ўпэўненыя, што жадаеце скасаваць ролю „%{role}“ удзельніка
-        „%{name}“?
   user_blocks:
     model:
       non_moderator_update: Трэба быць мадэратарам, каб стварыць ці адбавіць блякаваньне.

@@ -103,7 +103,6 @@ pt-PT:
       node: Nó
       node_tag: Etiqueta do Nó
       note: nota
-      notifier: Notificador
       old_node: Nó antigo
       old_node_tag: Etiqueta do nó antigo
       old_relation: Relação antiga
@@ -209,10 +208,6 @@ pt-PT:
         needs_view: O utilizador precisa de iniciar sessão antes de o bloqueio ser
           revogado?
       user:
-        email_confirmation: O teu endereço não ficará visível publicamente. Consulta
-          a <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="política
-          de privacidade OSMF, incluindo a secção sobre endereços de correio eletrónico">política
-          de privacidade</a> para mais informações.
         new_email: (nunca é mostrado publicamente)
   datetime:
     distance_in_words_ago:
@@ -301,16 +296,15 @@ pt-PT:
       title: Editar conta
       current email address: E-mail atual
       external auth: Autenticação externa
-      contributor terms:
+      contributor_terms:
         heading: Termos de contribuidor
         agreed: Aceitaste os novos Termos de Contribuidor.
-        not yet agreed: Ainda não aceitaste os novos Termos de Contribuidor.
-        review link text: Por favor, clica na ligação seguinte para reveres e aceitares
-          os novos Termos de Contribuidor.
         agreed_with_pd: Também declaraste que as tuas edições são disponibilizadas
           em Domínio Público.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: o que é isto?
+      terms_of_use:
+        heading: Termos de Utilização
       save changes button: Gravar alterações
       delete_account: Apagar Conta...
     go_public:
@@ -368,9 +362,10 @@ pt-PT:
         contributor_terms_explain: Este acordo rege as condições das tuas contribuições
           atuais e futuras.
         read_ct: Li e aceito as condições para contribuidores supracitadas
-        tou_explain_html: Estes %{tou_link} regem a utilização do website e de outras
-          infraestruturas fornecidas pela OSMF. Por favor, clica na hiperligação,
-          lê e aceita o texto.
+        tou_explain:
+          html: Estes %{tou_link} regem a utilização do website e de outras infraestruturas
+            fornecidas pela OSMF. Por favor, clica na hiperligação, lê e aceita o
+            texto.
         read_tou: Li e aceito os Termos de Utilização
         guidance_info_html: 'Informações para ajudar a entender estes termos: um %{readable_summary_link}
           e algumas %{informal_translations_link}'
@@ -408,9 +403,7 @@ pt-PT:
       one: '%{count} via'
       other: '%{count} vias'
     download_xml: Transferir XML
-    view_history: Ver histórico
     view_unredacted_history: Ver histórico não editado
-    view_details: Ver detalhes
     location: 'Localização:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1605,7 +1598,6 @@ pt-PT:
   reports:
     new:
       title_html: Denunciar %{link}
-      missing_params: Não foi possível criar nova denúncia
       disclaimer:
         intro: 'Antes de enviares o relatório aos moderadores, por favor, certifica-te
           de que:'
@@ -1828,6 +1820,9 @@ pt-PT:
       whitelist: Se usares um sistema antispam que envia pedidos de confirmação, certifica-te
         de que colocas o %{sender} na whitelist (lista branca), já que não temos possibilidade
         de responder a pedidos de confirmação.
+    gravatar:
+      disabled: O Gravatar foi desativado.
+      enabled: A exibição do teu Gravatar foi ativada.
   messages:
     new:
       title: Enviar mensagem
@@ -1942,32 +1937,37 @@ pt-PT:
         title: Preferências
         save: Atualizar Preferências
   profiles:
-    show:
-      title: Editar Perfil
-      save: Atualizar Perfil
-      cancel: Cancelar
-      image: Imagem
-      gravatar:
-        gravatar: Usar Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: O que é o Gravatar?
-        disabled: O Gravatar foi desativado.
-        enabled: A exibição do teu Gravatar foi ativada.
-      new image: Adicionar uma imagem
-      keep image: Manter a imagem atual
-      delete image: Remover a imagem atual
-      replace image: Substituir a imagem atual
-      image size hint: (as imagens quadradas com, pelo menos, 100x100 píxeis funcionam
-        melhor)
-      home location: Localização principal
-      no home location: Não definiste a tua localização principal.
-      update home location on click: Atualizar a localização ao clicar no mapa?
-      show: Mostrar
-      delete: Eliminar
-      undelete: Desfazer eliminação
-    update:
-      success: Perfil atualizado.
-      failure: Não foi possível atualizar o perfil.
+    profile_sections:
+      navigation:
+        image: Imagem
+    descriptions:
+      show:
+        title: Editar Perfil
+        save: Atualizar Perfil
+        cancel: Cancelar
+    links:
+      show:
+        title: Editar Perfil
+        cancel: Cancelar
+    images:
+      show:
+        gravatar:
+          gravatar: Usar Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: O que é o Gravatar?
+        new image: Adicionar uma imagem
+        keep image: Manter a imagem atual
+        delete image: Remover a imagem atual
+        replace image: Substituir a imagem atual
+        image size hint: (as imagens quadradas com, pelo menos, 100x100 píxeis funcionam
+          melhor)
+    locations:
+      show:
+        no home location: Não definiste a tua localização principal.
+        update home location on click: Atualizar a localização ao clicar no mapa?
+        show: Mostrar
+        delete: Eliminar
+        undelete: Desfazer eliminação
   sessions:
     new:
       tab_title: Iniciar sessão
@@ -2110,8 +2110,6 @@ pt-PT:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Pt:Anonymous_edits
       anon_edits_link_text: Descobre a que se deve isto.
-    edit:
-      id_not_configured: O editor iD não foi configurado
     export:
       title: Exportar
       manually_select: Selecionar manualmente outra área
@@ -2294,7 +2292,11 @@ pt-PT:
           Não há necessidade de estabelecer formalmente um grupo como os Capítulos Locais.
           Na verdade, há muitos grupos de sucesso que funcionam como encontros informais de pessoas ou como grupos comunitários. Qualquer pessoa pode criar um ou juntar-se a um que já exista. Lê mais na %{communities_wiki_link}.
         communities_wiki: página wiki das comunidades
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Aproxime para ver erros reportados
+      map_data_zoom_in_tooltip: Amplia para veres os dados do mapa
+  legend_panes:
     show:
       entries:
         motorway: Autoestrada
@@ -2375,6 +2377,23 @@ pt-PT:
         bicycle_parking: Estacionamento de bicicletas
         bicycle_parking_small: Estacionamento para bicicletas
         toilets: Casas de banho
+  share_panes:
+    show:
+      link: Ligação ou HTML
+      include_marker: Incluir marcador
+      long_link: Ligação
+      short_link: Ligação curta
+      embed: HTML
+      embed_html_disabled: A incorporação de HTML não está disponível para esta camada
+        do mapa
+      paste_html: Colar HTML para incorporar na página web
+      geo_uri: Geo URI
+      image: Imagem
+      format: 'Formato:'
+      scale: 'Escala:'
+      custom_dimensions: Definir dimensões
+      image_dimensions_html: A imagem mostrará a camada %{layer} com %{width} x %{height}
+      download: Transferir
   traces:
     visibility:
       private: Privado (apenas partilhado como anónimo, pontos não ordenados)
@@ -2643,7 +2662,6 @@ pt-PT:
       blocks by me: Os meus bloqueios
       create_mute: Silenciar este utilizador
       destroy_mute: Ativar este utilizador
-      edit_profile: Editar Perfil
       send message: Enviar mensagem
       diary: Diário
       edits: Edições
@@ -2660,18 +2678,6 @@ pt-PT:
       created from: 'Criado de:'
       status: 'Estado:'
       spam score: 'Contagem de Spam:'
-      role:
-        administrator: Este utilizador é um administrador
-        moderator: Este utilizador é um moderador
-        importer: Este utilizador é importador
-        grant:
-          administrator: Dar acesso de administrador
-          moderator: Dar acesso de moderador
-          importer: Conceder acesso de importador
-        revoke:
-          administrator: Retirar acesso de administrador
-          moderator: Retirar acesso de moderador
-          importer: Revogar acesso de importador
       block_history: Bloqueios ativos
       moderator_history: Bloqueios aplicados
       revoke_all_blocks: Revogar todos os bloqueios
@@ -2756,6 +2762,22 @@ pt-PT:
       option_2: Se já tiveres uma conta, podes iniciar sessão na tua conta usando
         o teu nome de utilizador e a palavra-passe e, em seguida, associar a conta
         ao teu ID nas tuas definições de utilizador.
+    role_icons:
+      title:
+        administrator: Este utilizador é um administrador
+        moderator: Este utilizador é um moderador
+      grant:
+        administrator: Dar acesso de administrador
+        moderator: Dar acesso de moderador
+        importer: Conceder acesso de importador
+        are_you_sure: Tens a certeza de que pretendes conceder o cargo `%{role}' ao
+          utilizador `%{name}'?
+      revoke:
+        administrator: Retirar acesso de administrador
+        moderator: Retirar acesso de moderador
+        importer: Revogar acesso de importador
+        are_you_sure: Tens a certeza de que pretendes retirar o cargo `%{role}' ao
+          utilizador `%{name}'?
   user_role:
     filter:
       not_a_role: A expressão `%{role}' não é um cargo válido.
@@ -2763,12 +2785,6 @@ pt-PT:
       doesnt_have_role: O utilizador não tem o cargo %{role}.
       not_revoke_admin_current_user: Não foi possível retirar os direitos de administrador
         do atual utilizador.
-    grant:
-      are_you_sure: Tens a certeza de que pretendes conceder o cargo `%{role}' ao
-        utilizador `%{name}'?
-    revoke:
-      are_you_sure: Tens a certeza de que pretendes retirar o cargo `%{role}' ao utilizador
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Tens de ser um moderador para criar ou atualizar um bloqueio.
@@ -2944,26 +2960,10 @@ pt-PT:
     close: Fechar
     share:
       title: Partilhar
-      cancel: Cancelar
-      image: Imagem
-      link: Ligação ou HTML
-      long_link: Ligação
-      short_link: Ligação curta
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Definir dimensões
-      format: 'Formato:'
-      scale: 'Escala:'
-      image_dimensions: A imagem mostrará a camada %{layer} com %{width} x %{height}
-      download: Transferir
-      short_url: URL curto
-      include_marker: Incluir marcador
-      center_marker: Centrar o mapa no marcador
-      paste_html: Colar HTML para incorporar na página web
       view_larger_map: Ver mapa maior
     embed:
       report_problem: Reportar um problema
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda do mapa
       tooltip_disabled: Não há legenda do mapa disponível para esta camada
@@ -3011,21 +3011,15 @@ pt-PT:
       edit_disabled_tooltip: Amplia o mapa para poderes editar
       createnote_tooltip: Adicionar uma nota ao mapa
       createnote_disabled_tooltip: Amplia para adicionares uma nota ao mapa.
-      map_notes_zoom_in_tooltip: Aproxime para ver erros reportados
-      map_data_zoom_in_tooltip: Amplia para veres os dados do mapa
       queryfeature_tooltip: Consultar elementos em redor
       queryfeature_disabled_tooltip: Amplia para consultares elementos
-      embed_html_disabled: A incorporação de HTML não está disponível para esta camada
-        do mapa
     edit_help: Move o mapa, amplia-o no local que pretendes editar e clica aqui.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Não foi encontrada uma rota entre os dois pontos.
-        no_place: Desculpe - não foi possível encontrar '%{place}'.
       instructions:
         continue_without_exit: Continuar em %{name}
         slight_right_without_exit: Virar ligeiramente à direita para %{name}
@@ -3115,6 +3109,9 @@ pt-PT:
       show_address: Mostrar endereço
       query_features: Consultar elementos
       centre_map: Centrar mapa aqui
+    edit:
+      id_not_configured:
+        title: O editor iD não foi configurado
   redactions:
     edit:
       heading: Editar supressão

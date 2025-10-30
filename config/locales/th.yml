@@ -70,7 +70,6 @@ th:
       node: โหนด
       node_tag: ป้ายกำกับโหนด
       note: โน้ต
-      notifier: ผู้แจ้ง
       old_node: โหนดเก่า
       old_node_tag: แท็กกำกับโหนดเก่า
       old_relation: ความสัมพันธ์เดิม
@@ -173,9 +172,6 @@ th:
           และต้องอย่าลืมว่าสิ่งที่คุณเขียนนี้จะแสดงต่อสาธารณะด้วย
         needs_view: ต้องการให้ผู้ใช้คนนี้เข้าสู่ระบบก่อนเพิกถอนการระงับหรือไม่?
       user:
-        email_confirmation: ที่อยู่อีเมลของคุณจะไม่แสดงเป็นสาธารณะ โปรดดูเพิ่มเติมที่<a
-          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="นโยบายความเป็นส่วนตัวของ
-          OSMF ซึ่งมีเนื้อหาเกี่ยวข้องกับการจัดการที่อยู่อีเมลของคุณ">นโยบายความเป็นส่วนตัว</a>สำหรับสารสนเทศเพิ่มเติม
         new_email: (จะไม่แสดงต่อสาธารณะ)
   datetime:
     distance_in_words_ago:
@@ -249,11 +245,9 @@ th:
       title: แก้ไขบัญชี
       current email address: ที่อยู่อีเมลปัจจุบัน
       external auth: การยืนยันตัวตนด้วยบริการภายนอก
-      contributor terms:
+      contributor_terms:
         heading: ข้อกำหนดผู้มีส่วนร่วม
         agreed: คุณได้ยอมรับข้อกำหนดผู้มีส่วนร่วมใหม่แล้ว
-        not yet agreed: คุณยังไม่ได้ยอมรับข้อกำหนดผู้มีส่วนร่วมใหม่
-        review link text: โปรดเข้าลิงก์นี้ตามความสะดวกของคุณเพื่อตรวจสอบและยอมรับข้อกำหนดของผู้ร่วมให้ข้อมูลใหม่
         agreed_with_pd: คุณยังได้ประกาศด้วยว่า คุณถือว่าการแก้ไขของคุณเป็นสาธารณสมบัติ
         link text: นี่คืออะไร?
       save changes button: บันทึกการเปลี่ยนแปลง
@@ -319,9 +313,7 @@ th:
     part_of_ways:
       other: '%{count} ทาง'
     download_xml: ดาวน์โหลด XML
-    view_history: ดูประวัติ
     view_unredacted_history: ดูประวัติที่ยังไม่ได้ถูกแก้ไข
-    view_details: ดูรายละเอียด
     location: 'ที่ตั้ง:'
     node:
       title_html: 'โหนด: %{name}'
@@ -1475,7 +1467,6 @@ th:
   reports:
     new:
       title_html: แจ้งปัญหาเกี่ยวกับ %{link}
-      missing_params: ไม่สามารถสร้างรายงานใหม่ได้
       disclaimer:
         intro: 'ก่อนที่จะแจ้งปัญหาไปยังผู้ดูแล ขอให้ดูจนแน่ใจก่อนว่า:'
         not_just_mistake: ปัญหานี้ไม่ได้เกิดจากเพียงความพลั้งเผลอ
@@ -1549,12 +1540,12 @@ th:
       footer_unsubscribe: คุณสามารถยกเลิกการสมัครรับการอภิปรายได้ที่ %{unsubscribeurl}
       footer_unsubscribe_html: คุณสามารถยกเลิกการสมัครรับการอภิปรายได้ที่ %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: เรียนคุณ %{to_user},
-      header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
+      header: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenHistoricalMap โดยมีหัวเรื่อง
         %{subject}:'
-      header_html: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenStreetMap โดยมีหัวเรื่อง
-        %{subject}:'
+      header_html: 'ผู้ใช้ %{from_user} ส่งข้อความหาท่านผ่านทาง OpenHistoricalMap
+        โดยมีหัวเรื่อง %{subject}:'
       footer: คุณยังสามารถอ่านข้อความที่ลิงก์ %{readurl} และสามารถตอบกลับที่ลิงก์
         %{replyurl} หากต้องการ
       footer_html: คุณสามารถอ่านข้อความที่ลิงก์ %{readurl} และถ้าต้องการสามารถตอบกลับที่ลิงก์
@@ -1577,13 +1568,13 @@ th:
         ถ้าจริง ขอให้ท่านคลิกลิงก์ข้างล่างเพื่อยืนยันบัญชีของท่าน:'
       welcome: หลังจากที่ยืนยันบัญชีของท่านแล้ว เราจะให้รายละเอียดเพิ่มเติมเพื่อให้ท่านเริ่มใช้งานเว็บไซต์ได้ต่อไป
     email_confirm:
-      subject: '[OpenStreetMap] ยืนยันที่อยู่อีเมลของท่าน'
+      subject: '[OpenHistoricalMap] ยืนยันที่อยู่อีเมลของท่าน'
       greeting: เรียนท่านผู้ใช้งาน
       hopefully_you: มีบางคน (ซึ่งอาจเป็นท่าน) ประสงค์จะเปลี่ยนที่อยู่อีเมลที่รักษาไว้ที่
         %{server_url} เป็น %{new_address}
       click_the_link: ถ้าเป็นท่านจริง ขอให้คลิกลิงก์ด้านล่างเพื่อยืนยันการเปลี่ยนแปลง
     lost_password:
-      subject: '[OpenStreetMap] คำขอเปลี่ยนรหัสผ่านใหม่'
+      subject: '[OpenHistoricalMap] คำขอเปลี่ยนรหัสผ่านใหม่'
       greeting: เรียนท่านผู้ใช้งาน
       hopefully_you: มีบางคน (ซึ่งอาจเป็นท่าน) ขอเปลี่ยนรหัสผ่านซึ่งกำกับบัญชีผู้ใช้
         openstreetmap.org
@@ -1646,6 +1637,9 @@ th:
       success: ยืนยันการเปลี่ยนแปลงที่อยู่อีเมลเรียบร้อย!
       failure: อีเมลนี้ถูกยืนยันกับคำขอนี้เรียบร้อย
       unknown_token: รหัสยืนยันหมดอายุหรือผิดพลาด
+    gravatar:
+      disabled: Gravatar ถูกปิดใช้
+      enabled: การแสดง Gravatar ของท่านถูกเปิดใช้
   messages:
     new:
       title: ส่งข้อความ
@@ -1724,21 +1718,27 @@ th:
     update:
       flash changed: เปลี่ยนรหัสผ่านของคุณแล้วเรียบร้อย
   profiles:
-    show:
-      image: 'รูปภาพ:'
-      gravatar:
-        gravatar: ใช้ Gravatar
-        disabled: Gravatar ถูกปิดใช้
-        enabled: การแสดง Gravatar ของท่านถูกเปิดใช้
-      new image: เพิ่มรูปภาพ
-      keep image: ใช้รูปภาพปัจจุบัน
-      delete image: ลบรูปภาพปัจจุบัน
-      replace image: เปลี่ยนรูปภาพปัจจุบัน
-      image size hint: (ภาพขนาดสี่เหลี่ยม 100x100 จะดีที่สุด)
-      home location: 'ที่อยู่บ้าน:'
-      no home location: ท่านยังไม่ได้ระบุที่อยู่บ้าน
-      update home location on click: แก้ไขที่อยู่บ้านถ้าคลิกแผนที่หรือไม่?
-      show: แสดง
+    profile_sections:
+      navigation:
+        image: 'รูปภาพ:'
+    links:
+      show:
+        title: แก้ไขประวัติส่วนตัว
+        cancel: ยกเลิก
+    images:
+      show:
+        gravatar:
+          gravatar: ใช้ Gravatar
+        new image: เพิ่มรูปภาพ
+        keep image: ใช้รูปภาพปัจจุบัน
+        delete image: ลบรูปภาพปัจจุบัน
+        replace image: เปลี่ยนรูปภาพปัจจุบัน
+        image size hint: (ภาพขนาดสี่เหลี่ยม 100x100 จะดีที่สุด)
+    locations:
+      show:
+        no home location: ท่านยังไม่ได้ระบุที่อยู่บ้าน
+        update home location on click: แก้ไขที่อยู่บ้านถ้าคลิกแผนที่หรือไม่?
+        show: แสดง
   sessions:
     new:
       tab_title: ลงชื่อเข้าใช้
@@ -1788,7 +1788,7 @@ th:
         native_link: รุ่นภาษาTHIS_LANGUAGE_NAME_HERE
         mapping_link: เริ่มการทำแผนที่
       legal_babble:
-        credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
+        credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenHistoricalMap
         credit_1_html: |-
           เราจำเป็นต้องให้ท่านแสดงที่มาหรือคำขอบคุณแก่ &ldquo;&copy; ผู้ร่วมสร้างสรรค์ OpenStreetMap
           &rdquo;.
@@ -1821,8 +1821,6 @@ th:
         ท่านสามารถตั้งให้การแก้ไขของท่านมองเห็นได้ทั่วไปที่%{user_page}
       user_page_link: หน้าผู้ใช้
       anon_edits_link_text: ค้นหาว่าทำไมจึงเป็นเช่นนี้
-    edit:
-      id_not_configured: ยังไม่ได้กำหนดค่า iD
     export:
       title: ส่งออก
       manually_select: เลือกพื้นที่อื่นด้วยตนเอง
@@ -1904,7 +1902,7 @@ th:
       title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
       para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
         คุณสามารถจะเขียนหมายเหตุแปะเอาไว้บนจุดที่คุณอยากแก้ไขแทน
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: ทางหลวงพิเศษ
@@ -1962,6 +1960,17 @@ th:
         bicycle_shop: ร้านขายและเช่าจักรยาน
         bicycle_parking: ที่จอดจักรยาน
         toilets: ห้องน้ำ
+  share_panes:
+    show:
+      link: ลิงก์ หรือ HTML
+      include_marker: แสดงไอคอนหมุด
+      long_link: ลิงก์
+      short_link: ลิงก์สั้น
+      image: ภาพ
+      format: 'รูปแบบ:'
+      scale: 'ขนาด:'
+      custom_dimensions: กำหนดขนาดแผนที่เอง
+      download: ดาวน์โหลด
   traces:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -2084,7 +2093,6 @@ th:
       blocks by me: ผู้ใช้ที่ข้าพเจ้ากีดกัน
       create_mute: ปิดการรับฟังผู้ใช้นี้
       destroy_mute: เลิกปิดการรับฟังผู้ใช้นี้
-      edit_profile: แก้ไขประวัติส่วนตัว
       send message: ส่งข้อความ
       diary: บันทึก
       edits: การแก้ไข
@@ -2099,15 +2107,6 @@ th:
       created from: 'สร้างจาก:'
       status: 'สถานะ:'
       spam score: 'คะแนนสแปม:'
-      role:
-        administrator: คนนี้เป็นผู้ดูแลระบบ
-        moderator: ผู้ใช้นี้เป็นผู้ดูแล
-        grant:
-          administrator: ให้สิทธิ์ผู้ดูแลระบบ
-          moderator: ให้สิทธิ์ผู้ควบคุม
-        revoke:
-          administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
-          moderator: เพิกถอนสิทธิ์ผู้ควบคุม
       block_history: การถูกระงับใช้งานในปัจจุบัน
       moderator_history: ทำการกีดกันแล้ว
       revoke_all_blocks: เพิกถอนการกีดกันทั้งหมด
@@ -2167,17 +2166,26 @@ th:
       option_1: ถ้าท่านเป็นผู้ใช้ OpenStreetMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
       option_2: "ถ้าท่านมีบัญชีผู้ใช้แล้ว สามารถเข้าสู่ระบบโดยใช้ชื่อผู้ใช้ รหัสผ่าน
         \nแล้วผูกโยงบัญชีกับบัญชีภายนอกในหน้าการตั้งค่าา"
+    role_icons:
+      title:
+        administrator: คนนี้เป็นผู้ดูแลระบบ
+        moderator: ผู้ใช้นี้เป็นผู้ดูแล
+      grant:
+        administrator: ให้สิทธิ์ผู้ดูแลระบบ
+        moderator: ให้สิทธิ์ผู้ควบคุม
+        are_you_sure: ท่านแน่ใจว่าต้องการแต่งตั้งสถานะ `%{role}' แก่ผู้ใช้ `%{name}'
+          หรือไม่?
+      revoke:
+        administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
+        moderator: เพิกถอนสิทธิ์ผู้ควบคุม
+        are_you_sure: ท่านแน่ใจว่าต้องการถอดถอนสถานะ `%{role}' จากผู้ใช้ `%{name}'
+          หรือไม่?
   user_role:
     filter:
       not_a_role: ข้อความ `%{role}' ไม่ใช่สถานะผู้ใช้งานที่ถูกต้อง
       already_has_role: ผู้ใช้มีสถานะเป็น %{role} อยู่แล้ว
       doesnt_have_role: ผู้ใช้ไม่ได้มีสถานะ %{role}
       not_revoke_admin_current_user: ไม่สามารถเพิกถอนสิทธิ์ดูแลระบบจากผู้ใช้คนปัจจุบัน
-    grant:
-      are_you_sure: ท่านแน่ใจว่าต้องการแต่งตั้งสถานะ `%{role}' แก่ผู้ใช้ `%{name}'
-        หรือไม่?
-    revoke:
-      are_you_sure: ท่านแน่ใจว่าต้องการถอดถอนสถานะ `%{role}' จากผู้ใช้ `%{name}' หรือไม่?
   user_blocks:
     model:
       non_moderator_update: จะต้องเป็นผู้ดูแลระบบจึงจะสามารถระงับ หรือแก้ไขการระงับผู้ใช้ได้
@@ -2257,21 +2265,9 @@ th:
     close: ปิด
     share:
       title: แบ่งปัน
-      cancel: ยกเลิก
-      image: ภาพ
-      link: ลิงก์ หรือ HTML
-      long_link: ลิงก์
-      short_link: ลิงก์สั้น
-      custom_dimensions: กำหนดขนาดแผนที่เอง
-      format: 'รูปแบบ:'
-      scale: 'ขนาด:'
-      download: ดาวน์โหลด
-      short_url: URL สั้น
-      include_marker: แสดงไอคอนหมุด
-      center_marker: แสดงแผนที่โดยให้หมุดอยู่ตรงกลาง
     embed:
       report_problem: แจ้งปัญหา
-    key:
+    legend:
       title: ความหมายสัญลักษณ์
       tooltip: ความหมายสัญลักษณ์
     map:
@@ -2305,7 +2301,6 @@ th:
     directions:
       errors:
         no_route: ไม่พบเส้นทางระหว่างสองจุดที่คุณต้องการ
-        no_place: ขออภัย - ไม่พบสถานที่ "%{place}"
       instructions:
         continue_without_exit: เคลื่อนต่อไปทางถนน %{name}
         slight_right_without_exit: เบนขวาไปที่ %{name}
@@ -2363,6 +2358,9 @@ th:
       show_address: แสดงที่อยู่
       query_features: เรียกดูคุณลักษณะ
       centre_map: วางแผนที่ตรงกลางที่นี่
+    edit:
+      id_not_configured:
+        title: ยังไม่ได้กำหนดค่า iD
   redactions:
     edit:
       heading: แก้ไขการตรวจทาน

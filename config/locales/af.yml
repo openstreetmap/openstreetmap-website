@@ -58,7 +58,6 @@ af:
       node: Knooppunt
       node_tag: Knooppuntmerker
       note: nota
-      notifier: Kennisgewer
       old_node: Ou Knooppunt
       old_node_tag: Ou knooppuntmerker
       old_relation: Ou Verband
@@ -162,10 +161,6 @@ af:
           nie, sp probeer leketaal gebruik sover moontlik.
         needs_view: Moet die gebruiker aanmeld voordat dié versperring verwyder word?
       user:
-        email_confirmation: U adres word nie openbaar gemaak nie; raadpleeg ons <a
-          href="http://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privaatheidsbeleid
-          insluitende die klousule ten opsigte van e-posadresse">privaatheidsbeleid</a>
-          vir verdere inligting.
         new_email: (word nooit openbaar vertoon nie)
   datetime:
     distance_in_words_ago:
@@ -250,7 +245,7 @@ af:
       title: Redigeer rekening
       current email address: Huidige e-posadres
       external auth: Ekserne veriviering.
-      contributor terms:
+      contributor_terms:
         heading: Bydraervoorwaardes
       save changes button: Stoor Wysigings
     go_public:
@@ -293,8 +288,6 @@ af:
       one: 1 weg
       other: '%{count} weë'
     download_xml: Laai XML af
-    view_history: Beskou geskiedenis
-    view_details: Bekyk detail
     location: 'Ligging:'
     node:
       title_html: 'Knooppunt: %{name}'
@@ -1303,7 +1296,6 @@ af:
   reports:
     new:
       title_html: Rapporteer %{link}
-      missing_params: Kan nie 'n nuwe verslag skep nie
       disclaimer:
         intro: 'Voordat u die verslag aan die moderator van die werf stuur, moet u
           eers seker maak van die volgende:'
@@ -1488,20 +1480,29 @@ af:
         title: My voorkeure
         save: Opdateer voorkeure
   profiles:
-    show:
-      title: Wysig profiel
-      save: Opdateer profiel
-      cancel: Kanselleer
-      image: Beeld
-      new image: Voeg 'n beeld by
-      keep image: Hou die huidige beeld
-      replace image: Vervang die huidige beeld
-      home location: Tuisligging
-      no home location: U het nog geen tuisligging ingelees nie.
-      update home location on click: Werk tuisligging by wanneer ek op die kaart klik?
-      show: Wys
-    update:
-      success: Profiel opgedateer.
+    profile_sections:
+      navigation:
+        image: Beeld
+    descriptions:
+      show:
+        title: Wysig profiel
+        save: Opdateer profiel
+        cancel: Kanselleer
+    links:
+      show:
+        title: Wysig profiel
+        cancel: Kanselleer
+    images:
+      show:
+        new image: Voeg 'n beeld by
+        keep image: Hou die huidige beeld
+        replace image: Vervang die huidige beeld
+    locations:
+      show:
+        no home location: U het nog geen tuisligging ingelees nie.
+        update home location on click: Werk tuisligging by wanneer ek op die kaart
+          klik?
+        show: Wys
   sessions:
     new:
       tab_title: Meld aan
@@ -1535,7 +1536,7 @@ af:
         older: Vorige Inskrywings
         newer: Jonger inskrywings
   site:
-    about:
+    about_section:
       open_data_title: Open Data
       legal_title: Regsaspekte
       partners_title: Vennote
@@ -1611,7 +1612,11 @@ af:
       start_mapping: Begin karteer
     add_a_note:
       title: Geen tyd om te redigeer nie? Voeg 'n nota by!
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zoem in om kaartnotas te sien
+      map_data_zoom_in_tooltip: Zoem in om kaartdata te sien
+  legend_panes:
     show:
       entries:
         motorway: Snelweg
@@ -1667,6 +1672,17 @@ af:
         bicycle_shop: Fietswinkel
         bicycle_parking: Fietsparkering
         toilets: Toilette
+  share_panes:
+    show:
+      link: Skakel of HTML
+      long_link: Skakel
+      short_link: Kort skakel
+      embed: HTML
+      paste_html: Plak HTML om in die webblad te versteek
+      image: Beeld
+      format: 'Formaat:'
+      scale: 'Skaal:'
+      download: Laai af
   traces:
     new:
       upload_trace: Laai GPS-spore op
@@ -1802,7 +1818,6 @@ af:
       my_dashboard: My paneelbord
       blocks on me: Versperrings vir u
       blocks by me: Versperrings deur u
-      edit_profile: Wysig profiel
       send message: Stuur boodskap
       diary: Dagboek
       edits: Wysigings
@@ -1814,15 +1829,6 @@ af:
       created from: 'Geskep vanaf:'
       status: 'Status:'
       spam score: 'SPAM-telling:'
-      role:
-        administrator: Hierdie gebruiker is 'n administrateur
-        moderator: Hierdie gebruiker is 'n moderator
-        grant:
-          administrator: Ken adminregte toe
-          moderator: Ken moderatorregte toe
-        revoke:
-          administrator: Herroep adminregte
-          moderator: Herroep moderatorregte
       block_history: Aktiewe Versperrings
       moderator_history: Uitgevoerde Versperrings
       comments: Kommentaar
@@ -1867,6 +1873,16 @@ af:
         post: Inskrywing
     auth_failure:
       no_authorization_code: Geen matigingskode
+    role_icons:
+      title:
+        administrator: Hierdie gebruiker is 'n administrateur
+        moderator: Hierdie gebruiker is 'n moderator
+      grant:
+        administrator: Ken adminregte toe
+        moderator: Ken moderatorregte toe
+      revoke:
+        administrator: Herroep adminregte
+        moderator: Herroep moderatorregte
   user_blocks:
     not_found:
       sorry: Jammer, die gebruiker met ID %{id} kon nie gevind word.
@@ -1943,19 +1959,9 @@ af:
     close: Sluit
     share:
       title: Deel
-      cancel: Kanselleer
-      image: Beeld
-      link: Skakel of HTML
-      long_link: Skakel
-      short_link: Kort skakel
-      embed: HTML
-      format: 'Formaat:'
-      scale: 'Skaal:'
-      download: Laai af
-      paste_html: Plak HTML om in die webblad te versteek
     embed:
       report_problem: Rapporteer 'n probleem
-    key:
+    legend:
       title: Kaartsleutel
       tooltip: Kaartsleutel
     map:
@@ -1974,8 +1980,6 @@ af:
       edit_disabled_tooltip: Zoem in om die kaart te wysig
       createnote_tooltip: Voeg 'n nota by die kaart
       createnote_disabled_tooltip: Zoem in om 'n nota by die kaart te voeg
-      map_notes_zoom_in_tooltip: Zoem in om kaartnotas te sien
-      map_data_zoom_in_tooltip: Zoem in om kaartdata te sien
       queryfeature_tooltip: Soek bakens op
       queryfeature_disabled_tooltip: Zoem in om bakens te zoek
     directions:

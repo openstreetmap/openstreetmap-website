@@ -41,7 +41,6 @@ sr-Latn:
       message: Poruka
       node: Čvor
       node_tag: Oznaka čvora
-      notifier: Izvestilac
       old_node: Stari čvor
       old_node_tag: Oznaka starog čvora
       old_relation: Stari odnos
@@ -124,12 +123,9 @@ sr-Latn:
     show:
       title: Uredi nalog
       current email address: 'Trenutna e-adresa:'
-      contributor terms:
+      contributor_terms:
         heading: 'Uslovi uređivanja:'
         agreed: Prihvatili ste nove uslove uređivanja.
-        not yet agreed: Niste prihvatili nove uslove uređivanja.
-        review link text: Pratite ovu vezu da biste pregledali i prihvatili nove uslove
-          uređivanja.
         agreed_with_pd: Takođe se slažete da vaše izmene budu u javnom vlasništvu.
         link: http://www.osmfoundation.org/wiki/License/Contributor_Terms?uselang=sr-ec
         link text: šta je ovo?
@@ -753,11 +749,11 @@ sr-Latn:
     signup_confirm:
       subject: '[OpenHistoricalMap] Potvrdite vašu e-adresu'
     email_confirm:
-      subject: '[OpenStreetMap] Potvrdite vašu e-adresu'
+      subject: '[OpenHistoricalMap] Potvrdite vašu e-adresu'
       greeting: Pozdrav,
       click_the_link: Ako ste to vi, kliknite na vezu ispod da biste potvrdili izmene.
     lost_password:
-      subject: '[OpenStreetMap] Zahtev za poništavanje lozinke'
+      subject: '[OpenHistoricalMap] Zahtev za poništavanje lozinke'
       greeting: Pozdrav,
       click_the_link: Ako ste to vi, kliknite na vezu ispod da biste poništili lozinku.
   confirmations:
@@ -860,17 +856,22 @@ sr-Latn:
     update:
       flash changed: Vaša lozinka je promenjena.
   profiles:
-    show:
-      image: 'Slika:'
-      new image: Dodaj sliku
-      keep image: Zadrži trenutnu sliku
-      delete image: Ukloni trenutnu sliku
-      replace image: Zameni trenutnu sliku
-      image size hint: (kvadratne slike od barem 100×100 piksela rade najbolje)
-      home location: 'Mesto stanovanja:'
-      no home location: Niste uneli mesto stanovanja.
-      update home location on click: Ažurirati mesto stanovanja kada kliknem na mapu?
-      show: Prikaži
+    profile_sections:
+      navigation:
+        image: 'Slika:'
+    images:
+      show:
+        new image: Dodaj sliku
+        keep image: Zadrži trenutnu sliku
+        delete image: Ukloni trenutnu sliku
+        replace image: Zameni trenutnu sliku
+        image size hint: (kvadratne slike od barem 100×100 piksela rade najbolje)
+    locations:
+      show:
+        no home location: Niste uneli mesto stanovanja.
+        update home location on click: Ažurirati mesto stanovanja kada kliknem na
+          mapu?
+        show: Prikaži
   sessions:
     new:
       tab_title: Prijava
@@ -911,7 +912,7 @@ sr-Latn:
         native_link: srpsko izdanje
         mapping_link: počnite s mapiranjem
       legal_babble:
-        credit_title_html: Kako da imenujete Openstritmap
+        credit_title_html: Kako da imenujete OpenHistoricalMap
         credit_1_html: |2-
             Ako koristite naše slike mapa, tražimo da zasluge sadrže
             bar &ldquo;&copy; Doprinosioci
@@ -959,7 +960,7 @@ sr-Latn:
       where_am_i: Gde sam?
       where_am_i_title: Ustanovite trenutnu lokaciju pomoću pretraživača
       submit_text: Idi
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: Auto-put
@@ -1118,15 +1119,6 @@ sr-Latn:
       created from: 'Napravljeno iz:'
       status: 'Stanje:'
       spam score: 'Ocena spama:'
-      role:
-        administrator: Ovaj korisnik je administrator
-        moderator: Ovaj korisnik je urednik
-        grant:
-          administrator: Dodeli ovlašćenja administratora
-          moderator: Dodeli ovlašćenja urednika
-        revoke:
-          administrator: Opozovi ovlašćenja administratora
-          moderator: Opozovi ovlašćenja urednika
       block_history: dobijene blokade
       moderator_history: date blokade
       comments: komentari
@@ -1173,15 +1165,23 @@ sr-Latn:
     suspended:
       title: Suspendovan nalog
       heading: Suspendovan nalog
+    role_icons:
+      title:
+        administrator: Ovaj korisnik je administrator
+        moderator: Ovaj korisnik je urednik
+      grant:
+        administrator: Dodeli ovlašćenja administratora
+        moderator: Dodeli ovlašćenja urednika
+        are_you_sure: Želite li da dodelite ulogu „%{role}“ korisniku %{name}?
+      revoke:
+        administrator: Opozovi ovlašćenja administratora
+        moderator: Opozovi ovlašćenja urednika
+        are_you_sure: Želite li da oduzmete ulogu „%{role}“ od korisnika %{name}?
   user_role:
     filter:
       not_a_role: „%{role}“ nije ispravna uloga.
       already_has_role: Korisnik već ima ulogu %{role}.
       doesnt_have_role: Korisnik nema ulogu %{role}.
-    grant:
-      are_you_sure: Želite li da dodelite ulogu „%{role}“ korisniku %{name}?
-    revoke:
-      are_you_sure: Želite li da oduzmete ulogu „%{role}“ od korisnika %{name}?
   user_blocks:
     model:
       non_moderator_update: Morate biti urednik da biste postavljali ili ažurirali

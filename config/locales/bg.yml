@@ -63,7 +63,6 @@ bg:
       node: Възел
       node_tag: Етикет на възел
       note: бележка
-      notifier: Известител
       old_node: Стар възел
       old_node_tag: Етикет на стар възел
       old_relation: Стара релация
@@ -237,10 +236,9 @@ bg:
       title: Промяна на профил
       current email address: Текуща електронна поща
       external auth: Удостоверяване от външен източник
-      contributor terms:
+      contributor_terms:
         heading: Условия за сътрудничество
         agreed: Приели сте новите условия за сътрудничество.
-        not yet agreed: Все още не сте приели новите Условия за участие.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: какво е това?
       save changes button: Запазване на промените
@@ -301,8 +299,6 @@ bg:
     no_comment: (без коментар)
     part_of: Част от
     download_xml: Изтегляне на XML
-    view_history: Показване на историята
-    view_details: Показване на детайли
     location: 'Местоположение:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1165,7 +1161,6 @@ bg:
   reports:
     new:
       title_html: Докладване на %{link}
-      missing_params: Не може да бъде създаден нов доклад
       disclaimer:
         intro: 'Преди да изпратите репорта си към страницата на модераторите моля
           проверете дали:'
@@ -1228,7 +1223,7 @@ bg:
     diary_comment_notification:
       hi: Здравейте %{to_user},
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Здравейте %{to_user},
     follow_notification:
       hi: Здравейте %{to_user},
@@ -1248,14 +1243,14 @@ bg:
         сте Вие, моля, посетете препратката за потвърждение на сметката:'
       welcome: След като потвърдите ще ви изпратим още повече информация как да започнете.
     email_confirm:
-      subject: '[OpenStreetMap] Потвърждаване на адрес за електронна поща'
+      subject: '[OpenHistoricalMap] Потвърждаване на адрес за електронна поща'
       greeting: Здравейте,
       hopefully_you: 'Някой (надяваме се Вие) желае да промени адреса на електронната
         си поща намиращ се на %{server_url} с адрес: %{new_address}.'
       click_the_link: Ако това сте Вие, моля, посетете препратката за потвърждение
         на промяната.
     lost_password:
-      subject: '[OpenStreetMap] Заявка за промяна на парола'
+      subject: '[OpenHistoricalMap] Заявка за промяна на парола'
       greeting: Здравейте,
       hopefully_you: Някой (надяваме се Вие) е поискал промяна на паролата на сметка
         в openstreetmap.org свързана този адрес на електронна поща.
@@ -1397,27 +1392,34 @@ bg:
         title: Предпочитания
         save: Запазване на предпочитанията
   profiles:
-    show:
-      title: Редактиране на профила
-      cancel: Отказ
-      image: Изображение
-      gravatar:
-        gravatar: Използване на Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Какво е Gravatar?
-      new image: Добавяне на изображение
-      keep image: Запазване на текущото изображение
-      delete image: Премахване на текущото изображение
-      replace image: Заменяне на текущото изображение
-      image size hint: (най-подходящо е квадратно изображение с мин. размер 100×100)
-      home location: Моето местоположение
-      no home location: Не сте избрали своето местоположение.
-      update home location on click: Променяне на моето местоположение при избиране
-        от картата
-      show: Показване
-    update:
-      success: Профилът е обновен.
-      failure: Неуспешно обновление на профила.
+    profile_sections:
+      navigation:
+        image: Изображение
+    descriptions:
+      show:
+        title: Редактиране на профила
+        cancel: Отказ
+    links:
+      show:
+        title: Редактиране на профила
+        cancel: Отказ
+    images:
+      show:
+        gravatar:
+          gravatar: Използване на Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Какво е Gravatar?
+        new image: Добавяне на изображение
+        keep image: Запазване на текущото изображение
+        delete image: Премахване на текущото изображение
+        replace image: Заменяне на текущото изображение
+        image size hint: (най-подходящо е квадратно изображение с мин. размер 100×100)
+    locations:
+      show:
+        no home location: Не сте избрали своето местоположение.
+        update home location on click: Променяне на моето местоположение при избиране
+          от картата
+        show: Показване
   sessions:
     new:
       tab_title: Влизане
@@ -1490,7 +1492,7 @@ bg:
         native_link: българската версия
         mapping_link: картографирате
       legal_babble:
-        credit_title_html: Как да кредитирате OpenStreetMap
+        credit_title_html: Как да кредитирате OpenHistoricalMap
         credit_1_html: 'Когато използвате данни от OpenStreetMap, от вас се изисква
           да направите следните две неща:'
         more_title_html: Открийте повече
@@ -1511,8 +1513,6 @@ bg:
       user_page_link: Потребителска страница
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Разберете защо е така.
-    edit:
-      id_not_configured: iD не е настроен
     export:
       title: Експортиране
       manually_select: Ръчно избиране на друга област
@@ -1651,7 +1651,11 @@ bg:
           като неформално събиране на хора или като общностна група. Всеки може да
           ги създаде или да се присъедини към тях. Прочетете повече на %{communities_wiki_link}.
         communities_wiki: уики страницата на общностите
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Увеличете за преглед на бележките
+      map_data_zoom_in_tooltip: Увеличете за подробности
+  legend_panes:
     show:
       entries:
         motorway: Магистрала
@@ -1706,6 +1710,19 @@ bg:
         bicycle_shop: Магазин за велосипеди
         bicycle_parking: Паркинг на велосипеди
         toilets: Тоалетни
+  share_panes:
+    show:
+      link: Препратка или код
+      include_marker: Добавяне на маркер
+      long_link: Препратка
+      short_link: Кратка препратка
+      embed: HTML
+      geo_uri: Geo URI
+      image: Изображение
+      format: 'Формат:'
+      scale: 'Мащаб:'
+      custom_dimensions: Размер по избор
+      download: Изтегляне
   traces:
     new:
       upload_trace: Качване на следи от GPS
@@ -1825,7 +1842,6 @@ bg:
       blocks on me: Блокирани от мен
       blocks by me: Блокирани от мен
       create_mute: Заглушаване на потребителя
-      edit_profile: Редактиране на профила
       send message: Изпратете съобщение
       diary: Дневник
       edits: Промени
@@ -1839,12 +1855,6 @@ bg:
       created from: 'Създадена от:'
       status: 'Състояние:'
       spam score: 'Оценка за спам:'
-      role:
-        administrator: Този потребител е администратор
-        moderator: Този потребител е модератор
-        grant:
-          administrator: Позволи администраторски достъп
-          moderator: Позволи модераторски достъп
       block_history: Активни блокирания
       moderator_history: Блокирания
       comments: Коментари
@@ -1878,6 +1888,13 @@ bg:
         post: Публикация
     suspended:
       support: поддръжка
+    role_icons:
+      title:
+        administrator: Този потребител е администратор
+        moderator: Този потребител е модератор
+      grant:
+        administrator: Позволи администраторски достъп
+        moderator: Позволи модераторски достъп
   user_blocks:
     not_found:
       back: Обратно към индекс
@@ -1968,24 +1985,10 @@ bg:
     close: Затваряне
     share:
       title: Споделяне
-      cancel: Отказ
-      image: Изображение
-      link: Препратка или код
-      long_link: Препратка
-      short_link: Кратка препратка
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Размер по избор
-      format: 'Формат:'
-      scale: 'Мащаб:'
-      download: Изтегляне
-      short_url: Къс адрес
-      include_marker: Добавяне на маркер
-      center_marker: Центриране на маркера
       view_larger_map: Преглед на по-голяма карта
     embed:
       report_problem: Докладване за проблем
-    key:
+    legend:
       title: Легенда
       tooltip: Легенда
       tooltip_disabled: Легендата не е достъпна за този слой
@@ -2012,8 +2015,6 @@ bg:
       edit_disabled_tooltip: Увеличете за редактиране на картата
       createnote_tooltip: Добавяне на бележка на картата
       createnote_disabled_tooltip: Увеличете за добавяне на бележка
-      map_notes_zoom_in_tooltip: Увеличете за преглед на бележките
-      map_data_zoom_in_tooltip: Увеличете за подробности
       queryfeature_tooltip: Търсене на обекти
       queryfeature_disabled_tooltip: Увеличете за търсене на обекти
     directions:
@@ -2083,6 +2084,9 @@ bg:
       show_address: Показване на адреса
       query_features: Търсене на обекти
       centre_map: Центриране на картата
+    edit:
+      id_not_configured:
+        title: iD не е настроен
   redactions:
     edit:
       heading: Промяна на поправката

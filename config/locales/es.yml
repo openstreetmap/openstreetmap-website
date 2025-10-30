@@ -167,7 +167,6 @@ es:
       node: Nodo
       node_tag: Etiqueta del nodo
       note: Nota
-      notifier: Notificador
       old_node: Nodo antiguo
       old_node_tag: Etiqueta del nodo antiguo
       old_relation: Relación antigua
@@ -277,10 +276,6 @@ es:
         needs_view: ¿Tiene que iniciar sesión el usuario antes de que este bloqueo
           sea eliminado?
       user:
-        email_confirmation: Tu dirección no se muestra de forma pública. Consulta
-          la <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Normativa
-          de privacidad de OSMF, que incluye una sección sobre las direcciones de
-          correo electrónico">normativa de privacidad</a> para más información.
         new_email: (nunca se muestra públicamente)
   datetime:
     distance_in_words_ago:
@@ -371,19 +366,17 @@ es:
       my_account: Mi cuenta
       current email address: Dirección de correo electrónico actual
       external auth: Autentificación externa
-      contributor terms:
+      contributor_terms:
         heading: Términos de Colaborador
         agreed: Has aceptado los nuevos Términos de Colaborador.
-        not yet agreed: Aún no has aceptado los nuevos Términos de Colaborador.
-        review link text: Sigue este enlace cuando te resulte conveniente para revisar
-          y aceptar los nuevos Términos de Colaborador.
         agreed_with_pd: También has declarado que consideras que tus ediciones son
           de Dominio Público.
         link: https://wiki.openstreetmap.org/wiki/ES:Licencia_Abierta_de_Base_de_Datos/T%C3%A9rminos_del_colaborador
         link text: ¿Qué es esto?
         not_agreed_with_pd: No has declarado que consideras que tus ediciones son
           de Dominio Público.
-        pd_link_text: declara
+      terms_of_use:
+        heading: Términos de Uso
       save changes button: Guardar cambios
       delete_account: Eliminar cuenta...
     go_public:
@@ -447,8 +440,10 @@ es:
           actuales y futuras.
         read_ct: He leído y estoy de acuerdo con los Términos de Colaborador arriba
           descritos
-        tou_explain_html: Estos %{tou_link} rigen el uso del sitio web y de la infraestructura
-          provista por OpenHistoricalMap. Haz clic en el enlace, lee y acepta el texto.
+        tou_explain:
+          html: Estos %{tou_link} rigen el uso del sitio web y de la infraestructura
+            provista por OpenHistoricalMap. Haz clic en el enlace, lee y acepta el
+            texto.
         read_tou: He leído y estoy de acuerdo con los Términos de Uso
         guidance_info_html: 'Información para ayudar a comprender estos términos:
           un %{readable_summary_link} y algunas %{informal_translations_link}'
@@ -501,9 +496,7 @@ es:
       one: '%{count} vía'
       other: '%{count} vías'
     download_xml: Descargar XML
-    view_history: Ver historial
     view_unredacted_history: Ver historial sin censura
-    view_details: Ver detalles
     location: 'Ubicación:'
     node:
       title_html: 'Nodo: %{name}'
@@ -632,7 +625,7 @@ es:
         sorry: Lo sentimos, la lista de comentarios del conjunto de cambios que solicitó
           tardó demasiado en recuperarse.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentario'
         other: '%{count} comentarios'
@@ -868,7 +861,7 @@ es:
     bad_request:
       title: Mala solicitud
       description: La operación que solicitaste en el servidor de OpenHistoricalMap
-        no es valida (HTTP 400)
+        no es válida (HTTP 400)
     forbidden:
       title: Prohibido
       description: La operación que solicitaste en el servidor OpenHistoricalMap solo
@@ -1742,8 +1735,6 @@ es:
       time: Hora
       ascend: Ascender
       descend: Descender
-      button_km: km
-      button_mi: mi
       download: Descargar ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicaciones cortesía de %{link}
@@ -1834,7 +1825,6 @@ es:
   reports:
     new:
       title_html: Denunciar %{link}
-      missing_params: No se puede crear una denuncia nueva
       disclaimer:
         intro: 'Antes de enviar tu denuncia a los moderadores del sitio, asegúrate
           de que:'
@@ -1995,7 +1985,7 @@ es:
     lost_password:
       subject: '[OpenHistoricalMap] Petición para restablecer la contraseña'
       greeting: Hola,
-      hopefully_you: Alguien (posiblemente tu) ha solicitado que se restablezca la
+      hopefully_you: Alguien (posiblemente tú) ha solicitado que se restablezca la
         contraseña de la cuenta en openhistoricalmap.org de esta dirección de correo
         electrónico.
       click_the_link: Si este eres tú, por favor, haz clic en el enlace siguiente
@@ -2097,6 +2087,9 @@ es:
       whitelist: Si usas un sistema antispam que envía solicitudes de confirmación
         entonces por favor asegúrate de incluir en la lista blanca %{sender}, ya que
         no podemos responder solicitud de confirmación alguna.
+    gravatar:
+      disabled: Gravatar se ha deshabilitado.
+      enabled: Se ha habilitado la visualización de tu Gravatar.
   messages:
     new:
       title: Enviar mensaje
@@ -2232,36 +2225,42 @@ es:
         title: Mis preferencias avanzadas
         save: Actualizar preferencias
   profiles:
-    show:
-      title: Editar perfil
-      save: Actualizar perfil
-      cancel: Cancelar
-      image: Imagen
-      gravatar:
-        gravatar: Usa Gravatar
-        link: https://wiki.openstreetmap.org/wiki/ES:Gravatar
-        what_is_gravatar: ¿Qué es Gravatar?
-        disabled: Gravatar se ha deshabilitado.
-        enabled: Se ha habilitado la visualización de tu Gravatar.
-      new image: Añadir una imagen
-      keep image: Mantener la imagen actual
-      delete image: Eliminar la imagen actual
-      replace image: Reemplazar la imagen actual
-      image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
-      home location: Ubicación de casa
-      no home location: No has introducido tu ubicación de casa.
-      update home location on click: ¿Actualizar tu lugar de origen cuando hagas clic
-        sobre el mapa?
-      show: Mostrar
-      delete: Eliminar
-      undelete: Deshacer eliminación
-      social_links:
-        title: Enlaces de perfiles de redes sociales
-        remove: Quitar
-        add: Añadir enlace de redes sociales
-    update:
-      success: Perfil actualizado.
-      failure: No se pudo actualizar el perfil.
+    profile_sections:
+      navigation:
+        image: Imagen
+        company: Empresa
+    descriptions:
+      show:
+        title: Editar perfil
+        save: Actualizar perfil
+        cancel: Cancelar
+    links:
+      show:
+        title: Editar perfil
+        cancel: Cancelar
+        social_links:
+          title: Enlaces de perfiles de redes sociales
+          remove: Quitar
+          add: Añadir enlace de redes sociales
+    images:
+      show:
+        gravatar:
+          gravatar: Usa Gravatar
+          link: https://wiki.openstreetmap.org/wiki/ES:Gravatar
+          what_is_gravatar: ¿Qué es Gravatar?
+        new image: Añadir una imagen
+        keep image: Mantener la imagen actual
+        delete image: Eliminar la imagen actual
+        replace image: Reemplazar la imagen actual
+        image size hint: (las imágenes cuadradas de al menos 100x100 funcionan mejor)
+    locations:
+      show:
+        no home location: No has introducido tu ubicación de casa.
+        update home location on click: ¿Actualizar tu lugar de origen cuando hagas
+          clic sobre el mapa?
+        show: Mostrar
+        delete: Eliminar
+        undelete: Deshacer eliminación
   sessions:
     new:
       tab_title: Iniciar sesión
@@ -2445,7 +2444,6 @@ es:
           de créditos separada donde mencione otras fuentes:'
         credit_3_credit_html: Datos del mapa cortesía del proyecto %{project_link},
           en el dominio público a menos que se indique lo contrario.
-        credit_3_project: OpenHistoricalMap
         credit_4_ohm_html: En un mapa impreso, puede colocar el reconocimiento en
           la leyenda. En un libro, puede describir su uso de OpenHistoricalMap en
           una nota al pie de página, una bibliografía o un colofón. En un artículo
@@ -2534,8 +2532,6 @@ es:
       user_page_link: página de usuario
       anon_edits_link: https://wiki.openstreetmap.org/wiki/ES:Ediciones_an%C3%B3nimas
       anon_edits_link_text: Descubre a qué se debe.
-    edit:
-      id_not_configured: iD no ha sido configurado
     export:
       title: Exportar
       manually_select: Seleccionar manualmente un área diferente
@@ -2623,7 +2619,7 @@ es:
         description: Comienza con esta guía rápida que cubre lo básico de OpenHistoricalMap.
       discord:
         title: Discord
-        description: 'Únate al servidor Discord de OpenStreetMap World y obtenga ayuda
+        description: 'Únete al servidor Discord de OpenStreetMap World y obten ayuda
           en el canal #openhistoricalmap.'
       forum:
         title: Foro
@@ -2759,11 +2755,11 @@ es:
           comunitario. Cualquiera puede crearlos o unirse a estos. Obten más información en %{communities_wiki_link}.
         communities_wiki: Página wiki de comunidades
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/ES:Grupo_de_usuarios
-  social_links:
+  layers_panes:
     show:
-      one: Otro
-      other: Otros
-  map_keys:
+      map_notes_zoom_in_tooltip: Acercar para ver notas del mapa
+      map_data_zoom_in_tooltip: Acercar para ver datos del mapa
+  legend_panes:
     show:
       entries:
         motorway: Autopista
@@ -2854,6 +2850,25 @@ es:
         bicycle_parking_small: Pequeño aparcamiento para bicicletas
         toilets: Baños
       see_external_legend: Ver la leyenda externa del mapa
+  share_panes:
+    show:
+      link: Enlace o código HTML
+      include_marker: Incluir marcador
+      long_link: Enlace
+      short_link: Enlace corto
+      embed: HTML
+      embed_html_disabled: La incrustación de HTML no está disponible para esta capa
+        de mapa
+      paste_html: Pegar código HTML para incrustar en el sitio web
+      geo_uri: Geo URI
+      image: Imagen
+      only_layers_exported_as_image: 'Solo las siguientes capas podrán exportarse
+        como una imagen:'
+      format: 'Formato:'
+      scale: 'Escala:'
+      custom_dimensions: Establecer dimensiones personalizadas
+      image_dimensions_html: La imagen mostrará la capa %{layer} en %{width} x %{height}
+      download: Descargar
   traces:
     visibility:
       private: Privado (solo compartido como anónimo, puntos no ordenados)
@@ -3153,7 +3168,6 @@ es:
       blocks by me: Bloqueados por mí
       create_mute: Silenciar a este usuario
       destroy_mute: Dejar de silenciar a este usuario
-      edit_profile: Editar perfil
       send message: Enviar mensaje
       diary: Diario
       edits: Ediciones
@@ -3163,9 +3177,6 @@ es:
       follow: Seguir
       mapper since: 'Mapeando desde:'
       last map edit: Última edición del mapa
-      home location: Ubicación de casa
-      company: Empresa
-      company tooltip: La afiliación de la empresa es autoinformada y no verificada.
       no activity yet: Sin actividad todavía
       uid: 'Identificación de usuario:'
       ct status: 'Términos de Colaborador:'
@@ -3175,18 +3186,6 @@ es:
       created from: 'Creado a partir de:'
       status: 'Estado:'
       spam score: 'Puntuación de spam:'
-      role:
-        administrator: Este usuario es un administrador
-        moderator: Este usuario es un moderador
-        importer: Este usuario es un importador
-        grant:
-          administrator: Otorgar acceso de administrador
-          moderator: Adjudicar acceso de moderador
-          importer: Otorgar acceso importador
-        revoke:
-          administrator: Revocar acceso de administrador
-          moderator: Revocar acceso de moderador
-          importer: Revocar el acceso importador
       block_history: Bloqueos activos
       moderator_history: Bloqueos impuestos
       revoke_all_blocks: Revocar todos los bloqueos
@@ -3204,6 +3203,9 @@ es:
       contributions:
         one: '%{count} contribución en el último año'
         other: '%{count} contribuciones en el último año'
+    sidebar_section:
+      home_location: Ubicación de casa
+      company_tooltip: La afiliación de la empresa es autoinformada y no verificada.
     go_public:
       flash success: Todas tus ediciones ahora son públicas y ya estás autorizado
         para editar.
@@ -3299,6 +3301,22 @@ es:
         Si ya tienes una cuenta, puedes iniciar sesión con tu cuenta
         usando tu nombre de usuario y contraseña y luego asociar la cuenta
         con tu identificador en tus configuraciones de usuario.
+    role_icons:
+      title:
+        administrator: Este usuario es un administrador
+        moderator: Este usuario es un moderador
+      grant:
+        administrator: Otorgar acceso de administrador
+        moderator: Adjudicar acceso de moderador
+        importer: Otorgar acceso importador
+        are_you_sure: ¿Estás seguro de que deseas otorgar el rol `%{role}' al usuario
+          `%{name}'?
+      revoke:
+        administrator: Revocar acceso de administrador
+        moderator: Revocar acceso de moderador
+        importer: Revocar el acceso importador
+        are_you_sure: ¿Estás seguro de que deseas revocar el rol `%{role}' del usuario
+          `%{name}'?
   user_role:
     filter:
       not_a_role: La cadena '%{role}' no es un rol válido.
@@ -3306,12 +3324,6 @@ es:
       doesnt_have_role: El usuario no tiene el rol %{role}.
       not_revoke_admin_current_user: No se pudo revocar el rol de administrador del
         usuario actual.
-    grant:
-      are_you_sure: ¿Estás seguro de que deseas otorgar el rol `%{role}' al usuario
-        `%{name}'?
-    revoke:
-      are_you_sure: ¿Estás seguro de que deseas revocar el rol `%{role}' del usuario
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Debes ser un moderador para poder crear o actualizar un
@@ -3522,28 +3534,10 @@ es:
     close: Cerrar
     share:
       title: Compartir
-      cancel: Cancelar
-      image: Imagen
-      link: Enlace o código HTML
-      long_link: Enlace
-      short_link: Enlace corto
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Establecer dimensiones personalizadas
-      format: 'Formato:'
-      scale: 'Escala:'
-      image_dimensions: La imagen mostrará la capa %{layer} en %{width} x %{height}
-      download: Descargar
-      short_url: URL corta
-      include_marker: Incluir marcador
-      center_marker: Centrar mapa en el marcador
-      paste_html: Pegar código HTML para incrustar en el sitio web
       view_larger_map: Ver el mapa más grande
-      only_layers_exported_as_image: 'Solo las siguientes capas podrán exportarse
-        como una imagen:'
     embed:
       report_problem: Reportar un problema
-    key:
+    legend:
       title: Leyenda del mapa
       tooltip: Leyenda del mapa
       tooltip_disabled: Leyenda del mapa no disponible en esta capa
@@ -3594,12 +3588,8 @@ es:
       edit_disabled_tooltip: Acercar para editar el mapa
       createnote_tooltip: Añadir una nota al mapa
       createnote_disabled_tooltip: Acercar para añadir una nota al mapa
-      map_notes_zoom_in_tooltip: Acercar para ver notas del mapa
-      map_data_zoom_in_tooltip: Acercar para ver datos del mapa
       queryfeature_tooltip: Consultar elementos
       queryfeature_disabled_tooltip: Acercar para consultar elementos
-      embed_html_disabled: La incrustación de HTML no está disponible para esta capa
-        de mapa
     profile:
       social_link_n: Enlace de perfil social %{n}
       remove_social_link_n: Eliminar enlace de perfil social %{n}
@@ -3607,15 +3597,12 @@ es:
       haz clic aquí.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pies'
-          mi: '%{distance} millas'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pies'
+        mi: '%{distance} millas'
       errors:
         no_route: No se pudo encontrar una ruta entre esos dos lugares.
-        no_place: No se pudo localizar «%{place}».
       instructions:
         continue_without_exit: Continúa por %{name}
         slight_right_without_exit: Gira un poco a la derecha hacia %{name}
@@ -3717,6 +3704,9 @@ es:
         contributions:
           one: '%{count} contribución el %{date}'
           other: '%{count} contribuciones el %{date}'
+    edit:
+      id_not_configured:
+        title: iD no ha sido configurado
   redactions:
     edit:
       heading: Editar censura

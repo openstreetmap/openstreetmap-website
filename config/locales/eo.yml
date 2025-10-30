@@ -80,7 +80,6 @@ eo:
       node: Nodo
       node_tag: Etikedo de nodo
       note: rimarko
-      notifier: Atentigilo
       old_node: Malnova nodo
       old_node_tag: Etikedo de malnova nodo
       old_relation: Malnova rilato
@@ -184,10 +183,6 @@ eo:
           komprenas la komunuman ĵargonon, do bonvolu uzi simplajn vortojn.
         needs_view: Ĉu la uzanto devas ensaluti antaŭ ĉi tiu blokado nuligos?
       user:
-        email_confirmation: Via retpoŝta adreso ne estos montrata publike, legu nian
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="privateca
-          politiko de OSMF enhavanta sekcion pri retpoŝta adreso">privatecan politikon</a>
-          por pli da informoj.
         new_email: (neniam publike montrita)
   datetime:
     distance_in_words_ago:
@@ -274,16 +269,15 @@ eo:
       title: Redakti konton
       current email address: Aktuala retpoŝta adreso
       external auth: Ekstera aŭtentigo
-      contributor terms:
+      contributor_terms:
         heading: Interkonsento pri kontribuado
         agreed: Vi konsentis la novan interkonsenton pri kontribuado.
-        not yet agreed: Vi ankoraŭ ne konsentis la novan interkonsenton pri kontribuado.
-        review link text: Bonvolu sekvi ĉi tiun ligilon por legi kaj akcepti la novan
-          interkonsenton pri uzado.
         agreed_with_pd: Vi ankaŭ deklaris, ke viaj kontribuaĵoj estas en la publika
           havaĵo.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Pliaj informoj
+      terms_of_use:
+        heading: kondiĉoj de uzado
       save changes button: Konservi ŝanĝojn
       delete_account: Forigi konton…
     go_public:
@@ -337,9 +331,10 @@ eo:
         contributor_terms_explain: Ĉi tiu interkonsento regas la kondicôjn de viaj
           estantaj kaj estontaj kontribuoj.
         read_ct: Mi legis kaj konsentas la ĉi-supran Interkonsenton pri kontribuado
-        tou_explain_html: Ĉi tiuj %{tou_link} regas la uzadon de la retejo kaj alia
-          infrastrukturo provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon,
-          legi, kaj konsenti la tekston.
+        tou_explain:
+          html: Ĉi tiuj %{tou_link} regas la uzadon de la retejo kaj alia infrastrukturo
+            provizata de la Fondaĵo OSM. Bonvolu alklaki la ligilon, legi, kaj konsenti
+            la tekston.
         read_tou: Mi legis kaj konsentas la Uzkondiĉojn
         guidance_info_html: 'Pliaj informoj helpantaj kompreni ilin: %{readable_summary_link}
           kaj kelkaj %{informal_translations_link}'
@@ -377,9 +372,7 @@ eo:
       one: '%{count} linio'
       other: '%{count} linioj'
     download_xml: Elŝuti XML
-    view_history: Vidi historion
     view_unredacted_history: Vidigi historion de neredaktitaj
-    view_details: Montri detalojn
     location: 'Pozicio:'
     common_details:
       coordinates_html: '%{latitude}; %{longitude}'
@@ -1568,7 +1561,6 @@ eo:
   reports:
     new:
       title_html: Raporti %{link}
-      missing_params: Ne povas krei novan raporton
       disclaimer:
         intro: 'Antaŭ sendi raporton al kontrolantoj, bonvolu certiĝi ke:'
         not_just_mistake: raportata problemo ne estas simpla eraro de uzanto
@@ -1644,11 +1636,12 @@ eo:
       footer_unsubscribe: Vi povas malaboni la diskuton ĉe %{unsubscribeurl}
       footer_unsubscribe_html: Vi povas malaboni la diskuton ĉe %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Saluton %{to_user},
-      header: '%{from_user} sendis al vi mesaĝon tra OpenStreetMap kun la temo %{subject}:'
-      header_html: '%{from_user} Sendis al vi mesaĝon per OpenStreetMap kun la temo
-        %{subject}'
+      header: '%{from_user} sendis al vi mesaĝon tra OpenHistoricalMap kun la temo
+        %{subject}:'
+      header_html: '%{from_user} Sendis al vi mesaĝon per OpenHistoricalMap kun la
+        temo %{subject}'
       footer: Vi ankaŭ povas legi la mesaĝon ĉe %{readurl} kaj sendi mesaĝon al la
         aŭtoro ĉe %{replyurl}
       footer_html: Vi ankaŭ povas legi la mesaĝon ĉe %{readurl} kaj sendi mesaĝon
@@ -1681,14 +1674,14 @@ eo:
         sube por konfirmi vian konton.
       welcome: Post konfirmo de konto, ni liveros al vi pliajn informojn kiel komenci.
     email_confirm:
-      subject: '[OpenStreetMap] Konfirmado de retpoŝtadreso'
+      subject: '[OpenHistoricalMap] Konfirmado de retpoŝtadreso'
       greeting: Saluton,
       hopefully_you: Iu (espereble vi) volas ŝanĝi vian retpoŝtadreson je %{server_url}
         al %{new_address}.
       click_the_link: Se tiu estas vi, bonvolu alklaku la ligilon sube por konfirmi
         ŝanĝon de adreso.
     lost_password:
-      subject: '[OpenStreetMap] Peto pri restarigo de pasvorto'
+      subject: '[OpenHistoricalMap] Peto pri restarigo de pasvorto'
       greeting: Saluton,
       hopefully_you: Iu (espereble vi) volas restarigi la pasvorton por konto je openstreetmap.org
         por tiu ĉi retpoŝtadreso.
@@ -1775,6 +1768,9 @@ eo:
       whitelist: Se vi uzas kontraŭtrudmesaĝan sistemon, kiu sendas konfirmpetojn;
         certiĝu ke la sendinto %{sender} estu sur la permesata listo, ĉar ni ne povas
         respondi al konfirmpetoj.
+    gravatar:
+      disabled: “Gravataro” estas malaktiva.
+      enabled: Montrado de via “Gravataro” estas aktiva.
   messages:
     new:
       title: Sendi mesaĝon
@@ -1888,32 +1884,37 @@ eo:
         title: Miaj preferoj
         save: Konservi preferojn
   profiles:
-    show:
-      title: Redakti profilon
-      save: Aktualigi profilon
-      cancel: Nuligi
-      image: Profilbildo
-      gravatar:
-        gravatar: Uzi “Gravataron”
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Kio estas Gravatar?
-        disabled: “Gravataro” estas malaktiva.
-        enabled: Montrado de via “Gravataro” estas aktiva.
-      new image: Aldoni bildon
-      keep image: Konservi la aktualan bildon
-      delete image: Forigi la aktualan bildon
-      replace image: Anstataŭigi la aktualan bildon
-      image size hint: (kvadrataj bildoj kun grando pli ol 100x100 taŭgas)
-      home location: Hejma pozicio
-      no home location: Vi ne enigis vian hejmlokon.
-      update home location on click: Ĉu freŝigi la hejmlokon kiam mi alklakas sur
-        la mapo?
-      show: Montri
-      delete: Forigi
-      undelete: Malforigi
-    update:
-      success: Aktualigis profilon.
-      failure: Ne povis aktualigi la profilon.
+    profile_sections:
+      navigation:
+        image: Profilbildo
+    descriptions:
+      show:
+        title: Redakti profilon
+        save: Aktualigi profilon
+        cancel: Nuligi
+    links:
+      show:
+        title: Redakti profilon
+        cancel: Nuligi
+    images:
+      show:
+        gravatar:
+          gravatar: Uzi “Gravataron”
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Kio estas Gravatar?
+        new image: Aldoni bildon
+        keep image: Konservi la aktualan bildon
+        delete image: Forigi la aktualan bildon
+        replace image: Anstataŭigi la aktualan bildon
+        image size hint: (kvadrataj bildoj kun grando pli ol 100x100 taŭgas)
+    locations:
+      show:
+        no home location: Vi ne enigis vian hejmlokon.
+        update home location on click: Ĉu freŝigi la hejmlokon kiam mi alklakas sur
+          la mapo?
+        show: Montri
+        delete: Forigi
+        undelete: Malforigi
   sessions:
     new:
       tab_title: Ensaluti
@@ -2051,8 +2052,6 @@ eo:
       user_page_link: uzantpaĝo
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Tie ĉi vi sciiĝis kiel.
-    edit:
-      id_not_configured: iD ne estas agordita
     export:
       title: Elporti
       manually_select: Permane elektu alian areon.
@@ -2222,7 +2221,11 @@ eo:
           aŭ kiel komunumoj. Ĉiu povas aliĝi aŭ krei la propran. Pliaj informoj troviĝas
           sur %{communities_wiki_link}.
         communities_wiki: tiu ĉi viki-paĝo
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Pligrandigu por vidi map-rimarkoj
+      map_data_zoom_in_tooltip: Pligrandigu por vidi map-datumoj
+  legend_panes:
     show:
       entries:
         motorway: Aŭtovojo
@@ -2306,6 +2309,22 @@ eo:
         bicycle_parking: Parkumejo bicikla
         bicycle_parking_small: Malgranda parkumejo bicikla
         toilets: Necesejo
+  share_panes:
+    show:
+      link: Ligilo aŭ HTML
+      include_marker: Inkludi markon
+      long_link: Ligilo
+      short_link: Ligileto
+      embed: HTML
+      embed_html_disabled: HTML-enigo ne haveblas por ĉi tiu mapo-tavolo
+      paste_html: Engluu HTML-kodon al via retpaĝo
+      geo_uri: Geo-URI
+      image: Bildo
+      format: 'Dosiertipo:'
+      scale: 'Skalo:'
+      custom_dimensions: Agordi proprajn dimensiojn
+      image_dimensions_html: Bildo montros la tavolon “%{layer}” je distingivo %{width}×%{height}
+      download: Elŝuti
   traces:
     visibility:
       private: privata (kunhavigata nur kiel sennomaj, malordigitaj punktoj)
@@ -2566,7 +2585,6 @@ eo:
       blocks by me: Blokitaj de mi
       create_mute: Silentigi tiun ĉi uzanton
       destroy_mute: Malsilentigi tiun ĉi uzanton
-      edit_profile: Redakti profilon
       send message: Sendi mesaĝon
       diary: Taglibro
       edits: Redaktoj
@@ -2583,18 +2601,6 @@ eo:
       created from: 'Kreita de:'
       status: 'Stato:'
       spam score: 'Trudmesaĝa poentaro:'
-      role:
-        administrator: Ĉi tiu uzanto estas administranto
-        moderator: Ĉi tiu uzanto estas kontrolanto
-        importer: Tiu ĉi uzanto estas enportisto
-        grant:
-          administrator: Permesi aliron de administranto
-          moderator: Permesi aliron de kontrolanto
-          importer: Permesi aliron de enportisto
-        revoke:
-          administrator: Nuligi aliron de administranto
-          moderator: Nuligi aliron de kontrolanto
-          importer: Nuligi aliron de enportisto
       block_history: Blokadoj aktivaj
       moderator_history: Blokadoj eldonitaj
       revoke_all_blocks: Nuligi ĉiujn blokadojn
@@ -2677,6 +2683,20 @@ eo:
         la jena formularo.
       option_2: Se vi jam havas konton, vi povas ensaluti per viaj uzantnomo kaj pasvorto,
         kaj poste kunligi la konton kun via identigilo en agordoj de uzanto.
+    role_icons:
+      title:
+        administrator: Ĉi tiu uzanto estas administranto
+        moderator: Ĉi tiu uzanto estas kontrolanto
+      grant:
+        administrator: Permesi aliron de administranto
+        moderator: Permesi aliron de kontrolanto
+        importer: Permesi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas doni la rolon '%{role}'  al la uzanto '%{name}'?
+      revoke:
+        administrator: Nuligi aliron de administranto
+        moderator: Nuligi aliron de kontrolanto
+        importer: Nuligi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
   user_role:
     filter:
       not_a_role: La ĉeno `%{role}' ne estas valida rolo.
@@ -2684,10 +2704,6 @@ eo:
       doesnt_have_role: La uzanto ne rolas %{role}.
       not_revoke_admin_current_user: Ne povas nuligi rolon de administranto de nuna
         uzanto.
-    grant:
-      are_you_sure: Ĉu vi certe volas doni la rolon '%{role}'  al la uzanto '%{name}'?
-    revoke:
-      are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Vi devas esti kontrolanto por doni aŭ ĝisdatigi blokadon.
@@ -2857,26 +2873,10 @@ eo:
     close: Fermi
     share:
       title: Kunhavigi
-      cancel: Nuligi
-      image: Bildo
-      link: Ligilo aŭ HTML
-      long_link: Ligilo
-      short_link: Ligileto
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Agordi proprajn dimensiojn
-      format: 'Dosiertipo:'
-      scale: 'Skalo:'
-      image_dimensions: Bildo montros la tavolon “%{layer}” je distingivo %{width}×%{height}
-      download: Elŝuti
-      short_url: Mallonga retadreso
-      include_marker: Inkludi markon
-      center_marker: Centrigi mapon al marko
-      paste_html: Engluu HTML-kodon al via retpaĝo
       view_larger_map: Vidi pli grandan mapon
     embed:
       report_problem: Raporti problemon
-    key:
+    legend:
       title: Mapklarigo
       tooltip: Mapklarigo
       tooltip_disabled: Mapklarigo ne disponeblas por tiu ĉi tavolo
@@ -2920,21 +2920,16 @@ eo:
       edit_disabled_tooltip: Pligrandigu por redakti la mapon
       createnote_tooltip: Aldoni rimarkon al la mapo
       createnote_disabled_tooltip: Pligrandigu por aldoni rimarkon al la mapo
-      map_notes_zoom_in_tooltip: Pligrandigu por vidi map-rimarkoj
-      map_data_zoom_in_tooltip: Pligrandigu por vidi map-datumoj
       queryfeature_tooltip: Montri informojn pri objekto
       queryfeature_disabled_tooltip: Pligrandigu por montri informojn pri objektoj
-      embed_html_disabled: HTML-enigo ne haveblas por ĉi tiu mapo-tavolo
     edit_help: Movu la mapon kaj pligrandigu al loko kiun vi volas redakti, kaj poste
       alklaku tie ĉi.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Ne povis trovi kurson inter tiuj du punktoj.
-        no_place: Bedaŭrinde ne povas trovi “%{place}”.
       instructions:
         continue_without_exit: Antaŭen al %{name}
         slight_right_without_exit: Ete dekstren al %{name}
@@ -3027,6 +3022,9 @@ eo:
       show_address: Montri adreson
       query_features: Informoj pri objektoj
       centre_map: Centrigi mapon ĉi tien
+    edit:
+      id_not_configured:
+        title: iD ne estas agordita
   redactions:
     edit:
       heading: Redakti korekton

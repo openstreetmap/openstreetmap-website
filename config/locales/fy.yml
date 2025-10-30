@@ -51,7 +51,6 @@ fy:
       node: Punt
       node_tag: Puntlebel
       note: notysje
-      notifier: Melder
       old_node: Ald punt
       old_node_tag: Ald puntlebel
       old_relation: Alde relaasje
@@ -156,9 +155,6 @@ fy:
           te brûken.
         needs_view: Moat de meidogger oanmelde foar't dizze útsluting ferfalt?
       user:
-        email_confirmation: Jo adres wurdt net publikelik toand; sjoch ús <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="Privacybelied fan OSMF mei in stik oer e-mailadressen">Privacybelied</a>
-          foar mear ynformaasje.
         new_email: (nea publikelik toand)
   datetime:
     distance_in_words_ago:
@@ -243,12 +239,9 @@ fy:
       title: Akkount bewurkje
       current email address: Hjoeddeisk e-mailadres
       external auth: Autentifikaasje om utens
-      contributor terms:
+      contributor_terms:
         heading: Bydragersbetingsten
         agreed: Jo binne akkoart gien mei de nije Bydragersbetingsten.
-        not yet agreed: Jo binne noch net akkoart gien mei de nije Bydragersbetingsten.
-        review link text: Folgje dizze keppeling wannear't it jo útkomt, om de nije
-          Bydragersbetingsten te besjen en te akseptearjen.
         agreed_with_pd: Jo hawwe ek oanjûn dat jo jo bewurkings as part fan it Publyk
           Domein beskôgje.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
@@ -297,9 +290,10 @@ fy:
           besteande en takomstige bydragen.
         read_ct: Ik haw de boppesteande bydragersbetingsten lêzen en gean der akkoart
           mei
-        tou_explain_html: Dizze %{tou_link} regelje it brûken fan it webstee en oare
-          ynfrastruktuer beskikber steld troch de OSMF. Klik op 'e keppeling, lês
-          de tekst en gean akkoart.
+        tou_explain:
+          html: Dizze %{tou_link} regelje it brûken fan it webstee en oare ynfrastruktuer
+            beskikber steld troch de OSMF. Klik op 'e keppeling, lês de tekst en gean
+            akkoart.
         read_tou: Ik haw de Gebrûksbetingsten lêzen en gean der akkoart mei
         cancel: Annulearje
         you need to accept or decline: Lês de nije Bydragersbetingsten; jo kinne fierder
@@ -329,8 +323,6 @@ fy:
       one: 1 line
       other: '%{count} linen'
     download_xml: XML ynlade
-    view_history: Skiednis besjen
-    view_details: Gegevens besjen
     location: 'Lokaasje:'
     node:
       title_html: 'Punt: %{name}'
@@ -1390,7 +1382,6 @@ fy:
   reports:
     new:
       title_html: '%{link} melde'
-      missing_params: Kin gjin nije melding oanmeitsje
       disclaimer:
         intro: 'Foar''t jo melding dogge by it websteetafersjoch, moat it neikommende
           fêststean:'
@@ -1465,12 +1456,12 @@ fy:
       footer_html: Jo kinne de reäksje ek lêze op %{readurl} en reägearje op %{commenturl},
         of de reägearder in berjocht stjoere op %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Goeie %{to_user},
-      header: '%{from_user} hat jo in berjocht stjoerd op OpenStreetMap mei as ûnderwerp
-        %{subject}:'
-      header_html: '%{from_user} hat jo in berjocht stjoerd op OpenStreetMap mei as
+      header: '%{from_user} hat jo in berjocht stjoerd op OpenHistoricalMap mei as
         ûnderwerp %{subject}:'
+      header_html: '%{from_user} hat jo in berjocht stjoerd op OpenHistoricalMap mei
+        as ûnderwerp %{subject}:'
       footer: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder in berjocht
         werom jaan op %{replyurl}
       footer_html: Jo kinne it berjocht ek lêze op %{readurl} en de ôfstjoerder in
@@ -1499,14 +1490,14 @@ fy:
       welcome: Nei de befêstiging fan jo akkount, sille wy jo mear ynformaasje jaan
         om jo op 'e gleed te helpen.
     email_confirm:
-      subject: '[OpenStreetMap] Befêstigje jo e-mailadres'
+      subject: '[OpenHistoricalMap] Befêstigje jo e-mailadres'
       greeting: Goeie,
       hopefully_you: Immen (hooplik jo) wol syn/har e-mailadres op %{server_url} feroarje
         yn %{new_address}.
       click_the_link: At jo it wiene, klik dan op 'e keppeling hjirûnder om de feroaring
         te befêstigjen.
     lost_password:
-      subject: '[OpenStreetMap] Wachtwurd feroarjen oanfrege'
+      subject: '[OpenHistoricalMap] Wachtwurd feroarjen oanfrege'
       greeting: Goeie,
       hopefully_you: Immen (faaks jo) hat frege en stel it wachtwurd op 'e nij yn
         foar it akkount op openstreetmap.org dat by dit e-mailadres heart.
@@ -1603,6 +1594,9 @@ fy:
       whitelist: At jo in antyspam-systeem brûke dat befêstigingsfersiken ferstjoert,
         soargje dan dat %{sender} op 'e wite list stiet, omdat wy befêstigingsfersiken
         net beäntwurdzje kinne.
+    gravatar:
+      disabled: Gravatar is útskeakele.
+      enabled: Werjefte fan jo Gravatar is ynskeakele.
   messages:
     new:
       title: Berjocht stjoere
@@ -1700,29 +1694,34 @@ fy:
         title: Myn foarkarren
         save: Foarkarren bywurkje
   profiles:
-    show:
-      title: Profyl bewurkje
-      save: Profyl bywurkje
-      cancel: Annulearje
-      image: Ofbylding
-      gravatar:
-        gravatar: Gravatar brûke
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Wat is Gravatar?
-        disabled: Gravatar is útskeakele.
-        enabled: Werjefte fan jo Gravatar is ynskeakele.
-      new image: Ofbyld tafoegje
-      keep image: Hjoeddeisk ôfbyld hâlde
-      delete image: Hjoeddeisk ôfbyld wiskje
-      replace image: Hjoeddeisk ôfbyld ferfange
-      image size hint: (fjouwerkante plaatsjes fan teminsten 100x100 eagje kreazer)
-      home location: Fêste lokaasje
-      no home location: Jo hawwe jo fêste lokaasje net opjûn.
-      update home location on click: Fêste lokaasje bywurkje at ik op 'e kaart klik?
-      show: Werjaan
-    update:
-      success: Profyl bywurke.
-      failure: Koe it profyl net bywurkje.
+    profile_sections:
+      navigation:
+        image: Ofbylding
+    descriptions:
+      show:
+        title: Profyl bewurkje
+        save: Profyl bywurkje
+        cancel: Annulearje
+    links:
+      show:
+        title: Profyl bewurkje
+        cancel: Annulearje
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar brûke
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Wat is Gravatar?
+        new image: Ofbyld tafoegje
+        keep image: Hjoeddeisk ôfbyld hâlde
+        delete image: Hjoeddeisk ôfbyld wiskje
+        replace image: Hjoeddeisk ôfbyld ferfange
+        image size hint: (fjouwerkante plaatsjes fan teminsten 100x100 eagje kreazer)
+    locations:
+      show:
+        no home location: Jo hawwe jo fêste lokaasje net opjûn.
+        update home location on click: Fêste lokaasje bywurkje at ik op 'e kaart klik?
+        show: Werjaan
   sessions:
     new:
       tab_title: Oanmelde
@@ -1790,7 +1789,7 @@ fy:
         native_link: Frysktalige ferzje
         mapping_link: mei kaartmeitsjen úteinsette
       legal_babble:
-        credit_title_html: Hoe moat OpenStreetMap neamd wurde
+        credit_title_html: Hoe moat OpenHistoricalMap neamd wurde
         credit_1_html: 'Dêr wêr''t jo OpenStreetMap-data brûke, binne jo ferplichte
           en doch de neikommende twa dingen:'
         attribution_example:
@@ -1826,8 +1825,6 @@ fy:
       user_page_link: meidoggerside
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Fyn út wêrom't dat sa is.
-    edit:
-      id_not_configured: iD is net konfigurearre
     export:
       title: Eksportearje
       manually_select: Mei de hân in oar gebiet selektearje
@@ -1953,7 +1950,11 @@ fy:
       para_1: |-
         At jo allinnich wat lyts oanpasse wolle, en gjin tiid hawwe yn te skriuwen en bewurkjen te learen, is
         in notysje taheakjen noflik.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Sûm yn om kaartnotysjes sjen te kinnen
+      map_data_zoom_in_tooltip: Sûm yn om kaartdata sjen te kinnen
+  legend_panes:
     show:
       entries:
         motorway: Autogongwei
@@ -2009,6 +2010,21 @@ fy:
         bicycle_shop: Fytsesaak
         bicycle_parking: Fytsestalling
         toilets: Húskes
+  share_panes:
+    show:
+      link: Keppeling of HTML
+      include_marker: Markearder ynfoegje
+      long_link: Kepp.
+      short_link: Lytse kepp.
+      embed: HTML
+      paste_html: HTML op te nimmen yn in webstee
+      geo_uri: Geo-URI
+      image: Ofbylding
+      format: 'Foarm:'
+      scale: 'Skaal:'
+      custom_dimensions: Ofmjittings oanpasse
+      image_dimensions_html: It ôfbyld kriget de standertlaach op %{width} x %{height}
+      download: Ynlade
   traces:
     visibility:
       private: Privee (inkeld dield as anonime, net-oardere punten)
@@ -2230,7 +2246,6 @@ fy:
       my_dashboard: Myn oersjochpaniel
       blocks on me: Utslutings foar my
       blocks by me: Utslutings troch my
-      edit_profile: Profyl bewurkje
       send message: Berjocht stjoere
       diary: Deiboek
       edits: Bewurkings
@@ -2244,15 +2259,6 @@ fy:
       created from: 'Oanmakke fan:'
       status: 'Status:'
       spam score: 'Spamskoare:'
-      role:
-        administrator: Dizze meidogger is behearder
-        moderator: Dizze meidogger is tafersjochhâlder
-        grant:
-          administrator: Behearder meitsje
-          moderator: Tafersjochhâlder meitsje
-        revoke:
-          administrator: Behearderskip ynlûke
-          moderator: Tafersjochhâlderskip ynlûke
       block_history: Rinnende útslutings
       moderator_history: Utslutings útdield
       comments: Reäksjes
@@ -2321,6 +2327,20 @@ fy:
         At jo al in akkount hawwe, kinne jo jo oanmelde op jo akkount
         mei jo meidochnamme en wachtwurd, en dan it akkount ferbine
         oan jo ID yn jo meidoggerynstellings.
+    role_icons:
+      title:
+        administrator: Dizze meidogger is behearder
+        moderator: Dizze meidogger is tafersjochhâlder
+      grant:
+        administrator: Behearder meitsje
+        moderator: Tafersjochhâlder meitsje
+        are_you_sure: Witte jo seker dat jo de rol fan '%{role}' oan 'e meidogger
+          '%{name}' takenne wolle?
+      revoke:
+        administrator: Behearderskip ynlûke
+        moderator: Tafersjochhâlderskip ynlûke
+        are_you_sure: Witte jo seker dat jo de rol fan '%{role}' fan 'e meidogger
+          '%{name}' ynlûke wolle?
   user_role:
     filter:
       not_a_role: De tekenrige '%{role}' is net in jildige rol.
@@ -2328,12 +2348,6 @@ fy:
       doesnt_have_role: De meidogger hat net de rol fan %{role}.
       not_revoke_admin_current_user: Kin de beheardersrol fan dizze meidogger net
         ynlûke.
-    grant:
-      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' oan 'e meidogger '%{name}'
-        takenne wolle?
-    revoke:
-      are_you_sure: Witte jo seker dat jo de rol fan '%{role}' fan 'e meidogger '%{name}'
-        ynlûke wolle?
   user_blocks:
     model:
       non_moderator_update: Moat tafersjochhâlder wêze om in útsluting oanmeitsje
@@ -2444,26 +2458,10 @@ fy:
     close: Slute
     share:
       title: Diele
-      cancel: Annulearje
-      image: Ofbylding
-      link: Keppeling of HTML
-      long_link: Kepp.
-      short_link: Lytse kepp.
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Ofmjittings oanpasse
-      format: 'Foarm:'
-      scale: 'Skaal:'
-      image_dimensions: It ôfbyld kriget de standertlaach op %{width} x %{height}
-      download: Ynlade
-      short_url: Lytse URL
-      include_marker: Markearder ynfoegje
-      center_marker: Kaart op markearder sintrearje
-      paste_html: HTML op te nimmen yn in webstee
       view_larger_map: Gruttere kaart besjen
     embed:
       report_problem: Probleem melde
-    key:
+    legend:
       title: Leginda
       tooltip: Leginda
       tooltip_disabled: Gjin leginda beskikber foar dizze laach
@@ -2499,8 +2497,6 @@ fy:
       edit_disabled_tooltip: Sûm yn om 'e kaart bewurkje te kinnen
       createnote_tooltip: In notysje oan 'e kaart taheakje
       createnote_disabled_tooltip: Sûm yn om in notysje oan 'e kaart taheakje te kinnen
-      map_notes_zoom_in_tooltip: Sûm yn om kaartnotysjes sjen te kinnen
-      map_data_zoom_in_tooltip: Sûm yn om kaartdata sjen te kinnen
       queryfeature_tooltip: Skaaimerken opfreegje
       queryfeature_disabled_tooltip: Sûm yn om skaaimerken opfreegje te kinnen
     edit_help: Sko de kaart en sûm yn op 'e lokaasje dy't jo bewurkje wolle, klik
@@ -2508,7 +2504,6 @@ fy:
     directions:
       errors:
         no_route: Koe gjin rûte fine tusken dy twa plakken.
-        no_place: Spitich - koe '%{place}' net fine.
       instructions:
         continue_without_exit: Fierder oer %{name}
         slight_right_without_exit: Flau rjochts nei %{name}
@@ -2595,6 +2590,9 @@ fy:
       show_address: Adres werjaan
       query_features: Skaaimerken opfreegje
       centre_map: Kaart hjir sintrearje
+    edit:
+      id_not_configured:
+        title: iD is net konfigurearre
   redactions:
     edit:
       heading: Redigearring bewurkje

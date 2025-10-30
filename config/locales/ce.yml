@@ -58,7 +58,6 @@ ce:
       node: ТӀадам
       node_tag: ТӀадаман тег
       note: Билгалдаккхар
-      notifier: Хаийта
       old_node: Шира тӀадам
       old_node_tag: ТӀадаман шира тег
       old_relation: Шира хилар
@@ -251,16 +250,14 @@ ce:
       title: Аккаунт хийца
       current email address: Карара электронан поштан адрес
       external auth: Арахьара аутентификаци
-      contributor terms:
+      contributor_terms:
         heading: Дакъалацарна хьоьлаш
         agreed: Хьо реза хила керлачу дакъалацаран низаман.
-        not yet agreed: Хьо хинца а, реза ца хила керлачу дакъалацаран низаман.
-        review link text: Дехар ду хьайна аттачу хенахь хӀокху ссылки тӀе хьажа, керла
-          дакъалацаран Низам талла а, тӀеэца а.
         agreed_with_pd: Иштта ахь дӀакхайкхийна, хьайн хийцамаш Къоман Кхиам лоруш
           йу аьлла.
         link text: хӀун йу хӀара?
-        pd_link_text: дӀакхайкхо
+      terms_of_use:
+        heading: Лелоран биллам
       save changes button: Хийцамаш дӀаӀалашбан
       delete_account: Аккаунт дӀайаккхар...
     go_public:
@@ -302,7 +299,7 @@ ce:
         retain_email: Хьан почтан адрес лардийр ду.
         recent_editing_html: Ахь дукха хан йоццуш хийцамаш бина хила дер, хьан аккаунт
           карарчу хенахь дӀайаккха йиш яц. ДӀайаккха йиш хир йу цхьана %{time}.
-        confirm_delete: Бакъалла лаьий хӀуна?
+        confirm_delete: Бакъалла а лаьий хӀуна?
         cancel: ДӀадаккхар
     terms:
       show:
@@ -314,8 +311,9 @@ ce:
         contributor_terms_explain: ХӀокху барто леладо хьан хӀинцалера а, хиндолчу
           а дакъалацаран хьелаш.
         read_ct: Ас йешна а, реза а ву лакхахь хьахийначу хьолана.
-        tou_explain_html: '%{tou_link} урхалла до веб-сайтан а, OSMF-о луш йолчу кхечу
-          инфраструктуран а. Дехар ду, ссылка тӀе а таӀийна, хьажа текстана тIех долчунна.'
+        tou_explain:
+          html: '%{tou_link} урхалла до веб-сайтан а, OSMF-о луш йолчу кхечу инфраструктуран
+            а. Дехар ду, ссылка тӀе а таӀийна, хьажа текстана тIех долчунна.'
         read_tou: Со реза ву Лелоран хьолашна
         guidance_info_html: 'ХӀокху терминех кхета гӀо дан лерина хаамаш: цхьа %{readable_summary_link}
           а, цхьайолу %{informal_translations_link} а'
@@ -361,9 +359,7 @@ ce:
       one: '%{count} сиза'
       other: '%{count} сизнаш'
     download_xml: Схьаэца XML
-    view_history: Хьажа истори
     view_unredacted_history: Хьажа нисайаза историга
-    view_details: Мадарра
     location: 'Географин йолу меттиг:'
     node:
       title_html: 'ТӀадам: %{name}'
@@ -1555,10 +1551,9 @@ ce:
   reports:
     new:
       title_html: Хаам %{link}
-      missing_params: Керла хаам кхолла йиш яц
       disclaimer:
         intro: 'Дехар ду, хьайн рапорт сайтан модераторшка дӀахьажайале, хьажа:'
-        not_just_mistake: Хьо тешна вуй, проблема еккъа цхьа гӀалат ца хиларх.
+        not_just_mistake: Бакъалла а, проблема деккъа цхьа гӀалат дуй.
         unable_to_fix: Хьан аьтто бац хьайна йа хьайн юкъараллин декъашхойн гӀоьнца
           и проблема нисъян
         resolve_with_user: Хьо хӀинцале а хьаьжна цу декъашкочунгар проблема дӀаяккха
@@ -1628,10 +1623,11 @@ ce:
       footer_unsubscribe: Хьан йиш йу дискуссера дӀавала %{unsubscribeurl}
       footer_unsubscribe_html: Хьан йиш йу дискуссера дӀавала %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Маршалла ду %{to_user},
-      header: '%{from_user} хьуьга хаам баийтина OpenStreetMap чухула %{subject} темаца:'
-      header_html: '%{from_user} хьуьга хаам баийтина OpenStreetMap чухула %{subject}
+      header: '%{from_user} хьуьга хаам баийтина OpenHistoricalMap чухула %{subject}
+        темаца:'
+      header_html: '%{from_user} хьуьга хаам баийтина OpenHistoricalMap чухула %{subject}
         темаца:'
       footer: Иштта хьа %{readurl} тӀера хаам еша йиш йу, авторе хаам бахьийта мегар
         ду %{replyurl} тӀера
@@ -1670,14 +1666,14 @@ ce:
       welcome: Ахь хьайн аккаунт тӀечӀагӀйинчул тӀаьхьа, оха хьуна кхин а цхьацца
         хаамаш лур бу, ахь дӀадолорхьама.
     email_confirm:
-      subject: '[OpenStreetMap] Хьайн электронан почтан адрес тӀечӀагӀде'
+      subject: '[OpenHistoricalMap] Хьайн электронан почтан адрес тӀечӀагӀде'
       greeting: Маршалла,
       hopefully_you: Цхьаммо (сатийсам бу ахь) шен электронан почтан адрес хийца лаьа
         %{server_url} тӀехь %{new_address} хIокхун тIе.
       click_the_link: Нагахь санна хӀара хьо велахь, лахахь йолчу ссылки тӀе хьажа,
         хийцам тӀечӀагӀбан.
     lost_password:
-      subject: '[OpenStreetMap] Пароль хийцаран дехар'
+      subject: '[OpenHistoricalMap] Пароль хийцаран дехар'
       greeting: Маршалла,
       hopefully_you: Цхьаммо (хила тарло ахь) оцу электронан почтан адресан openhistoricalmap.org
         аккаунтехь пароль йухаметтахӀоттор дехна.
@@ -1776,6 +1772,9 @@ ce:
       whitelist: Нагахь санна ахь антиспам-система лелош елахь, цо тӀечӀагӀдаран дехарш
         дохьуьйту, тӀаккха дехар ду ахь %{sender} хьан кӀайн тептаре язде, хӀунда
         аьлча тхан аьтто бац и санна дехаршна жоп дала.
+    gravatar:
+      disabled: Gravatar дӀайайина.
+      enabled: Хьан Gravatar гайтар дӀахӀоттийна.
   messages:
     new:
       title: ДӀабахьийта хаам
@@ -1885,30 +1884,35 @@ ce:
         title: Суна хазахеттарш
         save: Карладаха хазахеттарш
   profiles:
-    show:
-      title: Профиль нисйан
-      save: Карлайаккха профиль
-      cancel: ДӀадаккхар
-      image: Сурт
-      gravatar:
-        gravatar: Gravatar лелайар
-        what_is_gravatar: Gravatar хIун йу?
-        disabled: Gravatar дӀайайина.
-        enabled: Хьан Gravatar гайтар дӀахӀоттийна.
-      new image: Сурт тӀетоха
-      keep image: ХӀинцалера сурт дита
-      delete image: ХӀинцалера сурт дӀадаккха
-      replace image: ХӀинцалера сурт хийца
-      image size hint: (квадратан суьрташ лаххара а 100x100 дика болх беш ду)
-      home location: Со волу меттиг
-      no home location: Хьайн цӀера меттиг ца гайтина ахь.
-      update home location on click: Карта тӀе хьаьжча цӀийнан меттиг карлайаккха?
-      show: Гайта
-      delete: ДӀайаккха
-      undelete: Йухадаккха дӀадаккхар
-    update:
-      success: Профиль карлайаьккхина.
-      failure: Профиль карлайаккха аьтто ца баьлла.
+    profile_sections:
+      navigation:
+        image: Сурт
+    descriptions:
+      show:
+        title: Профиль нисйан
+        save: Карлайаккха профиль
+        cancel: ДӀадаккхар
+    links:
+      show:
+        title: Профиль нисйан
+        cancel: Йухайаккха
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar лелайар
+          what_is_gravatar: Gravatar хIун йу?
+        new image: Сурт тӀетоха
+        keep image: ХӀинцалера сурт дита
+        delete image: ХӀинцалера сурт дӀадаккха
+        replace image: ХӀинцалера сурт хийца
+        image size hint: (квадратан суьрташ лаххара а 100x100 дика болх беш ду)
+    locations:
+      show:
+        no home location: Хьайн цӀера меттиг ца гайтина ахь.
+        update home location on click: Карта тӀе хьаьжча цӀийнан меттиг карлайаккха?
+        show: Гайта
+        delete: ДӀайаккха
+        undelete: Йухадаккха дӀадаккхар
   sessions:
     new:
       tab_title: ЧугӀо
@@ -2044,8 +2048,6 @@ ce:
         массарна гуш йолуш дӀахӀитто йиш йу хьанкхузахь: %{user_page}.'
       user_page_link: декъашхочун агӀо
       anon_edits_link_text: Иштта хӀунда ду хаа.
-    edit:
-      id_not_configured: iD нисдар дина дац
     export:
       title: Экспорт йан
       manually_select: Билгале кхин меттиг
@@ -2209,7 +2211,11 @@ ce:
           Меттигерчу дакъанаша цхьана барамехь формалан кепара тоба кхолла оьшуш дац.
           Баккъалла а дуккха а тобанаш йу чӀогӀа кхиамца адамийн формалан доцу гулам санна йа юкъараллин тоба санна. Муьлххачу а стеган йиш йу уьш дӀахӀитто йа дӀакхета. Кхин дӀа еша %{communities_wiki_link} тӀехь.
         communities_wiki: Йукъараллаш вики агӀо
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Доккха де, заметкаш ган
+      map_data_zoom_in_tooltip: Доккха де, хаамаш ган
+  legend_panes:
     show:
       entries:
         motorway: Бокх некъ
@@ -2277,6 +2283,23 @@ ce:
         bicycle_parking: Вилспетан парковка
         bicycle_parking_small: Жима вилспетан парковка
         toilets: ХьаштагӀа
+  share_panes:
+    show:
+      link: Хьажорг йа чуйилла код
+      include_marker: Маркер латтайе
+      long_link: Йуьззина хьажорг
+      short_link: Йоца хьажорг
+      embed: Код
+      embed_html_disabled: HTML чутохар, оцу картан чкъоьран тӀекхочийла дац
+      paste_html: HTML-код веб-сайта чу дӀаязъян
+      geo_uri: Geo URI
+      image: Сурт
+      format: 'Формат:'
+      scale: 'Масштаб:'
+      custom_dimensions: Куьйгаца хӀоттабе барам
+      image_dimensions_html: Суьрто гойтур ду %{layer} чкъор  %{width} x %{height}
+        тIехь
+      download: Схьаэца
   traces:
     visibility:
       private: Къаьсттина (анониман бен тIекхочийла йац, гойту ларийн тептарехь а,
@@ -2536,7 +2559,6 @@ ce:
       blocks by me: Сан блоктохарш
       create_mute: ХӀара декъашхо дӀаваьккха
       destroy_mute: ХӀокху Декъашхочун аз хьалалатаде
-      edit_profile: Профиль нисйан
       send message: ДӀабахьийта хаам
       diary: Тептар
       edits: Нисдарш
@@ -2553,18 +2575,6 @@ ce:
       created from: 'Кхоьллина:'
       status: 'Статус:'
       spam score: 'Спаман маххадор:'
-      role:
-        administrator: ХӀара лелош верг администратор ву
-        moderator: ХӀара лелош верг модератор ву
-        importer: ХӀара лелош верг импортер ву
-        grant:
-          administrator: Администраторна бакъо ло
-          moderator: Модераторна бакъо ло
-          importer: Импортерна бакъо ло
-        revoke:
-          administrator: Администраторан бакъо йухаяккха
-          moderator: Модераторан бакъо йухайаккха
-          importer: Импортеран бакъо йухайаккха
       block_history: Жигара блокаш
       moderator_history: Кхоьллина блокаш
       revoke_all_blocks: Массо блокаш йухайаха
@@ -2596,7 +2606,7 @@ ce:
         title: '%{block_on} тӀера ерриг блокаш йухаяхар'
         heading_html: '%{block_on} тӀера ерриг блокаш йухаяхар'
         empty: '%{name} жигара блокаш йац.'
-        confirm: Хьо тешна вуй хьайна %{active_blocks} йухаяккха лаьий?
+        confirm: Бакъалла а лаьий хьуна хӀара %{active_blocks} дӀайаккха?
         active_blocks:
           one: '%{count} жигара блок'
           other: '%{count} жигара блокаш'
@@ -2645,6 +2655,20 @@ ce:
       option_2: |-
         Нагахь санна хьан хӀинцале а аккаунт елахь, хьайн аккаунте чувала йиш йу хьан
         хьайн лелоран цӀе а, пароль а лелош, тӀаккха хьайн ID-ца хьайн аккаунт лелоран настройкашкахь зIай йе.
+    role_icons:
+      title:
+        administrator: ХӀара лелош верг администратор ву
+        moderator: ХӀара лелош верг модератор ву
+      grant:
+        administrator: Администраторна бакъо ло
+        moderator: Модераторна бакъо ло
+        importer: Импортерна бакъо ло
+        are_you_sure: Бакъалла а лаьий '%{role}' роль дӀайала, декъашхочунна '%{name}'?
+      revoke:
+        administrator: Администраторан бакъо йухайаккха
+        moderator: Модераторан бакъо йухайаккха
+        importer: Импортеран бакъо йухайаккха
+        are_you_sure: Бакъалла а лаьий '%{role}' роль дӀайаккха '%{name}' декъашхочуьнгара?
   user_role:
     filter:
       not_a_role: '`%{role}'' могӀа нийса роль йац.'
@@ -2652,11 +2676,6 @@ ce:
       doesnt_have_role: Декъашхочун роль йац %{role}.
       not_revoke_admin_current_user: Карарчу хенахь декъашхочунгара администраторан
         роль йухаяккха йиш яц.
-    grant:
-      are_you_sure: Хьо тешна вуй хьайна `%{role}' роль дӀаяла лаьий, декъашхочунна
-        `%{name}'?
-    revoke:
-      are_you_sure: Хьо тешна вуй хьайна `%{role}' роль дӀаяккха лаьий `%{name}' декъашхочуьнгара?
   user_blocks:
     model:
       non_moderator_update: Блок кхолла йа карлайаккха модератор хила веза.
@@ -2826,26 +2845,10 @@ ce:
     close: ДӀачӀагӀа
     share:
       title: Сайт тӀе йилла
-      cancel: Йухайаккха
-      image: Сурт
-      link: Хьажорг йа чуйилла код
-      long_link: Йуьззина хьажорг
-      short_link: Йоца хьажорг
-      geo_uri: Geo URI
-      embed: Код
-      custom_dimensions: Куьйгаца хӀоттабе барам
-      format: 'Формат:'
-      scale: 'Масштаб:'
-      image_dimensions: Суьрто гойтур ду %{layer} чкъор  %{width} x %{height} тIехь
-      download: Схьаэца
-      short_url: Йоца хьажорг
-      include_marker: Маркер латтайе
-      center_marker: Маркер тӀехь карта йуккъе даккха
-      paste_html: HTML-код веб-сайта чу дӀаязъян
       view_larger_map: Доккха картага хьажа
     embed:
       report_problem: Проблемах лаьцна хаийта
-    key:
+    legend:
       title: Картан догIа
       tooltip: Картан догIа
       tooltip_disabled: Картан догIа мегаш дац цу чкъоьран
@@ -2889,21 +2892,16 @@ ce:
       edit_disabled_tooltip: Хийцамашбан гергадаладе карта
       createnote_tooltip: Картан заметка тӀе тӀетоха
       createnote_disabled_tooltip: Улле даладе карта заметка тIетоха
-      map_notes_zoom_in_tooltip: Доккха де, заметкаш ган
-      map_data_zoom_in_tooltip: Доккха де, хаамаш ган
       queryfeature_tooltip: ХӀун йу кхузахь?
       queryfeature_disabled_tooltip: Улле даладе карта тIера объекташкехь лаьцна хьажа
-      embed_html_disabled: HTML чутохар, оцу картан чкъоьран тӀекхочийла дац
     edit_help: Карта дӀа хила де, хьайна хийца луучу метте масштаб совъяккха, тӀаккха
       кхузахь тIетIаIайе.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}м'
-          km: '%{distance}км'
+        m: '%{distance}м'
+        km: '%{distance}км'
       errors:
         no_route: Цу шина меттигна юккъера некъ ца карийра.
-        no_place: Бехк ма билла - '%{place}' ца карийра.
       instructions:
         continue_without_exit: ДӀа гIо а %{name}
         slight_right_without_exit: Жимма аьтту агӀор %{name} тӀе ваьрза
@@ -2994,6 +2992,9 @@ ce:
       show_address: Адрес гайта
       query_features: ХӀун йу кхузахь?
       centre_map: Центран карта
+    edit:
+      id_not_configured:
+        title: iD нисдар дина дац
   redactions:
     edit:
       heading: Нисйе редакци
@@ -3012,7 +3013,7 @@ ce:
       user: 'Кхоьллина:'
       edit: ХӀара редакци хийца
       destroy: ДӀаяккха хӀара редакци
-      confirm: Хьо тешна вуй?
+      confirm: Бакъалла а лаьий хьуна?
     create:
       flash: Редакци кхоьллина.
     update:

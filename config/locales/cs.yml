@@ -106,7 +106,6 @@ cs:
       node: Uzel
       node_tag: Tag uzlu
       note: Poznámka
-      notifier: Oznamovatel
       old_node: Starý uzel
       old_node_tag: Tag starého uzlu
       old_relation: Stará relace
@@ -213,10 +212,6 @@ cs:
         needs_view: Potřebuje se uživatel příhlásit před tím, než bude tento blok
           vymazán?
       user:
-        email_confirmation: Vaše adresa se nezobrazuje veřejně, více informací získáte
-          v našich <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Pravidla
-          ochrany osobních údajů OSMF, včetně části o e-mailových adresách">pravidlech
-          ochrany osobních údajů</a>.
         new_email: (nikdy se veřejně nezobrazuje)
   datetime:
     distance_in_words_ago:
@@ -327,15 +322,14 @@ cs:
       title: Upravit účet
       current email address: Stávající e-mailová adresa
       external auth: Externí autentizace
-      contributor terms:
+      contributor_terms:
         heading: Podmínky pro přispěvatele
         agreed: Odsouhlasili jste nové Podmínky pro přispěvatele.
-        not yet agreed: Dosud jste neodsouhlasili nové Podmínky pro přispěvatele.
-        review link text: Až se vám to bude hodit, pomocí tohoto odkazu si prosím
-          přečtěte a odsouhlaste nové Podmínky pro přispěvatele.
         agreed_with_pd: Také jste prohlásili, že své editace považujete za volné dílo.
         link: https://wiki.openstreetmap.org/wiki/Cs:Open_Database_License/Contributor_Terms?uselang=cs
         link text: co to znamená?
+      terms_of_use:
+        heading: Podmínkám užití
       save changes button: Uložit změny
       delete_account: Smazat účet…
     go_public:
@@ -389,9 +383,9 @@ cs:
           a budoucí příspěvky.
         read_ct: Přečetl jsem si výše uvedené podmínky pro přispěvatele a souhlasím
           s nimi
-        tou_explain_html: Tyto %{tou_link} řídí užívání tohoto webu a další infrastruktury
-          poskytované OSMF. Klikněte prosím na odkaz, přečtěte si text a odsouhlaste
-          ho.
+        tou_explain:
+          html: Tyto %{tou_link} řídí užívání tohoto webu a další infrastruktury poskytované
+            OSMF. Klikněte prosím na odkaz, přečtěte si text a odsouhlaste ho.
         read_tou: Přečetl jsem si Podmínky užití a souhlasím s nimi
         guidance_info_html: 'Informace, které pomohou tyto podmínky pochopit: %{readable_summary_link}
           a nějaké %{informal_translations_link}'
@@ -433,9 +427,7 @@ cs:
       many: '%{count} cesty'
       other: '%{count} cest'
     download_xml: Stáhnout XML
-    view_history: Zobrazit historii
     view_unredacted_history: Zobrazit neredigovanou historii
-    view_details: Zobrazit detaily
     location: 'Pozice:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1629,7 +1621,6 @@ cs:
   reports:
     new:
       title_html: Hlášení %{link}
-      missing_params: Nelze vytvořit nové hlášení
       disclaimer:
         intro: 'Před odesláním hlášení moderátorům se prosím ujistěte, že:'
         not_just_mistake: Jste si jisti, že problém není jen omyl
@@ -1706,11 +1697,11 @@ cs:
       footer_unsubscribe: Z odběru diskuse se můžete odhlásit na %{unsubscribeurl}
       footer_unsubscribe_html: Z odběru diskuse se můžete odhlásit na %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Dobrý den, uživateli %{to_user},
-      header: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu s předmětem
-        %{subject}:'
-      header_html: '%{from_user} vám poslal(a) prostřednictvím OpenStreetMap zprávu
+      header: '%{from_user} vám poslal(a) prostřednictvím OpenHistoricalMap zprávu
+        s předmětem %{subject}:'
+      header_html: '%{from_user} vám poslal(a) prostřednictvím OpenHistoricalMap zprávu
         s předmětem %{subject}:'
       footer: Můžete si také přečíst zprávu na %{readurl} a můžete poslat zprávu autorovi
         na %{replyurl}
@@ -1747,14 +1738,14 @@ cs:
       welcome: Jakmile potvrdíte svůj účet, poskytneme vám do začátku trochu dalších
         informací.
     email_confirm:
-      subject: '[OpenStreetMap] Potvrzení vaší e-mailové adresy'
+      subject: '[OpenHistoricalMap] Potvrzení vaší e-mailové adresy'
       greeting: Dobrý den,
       hopefully_you: Někdo (snad vy) požádal o změnu e-mailové adresy na serveru %{server_url}
         na %{new_address}.
       click_the_link: Pokud jste to byli Vy, potvrďte změnu kliknutím na následující
         odkaz.
     lost_password:
-      subject: '[OpenStreetMap] Žádost o nové heslo'
+      subject: '[OpenHistoricalMap] Žádost o nové heslo'
       greeting: Ahoj,
       hopefully_you: Někdo (patrně vy) požádal o vygenerování nového hesla pro uživatele
         serveru openstreetmap.org s touto e-mailovou adresou.
@@ -1851,6 +1842,9 @@ cs:
       whitelist: Pokud používáte nějaký protispamový systém, který vyžaduje potvrzení,
         nezapomeňte zařídit výjimku pro %{sender}, neboť na žádosti o potvrzení nejsme
         schopni reagovat.
+    gravatar:
+      disabled: Gravatar byl zakázán.
+      enabled: Zobrazování vašeho Gravataru bylo povoleno.
   messages:
     new:
       title: Odeslat zprávu
@@ -1969,31 +1963,36 @@ cs:
         title: Moje preference
         save: Nastavit preference
   profiles:
-    show:
-      title: Upravit profil
-      save: Nastavit profil
-      cancel: Storno
-      image: Obrázek
-      gravatar:
-        gravatar: Používat Gravatar
-        link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
-        what_is_gravatar: Co je Gravatar?
-        disabled: Gravatar byl zakázán.
-        enabled: Zobrazování vašeho Gravataru bylo povoleno.
-      new image: Přidat obrázek
-      keep image: Zachovat stávající obrázek
-      delete image: Odstranit stávající obrázek
-      replace image: Nahradit stávající obrázek
-      image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
-      home location: Poloha domova
-      no home location: Nezadali jste polohu svého bydliště.
-      update home location on click: Upravit pozici domova při kliknutí na mapu?
-      show: Zobrazit
-      delete: Smazat
-      undelete: Vrátit smazání
-    update:
-      success: Profil nastaven.
-      failure: Nepodařilo se nastavit profil.
+    profile_sections:
+      navigation:
+        image: Obrázek
+    descriptions:
+      show:
+        title: Upravit profil
+        save: Nastavit profil
+        cancel: Storno
+    links:
+      show:
+        title: Upravit profil
+        cancel: Storno
+    images:
+      show:
+        gravatar:
+          gravatar: Používat Gravatar
+          link: https://wiki.openstreetmap.org/wiki/CS:Gravatar
+          what_is_gravatar: Co je Gravatar?
+        new image: Přidat obrázek
+        keep image: Zachovat stávající obrázek
+        delete image: Odstranit stávající obrázek
+        replace image: Nahradit stávající obrázek
+        image size hint: (nejlépe fungují čtvercové obrázky velikosti nejméně 100×100)
+    locations:
+      show:
+        no home location: Nezadali jste polohu svého bydliště.
+        update home location on click: Upravit pozici domova při kliknutí na mapu?
+        show: Zobrazit
+        delete: Smazat
+        undelete: Vrátit smazání
   sessions:
     new:
       tab_title: Přihlášení
@@ -2093,7 +2092,7 @@ cs:
         introduction_4_creative_commons: Creative Commons Uveďte autora-Zachovejte
           licenci 2.0
         introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.cs
-        credit_title_html: Jak uvádět OpenStreetMap
+        credit_title_html: Jak uvádět OpenHistoricalMap
         credit_1_html: 'Pokud používáte data OpenStreetMap, máte povinnost učinit
           následující dvě věci:'
         credit_2_this_copyright_page: tuto stránku k autorským právům
@@ -2135,8 +2134,6 @@ cs:
       user_page_link: uživatelské stránce
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Proč to tak je?
-    edit:
-      id_not_configured: iD nebyl nakonfigurován
     export:
       title: Export
       manually_select: Ručně vybrat jinou oblast
@@ -2306,7 +2303,11 @@ cs:
           komunitní skupina. Kdokoli může založit takovou skupinu nebo se připojit.
           Více informací najdete na %{communities_wiki_link}.
         communities_wiki: wiki stránce pro komunity
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Pro zobrazení poznámek k mapě přejděte na větší měřítko.
+      map_data_zoom_in_tooltip: Pro zobrazení mapových dat přejděte na větší měřítko.
+  legend_panes:
     show:
       entries:
         motorway: Dálnice
@@ -2390,6 +2391,22 @@ cs:
         bicycle_parking: Parkoviště pro kola
         bicycle_parking_small: Malé parkoviště pro kola
         toilets: Záchody
+  share_panes:
+    show:
+      link: Odkaz nebo HTML
+      include_marker: Vložit značku
+      long_link: Odkaz
+      short_link: Krátký odkaz
+      embed: HTML
+      embed_html_disabled: HTML vkládání není pro tuto mapovou vrstvu k dispozici
+      paste_html: HTML ke vložení na webovou stránku
+      geo_uri: Geo URI
+      image: Obrázek
+      format: 'Formát:'
+      scale: 'Měřítko:'
+      custom_dimensions: Nastavit vlastní rozměry
+      image_dimensions_html: Obrázek bude ukazovat vrstvu %{layer} v %{width} × %{height}
+      download: Stáhnout
   traces:
     visibility:
       private: Soukromá (veřejně dostupná jedině jako anonymní, neuspořádané body)
@@ -2659,7 +2676,6 @@ cs:
       blocks by me: Zablokování mnou
       create_mute: Ztlumit tohoto uživatele
       destroy_mute: Zrušit ztlumení tohoto uživatele
-      edit_profile: Upravit profil
       send message: Poslat zprávu
       diary: Deník
       edits: Úpravy
@@ -2676,18 +2692,6 @@ cs:
       created from: 'Vytvořeno od:'
       status: 'Stav:'
       spam score: 'Spam skóre:'
-      role:
-        administrator: Tento uživatel je správce
-        moderator: Tento uživatel je moderátor
-        importer: Tento uživatel je importér
-        grant:
-          administrator: Přidělit práva správce
-          moderator: Přidělit práva moderátora
-          importer: Udělit přístup importérům
-        revoke:
-          administrator: Odebrat práva správce
-          moderator: Odebrat práva moderátora
-          importer: Zrušit přístup importéra
       block_history: Účinná zablokování
       moderator_history: Udělená zablokování
       revoke_all_blocks: Zrušit všechny bloky
@@ -2774,6 +2778,20 @@ cs:
         níže zobrazeného formuláře.
       option_2: Pokud již účet máte, můžete se k němu přihlásit pomocí svého uživatelského
         jména a hesla a poté v uživatelském nastavení účet propojit s vaším ID.
+    role_icons:
+      title:
+        administrator: Tento uživatel je správce
+        moderator: Tento uživatel je moderátor
+      grant:
+        administrator: Přidělit práva správce
+        moderator: Přidělit práva moderátora
+        importer: Udělit přístup importérům
+        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
+      revoke:
+        administrator: Odebrat práva správce
+        moderator: Odebrat práva moderátora
+        importer: Zrušit přístup importéra
+        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_role:
     filter:
       not_a_role: Řetězec „%{role}“ neoznačuje platnou roli.
@@ -2781,10 +2799,6 @@ cs:
       doesnt_have_role: Uživatel nemá roli %{role}.
       not_revoke_admin_current_user: Správcovskou roli nelze odebrat aktuálně přihlášenému
         uživateli.
-    grant:
-      are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
-    revoke:
-      are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_blocks:
     model:
       non_moderator_update: K vytvoření nebo aktualizaci bloku musíte být moderátorem.
@@ -2963,26 +2977,10 @@ cs:
     close: Zavřít
     share:
       title: Sdílet
-      cancel: Storno
-      image: Obrázek
-      link: Odkaz nebo HTML
-      long_link: Odkaz
-      short_link: Krátký odkaz
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Nastavit vlastní rozměry
-      format: 'Formát:'
-      scale: 'Měřítko:'
-      image_dimensions: Obrázek bude ukazovat vrstvu %{layer} v %{width} × %{height}
-      download: Stáhnout
-      short_url: Krátké URL
-      include_marker: Vložit značku
-      center_marker: Vycentrovat mapu na značku
-      paste_html: HTML ke vložení na webovou stránku
       view_larger_map: Zobrazit větší mapu
     embed:
       report_problem: Nahlásit problém
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: Pro tuto vrstvu není legenda dostupná
@@ -3033,21 +3031,16 @@ cs:
       edit_disabled_tooltip: Pro editaci mapy přejděte na větší měřítko
       createnote_tooltip: Přidat do mapy poznámku
       createnote_disabled_tooltip: Pro přidání poznámky přejděte na větší měřítko
-      map_notes_zoom_in_tooltip: Pro zobrazení poznámek k mapě přejděte na větší měřítko.
-      map_data_zoom_in_tooltip: Pro zobrazení mapových dat přejděte na větší měřítko.
       queryfeature_tooltip: Průzkum prvků
       queryfeature_disabled_tooltip: Pro průzkum prvků přejděte na větší měřítko
-      embed_html_disabled: HTML vkládání není pro tuto mapovou vrstvu k dispozici
     edit_help: Posuňte si mapu a zvětšete si místo, které chcete editovat, a klikněte
       zde.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Nepodařilo se nalézt trasu mezi zadanými místy.
-        no_place: Omlouváme se – nepodařilo se nám najít „%{place}“.
       instructions:
         continue_without_exit: Pokračujte na %{name}
         slight_right_without_exit: Mírně vpravo na %{name}
@@ -3136,6 +3129,9 @@ cs:
       show_address: Zobrazit adresu
       query_features: Průzkum prvků
       centre_map: Zde vystředit mapu
+    edit:
+      id_not_configured:
+        title: iD nebyl nakonfigurován
   redactions:
     edit:
       heading: Upravit redakci

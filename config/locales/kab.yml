@@ -59,7 +59,6 @@ kab:
       node: Tikerrist
       node_tag: Imyerr n tkerrist
       note: tazmilt
-      notifier: Lɣu
       old_node: Tikerrist taqburt
       old_node_tag: Imyerr n tkerrist taqburt
       old_relation: Assaɣ aqbur
@@ -211,7 +210,7 @@ kab:
     show:
       title: Ẓreg amiḍan
       current email address: Tansa imayl n tura
-      contributor terms:
+      contributor_terms:
         heading: 'Tiwtilin n iwiziw:'
         link text: d acu-t wa?
       save changes button: Sekles asnifel
@@ -235,8 +234,6 @@ kab:
     no_comment: (ulac awennit)
     part_of: D ayla n
     download_xml: Sider XML
-    view_history: Sken amazray
-    view_details: Wali talqayt
     location: 'Adig:'
     node:
       title_html: 'Takerrist: %{name}'
@@ -767,7 +764,7 @@ kab:
         %{subject} :'
     message_notification:
       hi: Azul %{to_user},
-      header: '%{from_user} yuzen-ak-d izen si OpenStreetMap s usentel %{subject} :'
+      header: '%{from_user} yuzen-ak-d izen si OpenHistoricalMap s usentel %{subject} :'
       footer_html: Tzemreḍ daɣen ad teɣreḍ izen di %{readurl} sakin ad tizmireḍ ad
         terreḍ i %{replyurl}
     follow_notification:
@@ -783,10 +780,10 @@ kab:
       greeting: Azul din!
       created: Yella win (nessaram d kečč) yernan amiḍan ɣef %{site_url}.
     email_confirm:
-      subject: '[OpenStreetMap] Sentem tansa-ik imayl'
+      subject: '[OpenHistoricalMap] Sentem tansa-ik imayl'
       greeting: Azul,
     lost_password:
-      subject: '[OpenStreetMap] Asuter n tulsa n uwennez n wawal uffir'
+      subject: '[OpenHistoricalMap] Asuter n tulsa n uwennez n wawal uffir'
       greeting: Azul,
       click_the_link: Ma d kečč, sit ɣef useɣwen akken ad talseḍ awennez n wawal uffir.
     note_comment_notification:
@@ -897,17 +894,24 @@ kab:
     update:
       flash changed: Awal-ik uffir ibeddel.
   profiles:
-    show:
-      image: 'Tugna:'
-      gravatar:
-        gravatar: Seqdec Gravatar
-      new image: Rbu tugna
-      delete image: Kkes tugna tamirant
-      replace image: Semselsi tugna tamirant
-      home location: 'Adig n uxxam:'
-      no home location: Ur tsekcemeḍ ara adig n uxxam-ik.
-      update home location on click: Snifel adig n uxxam-ik ticki siteɣ ɣef tkarḍa?
-      show: Sken
+    profile_sections:
+      navigation:
+        image: 'Tugna:'
+    links:
+      show:
+        cancel: Sefsex
+    images:
+      show:
+        gravatar:
+          gravatar: Seqdec Gravatar
+        new image: Rbu tugna
+        delete image: Kkes tugna tamirant
+        replace image: Semselsi tugna tamirant
+    locations:
+      show:
+        no home location: Ur tsekcemeḍ ara adig n uxxam-ik.
+        update home location on click: Snifel adig n uxxam-ik ticki siteɣ ɣef tkarḍa?
+        show: Sken
   sessions:
     new:
       tab_title: Qqen
@@ -931,7 +935,7 @@ kab:
       traces:
         newer: Lɣerrat timaynutin
   site:
-    about:
+    about_section:
       open_data_title: Isefka ilelliyen
       legal_title: Asaḍuf
       partners_title: Imendiden
@@ -947,7 +951,7 @@ kab:
         native_link: Tasuqilt s teqbaylit
         mapping_link: Bdu attekki
       legal_babble:
-        credit_title_html: Amek ara ternuḍ asmad i OpenStreetMap
+        credit_title_html: Amek ara ternuḍ asmad i OpenHistoricalMap
         attribution_example:
           alt: Amedɣa ɣef wamek ara tettekkiḍ di OpenStreetMap s usebter web
           title: Amedya n uttekki
@@ -1031,12 +1035,24 @@ kab:
         title: Ayen yellan di tkarḍa
       rules:
         title: Ilugan!
-  map_keys:
+  legend_panes:
     show:
       entries:
         forest: Tiẓgi
         school: Aɣerbaz
         university: Tasdawit
+  share_panes:
+    show:
+      link: Aseɣwen neq HTML
+      include_marker: Seddu anabraz
+      long_link: Aseɣwen
+      short_link: Aseɣwen awezlan
+      embed: HTML
+      geo_uri: URI arakal
+      image: Tugna
+      format: 'Amasal:'
+      scale: 'Sellum:'
+      download: Sider
   traces:
     new:
       help: Tallelt
@@ -1142,12 +1158,6 @@ kab:
       created from: 'Yettwarna seg:'
       status: 'Addad:'
       spam score: 'Amatar n uspam:'
-      role:
-        administrator: Aseqdac-agi d anedbal
-        grant:
-          administrator: Mudd izerfan n unedbal
-        revoke:
-          administrator: Kkes izerfan n unedbal
       block_history: Asewḥel urmid
       moderator_history: Asewḥel yettunefken
       comments: Iwenniten
@@ -1196,6 +1206,13 @@ kab:
     auth_association:
       option_1: Ma yella d amaynut i d-tusiḍ ɣer OpenStreetMap, ttxil-ek(m) seɣnew
         amiḍan amaynut s tallalt n tferkit adda-ya.
+    role_icons:
+      title:
+        administrator: Aseqdac-agi d anedbal
+      grant:
+        administrator: Mudd izerfan n unedbal
+      revoke:
+        administrator: Kkes izerfan n unedbal
   user_blocks:
     helper:
       time_future_html: Ad ifak di %{time}.
@@ -1246,18 +1263,6 @@ kab:
     close: Mdel
     share:
       title: Bḍu
-      cancel: Sefsex
-      image: Tugna
-      link: Aseɣwen neq HTML
-      long_link: Aseɣwen
-      short_link: Aseɣwen awezlan
-      geo_uri: URI arakal
-      embed: HTML
-      format: 'Amasal:'
-      scale: 'Sellum:'
-      download: Sider
-      short_url: URL awezlan
-      include_marker: Seddu anabraz
     map:
       locate:
         title: Sken adig-iw

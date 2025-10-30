@@ -52,7 +52,6 @@ pnb:
       node: نوڈ
       node_tag: نوڈ دا ٹیگ
       note: نوٹ
-      notifier: نوٹیفائر
       old_node: پُراݨا نوڈ
       old_node_tag: پُراݨے نوڈ‌ دا ٹیگ
       old_relation: پُراݨا سمبندھ
@@ -149,9 +148,6 @@ pnb:
       trace:
         tagstring: ہر لکھت بعد کاما اے
       user:
-        email_confirmation: ٹہاڈے ای‌میل پتہ عوام ویکھاݨ‌گے سی۔ ہور جانکاری لئی ساڈے
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-          privacy policy including section on email addresses">پالیسی</a> پڑھا سکیو۔
         new_email: (عاوم نہیں ویکھادا)
   datetime:
     distance_in_words_ago:
@@ -239,10 +235,9 @@ pnb:
       title: کھاتہ سودھو
       current email address: حالاں ای‌میل پتہ
       external auth: باہرلی تصدیق
-      contributor terms:
+      contributor_terms:
         heading: لیکھکاں لئی شرطنامہ
         agreed: تسیں یوگدانی دیاں نویاں شرتاں نال سہمتی جتائی اےـ
-        not yet agreed: توسیں یوگدانی دیاں نویاں شرتاں نال سہمتی نہیں جتائی۔
         link text: اِیہہ کی اے؟
       save changes button: ویروے سانبھو
       delete_account: کھاتہ مٹاؤ…
@@ -289,8 +284,6 @@ pnb:
       one: 1 راہ
       other: '%{count} راہ'
     download_xml: سروت دی فئل
-    view_history: اتیت ویکھو
-    view_details: وروے ویکھو
     location: 'ستھتی:'
     common_details:
       coordinates_html: '%{latitude}; %{longitude}'
@@ -1127,7 +1120,6 @@ pnb:
   reports:
     new:
       title_html: '%{link} رپورٹ کریو'
-      missing_params: نویں رپورٹ نہیں بݨا سکدی
       disclaimer:
         intro: 'پہلا پڑھیو:'
       categories:
@@ -1275,6 +1267,9 @@ pnb:
         سکوگے۔'
       whitelist: جے لبھ نہیں سکوگے، تہاڈے سپَیم میل دکھیو یا ”وائیٹ‌لِسٹ“ وچ %{sender}
         پایو۔
+    gravatar:
+      disabled: گریواتار بند کیتا
+      enabled: گروٹر ویکھݨ چالو اے۔
   messages:
     new:
       title: سنہا گھلو
@@ -1356,27 +1351,32 @@ pnb:
         title: ترجیحاں
         save: ترجیحاں نواں کرو
   profiles:
-    show:
-      title: تہاڈے صفحہ سودھو
-      save: ٹہاڈے صفحہ نواں کرو
-      cancel: رد کرو
-      image: تصویر
-      gravatar:
-        gravatar: گراوتر ورتے
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: کی گراوتر اے؟
-        disabled: گریواتار بند کیتا
-        enabled: گروٹر ویکھݨ چالو اے۔
-      new image: اِک تصویر پایو
-      keep image: مَوجودہ تصویر رکھو
-      delete image: موجدہ تصویر مٹاؤ
-      replace image: موجودہ تصویر وٹاؤ
-      home location: کیہ رہندے
-      no home location: تسیں اپݨے گھر دی ستھتی نہیں دسّی اے۔
-      show: وکھاؤ
-    update:
-      success: صفحہ نواں کیتا
-      failure: تہاڈے صفحہ نہیں کر سکدے اے۔
+    profile_sections:
+      navigation:
+        image: تصویر
+    descriptions:
+      show:
+        title: تہاڈے صفحہ سودھو
+        save: ٹہاڈے صفحہ نواں کرو
+        cancel: رد کرو
+    links:
+      show:
+        title: تہاڈے صفحہ سودھو
+        cancel: رد کرو
+    images:
+      show:
+        gravatar:
+          gravatar: گراوتر ورتے
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: کی گراوتر اے؟
+        new image: اِک تصویر پایو
+        keep image: مَوجودہ تصویر رکھو
+        delete image: موجدہ تصویر مٹاؤ
+        replace image: موجودہ تصویر وٹاؤ
+    locations:
+      show:
+        no home location: تسیں اپݨے گھر دی ستھتی نہیں دسّی اے۔
+        show: وکھاؤ
   sessions:
     new:
       tab_title: لوگ‌این کرو
@@ -1462,8 +1462,6 @@ pnb:
         تے جایو۔
       user_page_link: ورتنوالے دا صفحہ
       anon_edits_link_text: پتہ کرو کہ ماملا ایس ترھاں کیوں اے۔
-    edit:
-      id_not_configured: آئی‌ڈی ایڈیٹر نہیں چالو ہندا سی۔
     export:
       title: برامد کرو
       manually_select: آپݨے آپ اِکّ وکھرا کھیتر چݨو
@@ -1544,7 +1542,11 @@ pnb:
       title: سودھ کرن دی وہل نہیں اے؟ کجھ نوٹ پا سکیو!
     communities:
       title: مجلساں
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: نوٹ دکھݨ لئی وڈا کریو
+      map_data_zoom_in_tooltip: ڈیٹے دکھݨ لئی وڈا کریو
+  legend_panes:
     show:
       entries:
         motorway: موٹروے
@@ -1600,6 +1602,19 @@ pnb:
         bicycle_shop: سائیکل دی دکان
         bicycle_parking: سائیکل پارکنگ
         toilets: ٹوئیلٹ
+  share_panes:
+    show:
+      link: کڑی یا ایچ‌ٹی‌ایم‌ایل
+      include_marker: چِنھ نال سانجھو
+      long_link: کڑی
+      short_link: نکی کڑی
+      embed: ایچ ٹی ایم ایل
+      geo_uri: جیو یو آر ائی
+      image: تصویر
+      format: 'فارمیٹ:'
+      scale: 'پیمانا:'
+      image_dimensions_html: '%{height} × %{width} تصویر میعری نقشہ ویکھݨ‌گی اے'
+      download: ڈاؤنلوڈ کرو
   traces:
     visibility:
       private: نجی (صرف انام جاݨکاری ویکھدے، پوئینٹاں لئی کوئی لڑی نہیں اے)
@@ -1758,7 +1773,6 @@ pnb:
       my_dashboard: ڈیش بورڈ
       blocks on me: میرے تے روکاں
       blocks by me: میرے ولوں رکاں
-      edit_profile: تہاڈے صفحہ سودھو
       send message: سنہا بھیجو
       diary: روزنامچہ
       edits: سودھاں
@@ -1772,12 +1786,6 @@ pnb:
       created from: 'کتھوں اُساریا:'
       status: حالت
       spam score: 'سپیم سکور:'
-      role:
-        administrator: ایہہ ورتنوالا اِکّ پرشاسک اے۔
-        moderator: ایہہ ورتنوالا اِکّ وچولا اے۔
-        grant:
-          administrator: پرشاسکی حق دیق
-          moderator: وچولگی دے حق دیو
       block_history: حالیہ روک
       moderator_history: روک دیݨے
       comments: ٹپݨیاں
@@ -1822,6 +1830,13 @@ pnb:
       unknown_error: اِجازت لے نہیں سکی گئی
     auth_association:
       heading: حالاں تہاڈے شناختی نال کجھ کھاتہ نہیں جوڑدے اے۔
+    role_icons:
+      title:
+        administrator: ایہہ ورتنوالا اِکّ پرشاسک اے۔
+        moderator: ایہہ ورتنوالا اِکّ وچولا اے۔
+      grant:
+        administrator: پرشاسکی حق دیق
+        moderator: وچولگی دے حق دیو
   user_blocks:
     not_found:
       back: تتکرے ول واپس
@@ -1893,23 +1908,10 @@ pnb:
     close: بند کرو
     share:
       title: سانجھا کرو
-      cancel: رد کرو
-      image: تصویر
-      link: کڑی یا ایچ‌ٹی‌ایم‌ایل
-      long_link: کڑی
-      short_link: نکی کڑی
-      geo_uri: جیو یو آر ائی
-      embed: ایچ ٹی ایم ایل
-      format: 'فارمیٹ:'
-      scale: 'پیمانا:'
-      image_dimensions: '%{height} × %{width} تصویر میعری نقشہ ویکھݨ‌گی اے'
-      download: ڈاؤنلوڈ کرو
-      short_url: چھوٹی کڑی
-      include_marker: چِنھ نال سانجھو
       view_larger_map: وڈیرا نقشہ ویکھو
     embed:
       report_problem: کوئی مسئلہ رپورٹ کریو
-    key:
+    legend:
       title: نقشے دا ٹیکا
       tooltip: نقشے دا ٹیکا
     map:
@@ -1936,8 +1938,6 @@ pnb:
       edit_disabled_tooltip: نقشہ سودھݨ واسطے اندر نوں جاؤ
       createnote_tooltip: نقشے تے نوٹ پایو
       createnote_disabled_tooltip: نقشے تے نوٹ پاوݨ لئی وڈا کریو
-      map_notes_zoom_in_tooltip: نوٹ دکھݨ لئی وڈا کریو
-      map_data_zoom_in_tooltip: ڈیٹے دکھݨ لئی وڈا کریو
       queryfeature_tooltip: نقشاں لئی پرشن
       queryfeature_disabled_tooltip: نقش دے پرشن لئی وڈا کریو
     directions:
@@ -1969,6 +1969,9 @@ pnb:
       show_address: پتہ ویکھو
       query_features: نقشاں لئی پرشن
       centre_map: نقشے نوں اِتھے کیندرت کرو
+    edit:
+      id_not_configured:
+        title: آئی‌ڈی ایڈیٹر نہیں چالو ہندا سی۔
   redactions:
     edit:
       heading: سینسر سودھو

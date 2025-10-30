@@ -99,7 +99,6 @@ ca:
       node: Node
       node_tag: Etiqueta del Node
       note: nota
-      notifier: Notificador
       old_node: Node Antic
       old_node_tag: Etiqueta de node antiga
       old_relation: Relació antiga
@@ -205,10 +204,6 @@ ca:
           que intenteu utilitzar termes comuns.
         needs_view: L'usuari necessita connectar-se abans que aquest blocatge se suprimeixi?
       user:
-        email_confirmation: La vostra adreça no es mostrarà públicament (vegeu la
-          nostra <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-          privacy policy including section on email addresses"></a>política de privadesa</a>
-          per a més informació)
         new_email: (no es mostrarà mai públicament)
   datetime:
     distance_in_words_ago:
@@ -295,16 +290,15 @@ ca:
       title: Edita el compte
       current email address: Adreça electrònica actual
       external auth: Autenticació externa
-      contributor terms:
+      contributor_terms:
         heading: Termes de col·laboració
         agreed: Heu acceptat els nous termes de col·laboració.
-        not yet agreed: Encara no heu acceptat els nous termes de col·laboració.
-        review link text: Seguiu aquest enllaç per revisar i acceptar els nous termes
-          de col·laboració.
         agreed_with_pd: També declareu que considereu que les vostres modificacions
           són de domini públic.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: què és això?
+      terms_of_use:
+        heading: condicions d’ús
       save changes button: Desa els canvis
       delete_account: Suprimeix el compte...
     go_public:
@@ -360,9 +354,9 @@ ca:
         contributor_terms_explain: Aquest acord regula els termes de les vostres contribucions
           actuals i futures.
         read_ct: He llegit les condicions de col·laboració anteriors i hi estic d'acord
-        tou_explain_html: Aquestes %{tou_link} regulen l'ús del lloc web i altres
-          infraestructures proporcionades per l'OSFM. Cliqueu l'enllaç, llegiu el
-          text i accepteu-lo.
+        tou_explain:
+          html: Aquestes %{tou_link} regulen l'ús del lloc web i altres infraestructures
+            proporcionades per l'OSFM. Cliqueu l'enllaç, llegiu el text i accepteu-lo.
         read_tou: He llegit i accepto les condicions d'us
         guidance_info_html: 'Informació per ajudar a entendre aquests termes: un %{readable_summary_link}
           i algunes %{informal_translations_link}'
@@ -398,8 +392,6 @@ ca:
       one: '%{count} via'
       other: '%{count} vies'
     download_xml: Baixa l’XML
-    view_history: Mostra l’historial
-    view_details: Mostra els detalls
     location: 'Ubicació:'
     node:
       title_html: 'Node: %{name}'
@@ -1493,7 +1485,6 @@ ca:
   reports:
     new:
       title_html: Denunciar %{link}
-      missing_params: No s'ha pogut crear una nova denúncia
       disclaimer:
         intro: 'Abans d''enviar la teva denúncia als moderadors del lloc web, comprova
           que:'
@@ -1570,11 +1561,11 @@ ca:
       footer_html: També podeu llegir el comentari a %{readurl} i comentar-lo a %{commenturl}
         o enviar un missatge a l'autor a %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hola %{to_user},
-      header: '%{from_user} ha enviat un missatge a través d''OpenStreetMap amb el
-        tema %{subject}:'
-      header_html: '%{from_user} us ha enviat un missatge a través d''OpenStreetMap
+      header: '%{from_user} ha enviat un missatge a través d''OpenHistoricalMap amb
+        el tema %{subject}:'
+      header_html: '%{from_user} us ha enviat un missatge a través d''OpenHistoricalMap
         amb el tema %{subject}:'
       footer: També podeu llegir el missatge a %{readurl} i podeu enviar un missatge
         a l'autor a %{replyurl}
@@ -1603,14 +1594,14 @@ ca:
       welcome: Quan confirmeu el compte, us donarem informació addicional perquè pugueu
         començar.
     email_confirm:
-      subject: '[OpenStreetMap] Confirmeu l''adreça de correu'
+      subject: '[OpenHistoricalMap] Confirmeu l''adreça de correu'
       greeting: Hola,
       hopefully_you: Algú (esperem que vós) vol canviar la vostra adreça electrònica
         a %{server_url} per %{new_address}.
       click_the_link: Si sou vós mateix, feu clic a l'enllaç de sota per a confirmar
         el canvi.
     lost_password:
-      subject: '[OpenStreetMap] Sol·licitud de reinicialització de contrasenya'
+      subject: '[OpenHistoricalMap] Sol·licitud de reinicialització de contrasenya'
       greeting: Hola,
       hopefully_you: Algú (possiblement vós) ha demanat reinicialitzar la contrasenya
         del compte d'openstreetmap.org associat a aquesta adreça de correu electrònic.
@@ -1708,6 +1699,9 @@ ca:
       whitelist: Si utilitzeu un sistema antispam que descarta les peticions de confirmació,
         aleshores assegureu-vos d'afegir %{sender} a la vostra llista blanca, ja que
         no podrem respondre a cap petició de confirmació.
+    gravatar:
+      disabled: S'ha inhabilitat Gravatar.
+      enabled: S'ha habilitat que es mostri el vostre Gravatar.
   messages:
     new:
       title: Envia un missatge
@@ -1813,32 +1807,37 @@ ca:
         title: Les meves preferències
         save: Actualitza les preferències
   profiles:
-    show:
-      title: Edita el perfil
-      save: Actualitza el perfil
-      cancel: Cancel·la
-      image: Imatge
-      gravatar:
-        gravatar: Usa Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Què és Gravatar?
-        disabled: S'ha inhabilitat Gravatar.
-        enabled: S'ha habilitat que es mostri el vostre Gravatar.
-      new image: Afegeix una imatge
-      keep image: Conserva la imatge actual
-      delete image: Suprimeix la imatge actual
-      replace image: Reemplaça la imatge actual
-      image size hint: (val més usar imatges quadrades d'almenys 100x100)
-      home location: Ubicació inicial
-      no home location: No heu especificat la ubicació d'origen.
-      update home location on click: Voleu actualitzar la ubicació d'inici en fer
-        clic al mapa?
-      show: Mostra
-      delete: Esborra
-      undelete: Desfés l'esborrat
-    update:
-      success: S'ha actualitzat el perfil.
-      failure: No s'ha pogut actualitzar el perfil.
+    profile_sections:
+      navigation:
+        image: Imatge
+    descriptions:
+      show:
+        title: Edita el perfil
+        save: Actualitza el perfil
+        cancel: Cancel·la
+    links:
+      show:
+        title: Edita el perfil
+        cancel: Cancel·la
+    images:
+      show:
+        gravatar:
+          gravatar: Usa Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Què és Gravatar?
+        new image: Afegeix una imatge
+        keep image: Conserva la imatge actual
+        delete image: Suprimeix la imatge actual
+        replace image: Reemplaça la imatge actual
+        image size hint: (val més usar imatges quadrades d'almenys 100x100)
+    locations:
+      show:
+        no home location: No heu especificat la ubicació d'origen.
+        update home location on click: Voleu actualitzar la ubicació d'inici en fer
+          clic al mapa?
+        show: Mostra
+        delete: Esborra
+        undelete: Desfés l'esborrat
   sessions:
     new:
       tab_title: Inicieu la sessió
@@ -1932,7 +1931,7 @@ ca:
       legal_babble:
         introduction_4_creative_commons: Creative Commons Reconeixement-CompartirIgual
           2.0
-        credit_title_html: Com atribuir autoria a OpenStreetMap
+        credit_title_html: Com atribuir autoria a OpenHistoricalMap
         credit_1_html: 'Allà on utilitzeu les dades de l''OpenStreetMap, cal que feu
           les dues coses següents:'
         credit_2_this_copyright_page: aquesta pàgina de copyright
@@ -1977,8 +1976,6 @@ ca:
       user_page_link: pàgina d'usuari
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Llegeix aquí per què.
-    edit:
-      id_not_configured: iD no s'ha configurat
     export:
       title: Exporta
       manually_select: Selecciona manualment una àrea diferent
@@ -2155,7 +2152,11 @@ ca:
           De fet, molts grups existeixen amb molt d'èxit com a reunió informal de persones o com a
           grup comunitari. Qualsevol pot configurar o unir-se a aquests. Més informació a la %{communities_wiki_link}.
         communities_wiki: Pàgina wiki de les comunitats
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Feu zoom per veure les notes del mapa
+      map_data_zoom_in_tooltip: Feu zoom per veure les dades del mapa
+  legend_panes:
     show:
       entries:
         motorway: Autopista
@@ -2236,6 +2237,24 @@ ca:
         bicycle_parking: Aparcament de bicicletes
         bicycle_parking_small: Aparcament de bicicletes petit
         toilets: Lavabos
+  share_panes:
+    show:
+      link: Enllaç o HTML
+      include_marker: Inclou el marcador
+      long_link: Enllaç
+      short_link: Enllaç curt
+      embed: HTML
+      embed_html_disabled: La incrustació d'HTML no està disponible per a aquesta
+        capa de mapa
+      paste_html: Enganxa l'HTML per inserir-ho a un lloc web
+      geo_uri: Geo-URI
+      image: Imatge
+      format: 'Format:'
+      scale: 'Escala:'
+      custom_dimensions: Estableix dimensions personalitzades
+      image_dimensions_html: La imatge mostrarà la capa %{layer} amb una mida de %{width}
+        x %{height}
+      download: Descàrrega
   traces:
     visibility:
       private: Privat (només compartit com a punts anònims no ordenats)
@@ -2486,7 +2505,6 @@ ca:
       blocks on me: Blocs sobre mi
       blocks by me: Blocs fets per mi
       create_mute: Silencia aquest usuari
-      edit_profile: Edita el perfil
       send message: Envia un missatge
       diary: Diari
       edits: Edicions
@@ -2501,15 +2519,6 @@ ca:
       created from: 'Creat a partir de:'
       status: 'Estat:'
       spam score: 'Puntuació de contingut brossa:'
-      role:
-        administrator: Aquest usuari és administrador
-        moderator: Aquest usuari és moderador
-        grant:
-          administrator: Concedeix accés d'administrador
-          moderator: Concedeix accés de moderador
-        revoke:
-          administrator: Revoca l'accés d'administrador
-          moderator: Revocar l'accés de moderador
       block_history: Blocatges actius
       moderator_history: Blocatges fets
       comments: Comentaris
@@ -2584,6 +2593,19 @@ ca:
       option_2: |-
         Si ja teniu un compte, podeu iniciar sessió al vostre compte
         utilitzant el vostre nom d'usuari i contrasenya i, a continuació associar el compte amb l'ID a la configuració d'usuari.
+    role_icons:
+      title:
+        administrator: Aquest usuari és administrador
+        moderator: Aquest usuari és moderador
+      grant:
+        administrator: Concedeix accés d'administrador
+        moderator: Concedeix accés de moderador
+        are_you_sure: Esteu segur que voleu concedir el paper "%{role}" a l'usuari
+          "%{name}"?
+      revoke:
+        administrator: Revoca l'accés d'administrador
+        moderator: Revocar l'accés de moderador
+        are_you_sure: Esteu segur que voleu revocar el rol `%{role}' de l'usuari `%{name}'?
   user_role:
     filter:
       not_a_role: La cadena `%{role}' no és un rol vàlid.
@@ -2591,10 +2613,6 @@ ca:
       doesnt_have_role: L'usuari no té el rol %{role}.
       not_revoke_admin_current_user: No es poden retirar els drets d'administrador
         de l'usuari actual.
-    grant:
-      are_you_sure: Esteu segur que voleu concedir el paper "%{role}" a l'usuari "%{name}"?
-    revoke:
-      are_you_sure: Esteu segur que voleu revocar el rol `%{role}' de l'usuari `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Ha de ser un moderador per crear o un bloc d'actualització.
@@ -2752,27 +2770,10 @@ ca:
     close: Tanca
     share:
       title: Comparteix
-      cancel: Cancel·la
-      image: Imatge
-      link: Enllaç o HTML
-      long_link: Enllaç
-      short_link: Enllaç curt
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Estableix dimensions personalitzades
-      format: 'Format:'
-      scale: 'Escala:'
-      image_dimensions: La imatge mostrarà la capa %{layer} amb una mida de %{width}
-        x %{height}
-      download: Descàrrega
-      short_url: URL curt
-      include_marker: Inclou el marcador
-      center_marker: Centra el mapa al marcador
-      paste_html: Enganxa l'HTML per inserir-ho a un lloc web
       view_larger_map: Mostra un mapa més gran
     embed:
       report_problem: Informeu sobre un problema
-    key:
+    legend:
       title: Llegenda
       tooltip: Llegenda
       tooltip_disabled: La llegenda no és disponible per a aquesta capa
@@ -2816,22 +2817,16 @@ ca:
       edit_disabled_tooltip: Augmenteu el zoom per modificar el mapa
       createnote_tooltip: Afegiu una nota al mapa
       createnote_disabled_tooltip: Fes zoom per afegir una nota al mapa
-      map_notes_zoom_in_tooltip: Feu zoom per veure les notes del mapa
-      map_data_zoom_in_tooltip: Feu zoom per veure les dades del mapa
       queryfeature_tooltip: Consulta característiques
       queryfeature_disabled_tooltip: Apropeu-vos per a consultar característiques
-      embed_html_disabled: La incrustació d'HTML no està disponible per a aquesta
-        capa de mapa
     edit_help: Moveu el mapa i feu zoom sobre una ubicació que vulgueu editar, i a
       continuació, feu clic aquí.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: No s'ha pogut establir una ruta entre aquests dos punts.
-        no_place: No hem pogut trobar «%{place}».
       instructions:
         continue_without_exit: Continuar a %{name}
         slight_right_without_exit: Gira lleugerament a la dreta a %{name}
@@ -2922,6 +2917,9 @@ ca:
       show_address: Mostra l'adreça
       query_features: Consulta les característiques
       centre_map: Centra el mapa aquí
+    edit:
+      id_not_configured:
+        title: iD no s'ha configurat
   redactions:
     edit:
       heading: Modifica la redacció

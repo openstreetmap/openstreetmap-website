@@ -174,7 +174,6 @@ ru:
       node: Точка
       node_tag: Тег точки
       note: заметка
-      notifier: Уведомитель
       old_node: Старая точка
       old_node_tag: Старый тег точки
       old_relation: Старое отношение
@@ -282,10 +281,6 @@ ru:
         needs_view: Позволить ли пользователю входить в систему, прежде, чем блокировка
           будет снята?
       user:
-        email_confirmation: Ваш адрес не будет отображаться публично, смотрите нашу
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-          privacy policy including section on email addresses">политику конфиденциальности</a>
-          для получения дополнительной информации.
         new_email: (не будет показан)
   datetime:
     distance_in_words_ago:
@@ -396,16 +391,15 @@ ru:
       title: Изменить учетную запись
       current email address: Текущий адрес электронной почты
       external auth: 'Внешняя аутентификация:'
-      contributor terms:
+      contributor_terms:
         heading: Условия участия
         agreed: Вы согласились с новыми Условиями участия.
-        not yet agreed: Вы ещё не согласились с новыми Условиями участия.
-        review link text: Пожалуйста, перейдите по этой ссылке в удобное для вас время
-          и подтвердите согласие с новыми Условиями участия.
         agreed_with_pd: Вы также заявили, что вы считаете свои правки находящимися
           в общественном достоянии.
         link: https://openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru
         link text: что это?
+      terms_of_use:
+        heading: Условиями использования
       save changes button: Сохранить изменения
       delete_account: Удалить учётную запись…
     go_public:
@@ -462,8 +456,9 @@ ru:
         contributor_terms_explain: Это соглашение регулирует условия ваших существующего
           и будущего вклада.
         read_ct: Я прочитал и согласен с вышеуказанными условиями
-        tou_explain_html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
-          OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
+        tou_explain:
+          html: '%{tou_link} управляет сайтом и иной инфраструктурой, предоставляемой
+            OSMF. Пожалуйста, перейдите по ссылке и ознакомьтесь с текстом.'
         read_tou: Я соглашаюсь с Условиями использования
         readable_summary: удобочитаемое резюме
         continue: Продолжить
@@ -502,9 +497,7 @@ ru:
       many: '%{count} линиях'
       other: ""
     download_xml: Скачать XML
-    view_history: Посмотреть историю
     view_unredacted_history: Просмотр неотредактированной истории
-    view_details: Подробнее
     location: 'Географическое положение:'
     node:
       title_html: 'Точка: %{name}'
@@ -1677,7 +1670,6 @@ ru:
   reports:
     new:
       title_html: Сообщение %{link}
-      missing_params: Не удалось создать новое сообщение
       disclaimer:
         intro: 'Пожалуйста, перед отправкой вашего сообщения модераторам сайта убедитесь,
           что:'
@@ -1758,11 +1750,11 @@ ru:
       footer_unsubscribe: Вы можете отписаться от обсуждения на %{unsubscribeurl}
       footer_unsubscribe_html: Вы можете отписаться от обсуждения на %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Здравствуйте, %{to_user},
-      header: 'Пользователь OpenStreetMap %{from_user} отправил вам сообщение с темой
-        %{subject}:'
-      header_html: 'Пользователь OpenStreetMap %{from_user} отправил вам сообщение
+      header: 'Пользователь OpenHistoricalMap %{from_user} отправил вам сообщение
+        с темой %{subject}:'
+      header_html: 'Пользователь OpenHistoricalMap %{from_user} отправил вам сообщение
         с темой %{subject}:'
       footer: Вы можете также прочитать сообщение на странице %{readurl} и ответить
         на него на %{replyurl}
@@ -1795,14 +1787,14 @@ ru:
       welcome: После подтверждения вашей учётной записи, мы предоставим вам немного
         дополнительной информации для начального ознакомления.
     email_confirm:
-      subject: '[OpenStreetMap] Подтвердите ваш адрес электронной почты'
+      subject: '[OpenHistoricalMap] Подтвердите ваш адрес электронной почты'
       greeting: Здравствуйте,
       hopefully_you: Кто-то (надеемся, что Вы) хочет изменить свой адрес электронной
         почты в %{server_url} на адрес %{new_address}.
       click_the_link: Если это вы, то перейдите по ссылке, расположенной ниже, чтобы
         подтвердить изменение.
     lost_password:
-      subject: '[OpenStreetMap] Запрос на смену пароля'
+      subject: '[OpenHistoricalMap] Запрос на смену пароля'
       greeting: Здравствуйте,
       hopefully_you: Кто-то (возможно, вы) запросил сброс пароля для учетной записи
         openhistoricalmap.org этого адреса электронной почты.
@@ -1900,6 +1892,9 @@ ru:
       whitelist: Если вы используете антиспам, посылающий запросы на подтверждение,
         внесите адрес %{sender} в ваш белый список, так как мы не можем отвечать на
         такие запросы.
+    gravatar:
+      disabled: Gravatar отключён.
+      enabled: Отображение вашего Gravatar включено.
   messages:
     new:
       title: Отправить сообщение
@@ -2017,33 +2012,38 @@ ru:
         title: Мои предпочтения
         save: Обновить предпочтения
   profiles:
-    show:
-      title: Редактирование профиля
-      save: Обновить профиль
-      cancel: Отмена
-      image: Изображение
-      gravatar:
-        gravatar: Использовать Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=ru
-        what_is_gravatar: Что такое Gravatar?
-        disabled: Gravatar отключён.
-        enabled: Отображение вашего Gravatar включено.
-      new image: Добавить изображение
-      keep image: Оставить текущее изображение
-      delete image: Удалить текущее изображение
-      replace image: Заменить текущее изображение
-      image size hint: (квадратные изображения, по крайней мере 100×100, работают
-        лучше)
-      home location: Моё местоположение
-      no home location: Вы не обозначили свое домашнее местоположение.
-      update home location on click: Обновлять моё местоположение, когда я нажимаю
-        на карту?
-      show: Показывать
-      delete: Удалить
-      undelete: Отменить удаление
-    update:
-      success: Профиль обновлён.
-      failure: Не удалось обновить профиль.
+    profile_sections:
+      navigation:
+        image: Изображение
+    descriptions:
+      show:
+        title: Редактирование профиля
+        save: Обновить профиль
+        cancel: Отмена
+    links:
+      show:
+        title: Редактировать профиль
+        cancel: Отмена
+    images:
+      show:
+        gravatar:
+          gravatar: Использовать Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=ru
+          what_is_gravatar: Что такое Gravatar?
+        new image: Добавить изображение
+        keep image: Оставить текущее изображение
+        delete image: Удалить текущее изображение
+        replace image: Заменить текущее изображение
+        image size hint: (квадратные изображения, по крайней мере 100×100, работают
+          лучше)
+    locations:
+      show:
+        no home location: Вы не обозначили свое домашнее местоположение.
+        update home location on click: Обновлять моё местоположение, когда я нажимаю
+          на карту?
+        show: Показывать
+        delete: Удалить
+        undelete: Отменить удаление
   sessions:
     new:
       tab_title: Вход
@@ -2173,8 +2173,6 @@ ru:
       anon_edits_html: '%{link}'
       anon_edits_link: https://wiki.openstreetmap.org/wiki/RU:%D0%90%D0%BD%D0%BE%D0%BD%D0%B8%D0%BC%D0%BD%D1%8B%D0%B5_%D0%BF%D1%80%D0%B0%D0%B2%D0%BA%D0%B8
       anon_edits_link_text: Выяснить, в чём дело.
-    edit:
-      id_not_configured: iD не был настроен
     export:
       title: Экспортировать
       manually_select: Выделить другую область
@@ -2358,7 +2356,11 @@ ru:
           Действительно, многие группы существуют очень успешно как неформальные собрания людей или как
           общинные группы. Любой может настроить или присоединиться к ним. Подробнее читайте на %{communities_wiki_link}.
         communities_wiki: Вики-странице сообщества
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть заметки
+      map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
+  legend_panes:
     show:
       entries:
         motorway: Автомагистраль
@@ -2442,6 +2444,23 @@ ru:
         bicycle_parking: Парковка для велосипедов
         bicycle_parking_small: Небольшая велопарковка
         toilets: Туалет
+  share_panes:
+    show:
+      link: Ссылка или HTML
+      include_marker: Включить маркер
+      long_link: Ссылка
+      short_link: Кратко
+      embed: HTML
+      embed_html_disabled: Встраивание HTML недоступно для этого слоя карты
+      paste_html: HTML-код для встраивания на сайт
+      geo_uri: Geo URI
+      image: Изображение
+      format: 'Формат:'
+      scale: 'Масштаб:'
+      custom_dimensions: Выбрать размер вручную
+      image_dimensions_html: На изображении будет показан стандартный слой в %{width}
+        x %{height}
+      download: Скачать
   traces:
     visibility:
       private: Частный (доступно только анонимно, неупорядоченные точки)
@@ -2691,7 +2710,6 @@ ru:
       blocks by me: Наложенные мною блокировки
       create_mute: Заглушить этого пользователя
       destroy_mute: Отменить заглушение этого пользователя
-      edit_profile: Редактировать профиль
       send message: Отправить сообщение
       diary: Дневник
       edits: Правки
@@ -2706,16 +2724,6 @@ ru:
       created from: 'Создано из:'
       status: 'Статус:'
       spam score: 'Оценка спама:'
-      role:
-        administrator: Этот пользователь является администратором
-        moderator: Этот пользователь является модератором
-        importer: Этот пользователь является импортером
-        grant:
-          administrator: Присвоить права администратора
-          moderator: Присвоить права модератора
-        revoke:
-          administrator: Отозвать права администратора
-          moderator: Отозвать права модератора
       block_history: Активные блокировки
       moderator_history: Созданные блокировки
       comments: Комментарии
@@ -2787,6 +2795,20 @@ ru:
       option_2: Если у вас уже есть учётная запись, вы можете войти в неё, используя
         свой логин и пароль, а затем связать учётную запись с вашем ID в пользовательских
         настройках.
+    role_icons:
+      title:
+        administrator: Этот пользователь является администратором
+        moderator: Этот пользователь является модератором
+      grant:
+        administrator: Присвоить права администратора
+        moderator: Присвоить права модератора
+        are_you_sure: Вы уверены, что хотите присвоить роль '%{role}' пользователю
+          '%{name}'?
+      revoke:
+        administrator: Отозвать права администратора
+        moderator: Отозвать права модератора
+        are_you_sure: Вы уверены, что хотите отозвать роль '%{role}' у пользователя
+          '%{name}'?
   user_role:
     filter:
       not_a_role: Строка «%{role}» не является допустимой ролью.
@@ -2794,11 +2816,6 @@ ru:
       doesnt_have_role: У пользователя нет роли %{role}.
       not_revoke_admin_current_user: Невозможно отозвать роль отозвать администратора
         у текущего пользователя.
-    grant:
-      are_you_sure: Вы уверены, что хотите присвоить роль '%{role}' пользователю '%{name}'?
-    revoke:
-      are_you_sure: Вы уверены, что хотите отозвать роль '%{role}' у пользователя
-        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Нужно быть модератором, чтобы создать или изменить блокировку.
@@ -2950,27 +2967,10 @@ ru:
     close: Закрыть
     share:
       title: Вставить на сайт
-      cancel: Отмена
-      image: Изображение
-      link: Ссылка или HTML
-      long_link: Ссылка
-      short_link: Кратко
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Выбрать размер вручную
-      format: 'Формат:'
-      scale: 'Масштаб:'
-      image_dimensions: На изображении будет показан стандартный слой в %{width} x
-        %{height}
-      download: Скачать
-      short_url: Короткая ссылка
-      include_marker: Включить маркер
-      center_marker: Центрировать карту на маркер
-      paste_html: HTML-код для встраивания на сайт
       view_larger_map: Посмотреть более крупную карту
     embed:
       report_problem: Сообщить о проблеме
-    key:
+    legend:
       title: Легенда карты
       tooltip: Условные знаки
       tooltip_disabled: Условные знаки не доступны для этого слоя
@@ -3017,21 +3017,16 @@ ru:
       edit_disabled_tooltip: Увеличьте масштаб, чтобы отредактировать карту
       createnote_tooltip: Добавить заметку на карту
       createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
-      map_notes_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть заметки
-      map_data_zoom_in_tooltip: Увеличьте масштаб, чтобы увидеть данные карты
       queryfeature_tooltip: Что здесь?
       queryfeature_disabled_tooltip: Приблизьте карту для информации об объектах
-      embed_html_disabled: Встраивание HTML недоступно для этого слоя карты
     edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем
       кликните здесь.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}м'
-          km: '%{distance}км'
+        m: '%{distance}м'
+        km: '%{distance}км'
       errors:
         no_route: Не удалось найти маршрут между этими двумя точками.
-        no_place: К сожалению невозможно определить '%{place}'.
       instructions:
         continue_without_exit: Продолжите по %{name}
         slight_right_without_exit: Плавно поверните направо на %{name}
@@ -3121,6 +3116,9 @@ ru:
       show_address: Показать адрес
       query_features: Что здесь?
       centre_map: Центрировать карту
+    edit:
+      id_not_configured:
+        title: iD не был настроен
   redactions:
     edit:
       heading: Редактировать исправление

@@ -160,9 +160,6 @@ et:
       user_block:
         needs_view: Kas kasutaja peab sisse logima enne kui see blokeering eemaldatakse?
       user:
-        email_confirmation: Sinu aadressi ei kuvata avalikult, loe täpsemalt meie
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF-i
-          andmekaitsereeglid, milles on alaosa e-posti aadresside kohta">andmekaitsereeglitest</a>.
         new_email: (ei näidata mitte kunagi avalikult)
   datetime:
     distance_in_words_ago:
@@ -247,15 +244,14 @@ et:
       title: Konto muutmine
       current email address: Praegune e-posti aadress
       external auth: Väline autentimine
-      contributor terms:
+      contributor_terms:
         heading: Kaastöötingimused
         agreed: Oled nõustunud uute kaastöötingimustega.
-        not yet agreed: Sa ei ole veel nõustunud uute kaastöötingimustega.
-        review link text: Palun mine sulle sobival ajal lingitud leheküljele, et lugeda
-          uusi kaastöötingimusi ja et nendega nõustuda.
         agreed_with_pd: Samuti oled deklareerinud oma kaastöö autoriõigustest vabaks
           (Public Domain).
         link text: mis see on?
+      terms_of_use:
+        heading: kasutustingimused
       save changes button: Salvesta muudatused
       delete_account: Kustuta konto...
     go_public:
@@ -309,9 +305,10 @@ et:
         contributor_terms_explain: See leping reguleerib sinu olemasoleva ja tulevase
           kaastöö tingimusi.
         read_ct: Ma olen lugenud kaastöötingimusi ja nõustun nendega
-        tou_explain_html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i
-          pakutava infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi
-          ja nõustu sellega.
+        tou_explain:
+          html: Need %{tou_link} reguleerivad selle veebisaidi ja muu OSMF-i pakutava
+            infrastruktuuri kasutamist. Palun klõpsa lingil, loe tekst läbi ja nõustu
+            sellega.
         read_tou: Ma olen lugenud kasutustingimusi ja nõustun nendega
         guidance_info_html: 'Teave, mis aitab mõista neid tingimusi: %{readable_summary_link}
           ja mõned %{informal_translations_link}'
@@ -348,9 +345,7 @@ et:
       one: '%{count} joon'
       other: '%{count} joont'
     download_xml: Laadi alla XML
-    view_history: Vaata ajalugu
     view_unredacted_history: Vaata ajalugu kinnikatmata kujul
-    view_details: Vaata üksikasju
     location: 'Asukoht:'
     node:
       title_html: 'Sõlm: %{name}'
@@ -1436,7 +1431,6 @@ et:
   reports:
     new:
       title_html: Kaebus (%{link})
-      missing_params: Ei õnnestu uut kaebust koostada.
       disclaimer:
         intro: Enne kui saadad saidi moderaatoritele kaebuse, veendu et
         not_just_mistake: oled kindel, et tegu pole lihtsalt eksitusega;
@@ -1511,11 +1505,12 @@ et:
       footer_unsubscribe: Saad loobuda selle arutelu jälgimisest aadressil %{unsubscribeurl}
       footer_unsubscribe_html: Saad loobuda selle arutelu jälgimisest aadressil %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Tere, %{to_user}
-      header: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga %{subject}:'
-      header_html: '%{from_user} on saatnud sulle OpenStreetMapi kaudu sõnumi teemaga
+      header: '%{from_user} on saatnud sulle OpenHistoricalMapi kaudu sõnumi teemaga
         %{subject}:'
+      header_html: '%{from_user} on saatnud sulle OpenHistoricalMapi kaudu sõnumi
+        teemaga %{subject}:'
       footer: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
         aadressil %{replyurl}.
       footer_html: Saad lugeda sõnumit ka aadressil %{readurl} ja saata autorile sõnumi
@@ -1547,14 +1542,14 @@ et:
       welcome: Peale seda, kui oled kinnitanud enda konto pakume sulle lisainfot,
         et saaksid kasutamist hõlpsalt alustada.
     email_confirm:
-      subject: '[OpenStreetMap] Kinnita oma e-posti aadress'
+      subject: '[OpenHistoricalMap] Kinnita oma e-posti aadress'
       greeting: Tere!
       hopefully_you: Keegi (loodetavasti sina) soovib muuta oma meiliaadressi asukohas
         %{server_url} kujule %{new_address}.
       click_the_link: Kui see oled sina, siis klõpsa palun alloleval lingil, et muudatus
         kinnitada.
     lost_password:
-      subject: '[OpenStreetMap] Parooli lähtestamise taotlus'
+      subject: '[OpenHistoricalMap] Parooli lähtestamise taotlus'
       greeting: Tere!
       hopefully_you: Keegi (tõenäoliselt sina) on esitanud taotluse, et lähtestada
         selle e-posti aadressiga openstreetmap.org-i konto parool.
@@ -1649,6 +1644,9 @@ et:
       whitelist: Kui kasutad rämpskirjade vastast süsteemi, mis saadab kinnitustaotluse,
         siis veendu, et oled kandnud aadressi %{sender} valgesse nimekirja, sest meil
         pole võimalik kinnitustaotlustele vastata.
+    gravatar:
+      disabled: Gravatar on kasutusest eemaldatud.
+      enabled: Sinu Gravatar on nüüd kasutusel.
   messages:
     new:
       title: Saada sõnum
@@ -1761,30 +1759,35 @@ et:
         title: Minu eelistused
         save: Uuenda eelistusi
   profiles:
-    show:
-      title: Profiili muutmine
-      save: Uuenda profiili
-      cancel: Loobu
-      image: Pilt
-      gravatar:
-        gravatar: Kasuta Gravatari
-        what_is_gravatar: Mis on Gravatar?
-        disabled: Gravatar on kasutusest eemaldatud.
-        enabled: Sinu Gravatar on nüüd kasutusel.
-      new image: Lisa pilt
-      keep image: Säilitada praegune pilt
-      delete image: Eemalda praegune pilt
-      replace image: Asenda praegune pilt
-      image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
-      home location: Kodu asukoht
-      no home location: Sa pole oma kodu asukohta märkinud.
-      update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
-      show: Näita
-      delete: Kustuta
-      undelete: Võta kustutamine tagasi
-    update:
-      success: Profiil uuendatud.
-      failure: Profiili ei õnnestunud uuendada.
+    profile_sections:
+      navigation:
+        image: Pilt
+    descriptions:
+      show:
+        title: Profiili muutmine
+        save: Uuenda profiili
+        cancel: Loobu
+    links:
+      show:
+        title: Muuda profiili
+        cancel: Loobu
+    images:
+      show:
+        gravatar:
+          gravatar: Kasuta Gravatari
+          what_is_gravatar: Mis on Gravatar?
+        new image: Lisa pilt
+        keep image: Säilitada praegune pilt
+        delete image: Eemalda praegune pilt
+        replace image: Asenda praegune pilt
+        image size hint: (ruudukujuline pilt mõõtudega vähemalt 100x100 on sobiv)
+    locations:
+      show:
+        no home location: Sa pole oma kodu asukohta märkinud.
+        update home location on click: Kas uuendan kodu asukohta, kui klõpsan kaardil?
+        show: Näita
+        delete: Kustuta
+        undelete: Võta kustutamine tagasi
   sessions:
     new:
       tab_title: Logi sisse
@@ -1880,7 +1883,7 @@ et:
       legal_babble:
         introduction_4_creative_commons: Autorile viitamine + jagamine samadel tingimustel
           2.0
-        credit_title_html: OpenStreetMapile viitamine
+        credit_title_html: OpenHistoricalMapile viitamine
         credit_1_html: 'Seal, kus kasutad OpenStreetMapi andmeid, tuleb sul teha kaht
           järgmist asja:'
         credit_2_this_copyright_page: sellele autoriõiguse leheküljele
@@ -1925,8 +1928,6 @@ et:
       user_page_link: kasutajaleht
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Uuri välja, miks see on nii.
-    edit:
-      id_not_configured: iD ei ole seadistatud
     export:
       title: Eksportimine
       manually_select: Vali käsitsi teine ala
@@ -2095,7 +2096,11 @@ et:
           Rühma ei pea moodustama haruühinguna ega sama ametlikul moel.
           Paljud rühmad tegutsevad õigupoolest väga edukalt, olles kokku tulnud mitteametlikult või kogukonnarühmana. Igaüks võib neid kokku kutsuda või nendega ühineda. Loe rohkem %{communities_wiki_link}.
         communities_wiki: kogukondade viki leheküljelt
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Suumi sisse, et näha kaardil märkuseid
+      map_data_zoom_in_tooltip: Suumi sisse, et näha kaardi andmeid
+  legend_panes:
     show:
       entries:
         motorway: Kiirtee
@@ -2176,6 +2181,22 @@ et:
         bicycle_parking: Jalgrattaparkla
         bicycle_parking_small: Väike jalgrattaparkla
         toilets: Tualettruumid
+  share_panes:
+    show:
+      link: Link või HTML
+      include_marker: Lisa marker
+      long_link: Link
+      short_link: Lühilink
+      embed: HTML
+      embed_html_disabled: Selle kaardikihi jaoks pole HTML-i lõimimine saadaval
+      paste_html: Kopeeri HTML-kood oma veebilehele
+      geo_uri: Geo URI
+      image: Pilt
+      format: 'Vorming:'
+      scale: 'Mõõtkava:'
+      custom_dimensions: Vali suurus käsitsi
+      image_dimensions_html: Pildil näeb kihti %{layer} suuruses %{width} × %{height}
+      download: Laadi alla
   traces:
     visibility:
       private: Isiklik (jagatud ainult anonüümselt, järjestamata punktid)
@@ -2403,7 +2424,6 @@ et:
       blocks by me: Minu seatud blokeeringud
       create_mute: Vaigista see kasutaja
       destroy_mute: Tühista selle kasutaja vaigistamine
-      edit_profile: Muuda profiili
       send message: Saada sõnum
       diary: Päevik
       edits: Muudatused
@@ -2419,16 +2439,6 @@ et:
       created from: 'Loodud:'
       status: 'Staatus:'
       spam score: 'Rämpsposti tulemus:'
-      role:
-        administrator: See kasutaja on administraator
-        moderator: See kasutaja on moderaator
-        importer: See kasutaja on importija
-        grant:
-          administrator: Määra administraatori õigused
-          moderator: Määra moderaatori õigused
-        revoke:
-          administrator: Eemalda administraatori õigused
-          moderator: Eemalda moderaatori õigused
       block_history: Aktiivsed blokeeringud
       moderator_history: Seatud blokeeringud
       comments: Kommentaarid
@@ -2496,16 +2506,24 @@ et:
         täites allpool oleva vormi.
       option_2: Kui sul juba on kasutajakonto, saad sisse logida, kasutades oma kasutajanime
         ja parooli ning siduda seejärel kasutajasätetes konto oma ID-ga.
+    role_icons:
+      title:
+        administrator: See kasutaja on administraator
+        moderator: See kasutaja on moderaator
+      grant:
+        administrator: Määra administraatori õigused
+        moderator: Määra moderaatori õigused
+        are_you_sure: Kas oled kindel, et soovid anda rolli '%{role}' kasutajale '%{name}'?
+      revoke:
+        administrator: Eemalda administraatori õigused
+        moderator: Eemalda moderaatori õigused
+        are_you_sure: Kas oled kindel, et soovid tühistada kasutaja '%{name}' rolli
+          '%{role}'?
   user_role:
     filter:
       not_a_role: String '%{role}' ei ole kehtiv roll.
       already_has_role: Kasutajal on juba roll %{role}.
       doesnt_have_role: Kasutajal ei ole rolli %{role}.
-    grant:
-      are_you_sure: Kas oled kindel, et soovid anda rolli '%{role}' kasutajale '%{name}'?
-    revoke:
-      are_you_sure: Kas oled kindel, et soovid tühistada kasutaja '%{name}' rolli
-        '%{role}'?
   user_blocks:
     model:
       non_moderator_update: Blokeeringu loomiseks või uuendamiseks pead olema moderaator.
@@ -2666,26 +2684,10 @@ et:
     close: Sulge
     share:
       title: Jaga
-      cancel: Loobu
-      image: Pilt
-      link: Link või HTML
-      long_link: Link
-      short_link: Lühilink
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Vali suurus käsitsi
-      format: 'Vorming:'
-      scale: 'Mõõtkava:'
-      image_dimensions: Pildil näeb kihti %{layer} suuruses %{width} × %{height}
-      download: Laadi alla
-      short_url: Lühilink
-      include_marker: Lisa marker
-      center_marker: Tsentreeri kaart markerile
-      paste_html: Kopeeri HTML-kood oma veebilehele
       view_larger_map: Vaata suuremat kaarti
     embed:
       report_problem: Teata probleemist
-    key:
+    legend:
       title: Legend
       tooltip: Legend
       tooltip_disabled: Legend ei ole nähtav sellel kihil
@@ -2723,21 +2725,16 @@ et:
       edit_disabled_tooltip: Kaardi redigeerimiseks suurenda kaarti
       createnote_tooltip: Märkuse lisamine kaardile
       createnote_disabled_tooltip: Suurenda, et lisada kaardile märkus
-      map_notes_zoom_in_tooltip: Suumi sisse, et näha kaardil märkuseid
-      map_data_zoom_in_tooltip: Suumi sisse, et näha kaardi andmeid
       queryfeature_tooltip: Mis siin on?
       queryfeature_disabled_tooltip: Suurenda, et objektide kohta päring teha
-      embed_html_disabled: Selle kaardikihi jaoks pole HTML-i lõimimine saadaval
     edit_help: Nihuta kaarti ja suumi sisse asukohta mida soovid redigeerida ja seejärel
       kliki siia.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}&nbsp;m'
-          km: '%{distance}&nbsp;km'
+        m: '%{distance}&nbsp;m'
+        km: '%{distance}&nbsp;km'
       errors:
         no_route: Ei suutnud leida teekonda nende kahe koha vahel.
-        no_place: Kohta "%{place}" ei õnnestunud kahjuks leida.
       instructions:
         continue_without_exit: 'Liigu edasi teele: %{name}'
         slight_right_without_exit: 'Pööra kergelt paremal pool asuvale teele: %{name}'
@@ -2832,6 +2829,9 @@ et:
       show_address: Kuva aadress
       query_features: Mis siin on?
       centre_map: Kuva kaardi keskel
+    edit:
+      id_not_configured:
+        title: iD ei ole seadistatud
   redactions:
     edit:
       heading: Kinnikatmise redigeerimine

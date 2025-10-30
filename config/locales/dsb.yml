@@ -48,7 +48,6 @@ dsb:
       message: Powěsć
       node: Suk
       node_tag: Atribut suka
-      notifier: Powěźeńka
       old_node: Stary suk
       old_node_tag: Atribut starego suka
       old_relation: Stara relacija
@@ -158,12 +157,9 @@ dsb:
     show:
       title: Konto wobźěłaś
       current email address: 'Aktualna e-mailowa adresa:'
-      contributor terms:
+      contributor_terms:
         heading: 'Wuměnjenja za sobustatkujucych:'
         agreed: Sy nowe wuměnjenja za sobuskutkujucych akceptěrował.
-        not yet agreed: Hyšći njejsy nowe wuměnjenja za sobuskutkujucych akceptěrował.
-        review link text: Pšosym slěduj toś tomu wótkazoju, aby pśeglědał a akceptěrował
-          nowe wuměnjenja za sobuskutkajucych.
         agreed_with_pd: Sy teke deklarěrował, až twóje změny su zjawne.
         link text: Co to jo?
       save changes button: Změny składowaś
@@ -198,8 +194,6 @@ dsb:
     no_comment: (žeden komentar)
     part_of: Źěl wót
     download_xml: XML ześěgnuś
-    view_history: Historiju pokazaś
-    view_details: Drobnostki pokazaś
     location: 'Městno:'
     node:
       title_html: 'Suk: %{name}'
@@ -862,7 +856,7 @@ dsb:
         abo na %{replyurl} wótegroniś
     message_notification:
       hi: Witaj %{to_user},
-      header: '%{from_user} jo śi pósłał powěsć pśez OpenStreetMap z temowym nadpismom
+      header: '%{from_user} jo śi pósłał powěsć pśez OpenHistoricalMap z temowym nadpismom
         %{subject}:'
       footer_html: Móžoš powěsć pód %{readurl} cytaś a móžoš pód %{replyurl} wótegroniś
     follow_notification:
@@ -882,14 +876,14 @@ dsb:
       welcome: Za tym až sy swójo konto wobkšuśił, buźomy tebi pśidatne informacije
         za prědne kšacei daś.
     email_confirm:
-      subject: '[OpenStreetMap] Twóju e-mailowu adresu wobkšuśiś'
+      subject: '[OpenHistoricalMap] Twóju e-mailowu adresu wobkšuśiś'
       greeting: Witaj,
       hopefully_you: Něchten (naźejucy ty) co swóju e-mailowu adresu pla %{server_url}
         do %{new_address} změniś.
       click_the_link: Jolic ty to sy, klikni pšosym dołojce na wótkaz, aby wobkšuśił
         změnu.
     lost_password:
-      subject: '[OpenStreetMap] Napšašowanje wó slědkstajenju gronidła'
+      subject: '[OpenHistoricalMap] Napšašowanje wó slědkstajenju gronidła'
       greeting: Witaj,
       hopefully_you: Něchten (snaź ty) jo pominał gronidło za konto OpenHistoricalMap
         z toś teju e-majloweju adresu slědk stajiś.
@@ -1044,20 +1038,30 @@ dsb:
         title: Móje preference
         save: Preference aktualizěrowaś
   profiles:
-    show:
-      cancel: Pśetergnuś
-      image: 'Wobraz:'
-      gravatar:
-        gravatar: Gravatar wužywaś
-      new image: Wobraz pśidaś
-      keep image: Aktualny wobraz wobchowaś
-      delete image: Aktualny wobraz wótpóraś
-      replace image: Aktualny wobraz wuměniś
-      image size hint: (kwadratiske wobraze z nanejmjenjej 100x100 funkcioněruju nejlěpjej)
-      home location: 'Bydlišćo:'
-      no home location: Njejsy swóje bydlišćo zapódał.
-      update home location on click: Bydlišćo pśi kliknjenju na kórtu aktualizěrowaś?
-      show: Pokazaś
+    profile_sections:
+      navigation:
+        image: 'Wobraz:'
+    descriptions:
+      show:
+        cancel: Pśetergnuś
+    links:
+      show:
+        cancel: Pśetergnuś
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar wužywaś
+        new image: Wobraz pśidaś
+        keep image: Aktualny wobraz wobchowaś
+        delete image: Aktualny wobraz wótpóraś
+        replace image: Aktualny wobraz wuměniś
+        image size hint: (kwadratiske wobraze z nanejmjenjej 100x100 funkcioněruju
+          nejlěpjej)
+    locations:
+      show:
+        no home location: Njejsy swóje bydlišćo zapódał.
+        update home location on click: Bydlišćo pśi kliknjenju na kórtu aktualizěrowaś?
+        show: Pokazaś
   sessions:
     new:
       tab_title: Pśizjawjenje
@@ -1106,7 +1110,7 @@ dsb:
         native_link: dolnoserbskej wersiji
         mapping_link: kartěrowanje zachopiś
       legal_babble:
-        credit_title_html: Kak naspomnjeś awtorstwo OpenStreetMap
+        credit_title_html: Kak naspomnjeś awtorstwo OpenHistoricalMap
         credit_1_html: Pominamy se, až  pódawaš sobustatkujucych &ldquo;&copy; OpenStreetMap&rdquo;.
         attribution_example:
           alt: Pśikład, kak pokazujo se na webboku na OpenStreetMap
@@ -1138,8 +1142,6 @@ dsb:
       user_page_link: wužywarskem boku
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Wuslěź, cogodla tomu tak jo.
-    edit:
-      id_not_configured: iD njejo se konfigurěrował
     export:
       title: Eksportěrowaś
       manually_select: Drugi wurězk manuelnje wubraś
@@ -1240,7 +1242,11 @@ dsb:
         list_text: 'Slědujuce zgromadnosći su oficielnje ako lokalne zwězki zregistrěrowane:'
       other_groups:
         title: Druge kupki
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Powětš kórtu,  aby pokazki wiźeł
+      map_data_zoom_in_tooltip: Powětš kórtu, aby daty wiźeł
+  legend_panes:
     show:
       entries:
         motorway: Awtodroga
@@ -1293,6 +1299,19 @@ dsb:
         destination: Jano za pśigranicujucych
         construction: Drogi w twari
         bicycle_shop: Kólasaŕnja
+  share_panes:
+    show:
+      link: Wótkaz abo HTML
+      include_marker: Kórtowu marku stajiś
+      long_link: Wótkaz
+      short_link: Krotki wótkaz
+      embed: HTML
+      paste_html: HTML-kod kopěrowaś, aby se do websedła zasajźił
+      image: Wobraz
+      format: 'Format:'
+      scale: 'Měritko:'
+      custom_dimensions: Swójske pśiměrjenja stajiś
+      download: Ześěgnuś
   traces:
     visibility:
       private: Priwatny (jano źělony ako anonymne, njezrědowane dypki)
@@ -1421,15 +1440,6 @@ dsb:
       created from: 'Napórany z:'
       status: 'Status:'
       spam score: 'Spamowe gódnośenje:'
-      role:
-        administrator: Toś ten wužywaŕ jo administrator
-        moderator: Toś ten wužywaŕ jo moderator
-        grant:
-          administrator: Pšawo administratora rozdaś
-          moderator: Pšawo moderatora rozdaś
-        revoke:
-          administrator: Pšawo administratora zajmjeś
-          moderator: Pšawo moderatora zajmjeś
       block_history: dostane blokěrowanja
       moderator_history: Rozdane blokěrowanja
       comments: Komentary
@@ -1476,15 +1486,23 @@ dsb:
     suspended:
       title: Konto wupowěźone
       heading: Konto wupowěźone
+    role_icons:
+      title:
+        administrator: Toś ten wužywaŕ jo administrator
+        moderator: Toś ten wužywaŕ jo moderator
+      grant:
+        administrator: Pšawo administratora rozdaś
+        moderator: Pšawo moderatora rozdaś
+        are_you_sure: Coš napšawdu wužywarjeju "%{name}" rolu "%{role}" daś?
+      revoke:
+        administrator: Pšawo administratora zajmjeś
+        moderator: Pšawo moderatora zajmjeś
+        are_you_sure: Coš napšawdu wužywarjeju "%{name}" rolu "%{role}" zajmjeś?
   user_role:
     filter:
       not_a_role: Znamuškowy rjeśazk "%{role}" njejo płaśiwa rola.
       already_has_role: Wužywaŕ ma južo rolu %{role}.
       doesnt_have_role: Wužywaŕ njama rolu %{role}.
-    grant:
-      are_you_sure: Coš napšawdu wužywarjeju "%{name}" rolu "%{role}" daś?
-    revoke:
-      are_you_sure: Coš napšawdu wužywarjeju "%{name}" rolu "%{role}" zajmjeś?
   user_blocks:
     model:
       non_moderator_update: Musy moderator byś, aby blokěrowanje wuźělił abo aktualizěrował.
@@ -1575,22 +1593,8 @@ dsb:
     close: Zacyniś
     share:
       title: Źěliś
-      cancel: Pśetergnuś
-      image: Wobraz
-      link: Wótkaz abo HTML
-      long_link: Wótkaz
-      short_link: Krotki wótkaz
-      embed: HTML
-      custom_dimensions: Swójske pśiměrjenja stajiś
-      format: 'Format:'
-      scale: 'Měritko:'
-      download: Ześěgnuś
-      short_url: Krotki URL
-      include_marker: Kórtowu marku stajiś
-      center_marker: Kórtu pó marce centrěrowaś
-      paste_html: HTML-kod kopěrowaś, aby se do websedła zasajźił
       view_larger_map: Wětšu kórtu pokazaś
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: Legenda stoj jano za standardnu rowninu k dispoziciji
@@ -1616,10 +1620,11 @@ dsb:
       edit_disabled_tooltip: Za wobźěłowanje kórty  powětšyś
       createnote_tooltip: Kórśe pokazku pśidaś
       createnote_disabled_tooltip: Powětšyś, aby kórśe pokazku pśidało
-      map_notes_zoom_in_tooltip: Powětš kórtu,  aby pokazki wiźeł
-      map_data_zoom_in_tooltip: Powětš kórtu, aby daty wiźeł
     edit_help: Pśesuń kórtu do městna, kótarež coš wobźěłaś, powětš tam a klikni pótom
       how.
+    edit:
+      id_not_configured:
+        title: iD njejo se konfigurěrował
   redactions:
     edit:
       heading: Redakciju wobźěłaś

@@ -59,7 +59,6 @@ hr:
       node: Točka
       node_tag: Oznaka točke
       note: bilješka
-      notifier: Izvjestitelj
       old_node: Stara točka
       old_node_tag: Oznaka stare točke
       old_relation: Stara relacija
@@ -234,12 +233,9 @@ hr:
     show:
       title: Uredi korisnički račun
       current email address: Trenutna adresa e-pošte
-      contributor terms:
+      contributor_terms:
         heading: Uvjeti doprinositelja
         agreed: Prihvatio/la si nove Uvjete doprinositelja.
-        not yet agreed: Niste još uvijek prihvatili nove uvjete doprinositelja.
-        review link text: Molim slijedi ovu poveznicu kada budeš u prilici za pregled
-          i prihvati nove Uvjete doprinositelja.
         agreed_with_pd: Također ste sve svoje izmjene proglasili javnim vlasništvom.
         link text: što je ovo?
       save changes button: Snimi promjene
@@ -278,8 +274,6 @@ hr:
       few: '%{count} puta'
       other: '%{count} putova'
     download_xml: Preuzmi XML
-    view_history: Prikaži povijest
-    view_details: Prikaži detalje
     location: 'Lokacija:'
     node:
       title_html: 'Točka: %{name}'
@@ -1023,7 +1017,8 @@ hr:
         ili odgovoriti autoru na %{replyurl}
     message_notification:
       hi: Bok %{to_user},
-      header: '%{from_user} ti je poslao poruku preko OpenStreetMap sa predmetom %{subject}:'
+      header: '%{from_user} ti je poslao poruku preko OpenHistoricalMap sa predmetom
+        %{subject}:'
     follow_notification:
       see_their_profile: Možeš vidjeti njihov profil na %{userurl}.
     gpx_failure:
@@ -1035,11 +1030,11 @@ hr:
       subject: '[OpenHistoricalMap] Dobrodošli na OpenHistoricalMap'
       greeting: Hej!
     email_confirm:
-      subject: '[OpenStreetMap] Potvrdi svoju e-mail adresu'
+      subject: '[OpenHistoricalMap] Potvrdi svoju e-mail adresu'
       greeting: Bok,
       click_the_link: Ako si ovo ti, molim klinkni na link ispod da potvrdiš promjene.
     lost_password:
-      subject: '[OpenStreetMap] Zahtjev za resetom lozinke'
+      subject: '[OpenHistoricalMap] Zahtjev za resetom lozinke'
       greeting: Bok,
       click_the_link: Ako si ovo ti, klikni na link ispod za reset lozinke.
     note_comment_notification:
@@ -1165,19 +1160,26 @@ hr:
     update:
       flash changed: Vaša lozinka je promjenjena.
   profiles:
-    show:
-      image: 'Slika:'
-      gravatar:
-        gravatar: Koristi Gravatar
-      new image: Dodajte sliku
-      keep image: Zadržite trenutnu sliku
-      delete image: Uklonite trenutnu sliku
-      replace image: Zamijenite trenutnu sliku
-      image size hint: (kvadratne slike od barem 100x100 pixela rade najbolje)
-      home location: 'Dom:'
-      no home location: Niste unjeli lokaciju vašeg doma.
-      update home location on click: Ažuriraj lokaciju doma kada kliknem na kartu?
-      show: Prikaži
+    profile_sections:
+      navigation:
+        image: 'Slika:'
+    links:
+      show:
+        cancel: Otkaži
+    images:
+      show:
+        gravatar:
+          gravatar: Koristi Gravatar
+        new image: Dodajte sliku
+        keep image: Zadržite trenutnu sliku
+        delete image: Uklonite trenutnu sliku
+        replace image: Zamijenite trenutnu sliku
+        image size hint: (kvadratne slike od barem 100x100 pixela rade najbolje)
+    locations:
+      show:
+        no home location: Niste unjeli lokaciju vašeg doma.
+        update home location on click: Ažuriraj lokaciju doma kada kliknem na kartu?
+        show: Prikaži
   sessions:
     new:
       tab_title: Prijava
@@ -1229,7 +1231,7 @@ hr:
         native_link: hrvatsko izdanje
         mapping_link: počnite kartirati
       legal_babble:
-        credit_title_html: Kako iskazati zasluge OpenStreetMap-a
+        credit_title_html: Kako iskazati zasluge OpenHistoricalMap-a
         credit_1_html: 'Tamo gdje koristite OpenStreetMap podatke, morate učiniti
           sljedeće dvije stvari:'
         attribution_example:
@@ -1263,8 +1265,6 @@ hr:
       user_page_link: korisnička stranica
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Otkrij zašto je to slučaj.
-    edit:
-      id_not_configured: iD nije konfiguriran
     export:
       title: Izvoz
       manually_select: Ručno izaberi drukčije područje
@@ -1318,7 +1318,11 @@ hr:
       title: Nemaš vremena za uređivanje? Dodaj bilješku!
       para_1: Ako želiš samo napraviti malu doradu i nemaš vremena za registraciju
         i učenje pravila uređivanja, možeš jednostavno dodati bilješku na kartu.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Približi da vidiš napomene na karti
+      map_data_zoom_in_tooltip: Približi da vidiš podatke karte
+  legend_panes:
     show:
       entries:
         motorway: Autocesta
@@ -1374,6 +1378,20 @@ hr:
         bicycle_shop: Biciklistička prodavaonica
         bicycle_parking: Parkiralište za bicikle
         toilets: Zahodi
+  share_panes:
+    show:
+      link: Poveznica ili HTML
+      include_marker: Uključi oznaku
+      long_link: Poveznica
+      short_link: Kratka poveznica
+      embed: HTML
+      paste_html: Zalijepi HTML za ugrađivanje na internetsku stranicu
+      geo_uri: Geo URI
+      image: Slika
+      format: 'Format:'
+      scale: 'Mjerilo:'
+      custom_dimensions: Postavi prilagođene dimenzije
+      download: Preuzmi
   traces:
     visibility:
       private: Privatni (prikazuje se kao anonimne, nespoložene točke)
@@ -1515,15 +1533,6 @@ hr:
       created from: 'Napravljeno iz:'
       status: 'Stanje:'
       spam score: 'Spam ocjena:'
-      role:
-        administrator: Ovaj korisnik je administrator
-        moderator: Ovaj korisnik je moderator
-        grant:
-          administrator: Dodjeli pristup administratoru
-          moderator: Dodjeli pristup moderatoru
-        revoke:
-          administrator: Opozovi pristup administatora
-          moderator: Opozovi pristup moderatora
       block_history: Aktivne blokade
       moderator_history: Prikaži dane blokade
       comments: Komentari
@@ -1571,17 +1580,25 @@ hr:
     suspended:
       title: Račun suspendiran
       heading: Račun suspendiran
+    role_icons:
+      title:
+        administrator: Ovaj korisnik je administrator
+        moderator: Ovaj korisnik je moderator
+      grant:
+        administrator: Dodjeli pristup administratoru
+        moderator: Dodjeli pristup moderatoru
+        are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
+          `%{name}'?
+      revoke:
+        administrator: Opozovi pristup administatora
+        moderator: Opozovi pristup moderatora
+        are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' iz korisnika
+          `%{name}'?
   user_role:
     filter:
       not_a_role: String `%{role}' nije valjana uloga.
       already_has_role: Korisnik već ima ulogu %{role}.
       doesnt_have_role: Korisnik nema ulogu %{role}.
-    grant:
-      are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
-        `%{name}'?
-    revoke:
-      are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' iz korisnika
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Morate biti moderator da stvorite ili ažurirate  blokadu.
@@ -1689,25 +1706,10 @@ hr:
     close: Zatvori
     share:
       title: Podijeli
-      cancel: Otkaži
-      image: Slika
-      link: Poveznica ili HTML
-      long_link: Poveznica
-      short_link: Kratka poveznica
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Postavi prilagođene dimenzije
-      format: 'Format:'
-      scale: 'Mjerilo:'
-      download: Preuzmi
-      short_url: Kratki URL
-      include_marker: Uključi oznaku
-      center_marker: Centriraj kartu na oznaku
-      paste_html: Zalijepi HTML za ugrađivanje na internetsku stranicu
       view_larger_map: Prikaži veću kartu
     embed:
       report_problem: Prijavi problem
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: Legenda karte nije dostupna za ovaj sloj
@@ -1734,15 +1736,12 @@ hr:
       edit_disabled_tooltip: Približi za uređivanje karte
       createnote_tooltip: Dodaj bilješku na kartu
       createnote_disabled_tooltip: Približi za dodavanje bilješke na kartu
-      map_notes_zoom_in_tooltip: Približi da vidiš napomene na karti
-      map_data_zoom_in_tooltip: Približi da vidiš podatke karte
       queryfeature_tooltip: Provjeri elemente karte
       queryfeature_disabled_tooltip: Približi za provjeru elemenata
     edit_help: Pomakni kartu i približi dio koji želiš urediti, zatim klikni ovdje.
     directions:
       errors:
         no_route: Nismo mogli naći put između ta dva mjesta.
-        no_place: 'Žao nam je - nismo mogli naći mjesto: ''%{place}''.'
       instructions:
         continue_without_exit: Nastavi na %{name}
         slight_right_without_exit: Lagano desno na %{name}
@@ -1773,6 +1772,9 @@ hr:
       show_address: Prikaži adresu
       query_features: Provjeri elemente karte
       centre_map: Centriraj kartu ovdje
+    edit:
+      id_not_configured:
+        title: iD nije konfiguriran
   redactions:
     show:
       description: 'Opis:'

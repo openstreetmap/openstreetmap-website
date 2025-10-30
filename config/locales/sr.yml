@@ -74,7 +74,6 @@ sr:
       node: Чвор
       node_tag: Ознака тачке
       note: Белешка
-      notifier: Обавештавач
       old_node: Стари чвор
       old_node_tag: Ознака старе тачке
       old_relation: Стари однос
@@ -268,15 +267,14 @@ sr:
       title: Уреди налог
       current email address: Тренутна имејл адреса
       external auth: Спољна аутентификација
-      contributor terms:
+      contributor_terms:
         heading: Услови уређивања
-        agreed: Прихватили сте нове услове уређивања.
-        not yet agreed: Нисте прихватили нове услове уређивања.
-        review link text: Пратите ову везу да бисте прегледали и прихватили нове услове
-          уређивања.
+        agreed: Прихватили сте нове услове уређивања %{date}.
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: шта је ово?
+      terms_of_use:
+        heading: услова коришћења
       save changes button: Сачувај промене
       delete_account: Брисање налога...
     go_public:
@@ -332,8 +330,6 @@ sr:
     no_comment: (нема коментара)
     part_of: Део
     download_xml: Преузми XML
-    view_history: Погледај историју
-    view_details: Детаљније
     location: 'Локација:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1317,7 +1313,6 @@ sr:
   reports:
     new:
       title_html: Пријави %{link}
-      missing_params: Није могуће направити нову пријаву
       categories:
         diary_entry:
           spam_label: Запис овог дневника је/садржи спам
@@ -1403,13 +1398,13 @@ sr:
       welcome: Након што потврдите свој налог, пружићемо Вам неке додатне информације
         о томе како почети.
     email_confirm:
-      subject: '[OpenStreetMap] Потврдите Вашу имејл адресу'
+      subject: '[OpenHistoricalMap] Потврдите Вашу имејл адресу'
       greeting: Поздрав,
       hopefully_you: Неко (вероватно ви) желео би да промени имејл адресу са %{server_url}
         на %{new_address}.
       click_the_link: Ако сте то ви, кликните на везу испод да бисте потврдили измене.
     lost_password:
-      subject: '[OpenStreetMap] Захтев за поништавање лозинке'
+      subject: '[OpenHistoricalMap] Захтев за поништавање лозинке'
       greeting: Поздрав,
       hopefully_you: Неко (вероватно ви) затражио је поништавање лозинке за имејл
         адресу овог openhistoricalmap.org налога.
@@ -1479,6 +1474,9 @@ sr:
       success: Промена ваше е-адресе је потврђенаǃ
       failure: Е-адреса с овим новчићем је већ потврђена.
       unknown_token: Вредност кода за потврду је истекла или тај код не постоји.
+    gravatar:
+      disabled: Граватар је онемогућен.
+      enabled: Приказ Вашег Граватара је омогућен.
   messages:
     new:
       title: Пошаљи поруку
@@ -1581,30 +1579,36 @@ sr:
         title: Подешавања
         save: Сачувај подешавања
   profiles:
-    show:
-      title: Уреди профил
-      save: Ажурирај профил
-      cancel: Откажи
-      image: Слика
-      gravatar:
-        gravatar: Користи Граватар
-        link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=sr
-        what_is_gravatar: Шта је Gravatar?
-        disabled: Граватар је онемогућен.
-        enabled: Приказ Вашег Граватара је омогућен.
-      new image: Додај слику
-      keep image: Задржи тренутну слику
-      delete image: Уклони тренутну слику
-      replace image: Замени тренутну слику
-      image size hint: (квадратне слике од барем 100×100 пиксела раде најбоље)
-      home location: Место становања
-      no home location: Нисте унели место становања.
-      update home location on click: Ажурирати место становања када кликнем на мапу?
-      show: Прикажи
-      delete: Обриши
-      undelete: Поништи брисање
-    update:
-      success: Профил ажуриран.
+    profile_sections:
+      navigation:
+        image: Слика
+    descriptions:
+      show:
+        title: Уреди профил
+        save: Ажурирај профил
+        cancel: Откажи
+    links:
+      show:
+        title: Уреди профил
+        cancel: Откажи
+    images:
+      show:
+        gravatar:
+          gravatar: Користи Граватар
+          link: https://wiki.openstreetmap.org/wiki/Gravatar?uselang=sr
+          what_is_gravatar: Шта је Gravatar?
+        new image: Додај слику
+        keep image: Задржи тренутну слику
+        delete image: Уклони тренутну слику
+        replace image: Замени тренутну слику
+        image size hint: (квадратне слике од барем 100×100 пиксела раде најбоље)
+    locations:
+      show:
+        no home location: Нисте унели место становања.
+        update home location on click: Ажурирати место становања када кликнем на мапу?
+        show: Прикажи
+        delete: Обриши
+        undelete: Поништи брисање
   sessions:
     new:
       tab_title: Пријава
@@ -1694,7 +1698,7 @@ sr:
         introduction_4_creative_commons: Creative Commons Ауторство-Делити под истим
           условима 2.0
         introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
-        credit_title_html: Како да наведете OpenStreetMap
+        credit_title_html: Како да наведете OpenHistoricalMap
         credit_1_html: Although copyright law does not restrict or place any conditions
           on your use of public domain content, we greatly appreciate any credit you
           provide to OpenHistoricalMap when reusing, adapting, or otherwise using
@@ -1731,8 +1735,6 @@ sr:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Сазнајте зашто је то случај.
-    edit:
-      id_not_configured: iD није конфигурисан
     export:
       title: Извоз
       manually_select: Ручно изаберите другу област
@@ -1861,7 +1863,11 @@ sr:
         title: Локални огранци
       other_groups:
         title: Друге групе
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Увећај да видиш белешке на карти
+      map_data_zoom_in_tooltip: Увећај да видиш податке са карте
+  legend_panes:
     show:
       entries:
         motorway: Ауто-пут
@@ -1935,6 +1941,20 @@ sr:
         bicycle_parking: Паркинг за бицикле
         bicycle_parking_small: Мали паркинг за бицикле
         toilets: Тоалети
+  share_panes:
+    show:
+      link: Веза или HTML
+      include_marker: Укључи и ознаку
+      long_link: Веза
+      short_link: Кратка веза
+      embed: HTML
+      paste_html: Налепи HTML да га уградиш у веб страницу
+      geo_uri: Geo URI
+      image: Слика
+      format: 'Формат:'
+      scale: Размераː
+      custom_dimensions: Постави посебне димензије
+      download: Преузми
   traces:
     visibility:
       private: Приватни (приказује се као анонимне, непоређане тачке)
@@ -2126,7 +2146,6 @@ sr:
       my_dashboard: Tабла
       blocks on me: Мени забрањено
       blocks by me: Моје забране
-      edit_profile: Уреди профил
       send message: Пошаљи поруку
       diary: Дневник
       edits: Измене
@@ -2141,15 +2160,6 @@ sr:
       created from: 'Направљено из:'
       status: 'Стање:'
       spam score: 'Оцена спама:'
-      role:
-        administrator: Овај корисник је администратор
-        moderator: Овај корисник је уредник
-        grant:
-          administrator: Додели овлашћења администратора
-          moderator: Додели овлашћења уредника
-        revoke:
-          administrator: Опозови овлашћења администратора
-          moderator: Опозови овлашћења уредника
       block_history: Активне блокаде
       moderator_history: Извршене блокаде
       revoke_all_blocks: Опозови све блокаде
@@ -2219,15 +2229,23 @@ sr:
         Ако већ имате налог, можете да се пријавите на свој налог
         коришћењем свог корисничког имена и лозинке, а потом да га повежете
         са својим ID-ом у корисничким подешавањима.
+    role_icons:
+      title:
+        administrator: Овај корисник је администратор
+        moderator: Овај корисник је уредник
+      grant:
+        administrator: Додели овлашћења администратора
+        moderator: Додели овлашћења уредника
+        are_you_sure: Желите ли да доделите улогу „%{role}” кориснику „%{name}”?
+      revoke:
+        administrator: Опозови овлашћења администратора
+        moderator: Опозови овлашћења уредника
+        are_you_sure: Желите ли да одузмете улогу '%{role}' од корисника '%{name}'?
   user_role:
     filter:
       not_a_role: '''%{role}'' није исправна улога.'
       already_has_role: Корисник већ има улогу %{role}.
       doesnt_have_role: Корисник нема улогу %{role}.
-    grant:
-      are_you_sure: Желите ли да доделите улогу „%{role}” кориснику „%{name}”?
-    revoke:
-      are_you_sure: Желите ли да одузмете улогу '%{role}' од корисника '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Морате бити уредник да бисте постављали или ажурирали
@@ -2305,8 +2323,8 @@ sr:
       last_changed: Последња промена
       apply: Примени
       all: Све
-      open: Отворено
-      closed: Затворено
+      open: Није решено
+      closed: Решено
       status: Статус
     show:
       title: Белешкаː %{id}
@@ -2341,25 +2359,10 @@ sr:
     close: Затвори
     share:
       title: Дели
-      cancel: Откажи
-      image: Слика
-      link: Веза или HTML
-      long_link: Веза
-      short_link: Кратка веза
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Постави посебне димензије
-      format: 'Формат:'
-      scale: Размераː
-      download: Преузми
-      short_url: Скраћени URL
-      include_marker: Укључи и ознаку
-      center_marker: Центрирај карту на ознаку
-      paste_html: Налепи HTML да га уградиш у веб страницу
       view_larger_map: Погледај већу карту
     embed:
       report_problem: Пријави проблем
-    key:
+    legend:
       title: Легенда
       tooltip: Легенда карте
       tooltip_disabled: Легенда није доступна само за овај лејер
@@ -2390,19 +2393,15 @@ sr:
       edit_disabled_tooltip: Увећајте приказ да бисте уредили мапу
       createnote_tooltip: Додај белешку на карту
       createnote_disabled_tooltip: Увећај да додаш белешку на карту
-      map_notes_zoom_in_tooltip: Увећај да видиш белешке на карти
-      map_data_zoom_in_tooltip: Увећај да видиш податке са карте
       queryfeature_tooltip: Информације о објектима
       queryfeature_disabled_tooltip: Зумирај на информације о објектима
     edit_help: Помери карту и увећај на место које хоћеш да уредиш, затим кликни овде.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Није могуће пронаћи руту између та два места.
-        no_place: Није могуће пронаћи „%{place}”.
       instructions:
         continue_without_exit: Наставите на %{name}
         slight_right_without_exit: Мало удесно у %{name}
@@ -2458,6 +2457,9 @@ sr:
       show_address: Прикажи адресу
       query_features: Одлике упита
       centre_map: Центрирај мапу овде
+    edit:
+      id_not_configured:
+        title: iD није конфигурисан
   redactions:
     edit:
       heading: Уреди редакцију

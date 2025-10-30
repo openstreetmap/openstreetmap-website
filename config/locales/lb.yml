@@ -58,7 +58,7 @@ lb:
               http_parse_error: D'URL sollt mat http:// oder https:// ufänken
     models:
       acl: Zougrëffssteierlëscht
-      changeset: Set vun Ännerungen
+      changeset: Ännerungssaz
       changeset_tag: Ännerungssaz-Tag
       country: Land
       diary_comment: Blog-Commentaire
@@ -70,7 +70,6 @@ lb:
       node: Knuet
       node_tag: Knuet-Tag
       note: Notiz
-      notifier: Meller
       old_node: Ale Knuet
       old_node_tag: Ale Knuet-Tag
       old_relation: Al Relatioun
@@ -101,8 +100,9 @@ lb:
         support_url: Support-URL
         allow_read_prefs: Hir Benotzerastellunge liesen
         allow_write_prefs: Hir Benotzerastellungen änneren
-        allow_write_diary: Bloganträg a Commentairë schreiwen a Frënn fannen
+        allow_write_diary: Bloganträg a Commentairë schreiwen
         allow_write_api: d'Kaart änneren
+        allow_write_changeset_comments: Ännerungssätz kommentéieren
         allow_read_gpx: Zougrëff op hir privat GPS-Spueren
         allow_write_gpx: GPS-Spueren eroplueden
         allow_write_notes: Notize beaarbechten
@@ -154,6 +154,7 @@ lb:
         active: Aktiv
         display_name: Numm, dee gewise gëtt
         description: Beschreiwung vum Profil
+        company: Firma
         home_lat: Breedegrad
         home_lon: Längegrad
         languages: Liblingssproochen
@@ -175,9 +176,6 @@ lb:
           wannechgelift Formuléierungen, déi fir Laie verständlech sinn.
         needs_view: Muss sech de Benotzer umellen, ier dës Spär opgehuewe gëtt?
       user:
-        email_confirmation: Är Adress gëtt net ëffentlech ugewisen. Liest eis <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">Dateschutzerklärung</a>
-          fir méi Informatiounen.
         new_email: (ni ëffentlech gewisen)
   datetime:
     distance_in_words_ago:
@@ -235,10 +233,12 @@ lb:
       none: Keng
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -268,13 +268,9 @@ lb:
       my_account: Mäi Kont
       current email address: Aktuell E-Mail-Adress
       external auth: Extern Authentifikatioun
-      contributor terms:
+      contributor_terms:
         heading: Bedéngungen fir Matwierkender
-        agreed: Dir hutt den neien Bedéngungen fir Matwierkender zougestëmmt.
-        not yet agreed: Dir hutt den neien Bedéngungen fir Matwierkender nach net
-          zougestëmmt.
-        review link text: Gitt wgl. dësem Link no fir déi nei Bedéngunge fir Matwierkender
-          ze gesinn an z'akzeptéieren.
+        agreed: Dir hutt de(n) %{date} den neie Bedingunge fir Contributeuren zougestëmmt.
         agreed_with_pd: Dir hudd och deklaréiert dass Dir Är Ännerungen der Öffentlechkeet
           zur Verfügung stellt (Public Domain).
         link text: wat ass dat?
@@ -283,6 +279,8 @@ lb:
     go_public:
       heading: Ëffentlecht Beaarbechten
       find_out_why_html: (%{link}).
+      find_out_why: fannt eraus firwat
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       make_edits_public_button: All meng Ännerunge ëffentlech maachen
     update:
       success_confirm_needed: Benotzerinformatioun aktualiséiert. Checkt Är E-Mail
@@ -309,7 +307,7 @@ lb:
           der ginn, ginn bäibehalen awer onsiichtbar gemaach.
         retain_notes: Är Kaartennotizen an Notizkommentarer, wann et der ginn, ginn
           bäibehalen awer onsiichtbar gemaach.
-        retain_changeset_discussions: Är Ännerungsdiskussiounen, wann et der ginn,
+        retain_changeset_discussions: Är Ännerungssazdiskussiounen, wann et der ginn,
           wäerte bäibehalen ginn.
         retain_email: Är E-Mail-Adress gëtt behalen.
         confirm_delete: Sidd Dir sécher?
@@ -317,6 +315,9 @@ lb:
     terms:
       show:
         heading: Bedingungen
+        tou_explain:
+          tou: Benotzungskonditiounen
+        informal_translations: informell Iwwersetzungen
         continue: Virufueren
         cancel: Ofbriechen
         legale_select: 'Sicht wgl. d''Land eraus wou Dir wunnt:'
@@ -333,7 +334,7 @@ lb:
     deleted_ago_by_html: '%{time_ago} geläscht vum %{user}'
     edited_ago_by_html: '%{time_ago} geännert vum %{user}'
     version: Versioun
-    in_changeset: Set vun Ännerungen
+    in_changeset: Ännerungssaz
     anonymous: anonym
     no_comment: (keng Bemierkung)
     part_of: Deel vu(n)
@@ -344,8 +345,6 @@ lb:
       one: '%{count} Wee'
       other: '%{count} Weeër'
     download_xml: XML eroflueden
-    view_history: Versioune weisen
-    view_details: Detailer weisen
     location: 'Plaz:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -384,7 +383,7 @@ lb:
         node: Knuet
         way: Wee
         relation: Relatioun
-        changeset: Set vun Ännerungen
+        changeset: Ännerungssaz
         note: Notiz
     redacted:
       redaction: Schwäerzung %{id}
@@ -411,6 +410,12 @@ lb:
       telephone_link: '%{phone_number} uruffen'
       colour_preview: Faarw %{colour_value} Ausbléck
       email_link: E-Mail %{email}
+    versions_navigation:
+      node: Knuet
+      way: Wee
+      relation: Relatioun
+      version: 'Versioun #%{version}'
+      versions_label: 'Versiounen:'
   feature_queries:
     show:
       title: Objetsoffro
@@ -425,6 +430,8 @@ lb:
         title_html: 'Versioune vum Wee: %{name}'
       relation:
         title_html: 'Versioune vun der Relatioun: %{name}'
+      older_versions: Méi al Versiounen
+      newer_versions: Méi nei Versiounen
   nodes:
     timeout:
       sorry: Et huet leider ze laang gedauert, d'Donnéeë fir de Knuet mat der ID %{id}
@@ -449,12 +456,21 @@ lb:
     timeout:
       sorry: Et huet leider ze laang gedauert, d'Donnéeë fir d'Relatioun mat der ID
         %{id} opzeruffen.
+  relation_members:
+    not_found_message:
+      sorry: 'D''Relatioun #%{id} gouf leider net fonnt.'
+    timeout:
+      sorry: Et huet leider ze laang gedauert, d'Donnéeë fir d'Relatioun mat der ID
+        %{id} opzeruffen.
   old_relations:
     not_found_message:
       sorry: 'D''Relatioun #%{id}, Versioun %{version}, gouf leider net fonnt.'
     timeout:
       sorry: Et huet leider ze laang gedauert, den Historique vun der Relatioun mat
         der ID %{id} opzeruffen.
+  old_relation_members:
+    not_found_message:
+      sorry: 'D''Relatioun #%{id}, Versioun %{version}, gouf leider net fonnt.'
   changeset_comments:
     feeds:
       comment:
@@ -468,29 +484,40 @@ lb:
         sorry: Leider huet et ze laang gedauert fir d'Lëscht mat de Commentairë vun
           den Ännerungssätz, déi Dir ugefrot hutt, opzeruffen.
   changesets:
-    changeset:
+    changeset_line:
       changes:
         one: '%{count} Ännerung'
         other: '%{count} Ännerungen'
+      n_elements_created:
+        one: '%{count} Element ugeluecht'
+        other: '%{count} Elementer ugeluecht'
+      n_elements_modified:
+        one: '%{count} Element geännert'
+        other: '%{count} Elementer geännert'
+      n_elements_deleted:
+        one: '%{count} Element geläscht'
+        other: '%{count} Elementer geläscht'
     index:
-      title: Sette vun Ännerungen
-      title_user: Sette vun Ännerunge vum %{user}
-      title_user_link_html: Ännerunge vum %{user_link}
-      title_nearby: Gruppe vun Ännerunge vu Benotzer nobäi
-      empty: Keng Gruppe vun Ännerunge fonnt.
-      empty_area: Keng Gruppe vun Ännerungen an dëser Géigend.
-      empty_user: Keng Gruppe vun Ännerunge vun dësem Benotzer.
-      no_more: Soss keng Gruppe vun Ännerunge fonnt.
-      no_more_area: Keng weider Grupp vun Ännerungen an dëser Géigend.
-      no_more_user: Keng weider Gruppe vun Ännerunge vun dësem Benotzer.
+      title: Ännerungssätz
+      title_user: Ännerungssätz vum %{user}
+      title_user_link_html: Ännerungssätz vum %{user_link}
+      title_nearby: Ännerungssätz vu Benotzer an der Ëmgéigend
+      empty: Keng Ännerungssätz fonnt.
+      empty_area: Keng Ännerungssätz an dëser Géigend.
+      empty_user: Keng Ännerungssätz vun dësem Benotzer.
+      no_more: Soss keng Ännerungssätz fonnt.
+      no_more_area: Keng weider Ännerungssätz an dëser Géigend.
+      no_more_user: Keng weider Ännerungssätz vun dësem Benotzer.
+      older_changesets: Eeler Ännerungssätz
+      newer_changesets: Méi nei Ännerungssätz
       feed:
-        title: 'Set vun Ännerungen: %{id}'
-        title_comment: Set vun Ännerungen %{id} - %{comment}
+        title: Ännerungssaz %{id}
+        title_comment: Ännerungssaz %{id} – %{comment}
         created: Ugeluecht
         closed: Zou
         belongs_to: Auteur
     show:
-      title: 'Set vun Ännerungen: %{id}'
+      title: 'Ännerungssaz: %{id}'
       created: 'Ugeluecht: %{when}'
       closed: 'Zougemaach: %{when}'
       created_ago_html: '%{time_ago} ugeluecht'
@@ -499,8 +526,8 @@ lb:
       closed_ago_by_html: '%{time_ago} zougemaach vum %{user}'
       discussion: Diskussioun
       join_discussion: Loggt Iech an, fir bei der Diskussioun matzemaachen
-      still_open: Den Ännerungssaz ass nach op. 'Diskussioun gëtt opgemaach, esoubal
-        wéi den Ännerungssaz zou ass.
+      still_open: Den Ännerungssaz ass nach op – d'Diskussioun geet op, soubal den
+        Ännerungssaz zou ass.
       subscribe: Abonnéieren
       unsubscribe: Ofbestellen
       comment_by_html: Kommentar vum %{user} %{time_ago}
@@ -508,15 +535,18 @@ lb:
       hide_comment: verstoppen
       unhide_comment: nees weisen
       comment: Bemierkung
-      changesetxml: XML mam Set vun Ännerungen
+      changesetxml: Ännerungssaz-XML
       osmchangexml: osmChange XML
     paging_nav:
       nodes_title: Kniet
       nodes_paginated: Kniet (%{x}–%{y} vu(n) %{count})
+      ways_title: Weeër
       ways_paginated: Weeër (%{x}–%{y} vu(n) %{count})
       relations_title: Relatiounen
       relations_paginated: Relatiounen (%{x}-%{y} vu(n) %{count})
       range: '%{x}–%{y} vu(n) %{count}'
+    not_found_message:
+      sorry: 'Den Ännerungssaz #%{id} gouf leider net fonnt.'
     timeout:
       sorry: Et leider ze laang gedauert, déi ugefuerdert Ännerungssätz ofzeruffen.
   changeset_subscriptions:
@@ -543,6 +573,7 @@ lb:
       nearby users: Aner Benotzer nobäi
       no nearby users: Et gi keng aner Benotzer déi hiren Standort an der Géigend
         hunn.
+      followed_changesets: Ännerungssätz
       followed_diaries: Blog-Anträg
       nearby_changesets: Ännerungssätz vu Benotzer an der Noperschaft
       nearby_diaries: Blogge vun Benotzer an der Ëmgéigend
@@ -1438,6 +1469,7 @@ lb:
         level10: Administrativ Grenz (Niveau 10)
         level11: Administrativ Grenz (Niveau 11)
       border_types:
+        city: Stadgrenz
         nation: International Grenz
         national: International Grenz
   searches:
@@ -1455,8 +1487,7 @@ lb:
       time: Zäit
       ascend: Vu kleng op grouss
       descend: Vu grouss op kleng
-      button_km: km
-      button_mi: mi
+      kilometers: Kilometer
       download: Streck als GeoJSON eroflueden
       filename: Streck
   issues:
@@ -1525,7 +1556,6 @@ lb:
   reports:
     new:
       title_html: '%{link} mellen'
-      missing_params: Es konnt keng nei Meldung erstallt ginn
       disclaimer:
         intro: 'Iers de deng Meldung un d''Websäitmoderatore schécks, stell wannechgelift
           sécher, datt:'
@@ -1567,13 +1597,13 @@ lb:
     logout: Ofmellen
     log_in: Aloggen
     sign_up: Mellt Iech un
-    start_mapping: Mat dem Kaartéieren ufänken
+    start_mapping: Mam Kaartéieren ufänken
     edit: Änneren
     history: Versiounen
     export: Exportéieren
     issues: Problemer
     gps_traces: GPS-Spueren
-    user_diaries: Benotzer Bloggen
+    user_diaries: Benotzer-Bloggen
     edit_with: Ännere mat %{editor}
     tag_line: D'fräi Wiki-Weltkaart
     intro_header: Wëllkomm bei OpenHistoricalMap!
@@ -1582,14 +1612,19 @@ lb:
     intro_2_create_account: E Benotzerkont uleeën
     partners_title: Partner
     partners_greeninfo: GreenInfo Netzwierk
-    partners_osmf: OpenStreetMap Fondatioun
+    partners_osmf: OpenStreetMap Foundation
     tou: Benotzungs-Bedéngungen
     help: Hëllef
     about: Iwwer
     copyright: Copyright
     communities: Communautéiten
-    learn_more: Méi wëssen
+    learn_more: Méi gewuer ginn
     more: Méi
+    header:
+      ok: OK
+      select_language: Sprooch eraussichen
+    select_language_button:
+      title: Sprooch eraussichen
   user_mailer:
     diary_comment_notification:
       subject: '[OpenHistoricalMap] %{user} huet e Blogantrag kommentéiert'
@@ -1627,7 +1662,8 @@ lb:
       imported_points: Zuel vun importéierte Punkten
     gpx_failure:
       hi: Salut %{to_user},
-      failed_to_import: 'konnt net importéiert ginn. Hei ass de Feeler:'
+      failed_to_import: Et schéngt, datt Äre Fichier net als GPS-Spuer importéiert
+        konnt ginn.
       more_info_html: Weider Informatiounen iwwer Feeler bei GPX-Importer a wéi se
         vermidde kënne gi fanne sech ënner %{url}
       import_failures_url: https://wiki.openstreetmap.org/wiki/LB:GPX
@@ -1706,7 +1742,7 @@ lb:
         commented_note_html: '%{commenter} huet e Kaartenhiweis, deen Dir kommentéiert
           hutt, reaktivéiert. Den Hiweis ass an der Géigend vu(n) %{place}.'
       details: Äntweren oder méi gewuer ginn iwwer d'Notiz op %{url}.
-      details_html: Méi Detailer iwwer d'Notiz fannt Dir op %{url}.
+      details_html: Äntwert oder gitt op %{url} méi iwwer d'Notiz gewuer.
     changeset_comment_notification:
       hi: Salut %{to_user},
       commented:
@@ -1726,9 +1762,8 @@ lb:
         partial_changeset_with_comment: mat der Bemierkung „%{changeset_comment}“
         partial_changeset_with_comment_html: mat der Bemierkung „%{changeset_comment}“
         partial_changeset_without_comment: ouni Kommentar
-      details: Méi Detailer iwwer den Ännerungssaz kënnen ënner %{url} fonnt ginn.
-      details_html: Méi Detailer iwwer den Ännerungssaz kënnen ënner %{url} fonnt
-        ginn.
+      details: Äntwert oder gitt op %{url} méi iwwer den Ännerungssaz gewuer.
+      details_html: Äntwert oder gitt op %{url} méi iwwer den Ännerungssaz gewuer.
       unsubscribe: Dir kënnt d'Aktualiséierungen un dësem Ännerungssaz ënner %{url}
         ofbestellen.
       unsubscribe_html: Dir kënnt d'Aktualiséierungen un dësem Ännerungssaz ënner
@@ -1764,11 +1799,14 @@ lb:
       whitelist: Wann Dir en Antispam-System benotzt, dee Bestätegungsufroe verschéckt,
         stellt wgl. sécher, datt Dir %{sender} op eng Erlaabnislëscht setzt, well
         mir op keng Bestätegungsufroen äntwere kënnen.
+    gravatar:
+      disabled: Gravatar gouf desaktivéiert.
+      enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
   messages:
     new:
       title: Noriicht schécken
       send_message_to_html: Dem %{name} en neie Message schécken
-      back_to_inbox: Zréck an de Postagang
+      back_to_inbox: Zeréck an de Postagang
     create:
       message_sent: Message geschéckt
       limit_exceeded: Dir hutt a leschter Zäit vill Messagë geschéckt. Waart wgl.
@@ -1881,34 +1919,65 @@ lb:
         title: Meng erweidert Astellungen
         save: Astellungen aktualiséieren
   profiles:
-    show:
-      title: Profil beaarbechten
-      save: Profil aktualiséieren
-      cancel: Ofbriechen
-      image: Bild
-      gravatar:
-        gravatar: Gravatar verwenden
-        link: https://wiki.openstreetmap.org/wiki/DE:Gravatar
-        what_is_gravatar: Wat ass Gravatar?
-        disabled: Gravatar gouf desaktivéiert.
-        enabled: D'Weise vun Ärem Gravatar gouf aktivéiert.
-      new image: E Bild derbäisetzen
-      keep image: Dat aktuellt Bild behalen
-      delete image: Dat aktuellt Bild ewechhuelen
-      replace image: Dat aktuellt Bild ersetzen
-      image size hint: (quadratesch Biller mat zumindest 100x100 Pixel funktionéieren
-        am beschten)
-      home location: Heemecht
-      no home location: Dir hutt nach keng Heemecht aginn.
-      update home location on click: Heemecht beim Klick op d'Kaart aktualiséieren
-      show: Weisen
-      delete: Läschen
-      undelete: Läsche réckgängeg maachen
-      social_links:
-        remove: Ewechhuelen
-    update:
-      success: Profil aktualiséiert.
-      failure: De Profil konnt net aktualiséiert ginn.
+    profile_sections:
+      navigation:
+        description: Beschreiwung
+        links: Linken
+        image: Bild
+    descriptions:
+      show:
+        title: Profil beaarbechten
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+      update:
+        success: Profilbeschreiwung aktualiséiert.
+        failure: D'Profilbeschreiwung konnt net aktualiséiert ginn.
+    links:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        social_links:
+          remove: Ewechhuelen
+      update:
+        success: Profillinken aktualiséiert.
+        failure: D'Profillinke konnten net aktualiséiert ginn.
+    images:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        gravatar:
+          gravatar: Gravatar verwenden
+          link: https://wiki.openstreetmap.org/wiki/DE:Gravatar
+          what_is_gravatar: Wat ass Gravatar?
+        new image: E Bild derbäisetzen
+        keep image: Dat aktuellt Bild behalen
+        delete image: Dat aktuellt Bild ewechhuelen
+        replace image: Dat aktuellt Bild ersetzen
+        image size hint: (quadratesch Biller mat zumindest 100x100 Pixel funktionéieren
+          am beschten)
+      update:
+        success: Profilbild aktualiséiert.
+        failure: D'Profilbild konnt net aktualiséiert ginn.
+    companies:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+      update:
+        success: Profilfirma aktualiséiert.
+        failure: D'Profilfirma konnt net aktualiséiert ginn.
+    locations:
+      show:
+        title: Profil änneren
+        save: Profil aktualiséieren
+        cancel: Ofbriechen
+        no home location: Dir hutt nach keng Heemecht aginn.
+        update home location on click: Heemecht beim Klick op d'Kaart aktualiséieren
+        show: Weisen
+        delete: Läschen
+        undelete: Läsche réckgängeg maachen
   sessions:
     new:
       tab_title: Aloggen
@@ -1949,25 +2018,37 @@ lb:
       preview: Virschau
       help: Hëllef
     pagination:
+      changeset_comments:
+        oldest: Eelst Kommentaren
+        newest: Neist Kommentaren
       diary_comments:
         older: Méi al Bemierkungen
         newer: Méi nei Bemierkungen
+        oldest: Eelst Kommentaren
+        newest: Neist Kommentaren
       diary_entries:
         older: Eeler Anträg
         newer: Méi nei Anträg
+        oldest: Eelst Anträg
+        newest: Neist Anträg
       issues:
         older: Méi al Problemer
         newer: Méi nei Problemer
+        oldest: Eelst Problemer
+        newest: Neist Problemer
       traces:
         older: Eeler Spueren
         newer: Méi nei Spueren
+        oldest: Eelst Spueren
+        newest: Neist Spueren
       users:
         older: Eeler Benotzer
         newer: Méi nei Benotzer
+        oldest: Eelst Benotzer
+        newest: Neist Benotzer
   site:
     about:
-      used_by_html: '%{name} stellt Kaartendonnéeë fir dausende vu Websäiten, Appen
-        an anere Geräter zur Verfügung'
+      used_by_html: Exploréiert d'Welt mat %{name} an egal wat fir enger Epoch.
       lede_text: OpenHistoricalMap gëtt vun enger Panoplie vu Mapperen erstallt, déi
         Donnéeën zu Weeër, Gebaier an allerlee Weiderem weltwäit erfaassen a fleegen.
     about_section:
@@ -1975,6 +2056,7 @@ lb:
       contribute_title: Dir kënnt mathëllefen
       open_data_title: Open Data
       legal_title: Rechtlech Hiweiser
+      legal_1_terms_of_use: Benotzungskonditiounen
       legal_1_privacy_policy: Dateschutzrichtlinnen
       partners_title: Partneren
     copyright:
@@ -1987,14 +2069,13 @@ lb:
       native:
         title: Iwwer dës Säit
         native_link: lëtzebuergesch Versioun
-        mapping_link: mat dem Kaartéieren ufänken
+        mapping_link: mam Kaartéieren ufänken
       legal_babble:
         introduction_1_cc0: Creative Commons CC0
         credit_title_html: Wéi et op d'Urhiewerschaft vun OpenHistoricalMap hinzeweise
           gëllt
         credit_1_html: 'Wann Dir Donnéeë vun OpenStreetMap benotz muss Dir dës zwou
           Saache respektéieren:'
-        credit_3_project: OpenHistoricalMap
         more_title_html: Fir méi ze wëssen
         contributors_title_html: Eis Matwierkend
         contributors_intro_html: 'Eis Matwierkend sinn dausende vun eenzele Mënschen.
@@ -2033,6 +2114,7 @@ lb:
           title: Aner Quellen
           description: Zousätzlech Quelle stinn an der OpenStreetMap Wiki
       export_button: Exportéieren
+      export_download: Eroflueden...
     fixthemap:
       title: E Probleem mellen / D'Kaart verbesseren
       how_to_help:
@@ -2104,7 +2186,13 @@ lb:
         title: Lokal Chapteren
       other_groups:
         title: Aner Gruppen
-  map_keys:
+  social_links:
+    show:
+      website: Internetsite
+  layers_panes:
+    show:
+      map_data_zoom_in_tooltip: Vergréissert d'Kaart fir d'Donnéeën ze gesinn
+  legend_panes:
     show:
       entries:
         motorway: Autobunn
@@ -2172,6 +2260,17 @@ lb:
         bicycle_shop: Vëlosgeschäft
         bicycle_parking: Vëlosparking
         toilets: Toiletten
+  share_panes:
+    show:
+      link: Link oder HTML
+      long_link: Link
+      embed: HTML
+      image: Bild
+      format: 'Format:'
+      scale: 'Maassstab:'
+      custom_dimensions: Personaliséiert Dimensiounen astellen
+      download: Eroflueden
+      downloading: Eroflueden...
   traces:
     visibility:
       public: Ëffentlech (gëtt an der Spuerlëscht ugewisen, allerdéngs nëmmen als
@@ -2249,6 +2348,9 @@ lb:
       google:
         title: Mat Google aloggen
         alt: Google-Logo
+      apple:
+        title: Mat Apple aloggen
+        alt: Apple-Logo
       facebook:
         title: Mat Facebook aloggen
         alt: Facebook-Logo
@@ -2293,6 +2395,7 @@ lb:
       write_prefs: Benotzerastellungen änneren
       write_diary: Bloganträg a Commentairë schreiwen a Frënn fannen
       write_api: D'Kaart änneren
+      write_changeset_comments: Ännerungssätz kommentéieren
       read_gpx: Privat GPS-Spuere liesen
       write_gpx: GPS-Tracks eroplueden
       write_notes: Notizzen änneren
@@ -2344,6 +2447,7 @@ lb:
       display name description: Däin ëffentlech ugewisene Benotzernumm. E ka spéider
         an den Astellunge geännert ginn.
       by_signing_up:
+        tou: Benotzungskonditiounen
         privacy_policy: Dateschutzrichtlinnen
       continue: Mellt Iech un
       or: oder
@@ -2363,25 +2467,14 @@ lb:
       my_preferences: Meng Benotzerastellungen
       my_dashboard: Meng Iwwersiichtssäit
       blocks by me: vu Mir Gespaart
-      edit_profile: Profil änneren
       send message: Message schécken
       diary: Blog
       edits: Ännerungen
       traces: Spueren
       notes: Notizen op der Kaart
-      home location: Doheem
       no activity yet: Nach keng Aktivitéit
       email address: 'E-Mail-Adress:'
       status: 'Status:'
-      role:
-        administrator: Dëse Benotzer ass en Administrateur
-        moderator: Dëse Benotzer ass e Moderateur
-        grant:
-          administrator: Administrateur-Zougang accordéieren
-          moderator: Moderateursrechter ginn
-        revoke:
-          administrator: Administrateur-Zougang ofhuelen
-          moderator: Moderateursrechter ewechhuelen
       block_history: Aktiv Spären
       moderator_history: Vergi Spären
       comments: Bemierkungen
@@ -2394,15 +2487,24 @@ lb:
       delete_user: Dëse Benotzer läschen
       confirm: Confirméieren
       report: Dëse Benotzer mellen
+      edit_profile_details: Profildetailer änneren
+      edit_description: Beschreiwung änneren
+      edit_links: Linken änneren
+      change_image: Bild änneren
+      edit_company: Firma änneren
+      edit_location: Plaz änneren
       contributions:
         one: '%{count} Kontributioun am leschte Joer'
-        other: '%{count} Konstributiounen am leschte Joer'
+        other: '%{count} Kontributiounen am leschte Joer'
+    sidebar_section:
+      home_location: Doheem
+      company: Firma
     go_public:
       flash success: All Är Ännerunge sinn elo ëffentlech, an Dir däerft elo änneren.
     issued_blocks:
       show:
         title: Späre vum %{name}
-        heading_html: Lëscht vun de Spären vum %(name)
+        heading_html: Lëscht vun de Spären duerch de Benotzer %{name}
     received_blocks:
       show:
         title: Späre vum %{name}
@@ -2433,6 +2535,7 @@ lb:
         empty: Et goufe keng sou Benotzer fonnt
     comments:
       index:
+        changesets: Ännerungssätz
         diary_entries: Blog-Anträg
     changeset_comments:
       page:
@@ -2452,6 +2555,20 @@ lb:
     auth_association:
       option_1: Wann Dir nei sidd bei OpenSrreetMap da leet wgl. e Benotzerkont un
         andeem Dir de Formulaire hei drënner benotzt.
+    role_icons:
+      title:
+        administrator: Dëse Benotzer ass en Administrateur
+        moderator: Dëse Benotzer ass e Moderateur
+      grant:
+        administrator: Administrateur-Zougang accordéieren
+        moderator: Moderateursrechter ginn
+        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
+          zoudeele wëllt?
+      revoke:
+        administrator: Administrateur-Zougang ofhuelen
+        moderator: Moderateursrechter ewechhuelen
+        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
+          ofhuele wëllt?
   user_role:
     filter:
       not_a_role: D'Zeecheketten '%{role}' ass keng gülteg Roll.
@@ -2459,15 +2576,9 @@ lb:
       doesnt_have_role: De Benotzer huet d'Roll %{role} net.
       not_revoke_admin_current_user: Et ass net méiglech dem Aktuelle Benotzer d'Administrateursrechter
         ewechzehuelen.
-    grant:
-      are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
-        zoudeele wëllt?
-    revoke:
-      are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
-        ofhuele wëllt?
   user_blocks:
     not_found:
-      back: Zréck op d'Iwwersiicht
+      back: Zeréck op d'Iwwersiicht
     update:
       success: Spär aktualiséiert
     index:
@@ -2520,6 +2631,9 @@ lb:
       no_notes: Keng Notizen
       description: Beschreiwung
       last_changed: Lescht Ännerung
+      open: Ongeléist
+      closed: Geléist
+      hidden: Verstoppt
       status: Status
     show:
       title: 'Notiz: %{id}'
@@ -2551,22 +2665,13 @@ lb:
     close: Zoumaachen
     share:
       title: Deelen
-      cancel: Ofbriechen
-      image: Bild
-      link: Link oder HTML
-      long_link: Link
-      embed: HTML
-      custom_dimensions: Personaliséiert Dimensiounen astellen
-      format: 'Format:'
-      scale: 'Maassstab:'
-      download: Eroflueden
-      short_url: Kuerz URL
       view_larger_map: Méi grouss Kaart weisen
+      export_failed_title: Kaartenexport feelgeschloen
     embed:
       report_problem: E Probleem mellen
-    key:
+    legend:
       title: Legend
-      tooltip_disabled: D'Legend ass net fir dëse Niveau verfügbar
+      tooltip_disabled: D'Legend ass fir dës Kusch net verfügbar
     map:
       zoom:
         in: Vergréisseren
@@ -2604,21 +2709,16 @@ lb:
       edit_disabled_tooltip: Vergréissere fir d'Kaart z'änneren
       createnote_tooltip: En Hiweis/Feeler zu de Kaartendonnéeë mellen
       createnote_disabled_tooltip: Zum Erstelle vun Hiweiser muss vergréissert ginn
-      map_data_zoom_in_tooltip: Vergréissert d'Kaart fir d'Donnéeën ze gesinn
       queryfeature_tooltip: Objetsoffro
       queryfeature_disabled_tooltip: Fir Objetsoffro vergréisseren
     edit_help: Réckelt d'Kaart a vergréissert op eng Plaz, déi Dir ännere wëllt, a
       klickt dann hei.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance}&nbsp;ft'
-          mi: '%{distance}&nbsp;mi'
-      errors:
-        no_place: Mir konnten d'Plaz '%{place}' leider net fannen.
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance}&nbsp;ft'
+        mi: '%{distance}&nbsp;mi'
       instructions:
         continue_without_exit: Virun op %{name}
         offramp_right_with_name: Déi riets Opfaart op %{name} huelen
@@ -2660,6 +2760,8 @@ lb:
       node: Knuet
       way: Wee
       relation: Relatioun
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Vun hei fort
       directions_to: Heihin
@@ -2675,6 +2777,9 @@ lb:
         contributions:
           one: '%{count} Kontributioun vum %{date}'
           other: '%{count} Konstributioune vum %{date}'
+    edit:
+      id_not_configured:
+        body: Kuckt wgl. CONFIGURE.md fir méi Informatiounen
   redactions:
     show:
       description: 'Beschreiwung:'

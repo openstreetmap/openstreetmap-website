@@ -88,7 +88,6 @@ gl:
       node: Nó
       node_tag: Etiqueta do nó
       note: Nota
-      notifier: Notificador
       old_node: Nó vello
       old_node_tag: Etiqueta do nó vello
       old_relation: Relación vella
@@ -198,10 +197,6 @@ gl:
         needs_view: O usuario ten que acceder ó sistema antes de que o bloqueo sexa
           revogado?
       user:
-        email_confirmation: O teu enderezo non será visíbel de xeito público. Consulta
-          a <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Política
-          de protección de datos da OSMF, incluíndo a sección sobre enderezos de correo
-          electrónico">política de protección de datos</a> para obter máis información.
         new_email: (nunca amosado publicamente)
   datetime:
     distance_in_words_ago:
@@ -260,6 +255,7 @@ gl:
       none: Ningún
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -295,19 +291,25 @@ gl:
       my_account: A miña conta
       current email address: Enderezo de correo electrónico actual
       external auth: Autenticación externa
-      contributor terms:
+      contributor_terms:
         heading: Termos do colaborador
-        agreed: Aceptaches os novos termos do colaborador.
-        not yet agreed: Aínda non aceptaches os novos termos do colaborador.
-        review link text: Siga esta ligazón para revisar e aceptar os novos termos
-          do colaborador.
+        agreed: Aceptaches os termos do colaborador o %{date}.
+        not_agreed: Aínda non aceptaches os termos do colaborador.
         agreed_with_pd: Tamén declaraches que consideras que as túas edicións pertencen
           ó dominio público.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: que é isto?
         not_agreed_with_pd: Non declaraches que consideras que as túas edicións pertencen
           ó dominio público.
-        pd_link_text: declárao
+        review: Revisar os termos
+        review_and_accept: Revisar e aceptar os termos
+        consider_pd: Considerar o dominio público
+      terms_of_use:
+        heading: termos de uso
+        agreed: Aceptaches os termos de uso o %{date}.
+        not_agreed: Aínda non aceptaches os termos de uso.
+        review: Revisar os termos
+        review_and_accept: Revisar e aceptar os termos
       save changes button: Gardar as modificacións
       delete_account: Borrar a conta...
     go_public:
@@ -371,9 +373,10 @@ gl:
         contributor_terms_explain: Este acordo regula as condicións para as túas contribucións
           actuais e futuras.
         read_ct: Lin e acepto os termos do colaborador anteriores
-        tou_explain_html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras
-          infraestruturas fornecidas polo OpenHistoricalMap. Preme na ligazón, le
-          e acepta o texto.
+        tou_explain:
+          html: Estes %{tou_link} rexen o uso da páxina/sitio web e outras infraestruturas
+            fornecidas polo OpenHistoricalMap. Preme na ligazón, le e acepta o texto.
+          tou: termos de uso
         read_tou: Lin e acepto os termos de uso
         guidance_info_html: 'Información para axudar a comprender estes termos: un
           %{readable_summary_link} e algunhas %{informal_translations_link}'
@@ -426,9 +429,7 @@ gl:
       one: '%{count} vía'
       other: '%{count} vías'
     download_xml: Baixar en XML
-    view_history: Ollar o historial
     view_unredacted_history: Ollar o historial non censurado
-    view_details: Ollar os detalles
     location: 'Localización:'
     common_details:
       coordinates_html: '%{latitude}; %{longitude}'
@@ -491,11 +492,21 @@ gl:
         key: A páxina de descrición da etiqueta %{key}
         tag: A páxina de descrición da etiqueta %{key}=%{value}
       wikidata_link: O elemento %{page} en Wikidata
+      wikidata_preview:
+        one: Vista previa do elemento de Wikidata
+        other: Vista previa dos elementos de Wikidata
       wikipedia_link: O artigo sobre %{page} na Wikipedia
       wikimedia_commons_link: O elemento %{page} en Wikimedia Commons
       telephone_link: Chamar a %{phone_number}
       colour_preview: Previsualización da cor %{colour_value}
       email_link: Correo electrónico %{email}
+    versions_navigation:
+      node: Nó
+      way: Vía
+      relation: Relación
+      history: Historial
+      version: Versión n.º %{version}
+      versions_label: 'Versións:'
   feature_queries:
     show:
       title: Consultar os elementos
@@ -510,6 +521,8 @@ gl:
         title_html: 'Historial da vía: %{name}'
       relation:
         title_html: 'Historial da relación: %{name}'
+      older_versions: Versións máis vellas
+      newer_versions: Versións máis novas
     actions:
       view_redacted_data: Ollar os datos censurados
       view_redaction_message: Ollar a mensaxe censurada
@@ -539,12 +552,23 @@ gl:
     timeout:
       sorry: Tardouse demasiado en obter os datos para a relación co identificador
         %{id}.
+  relation_members:
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar a relación co n.º %{id}.
+    timeout:
+      sorry: Tardouse demasiado en obter os datos para a relación co identificador
+        %{id}.
   old_relations:
     not_found_message:
       sorry: Sentímolo, non se puido atopar a versión %{version} da relación n.º %{id}.
     timeout:
       sorry: Tardouse demasiado en obter o historial para a relación co identificador
         %{id}.
+  old_relation_members:
+    not_found_message:
+      sorry: Sentímolo, non se puido atopar a versión %{version} da relación n.º %{id}.
+    timeout:
+      sorry: Tardouse demasiado en obter os membros da relación co identificador %{id}.
   changeset_comments:
     feeds:
       comment:
@@ -559,13 +583,22 @@ gl:
         sorry: Sentímolo, a listaxe dos comentarios do conxuntos de modificacións
           que solicitaches tardou moito en obterse.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} comentario'
         other: '%{count} comentarios'
       changes:
         one: '%{count} modificación'
         other: '%{count} modificacións'
+      n_elements_created:
+        one: '%{count} elemento creado'
+        other: '%{count} elementos creados'
+      n_elements_modified:
+        one: '%{count} elemento modificado'
+        other: '%{count} elementos modificados'
+      n_elements_deleted:
+        one: '%{count} elemento eliminado'
+        other: '%{count} elementos eliminados'
     index:
       title: Conxuntos de modificacións
       title_user: Conxuntos de modificacións por %{user}
@@ -1229,8 +1262,8 @@ gl:
           dog_park: Parque canino
           firepit: Fogueira
           fishing: Área de pesca
-          fitness_centre: Ximnasio (fitness)
-          fitness_station: Ximnasio
+          fitness_centre: Ximnasio
+          fitness_station: Parque biosaudable
           garden: Xardín
           golf_course: Campo de golf
           horse_riding: Centro de equitación
@@ -1418,7 +1451,7 @@ gl:
           square: Praza
           state: Estado/Rexión
           subdivision: Subdivisión
-          suburb: Barrio ou suburbio
+          suburb: Suburbio
           town: Cidade
           village: Vila
           "yes": Lugar
@@ -1637,32 +1670,88 @@ gl:
         level10: Fronteira administrativa (nivel 10)
         level11: Fronteira administrativa (nivel 11)
       border_types:
+        archdiocese: Fronteira de arquidiocese
         arrondissement: Fronteira de arrondissement (distrito)
+        audiencia: Fronteira de audiencia (distrito)
         borough: Fronteira de borough (distrito)
+        caliphate: Fronteira de califato
+        canton: Fronteira de cantón
+        captaincy_general: Fronteira de capitanía xeneral
+        census_area: Fronteira de área censual
         cercle: Fronteira de cercle (distrito)
+        chiefdom: Fronteira de xefatura
         city: Fronteira de cidade
+        city-state: Fronteira de cidade estado
+        colony: Fronteira de colonia
         comarca: Fronteira de comarca
+        commonwealth: Fronteira da Commonwealth
+        commune: Fronteira de comuna
+        condominium: Fronteira de condominio
+        confederation: Fronteira de confederación
         county: Fronteira de condado
         departement: Fronteira de departamento
         department: Fronteira de departamento
+        diocese: Fronteira de diocese
         district: Fronteira de distrito
         distrito: Fronteira de distrito
+        dominion: Fronteira de dominio
+        emirate: Fronteira de emirato
+        empire: Fronteira de imperio
+        eyalet: Fronteira de eialete (distrito)
+        federal_district: Fronteira de distrito federal
+        federation: Fronteira de federación
         freguesia: Fronteira de freguesía
+        ghetto: Fronteira de gueto
+        governorate: Fronteira de gobernación
+        hundred: Fronteira de hundred (distrito)
+        intendancy: Fronteira de intendencia
+        kingdom: Fronteira de monarquía
         local_authority: Fronteira de autoridade local
+        major_division: Fronteira de división principal
+        markaz: Fronteira de markaz (distrito)
         municipality: Fronteira de municipio
         municipi: Fronteira de municipio
         município: Fronteira de municipio
         nation: Fronteira internacional
         national: Fronteira internacional
         neighbourhood: Fronteira de barrio
+        oblast: Fronteira de óblast (distrito)
+        occupation: Fronteira de ocupación
+        overseas_collectivity: Fronteira de colectividade de ultramar
+        overseas_department: Fronteira de departamento de ultramar
+        overseas_territory: Fronteira de territorio de ultramar
         parish: Fronteira de parroquia
+        planning_region: Fronteira de rexión de planificación
+        possession: Fronteira de posesión
+        prefecture: Fronteira de prefectura
+        prefecture_apostolic: Fronteira de prefectura apostólica
+        principate: Fronteira de principado
+        protectorate: Fronteira de protectorado
         province: Fronteira de provincia
+        rancho: Fronteira de rancho
+        realm: Fronteira de reino
         região: Fronteira de rexión
         region: Fronteira de rexión
+        reichsgau: Fronteira de reichsgau (distrito)
+        republic: Fronteira de república
+        rode: Fronteira de rode (distrito)
+        sanjak: Fronteira de sanjak (distrito)
+        sector: Fronteira de sector
+        shire: Fronteira de shire (distrito)
         state: Fronteira de estado
+        subdistrict: Fronteira de subdistrito
+        sultanate: Fronteira de sultanato
+        territory: Fronteira de territorio
+        territorial_prelature: Fronteira de prelatura territorial
         town: Fronteira de vila
         township: Fronteira de township (vila)
+        vicariate_apostolic: Fronteira de vigairía apostólica
+        viceroyalty: Fronteira de vicerreinado
         village: Fronteira de aldea
+        viyalet: Fronteira de valiato (distrito)
+        voivodeship: Fronteira de voivodato
+        ward: Fronteira de ward (distrito)
+        zone: Fronteira de zona
   searches:
     show:
       title:
@@ -1680,8 +1769,10 @@ gl:
       time: Tempo
       ascend: Ascendente
       descend: Descendente
-      button_km: km
-      button_mi: mi
+      kilometers: quilómetros
+      miles_feet: millas, pés
+      miles_yards: millas, iardas
+      distance_units_settings: Configuración das unidades de distancia
       download: Descargar a ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicacións cortesía de %{link}
@@ -1772,7 +1863,6 @@ gl:
   reports:
     new:
       title_html: Denuncia %{link}
-      missing_params: Non se pode crear unha nova denuncia
       disclaimer:
         intro: 'Antes de enviarlle o informe aos moderadores, asegúrese de que:'
         not_just_mistake: Estás na certeza de que o problema non é un sinxelo erro
@@ -1843,6 +1933,11 @@ gl:
     communities: Comunidades
     learn_more: Máis información
     more: Máis
+    header:
+      ok: Aceptar
+      select_language: Seleccionar unha lingua
+    select_language_button:
+      title: Seleccionar unha lingua
     offline_flash:
       osm_offline: A base de datos do OpenHistoricalMap atópase desconectada mentres
         realizamos traballos de mantemento nela.
@@ -2032,6 +2127,9 @@ gl:
       whitelist: Se empregas un sistema de bloqueo de spam que envía solicitudes de
         confirmación, asegúrate de incluír a %{sender} na túa lista branca, xa que
         non podemos responder as devanditas solicitudes.
+    gravatar:
+      disabled: Gravatar foi desactivado.
+      enabled: A visualización do teu Gravatar foi activada.
   messages:
     new:
       title: Enviar unha mensaxe
@@ -2168,36 +2266,72 @@ gl:
         title: As miñas preferencias avanzadas
         save: Actualizar as preferencias
   profiles:
-    show:
-      title: Editar o perfil
-      save: Actualizar o perfil
-      cancel: Cancelar
-      image: Imaxe
-      gravatar:
-        gravatar: Empregar o Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Que é o Gravatar?
-        disabled: Gravatar foi desactivado.
-        enabled: A visualización do teu Gravatar foi activada.
-      new image: Engadir unha imaxe
-      keep image: Manter a imaxe actual
-      delete image: Eliminar a imaxe actual
-      replace image: Substituír a imaxe actual
-      image size hint: (as imaxes cadradas de, polo menos, 100x100 funcionan mellor)
-      home location: Localización da túa casa
-      no home location: Non inseriches a localización da túa casa.
-      update home location on click: Queres actualizar a localización da túa casa
-        ó premer sobre o mapa?
-      show: Amosar
-      delete: Borrar
-      undelete: Desfacer o borrado
-      social_links:
-        title: Ligazóns de perfil social
-        remove: Eliminar
-        add: Engadir a ligazón social
-    update:
-      success: Perfil actualizado.
-      failure: Non foi posíbel actualizar o perfil.
+    profile_sections:
+      navigation:
+        description: Descrición
+        links: Ligazóns
+        image: Imaxe
+        company: Empresa
+        location: Localización
+    descriptions:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+      update:
+        success: Actualizouse a descrición do perfil.
+        failure: Non se puido actualizar a descrición do perfil.
+    links:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Desbotar
+        social_links:
+          title: Ligazóns de perfil social
+          remove: Eliminar
+          add: Engadir a ligazón social
+      update:
+        success: Actualizáronse as ligazóns do perfil.
+        failure: Non se puideron actualizar as ligazóns do perfil.
+    images:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+        gravatar:
+          gravatar: Empregar o Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Que é o Gravatar?
+        new image: Engadir unha imaxe
+        keep image: Manter a imaxe actual
+        delete image: Eliminar a imaxe actual
+        replace image: Substituír a imaxe actual
+        image size hint: (as imaxes cadradas de, polo menos, 100x100 funcionan mellor)
+      update:
+        success: Actualizouse a imaxe do perfil.
+        failure: Non se puido actualizar a imaxe do perfil.
+    companies:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+      update:
+        success: Actualizouse o perfil da empresa.
+        failure: Non se puido actualizar o perfil da empresa.
+    locations:
+      show:
+        title: Editar o perfil
+        save: Actualizar o perfil
+        cancel: Cancelar
+        no home location: Non inseriches a localización da túa casa.
+        update home location on click: Queres actualizar a localización da túa casa
+          ó premer sobre o mapa?
+        show: Amosar
+        delete: Borrar
+        undelete: Desfacer o borrado
+      update:
+        success: Actualizouse a localización do perfil.
+        failure: Non se puido actualizar a localización do perfil.
   sessions:
     new:
       tab_title: Iniciar a sesión
@@ -2251,24 +2385,38 @@ gl:
       changeset_comments:
         older: Comentarios máis vellos
         newer: Comentarios máis novos
+        oldest: Os comentarios máis vellos
+        newest: Os comentarios máis recentes
       diary_comments:
         older: Comentarios máis vellos
         newer: Comentarios máis recentes
+        oldest: Os comentarios máis vellos
+        newest: Os comentarios máis recentes
       diary_entries:
         older: Entradas máis vellas
         newer: Entradas máis novas
+        oldest: As entradas máis vellas
+        newest: As entradas máis novas
       issues:
         older: Problemas máis vellos
         newer: Problemas máis novos
+        oldest: Os problemas máis vellos
+        newest: Os problemas máis novos
       traces:
         older: Pistas máis vellas
         newer: Pistas máis novas
+        oldest: As pistas máis vellas
+        newest: As pistas máis novas
       user_blocks:
         older: Bloqueos máis vellos
         newer: Bloqueos máis novos
+        oldest: Os bloqueos máis vellos
+        newest: Os bloqueos máis novos
       users:
         older: Usuarios máis vellos
         newer: Usuarios máis novos
+        oldest: Os usuarios máis vellos
+        newest: Os usuarios máis novos
   site:
     about:
       used_by_html: Explora o mundo en calquera período de tempo co %{name}.
@@ -2287,7 +2435,9 @@ gl:
         A nosa crecente comunidade de colaboradores voluntarios inclúe historiadores afeccionados e profesionais, colaboradores do OpenStreetMap e da Wikipedia, especialistas en SIG e persoas normais coñecedoras da súa contorna.
         Nós somos persoas cuxa paixón é documentar o mundo e axudar ás comunidades do mundo real a contar as súas historias.
         Para obter máis información sobre a comunidade, consulta %{wiki_link}, visita %{forum_link}, le os %{user_diaries_link} e sigue as nosas contas de %{mastodon_link} e %{bluesky_link}.
+      contribute_1_bluesky: Bluesky
       contribute_1_forum: o noso foro de debate
+      contribute_1_mastodon: Mastodon
       contribute_1_user_diaries: diarios de usuario
       contribute_1_wiki: a nosa extensa documentación no wiki
       contribute_1_wiki_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap
@@ -2384,7 +2534,6 @@ gl:
           de créditos separada onde recoñezas outras fontes:'
         credit_3_credit_html: Os datos do mapa son cortesía do proxecto %{project_link},
           de dominio público agás que se indique o contrario.
-        credit_3_project: OpenHistoricalMap
         credit_4_ohm_html: |-
           Nun mapa impreso, podes colocar o recoñecemento na lenda.
           Nun libro, podes describir o teu uso do OpenHistoricalMap nunha nota ao pé, na bibliografía ou no colofón.
@@ -2480,8 +2629,6 @@ gl:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Descobra velaquí o motivo.
-    edit:
-      id_not_configured: O iD non está configurado
     export:
       title: Exportar
       manually_select: Seleccionar de xeito manual outra zona
@@ -2514,12 +2661,13 @@ gl:
           description: Fontes adicionais listadas no wiki do OpenStreetMap
           url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
       export_button: Exportar
+      export_download: Descargando...
     fixthemap:
       title: Denunciar un problema / Corrixir o mapa
       how_to_help:
         title: De que xeito axudar
         join_the_community:
-          title: Únase á comunidade
+          title: Únete á comunidade
           explanation_html: |-
             Se atopas algún problema cos datos dos nosos mapas (por exemplo, se falta algunha estrada), o mellor é
             unirse á comunidade do OpenHistoricalMap e engadir ou corrixir os datos directamente.
@@ -2570,7 +2718,7 @@ gl:
         description: Comeza con esta guía rápida cos principios básicos do OpenHistoricalMap.
       discord:
         title: Discord
-        description: 'Únase ao servidor de Discord mundial do OpenStreetMap e reciba
+        description: 'Únete ao servidor de Discord mundial do OpenStreetMap e recibe
           axuda na canle #openhistoricalmap.'
       forum:
         title: Foro
@@ -2583,14 +2731,15 @@ gl:
           avisar dun erro ou solicitar unha nova característica.
       mailing_list:
         title: Lista de correo
-        description: Subscríbase á nosa lista de correo de baixo volume.
+        description: Subscríbete á nosa lista de correo de baixo volume.
       slack:
         title: Slack
         description: 'Entra no espazo de traballo en Slack do OpenStreetMap dos EUA
-          e únase á canle #openhistoricalmap.'
+          e únete á canle #openhistoricalmap.'
       wiki:
         title: Wiki
-        description: No wiki atopará documentación detallada do OpenStreetMap.
+        description: Instrucións mantidas pola comunidade para usar o OHM e normas
+          para contribuír ao proxecto.
     potlatch:
       removed: O teu editor predeterminado do OpenHistoricalMap é o Potlatch. Debido
         a que o Adobe Flash Player xa non é compatíbel, Potlatch xa non está dispoñíbel
@@ -2710,9 +2859,12 @@ gl:
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   social_links:
     show:
-      one: Outra
-      other: Outras
-  map_keys:
+      website: páxina web
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Achegar para ollar as notas do mapa
+      map_data_zoom_in_tooltip: Achegar para ollar os datos do mapa
+  legend_panes:
     show:
       entries:
         motorway: Autoestrada
@@ -2803,6 +2955,26 @@ gl:
         bicycle_parking_small: Aparcadoiro de bicicletas pequeno
         toilets: Servizos
       see_external_legend: Ver a lenda do mapa externo
+  share_panes:
+    show:
+      link: Ligazón ou HTML
+      include_marker: Incluí-lo marcador
+      long_link: Ligazón
+      short_link: Ligazón acurtada
+      embed: HTML
+      embed_html_disabled: A incorporación de HTML non está dispoñible para esta capa
+        de mapa
+      paste_html: Pegue o código HTML para incluílo na páxina web
+      geo_uri: Geo URI
+      image: Imaxe
+      only_layers_exported_as_image: 'Só se poden exportar como imaxe as seguintes
+        capas:'
+      format: 'Formato:'
+      scale: 'Escala:'
+      custom_dimensions: Establecer dimensións personalizadas
+      image_dimensions_html: A imaxe amosará a capa %{layer} con %{width} x %{height}
+      download: Baixar
+      downloading: Descargando...
   traces:
     visibility:
       private: Privado (só compartido como anónimo; puntos desordenados)
@@ -2927,6 +3099,9 @@ gl:
       google:
         title: Acceder ó sistema con Google
         alt: Logotipo de Google
+      apple:
+        title: Acceder ó sistema con Apple
+        alt: Logotipo de Apple
       facebook:
         title: Acceder ó sistema co Facebook
         alt: Logotipo de Facebook
@@ -3066,6 +3241,7 @@ gl:
       by_signing_up:
         html: Ao te rexistrares, aceptas os nosos %{tou_link}, a nosa %{privacy_policy_link}
           e os nosos %{contributor_terms_link}.
+        tou: termos de uso
         privacy_policy: política de protección de datos
         privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Política de protección de datos da OSMF, que contén
@@ -3103,7 +3279,6 @@ gl:
       blocks by me: Bloqueos efectuados
       create_mute: Silenciar este usuario
       destroy_mute: Deixar de silenciar este usuario
-      edit_profile: Editar o perfil
       send message: Enviar unha mensaxe
       diary: Diario
       edits: Edicións
@@ -3113,10 +3288,6 @@ gl:
       follow: Seguir
       mapper since: 'Cartógrafo dende:'
       last map edit: 'Última edición do mapa:'
-      home location: Localización da túa casa
-      company: Empresa
-      company tooltip: A afiliación á empresa foi declarada pola persoa e non foi
-        verificada
       no activity yet: Aínda non hai actividade
       uid: 'Identificador de usuario:'
       ct status: 'Termos do colaborador:'
@@ -3126,18 +3297,6 @@ gl:
       created from: 'Creado a partir de:'
       status: 'Estado:'
       spam score: 'Puntuación do spam:'
-      role:
-        administrator: Este usuario é administrador
-        moderator: Este usuario é moderador
-        importer: Este usuario é importador
-        grant:
-          administrator: Conceder o acceso de administrador
-          moderator: Conceder o acceso de moderador
-          importer: Conceder o acceso de importador
-        revoke:
-          administrator: Revogar o acceso de administrador
-          moderator: Revogar o acceso de moderador
-          importer: Revogar o acceso de importador
       block_history: Bloqueos activos
       moderator_history: Bloqueos impostos
       revoke_all_blocks: Revogar todos os bloqueos
@@ -3152,9 +3311,20 @@ gl:
       delete_user: Eliminar este usuario
       confirm: Confirmar
       report: Denunciar este usuario
+      edit_profile_details: Editar os detalles do perfil
+      edit_description: Editar a descrición
+      edit_links: Editar as ligazóns
+      change_image: Cambiar a imaxe
+      edit_company: Editar a empresa
+      edit_location: Editar a localización
       contributions:
         one: '%{count} contribución no último ano'
         other: '%{count} contribucións no último ano'
+    sidebar_section:
+      home_location: Localización da túa casa
+      company: Empresa
+      company_tooltip: A afiliación á empresa foi declarada pola persoa e non foi
+        verificada
     go_public:
       flash success: Tódalas túas edicións son públicas e agora está autorizado a
         editar.
@@ -3248,6 +3418,21 @@ gl:
       option_2: Se xa tes unha conta, podes conectarte á túa conta empregando o teu
         nome de usuario e contrasinal, e despois asociar a conta co teu identificador
         nas túas preferencias de usuario.
+    role_icons:
+      title:
+        administrator: Este usuario é administrador
+        moderator: Este usuario é moderador
+        importer: Este usuario é importador
+      grant:
+        administrator: Conceder o acceso de administrador
+        moderator: Conceder o acceso de moderador
+        importer: Conceder o acceso de importador
+        are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
+      revoke:
+        administrator: Revogar o acceso de administrador
+        moderator: Revogar o acceso de moderador
+        importer: Revogar o acceso de importador
+        are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
   user_role:
     filter:
       not_a_role: A cadea "%{role}" non é un rol correcto.
@@ -3255,10 +3440,6 @@ gl:
       doesnt_have_role: O usuario non ten o rol %{role}.
       not_revoke_admin_current_user: Non se puido revogar os dereitos de administrador
         do usuario actual.
-    grant:
-      are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
-    revoke:
-      are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
   user_blocks:
     model:
       non_moderator_update: Cómpre ser moderador para crear ou actualizar un bloqueo.
@@ -3391,8 +3572,9 @@ gl:
       last_changed: Última modificación
       apply: Aplicar
       all: Todas
-      open: Abertas
-      closed: Pechadas
+      open: Sen resolver
+      closed: Resoltas
+      hidden: Agochadas
       status: Estado
     show:
       title: 'Nota: %{id}'
@@ -3469,28 +3651,12 @@ gl:
     close: Pechar
     share:
       title: Compartir
-      cancel: Desbotar
-      image: Imaxe
-      link: Ligazón ou HTML
-      long_link: Ligazón
-      short_link: Ligazón acurtada
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Establecer dimensións personalizadas
-      format: 'Formato:'
-      scale: 'Escala:'
-      image_dimensions: A imaxe amosará a capa %{layer} con %{width} x %{height}
-      download: Baixar
-      short_url: Enderezo URL curto
-      include_marker: Incluí-lo marcador
-      center_marker: Centrar o mapa no marcador
-      paste_html: Pegue o código HTML para incluílo na páxina web
       view_larger_map: Ollar un mapa máis grande
-      only_layers_exported_as_image: 'Só se poden exportar como imaxe as seguintes
-        capas:'
+      export_failed_title: Fallou a exportación do mapa
+      filename: mapa
     embed:
       report_problem: Denunciar un problema
-    key:
+    legend:
       title: Lenda do mapa
       tooltip: Lenda do mapa
       tooltip_disabled: Non está dispoñíbel a lenda do mapa para esta capa
@@ -3517,6 +3683,8 @@ gl:
         transport_map: Transporte
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitario
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Capas do mapa
         notes: Notas do mapa
@@ -3539,17 +3707,17 @@ gl:
       tracestrack: Rastrexo
       hotosm_credit: Estilo de mosaicos do %{hotosm_link} aloxado por %{osm_france_link}
       hotosm_name: equipo humanitario do OpenStreetMap
+      openmaptiles_credit: Mosaicos vectoriais de %{openmaptiles_link} aloxados por
+        %{maptiler_link}
+      openmaptiles_name: OpenMapTiles
+      maptiler_name: MapTiler
     site:
       edit_tooltip: Editar o mapa
-      edit_disabled_tooltip: Achegue para editar o mapa
+      edit_disabled_tooltip: Achega para editar o mapa
       createnote_tooltip: Engadir unha nota ó mapa
       createnote_disabled_tooltip: Achegar o mapa para engadirlle unha nota
-      map_notes_zoom_in_tooltip: Achegar para ollar as notas do mapa
-      map_data_zoom_in_tooltip: Achegar para ollar os datos do mapa
       queryfeature_tooltip: Consultar os elementos
       queryfeature_disabled_tooltip: Achegar para consultar os elementos
-      embed_html_disabled: A incorporación de HTML non está dispoñible para esta capa
-        de mapa
     profile:
       social_link_n: Ligazón de perfil social %{n}
       remove_social_link_n: Eliminar a ligazón de perfil social %{n}
@@ -3557,17 +3725,18 @@ gl:
       preme aquí.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pés'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pés'
+        yd: '%{distance} yd'
+        mi: '%{distance} mi'
       errors:
         no_route: Non se puido atopar unha ruta entre eses dous lugares.
-        no_place: Sentímolo, non foi posíbel atopar "%{place}".
+        no_place:
+          title: Fallou a busca
+          body: Non se puido localizar "%{place}".
       instructions:
-        continue_without_exit: Continúa en %{name}
+        continue_without_exit: Continúa por %{name}
         slight_right_without_exit: Xira lixeiramente á dereita cara a %{name}
         offramp_right: Toma a rampla á dereita
         offramp_right_with_exit: Toma a saída %{exit} á dereita
@@ -3649,6 +3818,8 @@ gl:
       error: 'Erro ó contactar con %{server}: %{error}'
       timeout: Tempo de agarda esgotado ó contactar con %{server}
       suffix_format: '[%{dates}]'
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Indicacións dende aquí
       directions_to: Indicacións até aquí
@@ -3666,6 +3837,15 @@ gl:
         contributions:
           one: '%{count} contribución o %{date}'
           other: '%{count} contribucións o %{date}'
+    remote_edit:
+      failed:
+        title: Fallou a edición
+        body: Comproba que está cargado JOSM ou Merkaartor e que a opción de control
+          remoto estea activada
+    edit:
+      id_not_configured:
+        title: O iD non está configurado
+        body: Consulta CONFIGURE.md para obter máis información
   redactions:
     edit:
       heading: Editar a censura
