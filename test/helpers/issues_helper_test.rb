@@ -30,25 +30,25 @@ class IssuesHelperTest < ActionView::TestCase
     end
   end
 
-  def test_reportable_heading_note
+  def test_reportable_heading_note_ohm
     note = create(:note, :created_at => "2020-03-14", :updated_at => "2021-05-16")
 
     heading = reportable_heading note
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "Note ##{note.id} created on 14 March 2020 at 00:00, updated on 16 May 2021 at 00:00"
+    assert_dom dom_heading, ":root", "Note ##{note.id} created on March 14, 2020 at 00:00, updated on 16 May 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", note_url(note)
     end
   end
 
-  def test_reportable_heading_user
+  def test_reportable_heading_user_ohm
     user = create(:user, :display_name => "Someone", :created_at => "2020-07-18")
 
     heading = reportable_heading user
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "User Someone created on 18 July 2020 at 00:00"
+    assert_dom dom_heading, ":root", "User Someone created on July 18, 2020 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", user_url(user)
     end
