@@ -25,7 +25,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.email, "s3cr3t"
+    try_password_login user.email, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -36,7 +36,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login uppercase_user.email, "s3cr3t"
+    try_password_login uppercase_user.email, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
@@ -47,7 +47,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.email.titlecase, "s3cr3t"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -57,7 +57,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password
     user = create(:user)
 
-    try_password_login user.email, "s3cr3t"
+    try_password_login user.email, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -66,7 +66,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_upcase
     user = create(:user)
 
-    try_password_login user.email.upcase, "s3cr3t"
+    try_password_login user.email.upcase, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -75,7 +75,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_titlecase
     user = create(:user)
 
-    try_password_login user.email.titlecase, "s3cr3t"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -84,7 +84,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending
     user = create(:user, :pending)
 
-    try_password_login user.email, "s3cr3t"
+    try_password_login user.email, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -93,7 +93,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending_upcase
     user = create(:user, :pending)
 
-    try_password_login user.email.upcase, "s3cr3t"
+    try_password_login user.email.upcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -102,7 +102,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending_titlecase
     user = create(:user, :pending)
 
-    try_password_login user.email.titlecase, "s3cr3t"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -111,7 +111,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_suspended
     user = create(:user, :suspended)
 
-    try_password_login user.email, "s3cr3t"
+    try_password_login user.email, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -123,7 +123,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_suspended_upcase
     user = create(:user, :suspended)
 
-    try_password_login user.email.upcase, "s3cr3t"
+    try_password_login user.email.upcase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -135,7 +135,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_suspended_titlecase
     user = create(:user, :suspended)
 
-    try_password_login user.email.titlecase, "s3cr3t"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -148,7 +148,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email, "s3cr3t"
+    try_password_login user.email, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -158,7 +158,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email.upcase, "s3cr3t"
+    try_password_login user.email.upcase, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -168,7 +168,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email.titlecase, "s3cr3t"
+    try_password_login user.email.titlecase, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -182,7 +182,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name, "s3cr3t"
+    try_password_login user.display_name, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -193,7 +193,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login uppercase_user.display_name, "s3cr3t"
+    try_password_login uppercase_user.display_name, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
@@ -204,7 +204,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name.downcase, "s3cr3t"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -214,7 +214,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password
     user = create(:user)
 
-    try_password_login user.display_name, "s3cr3t"
+    try_password_login user.display_name, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -223,7 +223,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_upcase
     user = create(:user)
 
-    try_password_login user.display_name.upcase, "s3cr3t"
+    try_password_login user.display_name.upcase, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -232,7 +232,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_downcase
     user = create(:user)
 
-    try_password_login user.display_name.downcase, "s3cr3t"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -241,7 +241,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending
     user = create(:user, :pending)
 
-    try_password_login user.display_name, "s3cr3t"
+    try_password_login user.display_name, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -250,7 +250,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending_upcase
     user = create(:user, :pending)
 
-    try_password_login user.display_name.upcase, "s3cr3t"
+    try_password_login user.display_name.upcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -259,7 +259,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending_downcase
     user = create(:user, :pending)
 
-    try_password_login user.display_name.downcase, "s3cr3t"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -268,7 +268,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_suspended
     user = create(:user, :suspended)
 
-    try_password_login user.display_name, "s3cr3t"
+    try_password_login user.display_name, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -280,7 +280,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_suspended_upcase
     user = create(:user, :suspended)
 
-    try_password_login user.display_name.upcase, "s3cr3t"
+    try_password_login user.display_name.upcase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -292,7 +292,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_suspended_downcase
     user = create(:user, :suspended)
 
-    try_password_login user.display_name.downcase, "s3cr3t"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -305,7 +305,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name.upcase, "s3cr3t"
+    try_password_login user.display_name.upcase, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -315,7 +315,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name, "s3cr3t"
+    try_password_login user.display_name, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -325,7 +325,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name.downcase, "s3cr3t"
+    try_password_login user.display_name.downcase, "test"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -334,7 +334,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_remember_me
     user = create(:user)
 
-    try_password_login user.email, "s3cr3t", "yes"
+    try_password_login user.email, "test", "yes"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -344,7 +344,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_remember_me
     user = create(:user)
 
-    try_password_login user.display_name, "s3cr3t", "yes"
+    try_password_login user.display_name, "test", "yes"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
