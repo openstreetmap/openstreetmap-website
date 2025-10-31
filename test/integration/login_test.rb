@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LoginTest < ActionDispatch::IntegrationTest
@@ -23,7 +25,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.email, "test"
+    try_password_login user.email, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -34,7 +36,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login uppercase_user.email, "test"
+    try_password_login uppercase_user.email, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
@@ -45,7 +47,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :email => user.email.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.email.titlecase, "test"
+    try_password_login user.email.titlecase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -55,7 +57,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password
     user = create(:user)
 
-    try_password_login user.email, "test"
+    try_password_login user.email, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -64,7 +66,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_upcase
     user = create(:user)
 
-    try_password_login user.email.upcase, "test"
+    try_password_login user.email.upcase, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -73,7 +75,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_titlecase
     user = create(:user)
 
-    try_password_login user.email.titlecase, "test"
+    try_password_login user.email.titlecase, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -82,7 +84,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending
     user = create(:user, :pending)
 
-    try_password_login user.email, "test"
+    try_password_login user.email, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -91,7 +93,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending_upcase
     user = create(:user, :pending)
 
-    try_password_login user.email.upcase, "test"
+    try_password_login user.email.upcase, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -100,7 +102,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_pending_titlecase
     user = create(:user, :pending)
 
-    try_password_login user.email.titlecase, "test"
+    try_password_login user.email.titlecase, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -109,36 +111,36 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_suspended
     user = create(:user, :suspended)
 
-    try_password_login user.email, "test"
+    try_password_login user.email, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
   def test_login_email_password_suspended_upcase
     user = create(:user, :suspended)
 
-    try_password_login user.email.upcase, "test"
+    try_password_login user.email.upcase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
   def test_login_email_password_suspended_titlecase
     user = create(:user, :suspended)
 
-    try_password_login user.email.titlecase, "test"
+    try_password_login user.email.titlecase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -146,7 +148,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email, "test"
+    try_password_login user.email, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -156,7 +158,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email.upcase, "test"
+    try_password_login user.email.upcase, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -166,7 +168,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.email.titlecase, "test"
+    try_password_login user.email.titlecase, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -180,7 +182,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name, "test"
+    try_password_login user.display_name, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -191,7 +193,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login uppercase_user.display_name, "test"
+    try_password_login uppercase_user.display_name, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", uppercase_user.display_name
@@ -202,7 +204,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     _uppercase_user = build(:user, :display_name => user.display_name.upcase).tap { |u| u.save(:validate => false) }
 
-    try_password_login user.display_name.downcase, "test"
+    try_password_login user.display_name.downcase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
@@ -212,7 +214,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password
     user = create(:user)
 
-    try_password_login user.display_name, "test"
+    try_password_login user.display_name, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -221,7 +223,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_upcase
     user = create(:user)
 
-    try_password_login user.display_name.upcase, "test"
+    try_password_login user.display_name.upcase, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -230,7 +232,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_downcase
     user = create(:user)
 
-    try_password_login user.display_name.downcase, "test"
+    try_password_login user.display_name.downcase, "s3cr3t"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -239,7 +241,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending
     user = create(:user, :pending)
 
-    try_password_login user.display_name, "test"
+    try_password_login user.display_name, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -248,7 +250,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending_upcase
     user = create(:user, :pending)
 
-    try_password_login user.display_name.upcase, "test"
+    try_password_login user.display_name.upcase, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -257,7 +259,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_pending_downcase
     user = create(:user, :pending)
 
-    try_password_login user.display_name.downcase, "test"
+    try_password_login user.display_name.downcase, "s3cr3t"
 
     assert_template "confirm"
     assert_select "span.username", false
@@ -266,36 +268,36 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_suspended
     user = create(:user, :suspended)
 
-    try_password_login user.display_name, "test"
+    try_password_login user.display_name, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
   def test_login_username_password_suspended_upcase
     user = create(:user, :suspended)
 
-    try_password_login user.display_name.upcase, "test"
+    try_password_login user.display_name.upcase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
   def test_login_username_password_suspended_downcase
     user = create(:user, :suspended)
 
-    try_password_login user.display_name.downcase, "test"
+    try_password_login user.display_name.downcase, "s3cr3t"
 
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -303,7 +305,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name.upcase, "test"
+    try_password_login user.display_name.upcase, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -313,7 +315,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name, "test"
+    try_password_login user.display_name, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -323,7 +325,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     user = create(:user)
     create(:user_block, :needs_view, :user => user)
 
-    try_password_login user.display_name.downcase, "test"
+    try_password_login user.display_name.downcase, "s3cr3t"
 
     assert_template "user_blocks/show"
     assert_select "span.username", user.display_name
@@ -332,7 +334,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_email_password_remember_me
     user = create(:user)
 
-    try_password_login user.email, "test", "yes"
+    try_password_login user.email, "s3cr3t", "yes"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -342,7 +344,7 @@ class LoginTest < ActionDispatch::IntegrationTest
   def test_login_username_password_remember_me
     user = create(:user)
 
-    try_password_login user.display_name, "test", "yes"
+    try_password_login user.display_name, "s3cr3t", "yes"
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
@@ -410,7 +412,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -584,7 +586,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -727,7 +729,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -866,7 +868,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -1005,7 +1007,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -1144,7 +1146,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
