@@ -13,7 +13,7 @@ module BrowseTagsHelper
     end
   end
 
-  def format_value(key, value, skip_wikidata_preview = false)
+  def format_value(key, value, skip_wikidata_preview: false)
     if wp = wikipedia_link(key, value)
       link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
     elsif !skip_wikidata_preview && (wdt = wikidata_links(key, value))
