@@ -11,11 +11,7 @@ module ApplicationHelper
   end
 
   def rss_link_to(args = {})
-    link_to image_tag("RSS.png", :size => "16x16", :class => "align-text-bottom"), args
-  end
-
-  def atom_link_to(args = {})
-    link_to image_tag("RSS.png", :size => "16x16", :class => "align-text-bottom"), args
+    link_to tag.i(:class => "bi bi-rss-fill fs-6", :aria => { :hidden => "true" }), args
   end
 
   def dir

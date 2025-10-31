@@ -33,12 +33,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_rss_link_to
     link = rss_link_to(:controller => :diary_entries, :action => :rss)
-    assert_dom_equal "<a href=\"/diary/rss\"><img height=\"16\" src=\"/images/RSS.png\" width=\"16\" class=\"align-text-bottom\" /></a>", link
-  end
-
-  def test_atom_link_to
-    link = atom_link_to(:controller => :changesets, :action => :feed)
-    assert_dom_equal "<a href=\"/history/feed\"><img height=\"16\" src=\"/images/RSS.png\" width=\"16\" class=\"align-text-bottom\" /></a>", link
+    assert_dom_equal "<a href=\"/diary/rss\"><i class=\"bi bi-rss-fill fs-6\" aria-hidden=\"true\"></i></a>", link
   end
 
   def test_dir
