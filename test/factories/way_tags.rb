@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :way_tag do
     sequence(:k) { |n| "Key #{n}" }
