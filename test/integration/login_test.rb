@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "test_helper"
 
 class LoginTest < ActionDispatch::IntegrationTest
@@ -114,7 +116,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -126,7 +128,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -138,7 +140,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -271,7 +273,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -283,7 +285,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -295,7 +297,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -410,7 +412,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -584,7 +586,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -727,7 +729,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -866,7 +868,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -1005,7 +1007,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 
@@ -1144,7 +1146,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
     assert_select "span.username", false
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
-      assert_select "a[href='mailto:openstreetmap@example.com']", "support"
+      assert_select "a[href='mailto:dev@openhistoricalmap.org']", "support"
     end
   end
 

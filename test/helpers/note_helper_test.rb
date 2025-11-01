@@ -4,7 +4,7 @@ class NoteHelperTest < ActionView::TestCase
   include ERB::Util
   include ApplicationHelper
 
-  def test_note_event
+  def test_note_event_ohm
     date = Time.utc(2014, 3, 5, 21, 37, 45)
     user = create(:user)
 
@@ -12,7 +12,7 @@ class NoteHelperTest < ActionView::TestCase
     assert_dom note_event_dom, ":root", :text => /^Created by anonymous .* ago$/ do
       assert_dom "> a", :count => 0
       assert_dom "> time", :count => 1 do
-        assert_dom "> @title", "5 March 2014 at 21:37"
+        assert_dom "> @title", "March  5, 2014 at 21:37"
         assert_dom "> @datetime", "2014-03-05T21:37:45Z"
       end
     end
@@ -23,7 +23,7 @@ class NoteHelperTest < ActionView::TestCase
         assert_dom "> @href", "/user/#{ERB::Util.u(user.display_name)}"
       end
       assert_dom "> time", :count => 1 do
-        assert_dom "> @title", "5 March 2014 at 21:37"
+        assert_dom "> @title", "March  5, 2014 at 21:37"
         assert_dom "> @datetime", "2014-03-05T21:37:45Z"
       end
     end

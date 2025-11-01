@@ -11,44 +11,44 @@ class IssuesHelperTest < ActionView::TestCase
     heading = reportable_heading diary_comment
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "Diary Comment A Discussion, comment ##{diary_comment.id} created on 15 March 2020 at 00:00, updated on 17 May 2021 at 00:00"
+    assert_dom dom_heading, ":root", "Diary Comment A Discussion, comment ##{diary_comment.id} created on March 15, 2020 at 00:00, updated on May 17, 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", diary_entry_url(diary_entry.user, diary_entry, :anchor => "comment#{diary_comment.id}")
     end
   end
 
-  def test_reportable_heading_diary_entry
+  def test_reportable_heading_diary_entry_ohm
     create(:language, :code => "en")
     diary_entry = create(:diary_entry, :title => "Important Subject", :created_at => "2020-03-24", :updated_at => "2021-05-26")
 
     heading = reportable_heading diary_entry
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "Diary Entry Important Subject created on 24 March 2020 at 00:00, updated on 26 May 2021 at 00:00"
+    assert_dom dom_heading, ":root", "Diary Entry Important Subject created on March 24, 2020 at 00:00, updated on May 26, 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", diary_entry_url(diary_entry.user, diary_entry)
     end
   end
 
-  def test_reportable_heading_note
+  def test_reportable_heading_note_ohm
     note = create(:note, :created_at => "2020-03-14", :updated_at => "2021-05-16")
 
     heading = reportable_heading note
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "Note ##{note.id} created on 14 March 2020 at 00:00, updated on 16 May 2021 at 00:00"
+    assert_dom dom_heading, ":root", "Note ##{note.id} created on March 14, 2020 at 00:00, updated on May 16, 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", note_url(note)
     end
   end
 
-  def test_reportable_heading_user
+  def test_reportable_heading_user_ohm
     user = create(:user, :display_name => "Someone", :created_at => "2020-07-18")
 
     heading = reportable_heading user
 
     dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
-    assert_dom dom_heading, ":root", "User Someone created on 18 July 2020 at 00:00"
+    assert_dom dom_heading, ":root", "User Someone created on July 18, 2020 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", user_url(user)
     end
