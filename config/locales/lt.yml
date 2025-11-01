@@ -78,7 +78,6 @@ lt:
       node: Taškas
       node_tag: Taško žyma
       note: pastaba
-      notifier: Pranešti
       old_node: Ankstesnis taškas
       old_node_tag: Ankstesnio taško žyma
       old_relation: Ankstesnis ryšys
@@ -184,9 +183,6 @@ lt:
         needs_view: Ar naudotojas turi prisiregistruoti, tam kad šis blokavimas būtų
           panaikintas?
       user:
-        email_confirmation: Jūsų adresas nerodomas viešai, daugiau informacijos rasite
-          mūsų <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF
-          privatumo politika, įskaitant skyrių apie el. pašto adresus">privatumo politikoje</a>.
         new_email: (niekada viešai nerodomas)
   datetime:
     distance_in_words_ago:
@@ -297,16 +293,15 @@ lt:
       title: Keisti paskyrą
       current email address: Dabartinis el. pašto adresas
       external auth: Išorinė autentikacija
-      contributor terms:
+      contributor_terms:
         heading: Talkininkų sąlygos
         agreed: Jūs sutikote su naujomis talkininkų sąlygomis.
-        not yet agreed: Jūs dar nesutikote su naujomis talkininkų sąlygomis.
-        review link text: Sekite šią nuorodą, kad peržiūrėkite ir priimkite naujas
-          talkininkų sąlygas.
         agreed_with_pd: Jūs taip pat pareiškėte, kad visi jūsų pakeitimai yra viešo
           naudojimo.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: kas tai?
+      terms_of_use:
+        heading: Naudojimo sąlygos
       save changes button: Įrašyti pakeitimus
       delete_account: Ištrinti paskyrą...
     go_public:
@@ -361,9 +356,9 @@ lt:
           sąlygas, tai padarius, pažymėti abi varneles ir tada spausti tęsimo mygtuką.
         contributor_terms_explain: Ši sutartis valdo jūsų dabartinį ir būsimą indėlį.
         read_ct: Aš perskaičiau ir sutinku su aukščiau pateiktomis talkininko sąlygomis
-        tou_explain_html: Šie %{tou_link} reglamentuoja svetainės ir kitos OSMF teikiamos
-          infrastruktūros naudojimą. Prašome paspausti nuorodą, perskaityti ir sutikti
-          su tekstu.
+        tou_explain:
+          html: Šie %{tou_link} reglamentuoja svetainės ir kitos OSMF teikiamos infrastruktūros
+            naudojimą. Prašome paspausti nuorodą, perskaityti ir sutikti su tekstu.
         read_tou: Aš perskaičiau ir sutinku su naudojimo sąlygomis
         guidance_info_html: 'Informacija, padedanti suprasti šiuos terminus: %{readable_summary_link}
           ir kai kurie %{informal_translations_link}'
@@ -405,9 +400,7 @@ lt:
       many: '{%count} kelias'
       other: '%{count} kelių'
     download_xml: Atsisiųsti XML
-    view_history: Žiūrėti istoriją
     view_unredacted_history: Žiūrėti neredaguotą versiją
-    view_details: Žiūrėti detales
     location: 'Vieta:'
     node:
       title_html: 'Taškas: %{name}'
@@ -1557,7 +1550,6 @@ lt:
   reports:
     new:
       title_html: Pranešimas %{link}
-      missing_params: Negalima sukurti naujo pranešimo
       disclaimer:
         intro: 'Prieš siųsdami jūsų pranešimą svetainės moderatoriams, įsitikinkite,
           kad:'
@@ -1635,11 +1627,12 @@ lt:
       footer_unsubscribe: Diskusijos prenumeratos galite atsisakyti %{unsubscribeurl}
       footer_unsubscribe_html: Diskusijos prenumeratos galite atsisakyti %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Sveiki, %{to_user},
-      header: '%{from_user} atsiuntė jums pranešimą per OpenStreetMap su tema „%{subject}“:'
-      header_html: '%{from_user} atsiuntė jums pranešimą naudojant OpenStreetMap su
-        tema „%{subject}“:'
+      header: '%{from_user} atsiuntė jums pranešimą per OpenHistoricalMap su tema
+        „%{subject}“:'
+      header_html: '%{from_user} atsiuntė jums pranešimą naudojant OpenHistoricalMap
+        su tema „%{subject}“:'
       footer: Jūs taip pat galite perskaityti pranešimą %{readurl} ir nusiųsti žinutę
         autoriui %{replyurl}
       footer_html: Pranešimą galite skaityti čia %{readurl}, o nusiųsti žinutę autoriui
@@ -1675,14 +1668,14 @@ lt:
       welcome: Po to, kai patvirtinsite savo paskyrą, mes suteiksime papildomos informacijos,
         padėsiančios jums pradėti.
     email_confirm:
-      subject: '[OpenStreetMap] Patvirtinkite savo e-pašto adresą'
+      subject: '[OpenHistoricalMap] Patvirtinkite savo e-pašto adresą'
       greeting: Sveiki,
       hopefully_you: Kažkas (tikimės, kad tai jūs) nori pakeisti savo elektroninio
         pašto adresą iš %{server_url} į %{new_address}.
       click_the_link: Jei tai jūs, spauskite žemiau pateikiamą nuorodą, kad patvirtintumėte
         pakeitimą.
     lost_password:
-      subject: '[OpenStreetMap] Slaptažodžio atstatymo prašymas'
+      subject: '[OpenHistoricalMap] Slaptažodžio atstatymo prašymas'
       greeting: Sveiki,
       hopefully_you: Kažkas (tikriausiai jūs) paprašė anuliuoti slaptažodį, susijusį
         su šio pašto adreso openstreetmap.org paskyra.
@@ -1777,6 +1770,9 @@ lt:
       whitelist: Jei naudojate apsaugos nuo šlamšto sistemą, kuri siunčia patvirtinimo
         prašymus, prašome pridėti %{sender} į leidžiamų sąrašą, nes mes negalime atsakyti
         į patvirtinimo prašymus.
+    gravatar:
+      disabled: Gravatar buvo išjungtas.
+      enabled: Jūsų Gravatar rodymas įjungtas.
   messages:
     new:
       title: Siųsti žinutę
@@ -1888,32 +1884,37 @@ lt:
         title: Mano parinktys
         save: Atnaujinti parinktis
   profiles:
-    show:
-      title: Redaguoti profilį
-      save: Atnaujinti profilį
-      cancel: Atšaukti
-      image: Nuotrauka
-      gravatar:
-        gravatar: Naudoti Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Kas yra Gravatar?
-        disabled: Gravatar buvo išjungtas.
-        enabled: Jūsų Gravatar rodymas įjungtas.
-      new image: Pridėti nuotrauką
-      keep image: Palikti dabartinę nuotrauką
-      delete image: Pašalintį dabartinę nuotrauką
-      replace image: Pakeisti dabartinę nuotrauką
-      image size hint: (geriausiai atrodo kvadratinės, ne mažesnės nei 100x100 taškų
-        dydžio nuotraukos)
-      home location: Pradinė lokacija
-      no home location: Jūs neįvedėte savo namų pozicijos
-      update home location on click: Atnaujinti namų poziciją paspaudus ant žemėlapio?
-      show: Rodyti
-      delete: Trinti
-      undelete: Anuliuoti trynimą
-    update:
-      success: Profilis atnaujintas.
-      failure: Nepavyko atnaujinti profilio.
+    profile_sections:
+      navigation:
+        image: Nuotrauka
+    descriptions:
+      show:
+        title: Redaguoti profilį
+        save: Atnaujinti profilį
+        cancel: Atšaukti
+    links:
+      show:
+        title: Redaguoti profilį
+        cancel: Atšaukti
+    images:
+      show:
+        gravatar:
+          gravatar: Naudoti Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Kas yra Gravatar?
+        new image: Pridėti nuotrauką
+        keep image: Palikti dabartinę nuotrauką
+        delete image: Pašalintį dabartinę nuotrauką
+        replace image: Pakeisti dabartinę nuotrauką
+        image size hint: (geriausiai atrodo kvadratinės, ne mažesnės nei 100x100 taškų
+          dydžio nuotraukos)
+    locations:
+      show:
+        no home location: Jūs neįvedėte savo namų pozicijos
+        update home location on click: Atnaujinti namų poziciją paspaudus ant žemėlapio?
+        show: Rodyti
+        delete: Trinti
+        undelete: Anuliuoti trynimą
   sessions:
     new:
       tab_title: Prisijungti
@@ -2011,7 +2012,7 @@ lt:
         mapping_link: pradėti žymėjimą
       legal_babble:
         introduction_4_creative_commons: Creative Commons Attribution-ShareAlike 2.0
-        credit_title_html: Kaip paminėti OpenStreetMap
+        credit_title_html: Kaip paminėti OpenHistoricalMap
         credit_1_html: 'Naudodami OpenStreetMap duomenis, privalote atlikti šiuos
           du dalykus:'
         credit_2_this_copyright_page: šį autorių teisių puslapį
@@ -2053,8 +2054,6 @@ lt:
       user_page_link: naudotojo puslapis
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Sužinokite, kodėl taip yra.
-    edit:
-      id_not_configured: iD nesukonfigūruotas
     export:
       title: Eksportuoti
       manually_select: Rankiniu būdu parinkti kitą sritį
@@ -2225,7 +2224,11 @@ lt:
       other_groups:
         title: Kitos grupės
         communities_wiki: Bendruomenių viki puslapis
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Padidinkite, norėdami matyti žemėlapio pastabas
+      map_data_zoom_in_tooltip: Padidinkite, norėdami matyti žemėlapio duomenis
+  legend_panes:
     show:
       entries:
         motorway: Autostrada
@@ -2309,6 +2312,22 @@ lt:
         bicycle_parking: Dviračių stovėjimo aikštelė
         bicycle_parking_small: Maža dviračių stovėjimo aikštelė
         toilets: Tualetai
+  share_panes:
+    show:
+      link: Nuoroda arba HTML
+      include_marker: Įtraukti žymeklį
+      long_link: Nuoroda
+      short_link: TrumpaNuoroda
+      embed: HTML
+      paste_html: Įkelkite HTML, kad įdėtumėte į svetainę
+      geo_uri: Geo URI
+      image: Paveikslas
+      format: 'Formatas:'
+      scale: 'Mastelis:'
+      custom_dimensions: Nustatyti savo apimtį
+      image_dimensions_html: Paveikslėlyje bus rodomas %{width} x %{height} dydžio
+        standartinis sluoksnis
+      download: Atsisiųsti
   traces:
     visibility:
       private: Privatus (dalinamas tik kaip anonimiškas, taškai nesurikiuoti)
@@ -2571,7 +2590,6 @@ lt:
       blocks by me: Mano sukurti apribojimai
       create_mute: Nutildyti šį naudotoją
       destroy_mute: Nebetildyti šio naudotojo
-      edit_profile: Redaguoti profilį
       send message: Siųsti žinutę
       diary: Dienoraštis
       edits: Keitimai
@@ -2588,18 +2606,6 @@ lt:
       created from: 'Sukurta iš:'
       status: 'Būsena:'
       spam score: 'Šlamšto įvertis:'
-      role:
-        administrator: Šis naudotojas yra administratorius
-        moderator: Šis naudotojas yra moderatorius
-        importer: Šis naudotojas yra importuotojas
-        grant:
-          administrator: Suteikti administratoriaus teises
-          moderator: Suteikti moderatoriaus teises
-          importer: Suteikti importuotojui prieigą
-        revoke:
-          administrator: Atšaukti administratoriaus teises
-          moderator: Atšaukti moderatoriaus teises
-          importer: Atšaukti importuotojo prieigą
       block_history: Aktyvūs blokavimai
       moderator_history: Gauti užblokavimai
       revoke_all_blocks: Atšaukti visus blokavimus
@@ -2679,6 +2685,20 @@ lt:
         Jei jau turite paskyrą, galite prisijungti prie savo paskyros
         naudodami savo naudotojo vardą ir slaptažodį, ir tada susieti paskyrą
         su savo ID, savo naudotojo nustatymuose.
+    role_icons:
+      title:
+        administrator: Šis naudotojas yra administratorius
+        moderator: Šis naudotojas yra moderatorius
+      grant:
+        administrator: Suteikti administratoriaus teises
+        moderator: Suteikti moderatoriaus teises
+        importer: Suteikti importuotojui prieigą
+        are_you_sure: Ar tikrai norite naudotojui `%{name}' suteikti rolę `%{role}'?
+      revoke:
+        administrator: Atšaukti administratoriaus teises
+        moderator: Atšaukti moderatoriaus teises
+        importer: Atšaukti importuotojo prieigą
+        are_you_sure: Ar tikrai norite atšaukti `%{role}' nuo naudotojo „%{name}“?
   user_role:
     filter:
       not_a_role: Eilutė „%{role}“ nėra tinkama rolė.
@@ -2686,10 +2706,6 @@ lt:
       doesnt_have_role: Naudotojas neturi rolės „%{role}“.
       not_revoke_admin_current_user: Negalima atimti administratoriaus rolės iš dabartinio
         naudotojo.
-    grant:
-      are_you_sure: Ar tikrai norite naudotojui `%{name}' suteikti rolę `%{role}'?
-    revoke:
-      are_you_sure: Ar tikrai norite atšaukti `%{role}' nuo naudotojo „%{name}“?
   user_blocks:
     model:
       non_moderator_update: Norėdami sukurti ar atnaujinti blokavimą turite būti moderatoriumi.
@@ -2851,27 +2867,10 @@ lt:
     close: Uždaryti
     share:
       title: Dalintis
-      cancel: Atšaukti
-      image: Paveikslas
-      link: Nuoroda arba HTML
-      long_link: Nuoroda
-      short_link: TrumpaNuoroda
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Nustatyti savo apimtį
-      format: 'Formatas:'
-      scale: 'Mastelis:'
-      image_dimensions: Paveikslėlyje bus rodomas %{width} x %{height} dydžio standartinis
-        sluoksnis
-      download: Atsisiųsti
-      short_url: Trumpas URL
-      include_marker: Įtraukti žymeklį
-      center_marker: Centruoti žemėlapį ties žymekliu
-      paste_html: Įkelkite HTML, kad įdėtumėte į svetainę
       view_larger_map: Žiūrėti didesniame žemėlapyje
     embed:
       report_problem: Pranešti apie problemą
-    key:
+    legend:
       title: Sutartiniai ženklai
       tooltip: Sutartiniai ženklai
       tooltip_disabled: Sutartiniai ženklai neprieinami šiame sluoksnyje
@@ -2911,20 +2910,16 @@ lt:
       edit_disabled_tooltip: Norėdami redaguoti, priartinkite
       createnote_tooltip: Pridėti pastabą prie žemėlapio
       createnote_disabled_tooltip: Priartinkite, jei norite pridėti pastabą prie žemėlapio
-      map_notes_zoom_in_tooltip: Padidinkite, norėdami matyti žemėlapio pastabas
-      map_data_zoom_in_tooltip: Padidinkite, norėdami matyti žemėlapio duomenis
       queryfeature_tooltip: Ieškoti objektų
       queryfeature_disabled_tooltip: Padidinkite, norėdami ieškoti objektų
     edit_help: Pastumkite žemėlapį ir padidinkite vietą, kurią norite keisti, tada
       spauskite čia.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Nepavyko rasti maršruto tarp šių dviejų vietų.
-        no_place: 'Atsiprašome - nerandame tokios vietos: %{place}'
       instructions:
         continue_without_exit: Tęskite kelionę %{name}
         slight_right_without_exit: Dešiniau į %{name}
@@ -3013,6 +3008,9 @@ lt:
       show_address: Rodyti adresą
       query_features: Ieškoti objektų
       centre_map: Centruoti žemėlapį čia
+    edit:
+      id_not_configured:
+        title: iD nesukonfigūruotas
   redactions:
     edit:
       heading: Keisti redakciją

@@ -124,7 +124,6 @@ it:
       node: Nodo
       node_tag: Etichetta del nodo
       note: Nota
-      notifier: Promemoria
       old_node: Vecchio nodo
       old_node_tag: Vecchia etichetta del nodo
       old_relation: Vecchia relazione
@@ -231,10 +230,6 @@ it:
         needs_view: L'utente ha bisogno di collegarsi prima che questo blocco sia
           cancellato?
       user:
-        email_confirmation: Il tuo indirizzo non è visualizzato pubblicamente, vedi
-          l'<a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Norme
-          sulla privacy della OSMF inclusa la sezione sull'indirizzo email">informativa
-          sulla privacy</a> per ulteriori informazioni.
         new_email: (mai visualizzato pubblicamente)
   datetime:
     distance_in_words_ago:
@@ -322,16 +317,15 @@ it:
       title: Modifica profilo
       current email address: Indirizzo email attuale
       external auth: Autenticazione esterna
-      contributor terms:
+      contributor_terms:
         heading: Regole per contribuire
-        agreed: Hai accettato le nuove regole per contribuire.
-        not yet agreed: Non hai ancora accettato le nuove regole per contribuire.
-        review link text: Quando puoi segui per favore questo link per leggere ed
-          accettare le nuove regole per contribuire.
+        agreed: Hai accettato i Termini per contribuire il %{date}.
         agreed_with_pd: Hai anche dichiarato di considerare le tue modifiche come
           fossero di pubblico dominio.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/IT
         link text: che cos'è questo?
+      terms_of_use:
+        heading: Condizioni d'uso
       save changes button: Salva modifiche
       delete_account: Cancella utenza...
     go_public:
@@ -389,9 +383,10 @@ it:
         contributor_terms_explain: Questo accordo definisce le condizioni delle tue
           collaborazioni presenti e future.
         read_ct: Ho letto e accetto le condizioni di collaborazione qui sopra
-        tou_explain_html: Queste %{tou_link} definiscono l’utilizzo del sito web e
-          di altre infrastrutture fornite da OpenHistoricalMap. Clicca sul collegamento,
-          leggi il testo e accetta.
+        tou_explain:
+          html: Queste %{tou_link} definiscono l’utilizzo del sito web e di altre
+            infrastrutture fornite da OpenHistoricalMap. Clicca sul collegamento,
+            leggi il testo e accetta.
         read_tou: Ho letto e accetto le Condizioni d'uso
         guidance_info_html: 'Informazioni per aiutarti a comprendere queste condizioni:
           un %{readable_summary_link} e alcune %{informal_translations_link}'
@@ -430,9 +425,7 @@ it:
       one: '%{count} percorso'
       other: '%{count} percorsi'
     download_xml: Scarica XML
-    view_history: Visualizza cronologia
     view_unredacted_history: Visualizza la cronologia non oscurata
-    view_details: Vedi dettagli
     location: 'Posizione:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1119,7 +1112,7 @@ it:
           basin: Bacino
           brownfield: Area con edifici in demolizione
           cemetery: Cimitero
-          commercial: Zona di uffici
+          commercial: Area per uffici o servizi
           conservation: Area di conservazione
           construction: Area di costruzione
           farmland: Terreno agricolo
@@ -1556,6 +1549,36 @@ it:
         level9: Confine amministrativo (livello 9)
         level10: Confine amministrativo (livello 10)
         level11: Confine amministrativo (livello 11)
+      border_types:
+        archdiocese: Confine arcidiocesano
+        caliphate: Confine del califfato
+        canton: Confine cantonale
+        census_area: Confine dell'area di censimento
+        colony: Confine coloniale
+        commonwealth: Confine del Commonwealth
+        confederation: Confine confederale
+        diocese: Confine diocesano
+        emirate: Confine dell'emirato
+        empire: Confine imperiale
+        federal_district: Confine del distretto federale
+        governorate: Confine del governatorato
+        major_division: Confine della divisione principale
+        oblast: Confine dell'oblast
+        overseas_collectivity: Confine della collettività d'oltremare
+        overseas_department: Confine del dipartimento d'oltremare
+        overseas_territory: Confine del territorio d'oltremare
+        prefecture: Confine prefettizio
+        prefecture_apostolic: Confine della prelatura apostolica
+        protectorate: Confine del protettorato
+        realm: Confine del regno
+        republic: Confine repubblicano
+        sector: Confine settoriale
+        subdistrict: Confine del sottodistretto
+        territorial_prelature: Confine della prelatura territoriale
+        vicariate_apostolic: Confine del vicariato apostolico
+        voivodeship: Confine del voivodato
+        ward: Confine del rione
+        zone: Confine zonale
   searches:
     queries:
       create:
@@ -1636,7 +1659,6 @@ it:
   reports:
     new:
       title_html: Segnala %{link}
-      missing_params: Impossibile creare una nuova segnalazione
       disclaimer:
         intro: 'Prima di inviare una segnalazione ai moderatori del sito, verifica
           che:'
@@ -1720,11 +1742,11 @@ it:
       footer_unsubscribe: Puoi annullare l'iscrizione alla discussione su %{unsubscribeurl}
       footer_unsubscribe_html: Puoi annullare l'iscrizione alla discussione su %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Ciao %{to_user},
-      header: '%{from_user} ti ha inviato un messaggio tramite OpenStreetMap con l''oggetto
-        %{subject}:'
-      header_html: '%{from_user} ti ha inviato un messaggio tramite OpenStreetMap
+      header: '%{from_user} ti ha inviato un messaggio tramite OpenHistoricalMap con
+        l''oggetto %{subject}:'
+      header_html: '%{from_user} ti ha inviato un messaggio tramite OpenHistoricalMap
         con l''oggetto %{subject}:'
       footer: Puoi anche leggere il messaggio al %{readurl} e puoi inviare un messaggio
         all'autore al %{replyurl}
@@ -1761,14 +1783,14 @@ it:
       welcome: Dopo che avrai confermato il tuo account, ti forniremo alcune informazioni
         aggiuntive per consentirti di iniziare.
     email_confirm:
-      subject: '[OpenStreetMap] Conferma il tuo indirizzo email'
+      subject: '[OpenHistoricalMap] Conferma il tuo indirizzo email'
       greeting: Ciao,
       hopefully_you: Qualcuno (si spera proprio tu) vuole modificare il tuo indirizzo
         di posta elettronica su %{server_url} con il nuovo indirizzo %{new_address}.
       click_the_link: Se questo sei proprio tu, per favore clicca sul collegamento
         sottostante per confermare il cambiamento.
     lost_password:
-      subject: '[OpenStreetMap] Richiesta nuova password'
+      subject: '[OpenHistoricalMap] Richiesta nuova password'
       greeting: Ciao,
       hopefully_you: Qualcuno (probabilmente tu) ha chiesto di resettare la password
         del profilo utente di openhistoricalmap.org associato a questo indirizzo di
@@ -1866,6 +1888,9 @@ it:
       whitelist: Se usi un sistema anti-SPAM che invia delle richiesta di conferma,
         assicurati di aver inserito %{sender} nella lista dei consentiti poiché non
         siamo in grado di rispondere alle richieste di conferma.
+    gravatar:
+      disabled: Gravatar è stato disattivato.
+      enabled: La visualizzazione del vostro Gravatar è stata attivata.
   messages:
     new:
       title: Invia messaggio
@@ -1982,31 +2007,36 @@ it:
           dark: Scuro
         save: Aggiorna preferenze
   profiles:
-    show:
-      title: Modifica profilo
-      save: Aggiorna profilo
-      cancel: Annulla
-      image: Immagine
-      gravatar:
-        gravatar: Usa Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Che cosa è un Gravatar?
-        disabled: Gravatar è stato disattivato.
-        enabled: La visualizzazione del vostro Gravatar è stata attivata.
-      new image: Aggiungi un'immagine
-      keep image: Mantieni l'immagine attuale
-      delete image: Rimuovi l'immagine attuale
-      replace image: Sostituisci l'immagine attuale
-      image size hint: (immagini quadrate di almeno 100x100 funzionano meglio)
-      home location: Posizione
-      no home location: Non si è inserita la propria posizione.
-      update home location on click: Aggiorna la posizione quando clicco sulla mappa?
-      show: Mostra
-      delete: Cancella
-      undelete: Annulla eliminazione
-    update:
-      success: Il profilo è stato aggiornato.
-      failure: Impossibile aggiornare il profilo.
+    profile_sections:
+      navigation:
+        image: Immagine
+    descriptions:
+      show:
+        title: Modifica profilo
+        save: Aggiorna profilo
+        cancel: Annulla
+    links:
+      show:
+        title: Modifica profilo
+        cancel: Annulla
+    images:
+      show:
+        gravatar:
+          gravatar: Usa Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Che cosa è un Gravatar?
+        new image: Aggiungi un'immagine
+        keep image: Mantieni l'immagine attuale
+        delete image: Rimuovi l'immagine attuale
+        replace image: Sostituisci l'immagine attuale
+        image size hint: (immagini quadrate di almeno 100x100 funzionano meglio)
+    locations:
+      show:
+        no home location: Non si è inserita la propria posizione.
+        update home location on click: Aggiorna la posizione quando clicco sulla mappa?
+        show: Mostra
+        delete: Cancella
+        undelete: Annulla eliminazione
   sessions:
     new:
       tab_title: Entra
@@ -2137,13 +2167,12 @@ it:
           %{creative_commons_link} (CC BY-SA 2.0).
         introduction_4_creative_commons: Creative Commons Attribuzione-Condividi allo
           stesso modo 2.0
-        credit_title_html: Come si attribuisce a OpenStreetMap
+        credit_title_html: Come si attribuisce a OpenHistoricalMap
         credit_1_html: Sebbene la legge sul copyright non limiti o imponga alcuna
           condizione sull'uso del contenuto di dominio pubblico, apprezziamo molto
           qualsiasi riconoscimento che fornirai a OpenHistoricalMap quando riutilizzi,
           adatti o utilizzi in altro modo le nostre mappe o i nostri dati.
         credit_2_this_copyright_page: questa pagina del diritto d'autore
-        credit_3_project: OpenHistoricalMap
         attribution_example:
           alt: Un collegamento denominato OHM nell'angolo inferiore destro di una
             pagina web, sotto un cursore temporale.
@@ -2201,8 +2230,6 @@ it:
       user_page_link: pagina utente
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Leggi il perché.
-    edit:
-      id_not_configured: iD non è stato configurato
     export:
       title: Esporta
       manually_select: Seleziona manualmente un'area differente
@@ -2390,7 +2417,11 @@ it:
           Chiunque può crearne uno o unirsi ad uno già esistente. Per saperne di più
           consulta la %{communities_wiki_link}.
         communities_wiki: Pagina wiki delle comunità
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
+      map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
+  legend_panes:
     show:
       entries:
         motorway: Autostrada
@@ -2474,6 +2505,24 @@ it:
         bicycle_parking: Parcheggio per biciclette
         bicycle_parking_small: Piccolo parcheggio per biciclette
         toilets: Bagni pubblici
+  share_panes:
+    show:
+      link: Collegamento o HTML
+      include_marker: Includi il marcatore
+      long_link: Link
+      short_link: Link breve
+      embed: HTML
+      embed_html_disabled: L'incorporamento HTML non è disponibile per questo livello
+        mappa
+      paste_html: Incolla l'HTML per incorporarlo nel sito web
+      geo_uri: Geo URI
+      image: Immagine
+      format: 'Formato:'
+      scale: 'Scala:'
+      custom_dimensions: Imposta dimensioni personalizzate
+      image_dimensions_html: L'immagine mostrerà il livello %{layer} in %{width} x
+        %{height}
+      download: Scarica
   traces:
     visibility:
       private: Privato (condiviso solamente come anonimo, punti non ordinati)
@@ -2745,7 +2794,6 @@ it:
       blocks by me: Blocchi applicati da me
       create_mute: Silenzia quest'utente
       destroy_mute: Non silenziare più quest'utente
-      edit_profile: Modifica profilo
       send message: Invia messaggio
       diary: Diario
       edits: Modifiche
@@ -2757,23 +2805,11 @@ it:
       uid: 'ID utente:'
       ct status: 'Termini di collaborazione:'
       ct undecided: Indeciso
-      ct declined: Non accetto
+      ct declined: Rifiutato
       email address: 'Indirizzo email:'
       created from: 'Creato da:'
       status: 'Stato:'
       spam score: 'Punteggio Spam:'
-      role:
-        administrator: Quest'utente è un amministratore
-        moderator: Quest'utente è un moderatore
-        importer: Quest'utente è un importatore
-        grant:
-          administrator: Assegna l'accesso come amministratore
-          moderator: Assegna l'accesso come moderatore
-          importer: Concedi l'accesso come importatore
-        revoke:
-          administrator: Revoca l'accesso come amministratore
-          moderator: Revoca l'accesso come moderatore
-          importer: Revoca l'accesso come importatore
       block_history: Blocchi attivi
       moderator_history: Blocchi applicati
       revoke_all_blocks: Revoca tutti i blocchi
@@ -2860,6 +2896,21 @@ it:
       option_2: Se disponi già di un'utenza, puoi accedere ad essa utilizzando il
         tuo nome utente e la password e quindi associare l'utenza con il tuo ID nelle
         impostazioni.
+    role_icons:
+      title:
+        administrator: Quest'utente è un amministratore
+        moderator: Quest'utente è un moderatore
+      grant:
+        administrator: Assegna l'accesso come amministratore
+        moderator: Assegna l'accesso come moderatore
+        importer: Concedi l'accesso come importatore
+        are_you_sure: Sei sicuro di voler assegnare il ruolo '%{role}' all'utente
+          '%{name}'?
+      revoke:
+        administrator: Revoca l'accesso come amministratore
+        moderator: Revoca l'accesso come moderatore
+        importer: Revoca l'accesso come importatore
+        are_you_sure: Sei sicuro di voler revocare il ruolo '%{role}' all'utente '%{name}'?
   user_role:
     filter:
       not_a_role: La stringa '%{role}' non è un ruolo valido.
@@ -2867,10 +2918,6 @@ it:
       doesnt_have_role: L'utente non possiede il ruolo %{role}.
       not_revoke_admin_current_user: Impossibile rimuovere i privilegi di amministratore
         all'utente corrente.
-    grant:
-      are_you_sure: Sei sicuro di voler assegnare il ruolo '%{role}' all'utente '%{name}'?
-    revoke:
-      are_you_sure: Sei sicuro di voler revocare il ruolo '%{role}' all'utente '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Devi essere un moderatore per creare o aggiornare un blocco.
@@ -2993,8 +3040,8 @@ it:
       created_at: Creata il
       last_changed: Modificata per l'ultima volta
       apply: Applica
-      open: Aperto
-      closed: Chiuso
+      open: Irrisolto
+      closed: Risolto
       status: Stato
     show:
       title: 'Nota: %{id}'
@@ -3048,26 +3095,10 @@ it:
     close: Chiudi
     share:
       title: Condividi
-      cancel: Annulla
-      image: Immagine
-      link: Collegamento o HTML
-      long_link: Link
-      short_link: Link breve
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Imposta dimensioni personalizzate
-      format: 'Formato:'
-      scale: 'Scala:'
-      image_dimensions: L'immagine mostrerà il livello %{layer} in %{width} x %{height}
-      download: Scarica
-      short_url: URL breve
-      include_marker: Includi il marcatore
-      center_marker: Centra la mappa sul marcatore
-      paste_html: Incolla l'HTML per incorporarlo nel sito web
       view_larger_map: Visualizza mappa ingrandita
     embed:
       report_problem: Segnala un problema
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: La legenda non è disponibile per questo livello
@@ -3115,22 +3146,16 @@ it:
       edit_disabled_tooltip: Zooma per modificare la mappa
       createnote_tooltip: Aggiungi una nota sulla mappa
       createnote_disabled_tooltip: Ingrandisci la mappa per aggiungere una nota
-      map_notes_zoom_in_tooltip: Zooma per vedere le note della mappa
-      map_data_zoom_in_tooltip: Zooma per vedere i dati della mappa
       queryfeature_tooltip: Ricerca di elementi
       queryfeature_disabled_tooltip: Ingrandisci per ricercare elementi
-      embed_html_disabled: L'incorporamento HTML non è disponibile per questo livello
-        mappa
     edit_help: Sposta la mappa e usa lo zoom sulla posizione che vuoi modificare,
       quindi clicca qui.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}&nbsp;m'
-          km: '%{distance}&nbsp;km'
+        m: '%{distance}&nbsp;m'
+        km: '%{distance}&nbsp;km'
       errors:
         no_route: Impossibile trovare un percorso fra questi due posti.
-        no_place: Spiacenti, non è possibile trovare '%{place}'.
       instructions:
         continue_without_exit: Prosegui su %{name}
         slight_right_without_exit: Svolta leggermente a destra in %{name}
@@ -3218,6 +3243,9 @@ it:
       show_address: Mostra indirizzo
       query_features: Ricerca di elementi
       centre_map: Centra la mappa qui
+    edit:
+      id_not_configured:
+        title: iD non è stato configurato
   redactions:
     edit:
       heading: Modifica revisione

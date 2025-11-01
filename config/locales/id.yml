@@ -96,7 +96,6 @@ id:
       node: Titik noda
       node_tag: Tag titik noda
       note: catatan
-      notifier: Pemberitahuan
       old_node: Titik noda Lama
       old_node_tag: Tag Titik noda Lama
       old_relation: Relasi Lama
@@ -200,10 +199,6 @@ id:
           mungkin.
         needs_view: Apakah pengguna harus masuk log sebelum blokirnya dihapus?
       user:
-        email_confirmation: Alamat Anda tidak ditampilkan secara publik, lihat <a
-          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Kebijakan
-          privasi OSMF termasuk bagian tentang alamat surel">kebijakan privasi</a>
-          kami untuk informasi lebih lanjut.
         new_email: (jangan pernah ditampilkan ke publik)
   datetime:
     distance_in_words_ago:
@@ -278,16 +273,15 @@ id:
       title: Edit akun
       current email address: Alamat surel saat ini
       external auth: Autentikasi Eksternal
-      contributor terms:
+      contributor_terms:
         heading: Syarat-syarat Kontributor
         agreed: Anda telah menyetujui Persyaratan Kontributor yang baru.
-        not yet agreed: Anda belum menyetujui Persyaratan Kontributor yang baru.
-        review link text: Silahkan ikuti link ini untuk kenyamanan Anda untuk meninjau
-          dan menyetujui Persyaratan Kontributor yang baru.
         agreed_with_pd: Anda juga telah menyatakan bahwa Anda mempertimbangkan suntingan
           Anda berada dalam Domain publik.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Apa ini?
+      terms_of_use:
+        heading: Ketentuan Penggunaan
       save changes button: Simpan Perubahan
       delete_account: Hapus Akun...
     go_public:
@@ -343,9 +337,9 @@ id:
         contributor_terms_explain: Persetujuan ini mengatur ketentuan untuk kontribusi
           Anda yang sekarang dan yang akan mendatang.
         read_ct: Saya telah membaca dan menyetujui ketentuan kontributor di atas
-        tou_explain_html: '%{tou_link} ini mengatur penggunaan situs web dan infrastruktur
-          lainnya yang disediakan oleh OSMF. Tolong tekan tautannya, baca dan setujui
-          teksnya.'
+        tou_explain:
+          html: '%{tou_link} ini mengatur penggunaan situs web dan infrastruktur lainnya
+            yang disediakan oleh OSMF. Tolong tekan tautannya, baca dan setujui teksnya.'
         read_tou: Saya telah membaca dan menyetujui Ketentuan Penggunaan
         guidance_info_html: 'Informasi untuk membantu Anda memahami ketentuan ini:
           %{readable_summary_link} dan %{informal_translations_link}'
@@ -380,9 +374,7 @@ id:
     part_of_ways:
       other: '%{count} arah'
     download_xml: Unduh XML
-    view_history: Versi terdahulu
     view_unredacted_history: Lihat Riwayat yang Tidak Direduksi
-    view_details: Lihat Rincian
     location: 'Lokasi:'
     node:
       title_html: 'Simpul: %{name}'
@@ -1537,7 +1529,6 @@ id:
   reports:
     new:
       title_html: Laporkan %{link}
-      missing_params: Tidak bisa membuat laporan baru
       disclaimer:
         intro: 'Sebelum mengirimkan laporan ke moderator situs, tolong pastikan bahwa:'
         not_just_mistake: Anda yakin bahwa masalah tersebut bukan sekadar kekhilafan
@@ -1613,11 +1604,11 @@ id:
       footer_unsubscribe: Anda dapat berhenti berlangganan diskusi di %{unsubscribeurl}
       footer_unsubscribe_html: Anda dapat berhenti berlangganan diskusi di %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Halo %{to_user},
-      header: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap
+      header: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenHistoricalMap
         dengan subjek %{subject}:'
-      header_html: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenStreetMap
+      header_html: '%{from_user} telah mengirim sebuah pesan kepada Anda melalui OpenHistoricalMap
         dengan subjek %{subject}:'
       footer: Anda juga dapat membaca pesan di %{readurl} dan Anda bisa mengirim pesan
         kepada penulis di %{replyurl}
@@ -1653,14 +1644,14 @@ id:
       welcome: Setelah Anda mengkonfirmasi akun Anda, kami akan memberikan Anda beberapa
         informasi tambahan agar Anda dapat segera memulainya.
     email_confirm:
-      subject: '[OpenStreetMap] Konfirmasi alamat email Anda'
+      subject: '[OpenHistoricalMap] Konfirmasi alamat email Anda'
       greeting: Halo,
       hopefully_you: Seseorang (semoga saja Anda) ingin mengubah alamat  email pada
         %{server_url} menjadi %{new_address}.
       click_the_link: Jika ini adalah Anda, silahkan klik link di bawah ini untuk
         mengkonfirmasi perubahan.
     lost_password:
-      subject: '[OpenStreetMap] Permintaan atur ulang sandi'
+      subject: '[OpenHistoricalMap] Permintaan atur ulang sandi'
       greeting: Halo,
       hopefully_you: Seseorang (kemungkinan Anda) telah meminta untuk mengatur ulang
         password pada alamat email dari akun openstreetmap.org ini.
@@ -1764,6 +1755,9 @@ id:
         bisa mengedit peta setelah akun Anda terkonfirmasi.
       whitelist: Bila sistem antispam Anda menyarik surel konfirmasi, kecualikan %{sender}
         supaya kami bisa membalas permintaan konfirmasi Anda.
+    gravatar:
+      disabled: Gravatar telah dinonaktifkan.
+      enabled: Tampilan dari Gravatar Anda telah diaktifkan.
   messages:
     new:
       title: Kirim Pesan
@@ -1879,33 +1873,38 @@ id:
         title: Preferensi Saya
         save: Perbarui Preferensi
   profiles:
-    show:
-      title: Sunting Profil
-      save: Perbarui Profil
-      cancel: Batal
-      image: Gambar
-      gravatar:
-        gravatar: Gunakan Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Apa itu Gravatar?
-        disabled: Gravatar telah dinonaktifkan.
-        enabled: Tampilan dari Gravatar Anda telah diaktifkan.
-      new image: Tambahkan gambar
-      keep image: Gunakan gambar saat ini
-      delete image: Hapus gambar saat ini
-      replace image: Ganti gambar saat ini
-      image size hint: (kotak gambar yang dapat bekerja terbaik paling tidak berukuran
-        100x100)
-      home location: Lokasi Beranda
-      no home location: Anda telah memasukkan lokasi rumah Anda.
-      update home location on click: Memperbarui lokasi rumah ketika saya klik pada
-        peta?
-      show: Tampilkan
-      delete: Hapus
-      undelete: Batal hapus
-    update:
-      success: Profil telah diperbarui.
-      failure: Tidak dapat memperbarui profil.
+    profile_sections:
+      navigation:
+        image: Gambar
+    descriptions:
+      show:
+        title: Sunting Profil
+        save: Perbarui Profil
+        cancel: Batal
+    links:
+      show:
+        title: Sunting Profil
+        cancel: Batal
+    images:
+      show:
+        gravatar:
+          gravatar: Gunakan Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Apa itu Gravatar?
+        new image: Tambahkan gambar
+        keep image: Gunakan gambar saat ini
+        delete image: Hapus gambar saat ini
+        replace image: Ganti gambar saat ini
+        image size hint: (kotak gambar yang dapat bekerja terbaik paling tidak berukuran
+          100x100)
+    locations:
+      show:
+        no home location: Anda telah memasukkan lokasi rumah Anda.
+        update home location on click: Memperbarui lokasi rumah ketika saya klik pada
+          peta?
+        show: Tampilkan
+        delete: Hapus
+        undelete: Batal hapus
   sessions:
     new:
       tab_title: Masuk log
@@ -1990,7 +1989,7 @@ id:
         mapping_link: memulai pemetaan
       legal_babble:
         introduction_4_creative_commons: Creative Commons Atribusi-BerbagiSerupa 2.0
-        credit_title_html: Cara memberikan kredit pada OpenStreetMap
+        credit_title_html: Cara memberikan kredit pada OpenHistoricalMap
         credit_1_html: 'Ketika Anda menggunakan data OpenStreetMap, Anda diwajibkan
           untuk melakukan dua hal berikut:'
         credit_2_this_copyright_page: laman hak cipta ini
@@ -2032,8 +2031,6 @@ id:
       user_page_link: halaman pengguna
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Cari tahu mengapa hal ini terjadi.
-    edit:
-      id_not_configured: iD belum dikonfigurasikan
     export:
       title: Ekspor
       manually_select: Pilih wilayah berbeda secara manual
@@ -2208,7 +2205,11 @@ id:
           biasa atau grup kontributor. Siapa saja boleh membuat kelompok atau bergabung
           dengan salah satunya. Simak %{communities_wiki_link}.
         communities_wiki: laman wiki Komunitas
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Perbesar untuk melihat catatan peta
+      map_data_zoom_in_tooltip: Perbesar untuk melihat data peta
+  legend_panes:
     show:
       entries:
         motorway: Jalan Tol
@@ -2289,6 +2290,23 @@ id:
         bicycle_parking: Tempat parkir sepeda
         bicycle_parking_small: Parkir sepeda kecil
         toilets: Toilet
+  share_panes:
+    show:
+      link: Pranala atau HTML
+      include_marker: Termasuk penanda
+      long_link: Pranala
+      short_link: Tautan Pendek
+      embed: HTML
+      embed_html_disabled: Penyematan HTML tidak tersedia untuk lapisan peta ini
+      paste_html: Tempel HTML untuk menyimpan di situs web
+      geo_uri: Geo URI
+      image: Gambar
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Pengaturan dimensi
+      image_dimensions_html: Gambar akan menampilkan peta standar berukuran %{width}
+        x %{height}
+      download: Unduh
   traces:
     visibility:
       private: Pribadi (hanya berbagi sebagai anonim, poin tidak berurut)
@@ -2535,7 +2553,6 @@ id:
       blocks by me: Blok oleh saya
       create_mute: Bisukan Pengguna ini
       destroy_mute: Batalkan pembisuan Pengguna ini
-      edit_profile: Sunting Profil
       send message: Kirim Pesan
       diary: Catatan Harian
       edits: Suntingan
@@ -2550,18 +2567,6 @@ id:
       created from: 'Dibuat pada:'
       status: 'Status:'
       spam score: 'Jumlah Spam:'
-      role:
-        administrator: Pengguna ini merupakan administrator
-        moderator: Pengguna ini adalah moderator
-        importer: Pengguna ini adalah seorang importir
-        grant:
-          administrator: Memberikan akses administrator
-          moderator: Memberikan akses moderator
-          importer: Berikan izin importir
-        revoke:
-          administrator: Mencabut akses administrator
-          moderator: Mencabut akses moderator
-          importer: Cabut izin importir
       block_history: Blok Aktif
       moderator_history: Blok yang Diberikan
       revoke_all_blocks: Cabut semua pemblokiran
@@ -2641,6 +2646,22 @@ id:
       option_2: Jika Anda sudah memiliki akun, Anda dapat masuk log ke akun Anda menggunakan
         nama pengguna dan kata sandi Anda dan lalu asosiasikan akunnya dengan ID Anda
         di pengaturan pengguna Anda.
+    role_icons:
+      title:
+        administrator: Pengguna ini merupakan administrator
+        moderator: Pengguna ini adalah moderator
+      grant:
+        administrator: Memberikan akses administrator
+        moderator: Memberikan akses moderator
+        importer: Berikan izin importir
+        are_you_sure: Apakah Anda yakin ingin memberikan peran `%{role}' kepada pengguna
+          `%{name}'?
+      revoke:
+        administrator: Mencabut akses administrator
+        moderator: Mencabut akses moderator
+        importer: Cabut izin importir
+        are_you_sure: Apakah Anda yakin Anda ingin mencabut peran `%{role}' dari pengguna
+          `%{name}'?
   user_role:
     filter:
       not_a_role: String `%{role}' bukan merupakan peran yang valid.
@@ -2648,12 +2669,6 @@ id:
       doesnt_have_role: Pengguna tidak memiliki peran %{role}.
       not_revoke_admin_current_user: Tidak bisa mencabut peran administrator dari
         pengguna ini.
-    grant:
-      are_you_sure: Apakah Anda yakin ingin memberikan peran `%{role}' kepada pengguna
-        `%{name}'?
-    revoke:
-      are_you_sure: Apakah Anda yakin Anda ingin mencabut peran `%{role}' dari pengguna
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Harus merupakan moderator untuk membuat atau memperbarui
@@ -2798,27 +2813,10 @@ id:
     close: Tutup
     share:
       title: Bagikan
-      cancel: Batal
-      image: Gambar
-      link: Pranala atau HTML
-      long_link: Pranala
-      short_link: Tautan Pendek
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Pengaturan dimensi
-      format: 'Format:'
-      scale: 'Skala:'
-      image_dimensions: Gambar akan menampilkan peta standar berukuran %{width} x
-        %{height}
-      download: Unduh
-      short_url: URL Singkat
-      include_marker: Termasuk penanda
-      center_marker: Tengahkan peta pada penanda
-      paste_html: Tempel HTML untuk menyimpan di situs web
       view_larger_map: Lihat peta lebih besar
     embed:
       report_problem: Laporkan masalah
-    key:
+    legend:
       title: Kunci Peta
       tooltip: Kunci Peta
       tooltip_disabled: Legenda tidak tersedia untuk lapisan ini
@@ -2864,21 +2862,16 @@ id:
       edit_disabled_tooltip: Perbesar untuk mengedit peta
       createnote_tooltip: Tambahkan catatan pada peta
       createnote_disabled_tooltip: Perbesar untuk menambahkan catatan pada peta
-      map_notes_zoom_in_tooltip: Perbesar untuk melihat catatan peta
-      map_data_zoom_in_tooltip: Perbesar untuk melihat data peta
       queryfeature_tooltip: Fitur kueri
       queryfeature_disabled_tooltip: Perbesar ke fitur kueri
-      embed_html_disabled: Penyematan HTML tidak tersedia untuk lapisan peta ini
     edit_help: Memindahkan peta dan memperbesar lokasi yang ingin Anda sunting, kemudian
       klik di sini.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Gagal menemukan rute antara dua tempat tersebut.
-        no_place: Maaf - '%{place}' tidak ditemukan.
       instructions:
         continue_without_exit: Lurus ke %{name}
         slight_right_without_exit: Kanan sedikit ke %{name}
@@ -2967,6 +2960,9 @@ id:
       show_address: Tampilkan alamat
       query_features: Fitur-fitur kueri
       centre_map: Pusatkan peta di sini
+    edit:
+      id_not_configured:
+        title: iD belum dikonfigurasikan
   redactions:
     edit:
       heading: Mengedit Redaksi

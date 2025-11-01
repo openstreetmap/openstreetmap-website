@@ -108,7 +108,6 @@ sv:
       node: Nod
       node_tag: Nodtagg
       note: not
-      notifier: Meddelande
       old_node: Gammal nod
       old_node_tag: Gammal nodtagg
       old_relation: Gammal relation
@@ -212,9 +211,6 @@ sv:
           inte alla användare förstår gemenskapsjargongen, så försök att använda lekmannatermer.
         needs_view: Behöver användaren logga in innan blockeringen upphör?
       user:
-        email_confirmation: Din adress visas inte offentligt, se vår <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF-integritetspolicy som inkluderar avsnitt om e-postadresser">integritetspolicy</a>
-          för mer information.
         new_email: (visas aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -303,16 +299,15 @@ sv:
       title: Redigera konto
       current email address: Nuvarande e-postadress
       external auth: Extern autentisering
-      contributor terms:
+      contributor_terms:
         heading: Bidragsgivarvillkor
         agreed: Du har godkänt de nya bidragsgivarvillkoren.
-        not yet agreed: Du har ännu inte godkänt de nya bidragsgivarvillkoren.
-        review link text: Följ denna länk när du har tid att granska och godkänna
-          de nya bidragsvillkoren.
         agreed_with_pd: Du har också förklarat att du anser att dina redigeringar
           är inom Public Domain.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: vad är detta?
+      terms_of_use:
+        heading: Användarvillkor
       save changes button: Spara ändringar
       delete_account: Radera konto...
     go_public:
@@ -367,9 +362,10 @@ sv:
         contributor_terms_explain: Denna avtal beskriver villkoren för dina existerande
           och framtida bidrag.
         read_ct: Jag har läst och samtycken med de ovanstående villkor för deltagare
-        tou_explain_html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida
-          och andra infrastrukturer från OSMF får användas. Klicka på länken, läs
-          och godkänn villkoren.
+        tou_explain:
+          html: Dessa %{tou_link} beskriver villkoren för hur denna hemsida och andra
+            infrastrukturer från OSMF får användas. Klicka på länken, läs och godkänn
+            villkoren.
         read_tou: Jag har läst och samtycker med användarvillkoren.
         guidance_info_html: 'Information som hjälper dig att förstå dessa termer:
           en %{readable_summary_link} och några %{informal_translations_link}'
@@ -408,9 +404,7 @@ sv:
       one: '%{count} sträcka'
       other: '%{count} sträckor'
     download_xml: Ladda ner XML
-    view_history: Visa historik
     view_unredacted_history: Visa oredigerad historik
-    view_details: Visa detaljer
     location: 'Plats:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1597,7 +1591,6 @@ sv:
   reports:
     new:
       title_html: Repportera %{link}
-      missing_params: Kan inte skapa en ny rapport
       disclaimer:
         intro: 'Innan du skickar din rapport till webbplatsens moderatorer, se till
           att:'
@@ -1678,12 +1671,12 @@ sv:
       footer_unsubscribe_html: Du kan avsluta prenumerationen från diskussionen på
         %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hej %{to_user},
-      header: '%{from_user} har skickat ett meddelande via OpenStreetMap med ämnet
+      header: '%{from_user} har skickat ett meddelande via OpenHistoricalMap med ämnet
         %{subject}:'
-      header_html: '%{from_user} har skickat ett meddelande via OpenStreetMap med
-        ämnet %{subject}:'
+      header_html: '%{from_user} har skickat ett meddelande via OpenHistoricalMap
+        med ämnet %{subject}:'
       footer: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett meddelande
         till författaren på %{replyurl}
       footer_html: Du kan också läsa meddelandet på %{readurl} och du kan skicka ett
@@ -1720,13 +1713,13 @@ sv:
       welcome: Efter att du har bekräftat ditt konto ger vi dig ytterligare information
         om hur du kommer igång.
     email_confirm:
-      subject: '[OpenStreetMap] Bekräfta din e-postadress'
+      subject: '[OpenHistoricalMap] Bekräfta din e-postadress'
       greeting: Hej,
       hopefully_you: Någon (förhoppningsvis du själv) vill ändra sin e-postadress
         på %{server_url} till %{new_address}.
       click_the_link: Om det är du, klicka på länken nedan för att bekräfta ändringen.
     lost_password:
-      subject: '[OpenStreetMap] Begäran om återställning av lösenord'
+      subject: '[OpenHistoricalMap] Begäran om återställning av lösenord'
       greeting: Hej,
       hopefully_you: Någon (kanske du själv) har begärt återställning av lösenordet
         på denna e-postadress opeenstreetmap.org-konto.
@@ -1825,6 +1818,9 @@ sv:
         så fort du verifierar ditt konto kommer du kunna kartlägga.
       whitelist: Om du använder ett antispam-system som skickar bekräftelsemail se
         till att vitlista %{sender} eftersom vi inte kan svara på några bekräfelsemail.
+    gravatar:
+      disabled: Gravatar har inaktiverats.
+      enabled: Din Gravatar har aktiverats.
   messages:
     new:
       title: Skicka meddelande
@@ -1938,31 +1934,36 @@ sv:
         title: Mina alternativ
         save: Uppdatera alternativ
   profiles:
-    show:
-      title: Redigera profil
-      save: Uppdatera profil
-      cancel: Avbryt
-      image: Bild
-      gravatar:
-        gravatar: Använd Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Vad är Gravatar?
-        disabled: Gravatar har inaktiverats.
-        enabled: Din Gravatar har aktiverats.
-      new image: Lägg till en bild
-      keep image: Behåll nuvarande bild
-      delete image: Ta bort nuvarande bild
-      replace image: Ersätt nuvarande bild
-      image size hint: (kvadratiska bilder på minst 100x100 fungerar bäst)
-      home location: Hemposition
-      no home location: Du har inte angivit någon hemposition.
-      update home location on click: Uppdatera hemposition när jag klickar på kartan?
-      show: Visa
-      delete: Radera
-      undelete: Ångra radera
-    update:
-      success: Profil uppdaterad.
-      failure: Kunde inte uppdatera profilen.
+    profile_sections:
+      navigation:
+        image: Bild
+    descriptions:
+      show:
+        title: Redigera profil
+        save: Uppdatera profil
+        cancel: Avbryt
+    links:
+      show:
+        title: Redigera profil
+        cancel: Avbryt
+    images:
+      show:
+        gravatar:
+          gravatar: Använd Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Vad är Gravatar?
+        new image: Lägg till en bild
+        keep image: Behåll nuvarande bild
+        delete image: Ta bort nuvarande bild
+        replace image: Ersätt nuvarande bild
+        image size hint: (kvadratiska bilder på minst 100x100 fungerar bäst)
+    locations:
+      show:
+        no home location: Du har inte angivit någon hemposition.
+        update home location on click: Uppdatera hemposition när jag klickar på kartan?
+        show: Visa
+        delete: Radera
+        undelete: Ångra radera
   sessions:
     new:
       tab_title: Logga in
@@ -2061,7 +2062,7 @@ sv:
         mapping_link: börja kartlägga
       legal_babble:
         introduction_4_creative_commons: Creative Commons Erkännande-DelaLika 2.0
-        credit_title_html: Hur du anger OpenStreetMap som källa
+        credit_title_html: Hur du anger OpenHistoricalMap som källa
         credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
           saker:'
         credit_2_this_copyright_page: denna upphovsrättssida
@@ -2107,8 +2108,6 @@ sv:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Ta reda på varför det är så.
-    edit:
-      id_not_configured: iD har inte konfigurerats
     export:
       title: Exportera
       manually_select: Välj ett annat område manuellt
@@ -2280,7 +2279,11 @@ sv:
           Det finns inget behov av att formellt bilda en grupp i samma utsträckning som de lokala avdelningarna.
           Många grupper existerar faktiskt mycket framgångsrikt som en informell sammankomst av människor eller som en gemenskapsgrupp. Vem som helst kan ställa in eller gå med i dessa. Läs mer på %{communities_wiki_link}.
         communities_wiki: Gemenskapswikisida
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zooma in för att se kartanteckningar
+      map_data_zoom_in_tooltip: Zooma in för att se kartdata
+  legend_panes:
     show:
       entries:
         motorway: Motorväg
@@ -2364,6 +2367,22 @@ sv:
         bicycle_parking: Cykelparkering
         bicycle_parking_small: Liten cykelparkering
         toilets: Toaletter
+  share_panes:
+    show:
+      link: Länk eller HTML
+      include_marker: Lägg till markör
+      long_link: Länk
+      short_link: Kort länk
+      embed: HTML
+      embed_html_disabled: HTML-inbäddning är inte tillgänglig för det här kartlagret
+      paste_html: Klistra in HTML-koden för att publicera på en webbsida
+      geo_uri: Geo-URI
+      image: Bild
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Ange anpassade dimensioner
+      image_dimensions_html: Bilden kommer visa lager %{layer} på %{width} x %{height}
+      download: Ladda ned
   traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
@@ -2626,7 +2645,6 @@ sv:
       blocks by me: Blockeringar lagda av mig
       create_mute: Tysta denna användare
       destroy_mute: Sluta tysta användaren
-      edit_profile: Redigera profil
       send message: Skicka meddelande
       diary: Dagbok
       edits: Redigeringar
@@ -2643,18 +2661,6 @@ sv:
       created from: 'Skapad från:'
       status: 'Status:'
       spam score: 'Spam-poäng:'
-      role:
-        administrator: Den här användaren är en administratör
-        moderator: Den här användaren är en moderator
-        importer: Denna användare är en importör
-        grant:
-          administrator: Tilldela administratörsrättigheter
-          moderator: Tilldela moderatorrättigheter
-          importer: Ge importåtkomst
-        revoke:
-          administrator: Återkalla administratörsrättigheter
-          moderator: Återkalla moderatorrättigheter
-          importer: Återkalla importåtkomst
       block_history: Aktiva blockeringar
       moderator_history: Utdelade blockeringar
       revoke_all_blocks: Återkalla alla blockeringar
@@ -2740,6 +2746,22 @@ sv:
         Om du redan har ett konto, kan du logga in på ditt konto
         med hjälp av ditt användarnamn och lösenord och sedan koppla kontot
         med ditt ID i dina användarinställningar.
+    role_icons:
+      title:
+        administrator: Den här användaren är en administratör
+        moderator: Den här användaren är en moderator
+      grant:
+        administrator: Tilldela administratörsrättigheter
+        moderator: Tilldela moderatorrättigheter
+        importer: Ge importåtkomst
+        are_you_sure: Är du säker på att du vill ge rollen '%{role}' till användaren
+          '%{name}'?
+      revoke:
+        administrator: Återkalla administratörsrättigheter
+        moderator: Återkalla moderatorrättigheter
+        importer: Återkalla importåtkomst
+        are_you_sure: Är du säker på att du vill återkalla rollen '%{role}' från användaren
+          '%{name}'?
   user_role:
     filter:
       not_a_role: Strängen '%{role}' är inte en giltig roll.
@@ -2747,12 +2769,6 @@ sv:
       doesnt_have_role: Användaren har inte rollen %{role}.
       not_revoke_admin_current_user: Kan inte återkalla administratörsroll från nuvarande
         användare.
-    grant:
-      are_you_sure: Är du säker på att du vill ge rollen '%{role}' till användaren
-        '%{name}'?
-    revoke:
-      are_you_sure: Är du säker på att du vill återkalla rollen '%{role}' från användaren
-        '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Måste vara en moderator för att skapa eller uppdatera
@@ -2923,26 +2939,10 @@ sv:
     close: Stäng
     share:
       title: Dela
-      cancel: Avbryt
-      image: Bild
-      link: Länk eller HTML
-      long_link: Länk
-      short_link: Kort länk
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Ange anpassade dimensioner
-      format: 'Format:'
-      scale: 'Skala:'
-      image_dimensions: Bilden kommer visa lager %{layer} på %{width} x %{height}
-      download: Ladda ned
-      short_url: Kortlänk
-      include_marker: Lägg till markör
-      center_marker: Centrera kartan på markören
-      paste_html: Klistra in HTML-koden för att publicera på en webbsida
       view_larger_map: Visa större karta
     embed:
       report_problem: Rapportera ett problem
-    key:
+    legend:
       title: Kartnyckel
       tooltip: Kartnyckel
       tooltip_disabled: Kartnyckeln finns inte för detta lager
@@ -2987,21 +2987,16 @@ sv:
       edit_disabled_tooltip: Zooma in för att redigera kartan
       createnote_tooltip: Lägg till en anteckning på kartan
       createnote_disabled_tooltip: Zooma in för att lägga till anteckningar på kartan
-      map_notes_zoom_in_tooltip: Zooma in för att se kartanteckningar
-      map_data_zoom_in_tooltip: Zooma in för att se kartdata
       queryfeature_tooltip: Undersök kartobjekt
       queryfeature_disabled_tooltip: Zooma in för att undersöka kartobjekt
-      embed_html_disabled: HTML-inbäddning är inte tillgänglig för det här kartlagret
     edit_help: Flytta kartan och zooma in på en plats som du vill redigera, klicka
       sedan här.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Kunde inte hitta en väg mellan dessa två platser.
-        no_place: Ledsen - kunde inte hitta %{place}.
       instructions:
         continue_without_exit: Fortsätt på %{name}
         slight_right_without_exit: Svag högersväng in på %{name}
@@ -3086,6 +3081,9 @@ sv:
       show_address: Visa adress
       query_features: Undersök kartobjekt
       centre_map: Centrera kartan här
+    edit:
+      id_not_configured:
+        title: iD har inte konfigurerats
   redactions:
     edit:
       heading: Redigera maskering

@@ -174,7 +174,6 @@ de:
       node: Knoten
       node_tag: Knoten-Tag
       note: Hinweis
-      notifier: Melder
       old_node: Alter Knoten
       old_node_tag: Alter-Knoten-Tag
       old_relation: Alte Relation
@@ -280,9 +279,6 @@ de:
           und verwende bitte Formulierungen, die für Laien verständlich sind.
         needs_view: Muss der Benutzer sich anmelden, damit die Sperre aufgehoben wird?
       user:
-        email_confirmation: Deine E-Mail-Adresse wird nicht öffentlich gezeigt. Für
-          mehr Informationen lesen sie die <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">Datenschutzerklärung</a>.
         new_email: (nicht öffentlich sichtbar)
   datetime:
     distance_in_words_ago:
@@ -372,17 +368,15 @@ de:
       title: Benutzerkonto bearbeiten
       current email address: Aktuelle E-Mail-Adresse
       external auth: Externe Authentifikation
-      contributor terms:
+      contributor_terms:
         heading: Bedingungen für Mitwirkende
         agreed: Du hast den neuen Bedingungen für Mitwirkende zugestimmt.
-        not yet agreed: Du hast der neuen Bedingungen für Mitwirkende bislang noch
-          nicht zugestimmt.
-        review link text: Bitte folge diesem Link, um die neuen Bedingungen für Mitwirkende
-          durchzulesen sowie zu akzeptieren.
         agreed_with_pd: Du hast zudem erklärt, dass du deine Beiträge gemeinfrei veröffentlichst
           (unter Public Domain stellst).
         link: https://wiki.osmfoundation.org/w/index.php?title=Licence/Contributor_Terms&uselang=de
         link text: Was bedeutet dies?
+      terms_of_use:
+        heading: Nutzungsbedingungen
       save changes button: Änderungen speichern
       delete_account: Konto löschen …
     go_public:
@@ -443,9 +437,10 @@ de:
           deine bestehenden und zukünftigen Beiträge.
         read_ct: Ich habe obige Bedingungen für Mitwirkende gelesen und stimme ihnen
           zu
-        tou_explain_html: Die %{tou_link} regeln die Benutzung der Webseite und anderer
-          Infrastruktur, die von der OSMF zur Verfügung gestellt wird. Klicke bitte
-          auf den Link, lies den Text und stimme dann zu.
+        tou_explain:
+          html: Die %{tou_link} regeln die Benutzung der Webseite und anderer Infrastruktur,
+            die von der OSMF zur Verfügung gestellt wird. Klicke bitte auf den Link,
+            lies den Text und stimme dann zu.
         read_tou: Ich habe die Nutzungsbedingungen gelesen und stimme ihnen zu
         guidance_info_html: 'Informationen zum Verständnis dieser Begriffe: ein %{readable_summary_link}
           und einige %{informal_translations_link}'
@@ -485,9 +480,7 @@ de:
       one: 1 Weg
       other: '%{count} Wege'
     download_xml: XML herunterladen
-    view_history: Verlauf anzeigen
     view_unredacted_history: Unzensierten Verlauf ansehen
-    view_details: Details anzeigen
     location: 'Standort:'
     node:
       title_html: 'Knoten: %{name}'
@@ -1691,7 +1684,6 @@ de:
   reports:
     new:
       title_html: '%{link} melden'
-      missing_params: Es konnte keine neue Meldung erstellt werden
       disclaimer:
         intro: 'Bevor du deine Meldung an die Moderation der Webseite sendest, stelle
           bitte sicher, dass:'
@@ -1786,12 +1778,12 @@ de:
       footer_unsubscribe_html: Du kannst dich von der Diskussion auf %{unsubscribeurl}
         abmelden.
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hallo %{to_user},
-      header: '%{from_user} hat dir eine Nachricht über OpenStreetMap mit dem Betreff
-        %{subject} gesendet:'
-      header_html: '%{from_user} hat dir eine Nachricht über OpenStreetMap mit dem
+      header: '%{from_user} hat dir eine Nachricht über OpenHistoricalMap mit dem
         Betreff %{subject} gesendet:'
+      header_html: '%{from_user} hat dir eine Nachricht über OpenHistoricalMap mit
+        dem Betreff %{subject} gesendet:'
       footer: Du kannst auch die Nachricht unter %{readurl} lesen und dem Autor unter
         %{replyurl} antworten
       footer_html: Du kannst auch die Nachricht unter %{readurl} lesen und dem Autor
@@ -1832,14 +1824,14 @@ de:
       welcome: Nach der Bestätigung deines Benutzerkontos geben wir dir zusätzliche
         Informationen, um anzufangen.
     email_confirm:
-      subject: '[OpenStreetMap] Deine E-Mail-Adresse bestätigen'
+      subject: '[OpenHistoricalMap] Deine E-Mail-Adresse bestätigen'
       greeting: Hallo,
       hopefully_you: Jemand (hoffentlich du) will seine E-Mail-Adresse auf %{server_url}
         zu „%{new_address}“ ändern.
       click_the_link: Wenn du das bist, bestätige bitte deine E-Mail-Adresse mit dem
         Link unten.
     lost_password:
-      subject: '[OpenStreetMap]-Anfrage zum Passwort zurücksetzen'
+      subject: '[OpenHistoricalMap]-Anfrage zum Passwort zurücksetzen'
       greeting: Hallo,
       hopefully_you: Jemand (wahrscheinlich du) hat eine Zurücksetzung des Passworts
         für das openstreetmap.org-Konto an diese E-Mail-Adresse angefordert.
@@ -1944,6 +1936,9 @@ de:
       whitelist: Wenn du ein Antispam-System verwendest, das Bestätigungsanfragen
         sendet, stelle bitte sicher, dass du %{sender} auf eine Erlaubnisliste setzt,
         da wir keine Bestätigungsanfragen beantworten können.
+    gravatar:
+      disabled: Gravatar wurde deaktiviert.
+      enabled: Die Anzeige deines Gravatars wurde aktiviert.
   messages:
     new:
       title: Nachricht senden
@@ -2079,32 +2074,37 @@ de:
         title: Meine erweiterten Einstellungen
         save: Benutzereinstellungen aktualisieren
   profiles:
-    show:
-      title: Profil bearbeiten
-      save: Profil aktualisieren
-      cancel: Abbrechen
-      image: Bild
-      gravatar:
-        gravatar: Gravatar verwenden
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Was ist Gravatar?
-        disabled: Gravatar wurde deaktiviert.
-        enabled: Die Anzeige deines Gravatars wurde aktiviert.
-      new image: Bild einfügen
-      keep image: Bild unverändert beibehalten
-      delete image: Bild löschen
-      replace image: Bild austauschen
-      image size hint: (quadratische Bilder mit zumindest 100x100 Pixel funktionieren
-        am besten)
-      home location: Heimatstandort
-      no home location: Du hast noch keinen Standort angegeben.
-      update home location on click: Standort beim Klick auf die Karte aktualisieren
-      show: anzeigen
-      delete: Löschen
-      undelete: Löschen rückgängig machen
-    update:
-      success: Profil aktualisiert.
-      failure: Profil konnte nicht aktualisiert werden.
+    profile_sections:
+      navigation:
+        image: Bild
+    descriptions:
+      show:
+        title: Profil bearbeiten
+        save: Profil aktualisieren
+        cancel: Abbrechen
+    links:
+      show:
+        title: Profil bearbeiten
+        cancel: Abbrechen
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar verwenden
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Was ist Gravatar?
+        new image: Bild einfügen
+        keep image: Bild unverändert beibehalten
+        delete image: Bild löschen
+        replace image: Bild austauschen
+        image size hint: (quadratische Bilder mit zumindest 100x100 Pixel funktionieren
+          am besten)
+    locations:
+      show:
+        no home location: Du hast noch keinen Standort angegeben.
+        update home location on click: Standort beim Klick auf die Karte aktualisieren
+        show: anzeigen
+        delete: Löschen
+        undelete: Löschen rückgängig machen
   sessions:
     new:
       tab_title: Anmelden
@@ -2206,7 +2206,7 @@ de:
       legal_babble:
         introduction_4_creative_commons: Creative Commons Namensnennung – Weitergabe
           unter gleichen Bedingungen 2.0
-        credit_title_html: Wie auf die Urheberschaft von OpenStreetMap hinzuweisen
+        credit_title_html: Wie auf die Urheberschaft von OpenHistoricalMap hinzuweisen
           ist
         credit_1_html: 'Wenn du OpenStreetMap-Daten verwendest, musst du die folgenden
           zwei Bedingungen erfüllen:'
@@ -2250,8 +2250,6 @@ de:
       user_page_link: Einstellungsseite
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Hier findest du mehr Infos dazu.
-    edit:
-      id_not_configured: iD wurde nicht konfiguriert
     export:
       title: Exportieren
       manually_select: Einen anderen Bereich manuell auswählen
@@ -2449,7 +2447,11 @@ de:
           Es besteht keine Notwendigkeit, eine Gruppe im gleichen Umfang wie die Local Chapters offiziell zu gründen.
           Tatsächlich existieren viele Gruppen sehr erfolgreich als informelle Zusammenkunft von Menschen oder als Community-Gruppe. Jeder kann diese gründen oder beitreten. Lies mehr im %{communities_wiki_link}.
         communities_wiki: Community-Wiki-Seite
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Vergrößere die Karte, um die Fehler zu sehen.
+      map_data_zoom_in_tooltip: Vergrößere die Karte, um die Daten zu sehen.
+  legend_panes:
     show:
       entries:
         motorway: Autobahn
@@ -2533,6 +2535,23 @@ de:
         bicycle_parking: Fahrradparkplatz
         bicycle_parking_small: Kleiner Fahrradabstellplatz
         toilets: Toiletten
+  share_panes:
+    show:
+      link: Link oder HTML
+      include_marker: Kartenmarker setzen
+      long_link: Link
+      short_link: Kurz-URL
+      embed: HTML
+      embed_html_disabled: Für diese Kartenebene ist keine HTML-Einbettung verfügbar
+      paste_html: HTML zur Einbettung in Webseiten kopieren
+      geo_uri: Geo-URI
+      image: Bild
+      format: 'Format:'
+      scale: 'Maßstab:'
+      custom_dimensions: Ausschnitt festlegen
+      image_dimensions_html: Das Bild wird die %{layer}-Ebene in %{width} x %{height}
+        anzeigen
+      download: Herunterladen
   traces:
     visibility:
       private: Privat (werden nur als anonyme, unsortierte Punkte ohne Zeitangaben
@@ -2800,7 +2819,6 @@ de:
       blocks by me: Vergebene Sperren
       create_mute: Diesen Benutzer stummschalten
       destroy_mute: Hebe die Stummschaltung dieses Benutzers auf
-      edit_profile: Profil bearbeiten
       send message: Nachricht senden
       diary: Blog
       edits: Bearbeitungen
@@ -2817,18 +2835,6 @@ de:
       created from: 'erstellt aus:'
       status: 'Status:'
       spam score: 'Spam-Bewertung:'
-      role:
-        administrator: Dieser Benutzer ist ein Administrator
-        moderator: Dieser Benutzer ist ein Moderator
-        importer: Dieser Benutzer ist ein Importeur
-        grant:
-          administrator: Administrator-Rechte vergeben
-          moderator: Moderator-Rechte vergeben
-          importer: Importeurzugriff genehmigne
-        revoke:
-          administrator: Administrator-Rechte entziehen
-          moderator: Moderator-Rechte entziehen
-          importer: Importeurzugriff aufheben
       block_history: Aktive Sperren
       moderator_history: Vergebene Sperren
       revoke_all_blocks: Alle Sperren aufheben
@@ -2916,6 +2922,22 @@ de:
         Falls du bereits ein Benutzerkonto hast, kannst du dich bei deinem Konto
         mithilfe deines Benutzernamens und Passwortes anmelden und dann das Benutzerkonto
         mit deiner ID in deinen Benutzereinstellungen verknüpfen.
+    role_icons:
+      title:
+        administrator: Dieser Benutzer ist ein Administrator
+        moderator: Dieser Benutzer ist ein Moderator
+      grant:
+        administrator: Administrator-Rechte vergeben
+        moderator: Moderator-Rechte vergeben
+        importer: Importeurzugriff genehmigne
+        are_you_sure: Bist du sicher, dass du Benutzer „%{name}“ der Rolle „%{role}“
+          zuordnen möchtest?
+      revoke:
+        administrator: Administrator-Rechte entziehen
+        moderator: Moderator-Rechte entziehen
+        importer: Importeurzugriff aufheben
+        are_you_sure: Bist du sicher, dass du die Zuordnung von Benutzer „%{name}“
+          zur Rolle „%{role}“ aufheben willst?
   user_role:
     filter:
       not_a_role: Der String „%{role}“ bezeichnet keine gültige Rolle.
@@ -2923,12 +2945,6 @@ de:
       doesnt_have_role: Der Nutzer gehört nicht der Rolle %{role} an.
       not_revoke_admin_current_user: Die Administratorrolle kann nicht dem aktuellen
         Benutzer entzogen werden.
-    grant:
-      are_you_sure: Bist du sicher, dass du Benutzer „%{name}“ der Rolle „%{role}“
-        zuordnen möchtest?
-    revoke:
-      are_you_sure: Bist du sicher, dass du die Zuordnung von Benutzer „%{name}“ zur
-        Rolle „%{role}“ aufheben willst?
   user_blocks:
     model:
       non_moderator_update: Du musst Moderator sein, um eine Sperre einzurichten oder
@@ -3105,26 +3121,10 @@ de:
     close: Schließen
     share:
       title: Teilen
-      cancel: Abbrechen
-      image: Bild
-      link: Link oder HTML
-      long_link: Link
-      short_link: Kurz-URL
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Ausschnitt festlegen
-      format: 'Format:'
-      scale: 'Maßstab:'
-      image_dimensions: Das Bild wird die %{layer}-Ebene in %{width} x %{height} anzeigen
-      download: Herunterladen
-      short_url: Kurz-URL
-      include_marker: Kartenmarker setzen
-      center_marker: Karte am Marker zentrieren
-      paste_html: HTML zur Einbettung in Webseiten kopieren
       view_larger_map: Größere Karte anzeigen
     embed:
       report_problem: Ein Problem melden
-    key:
+    legend:
       title: Legende
       tooltip: Legende
       tooltip_disabled: Die Legende ist nicht für diese Ebene verfügbar
@@ -3173,21 +3173,16 @@ de:
       createnote_tooltip: Einen Hinweis/Fehler zu den Kartendaten melden
       createnote_disabled_tooltip: Zum Erstellen von Hinweisen muss eine höhere Zoomstufe
         gewählt werden
-      map_notes_zoom_in_tooltip: Vergrößere die Karte, um die Fehler zu sehen.
-      map_data_zoom_in_tooltip: Vergrößere die Karte, um die Daten zu sehen.
       queryfeature_tooltip: Objektabfrage
       queryfeature_disabled_tooltip: Für Objektabfrage vergrößern
-      embed_html_disabled: Für diese Kartenebene ist keine HTML-Einbettung verfügbar
     edit_help: Wähle eine höhere Zoomstufe und verschiebe die Karte an einen Ort,
       den du bearbeiten möchtest, und klicke hier.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Wir konnten keine Strecke zwischen diesen beiden Orten berechnen.
-        no_place: Wir konnten den Ort „%{place}“ leider nicht finden.
       instructions:
         continue_without_exit: Weiter auf %{name}
         slight_right_without_exit: Leicht rechts auf %{name}
@@ -3279,6 +3274,9 @@ de:
       show_address: Adresse anzeigen
       query_features: Objektabfrage
       centre_map: Karte hier zentrieren
+    edit:
+      id_not_configured:
+        title: iD wurde nicht konfiguriert
   redactions:
     edit:
       heading: Redaction bearbeiten

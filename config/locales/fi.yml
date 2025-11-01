@@ -105,7 +105,6 @@ fi:
       node: Piste
       node_tag: Pisteen tunniste
       note: merkintä
-      notifier: Ilmoittaja
       old_node: Vanha piste
       old_node_tag: Vanha pisteen tunniste
       old_relation: Vanha relaatio
@@ -211,9 +210,6 @@ fi:
           käyttämään yleiskielen käsitteitä.
         needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
       user:
-        email_confirmation: Osoitettasi ei esitetä julkisesti. Lisätietoja <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="tietosuojakäytäntö wikisivulla, ml. osio sähköpostiosoitteiden käsittelystä">tietosuojakäytännöstä</a>
-          on saatavilla englanniksi.
         new_email: (ei näy muille)
   datetime:
     distance_in_words_ago:
@@ -299,16 +295,15 @@ fi:
       title: Asetusten muokkaus
       current email address: Nykyinen sähköpostiosoite
       external auth: Kolmannen osapuolen tunnukset kirjautuessa
-      contributor terms:
+      contributor_terms:
         heading: Osallistumisehdot
         agreed: Olet hyväksynyt osallistumisehdot.
-        not yet agreed: Et ole vielä hyväksynyt osallistumisehtoja.
-        review link text: Lue ja hyväksy uudistuneet osallistumisehdot napsauttamalla
-          tätä linkkiä.
         agreed_with_pd: Olet myös ilmaissut muokkaustesi olevan tekijänoikeudesta
           vapaita (Public Domain).
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: Mitä tämä tarkoittaa?
+      terms_of_use:
+        heading: käyttöehtoja
       save changes button: Tallenna muutokset
       delete_account: Poista käyttäjä...
     go_public:
@@ -350,9 +345,9 @@ fi:
         contributor_terms_explain: Tämä sopimus koskee jo tekemiäsi sekä tulevaisuudessa
           tekemiäsi muokkauksia.
         read_ct: Olen lukenut ja hyväksyn yllä olevat osallistumisehdot
-        tou_explain_html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n
-          tarjoaman infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin
-          sisältöön.
+        tou_explain:
+          html: Nämä %{tou_link} ohjaavat verkkosivuston ja muun OSMF:n tarjoaman
+            infrastruktuurin käyttöä. Napsauta linkkiä, lue ja suostu tekstin sisältöön.
         read_tou: Olen lukenut ja hyväksynyt käyttöehdot
         guidance_info_html: 'Vaihtoehtoisia lukutapoja: %{readable_summary_link} ja
           %{informal_translations_link}'
@@ -387,8 +382,6 @@ fi:
       one: '%{count} viiva'
       other: '%{count} viivaa'
     download_xml: Lataa XML-tiedostona
-    view_history: Näytä historia
-    view_details: Näytä tiedot
     location: 'Sijainti:'
     node:
       title_html: 'Piste: %{name}'
@@ -1464,7 +1457,6 @@ fi:
   reports:
     new:
       title_html: Ilmianna %{link}
-      missing_params: Ilmoituksen luominen epäonnistui
       disclaimer:
         intro: 'Varmista ennen ilmiantoa seuraavat asiat:'
         not_just_mistake: Ongelma ei ole vain väärinkäsitys
@@ -1534,12 +1526,12 @@ fi:
       footer: Lue kommentti sivulla %{readurl}. Jatkokommentin voi lähettää sivulla
         %{commenturl} tai lähettää viestin tekijälle sivulla %{replyurl}.
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hei %{to_user}!
-      header: '%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikkolla
+      header: '%{from_user} on lähettänyt sinulle viestin OpenHistoricalMapissa otsikkolla
         %{subject}:'
-      header_html: '%{from_user} on lähettänyt sinulle viestin OpenStreetMapissa otsikolla
-        %{subject}:'
+      header_html: '%{from_user} on lähettänyt sinulle viestin OpenHistoricalMapissa
+        otsikolla %{subject}:'
       footer_html: Lue viesti osoitteessa %{readurl} ja lähetä viesti tekijälle osoitteessa
         %{replyurl}.
     follow_notification:
@@ -1562,13 +1554,13 @@ fi:
       welcome: Käyttäjätilin vahvistamisen jälkeen haluaisimme kertoa joitain hyödyllisiä
         asioita, jotta pääset alkuun.
     email_confirm:
-      subject: '[OpenStreetMap] Vahvista sähköpostiosoitteesi'
+      subject: '[OpenHistoricalMap] Vahvista sähköpostiosoitteesi'
       greeting: Hei,
       hopefully_you: Joku (toivottavasti sinä) haluaa vaihtaa sähköpostiosoitteen
         palvelimella %{server_url} osoitteeksi %{new_address}
       click_the_link: Jos tämä olet sinä, napsauta linkkiä alla vahvistaaksesi muutoksen.
     lost_password:
-      subject: '[OpenStreetMap] Salasanan vaihtopyyntö'
+      subject: '[OpenHistoricalMap] Salasanan vaihtopyyntö'
       greeting: Hei,
       hopefully_you: Joku (mahdollisesti sinä) on pyytänyt tähän sähköpostiosoitteeseen
         rekisteröidyn openstreetmap.org-tunnuksen salasanan vaihtoa.
@@ -1659,6 +1651,9 @@ fi:
     resend_success_flash:
       confirmation_sent: Olemme lähettäneet uuden vahvistusviestin osoitteeseen %{email}.
         Vahvistettuasi käyttäjätunnuksesi voit aloittaa kartoittamisen.
+    gravatar:
+      disabled: Gravatar on poistettu käytöstä.
+      enabled: Gravatarisi näyttäminen on otettu käyttöön.
   messages:
     new:
       title: Lähetä viesti
@@ -1755,32 +1750,37 @@ fi:
         title: Asetukset
         save: Päivitä asetukset
   profiles:
-    show:
-      title: Muokkaa profiilia
-      save: Päivitä profiili
-      cancel: Peruuta
-      image: Kuva
-      gravatar:
-        gravatar: Käytä Gravataria
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Mikä on Gravatar?
-        disabled: Gravatar on poistettu käytöstä.
-        enabled: Gravatarisi näyttäminen on otettu käyttöön.
-      new image: Lisää kuva
-      keep image: Säilytä nykyinen kuva
-      delete image: Poista nykyinen kuva
-      replace image: Korvaa nykyinen kuva
-      image size hint: (parhaat kuvat ovat neliönmuotoisia, joiden koko on vähintään
-        100x100)
-      home location: Kotipaikka
-      no home location: Kotipaikkaa ei ole vielä määritetty.
-      update home location on click: Päivitä kotipaikka karttaa napsauttaessa
-      show: Näytä
-      delete: Poista
-      undelete: Peruuta poistaminen
-    update:
-      success: Profiili päivitetty.
-      failure: Profiilia ei voitu päivittää.
+    profile_sections:
+      navigation:
+        image: Kuva
+    descriptions:
+      show:
+        title: Muokkaa profiilia
+        save: Päivitä profiili
+        cancel: Peruuta
+    links:
+      show:
+        title: Muokkaa profiilia
+        cancel: Peruuta
+    images:
+      show:
+        gravatar:
+          gravatar: Käytä Gravataria
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Mikä on Gravatar?
+        new image: Lisää kuva
+        keep image: Säilytä nykyinen kuva
+        delete image: Poista nykyinen kuva
+        replace image: Korvaa nykyinen kuva
+        image size hint: (parhaat kuvat ovat neliönmuotoisia, joiden koko on vähintään
+          100x100)
+    locations:
+      show:
+        no home location: Kotipaikkaa ei ole vielä määritetty.
+        update home location on click: Päivitä kotipaikka karttaa napsauttaessa
+        show: Näytä
+        delete: Poista
+        undelete: Peruuta poistaminen
   sessions:
     new:
       tab_title: Kirjaudu sisään
@@ -1867,7 +1867,7 @@ fi:
         mapping_link: aloittaa kartoituksen
       legal_babble:
         introduction_4_creative_commons: Creative Commons Nimeä-JaaSamoin 2.0
-        credit_title_html: OpenStreetMapin mainitseminen
+        credit_title_html: OpenHistoricalMapin mainitseminen
         credit_1_html: 'Kun käytät OpenStreetMap-tietoja, sinun on tehtävä nämä kaksi
           asiaa:'
         credit_2_this_copyright_page: tälle tekijänoikeussivulle
@@ -1907,8 +1907,6 @@ fi:
       user_page_link: käyttäjätiedot
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Perustelut (englanniksi) julkisuusvaatimukselle.
-    edit:
-      id_not_configured: iD-ohjelmaa ei ole asetettu
     export:
       title: Alueen vienti
       manually_select: Valitse pienempi alue
@@ -2062,7 +2060,11 @@ fi:
       other_groups:
         title: Muut ryhmät
         communities_wiki: Yhteisöjen wiki-sivu
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
+      map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
+  legend_panes:
     show:
       entries:
         motorway: Moottoritie
@@ -2143,6 +2145,20 @@ fi:
         bicycle_parking: Pyöräparkki
         bicycle_parking_small: Pieni pyöräparkki
         toilets: Vessat
+  share_panes:
+    show:
+      link: Linkki tai HTML-koodi
+      include_marker: Lisää karttamerkki
+      long_link: Linkki
+      short_link: Lyhyt linkki
+      embed: HTML-koodi
+      paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
+      geo_uri: Geo URI
+      image: Kartta kuvana
+      format: 'Tiedostomuoto:'
+      scale: 'Mittakaava:'
+      custom_dimensions: Rajaa alue itse
+      download: Lataa
   traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
@@ -2380,7 +2396,6 @@ fi:
       my_dashboard: Tapahtumat
       blocks on me: Saadut estot
       blocks by me: Tekemäni estot
-      edit_profile: Muokkaa profiilia
       send message: Lähetä viesti
       diary: Päiväkirja
       edits: Muokkaukset
@@ -2395,15 +2410,6 @@ fi:
       created from: 'Tekijä:'
       status: 'Tila:'
       spam score: 'Spam-pisteet:'
-      role:
-        administrator: Tämä käyttäjä on ylläpitäjä.
-        moderator: Tämä käyttäjä on moderaattori.
-        grant:
-          administrator: Myönnä ylläpitäjän oikeudet
-          moderator: Myönnä moderaattorin oikeudet
-        revoke:
-          administrator: Poista ylläpitäjän oikeudet
-          moderator: Poista moderaattorin oikeudet
       block_history: Saadut estot
       moderator_history: Tehdyt estot
       comments: Kommentit
@@ -2468,6 +2474,18 @@ fi:
       option_1: 'Uusi OpenStreetMapin käyttäjä: luo käyttäjätunnus tällä lomakkeella.'
       option_2: 'Nykyinen OpenStreetMapin käyttäjä: kirjaudu sisään käyttäjätunnuksella
         ja salasanalla ja yhdistä tili käyttäjäasetuksissa.'
+    role_icons:
+      title:
+        administrator: Tämä käyttäjä on ylläpitäjä.
+        moderator: Tämä käyttäjä on moderaattori.
+      grant:
+        administrator: Myönnä ylläpitäjän oikeudet
+        moderator: Myönnä moderaattorin oikeudet
+        are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
+      revoke:
+        administrator: Poista ylläpitäjän oikeudet
+        moderator: Poista moderaattorin oikeudet
+        are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
   user_role:
     filter:
       not_a_role: Merkkijono '%{role}' ei ole kelvollinen rooli.
@@ -2475,10 +2493,6 @@ fi:
       doesnt_have_role: Käyttäjällä ei ole roolia %{role}.
       not_revoke_admin_current_user: Ei voida perua järjestelmänvalvojan roolia nykyiseltä
         käyttäjältä.
-    grant:
-      are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
-    revoke:
-      are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
   user_blocks:
     model:
       non_moderator_update: Sinun on oltava moderaattori luodaksesi tai muokataksesi
@@ -2618,25 +2632,10 @@ fi:
     close: Sulje
     share:
       title: Jakaminen
-      cancel: Peruuta
-      image: Kartta kuvana
-      link: Linkki tai HTML-koodi
-      long_link: Linkki
-      short_link: Lyhyt linkki
-      geo_uri: Geo URI
-      embed: HTML-koodi
-      custom_dimensions: Rajaa alue itse
-      format: 'Tiedostomuoto:'
-      scale: 'Mittakaava:'
-      download: Lataa
-      short_url: Lyhyt osoite
-      include_marker: Lisää karttamerkki
-      center_marker: Keskitä kartta karttamerkkiin
-      paste_html: Upota karttaikkuna liittämällä tämä koodi verkkosivulle
       view_larger_map: Näytä isommalla kartalla
     embed:
       report_problem: Ilmoita ongelmasta
-    key:
+    legend:
       title: Kartta­merkinnät
       tooltip: Merkkien selitykset
       tooltip_disabled: Ei käytettävissä tässä karttanäkymässä
@@ -2680,19 +2679,15 @@ fi:
       edit_disabled_tooltip: Lähennä karttaa ennen muokkaamisen aloittamista
       createnote_tooltip: Ilmoita karttavirheestä
       createnote_disabled_tooltip: Lähennä karttaa ennen karttavirheestä ilmoittamista.
-      map_notes_zoom_in_tooltip: Näytä karttailmoitukset lähentämällä karttaa
-      map_data_zoom_in_tooltip: Näytä kartta-aineisto lähentämällä karttaa
       queryfeature_tooltip: Karttakohdeluettelo
       queryfeature_disabled_tooltip: Näytä ominaisuusluettelo suurentamalla karttaa
     edit_help: Siirrä ja lähennä kartta muokattavaan paikkaan ja napsauta sitten tästä.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
-        no_place: Paikkaa '%{place}' ei löytynyt.
       instructions:
         continue_without_exit: Jatka tiellä %{name}
         slight_right_without_exit: Kaarra oikealle tielle %{name}
@@ -2783,6 +2778,9 @@ fi:
       show_address: Näytä osoite
       query_features: Lähistöllä
       centre_map: Keskitä kartta
+    edit:
+      id_not_configured:
+        title: iD-ohjelmaa ei ole asetettu
   redactions:
     edit:
       heading: Muokkaa relaatiota

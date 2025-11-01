@@ -57,7 +57,6 @@ bs:
       message: Poruka
       node: Čvor
       node_tag: Oznaka čvora
-      notifier: Izvjestilac
       old_node: Stari čvor
       old_node_tag: Oznaka starog čvora
       old_relation: Stara relacija
@@ -152,12 +151,9 @@ bs:
     show:
       title: Urediti korisnički račun
       current email address: Trenutna adresa e-pošte
-      contributor terms:
+      contributor_terms:
         heading: Uslovi za doprinosioce
         agreed: Prihvatili ste nove uslove za doprinosioce.
-        not yet agreed: Niste još uvijek prihvatili nove uslove za doprinosioce.
-        review link text: Molimo Vas da slijedite ovaj link kada vam bude prikladno
-          da pregledate i prihvatite nove uslove za doprinosioce.
         agreed_with_pd: Takođe ste proglasili da će vaše izmjene biti u javnom vlasništvu.
         link text: Šta je ovo?
       save changes button: Sačuvati promjene
@@ -188,8 +184,6 @@ bs:
     no_comment: (bez komentara)
     part_of: Dio od
     download_xml: Preuzmi XML
-    view_history: Historija
-    view_details: Prikaži detalje
     location: 'Lokacija:'
     node:
       title_html: 'Čvor: %{name}'
@@ -833,7 +827,7 @@ bs:
         ili odgovoriti na %{replyurl}
     message_notification:
       hi: Zdravo %{to_user},
-      header: '%{from_user} Vam je poslao poruku preko OpenStreetMap sa predmetom
+      header: '%{from_user} Vam je poslao poruku preko OpenHistoricalMap sa predmetom
         %{subject}:'
     follow_notification:
       see_their_profile: Možete vidjeti njihov profil na %{userurl}.
@@ -852,12 +846,12 @@ bs:
       welcome: Nakon što potvrdite svoj račun, mi ćemo vam dati neke dodatne informacije
         kako bi ste počeli.
     email_confirm:
-      subject: '[OpenStreetMap] Potvrdite Vašu e-mail adresu'
+      subject: '[OpenHistoricalMap] Potvrdite Vašu e-mail adresu'
       greeting: Zdravo,
       click_the_link: Ako ste ovo Vi, molimo klinknite na poveznicu ispod da potvrdite
         promjene.
     lost_password:
-      subject: '[OpenStreetMap] Zahtjev za ponovnim postavljanjem lozinke'
+      subject: '[OpenHistoricalMap] Zahtjev za ponovnim postavljanjem lozinke'
       greeting: Zdravo,
       click_the_link: Ako ste ovo Vi, kliknite na link ispod za ponovno postavljanje
         lozinke.
@@ -967,19 +961,27 @@ bs:
     update:
       flash changed: Vaša lozinka je promjenjena.
   profiles:
-    show:
-      image: 'Slika:'
-      gravatar:
-        gravatar: Koristiti Gravatar
-      new image: Dodati sliku
-      keep image: Zadržati trenutnu sliku
-      delete image: Ukloniti trenutnu sliku
-      replace image: Zamijeniti trenutnu sliku
-      image size hint: (kvadratne slike od barem 100x100 piksela su najbolje)
-      home location: 'Matična lokacija:'
-      no home location: Niste unijeli Vašu matičnu lokaciju.
-      update home location on click: Osvježiti matičnu lokaciju kada kliknem na kartu?
-      show: Pokazati
+    profile_sections:
+      navigation:
+        image: 'Slika:'
+    links:
+      show:
+        cancel: Odustani
+    images:
+      show:
+        gravatar:
+          gravatar: Koristiti Gravatar
+        new image: Dodati sliku
+        keep image: Zadržati trenutnu sliku
+        delete image: Ukloniti trenutnu sliku
+        replace image: Zamijeniti trenutnu sliku
+        image size hint: (kvadratne slike od barem 100x100 piksela su najbolje)
+    locations:
+      show:
+        no home location: Niste unijeli Vašu matičnu lokaciju.
+        update home location on click: Osvježiti matičnu lokaciju kada kliknem na
+          kartu?
+        show: Pokazati
   sessions:
     new:
       tab_title: Prijava
@@ -1005,7 +1007,7 @@ bs:
         older: Starije trase
         newer: Novije trase
   site:
-    about:
+    about_section:
       open_data_title: Open Data
     copyright:
       title: Autorska prava i dozvola
@@ -1022,7 +1024,7 @@ bs:
         native_link: bosansko izdanje
         mapping_link: počnite sa ucrtavanjem
       legal_babble:
-        credit_title_html: Kako navesti zasluge OpenStreetMap projekta kao izvora
+        credit_title_html: Kako navesti zasluge OpenHistoricalMap projekta kao izvora
         credit_1_html: |-
           Tražimo da koristite navedete zasluge &ldquo;&copy; OpenStreetMap
           contributors&rdquo;.
@@ -1097,7 +1099,7 @@ bs:
       title: Dobrodošli!
       basic_terms:
         title: Osnovni pojmovi za mapiranje
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: Autoput
@@ -1151,6 +1153,20 @@ bs:
         destination: Pristup odredištu
         construction: Ceste u izgradnji
         bicycle_parking: Biciklistički parking
+  share_panes:
+    show:
+      link: Veza ili HTML
+      include_marker: Uključi oznaku
+      long_link: Veza
+      short_link: Kratki link
+      embed: HTML
+      paste_html: Zalijepi HTML za umetanje na web stranicu
+      geo_uri: Geo URI
+      image: Slika
+      format: 'Format:'
+      scale: 'Mjerilo:'
+      custom_dimensions: Postavi prilagođene dimenzije
+      download: Preuzmi
   traces:
     visibility:
       private: Privatni (prikazuje se kao anoniman, neuređene tačke)
@@ -1263,15 +1279,6 @@ bs:
       created from: 'Napravljeno iz:'
       status: 'Stanje:'
       spam score: 'Spam ocjena:'
-      role:
-        administrator: Ovaj korisnik je administrator
-        moderator: Ovaj korisnik je moderator
-        grant:
-          administrator: Dodjeliti pristup za administratora
-          moderator: Dodjeliti pristup za moderatora
-        revoke:
-          administrator: Opozvati pristup za administatora
-          moderator: Opozvati pristup za moderatora
       block_history: Aktivne blokade
       moderator_history: Date blokade
       comments: komentari
@@ -1318,17 +1325,25 @@ bs:
     suspended:
       title: Račun suspendiran
       heading: Račun suspendiran
+    role_icons:
+      title:
+        administrator: Ovaj korisnik je administrator
+        moderator: Ovaj korisnik je moderator
+      grant:
+        administrator: Dodjeliti pristup za administratora
+        moderator: Dodjeliti pristup za moderatora
+        are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
+          `%{name}'?
+      revoke:
+        administrator: Opozvati pristup za administatora
+        moderator: Opozvati pristup za moderatora
+        are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' korisnika
+          `%{name}'?
   user_role:
     filter:
       not_a_role: String `%{role}' nije valjana uloga.
       already_has_role: Korisnik već ima ulogu %{role}.
       doesnt_have_role: Korisnik nema ulogu %{role}.
-    grant:
-      are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
-        `%{name}'?
-    revoke:
-      are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' korisnika
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Morate biti moderator da napravite ili osvježite blokadu.
@@ -1402,23 +1417,8 @@ bs:
     close: Zatvori
     share:
       title: Podijeli
-      cancel: Odustani
-      image: Slika
-      link: Veza ili HTML
-      long_link: Veza
-      short_link: Kratki link
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Postavi prilagođene dimenzije
-      format: 'Format:'
-      scale: 'Mjerilo:'
-      download: Preuzmi
-      short_url: Kratki URL
-      include_marker: Uključi oznaku
-      center_marker: Centriraj kartu na oznaku
-      paste_html: Zalijepi HTML za umetanje na web stranicu
       view_larger_map: Prikaži veću kartu
-    key:
+    legend:
       title: Legenda
       tooltip_disabled: Legenda nije dostupna za ovaj sloj
     map:

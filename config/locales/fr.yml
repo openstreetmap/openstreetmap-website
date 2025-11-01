@@ -117,6 +117,7 @@
 # Author: Vega
 # Author: Verdy p
 # Author: Vikoula5
+# Author: WillyM
 # Author: Windes
 # Author: Wladek92
 # Author: WolfyzDBois
@@ -194,7 +195,6 @@ fr:
       node: Nœud
       node_tag: Attribut du nœud
       note: Note
-      notifier: Notificateur
       old_node: Ancien nœud
       old_node_tag: Attribut de l’ancien nœud
       old_relation: Ancienne relation
@@ -304,10 +304,6 @@ fr:
         needs_view: Est-ce que l’utilisateur ou l’utilisatrice doit se connecter avant
           qu’expire ce blocage ?
       user:
-        email_confirmation: Votre adresse n’est pas affichée publiquement, voyez notre
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="Politique
-          de confidentialité de la Fondation OSM incluant une section sur les adresses
-          de courriel">politique de confidentialité</a> pour plus d’informations.
         new_email: (jamais affichée publiquement)
   datetime:
     distance_in_words_ago:
@@ -401,20 +397,17 @@ fr:
       my_account: Mon compte
       current email address: Adresse courriel actuelle
       external auth: Authentification externe
-      contributor terms:
+      contributor_terms:
         heading: Conditions de contribution
         agreed: Vous avez accepté les nouvelles Conditions de contribution.
-        not yet agreed: Vous n’avez pas encore accepté les nouvelles Conditions de
-          contribution.
-        review link text: Veuillez suivre ce lien à votre convenance pour examiner
-          et accepter les nouvelles Conditions de contribution.
         agreed_with_pd: Vous avez également déclaré que vous considérez vos modifications
           comme faisant partie du domaine public.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/FR
         link text: qu’est-ce ?
         not_agreed_with_pd: Vous n’avez pas déclaré que vous considérez vos modifications
           comme faisant partie du domaine public.
-        pd_link_text: déclarer
+      terms_of_use:
+        heading: conditions d’utilisation
       save changes button: Enregistrer les modifications
       delete_account: Supprimer le compte…
     go_public:
@@ -480,9 +473,10 @@ fr:
         contributor_terms_explain: Cet accord impose les conditions de vos contributions
           existantes et à venir.
         read_ct: J’ai lu et j’accepte les Conditions de contribution ci-dessus.
-        tou_explain_html: Ces %{tou_link} régissent l’utilisation du site web et des
-          autres infrastructures fournies par OpenHistoricalMap. Veuillez cliquer
-          sur le lien pour les lire et accepter le texte.
+        tou_explain:
+          html: Ces %{tou_link} régissent l’utilisation du site web et des autres
+            infrastructures fournies par OpenHistoricalMap. Veuillez cliquer sur le
+            lien pour les lire et accepter le texte.
         read_tou: J’ai lu et j’accepte les Conditions d’utilisation
         guidance_info_html: 'Informations pour aider à comprendre ces termes : un
           %{readable_summary_link} et quelques %{informal_translations_link}'
@@ -537,9 +531,7 @@ fr:
       one: '%{count} chemin'
       other: '%{count} chemins'
     download_xml: Télécharger en XML
-    view_history: Voir l’historique
     view_unredacted_history: Voir l’historique non masqué
-    view_details: Afficher les détails
     location: 'Emplacement :'
     common_details:
       coordinates_html: '%{latitude} ; %{longitude}'
@@ -674,7 +666,7 @@ fr:
         sorry: Désolé, la liste des commentaires de groupes de modifications que vous
           avez demandée a pris trop de temps à être récupérée.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} commentaire'
         other: '%{count} commentaires'
@@ -1752,9 +1744,11 @@ fr:
         level11: Limite administrative (niveau 11)
       border_types:
         arrondissement: Limite d’arrondissement
+        audiencia: La frontière de l'audience
         borough: Limite d’arrondissement
         cercle: Limite de cercle
         city: Limite de ville
+        colony: Frontière coloniale
         comarca: Limite de la Comarque
         county: Limite de département
         departement: Limite départementale
@@ -1763,6 +1757,7 @@ fr:
         distrito: Limite de district
         freguesia: Limite de freguesia
         local_authority: Limite de l’autorité locale
+        markaz: Frontière du Markaz
         municipality: Limite municipale
         municipi: Limite municipale
         município: Limite municipale
@@ -1770,9 +1765,11 @@ fr:
         national: Frontière internationale
         neighbourhood: Limite de quartier
         parish: Limite de la paroisse
+        protectorate: Frontière du protectorat
         province: Frontière provinciale
         região: Limite régionale
         region: Limite régionale
+        rode: Frontière de Rode
         state: Frontière étatique
         town: Limite communale
         township: Limite de township (canton)
@@ -1794,8 +1791,6 @@ fr:
       time: Temps
       ascend: Croissant
       descend: Décroissant
-      button_km: km
-      button_mi: mi
       download: Télécharger l’itinéraire en GeoJSON
       filename: itinéraire
       directions_courtesy_html: Itinéraire fourni par %{link}
@@ -1886,7 +1881,6 @@ fr:
   reports:
     new:
       title_html: Rapport %{link}
-      missing_params: Impossible de créer un nouveau rapport
       disclaimer:
         intro: 'Avant d’envoyer votre rapport aux modérateurs du site, veuillez vous
           assurer que :'
@@ -2152,6 +2146,9 @@ fr:
       whitelist: Si vous utilisez un système anti-pourriel qui envoie des demandes
         de confirmation, alors assurez-vous que %{sender} est en liste blanche, car
         nous ne pouvons pas répondre aux requêtes de confirmation.
+    gravatar:
+      disabled: Gravatar a été désactivé.
+      enabled: L’affichage de votre Gravatar a été activé.
   messages:
     new:
       title: Envoyer un message
@@ -2286,37 +2283,43 @@ fr:
         title: Mes préférences avancées
         save: Mettre à jour les préférences
   profiles:
-    show:
-      title: Modifier le profil
-      save: Mettre à jour le profil
-      cancel: Annuler
-      image: Image
-      gravatar:
-        gravatar: Utiliser Gravatar
-        link: https://wiki.openstreetmap.org/wiki/FR:Gravatar
-        what_is_gravatar: Qu’est-ce que Gravatar ?
-        disabled: Gravatar a été désactivé.
-        enabled: L’affichage de votre Gravatar a été activé.
-      new image: Ajouter une image
-      keep image: Garder l’image actuelle
-      delete image: Supprimer l’image actuelle
-      replace image: Remplacer l’image actuelle
-      image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
-        le mieux)
-      home location: Lieu de domicile
-      no home location: Vous n’avez pas indiqué l’emplacement de votre domicile.
-      update home location on click: Mettre à jour l’emplacement de mon domicile quand
-        je clique sur la carte ?
-      show: Afficher
-      delete: Supprimer
-      undelete: Annuler la suppression
-      social_links:
-        title: Liens du profil social
-        remove: Retirer
-        add: Ajouter un lien social
-    update:
-      success: Profil mis à jour.
-      failure: Impossible de mettre à jour le profil.
+    profile_sections:
+      navigation:
+        image: Image
+        company: Entreprise
+    descriptions:
+      show:
+        title: Modifier le profil
+        save: Mettre à jour le profil
+        cancel: Annuler
+    links:
+      show:
+        title: Modifier le profil
+        cancel: Annuler
+        social_links:
+          title: Liens du profil social
+          remove: Retirer
+          add: Ajouter un lien social
+    images:
+      show:
+        gravatar:
+          gravatar: Utiliser Gravatar
+          link: https://wiki.openstreetmap.org/wiki/FR:Gravatar
+          what_is_gravatar: Qu’est-ce que Gravatar ?
+        new image: Ajouter une image
+        keep image: Garder l’image actuelle
+        delete image: Supprimer l’image actuelle
+        replace image: Remplacer l’image actuelle
+        image size hint: (les images carrées d’au moins 100×100 pixels fonctionnent
+          le mieux)
+    locations:
+      show:
+        no home location: Vous n’avez pas indiqué l’emplacement de votre domicile.
+        update home location on click: Mettre à jour l’emplacement de mon domicile
+          quand je clique sur la carte ?
+        show: Afficher
+        delete: Supprimer
+        undelete: Annuler la suppression
   sessions:
     new:
       tab_title: Se connecter
@@ -2507,7 +2510,6 @@ fr:
           de mentions séparé où vous attribuez le mérite d''autres sources :'
         credit_3_credit_html: Données cartographiques fournies par le projet %{project_link},
           dans le domaine public, sauf toute mention contraire.
-        credit_3_project: OpenHistoricalMap
         credit_4_ohm_html: |-
           Sur une carte imprimée, vous pouvez placer les remerciements dans la légende.
           Dans un livre, vous pouvez décrire votre utilisation d'OpenHistoricalMap dans une note de bas de page, bibliographie ou colophon.
@@ -2606,8 +2608,6 @@ fr:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/FR:Modifications_anonymes
       anon_edits_link_text: Trouvez pourquoi ici.
-    edit:
-      id_not_configured: iD n’a pas été configuré
     export:
       title: Exporter
       manually_select: Sélectionner manuellement une autre zone
@@ -2842,11 +2842,11 @@ fr:
           Par ailleurs, de nombreux groupes existent déjà avec grand succès en tant que rassemblement informel de personnes ou en tant que groupe communautaire. Vous pouvez les rejoindre ou bien créer le votre. Pour aller plus loin voir la %{communities_wiki_link}.
         communities_wiki: page wiki des communautés
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/FR:User_group
-  social_links:
+  layers_panes:
     show:
-      one: Autre
-      other: Autres
-  map_keys:
+      map_notes_zoom_in_tooltip: Zoomez en avant pour lire les notes sur la carte
+      map_data_zoom_in_tooltip: Zoomez en avant pour voir les données sur la carte
+  legend_panes:
     show:
       entries:
         motorway: Autoroute
@@ -2937,6 +2937,25 @@ fr:
         bicycle_parking_small: Petit parking à vélos
         toilets: Toilettes
       see_external_legend: Afficher la légende externe à la carte
+  share_panes:
+    show:
+      link: Lien ou HTML
+      include_marker: Inclure le marqueur
+      long_link: Lien
+      short_link: Lien abrégé
+      embed: HTML
+      embed_html_disabled: L’intégration de HTML n’est pas disponible pour cette couche
+        de carte
+      paste_html: Copier le code HTML à intégrer dans un site web
+      geo_uri: URI géo
+      image: Image
+      only_layers_exported_as_image: 'Seules les couches suivantes peuvent être exportées
+        sous forme d’image :'
+      format: 'Format :'
+      scale: 'Échelle :'
+      custom_dimensions: Définir les dimensions personnalisées
+      image_dimensions_html: L’image affichera la mise en forme %{layer} de %{width} × %{height}
+      download: Télécharger
   traces:
     visibility:
       private: Privé (partagé uniquement de façon anonyme, points non ordonnés)
@@ -3241,7 +3260,6 @@ fr:
       blocks by me: Blocages de ma part
       create_mute: Mettre cet utilisateur en sourdine
       destroy_mute: Réactiver le son de cet utilisateur
-      edit_profile: Modifier le profil
       send message: Envoyer un message
       diary: Journal
       edits: Modifications
@@ -3251,9 +3269,6 @@ fr:
       follow: Suivre
       mapper since: 'Cartographe depuis :'
       last map edit: 'Dernière modification de la carte :'
-      home location: Lieu de résidence
-      company: Entreprise
-      company tooltip: L’affiliation à l’entreprise est autodéclarée et non vérifiée
       no activity yet: Pas encore d’activité
       uid: 'Identifiant utilisateur :'
       ct status: 'Conditions de contribution :'
@@ -3263,18 +3278,6 @@ fr:
       created from: 'Créé depuis :'
       status: 'État :'
       spam score: 'Indice de pollution :'
-      role:
-        administrator: C’est un administrateur ou une administratrice
-        moderator: C’est un modérateur ou une modératrice
-        importer: C’est un importateur
-        grant:
-          administrator: Octroyer l’accès administrateur
-          moderator: Octroyer l’accès modérateur
-          importer: Octroyer le droit d’importation
-        revoke:
-          administrator: Révoquer l’accès administrateur
-          moderator: Révoquer l’accès modérateur
-          importer: Révoquer le droit d’importation
       block_history: Blocages actifs
       moderator_history: Blocages donnés
       revoke_all_blocks: Révoquer tous les blocages
@@ -3292,6 +3295,9 @@ fr:
       contributions:
         one: Une contribution au cours de la dernière année
         other: '%{count} contributions au cours de la dernière année'
+    sidebar_section:
+      home_location: Lieu de résidence
+      company_tooltip: L’affiliation à l’entreprise est autodéclarée et non vérifiée
     go_public:
       flash success: Toutes vos modifications sont dorénavant publiques et vous êtes
         autorisé à modifier.
@@ -3385,6 +3391,22 @@ fr:
       option_2: Si vous avez déjà un compte, vous pouvez vous y connecter avec en
         utilisant votre nom d’utilisateur et votre mot de passe, puis associer le
         compte avec votre identifiant dans vos préférences utilisateur.
+    role_icons:
+      title:
+        administrator: C’est un administrateur ou une administratrice
+        moderator: C’est un modérateur ou une modératrice
+      grant:
+        administrator: Octroyer l’accès administrateur
+        moderator: Octroyer l’accès modérateur
+        importer: Octroyer le droit d’importation
+        are_you_sure: Êtes-vous sûr de vouloir octroyer le rôle « %{role} » à l’utilisateur
+          « %{name} » ?
+      revoke:
+        administrator: Révoquer l’accès administrateur
+        moderator: Révoquer l’accès modérateur
+        importer: Révoquer le droit d’importation
+        are_you_sure: Êtes-vous sûr de vouloir révoquer le rôle « %{role} » de l’utilisateur
+          « %{name} » ?
   user_role:
     filter:
       not_a_role: La chaîne « %{role} » n’est pas un rôle valide.
@@ -3392,12 +3414,6 @@ fr:
       doesnt_have_role: L’utilisateur n’a pas le rôle « %{role} ».
       not_revoke_admin_current_user: Impossible de retirer les droits d’administrateur
         pour l’utilisateur actuel.
-    grant:
-      are_you_sure: Êtes-vous sûr de vouloir octroyer le rôle « %{role} » à l’utilisateur
-        « %{name} » ?
-    revoke:
-      are_you_sure: Êtes-vous sûr de vouloir révoquer le rôle « %{role} » de l’utilisateur
-        « %{name} » ?
   user_blocks:
     model:
       non_moderator_update: Vous devez être modérateur pour créer ou modifier un blocage.
@@ -3613,28 +3629,10 @@ fr:
     close: Fermer
     share:
       title: Partager
-      cancel: Annuler
-      image: Image
-      link: Lien ou HTML
-      long_link: Lien
-      short_link: Lien abrégé
-      geo_uri: URI géo
-      embed: HTML
-      custom_dimensions: Définir les dimensions personnalisées
-      format: 'Format :'
-      scale: 'Échelle :'
-      image_dimensions: L’image affichera la mise en forme %{layer} de %{width} × %{height}
-      download: Télécharger
-      short_url: URL courte
-      include_marker: Inclure le marqueur
-      center_marker: Centrer la carte sur le marqueur
-      paste_html: Copier le code HTML à intégrer dans un site web
       view_larger_map: Afficher une carte plus grande
-      only_layers_exported_as_image: 'Seules les couches suivantes peuvent être exportées
-        sous forme d’image :'
     embed:
       report_problem: Signaler un problème
-    key:
+    legend:
       title: Légende
       tooltip: Légende
       tooltip_disabled: La légende n’est pas disponible pour cette couche
@@ -3687,12 +3685,8 @@ fr:
       edit_disabled_tooltip: Zoomez en avant pour modifier la carte
       createnote_tooltip: Suggérer une amélioration de la carte
       createnote_disabled_tooltip: Zoomez en avant pour ajouter une note sur la carte
-      map_notes_zoom_in_tooltip: Zoomez en avant pour lire les notes sur la carte
-      map_data_zoom_in_tooltip: Zoomez en avant pour voir les données sur la carte
       queryfeature_tooltip: Interroger les objets
       queryfeature_disabled_tooltip: Zoomer en avant pour rechercher des objets
-      embed_html_disabled: L’intégration de HTML n’est pas disponible pour cette couche
-        de carte
     profile:
       social_link_n: Lien du profil social %{n}
       remove_social_link_n: Supprimer le lien du profil social %{n}
@@ -3700,15 +3694,12 @@ fr:
       puis cliquez dessus.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
-        miles:
-          ft: '%{distance} pieds'
-          mi: '%{distance} mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} pieds'
+        mi: '%{distance} mi'
       errors:
         no_route: Impossible de trouver un itinéraire entre ces deux lieux.
-        no_place: Désolé, impossible de trouver « %{place} ».
       instructions:
         continue_without_exit: Continuez sur %{name}
         slight_right_without_exit: Tournez légèrement à droite sur %{name}
@@ -3809,6 +3800,9 @@ fr:
         contributions:
           one: Une contribution le %{date}
           other: '%{count} contributions le %{date}'
+    edit:
+      id_not_configured:
+        title: iD n’a pas été configuré
   redactions:
     edit:
       heading: Modifier le masquage

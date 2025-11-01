@@ -78,7 +78,6 @@ ro:
       node: Nod
       node_tag: Etichetă nod
       note: notă
-      notifier: Notificator
       old_node: Nod vechi
       old_node_tag: Etichetă nod vechi
       old_relation: Relație veche
@@ -185,9 +184,6 @@ ro:
         needs_view: Utilizatorul trebuie să se conecteze înainte ca această blocare
           să fie ștearsă?
       user:
-        email_confirmation: Adresa dumneavoastră nu este afișată public, vezi <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">politica
-          de confidențialitate</a> pentru mai multe informații.
         new_email: (nu a fost afișată în mod public)
   datetime:
     distance_in_words_ago:
@@ -294,16 +290,15 @@ ro:
       title: Modificare cont
       current email address: Adresa de e-mail actuală
       external auth: Autentificare externă
-      contributor terms:
+      contributor_terms:
         heading: Termenii contribuitorului
         agreed: Ați fost de acord cu noii Termeni ai Contributorului.
-        not yet agreed: Încă nu ați fost de acord cu noii Termeni de Contributor.
-        review link text: Vă rugăm să urmați acest link la comoditatea dvs. pentru
-          a revizui și accepta noii Termeni de Contributor.
         agreed_with_pd: De asemenea, ați declarat că considerați că editările dvs.
           sunt în Domeniul Public.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: Ce este aceasta?
+      terms_of_use:
+        heading: Termeni de Utilizare
       save changes button: Salvează modificările
       delete_account: Șterge Cont...
     go_public:
@@ -360,9 +355,10 @@ ro:
 
           Acest acord guvernează termenii pentru contribuțiile dvs. existente și viitoare.
         read_ct: Am citit și sunt de acord cu termenii contribuitorilor de mai sus
-        tou_explain_html: Aceste %{tou_link} guvernează utilizarea site-ului web și
-          a altor infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și
-          agregați textul.
+        tou_explain:
+          html: Aceste %{tou_link} guvernează utilizarea site-ului web și a altor
+            infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și agregați
+            textul.
         read_tou: Am citit și sunt de acord cu Termenii și condițiile
         guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
           un %{readable_summary_link} și câteva %{informal_translations_link}'
@@ -404,8 +400,6 @@ ro:
         cale|few=%{count} căi}}|}}}}}}|%{count} căi|}}}}|%{count} cale|few=%{count}
         căi}}|}}}}}}}}'
     download_xml: Descarcă XML
-    view_history: Vezi istoric
-    view_details: Vezi detalii
     location: 'Amplasament:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1561,7 +1555,6 @@ ro:
   reports:
     new:
       title_html: '%{link} raport'
-      missing_params: Nu se poate crea un nou raport
       disclaimer:
         intro: 'Înainte de a trimite raportul dvs. moderatorilor site-ului, asigurați-vă
           că:'
@@ -1639,10 +1632,12 @@ ro:
       footer_unsubscribe: Te poți dezabona de la discuție la %{unsubscribeurl}
       footer_unsubscribe_html: Te poți dezabona de la discuție la %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Salut, %{to_user},
-      header: '%{from_user} v-a trimis un mesaj prin OpenStreetMap cu subiectul %{subject}:'
-      header_html: '%{from_user} v-a trimis un mesaj OpenStreetMap cu subiectul %{subject}:'
+      header: '%{from_user} v-a trimis un mesaj prin OpenHistoricalMap cu subiectul
+        %{subject}:'
+      header_html: '%{from_user} v-a trimis un mesaj OpenHistoricalMap cu subiectul
+        %{subject}:'
       footer: De asemenea, puteți citi mesajul la %{readurl} și trimite unul autorului
         la %{replyurl}
       footer_html: De asemenea, puteți citi mesajul la %{readurl} și puteți răspunde
@@ -1674,14 +1669,14 @@ ro:
       welcome: După ce vă confirmați contul, vă vom oferi câteva informații suplimentare
         pentru a începe.
     email_confirm:
-      subject: '[OpenStreetMap] Confirmați adresa de e-mail'
+      subject: '[OpenHistoricalMap] Confirmați adresa de e-mail'
       greeting: Salut,
       hopefully_you: Cineva (sperăm că tu) dorește să schimbe adresa de e-mail de
         la %{server_url} la %{new_address}.
       click_the_link: Dacă sunteți dumneavoastră, vă rugăm să faceți click pe linkul
         de mai jos pentru a confirma modificarea.
     lost_password:
-      subject: '[OpenStreetMap] Solicitare de resetare a parolei'
+      subject: '[OpenHistoricalMap] Solicitare de resetare a parolei'
       greeting: Salut,
       hopefully_you: Cineva (posibil tu) a cerut resetarea parolei în contul openstreetmap.org
         al acestei adrese de e-mail.
@@ -1779,6 +1774,9 @@ ro:
       whitelist: Dacă utilizați un sistem antispam care trimite cereri de confirmare,
         vă rugăm să vă asigurați că ați plasat pe lista albă %{sender}, deoarece nu
         putem răspunde la nicio solicitare de confirmare.
+    gravatar:
+      disabled: Gravatar a fost dezactivat.
+      enabled: Afișarea Gravatarului dvs. a fost activată.
   messages:
     new:
       title: Trimite mesajul
@@ -1887,32 +1885,37 @@ ro:
         title: Preferințe
         save: Actualizare Preferințe
   profiles:
-    show:
-      title: Editare Profil
-      save: Actualizează Profil
-      cancel: Revocare
-      image: Imagine
-      gravatar:
-        gravatar: Utilizați Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Ce este Gravatar?
-        disabled: Gravatar a fost dezactivat.
-        enabled: Afișarea Gravatarului dvs. a fost activată.
-      new image: Adaugă imagine nouă
-      keep image: Păstrați imaginea curentă
-      delete image: Eliminați imaginea curentă
-      replace image: Înlocuiți imaginea curentă
-      image size hint: (imagini pătrate cel puțin 100x100 merg cel mai bine)
-      home location: Locație Acasă
-      no home location: Nu ați introdus locația dvs. de domiciliu.
-      update home location on click: Actualizați locația locuinței dvs. când faceți
-        click pe hartă?
-      show: Arată
-      delete: Șterge
-      undelete: Anulează ștergerea
-    update:
-      success: Profil actualizat.
-      failure: Nu s-a putut actualiza profilul.
+    profile_sections:
+      navigation:
+        image: Imagine
+    descriptions:
+      show:
+        title: Editare Profil
+        save: Actualizează Profil
+        cancel: Revocare
+    links:
+      show:
+        title: Editează profilul
+        cancel: Revocare
+    images:
+      show:
+        gravatar:
+          gravatar: Utilizați Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Ce este Gravatar?
+        new image: Adaugă imagine nouă
+        keep image: Păstrați imaginea curentă
+        delete image: Eliminați imaginea curentă
+        replace image: Înlocuiți imaginea curentă
+        image size hint: (imagini pătrate cel puțin 100x100 merg cel mai bine)
+    locations:
+      show:
+        no home location: Nu ați introdus locația dvs. de domiciliu.
+        update home location on click: Actualizați locația locuinței dvs. când faceți
+          click pe hartă?
+        show: Arată
+        delete: Șterge
+        undelete: Anulează ștergerea
   sessions:
     new:
       tab_title: Autentificare
@@ -2010,7 +2013,7 @@ ro:
         mapping_link: Începeți să cartografiați
       legal_babble:
         introduction_4_creative_commons: Creative Commons Attribution-ShareAlike 2.0
-        credit_title_html: Cum se creditează OpenStreetMap
+        credit_title_html: Cum se creditează OpenHistoricalMap
         credit_1_html: 'Acolo unde utilizați datele OpenStreetMap, vi se cere să faceți
           următoarele două lucruri:'
         credit_2_this_copyright_page: această pagină de drepturi de autor
@@ -2055,8 +2058,6 @@ ro:
       user_page_link: pagină de utilizator
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Aflați de ce este cazul.
-    edit:
-      id_not_configured: iD nu a fost configurat
     export:
       title: Exportare
       manually_select: Selectați manual o altă zonă
@@ -2232,7 +2233,11 @@ ro:
           Nu este nevoie să se înființeze în mod oficial un grup în aceeași măsură ca și Capitolele locale.
           Într-adevăr, multe grupuri există cu mare succes ca o adunare informală de oameni sau ca un grup comunitar. Oricine le poate configura sau se poate alătura. Citiți mai multe pe %{communities_wiki_link}.
         communities_wiki: Pagina wiki comunități
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Măriți pentru a vedea notațiile hărților
+      map_data_zoom_in_tooltip: Mărește pentru a vedea datele hărții
+  legend_panes:
     show:
       entries:
         motorway: Autostradă
@@ -2314,6 +2319,23 @@ ro:
         bicycle_parking: Parcare pentru biciclete
         bicycle_parking_small: Parcare mică pentru biciclete
         toilets: Toalete
+  share_panes:
+    show:
+      link: Link sau HTML
+      include_marker: Includeți marcator
+      long_link: Link
+      short_link: Link scurt
+      embed: HTML
+      embed_html_disabled: Încorporarea HTML nu este disponibilă pentru acest strat
+        de hartă
+      paste_html: Inserați HTML pentru a încorpora în site-ul web
+      geo_uri: Geo URI
+      image: Imagine
+      format: 'Format:'
+      scale: Scară
+      custom_dimensions: Setați dimensiuni personalizate
+      image_dimensions_html: Imaginea va afișa stratul standard la %{width} x %{height}
+      download: Descărcare
   traces:
     visibility:
       private: Privat (partajat ca puncte anonime, neordonate)
@@ -2564,7 +2586,6 @@ ro:
       my_dashboard: Dashboardul meu
       blocks on me: Blochează pe mine
       blocks by me: Blochează de mine
-      edit_profile: Editează profilul
       send message: Trimite mesajul
       diary: Jurnal
       edits: Modificare
@@ -2581,18 +2602,6 @@ ro:
       created from: 'Creat de la:'
       status: 'Statut:'
       spam score: 'Scorul spam:'
-      role:
-        administrator: Acest utilizator este un administrator
-        moderator: Acest utilizator este un moderator
-        importer: Acest utilizator este un importator
-        grant:
-          administrator: Acordați permisiunile de administrator
-          moderator: Acordați accesul de moderator
-          importer: Acordați acces de importator
-        revoke:
-          administrator: Revocă accesul de administrator
-          moderator: Revocă accesul de moderator
-          importer: Revocați accesul de importator
       block_history: Blocări active
       moderator_history: Blocări acordate
       comments: Comentarii
@@ -2665,6 +2674,21 @@ ro:
         Dacă aveți deja un cont, vă puteți conecta la contul dvs.
         folosind numele de utilizator și parola și apoi puteți asocia contul
         cu ID-ul dvs. în setările utilizatorului.
+    role_icons:
+      title:
+        administrator: Acest utilizator este un administrator
+        moderator: Acest utilizator este un moderator
+      grant:
+        administrator: Acordați permisiunile de administrator
+        moderator: Acordați accesul de moderator
+        importer: Acordați acces de importator
+        are_you_sure: Sigur doriți să acordați rolul `%{role}' utilizatorului `%{name}'?
+      revoke:
+        administrator: Revocă accesul de administrator
+        moderator: Revocă accesul de moderator
+        importer: Revocați accesul de importator
+        are_you_sure: Sigur doriți să revocați rolul `%{role}' de la utilizatorul
+          `%{name}'?
   user_role:
     filter:
       not_a_role: Șirul `%{role}' nu este un rol valid.
@@ -2672,10 +2696,6 @@ ro:
       doesnt_have_role: Utilizatorul nu are rolul %{role}.
       not_revoke_admin_current_user: Nu se poate revoca rolul de administrator de
         la utilizatorul curent.
-    grant:
-      are_you_sure: Sigur doriți să acordați rolul `%{role}' utilizatorului `%{name}'?
-    revoke:
-      are_you_sure: Sigur doriți să revocați rolul `%{role}' de la utilizatorul `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Trebuie să fiți moderator pentru a crea sau actualiza
@@ -2815,26 +2835,10 @@ ro:
     close: Închide
     share:
       title: Distribuie
-      cancel: Revocare
-      image: Imagine
-      link: Link sau HTML
-      long_link: Link
-      short_link: Link scurt
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Setați dimensiuni personalizate
-      format: 'Format:'
-      scale: Scară
-      image_dimensions: Imaginea va afișa stratul standard la %{width} x %{height}
-      download: Descărcare
-      short_url: URL scurt
-      include_marker: Includeți marcator
-      center_marker: Centrați harta pe marker
-      paste_html: Inserați HTML pentru a încorpora în site-ul web
       view_larger_map: Vezi hartă mai mare
     embed:
       report_problem: Semnalare problemă
-    key:
+    legend:
       title: Cheia hărții
       tooltip: Legendă
       tooltip_disabled: Legenda hărții nu este disponibilă pentru acest strat
@@ -2882,22 +2886,16 @@ ro:
       edit_disabled_tooltip: Măriți pentru a edita harta
       createnote_tooltip: Adaugă o notă pe hartă
       createnote_disabled_tooltip: Măriți pentru a adăuga o notație la hartă
-      map_notes_zoom_in_tooltip: Măriți pentru a vedea notațiile hărților
-      map_data_zoom_in_tooltip: Mărește pentru a vedea datele hărții
       queryfeature_tooltip: Funcții de interogare
       queryfeature_disabled_tooltip: Mărește caracteristicile de interogare
-      embed_html_disabled: Încorporarea HTML nu este disponibilă pentru acest strat
-        de hartă
     edit_help: Deplasați harta și măriți o locație pe care doriți să o editați, apoi
       faceți click aici.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Nu s-a putut găsi un traseu între cele două locuri.
-        no_place: Scuze - nu am găsit '%{place}'.
       instructions:
         continue_without_exit: Continuă pe %{name}
         slight_right_without_exit: Virează direct în %{name}
@@ -2987,6 +2985,9 @@ ro:
       show_address: Arată adresa
       query_features: Funcții de interogare
       centre_map: Centrează harta aici
+    edit:
+      id_not_configured:
+        title: iD nu a fost configurat
   redactions:
     edit:
       heading: Editați redacția

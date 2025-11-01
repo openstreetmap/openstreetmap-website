@@ -116,7 +116,6 @@ el:
       node: Κόμβος
       node_tag: Ετικέτα κόμβου
       note: Σημείωση
-      notifier: Ειδοποιητής
       old_node: Παλαιός κόμβος
       old_node_tag: Παλαιά ετικέτα κόμβου
       old_relation: Παλαιά σχέση
@@ -226,10 +225,6 @@ el:
           γι' αυτό προσπαθήστε να χρησιμοποιήσετε απλούς και κατανοητούς όρους.
         needs_view: Πρέπει ο χρήστης να συνδεθεί προτού εκκαθαριστεί αυτή η φραγή;
       user:
-        email_confirmation: Η διεύθυνση σας δεν προβάλλεται δημόσια, δείτε την <a
-          href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="OSMF privacy
-          policy including section on email addresses">privacy policy</a> μας, για
-          περισσότερες πληροφορίες.
         new_email: (δεν εμφανίζεται ποτέ δημόσια)
   datetime:
     distance_in_words_ago:
@@ -321,19 +316,17 @@ el:
       my_account: Ο λογαριασμός μου
       current email address: Τρέχουσα διεύθυνση ηλεκτρονικού ταχυδρομείου
       external auth: Εξωτερική επαλήθευση ταυτότητας
-      contributor terms:
+      contributor_terms:
         heading: Όροι Συνεισφοράς
         agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
-        not yet agreed: Δεν έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
-        review link text: Παρακαλούμε ακολουθήστε αυτό το σύνδεσμο, για την ενημέρωση
-          σας και την αποδοχή των νέων Όρων Συνεισφοράς.
         agreed_with_pd: Δηλώσατε επίσης ότι αποδέχεστε ότι οι τροποποιήσεις σας αποτελούν
           κοινό κτήμα.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: τι είναι αυτό;
         not_agreed_with_pd: Δεν έχετε δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
           ανήκουν στο Κοινό Κτήμα.
-        pd_link_text: δηλώστε
+      terms_of_use:
+        heading: Όρους Χρήσης
       save changes button: Αποθήκευση αλλαγών
       delete_account: Διαγραφή λογαριασμού...
     go_public:
@@ -399,9 +392,10 @@ el:
         contributor_terms_explain: Η συμφωνία διέπει τους όρους για υπάρχουσες και
           μελλοντικές συνεισφορές σας.
         read_ct: Έχω διαβάσει και αποδέχομαι τους παραπάνω όρους συνεισφοράς
-        tou_explain_html: Αυτοί οι %{tou_link} καλύπτουν τη χρήση της ιστοσελίδας
-          και άλλης υποδομής που προσφέρει το OpenHistoricalMap. Παρακαλούμε ακολουθήστε
-          τον σύνδεσμο, διαβάστε και αποδεχτείτε το κείμενο.
+        tou_explain:
+          html: Αυτοί οι %{tou_link} καλύπτουν τη χρήση της ιστοσελίδας και άλλης
+            υποδομής που προσφέρει το OpenHistoricalMap. Παρακαλούμε ακολουθήστε τον
+            σύνδεσμο, διαβάστε και αποδεχτείτε το κείμενο.
         read_tou: Έχω διαβάσει και αποδέχομαι τους όρους χρήσης
         guidance_info_html: 'Πληροφορίες για να βοηθήσουν να κατανοήσετε αυτούς τους
           όρους: a %{readable_summary_link} και μερικά %{informal_translations_link}'
@@ -453,9 +447,7 @@ el:
       one: '%{count} γραμμή'
       other: '%{count} γραμμές'
     download_xml: Λήψη XML
-    view_history: Προβολή ιστορικού
     view_unredacted_history: Προβολή μη τροποποιημένου ιστορικού
-    view_details: Προβολή λεπτομερειών
     location: 'Τοποθεσία:'
     node:
       title_html: 'Κόμβος: %{name}'
@@ -586,7 +578,7 @@ el:
         sorry: Μας συγχωρείτε, η λίστα των σχολίων της ομάδας αλλαγών που ζητήσατε,
           χρειάστηκε πολύ χρόνο για να ανακτηθεί.
   changesets:
-    changeset:
+    changeset_line:
       comments:
         one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
@@ -1708,8 +1700,6 @@ el:
       time: Διάρκεια
       ascend: Ανάβαση
       descend: Κατάβαση
-      button_km: χλμ
-      button_mi: μι
       download: Λήψη διαδρομής ως GeoJSON
       filename: διαδρομή
       directions_courtesy_html: Οι οδηγίες είναι προσφορά του %{link}
@@ -1786,7 +1776,6 @@ el:
   reports:
     new:
       title_html: Αναφορά %{link}
-      missing_params: Δεν μπορεί να δημιουργήσει νέα αναφορά
       disclaimer:
         intro: 'Πριν στείλετε την αναφορά σας στους συντονιστές του ιστοχώρου, παρακαλούμε
           σιγουρευτείτε ότι:'
@@ -1874,11 +1863,11 @@ el:
       footer_unsubscribe: Μπορείτε να απεγγραφείτε από την συζήτηση στο %{unsubscribeurl}
       footer_unsubscribe_html: Μπορείτε να απεγγραφείτε από την συζήτηση στο %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Γεια σας %{to_user},
-      header: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap
+      header: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenHistoricalMap
         με θέμα %{subject}:'
-      header_html: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenStreetMap
+      header_html: 'Ο χρήστης %{from_user} σάς έχει στείλει ένα μήνυμα μέσω του OpenHistoricalMap
         με θέμα %{subject}:'
       footer: Μπορείτε επίσης να διαβάσετε το μήνυμα στο %{readurl} και να στείλετε
         μήνυμα στον συγγραφέα στο %{replyurl}
@@ -1930,7 +1919,7 @@ el:
       welcome: Μετά την επιβεβαίωση του λογαριασμού σας, θα σας δώσουμε κάποιες πρόσθετες
         πληροφορίες για να ξεκινήσετε.
     email_confirm:
-      subject: '[OpenStreetMap] Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου
+      subject: '[OpenHistoricalMap] Επιβεβαιώστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου
         σας'
       greeting: Γεια,
       hopefully_you: Κάποιος (ελπίζουμε εσείς) θέλει να αλλάξει την διεύθυνση ηλεκτρονικού
@@ -1938,7 +1927,7 @@ el:
       click_the_link: Εάν είστε εσείς, παρακαλούμε πατήστε τον σύνδεσμο παρακάτω για
         να επιβεβαιωθεί η αλλαγή.
     lost_password:
-      subject: '[OpenStreetMap] Αίτηση επαναφοράς κωδικού'
+      subject: '[OpenHistoricalMap] Αίτηση επαναφοράς κωδικού'
       greeting: Γεια,
       hopefully_you: Κάποιος (πιθανότατα εσείς) έχει ζητήσει επαναφορά του κωδικού
         πρόσβασης του λογαριασμού με αυτό το email στο openhistoricalmap.org.
@@ -2046,6 +2035,9 @@ el:
         στέλνει αιτήματα επιβεβαίωσης τότε παρακαλούμε σιγουρευτείτε να προσθέσετε
         στην λίστα μη κακόβουλων χρηστών τον/την %{sender}  μιας και δεν μπορούμε
         να στείλουμε απάντηση σε οποιαδήποτε αίτηση επαλήθευσης.
+    gravatar:
+      disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
+      enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
   messages:
     new:
       title: Αποστολή μηνύματος
@@ -2180,36 +2172,42 @@ el:
         title: Οι προηγμένες προτιμήσεις μου
         save: Ενημέρωση προτιμήσεων
   profiles:
-    show:
-      title: Επεξεργασία προφίλ
-      save: Ενημέρωση προφίλ
-      cancel: Ακύρωση
-      image: Εικόνα
-      gravatar:
-        gravatar: Χρήση Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Τί είναι το Gravatar;
-        disabled: 'Το Gravatar έχει απενεργοποιηθεί:'
-        enabled: Έχει ενεργοποιηθεί η εμφάνιση του Gravatar σας.
-      new image: Προσθήκη εικόνας
-      keep image: Διατήρηση της τρέχουσας εικόνας
-      delete image: Αφαίρεση της τρέχουσας εικόνας
-      replace image: Αντικατάσταση της τρέχουσας εικόνας
-      image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
-      home location: Τοποθεσία σπιτιού
-      no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
-      update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ στον
-        χάρτη;
-      show: Εμφάνιση
-      delete: Διαγραφή
-      undelete: Αναίρεση διαγραφής
-      social_links:
-        title: Σύνδεσμοι προφίλ κοινωνικής δικτύωσης
-        remove: Αφαίρεση
-        add: Προσθήκη συνδέσμου κοινωνικής δικτύωσης
-    update:
-      success: Το προφίλ ενημερώθηκε.
-      failure: Δεν μπόρεσε να ενημερωθεί το προφίλ.
+    profile_sections:
+      navigation:
+        image: Εικόνα
+        company: Εταιρεία
+    descriptions:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+    links:
+      show:
+        title: Επεξεργασία προφίλ
+        cancel: Ακύρωση
+        social_links:
+          title: Σύνδεσμοι προφίλ κοινωνικής δικτύωσης
+          remove: Αφαίρεση
+          add: Προσθήκη συνδέσμου κοινωνικής δικτύωσης
+    images:
+      show:
+        gravatar:
+          gravatar: Χρήση Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Τί είναι το Gravatar;
+        new image: Προσθήκη εικόνας
+        keep image: Διατήρηση της τρέχουσας εικόνας
+        delete image: Αφαίρεση της τρέχουσας εικόνας
+        replace image: Αντικατάσταση της τρέχουσας εικόνας
+        image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
+    locations:
+      show:
+        no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
+        update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ
+          στον χάρτη;
+        show: Εμφάνιση
+        delete: Διαγραφή
+        undelete: Αναίρεση διαγραφής
   sessions:
     new:
       tab_title: Σύνδεση
@@ -2342,12 +2340,11 @@ el:
         introduction_4_creative_commons: Creative Commons Αναφορά Δημιουργού-Παρόμοια
           Διανομή 2.0
         introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/
-        credit_title_html: Πως να κάνετε αναφορά δημιουργού προς το OpenStreetMap
+        credit_title_html: Πως να κάνετε αναφορά δημιουργού προς το OpenHistoricalMap
         credit_1_html: 'Όπου χρησιμοποιείτε δεδομένα του OpenStreetMap, υποχρεούστε
           να κάνετε τα ακόλουθα δύο πράγματα:'
         credit_2_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
         credit_2_home: η αρχική μας σελίδα
-        credit_3_project: OpenHistoricalMap
         attribution_example:
           alt: Παράδειγμα του πως αναφέρεται το OpenStreetMap σε μια ιστοσελίδα
           title: Παράδειγμα αναφοράς δημιουργού
@@ -2409,8 +2406,6 @@ el:
       user_page_link: σελίδα χρήστη
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
-    edit:
-      id_not_configured: Ο iD δεν έχει ρυθμιστεί
     export:
       title: Εξαγωγή
       manually_select: Χειροκίνητη επιλογή διαφορετικής περιοχής
@@ -2623,7 +2618,12 @@ el:
           στη %{communities_wiki_link}.
         communities_wiki: Wiki σελίδα κοινοτήτων
         communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε σημειώσεις
+      map_data_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε τα δεδομένα του
+        χάρτη
+  legend_panes:
     show:
       entries:
         motorway: Αυτοκινητόδρομος
@@ -2714,6 +2714,25 @@ el:
         bicycle_parking_small: Μικρό πάρκινγκ ποδηλάτων
         toilets: Τουαλέτες
       see_external_legend: Δείτε εξωτερικό υπόμνημα του χάρτη
+  share_panes:
+    show:
+      link: Σύνδεσμος ή HTML
+      include_marker: Συμπερίληψη δείκτη
+      long_link: Σύνδεσμος
+      short_link: Σύντομος Σύνδεσμος
+      embed: HTML
+      embed_html_disabled: Η ενσωμάτωση HTML δεν είναι διαθέσιμη γι' αυτό το στρώμα
+        χάρτη
+      paste_html: Επικόλληση HTML για ενσωμάτωση στην ιστοσελίδα
+      geo_uri: Geo URI
+      image: Εικόνα
+      only_layers_exported_as_image: 'Μόνο τα ακόλουθα επίπεδα μπορούν να εξαχθούν
+        ως εικόνα:'
+      format: 'Μορφή:'
+      scale: 'Κλίμακα:'
+      custom_dimensions: Ορισμός προσαρμοσμένων διαστάσεων
+      image_dimensions_html: Η εικόνα θα εμφανίζει το %{layer} στο %{width} x %{height}
+      download: Λήψη
   traces:
     visibility:
       private: Προσωπικό (διαμοιρασμός μόνο σαν ανώνυμος, μη χρονοσημασμένα σημεία)
@@ -3022,7 +3041,6 @@ el:
       blocks by me: Φραγές από Εμένα
       create_mute: Σίγαση αυτού του χρήστη
       destroy_mute: Κατάργηση σίγασης αυτού του χρήστη
-      edit_profile: Επεξεργασία προφίλ
       send message: Αποστολή Μηνύματος
       diary: Ημερολόγιο
       edits: Επεξεργασίες
@@ -3032,9 +3050,6 @@ el:
       follow: Ακολούθηση
       mapper since: 'Χαρτογράφος από:'
       last map edit: 'Τελευταία επεξεργασία χάρτη:'
-      home location: Τοποθεσία σπιτιού
-      company: Εταιρεία
-      company tooltip: Η εταιρική σχέση είναι αυτοαναφερόμενη και όχι επαληθευμένη
       no activity yet: Καμία δραστηριότητα ακόμη
       uid: 'Id χρήστη:'
       ct status: 'Όροι συνεισφοράς:'
@@ -3044,18 +3059,6 @@ el:
       created from: 'Δημιουργήθηκε από:'
       status: 'Κατάσταση:'
       spam score: 'Σκορ Spam:'
-      role:
-        administrator: Αυτός ο χρήστης είναι διαχειριστής
-        moderator: Αυτός ο χρήστης είναι συντονιστής
-        importer: Αυτός ο χρήστης είναι εισαγωγέας
-        grant:
-          administrator: Χορήγηση πρόσβασης διαχειριστή
-          moderator: Χορήγηση πρόσβασης συντονιστή
-          importer: Παραχήρηση πρόσβασης για εισαγωγέα
-        revoke:
-          administrator: Ανακαλέστε την πρόσβαση διαχειριστή
-          moderator: Ανάκληση πρόσβασης συντονιστή
-          importer: Ανάκληση πρόσβασης εισαγωγέα
       block_history: Ενεργές Φραγές
       moderator_history: Φραγές που Επιβλήθηκαν
       revoke_all_blocks: Ανάκληση όλων των φραγών
@@ -3073,6 +3076,9 @@ el:
       contributions:
         one: '%{count} συνεισφορά τον τελευταίο χρόνο'
         other: '%{count} συνεισφορές τον τελευταίο χρόνο'
+    sidebar_section:
+      home_location: Τοποθεσία σπιτιού
+      company_tooltip: Η εταιρική σχέση είναι αυτοαναφερόμενη και όχι επαληθευμένη
     go_public:
       flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα
         να επεξεργαστείτε τον χάρτη.
@@ -3168,6 +3174,22 @@ el:
       option_2: Αν έχετε ήδη λογαριασμό, μπορείτε να συνδεθείτε στον λογαριασμό σας
         χρησιμοποιώντας το όνομα χρήστη και τον κωδικό πρόσβασης και, στη συνέχεια,
         να συσχετίσετε τον λογαριασμό με το ID σας στις ρυθμίσεις χρήστη.
+    role_icons:
+      title:
+        administrator: Αυτός ο χρήστης είναι διαχειριστής
+        moderator: Αυτός ο χρήστης είναι συντονιστής
+      grant:
+        administrator: Χορήγηση πρόσβασης διαχειριστή
+        moderator: Χορήγηση πρόσβασης συντονιστή
+        importer: Παραχήρηση πρόσβασης για εισαγωγέα
+        are_you_sure: Είστε βέβαιος ότι θέλετε να εκχωρήσετε το ρόλο '%{role}' στον
+          χρήστη '%{name}';
+      revoke:
+        administrator: Ανακαλέστε την πρόσβαση διαχειριστή
+        moderator: Ανάκληση πρόσβασης συντονιστή
+        importer: Ανάκληση πρόσβασης εισαγωγέα
+        are_you_sure: Σίγουρα θέλετε να ανακαλέστε τον ρόλο '%{role}' από τον χρήστη
+          '%{name}';
   user_role:
     filter:
       not_a_role: Η συμβολοσειρά '%{role}' δεν είναι ένας έγκυρος ρόλος.
@@ -3175,12 +3197,6 @@ el:
       doesnt_have_role: Ο χρήστης δεν έχει ρόλο %{role}.
       not_revoke_admin_current_user: Ο διαχειριστικός ρόλος δεν μπορεί να αναιρεθεί
         από τον τρέχον χρήστη.
-    grant:
-      are_you_sure: Είστε βέβαιος ότι θέλετε να εκχωρήσετε το ρόλο '%{role}' στον
-        χρήστη '%{name}';
-    revoke:
-      are_you_sure: Σίγουρα θέλετε να ανακαλέστε τον ρόλο '%{role}' από τον χρήστη
-        '%{name}';
   user_blocks:
     model:
       non_moderator_update: Πρέπει να είστε συντονιστής για να δημιουργήσετε ή να
@@ -3394,28 +3410,10 @@ el:
     close: Κλείσιμο
     share:
       title: Διαμοιρασμός
-      cancel: Ακύρωση
-      image: Εικόνα
-      link: Σύνδεσμος ή HTML
-      long_link: Σύνδεσμος
-      short_link: Σύντομος Σύνδεσμος
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Ορισμός προσαρμοσμένων διαστάσεων
-      format: 'Μορφή:'
-      scale: 'Κλίμακα:'
-      image_dimensions: Η εικόνα θα εμφανίζει το %{layer} στο %{width} x %{height}
-      download: Λήψη
-      short_url: Σύντομος Σύνδεμος
-      include_marker: Συμπερίληψη δείκτη
-      center_marker: Κεντράρισμα χάρτη στο δείκτη
-      paste_html: Επικόλληση HTML για ενσωμάτωση στην ιστοσελίδα
       view_larger_map: Προβολή Μεγαλύτερου Χάρτη
-      only_layers_exported_as_image: 'Μόνο τα ακόλουθα επίπεδα μπορούν να εξαχθούν
-        ως εικόνα:'
     embed:
       report_problem: Αναφορά προβλήματος
-    key:
+    legend:
       title: Υπόμνημα
       tooltip: Υπόμνημα
       tooltip_disabled: Το υπόμνημα δεν είναι διαθέσιμο σε αυτό το στρώμα
@@ -3467,14 +3465,9 @@ el:
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
       createnote_tooltip: Προσθέστε μια σημείωση στο χάρτη
       createnote_disabled_tooltip: Μεγεθύνετε για να προσθέσετε μια σημείωση στο χάρτη
-      map_notes_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε σημειώσεις
-      map_data_zoom_in_tooltip: Μεγεθύνετε τον χάρτη για να δείτε τα δεδομένα του
-        χάρτη
       queryfeature_tooltip: Πληροφορίες χαρακτηριστικών
       queryfeature_disabled_tooltip: Μεγεθύνετε τον χάρτη για να μάθετε περισσότερα
         για διάφορα χαρακτηριστικά
-      embed_html_disabled: Η ενσωμάτωση HTML δεν είναι διαθέσιμη γι' αυτό το στρώμα
-        χάρτη
     profile:
       social_link_n: Σύνδεσμος προφίλ κοινωνικής δικτύωσης %{n}
       remove_social_link_n: Αφαίρεση συνδέσμου προφίλ κοινωνικής δικτύωσης %{n}
@@ -3482,15 +3475,12 @@ el:
       να επεξεργαστείτε, στη συνέχεια, κάντε κλικ εδώ.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
-        miles:
-          ft: '%{distance}πδ'
-          mi: '%{distance}μι'
+        m: '%{distance}m'
+        km: '%{distance}km'
+        ft: '%{distance}πδ'
+        mi: '%{distance}μι'
       errors:
         no_route: Δεν βρέθηκε διαδρομή ανάμεσα σε αυτά τα δύο μέρη.
-        no_place: Συγγνώμη, δεν βρέθηκε αυτό το '%{place}'.
       instructions:
         continue_without_exit: Συνεχίστε στην %{name}
         slight_right_without_exit: Ελαφριά δεξιά στην %{name}
@@ -3592,6 +3582,9 @@ el:
         contributions:
           one: '%{count} συνεισφορά στις %{date}'
           other: '%{count} συνεισφορές στις %{date}'
+    edit:
+      id_not_configured:
+        title: Ο iD δεν έχει ρυθμιστεί
   redactions:
     edit:
       heading: Επεξεργασία παράληψης

@@ -67,7 +67,6 @@ ms:
       node: Nod
       node_tag: Tag Nod
       note: nota
-      notifier: Pemberitahu
       old_node: Nod Lama
       old_node_tag: Tag Nod Lama
       old_relation: Hubungan Lama
@@ -233,12 +232,9 @@ ms:
       title: Sunting akaun
       current email address: 'Alamat E-Mel Sekarang:'
       external auth: Pengesahan Luaran
-      contributor terms:
+      contributor_terms:
         heading: Syarat Penyumbang
         agreed: Anda telah bersetuju dengan Terma-Terma Penyumbang yang baru.
-        not yet agreed: Anda belum bersetuju dengan Terma-Terma Penyumbang yang baru.
-        review link text: Sila ikuti pautan ini bila-bila anda senang untuk meneliti
-          dan menerima Terma-Terma Penyumbang yang baru.
         agreed_with_pd: Anda juga telah mengisytiharkan bahawa anda menganggap suntingan-suntingan
           anda sebagai berada dalam Domain Awam.
         link text: apakah ini?
@@ -285,8 +281,6 @@ ms:
     no_comment: (tiada komen)
     part_of: Sebahagian daripada
     download_xml: Muat Turun XML
-    view_history: Lihat Sejarah
-    view_details: Lihat Butiran
     location: 'Lokasi:'
     node:
       title_html: 'Nod: %{name}'
@@ -1231,7 +1225,7 @@ ms:
         atau membalas di %{replyurl}
     message_notification:
       hi: Apa khabar %{to_user},
-      header: '%{from_user} telah menghantar sepucuk pesanan kepada anda melalui OpenStreetMap
+      header: '%{from_user} telah menghantar sepucuk pesanan kepada anda melalui OpenHistoricalMap
         dengan subjek %{subject}:'
       footer_html: Anda juga boleh membaca pesanan ini di %{readurl} dan anda boleh
         membalasnya di %{replyurl}
@@ -1256,14 +1250,14 @@ ms:
       welcome: Selepas mengesahkan akaun anda, kami akan membekalkan kepada anda sedikit
         maklumat tambahan untuk permulaan anda.
     email_confirm:
-      subject: '[OpenStreetMap] Sahkan alamat e-mel anda'
+      subject: '[OpenHistoricalMap] Sahkan alamat e-mel anda'
       greeting: Apa khabar,
       hopefully_you: Seseorang (harap-harap iaitu anda) ingin menukar alamat e-melnya
         di %{server_url} kepada %{new_address}.
       click_the_link: Jika anda orangnya, sila klik pautan di bawah untuk mengesahkan
         perubahan.
     lost_password:
-      subject: '[OpenStreetMap] Permohonan mengeset semula kata laluan'
+      subject: '[OpenHistoricalMap] Permohonan mengeset semula kata laluan'
       greeting: Apa khabar,
       hopefully_you: Seseorang (mungkin anda) telah memohon supaya kata laluan ini
         diset semula di akaun openstreetmap.org milik alamat e-mel ini.
@@ -1413,29 +1407,36 @@ ms:
       show:
         title: Keutamaan Saya
   profiles:
-    show:
-      title: Sunting Profil
-      save: Kemas Kini Profil
-      cancel: Batalkan
-      image: Imej
-      gravatar:
-        gravatar: Gunakan Gravatar
-        link: http://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Apa itu Gravatar?
-      new image: Tambahkan imej
-      keep image: Simpan imej semasa
-      delete image: Buang imej semasa
-      replace image: Ganti imej semasa
-      image size hint: (imej segi empat sama yang sekurang-kurangnya 100x100 adalah
-        paling bagus)
-      home location: Lokasi Rumah
-      no home location: Anda belum memasukkan lokasi rumah anda.
-      update home location on click: Adakah anda ingin mengemaskinikan lokasi rumah
-        dengan mengklik pada peta?
-      show: Tunjukkan
-    update:
-      success: Profil dikemas kini.
-      failure: Tidak dapat mengemas kini profil.
+    profile_sections:
+      navigation:
+        image: Imej
+    descriptions:
+      show:
+        title: Sunting Profil
+        save: Kemas Kini Profil
+        cancel: Batalkan
+    links:
+      show:
+        title: Sunting Profil
+        cancel: Batalkan
+    images:
+      show:
+        gravatar:
+          gravatar: Gunakan Gravatar
+          link: http://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Apa itu Gravatar?
+        new image: Tambahkan imej
+        keep image: Simpan imej semasa
+        delete image: Buang imej semasa
+        replace image: Ganti imej semasa
+        image size hint: (imej segi empat sama yang sekurang-kurangnya 100x100 adalah
+          paling bagus)
+    locations:
+      show:
+        no home location: Anda belum memasukkan lokasi rumah anda.
+        update home location on click: Adakah anda ingin mengemaskinikan lokasi rumah
+          dengan mengklik pada peta?
+        show: Tunjukkan
   sessions:
     new:
       tab_title: Log masuk
@@ -1504,7 +1505,7 @@ ms:
         native_link: versi Bahasa Melayu
         mapping_link: mula membuat peta
       legal_babble:
-        credit_title_html: Cara memberikan penghargaan kepada OpenStreetMap
+        credit_title_html: Cara memberikan penghargaan kepada OpenHistoricalMap
         credit_1_html: Kami memerlukan anda menggunakan dikenali sebagai &ldquo;&copy;
           penyumbang OpenStreetMap&rdquo; dalam penghargaan.
         attribution_example:
@@ -1539,8 +1540,6 @@ ms:
       user_page_link: laman pengguna
       anon_edits_link: http://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Ketahuilah sebab jadinya begini.
-    edit:
-      id_not_configured: iD belum dikonfigurasi
     export:
       title: Eksport
       manually_select: Pilih kawasan yang lain secara insani
@@ -1665,7 +1664,11 @@ ms:
     communities:
       other_groups:
         communities_wiki: Laman wiki komuniti
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zum dekat untuk membaca nota peta
+      map_data_zoom_in_tooltip: Zum dekat untuk membaca data peta
+  legend_panes:
     show:
       entries:
         motorway: Lebuhraya
@@ -1736,6 +1739,20 @@ ms:
         bicycle_shop: Kedai Basikal
         bicycle_parking: Tempat letak basikal
         toilets: Tandas
+  share_panes:
+    show:
+      link: Pautan atau HTML
+      include_marker: Sertakan penanda
+      long_link: Pautan
+      short_link: URL Ringkas
+      embed: HTML
+      paste_html: Tampal HTML untuk menyiratkan laman web
+      geo_uri: URI Geo
+      image: Gambar
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Tetapkan dimensi tersendiri
+      download: Muat Turun
   traces:
     visibility:
       private: Peribadi (hanya dikongsikan sebagai titik yang tidak tersusun secara
@@ -1900,7 +1917,6 @@ ms:
       my_dashboard: Papan Pemuka Saya
       blocks on me: Sekatan pada Saya
       blocks by me: Sekatan oleh Saya
-      edit_profile: Sunting Profil
       send message: Hantar Pesanan
       diary: Diari
       edits: Suntingan
@@ -1914,15 +1930,6 @@ ms:
       created from: 'Dibuat daripada:'
       status: 'Status:'
       spam score: 'Markah Spam:'
-      role:
-        administrator: Pengguna ini seorang pentadbir
-        moderator: Pengguna ini seorang penyelia
-        grant:
-          administrator: Berikan akses pentadbir
-          moderator: Berikan akses penyelia
-        revoke:
-          administrator: Tarik balik akses pentadbir
-          moderator: Tarik balik akses penyelia
       block_history: sekatan yang diterima
       moderator_history: sekatan yang dikenakan
       comments: Komen
@@ -1972,17 +1979,25 @@ ms:
       title: Akaun Digantung
       heading: Akaun Digantung
       support: sokongan
+    role_icons:
+      title:
+        administrator: Pengguna ini seorang pentadbir
+        moderator: Pengguna ini seorang penyelia
+      grant:
+        administrator: Berikan akses pentadbir
+        moderator: Berikan akses penyelia
+        are_you_sure: Adakah anda benar-benar ingin memberikan peranan '%{role}' kepada
+          pengguna '%{name}'?
+      revoke:
+        administrator: Tarik balik akses pentadbir
+        moderator: Tarik balik akses penyelia
+        are_you_sure: Adakah anda benar-benar ingin menarik balik peranan '%{role}'
+          daripada pengguna '%{name}'?
   user_role:
     filter:
       not_a_role: Rentetan '%{role}' bukan peranan yang sah.
       already_has_role: Pengguna ini sudah pun memegang peranan %{role}.
       doesnt_have_role: Pengguna ini tidak memegang peranan %{role}.
-    grant:
-      are_you_sure: Adakah anda benar-benar ingin memberikan peranan '%{role}' kepada
-        pengguna '%{name}'?
-    revoke:
-      are_you_sure: Adakah anda benar-benar ingin menarik balik peranan '%{role}'
-        daripada pengguna '%{name}'?
   user_blocks:
     model:
       non_moderator_update: Anda mesti menjadi penyelia untuk membuat atau mengemaskinikan
@@ -2078,25 +2093,10 @@ ms:
     close: Tutup
     share:
       title: Kongsi
-      cancel: Batalkan
-      image: Gambar
-      link: Pautan atau HTML
-      long_link: Pautan
-      short_link: URL Ringkas
-      geo_uri: URI Geo
-      embed: HTML
-      custom_dimensions: Tetapkan dimensi tersendiri
-      format: 'Format:'
-      scale: 'Skala:'
-      download: Muat Turun
-      short_url: URL Ringkas
-      include_marker: Sertakan penanda
-      center_marker: Ketengahkan peta pada penanda
-      paste_html: Tampal HTML untuk menyiratkan laman web
       view_larger_map: Lihat Peta yang Lebih Besar
     embed:
       report_problem: Laporkan masalah
-    key:
+    legend:
       title: Petunjuk Peta
       tooltip: Petunjuk Peta
       tooltip_disabled: Kunci Peta tersedia untuk lapisan Biasa sahaja
@@ -2124,18 +2124,14 @@ ms:
       edit_disabled_tooltip: Zum dekat untuk menyunting peta
       createnote_tooltip: Letak nota pada peta
       createnote_disabled_tooltip: Zum dekat untuk meletakkan nota pada peta
-      map_notes_zoom_in_tooltip: Zum dekat untuk membaca nota peta
-      map_data_zoom_in_tooltip: Zum dekat untuk membaca data peta
     edit_help: Alihkan peta dan zum dekat pada lokasi yang ingin anda sunting, kemudian
       klik di sini.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Tidak dapat mencari arah antara dua tempat tersebut
-        no_place: Maaf - Tempat tersebut tidak dapat ditemui
       instructions:
         continue_without_exit: Teruskan di %{name}
         follow_without_exit: Ikut %{name}
@@ -2149,6 +2145,9 @@ ms:
     context:
       add_note: Tambah nota di sini
       show_address: Tunjuk alamat
+    edit:
+      id_not_configured:
+        title: iD belum dikonfigurasi
   redactions:
     edit:
       heading: Sunting redaksi

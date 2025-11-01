@@ -83,7 +83,6 @@ nb:
       node: Node
       node_tag: Nodemerkelapp
       note: merknad
-      notifier: Varsler
       old_node: Gammel node
       old_node_tag: Gammel nodemerkelapp
       old_relation: Gammel relasjon
@@ -186,9 +185,6 @@ nb:
           uttrykk.
         needs_view: Må brukeren logge inn før denne blokkeringen blir fjernet?
       user:
-        email_confirmation: Adressen din vises ikke offentlig, se våre <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF-personvernsregler, inkludert en seksjon om e-postadresser">personvernsregler</a>
-          for mer informasjon.
         new_email: ' (vises aldri offentlig)'
   datetime:
     distance_in_words_ago:
@@ -273,12 +269,9 @@ nb:
       title: Rediger konto
       current email address: Nåværende e-postadresse
       external auth: Ekstern autentisering
-      contributor terms:
+      contributor_terms:
         heading: Bidragsytervilkår
         agreed: Du har godkjent de nye Bidragsytervilkårene.
-        not yet agreed: Du har ennå ikke godkjent de nye bidragsytervilkårene.
-        review link text: Vennligst følg denne lenken når det passer deg, for å se
-          igjennom og godkjenne de nye bidragsytervilkårene.
         agreed_with_pd: Du har også opplyst at du anser dine redigeringer for å være
           offentlig eiendom (Public Domain).
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
@@ -315,8 +308,9 @@ nb:
         contributor_terms_explain: Denne avtalen beskriver vilkårene for dine eksisterende
           og framtidige bidrag.
         read_ct: Jeg har lest og samtykker i vilkårene for bidragsytere
-        tou_explain_html: Disse %{tou_link} beskriver bruken av nettstedet og annen
-          infrastruktur som tilbys av OSMF. Trykk på lenka, les og samtykk til teksten.
+        tou_explain:
+          html: Disse %{tou_link} beskriver bruken av nettstedet og annen infrastruktur
+            som tilbys av OSMF. Trykk på lenka, les og samtykk til teksten.
         read_tou: Jeg har lest og samtykker til bruksvilkårene
         cancel: Avbryt
         you need to accept or decline: Les og deretter enten godta eller avslå de
@@ -343,8 +337,6 @@ nb:
       one: 1 linje
       other: '%{count} linjer'
     download_xml: Last ned XML
-    view_history: Vis historikk
-    view_details: Vis detaljer
     location: 'Posisjon:'
     node:
       title_html: 'Node: %{name}'
@@ -1314,7 +1306,6 @@ nb:
   reports:
     new:
       title_html: Rapport %{link}
-      missing_params: Får ikke opprettet en ny rapport
       disclaimer:
         intro: 'Før du sender rapporten til moderatorene, pass på at:'
         not_just_mistake: Du er sikker på at problemet ikke er basert på en misforståelse
@@ -1387,8 +1378,8 @@ nb:
         %{commenturl} eller sende forfatteren en melding på %{replyurl}
     message_notification:
       hi: Hei %{to_user},
-      header: '%{from_user} har sendt deg en melding gjennom OpenStreetMap med emnet
-        %{subject}:'
+      header: '%{from_user} har sendt deg en melding gjennom OpenHistoricalMap med
+        emnet %{subject}:'
       footer_html: Du kan også lese meldingen på %{readurl}, eller sende forfatteren
         en melding på %{replyurl}
     follow_notification:
@@ -1412,13 +1403,13 @@ nb:
       welcome: Når du har bekreftet kontoen din, vil vi gi deg flere opplysninger
         så du kan komme godt i gang.
     email_confirm:
-      subject: '[OpenStreetMap] Bekreft din e-postadresse'
+      subject: '[OpenHistoricalMap] Bekreft din e-postadresse'
       greeting: Hei,
       hopefully_you: Noen (forhåpentligvis deg) ønsker å endre e-postadressen for
         %{server_url} til %{new_address}.
       click_the_link: Hvis dette er deg, klikk lenka nedenfor for å bekrefte endringen.
     lost_password:
-      subject: '[OpenStreetMap] Forespørsel om nullstilling av passord'
+      subject: '[OpenHistoricalMap] Forespørsel om nullstilling av passord'
       greeting: Hei,
       hopefully_you: Noen (forhåpentligvis deg) har bedt om å nullstille passordet
         for OpenHistoricalMap-kontoen knyttet til denne e-postadressen.
@@ -1484,6 +1475,9 @@ nb:
       success: Bytte av e-postadresse bekreftet!
       failure: En e-postadresse er allerede bekreftet med denne nøkkelen.
       unknown_token: Denne bekreftelseskoden finnes ikke eller har utløpt.
+    gravatar:
+      disabled: Gravatar har blitt slått av.
+      enabled: Visning av din Gravatar er slått på.
   messages:
     new:
       title: Send melding
@@ -1590,31 +1584,36 @@ nb:
         title: Mine innstillinger
         save: Oppdater innstillingene
   profiles:
-    show:
-      title: Rediger profil
-      save: Oppdater profil
-      cancel: Avbryt
-      image: Bilde
-      gravatar:
-        gravatar: Bruk Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Hva er Gravatar?
-        disabled: Gravatar har blitt slått av.
-        enabled: Visning av din Gravatar er slått på.
-      new image: Legg til et bilde
-      keep image: Behold gjeldende bilde
-      delete image: Fjern gjeldende bilde
-      replace image: Erstatt gjeldende bilde
-      image size hint: (kvadratiske bilder som er minst 100x100 fungerer best)
-      home location: Hjemmeposisjon
-      no home location: Du har ikke angitt din hjemmeposisjon.
-      update home location on click: Oppdater hjemmeposisjon når jeg klikker på kartet?
-      show: Vis
-      delete: Slett
-      undelete: Angre sletting
-    update:
-      success: Profil oppdatert.
-      failure: Kunne ikke oppdatere profil.
+    profile_sections:
+      navigation:
+        image: Bilde
+    descriptions:
+      show:
+        title: Rediger profil
+        save: Oppdater profil
+        cancel: Avbryt
+    links:
+      show:
+        cancel: Avbryt
+    images:
+      show:
+        gravatar:
+          gravatar: Bruk Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Hva er Gravatar?
+        new image: Legg til et bilde
+        keep image: Behold gjeldende bilde
+        delete image: Fjern gjeldende bilde
+        replace image: Erstatt gjeldende bilde
+        image size hint: (kvadratiske bilder som er minst 100x100 fungerer best)
+    locations:
+      show:
+        no home location: Du har ikke angitt din hjemmeposisjon.
+        update home location on click: Oppdater hjemmeposisjon når jeg klikker på
+          kartet?
+        show: Vis
+        delete: Slett
+        undelete: Angre sletting
   sessions:
     new:
       tab_title: Logg inn
@@ -1673,7 +1672,7 @@ nb:
         native_link: Norsk versjon
         mapping_link: start kartlegging
       legal_babble:
-        credit_title_html: Hvordan kreditere OpenStreetMap
+        credit_title_html: Hvordan kreditere OpenHistoricalMap
         credit_1_html: Vi krever at du bruker godskrivinga «© OpenStreetMap-bidragsyterene».
         attribution_example:
           alt: Eksempel på hvordan man angir OpenStreetMap som kartkilde på en nettside
@@ -1706,8 +1705,6 @@ nb:
       user_page_link: brukerside
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Finn ut hvorfor dette er tilfellet.
-    edit:
-      id_not_configured: iD er ikke satt opp
     export:
       title: Eksporter
       manually_select: Velg et annet område manuelt
@@ -1849,7 +1846,11 @@ nb:
           Det er ikke nødvendig å formelt etablere en gruppe i samme grad som de lokale avdelingene.
           Mange grupper eksisterer faktisk svært vellykket som en uformell samling av mennesker eller som en
           fellesskapsgruppe. Alle kan sette opp eller bli med i disse. Les mer på %{communities_wiki_link}.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Forstørr utvalg for å se kartmerknader
+      map_data_zoom_in_tooltip: Forstørr utvalg for å se kartdata
+  legend_panes:
     show:
       entries:
         motorway: Motorvei
@@ -1915,6 +1916,20 @@ nb:
         bicycle_parking: Sykkelparkering
         bicycle_parking_small: Liten sykkelparkering
         toilets: Toaletter
+  share_panes:
+    show:
+      link: Lenke eller HTML
+      include_marker: Inkluder markør
+      long_link: Lenke
+      short_link: Kort lenke
+      embed: HTML
+      paste_html: Lim inn HTML for å inkluderes på webside
+      geo_uri: Geo-URI
+      image: Bilde
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Sett egendefinerte dimensjoner
+      download: Last ned
   traces:
     visibility:
       private: Privat (bare delt som anononyme, usorterte punkter)
@@ -2098,15 +2113,6 @@ nb:
       created from: 'Opprettet fra:'
       status: 'Status:'
       spam score: 'Spamresultat:'
-      role:
-        administrator: Denne brukeren er en administrator
-        moderator: Denne brukeren er en moderator
-        grant:
-          administrator: Gi administrator-tilgang
-          moderator: Gi moderator-tilgang
-        revoke:
-          administrator: Fjern administrator-tilgang
-          moderator: Fjern moderator-tilgang
       block_history: Aktive Blokkeringer
       moderator_history: Tildelte Blokkeringer
       comments: Kommentarer
@@ -2165,6 +2171,19 @@ nb:
       option_1: Opprett konto i skjemaet nedenfor.
       option_2: Logg inn med brukernavn og passord, du kan tilknytte kontoen til din
         ID i brukerinnstillingene.
+    role_icons:
+      title:
+        administrator: Denne brukeren er en administrator
+        moderator: Denne brukeren er en moderator
+      grant:
+        administrator: Gi administrator-tilgang
+        moderator: Gi moderator-tilgang
+        are_you_sure: Er du sikker på at du vil gi rollen `%{role}' til brukeren `%{name}'?
+      revoke:
+        administrator: Fjern administrator-tilgang
+        moderator: Fjern moderator-tilgang
+        are_you_sure: Er du sikker på at du vil fjerne rollen "%{role}" fra brukeren
+          "%{name}"?
   user_role:
     filter:
       not_a_role: Strengen "%{role}" er ikke en gyldig rolle.
@@ -2172,11 +2191,6 @@ nb:
       doesnt_have_role: Brukeren har ikke rollen %{role}.
       not_revoke_admin_current_user: Kan ikke fjerne administratorrollen fra gjeldende
         bruker.
-    grant:
-      are_you_sure: Er du sikker på at du vil gi rollen `%{role}' til brukeren `%{name}'?
-    revoke:
-      are_you_sure: Er du sikker på at du vil fjerne rollen "%{role}" fra brukeren
-        "%{name}"?
   user_blocks:
     model:
       non_moderator_update: Må være en moderator for å opprette eller oppdatere en
@@ -2284,25 +2298,10 @@ nb:
     close: Lukk
     share:
       title: Del
-      cancel: Avbryt
-      image: Bilde
-      link: Lenke eller HTML
-      long_link: Lenke
-      short_link: Kort lenke
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Sett egendefinerte dimensjoner
-      format: 'Format:'
-      scale: 'Skala:'
-      download: Last ned
-      short_url: Kort-URL
-      include_marker: Inkluder markør
-      center_marker: Sentrer kart på markøren
-      paste_html: Lim inn HTML for å inkluderes på webside
       view_larger_map: Vis større kart
     embed:
       report_problem: Rapporter et problem
-    key:
+    legend:
       title: Kartsymbol
       tooltip: Kartsymbol
       tooltip_disabled: Kartnøkkel ikke tilgjengelig for dette laget
@@ -2335,8 +2334,6 @@ nb:
       edit_disabled_tooltip: Forstørr utvalg for å redigere kartet
       createnote_tooltip: Legg til en merknad på kartet
       createnote_disabled_tooltip: Forstørr utvalg for å legge til en merknad på kartet
-      map_notes_zoom_in_tooltip: Forstørr utvalg for å se kartmerknader
-      map_data_zoom_in_tooltip: Forstørr utvalg for å se kartdata
       queryfeature_tooltip: Se over elementer
       queryfeature_disabled_tooltip: Forstørr utvalg for å se over elementer
     edit_help: Flytt kartet og forstørr utvalg til et sted du vil redigere, og klikk
@@ -2344,7 +2341,6 @@ nb:
     directions:
       errors:
         no_route: Kunne ikke finne veien mellom de to stedene.
-        no_place: Fant ikke '%{place}'.
       instructions:
         continue_without_exit: Fortsett på %{name}
         slight_right_without_exit: Slak høyre inn på %{name}
@@ -2431,6 +2427,9 @@ nb:
       show_address: Vis adresse
       query_features: Se over elementer
       centre_map: Sentrer kartet her
+    edit:
+      id_not_configured:
+        title: iD er ikke satt opp
   redactions:
     edit:
       heading: Rediger maskering

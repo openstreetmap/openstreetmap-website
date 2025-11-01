@@ -84,7 +84,6 @@ bn:
       node: সংযোগস্থল
       node_tag: সংযোগস্থলের ট্যাগ
       note: টীকা
-      notifier: অনুস্মারক
       old_node: পুরাতন সংযোগস্থল
       old_node_tag: পুরাতন সংযোগস্থলের ট্যাগ
       old_relation: পুরনো সম্পর্ক
@@ -245,6 +244,7 @@ bn:
       microsoft: মাইক্রোসফট
       github: গিটহাব
       wikipedia: উইকিপিডিয়া
+      openstreetmap: ওপেনস্ট্রিটম্যাপ
   api:
     notes:
       comment:
@@ -272,17 +272,17 @@ bn:
   accounts:
     show:
       title: অ্যাকাউন্ট সম্পাদনা করুন
+      my_account: আমার অ্যাকাউন্ট
       current email address: বর্তমান ই-মেইল ঠিকানা
       external auth: বাহ্যিক প্রমাণীকরণ
-      contributor terms:
+      contributor_terms:
         heading: অবদানকারীর জন্য নিয়মাবলি
         agreed: আপনি নতুন অবদানকারীর শর্তাবলীতে সম্মত।
-        not yet agreed: আপনি নতুন অবদানকারীর শর্তাবলীতে এখনো সম্মত হননি।
-        review link text: অনুগ্রহ করে আপনার সুবিধামত এই লিঙ্কটি অনুসরণ করুন এবং নতুন
-          অবদানকারীর শর্তাবলী পর্যালোচনা করুন এবং তাতে সম্মতি দিন।
         agreed_with_pd: আপনি ঘোষণা করেছেন যে আপনি আপনার সম্পাদনাগুলো পাবলিক ডোমেইনের
           অধীনে প্রকাশ করছেন।
         link text: এটি কী?
+      terms_of_use:
+        heading: ব্যবহারের শর্তাবলী
       save changes button: পরিবর্তন সংরক্ষণ
       delete_account: অ্যাকাউন্ট অপসারণ করুন...
     go_public:
@@ -338,7 +338,9 @@ bn:
           শর্তাদি নিয়ন্ত্রণ করে।
         read_ct: আমি উপরোক্ত অবদানকারীর শর্তাবলী পড়েছি এবং তাতে সম্মত
         read_tou: আমি ব্যবহারের শর্তাবলী পড়েছি এবং সম্মত
+        readable_summary: মানব পাঠযোগ্য সারাংশ
         informal_translations: অনানুষ্ঠানিক অনুবাদ
+        continue: অগ্রসর হোন
         cancel: বাতিল
         you need to accept or decline: অনুগ্রহ করে পড়ুন এবং তারপরে চালিয়ে যেতে নতুন
           অবদানকারীর শর্তাবলী স্বীকার করুন বা প্রত্যাখ্যান করুন।
@@ -354,6 +356,9 @@ bn:
           করার সিদ্ধান্ত নিয়েছেন। আরও তথ্যের জন্য, অনুগ্রহ করে %{terms_declined_link}
           দেখুন।
         terms_declined_link: এই উইকি পাতা
+    pd_declarations:
+      show:
+        confirm: নিশ্চিত করুন
   browse:
     deleted_ago_by_html: '%{user} কর্তৃক %{time_ago} অপসারিত'
     edited_ago_by_html: '%{user} কর্তৃক %{time_ago} সম্পাদিত'
@@ -370,9 +375,7 @@ bn:
       one: '%{count}টি রাস্তা'
       other: '%{count}টি রাস্তা'
     download_xml: XML ডাউনলোড করুন
-    view_history: ইতিহাস দেখুন
     view_unredacted_history: অসংশোধিত ইতিহাস দেখুন
-    view_details: বিস্তারিত দেখুন
     location: 'অবস্থান:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -382,7 +385,7 @@ bn:
       title_html: 'রাস্তা: %{name}'
       nodes: সংযোগস্থলসমূহ
       nodes_count:
-        one: ১টি নোড
+        one: '%{count}টি নোড'
         other: '%{count}টি নোড'
       also_part_of_html:
         one: পথের অংশ %{related_ways}
@@ -400,7 +403,7 @@ bn:
         way: রাস্তা
         relation: সম্পর্ক
     containing_relation:
-      entry_role_html: সম্পর্ক %{relation_name} (যখন %{relation_role})
+      entry_role_html: '%{relation_name} (%{relation_role} হিসেবে)'
     not_found:
       title: পাওয়া যায়নি
     timeout:
@@ -484,6 +487,13 @@ bn:
         title_all: ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্যের আলোচনা
         title_particular: 'ওপেনস্ট্রিটম্যাপ পরিবর্তনধার্য #%{changeset_id} আলোচনা'
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count}টি মন্তব্য'
+        other: '%{count}টি মন্তব্য'
+      changes:
+        one: '%{count}টি পরিবর্তন'
+        other: '%{count}টি পরিবর্তন'
     index:
       title: পরিবর্তনধার্য
       title_user: '%{user} কর্তৃক পরিবর্তন ধার্য'
@@ -511,6 +521,8 @@ bn:
       join_discussion: আলোচনায় যোগ দিতে প্রবেশ করুন
       comment_by_html: '%{time_ago} %{user} এর মন্তব্য'
       hidden_comment_by_html: '%{time_ago} %{user} এর মন্তব্যটি লুকানো হয়েছে'
+      hide_comment: লুকান
+      unhide_comment: দেখান
       comment: মন্তব্য
       changesetxml: পরিবর্তনধার্য এক্সএমএল
       osmchangexml: osmChange এক্সএমএল
@@ -586,7 +598,6 @@ bn:
       comment_link: এই ভুক্তিতে মন্তব্য
       reply_link: লেখককে একটি বার্তা দিন
       comment_count:
-        zero: কোন মন্তব্য নেই
         one: '%{count}টি মন্তব্য'
         other: '%{count}টি মন্তব্য'
       no_comments: কোনও মন্তব্য নেই
@@ -622,6 +633,9 @@ bn:
       new: নতুন দিনলিপির ভুক্তি
       new_title: নিজের ব্যবহারকারী দিনলিপিতে একটি নতুন ভুক্তি রচনা করুন
     profile_diaries:
+      comments:
+        one: '%{count}টি মন্তব্য'
+        other: '%{count}টি মন্তব্য'
       date_label: তারিখ
   doorkeeper:
     flash:
@@ -957,6 +971,9 @@ bn:
           wayside_cross: ওয়েসাইড ক্রস
           wreck: ভগ্নাবশেষ
           "yes": ঐতিহাসিক স্থান
+        information:
+          map: মানচিত্র
+          office: পর্যটন অফিস
         junction:
           "yes": জংশন
         landuse:
@@ -1381,7 +1398,7 @@ bn:
     logout: প্রস্থান
     log_in: প্রবেশ
     sign_up: যোগ দিন
-    start_mapping: মানচিত্রকরণ শুরু করুন
+    start_mapping: মানচিত্রায়ন শুরু করুন
     edit: সম্পাদনা
     history: ইতিহাস
     export: রপ্তানি
@@ -1432,7 +1449,7 @@ bn:
       created: কেউ একজন (আশা করছি আপনি) এইমাত্র %{site_url}-এ একটি অ্যাকাউন্ট তৈরি
         করেছেন।
     email_confirm:
-      subject: '[OpenStreetMap] আপনার ইমেইল ঠিকানা নিশ্চিত করুন'
+      subject: '[OpenHistoricalMap] আপনার ইমেইল ঠিকানা নিশ্চিত করুন'
       greeting: সুপ্রিয়,
       click_the_link: এটি যদি আপনি হন, দয়া করে পরিবর্তন নিশ্চিত করতে নিচের লিংকে
         ক্লিক করুন।
@@ -1545,23 +1562,31 @@ bn:
           dark: আঁধার
         save: পছন্দ হালনাগাদ করুন
   profiles:
-    show:
-      title: প্রোফাইল সম্পাদনা করুন
-      save: প্রোফাইল হালনাগাদ করুন
-      cancel: বাতিল
-      image: চিত্র
-      gravatar:
-        gravatar: গ্র‍্যাভাটার ব্যবহার করুন
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: গ্র‍্যাভাটার কী?
-      new image: চিত্র যোগ করুন
-      delete image: বর্তমান ছবিটি অপসারণ করুন
-      replace image: বর্তমান ছবি বদল করুন
-      home location: বাড়ির অবস্থান
-      show: দেখাও
-      delete: অপসারণ
-    update:
-      success: প্রোফাইল পরিবর্তিত হয়েছে।
+    profile_sections:
+      navigation:
+        image: চিত্র
+    descriptions:
+      show:
+        title: প্রোফাইল সম্পাদনা করুন
+        save: প্রোফাইল হালনাগাদ করুন
+        cancel: বাতিল
+    links:
+      show:
+        title: পরিলেখ সম্পাদনা করুন
+        cancel: বাতিল
+    images:
+      show:
+        gravatar:
+          gravatar: গ্র‍্যাভাটার ব্যবহার করুন
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: গ্র‍্যাভাটার কী?
+        new image: চিত্র যোগ করুন
+        delete image: বর্তমান ছবিটি অপসারণ করুন
+        replace image: বর্তমান ছবি বদল করুন
+    locations:
+      show:
+        show: দেখাও
+        delete: অপসারণ
   sessions:
     new:
       tab_title: প্রবেশ করুন
@@ -1633,7 +1658,7 @@ bn:
           ফিরে যেতে পারেন অথবা আপনি মেধাস্বত্ব এবং %{mapping_link} সম্পর্কে পড়া বন্ধ
           করতে পারেন।
         native_link: THIS_LANGUAGE_NAME_HERE সংস্করণ
-        mapping_link: মানচিত্রকরণ শুরু করুন
+        mapping_link: মানচিত্রায়ন শুরু করুন
       legal_babble:
         credit_title_html: ওপেনস্ট্রিটম্যাপকে কীভাবে কৃতিত্ব দিবেন
         attribution_example:
@@ -1721,13 +1746,13 @@ bn:
         tag: ট্যাগ
       rules:
         title: নিয়মাবলী!
-      start_mapping: মানচিত্রকরণ শুরু করুন
+      start_mapping: মানচিত্রায়ন শুরু করুন
     add_a_note:
       title: সম্পাদনার সময় নেই? একটি টীকা যোগ করুন!
       the_map: মানচিত্র
     communities:
       title: সম্প্রদায়
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: মোটরপথ
@@ -1776,6 +1801,12 @@ bn:
         bicycle_rental: সাইকেল ভাড়া
         bicycle_parking: সাইকেল পার্কিং
         toilets: পায়খানা
+  share_panes:
+    show:
+      embed_html_disabled: এই মানচিত্রের স্তরের জন্য এইচটিএমএল এম্বেডিং উপলব্ধ নয়।
+      image: চিত্র
+      format: 'বিন্যাস:'
+      download: ডাউনলোড
   traces:
     new:
       visibility_help: এটার মানে কি?
@@ -1902,7 +1933,6 @@ bn:
       my profile: আমার প্রোফাইল
       my comments: আমার মন্তব্যসমূহ
       my_preferences: আমার পছন্দ
-      edit_profile: পরিলেখ সম্পাদনা করুন
       send message: বার্তা পাঠান
       diary: দিনলিপি
       edits: সম্পাদনাসমূহ
@@ -1912,15 +1942,6 @@ bn:
       ct declined: বাতিলকৃত
       email address: 'ই-মেইল ঠিকানা:'
       status: 'অবস্থা:'
-      role:
-        administrator: এই ব্যবহারকারী একজন প্রশাসক
-        moderator: এই ব্যবহারকারী একজন মডারেটর
-        grant:
-          administrator: প্রশাসক প্রবেশাধিকার মঞ্জুর করুন
-          moderator: মডারেটর প্রবেশাধিকার মঞ্জুর করুন
-        revoke:
-          administrator: প্রশাসকের প্রবেশাধিকার প্রত্যাহার করুন
-          moderator: মডারেটর প্রবেশাধিকার প্রত্যাহার করুন
       block_history: সক্রিয় বাধাসমূহ
       moderator_history: প্রদত্ত বাধাগুলি
       comments: মন্তব্যসমূহ
@@ -1972,6 +1993,19 @@ bn:
       option_2: আপনি যদি পূর্বে নিবন্ধন করে থাকেন, তবে অনুগ্রহ করে ব্যবহারকারী নাম
         এবং পাসওয়ার্ড ব্যবহার করে লগইন করুন এবং সেটিংস থেকে আপনার অ্যাকাউন্ট আইডি
         যুক্ত করুন।
+    role_icons:
+      title:
+        administrator: এই ব্যবহারকারী একজন প্রশাসক
+        moderator: এই ব্যবহারকারী একজন মডারেটর
+      grant:
+        administrator: প্রশাসক প্রবেশাধিকার মঞ্জুর করুন
+        moderator: মডারেটর প্রবেশাধিকার মঞ্জুর করুন
+        are_you_sure: আপনি কি `%{name}' ব্যবহারকারী কে `%{role}' দায়িত্বটি দিতে চান?
+      revoke:
+        administrator: প্রশাসকের প্রবেশাধিকার প্রত্যাহার করুন
+        moderator: মডারেটর প্রবেশাধিকার প্রত্যাহার করুন
+        are_you_sure: আপনি কি নিশ্চিতভাবে `%{name}' ব্যবহারকারীর উক্ত `%{role}' দায়িত্বটি
+          বাতিল করতে চান?
   user_role:
     filter:
       not_a_role: উক্ত `%{role}' টি কোনো সঠিক দায়িত্ব নয়।
@@ -1979,11 +2013,6 @@ bn:
       doesnt_have_role: এই ব্যবহারকারীর %{role} দায়িত্বটি নেই।
       not_revoke_admin_current_user: বর্তমান ব্যবহারকারীর থেকে প্রশাসকের ভূমিকা প্রত্যাহার
         করা যাবে না৷
-    grant:
-      are_you_sure: আপনি কি `%{name}' ব্যবহারকারী কে `%{role}' দায়িত্বটি দিতে চান?
-    revoke:
-      are_you_sure: আপনি কি নিশ্চিতভাবে `%{name}' ব্যবহারকারীর উক্ত `%{role}' দায়িত্বটি
-        বাতিল করতে চান?
   user_blocks:
     model:
       non_moderator_revoke: একটি ব্লক প্রত্যাহার করতে অবশ্যই একজন মডারেটর হতে হবে।
@@ -2035,11 +2064,6 @@ bn:
     close: বন্ধ
     share:
       title: বণ্টন
-      cancel: বাতিল
-      image: চিত্র
-      format: 'বিন্যাস:'
-      download: ডাউনলোড
-      short_url: সংক্ষিপ্ত ইউআরএল
     map:
       base:
         railway: রেলপথ
@@ -2050,14 +2074,10 @@ bn:
       andy_allan: অ্যান্ডি অ্যালান
     site:
       edit_tooltip: মানচিত্রটি সম্পাদনা করুন
-      embed_html_disabled: এই মানচিত্রের স্তরের জন্য এইচটিএমএল এম্বেডিং উপলব্ধ নয়।
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}মি'
-          km: '%{distance}কিমি'
-      errors:
-        no_place: দুঃখিত - '%{place}' খুঁজে পাওয়া যায়নি।
+        m: '%{distance}মি'
+        km: '%{distance}কিমি'
       instructions:
         continue_without_exit: '%{name}-এ যেতে থাকুন'
         slight_right_without_exit: '%{name}-এ সামান্য ডান দিকে সরান'

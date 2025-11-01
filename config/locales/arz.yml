@@ -33,7 +33,6 @@ arz:
       message: الرسالة
       node: عقدة
       node_tag: سمه عقدة
-      notifier: المخطر
       old_node: عقده قديمة
       old_node_tag: سمه عقده قديمة
       old_relation: علاقه قديمة
@@ -573,27 +572,23 @@ arz:
         أو الرد على %{replyurl}
     message_notification:
       hi: مرحبًا %{to_user}،
-      header: '%{from_user} قام بإرسال رساله لك عبر خريطه الشارع المفتوحه بالعنوان
-        %{subject}:'
+      header: '%{from_user} بعث لك رسالة من خلال OpenHistoricalMap مع الموضوع %{subject}:'
     follow_notification:
       see_their_profile: يمكنك أن تشاهد ملفه الشخصى على %{userurl} وإضافته كصديق أيضًا
         إن كنت ترغب فى ذلك.
     gpx_failure:
-      failed_to_import: 'فشل استيراد الملف كملف تتبع GPS. يرجى التأكد من أن الملف
-        عبارة عن ملف GPX صالح أو أرشيف يحتوي على ملفات GPX بتنسيق مدعوم (.tar.gz،
-        .tar.bz2، .tar، .zip، .gpx.gz، .gpx.bz2). هل يمكن أن تكون هناك مشكلة في التنسيق
-        أو بناء الجملة في الملف؟ إليك خطأ الاستيراد:'
+      failed_to_import: شكله ملفك فشل في الاستيراد كمتابعة GPS.
       subject: '[خريطه الشارع المفتوحة] فشل استيراد جى بى إكس'
     gpx_success:
       subject: '[خريطه الشارع المفتوحة] نجاح استيراد جى بى إكس'
     signup_confirm:
       subject: '[خريطه الشارع المفتوحه] اهلا بيك فى اوبن ستريت ماب'
     email_confirm:
-      subject: '[خريطه الشارع المفتوحة] أكّد عنوان بريدك الإلكتروني'
+      subject: '[OpenHistoricalMap] أكد عنوان البريد الإلكتروني الخاص بك'
       greeting: تحياتى،
       click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لتأكيد التغيير.
     lost_password:
-      subject: '[خريطه الشارع المفتوحة] طلب إعاده تعيين كلمه المرور'
+      subject: '[OpenHistoricalMap] طلب إعادة تعيين كلمة المرور'
       greeting: مرحبًا،
       click_the_link: إذا كان هذا هو أنت، يرجى الضغط على الرابط أدناه لإعاده تعيين
         كلمه المرور.
@@ -671,11 +666,11 @@ arz:
     update:
       flash changed: كلمه المرور الخاصه بك قد تغيرت.
   profiles:
-    show:
-      home location: 'موقع المنزل:'
-      no home location: لم تدخل موقع منزلك.
-      update home location on click: حدّث موقع المنزل عندما أنقر على الخريطة؟
-      show: اعرض
+    locations:
+      show:
+        no home location: لم تدخل موقع منزلك.
+        update home location on click: حدّث موقع المنزل عندما أنقر على الخريطة؟
+        show: اعرض
   sessions:
     new:
       tab_title: دخول
@@ -711,7 +706,7 @@ arz:
       where_am_i: أين أنا؟
       where_am_i_title: صِف الموقع الحالى باستخدام محرك البحث
       submit_text: اذهب
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: طريق سريع
@@ -852,15 +847,6 @@ arz:
       mapper since: 'مُخطط منذ:'
       email address: 'عنوان البريد الإلكتروني:'
       created from: 'أُنشىء من:'
-      role:
-        administrator: هذا المستخدم إداري
-        moderator: هذا المستخدم وسيط
-        grant:
-          administrator: منح وصول إداري
-          moderator: منح وصول وسيط
-        revoke:
-          administrator: ابطل وصول إداري
-          moderator: ابطل وصول وسيط
       block_history: اعرض العرقلات الواصلة
       moderator_history: اعرض العرقلات المعطات
       create_block: منع هذا المستخدم
@@ -886,15 +872,23 @@ arz:
     changeset_comments:
       page:
         changeset: حزمه التغييرات
+    role_icons:
+      title:
+        administrator: هذا المستخدم إداري
+        moderator: هذا المستخدم وسيط
+      grant:
+        administrator: منح وصول إداري
+        moderator: منح وصول وسيط
+        are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
+      revoke:
+        administrator: ابطل وصول إداري
+        moderator: ابطل وصول وسيط
+        are_you_sure: أكنت متأكد انك بتريد إلغاء الدور '%{role}' من المستخدم '%{name}'?
   user_role:
     filter:
       not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
       already_has_role: لدى المستخدم الدور  %{role} سابقًا
       doesnt_have_role: ليس للمستخدم الدور %{role}.
-    grant:
-      are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
-    revoke:
-      are_you_sure: أكنت متأكد انك بتريد إلغاء الدور '%{role}' من المستخدم '%{name}'?
   user_blocks:
     model:
       non_moderator_update: يجب أن تكون وسيط لإنشاء أو تحديث عرقله.

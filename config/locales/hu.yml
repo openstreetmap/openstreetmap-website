@@ -88,7 +88,6 @@ hu:
       node: Pont
       node_tag: Pont címkéje
       note: jegyzet
-      notifier: Értesítő
       old_node: Régi pont
       old_node_tag: Régi pont címkéje
       old_relation: Régi kapcsolat
@@ -195,9 +194,6 @@ hu:
           használni.
         needs_view: Be kell-e jelentkeznie a felhasználónak, mielőtt a blokkolás feloldódik?
       user:
-        email_confirmation: E-mail címed nem jelenik nyilvánosan. További információ
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="az OSMF
-          adatvédelmi irányelvek e-mail címekre vonatkozó részéről">privacy policy</a>.
         new_email: (soha nem jelenik meg nyilvánosan)
   datetime:
     distance_in_words_ago:
@@ -284,15 +280,14 @@ hu:
       title: Fiók szerkesztése
       current email address: Jelenlegi e-mail-cím
       external auth: Külső hitelesítés
-      contributor terms:
+      contributor_terms:
         heading: Hozzájárulási feltételek
         agreed: Elfogadtad az új közreműködési feltételeket.
-        not yet agreed: Még nem fogadtad el az új közreműködési feltételeket.
-        review link text: Kérjük, kövesd ezt a hivatkozást az új közreműködési feltételek
-          áttekintéséhez és elfogadásához.
         agreed_with_pd: Azt is kijelentetted, hogy a szerkesztéseid közkincsnek tekinthetők.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: mi ez?
+      terms_of_use:
+        heading: Felhasználási feltételek
       save changes button: Módosítások mentése
       delete_account: Fiók törlése…
     go_public:
@@ -347,9 +342,10 @@ hu:
         contributor_terms_explain: Ez a megállapodás vonatkozik a jelenlegi és jövőbeli
           hozzájárulásaidra.
         read_ct: Elolvastam és elfogadom a hozzájárulói feltételeket
-        tou_explain_html: A webhely és az OSMF által biztosított egyéb infrastruktúra
-          használatát ezek a %{tou_link} szabályozzák. Kérjük, kattints a linkre,
-          majd olvasd el és fogadd el a szöveget.
+        tou_explain:
+          html: A webhely és az OSMF által biztosított egyéb infrastruktúra használatát
+            ezek a %{tou_link} szabályozzák. Kérjük, kattints a linkre, majd olvasd
+            el és fogadd el a szöveget.
         read_tou: Elolvastam és elfogadom a felhasználási feltételeket
         guidance_info_html: 'Információk a kifejezések megértéséhez: egy %{readable_summary_link}
           és néhány %{informal_translations_link}'
@@ -387,9 +383,7 @@ hu:
       one: '%{count} vonal'
       other: '%{count} vonal'
     download_xml: XML letöltése
-    view_history: Előzmények megtekintése
     view_unredacted_history: Módosítatlan előzményeket megtekintése
-    view_details: Részletek megtekintése
     location: 'Hely:'
     node:
       title_html: '%{name} pont'
@@ -1580,7 +1574,6 @@ hu:
   reports:
     new:
       title_html: '%{link} bejelentése'
-      missing_params: Nem hozhatsz létre új bejelentést
       disclaimer:
         intro: 'Mielőtt elküldöd a bejelentést, kérjük, győződj meg a következőkről:'
         not_just_mistake: Biztos vagy abban, hogy a probléma nem csupán egy hiba
@@ -1655,11 +1648,11 @@ hu:
       footer_unsubscribe: 'Itt iratkozhatsz le a megbeszélésről: %{unsubscribeurl}'
       footer_unsubscribe_html: 'Itt iratkozhatsz le a megbeszélésről: %{unsubscribeurl}'
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Szia %{to_user}!
-      header: '%{from_user} küldött neked egy üzenetet az OpenStreetMapon keresztül
+      header: '%{from_user} küldött neked egy üzenetet az OpenHistoricalMapon keresztül
         %{subject} tárggyal:'
-      header_html: '%{from_user} üzenetet küldött neked az OpenStreetMap-en %{subject}
+      header_html: '%{from_user} üzenetet küldött neked az OpenHistoricalMap-en %{subject}
         tárggyal:'
       footer: Az üzenetet elolvashatja (%{readurl}) vagy küldhet egy válaszüzenetet
         a szerzőnek (%{replyurl}).
@@ -1699,14 +1692,14 @@ hu:
       welcome: Miután jóváhagytad a regisztrációt, további hasznos információkat olvashatsz
         az elinduláshoz.
     email_confirm:
-      subject: '[OpenStreetMap] E-mail-cím megerősítése'
+      subject: '[OpenHistoricalMap] E-mail-cím megerősítése'
       greeting: Szia!
       hopefully_you: 'Valaki (remélhetőleg te) szeretné megváltoztatni az e-mail-címét
         a %{server_url} címen, erre: %{new_address}.'
       click_the_link: Ha ez Te vagy, akkor a módosítás megerősítéséhez kattints az
         alábbi hivatkozásra.
     lost_password:
-      subject: '[OpenStreetMap] Jelszó alaphelyzetbe állításának kérése'
+      subject: '[OpenHistoricalMap] Jelszó alaphelyzetbe állításának kérése'
       greeting: Szia!
       hopefully_you: Valaki (remélhetőleg te) jelszó visszaállítást kért, ehhez az
         e-mail-címhez tartozó openhistoricalmap.org felhasználónak.
@@ -1799,6 +1792,9 @@ hu:
       whitelist: Ha olyan antispam rendszert használsz, amely visszaigazolási kéréseket
         küld, akkor kérjük, ellenőrizd, hogy a(z) %{sender} az engedélyezett listán
         van-e, mivel nem tudunk válaszolni a visszaigazolási kérésekre.
+    gravatar:
+      disabled: A Gravatar le van tiltva.
+      enabled: A Gravatar kép kijelzését bekapcsoltad.
   messages:
     new:
       title: Üzenet küldése
@@ -1912,32 +1908,37 @@ hu:
         title: Megjelenési beállítások
         save: Beállítások frissítése
   profiles:
-    show:
-      title: Profil szerkesztése
-      save: Profil frissítése
-      cancel: Mégse
-      image: Kép
-      gravatar:
-        gravatar: Gravatar használata
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Mi az a Gravatar?
-        disabled: A Gravatar le van tiltva.
-        enabled: A Gravatar kép kijelzését bekapcsoltad.
-      new image: Kép hozzáadása
-      keep image: Jelenlegi kép megtartása
-      delete image: Jelenlegi kép eltávolítása
-      replace image: Jelenlegi kép cseréje
-      image size hint: (legalább 100x100 pixel nagyságú négyzetes kép javasolt)
-      home location: Otthon
-      no home location: Nem adtad meg az otthonod helyét.
-      update home location on click: Frissüljön-e az otthonom helye, amikor a térképre
-        kattintok?
-      show: Megjelenítés
-      delete: Törlés
-      undelete: Törlés visszavonása
-    update:
-      success: Profil frissítve.
-      failure: Nem sikerült frissíteni a profilt.
+    profile_sections:
+      navigation:
+        image: Kép
+    descriptions:
+      show:
+        title: Profil szerkesztése
+        save: Profil frissítése
+        cancel: Mégse
+    links:
+      show:
+        title: Profil szerkesztése
+        cancel: Mégsem
+    images:
+      show:
+        gravatar:
+          gravatar: Gravatar használata
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Mi az a Gravatar?
+        new image: Kép hozzáadása
+        keep image: Jelenlegi kép megtartása
+        delete image: Jelenlegi kép eltávolítása
+        replace image: Jelenlegi kép cseréje
+        image size hint: (legalább 100x100 pixel nagyságú négyzetes kép javasolt)
+    locations:
+      show:
+        no home location: Nem adtad meg az otthonod helyét.
+        update home location on click: Frissüljön-e az otthonom helye, amikor a térképre
+          kattintok?
+        show: Megjelenítés
+        delete: Törlés
+        undelete: Törlés visszavonása
   sessions:
     new:
       tab_title: Bejelentkezés
@@ -2037,7 +2038,7 @@ hu:
         introduction_4_creative_commons: Creative Commons „Nevezd meg! – Így add tovább!”
           2.0
         introduction_4_creative_commons_url: https://creativecommons.org/licenses/by-sa/2.0/deed.hu
-        credit_title_html: Hogyan kell feltüntetned az OpenStreetMapet?
+        credit_title_html: Hogyan kell feltüntetned az OpenHistoricalMapet?
         credit_1_html: 'Ahol az OpenStreetMap adatait használod, ott kérjük, tüntesd
           fel az alább felsoroltakat:'
         credit_2_this_copyright_page: erre a szerzői jogi oldalra
@@ -2081,8 +2082,6 @@ hu:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Nézz utána, miért van ez.
-    edit:
-      id_not_configured: Az iD nincs beállítva
     export:
       title: Exportálás
       manually_select: Más terület kézi kijelölése
@@ -2257,7 +2256,11 @@ hu:
           Ilyent bárki létrehozhat, vagy csatlakozhat ilyenhez. Bővebben a %{communities_wiki_link}in
           olvashatsz.
         communities_wiki: Közösségek wikioldala
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
+      map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
+  legend_panes:
     show:
       entries:
         motorway: Autópálya
@@ -2341,6 +2344,23 @@ hu:
         bicycle_parking: Kerékpártároló
         bicycle_parking_small: Kis kerékpártároló
         toilets: WC
+  share_panes:
+    show:
+      link: Link vagy HTML
+      include_marker: Helyjelölővel
+      long_link: Link
+      short_link: Rövid link
+      embed: HTML
+      embed_html_disabled: Ezen a térképrétegen nem lehet HTML-t beágyazni
+      paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
+      geo_uri: Geo URI
+      image: Kép
+      format: 'Formátum:'
+      scale: 'Méretarány:'
+      custom_dimensions: Kiterjedés megadása
+      image_dimensions_html: A kép a %{layer} réteget fogja megjeleníteni %{width}×%{height}
+        képpont méretben.
+      download: Letöltés
   traces:
     visibility:
       private: Magán (megosztva csak névtelenül, rendezetlen pontok)
@@ -2607,7 +2627,6 @@ hu:
       blocks by me: Általam kiosztott blokkolások
       create_mute: Felhasználó elnémítása
       destroy_mute: Felhasználó elnémításának feloldása
-      edit_profile: Profil szerkesztése
       send message: Üzenet küldése
       diary: Napló
       edits: Szerkesztések
@@ -2624,18 +2643,6 @@ hu:
       created from: 'Készítve innen:'
       status: 'Állapot:'
       spam score: 'Spam pontszám:'
-      role:
-        administrator: Ez a felhasználó adminisztrátor
-        moderator: Ez a felhasználó moderátor
-        importer: Ez a felhasználó importálhat
-        grant:
-          administrator: Adminisztrátori hozzáférés megadása
-          moderator: Moderátori hozzáférés megadása
-          importer: Importálási jog megadása
-        revoke:
-          administrator: Adminisztrátori hozzáférés visszavonása
-          moderator: Moderátori hozzáférés viszzavonása
-          importer: Importálási hozzáférés visszavonása
       block_history: Aktív blokkolások
       moderator_history: Kiosztott blokkolások
       revoke_all_blocks: Minden blokkolás visszavonása
@@ -2719,6 +2726,20 @@ hu:
         a lenti űrlap segítségével.
       option_2: Ha már van fiókod, bejelentkezhetsz a felhasználóneveddel és jelszavaddal,
         majd összekapcsolhatod az azonosítóddal a beállításaidban.
+    role_icons:
+      title:
+        administrator: Ez a felhasználó adminisztrátor
+        moderator: Ez a felhasználó moderátor
+      grant:
+        administrator: Adminisztrátori hozzáférés megadása
+        moderator: Moderátori hozzáférés megadása
+        importer: Importálási jog megadása
+        are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
+      revoke:
+        administrator: Adminisztrátori hozzáférés visszavonása
+        moderator: Moderátori hozzáférés viszzavonása
+        importer: Importálási hozzáférés visszavonása
+        are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
   user_role:
     filter:
       not_a_role: A '%{role}' kifejezés nem érvényes szerep.
@@ -2726,10 +2747,6 @@ hu:
       doesnt_have_role: A felhasználó szerepe nem %{role}.
       not_revoke_admin_current_user: Nem lehet visszavonni az aktuális felhasználó
         adminisztrátorjogát.
-    grant:
-      are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
-    revoke:
-      are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
   user_blocks:
     model:
       non_moderator_update: Blokkolás kiosztásához vagy frissítéséhez moderátornak
@@ -2901,27 +2918,10 @@ hu:
     close: Bezárás
     share:
       title: Megosztás
-      cancel: Mégsem
-      image: Kép
-      link: Link vagy HTML
-      long_link: Link
-      short_link: Rövid link
-      geo_uri: Geo URI
-      embed: HTML
-      custom_dimensions: Kiterjedés megadása
-      format: 'Formátum:'
-      scale: 'Méretarány:'
-      image_dimensions: A kép a %{layer} réteget fogja megjeleníteni %{width}×%{height}
-        képpont méretben.
-      download: Letöltés
-      short_url: Rövid URL
-      include_marker: Helyjelölővel
-      center_marker: Legyen a helyjelölő a térkép középpontja
-      paste_html: Weboldalba beágyazáshoz illeszd be ezt a HTML-t
       view_larger_map: Nagyobb térkép
     embed:
       report_problem: Probléma bejelentése
-    key:
+    legend:
       title: Jelmagyarázat
       tooltip: Jelmagyarázat
       tooltip_disabled: A jelmagyarázat nem érhető el ezen a rétegen
@@ -2965,21 +2965,16 @@ hu:
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
       createnote_tooltip: Jegyzet hozzáadása a térképhez
       createnote_disabled_tooltip: Nagyíts térképes jegyzet hozzáadásához
-      map_notes_zoom_in_tooltip: Nagyítsd fel a térképet a jegyzetek megjelenítéséhez
-      map_data_zoom_in_tooltip: Nagyítsd fel a térképet a térképadatok megjelenítéséhez
       queryfeature_tooltip: Objektumok lekérdezése
       queryfeature_disabled_tooltip: Objektumok lekérdezéséhez nagyíts a térképre
-      embed_html_disabled: Ezen a térképrétegen nem lehet HTML-t beágyazni
     edit_help: Mozgasd a térképet, nagyíts ott ahol módosítani szeretnéd, majd kattints
       ide.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}&nbsp;m'
-          km: '%{distance}&nbsp;km'
+        m: '%{distance}&nbsp;m'
+        km: '%{distance}&nbsp;km'
       errors:
         no_route: Nem található útvonal a két hely között.
-        no_place: Sajnáljuk, %{place} helyet nem sikerült megtalálnunk a térképen.
       instructions:
         continue_without_exit: Folyamatosan %{name}
         slight_right_without_exit: Enyhén jobbra %{name}
@@ -3072,6 +3067,9 @@ hu:
       show_address: Cím megjelenítése
       query_features: Objektumok lekérdezése
       centre_map: Térkép középre hozása itt
+    edit:
+      id_not_configured:
+        title: Az iD nincs beállítva
   redactions:
     edit:
       heading: Adattörlési művelet szerkesztése

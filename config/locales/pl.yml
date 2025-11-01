@@ -124,7 +124,6 @@ pl:
       node: Węzeł
       node_tag: Znacznik węzła
       note: uwagi
-      notifier: Zgłaszający
       old_node: Stary węzeł
       old_node_tag: Znacznik wcześniejszego węzła
       old_relation: Stara relacja
@@ -231,10 +230,6 @@ pl:
           staraj się używać ogólnie rozumianych pojęć.
         needs_view: Czy użytkownik musi się zalogować, zanim blokada zostanie zdjęta?
       user:
-        email_confirmation: Twój adres nie będzie wyświetlany publicznie, zobacz naszą
-          <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy" title="polityka
-          prywatności OSMF zawierająca sekcję o adresach el-pocztowych">politykę prywatności</a>,
-          aby uzyskać więcej informacji.
         new_email: (nie jest wyświetlany publicznie)
   datetime:
     distance_in_words_ago:
@@ -347,15 +342,14 @@ pl:
       title: Zmiana ustawień konta
       current email address: Aktualny adres e-mail
       external auth: Zewnętrzne uwierzytelnienie
-      contributor terms:
+      contributor_terms:
         heading: Warunki uczestnictwa
         agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa.
-        not yet agreed: Nie wyrażono zgody na nowe Warunki Uczestnictwa.
-        review link text: Skorzystaj z tego odnośnika w dogodnym momencie, aby zapoznać
-          się z nowymi Warunkami Uczestnictwa i je zaakceptować.
         agreed_with_pd: Zadeklarowałeś, że swoje edycje publikujesz w domenie publicznej.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: co to jest?
+      terms_of_use:
+        heading: Warunkom użytkowania
       save changes button: Zapisz zmiany
       delete_account: Usuń konto...
     go_public:
@@ -408,9 +402,10 @@ pl:
         contributor_terms_explain: Niniejsza umowa reguluje warunki twoich obecnych
           i przyszłych wkładów.
         read_ct: Przeczytałem i akceptuję powyższe warunki współautora
-        tou_explain_html: Te %{tou_link} regulują korzystanie ze strony internetowej
-          i innej infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj
-          i zaakceptuj tekst.
+        tou_explain:
+          html: Te %{tou_link} regulują korzystanie ze strony internetowej i innej
+            infrastruktury zapewnianej przez OSMF. Kliknij link, przeczytaj i zaakceptuj
+            tekst.
         read_tou: Przeczytałem i akceptuję Warunki użytkowania
         guidance_info_html: 'Informacje pomocne w zrozumieniu tych terminów: %{readable_summary_link}
           i %{informal_translations_link}'
@@ -452,9 +447,7 @@ pl:
       many: '%{count} linii'
       other: '%{count} linii'
     download_xml: Pobierz XML
-    view_history: Wyświetl historię
     view_unredacted_history: Pokaż historię bez poprawek
-    view_details: Wyświetl szczegóły
     location: 'Położenie:'
     common_details:
       coordinates_html: '%{latitude}, %{longitude}'
@@ -1666,7 +1659,6 @@ pl:
   reports:
     new:
       title_html: Zgłoś użytkownika %{link}
-      missing_params: Nie można utworzyć nowego zgłoszenia
       disclaimer:
         intro: 'Przed wysłaniem zgłoszenia do moderatorów, upewnij się proszę, że:'
         not_just_mistake: Na pewno nie jest to pomyłka, a problem wymagający zgłoszenia
@@ -1749,11 +1741,12 @@ pl:
       footer_unsubscribe_html: Możesz wypisać się z subskrypcji tego wpisu dziennika
         pod %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Cześć, %{to_user},
-      header: '%{from_user} wysłał do ciebie wiadomość z OpenStreetMap o temacie %{subject}:'
-      header_html: '%{from_user} wysłał do ciebie wiadomość z OpenStreetMap o temacie
+      header: '%{from_user} wysłał do ciebie wiadomość z OpenHistoricalMap o temacie
         %{subject}:'
+      header_html: '%{from_user} wysłał do ciebie wiadomość z OpenHistoricalMap o
+        temacie %{subject}:'
       footer: Możesz również przeczytać wiadomość na %{readurl} i wysłać wiadomość
         do autora na %{replyurl}
       footer_html: Możesz również przeczytać wiadomość na %{readurl} i wysłać wiadomość
@@ -1790,13 +1783,13 @@ pl:
       welcome: Po potwierdzeniu konta dostarczymy ci dodatkowych informacji o tym,
         jak zacząć.
     email_confirm:
-      subject: '[OpenStreetMap] Potwierdź swój e-mail'
+      subject: '[OpenHistoricalMap] Potwierdź swój e-mail'
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie ty) chce zmienić adres e-mail w %{server_url}
         na %{new_address}.
       click_the_link: Jeśli to ty, kliknij poniższy link, aby potwierdzić zmianę.
     lost_password:
-      subject: '[OpenStreetMap] Prośba zmiany hasła'
+      subject: '[OpenHistoricalMap] Prośba zmiany hasła'
       greeting: Cześć,
       hopefully_you: Ktoś (prawdopodobnie ty) poprosił o zresetowanie hasła do konta
         w serwisie openstreetmap.org przypisanego do tego adresu e-mail.
@@ -1895,6 +1888,9 @@ pl:
       whitelist: Jeśli używasz systemu antyspamowego, upewnij się, że do swojej białej
         listy dodałeś adres %{sender}. Dzięki temu będziemy mogli skontaktować się
         z tobą bez problemów.
+    gravatar:
+      disabled: Wyłączono Gravatara.
+      enabled: Włączono wyświetlanie Gravatara.
   messages:
     new:
       title: Wysyłanie wiadomości
@@ -2016,32 +2012,37 @@ pl:
         title: Preferencje
         save: Zapisz preferencje
   profiles:
-    show:
-      title: Edycja profilu
-      save: Zapisz zmiany
-      cancel: Anuluj
-      image: 'Obraz:'
-      gravatar:
-        gravatar: Użyj Gravatara
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Co to jest Gravatar?
-        disabled: Wyłączono Gravatara.
-        enabled: Włączono wyświetlanie Gravatara.
-      new image: Dodanie obrazu
-      keep image: Pozostaw dotychczasowy obraz
-      delete image: Usuń aktualny obraz
-      replace image: Zmień aktualny obraz
-      image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach przynajmniej
-        100x100)
-      home location: 'Położenie domu:'
-      no home location: Nie wpisałeś swojej lokalizacji domowej.
-      update home location on click: Uaktualnianie położenia kliknięciem na mapie
-      show: Wyświetl
-      delete: Usuń
-      undelete: Cofnij usunięcie
-    update:
-      success: Zaktualizowano profil użytkownika.
-      failure: Nie udało się zaktualizować profilu.
+    profile_sections:
+      navigation:
+        image: 'Obraz:'
+    descriptions:
+      show:
+        title: Edycja profilu
+        save: Zapisz zmiany
+        cancel: Anuluj
+    links:
+      show:
+        title: Edytuj profil
+        cancel: Anuluj
+    images:
+      show:
+        gravatar:
+          gravatar: Użyj Gravatara
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Co to jest Gravatar?
+        new image: Dodanie obrazu
+        keep image: Pozostaw dotychczasowy obraz
+        delete image: Usuń aktualny obraz
+        replace image: Zmień aktualny obraz
+        image size hint: (najlepiej sprawdzają się kwadratowe obrazy o rozmiarach
+          przynajmniej 100x100)
+    locations:
+      show:
+        no home location: Nie wpisałeś swojej lokalizacji domowej.
+        update home location on click: Uaktualnianie położenia kliknięciem na mapie
+        show: Wyświetl
+        delete: Usuń
+        undelete: Cofnij usunięcie
   sessions:
     new:
       tab_title: Logowanie
@@ -2184,8 +2185,6 @@ pl:
       anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Tu dowiesz się dlaczego.
-    edit:
-      id_not_configured: iD nie został skonfigurowany
     export:
       title: Eksportuj
       manually_select: Ręcznie zaznacz inny obszar
@@ -2357,7 +2356,11 @@ pl:
           Nie ma potrzeby formalnego tworzenia grupy w takim samym stopniu, jak w przypadku oddziałów lokalnych.
           W rzeczywistości wiele grup istnieje z powodzeniem jako nieformalne zgromadzenie ludzi lub jako grupa społeczna. Każdy może je założyć lub do nich dołączyć. Dowiedz się więcej na %{communities_wiki_link}.
         communities_wiki: stronie Wiki
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
+      map_data_zoom_in_tooltip: Przybliż mapę, aby zobaczyć jej dane
+  legend_panes:
     show:
       entries:
         motorway: Autostrada
@@ -2441,6 +2444,23 @@ pl:
         bicycle_parking: Parking dla rowerów
         bicycle_parking_small: Mały parking dla rowerów
         toilets: Toalety
+  share_panes:
+    show:
+      link: Odnośnik lub HTML
+      include_marker: Dołącz pinezkę
+      long_link: Odnośnik
+      short_link: Skrócony
+      embed: HTML
+      embed_html_disabled: Osadzanie HTML nie jest dostępne dla tej warstwy mapy
+      paste_html: Wklej podany kod HTML do swojej strony
+      geo_uri: Schemat geo URI
+      image: Obraz
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Własne wymiary
+      image_dimensions_html: Obraz będzie przedstawiał warstwę %{layer} w rozdzielczości
+        %{width}×%{height}
+      download: Pobierz
   traces:
     visibility:
       private: Prywatny (udostępniany jedynie jako anonimowy, nieuporządkowane punkty)
@@ -2709,7 +2729,6 @@ pl:
       blocks by me: Nałożone blokady
       create_mute: wycisz tego użytkownika
       destroy_mute: odcisz tego użytkownika
-      edit_profile: Edytuj profil
       send message: wyślij wiadomość
       diary: dziennik
       edits: edycje
@@ -2726,18 +2745,6 @@ pl:
       created from: 'Stworzony z:'
       status: 'Stan:'
       spam score: 'Punktacja spamu:'
-      role:
-        administrator: Ten użytkownik jest administratorem
-        moderator: Ten użytkownik jest moderatorem
-        importer: Ten użytkownik jest importerem
-        grant:
-          administrator: Przyznaj dostęp administratora
-          moderator: Przyznaj dostęp moderatora
-          importer: Przyznaj rolę importera
-        revoke:
-          administrator: Cofnij dostęp administratora
-          moderator: Cofnij dostęp moderatora
-          importer: Odwołaj rolę importera
       block_history: aktywne blokady
       moderator_history: nałożone blokady
       revoke_all_blocks: Odwołaj wszystkie blokady
@@ -2825,6 +2832,20 @@ pl:
         pomocą formularza poniżej.
       option_2: Jeśli masz już konto, możesz zalogować się, podając swoją nazwę użytkownika
         i hasło, a następnie powiązać konto z twoim ID w ustawieniach użytkownika.
+    role_icons:
+      title:
+        administrator: Ten użytkownik jest administratorem
+        moderator: Ten użytkownik jest moderatorem
+      grant:
+        administrator: Przyznaj dostęp administratora
+        moderator: Przyznaj dostęp moderatora
+        importer: Przyznaj rolę importera
+        are_you_sure: Czy na pewno chcesz przyznać rolę „%{role}” użytkownikowi %{name}?
+      revoke:
+        administrator: Cofnij dostęp administratora
+        moderator: Cofnij dostęp moderatora
+        importer: Odwołaj rolę importera
+        are_you_sure: Czy na pewno chcesz odwołać rolę „%{role}” użytkownikowi %{name}?
   user_role:
     filter:
       not_a_role: Napis „%{role}” nie jest ważną rolą.
@@ -2832,10 +2853,6 @@ pl:
       doesnt_have_role: Użytkownik nie ma roli %{role}.
       not_revoke_admin_current_user: Nie można odwołać roli administratora z bieżącego
         użytkownika.
-    grant:
-      are_you_sure: Czy na pewno chcesz przyznać rolę „%{role}” użytkownikowi %{name}?
-    revoke:
-      are_you_sure: Czy na pewno chcesz odwołać rolę „%{role}” użytkownikowi %{name}?
   user_blocks:
     model:
       non_moderator_update: Musisz być moderatorem, by ustanowić lub edytować blokadę.
@@ -3020,27 +3037,10 @@ pl:
     close: Zamknij
     share:
       title: Udostępnianie
-      cancel: Anuluj
-      image: Obraz
-      link: Odnośnik lub HTML
-      long_link: Odnośnik
-      short_link: Skrócony
-      geo_uri: Schemat geo URI
-      embed: HTML
-      custom_dimensions: Własne wymiary
-      format: 'Format:'
-      scale: 'Skala:'
-      image_dimensions: Obraz będzie przedstawiał warstwę %{layer} w rozdzielczości
-        %{width}×%{height}
-      download: Pobierz
-      short_url: Krótki URL
-      include_marker: Dołącz pinezkę
-      center_marker: Wyśrodkuj mapę na znaczniku
-      paste_html: Wklej podany kod HTML do swojej strony
       view_larger_map: Wyświetl większą mapę
     embed:
       report_problem: Zgłoś błąd
-    key:
+    legend:
       title: Legenda
       tooltip: Legenda
       tooltip_disabled: Legenda nie jest dostępna do tej warstwy
@@ -3089,21 +3089,16 @@ pl:
       edit_disabled_tooltip: Przybliż mapę, aby ją edytować
       createnote_tooltip: Zgłoś błąd lub dodaj uwagę na mapie
       createnote_disabled_tooltip: Przybliż mapę, aby dodać uwagę
-      map_notes_zoom_in_tooltip: Powiększ, aby zobaczyć uwagi
-      map_data_zoom_in_tooltip: Przybliż mapę, aby zobaczyć jej dane
       queryfeature_tooltip: Pobierz i wyświetl obiekty
       queryfeature_disabled_tooltip: Przybliż mapę, aby obejrzeć dane obiektów
-      embed_html_disabled: Osadzanie HTML nie jest dostępne dla tej warstwy mapy
     edit_help: Proszę przesunąć mapę i przybliżyć modyfikowane położenie, a następnie
       kliknąć tutaj.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance} m'
-          km: '%{distance} km'
+        m: '%{distance} m'
+        km: '%{distance} km'
       errors:
         no_route: Nie udało się wyznaczyć trasy pomiędzy tymi dwoma punktami.
-        no_place: Niestety nie udało się odnaleźć „%{place}”.
       instructions:
         continue_without_exit: Kontynuuj na %{name}
         slight_right_without_exit: Lekko w prawo w %{name}
@@ -3192,6 +3187,9 @@ pl:
       show_address: Pokaż adres
       query_features: Wyświetl dane obiektów
       centre_map: Wycentruj mapę tutaj
+    edit:
+      id_not_configured:
+        title: iD nie został skonfigurowany
   redactions:
     edit:
       heading: Edytuj poprawkę

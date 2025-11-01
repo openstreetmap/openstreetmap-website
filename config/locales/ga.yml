@@ -48,7 +48,6 @@ ga:
       node: Nód
       node_tag: Clib do Nód
       note: nóta
-      notifier: An té a thug fógra
       old_node: Sean-nód
       old_node_tag: Sean-Chlib Nóid
       old_relation: Sean-Ghaol
@@ -145,9 +144,6 @@ ga:
           ar eolas ag gach úsáideoir, mar sin déan iarracht téarmaí simplí a úsáid.
         needs_view: An gá don úsáideoir logáil isteach sula mbainfear an bac seo?
       user:
-        email_confirmation: Ní thaispeáintear do sheoladh go poiblí, féach an <a href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">polasaí
-          príobháideachta</a> atá againn chun tuilleadh eolais a fháil.
         new_email: (nach dtaispeántar go poiblí riamh)
   datetime:
     distance_in_words_ago:
@@ -193,11 +189,9 @@ ga:
       title: Cuir an cuntas in eagar
       current email address: An seoladh ríomhphoist reatha
       external auth: Fíordheimhniú Seachtrach
-      contributor terms:
+      contributor_terms:
         heading: Téarmaí do Rannchuiditheoirí
         agreed: D'aontaigh tú leis na Téarmaí nua do Rannchuiditheoirí.
-        not yet agreed: Níor aontaigh tú leis na Téarmaí nua do Rannchuiditheoirí
-          fós.
         link text: céard é seo?
       save changes button: Sábháil na hAthruithe
     go_public:
@@ -220,8 +214,6 @@ ga:
     no_comment: (níl aon nóta tráchta ann)
     part_of: Cuid de
     download_xml: Íoslódail XML
-    view_history: Féach ar Stair
-    view_details: Amharc ar Shonraí
     location: 'Suíomh:'
     node:
       title_html: 'Nód: %{name}'
@@ -1076,8 +1068,8 @@ ga:
         ag %{replyurl}
     message_notification:
       hi: A %{to_user}, a chara,
-      header: 'Sheol %{from_user} teachtaireacht chugat trí OpenStreetMap leis an
-        ábhar %{subject}:'
+      header: 'Sheol %{from_user} teachtaireacht chugat trí OpenHistoricalMap leis
+        an ábhar %{subject}:'
       footer_html: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin
         agus is féidir leat freagra a scríobh ag %{replyurl}
     follow_notification:
@@ -1098,14 +1090,14 @@ ga:
       welcome: Tar éis duit do chuntas a dheimhniú, cuirfimid eolas breise ar fáil
         duit le go mbeidh tú in ann tosú amach.
     email_confirm:
-      subject: '[OpenStreetMap] Do sheoladh ríomhphoist a dheimhniú'
+      subject: '[OpenHistoricalMap] Do sheoladh ríomhphoist a dheimhniú'
       greeting: A chara,
       hopefully_you: Is mian le duit éigin (tusa, tá súil againn), a s(h)eoladh ríomhphoist
         ag %{server_url} a athrú go %{new_address}.
       click_the_link: Más tusa atá ann, cliceáil ar an nasc thíos chun an t-athrú
         a dheimhniú.
     lost_password:
-      subject: '[OpenStreetMap] Iarratas ar athshocrú pasfhocail'
+      subject: '[OpenHistoricalMap] Iarratas ar athshocrú pasfhocail'
       greeting: A chara,
       hopefully_you: D'iarr duine éigin (tusa, b'fhéidir) go ndéanfaí an pasfhocal
         a athshocrú ar an gcuntas openstreetmap.org atá ceangailte leis an seoladh
@@ -1179,6 +1171,8 @@ ga:
     confirm_email:
       button: Deimhnigh
       success: Deimhníodh an t-athrú ar an seoladh ríomhphoist!
+    gravatar:
+      disabled: Díchumasaíodh Gravatar.
   messages:
     new:
       title: Seol teachtaireacht
@@ -1269,18 +1263,24 @@ ga:
     update:
       flash changed: Athraíodh d'fhocal faire.
   profiles:
-    show:
-      image: Íomhá
-      gravatar:
-        gravatar: Úsáid Gravatar
-        disabled: Díchumasaíodh Gravatar.
-      new image: Cuir íomhá leis
-      keep image: Coinnigh an íomhá reatha
-      delete image: Bain an íomhá reatha
-      replace image: Ionadaigh an íomhá reatha
-      image size hint: (íomhá chearnógach atá 100x100 ar a laghad is fearr)
-      home location: Suíomh Baile
-      show: Taispeáin
+    profile_sections:
+      navigation:
+        image: Íomhá
+    links:
+      show:
+        cancel: Cuir ar ceal
+    images:
+      show:
+        gravatar:
+          gravatar: Úsáid Gravatar
+        new image: Cuir íomhá leis
+        keep image: Coinnigh an íomhá reatha
+        delete image: Bain an íomhá reatha
+        replace image: Ionadaigh an íomhá reatha
+        image size hint: (íomhá chearnógach atá 100x100 ar a laghad is fearr)
+    locations:
+      show:
+        show: Taispeáin
   sessions:
     new:
       tab_title: Logáil isteach
@@ -1310,6 +1310,7 @@ ga:
     about:
       used_by_html: Cumhachtaíonn %{name} sonraí léarscáile ar  na mílte suíomh gréasáin,
         feidhmchlár móibíleach agus gléas crua-earraí
+    about_section:
       open_data_title: Sonraí Oscailte
       legal_title: Dlíthiúil
       partners_title: Comhpháirtithe
@@ -1328,7 +1329,7 @@ ga:
         native_link: Leagan THIS_LANGUAGE_NAME_HERE
         mapping_link: dul i mbun léarscáilithe
       legal_babble:
-        credit_title_html: Conas OpenStreetMap a lua
+        credit_title_html: Conas OpenHistoricalMap a lua
         credit_1_html: Ceanglaímid ort an lua &ldquo;&copy;Rannchuiditheoirí OpenStreetMap&rdquo;
           a úsáid.
         attribution_example:
@@ -1357,8 +1358,6 @@ ga:
         poiblí ar do %{user_page}.
       user_page_link: leathanach úsáideora
       anon_edits_link_text: Faigh amach cén fáth ar amhlaidh atá.
-    edit:
-      id_not_configured: Níor cumraíodh iD
     export:
       title: Easportáil
       manually_select: Roghnaigh limistéar eile de láimh
@@ -1463,7 +1462,11 @@ ga:
       para_1: Mura bhfuil tú ag iarraidh ach go ndéanfaí rud beag a cheartú agus gan
         an t-am agat clárú agus foghlaim conas eagarthóireacht a dhéanamh, tá sé an-éasca
         nóta a scríobh.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zúmáil isteach chun nótaí léarscáile a fheiceáíl
+      map_data_zoom_in_tooltip: Zúmáil isteach chun sonraí na léarscáile a fheiceáil
+  legend_panes:
     show:
       entries:
         motorway: Mótarbhealach
@@ -1519,6 +1522,17 @@ ga:
         bicycle_shop: Siopa rothar
         bicycle_parking: Páirceáil do rothair
         toilets: Leithreas
+  share_panes:
+    show:
+      link: Nasc nó HTML
+      long_link: Nasc
+      short_link: Nasc Gearr
+      embed: HTML
+      geo_uri: Geo-URI
+      image: Íomhá
+      format: 'Formáid:'
+      scale: 'Scála:'
+      download: Íoslódáil
   traces:
     visibility:
       private: Príobháideacha (ní chomhroinnfear é ach mar phointí gan ainm, gan ord)
@@ -1667,9 +1681,6 @@ ga:
       created from: 'Cruthaithe ó:'
       status: 'Stádas:'
       spam score: 'Scór Turscair:'
-      role:
-        administrator: Is riarthóir é an t-úsáideoir seo
-        moderator: Is áisitheoir é an t-úsáideoir seo
       block_history: Baic Ghníomhacha
       moderator_history: Baic a Tugadh
       comments: 'Nótaí tráchta:'
@@ -1693,6 +1704,10 @@ ga:
     diary_comments:
       page:
         post: Postáil
+    role_icons:
+      title:
+        administrator: Is riarthóir é an t-úsáideoir seo
+        moderator: Is áisitheoir é an t-úsáideoir seo
   user_blocks:
     helper:
       block_duration:
@@ -1729,20 +1744,9 @@ ga:
     close: Dún
     share:
       title: Comhroinn
-      cancel: Cuir ar ceal
-      image: Íomhá
-      link: Nasc nó HTML
-      long_link: Nasc
-      short_link: Nasc Gearr
-      geo_uri: Geo-URI
-      embed: HTML
-      format: 'Formáid:'
-      scale: 'Scála:'
-      download: Íoslódáil
-      short_url: URL Gearr
     embed:
       report_problem: Tuairiscigh fadhb
-    key:
+    legend:
       title: Eochair na Léarscáile
       tooltip: Eochair na Léarscáile
     map:
@@ -1764,8 +1768,6 @@ ga:
     site:
       edit_disabled_tooltip: Zúmáil isteach chun an léarscáil a chur in eagar
       createnote_disabled_tooltip: Zúmáil isteach chun nóta a chur leis an léarscáil
-      map_notes_zoom_in_tooltip: Zúmáil isteach chun nótaí léarscáile a fheiceáíl
-      map_data_zoom_in_tooltip: Zúmáil isteach chun sonraí na léarscáile a fheiceáil
       queryfeature_tooltip: Gnéithe a fhiosrú
       queryfeature_disabled_tooltip: Zúmáil isteach chun gnéithe a fhiosrú
     edit_help: Bog an léarscáil agus zúmáil isteach ar áit is mian leat a chur in
@@ -1773,7 +1775,6 @@ ga:
     directions:
       errors:
         no_route: Níorbh fhéidir bealach a aimsiú idir an dhá áit sin.
-        no_place: Ár leithscéil - níorbh fhéidir '%{place}' a aimsiú.
       instructions:
         continue_without_exit: Lean ar aghaidh ar %{name}
         slight_right_without_exit: Beagán ar dheis go %{name}
@@ -1841,6 +1842,9 @@ ga:
       directions_from: Treoracha as seo
       directions_to: Treoracha go dtí seo
       add_note: Cuir isteach nóta anseo
+    edit:
+      id_not_configured:
+        title: Níor cumraíodh iD
   redactions:
     show:
       description: 'Cur síos:'

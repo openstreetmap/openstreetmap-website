@@ -89,7 +89,6 @@ da:
       node: Punkt
       node_tag: Punktegenskab
       note: bemærkning
-      notifier: Underret
       old_node: Tidligere punkt
       old_node_tag: Tidligere punktegenskab
       old_relation: Tidligere relation
@@ -195,9 +194,6 @@ da:
           muligt.
         needs_view: Skal brugeren logge på, før denne blokering vil blive fjernet?
       user:
-        email_confirmation: Din adresse vises ikke offentligt. Se vores href="https://wiki.osmfoundation.org/wiki/Privacy_Policy"
-          title="OSMF privacy policy including section on email addresses">privatlivspolitik</a>
-          for yderligere information.
         new_email: (vises aldrig offentligt)
   datetime:
     distance_in_words_ago:
@@ -284,16 +280,15 @@ da:
       title: Rediger konto
       current email address: Nuværende e-mailadresse
       external auth: Ekstern godkendelse
-      contributor terms:
+      contributor_terms:
         heading: 'Vilkår for bidragsydere:'
         agreed: Du har accepteret de nye vilkår for bidragsydere.
-        not yet agreed: Du har endnu ikke accepteret de nye vilkår for bidragsydere.
-        review link text: Følg dette link når det er bekvemt for dig for at gennemse
-          og acceptere de nye vilkår for bidragsydere.
         agreed_with_pd: Du har også erklæret at du anser dine ændringer for at være
           fælleseje/uden ophavsret.
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: hvad er dette?
+      terms_of_use:
+        heading: Brugsvilkår
       save changes button: Gem ændringer
       delete_account: Slet konto
     go_public:
@@ -348,9 +343,10 @@ da:
         contributor_terms_explain: Denne aftale beskriver vilkårene for dine eksisterende
           og fremtidige bidrag.
         read_ct: Jeg har læst og samtykker med de ovenstående vilkår for bidragsydere
-        tou_explain_html: Disse %{tou_link} beskriver vilkårene for brug af denne
-          hjemmeside og anden infrastruktur stillet til rådighed af OSMF. Klik venligst
-          på linket, læs og samtyk med vilkårene.
+        tou_explain:
+          html: Disse %{tou_link} beskriver vilkårene for brug af denne hjemmeside
+            og anden infrastruktur stillet til rådighed af OSMF. Klik venligst på
+            linket, læs og samtyk med vilkårene.
         read_tou: Jeg har læst og samtykker med brugsvilkårene
         guidance_info_html: 'Oplysninger til at hjælpe med at forstå disse udtryk:
           et %{readable_summary_link} og nogle %{informal_translations_link}'
@@ -389,9 +385,7 @@ da:
       one: '%{count} vej'
       other: '%{count} veje'
     download_xml: Hent XML
-    view_history: Se historik
     view_unredacted_history: Vis uredigeret historik
-    view_details: Se detaljer
     location: 'Sted:'
     node:
       title_html: 'Punkt: %{name}'
@@ -1581,7 +1575,6 @@ da:
   reports:
     new:
       title_html: Rapport %{link}
-      missing_params: Kan ikke oprette en ny rapport
       disclaimer:
         intro: 'Før din rapport sendes til moderatorerne, så sørg venligst for at:'
         not_just_mistake: Du er sikker på at problemet ikke bare er en misforståelse
@@ -1659,12 +1652,12 @@ da:
       footer_unsubscribe: Du kan afmelde diskussionen på %{unsubscribeurl}
       footer_unsubscribe_html: Du kan afmelde diskussionen på %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Hej %{to_user},
-      header: '%{from_user} har sendt dig en besked gennem OpenStreetMap med emnet
+      header: '%{from_user} har sendt dig en besked gennem OpenHistoricalMap med emnet
         %{subject}:'
-      header_html: '%{from_user} har sendt dig en besked gennem OpenStreetMap med
-        emnet %{subject}:'
+      header_html: '%{from_user} har sendt dig en besked gennem OpenHistoricalMap
+        med emnet %{subject}:'
       footer: Du kan også læse beskeden på %{readurl} og du kan sende en besked til
         forfatteren på %{replyurl}
       footer_html: Du kan også læse beskeden på %{readurl} og du kan sende en besked
@@ -1701,14 +1694,14 @@ da:
       welcome: Når du har bekræftet din konto, vil vi give dig nogle yderligere oplysninger
         så du kan komme godt i gang.
     email_confirm:
-      subject: '[OpenStreetMap] Bekræft din e-mailadresse'
+      subject: '[OpenHistoricalMap] Bekræft din e-mailadresse'
       greeting: Hej,
       hopefully_you: En eller anden (forhåbentlig dig) ønsker at ændre sin e-mailadresse
         på %{server_url} til %{new_address}.
       click_the_link: Hvis det er dig, skal du klikke på linket nedenfor for at bekræfte
         ændringen.
     lost_password:
-      subject: '[OpenStreetMap] Nulstilling af adgangskode'
+      subject: '[OpenHistoricalMap] Nulstilling af adgangskode'
       greeting: Hej,
       hopefully_you: En eller anden (forhåbentlig dig) har bedt om at få adgangskoden
         nulstillet på denne e-mailadresses openhistoricalmap.org-konto.
@@ -1805,6 +1798,9 @@ da:
       whitelist: Hvis du bruger et antispam-system som sender bekræftelsesforespørgsler
         så vær sikker på at du tilføjer %{sender} til whitelist, da vi ikke kan svare
         på nogen bekræftelsesforespørgsler.
+    gravatar:
+      disabled: Gravatar er blevet deaktiveret.
+      enabled: Visning af din Gravatar er blevet aktiveret.
   messages:
     new:
       title: Send besked
@@ -1920,31 +1916,36 @@ da:
         title: Mine præferencer
         save: Opdater præferencer
   profiles:
-    show:
-      title: Rediger profil
-      save: Opdater profil
-      cancel: Annuller
-      image: Billede
-      gravatar:
-        gravatar: Brug Gravatar
-        link: http://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Hvad er Gravatar?
-        disabled: Gravatar er blevet deaktiveret.
-        enabled: Visning af din Gravatar er blevet aktiveret.
-      new image: Tilføj et billede
-      keep image: Behold det nuværende billede
-      delete image: Fjern det nuværende billede
-      replace image: Erstat det aktuelle billede
-      image size hint: (kvadratiske billeder på mindst 100x100 fungerer bedst)
-      home location: Hjemmeposition
-      no home location: Du har ikke angivet din hjemmeposition.
-      update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
-      show: Vis
-      delete: Slet
-      undelete: Fortryd sletning
-    update:
-      success: Profil opdateret.
-      failure: Kunne ikke opdatere profil.
+    profile_sections:
+      navigation:
+        image: Billede
+    descriptions:
+      show:
+        title: Rediger profil
+        save: Opdater profil
+        cancel: Annuller
+    links:
+      show:
+        title: Rediger profil
+        cancel: Annuller
+    images:
+      show:
+        gravatar:
+          gravatar: Brug Gravatar
+          link: http://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Hvad er Gravatar?
+        new image: Tilføj et billede
+        keep image: Behold det nuværende billede
+        delete image: Fjern det nuværende billede
+        replace image: Erstat det aktuelle billede
+        image size hint: (kvadratiske billeder på mindst 100x100 fungerer bedst)
+    locations:
+      show:
+        no home location: Du har ikke angivet din hjemmeposition.
+        update home location on click: Opdater hjemmeposition når jeg klikker på kortet?
+        show: Vis
+        delete: Slet
+        undelete: Fortryd sletning
   sessions:
     new:
       tab_title: Log ind
@@ -2043,7 +2044,7 @@ da:
       legal_babble:
         introduction_4_creative_commons: Creative Commons Kreditering-Deling på samme
           vilkår 2.0
-        credit_title_html: Kildeangivelse og OpenStreetMap
+        credit_title_html: Kildeangivelse og OpenHistoricalMap
         credit_1_html: 'Når du bruger OpenStreetMap-data, er du forpligtet til at
           gøre følgende to ting:'
         credit_2_this_copyright_page: denne copyright-side
@@ -2088,8 +2089,6 @@ da:
       user_page_link: brugerside
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Find ud af hvorfor.
-    edit:
-      id_not_configured: iD er ikke blevet konfigureret
     export:
       title: Eksportér
       manually_select: Vælg et andet område manuelt
@@ -2281,7 +2280,11 @@ da:
           faste rammer. Enhver kan oprette eller blive medlem af sådanne. Læs mere
           på %{communities_wiki_link}.
         communities_wiki: wiki-siden for fællesskaber
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
+      map_data_zoom_in_tooltip: Zoom ind for at se kortdata
+  legend_panes:
     show:
       entries:
         motorway: Motorvej
@@ -2365,6 +2368,22 @@ da:
         bicycle_parking: Cykelparkering
         bicycle_parking_small: Mindre cykelparkering
         toilets: Toiletter
+  share_panes:
+    show:
+      link: Link eller HTML
+      include_marker: Medtag markør
+      long_link: Link
+      short_link: Kort link
+      embed: HTML
+      embed_html_disabled: HTML-indlejring er ikke tilgængelig for dette kortlag
+      paste_html: Indsæt HTML som skal indlejres i websiden
+      geo_uri: Geo-URI
+      image: Billede
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Angiv brugerdefinerede dimensioner
+      image_dimensions_html: Billedet vil vise laget %{layer} i %{width} x %{height}
+      download: Hent
   traces:
     visibility:
       private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
@@ -2627,7 +2646,6 @@ da:
       blocks by me: Blokeringer udført af mig
       create_mute: Stillegør denne bruger
       destroy_mute: Fjern stillegørelse fra denne bruger
-      edit_profile: Rediger profil
       send message: Send besked
       diary: Blog
       edits: Redigeringer
@@ -2644,18 +2662,6 @@ da:
       created from: 'Oprettet fra:'
       status: 'Status:'
       spam score: 'Spambedømmelse:'
-      role:
-        administrator: Denne bruger er en administrator
-        moderator: Denne bruger er en moderator
-        importer: Denne bruger er en importør
-        grant:
-          administrator: Giv administrator-adgang
-          moderator: Giv moderator-adgang
-          importer: Tildel adgang til at importere
-        revoke:
-          administrator: Fjern administrator-adgang
-          moderator: Fjern moderator-adgang
-          importer: Tilbagetræk adgang til at importere
       block_history: Aktive blokeringer
       moderator_history: Uddelte blokeringer
       revoke_all_blocks: Træk blokering tilbage
@@ -2743,6 +2749,22 @@ da:
         Hvis du allerede har en konto, kan du logge på din konto
         ved hjælp af dit brugernavn og adgangskode og derefter knytte den konto
         med dit ID i dine brugerindstillinger.
+    role_icons:
+      title:
+        administrator: Denne bruger er en administrator
+        moderator: Denne bruger er en moderator
+      grant:
+        administrator: Giv administrator-adgang
+        moderator: Giv moderator-adgang
+        importer: Tildel adgang til at importere
+        are_you_sure: Er du sikker på, du vil tildele rollen '%{role}' til brugeren
+          '%{name}'?
+      revoke:
+        administrator: Fjern administrator-adgang
+        moderator: Fjern moderator-adgang
+        importer: Tilbagetræk adgang til at importere
+        are_you_sure: Er du sikker på, du vil fratage rollen "%{role}" fra brugeren
+          "%{name}"?
   user_role:
     filter:
       not_a_role: Strengen "%{role}" er ikke en gyldig rolle.
@@ -2750,12 +2772,6 @@ da:
       doesnt_have_role: Brugeren har ikke rollen %{role}.
       not_revoke_admin_current_user: Kan ikke trække administratorrollen tilbage fra
         nuværende bruger.
-    grant:
-      are_you_sure: Er du sikker på, du vil tildele rollen '%{role}' til brugeren
-        '%{name}'?
-    revoke:
-      are_you_sure: Er du sikker på, du vil fratage rollen "%{role}" fra brugeren
-        "%{name}"?
   user_blocks:
     model:
       non_moderator_update: Skal være en moderator for at oprette eller opdatere en
@@ -2929,26 +2945,10 @@ da:
     close: Luk
     share:
       title: Del
-      cancel: Annuller
-      image: Billede
-      link: Link eller HTML
-      long_link: Link
-      short_link: Kort link
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Angiv brugerdefinerede dimensioner
-      format: 'Format:'
-      scale: 'Skala:'
-      image_dimensions: Billedet vil vise laget %{layer} i %{width} x %{height}
-      download: Hent
-      short_url: Kort URL
-      include_marker: Medtag markør
-      center_marker: Centrér kortet på markøren
-      paste_html: Indsæt HTML som skal indlejres i websiden
       view_larger_map: Vis større kort
     embed:
       report_problem: Rapporter et problem
-    key:
+    legend:
       title: Kortsymboler
       tooltip: Kortsymboler
       tooltip_disabled: Kortnøgle findes ikke til dette lag
@@ -2997,20 +2997,15 @@ da:
       edit_disabled_tooltip: Zoom ind for at redigere kortet
       createnote_tooltip: Tilføj en bemærkning på kortet
       createnote_disabled_tooltip: Zoom ind for at tilføje en bemærkning til kortet
-      map_notes_zoom_in_tooltip: Zoom ind for at se kort kommentarer
-      map_data_zoom_in_tooltip: Zoom ind for at se kortdata
       queryfeature_tooltip: Find kortobjekter
       queryfeature_disabled_tooltip: Zoom ind for at finde kortobjekter
-      embed_html_disabled: HTML-indlejring er ikke tilgængelig for dette kortlag
     edit_help: Flyt kortet og zoom ind på et sted, du vil redigere, og klik så her.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Kunne ikke finde en rute mellem de to steder.
-        no_place: Beklager - kunne ikke finde '%{place}'.
       instructions:
         continue_without_exit: Fortsæt ad %{name}
         slight_right_without_exit: Svagt til højre ind på %{name}
@@ -3099,6 +3094,9 @@ da:
       show_address: Vis adresse
       query_features: Find kortobjekter
       centre_map: Centrer kort her
+    edit:
+      id_not_configured:
+        title: iD er ikke blevet konfigureret
   redactions:
     edit:
       heading: Rediger omarbejdelse

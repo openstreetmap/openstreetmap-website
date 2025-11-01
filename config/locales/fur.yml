@@ -49,7 +49,6 @@ fur:
       node: Grop
       node_tag: Etichete dal grop
       note: note
-      notifier: Promemorie
       old_node: Vecjo grop
       old_node_tag: Vecje etichete dal grop
       old_relation: Viere relazion
@@ -222,15 +221,14 @@ fur:
       title: Modifiche profîl
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
-      contributor terms:
+      contributor_terms:
         heading: Tiermins par contribuî
         agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
-        not yet agreed: No tu âs ancjemò acetât i gnûfs tiermins di contribuzion.
-        review link text: Frache par plasê su chest leam par viodi e acetâ i gnûf
-          tiermins par contribuî.
         agreed_with_pd: Tu âs ancje declarât di considerâ i tiei cambiaments intal
           Public Domini.
         link text: ce isal chest?
+      terms_of_use:
+        heading: Cundizions pal ûs
       save changes button: Salve cambiaments
       delete_account: Elimine profîl...
     go_public:
@@ -277,8 +275,6 @@ fur:
       one: '%{count} vie'
       other: '%{count} viis'
     download_xml: Discjame XML
-    view_history: Cjale il storic
-    view_details: Cjale i detais
     location: 'Lûc:'
     node:
       title_html: 'Grop: %{name}'
@@ -933,9 +929,10 @@ fur:
       footer: Tu puedis ancje lei il coment su %{readurl} e tu puedis zontâ un coment
         su %{commenturl} o ben rispuindi su %{replyurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Mandi %{to_user},
-      header: '%{from_user} ti à mandât un messaç su OpenStreetMap cun sogjet %{subject}:'
+      header: '%{from_user} ti à mandât un messaç su OpenHistoricalMap cun sogjet
+        %{subject}:'
       footer_html: Tu puedis ancje lei il messaç su %{readurl} e tu puedis rispuindi
         su %{replyurl}
     follow_notification:
@@ -945,7 +942,7 @@ fur:
     signup_confirm:
       subject: '[OpenHistoricalMap] Benvignût in OpenHistoricalMap'
     email_confirm:
-      subject: '[OpenStreetMap] Conferme la tô direzion di pueste eletroniche'
+      subject: '[OpenHistoricalMap] Conferme la tô direzion di pueste eletroniche'
       click_the_link: Se tu sês propite tu, par plasê frache sul leam ca sot par confermâ
         il cambiament.
     note_comment_notification:
@@ -1057,28 +1054,36 @@ fur:
         title: Preferencis
         save: Inzorna lis preferencis
   profiles:
-    show:
-      title: Cambie il profîl
-      save: Inzorne il profîl
-      cancel: Scancele
-      image: Figure
-      gravatar:
-        gravatar: Dopre Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Ce isal Gravatar?
-      new image: Zonte une figure
-      keep image: Ten la figure di cumò
-      delete image: Gjave la figure di cumò
-      replace image: Sostituìs la figure atuâl
-      image size hint: (figuris cuadris di almancul 100x100 a van miôr)
-      home location: Lûc iniziâl
-      no home location: No tu âs configurât il lûc iniziâl.
-      update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi
-        parsore de mape?
-      show: Mostre
-      delete: Elimine
-    update:
-      success: Profîl inzornât
+    profile_sections:
+      navigation:
+        image: Figure
+    descriptions:
+      show:
+        title: Cambie il profîl
+        save: Inzorne il profîl
+        cancel: Scancele
+    links:
+      show:
+        title: Cambie il profîl
+        cancel: Scancele
+    images:
+      show:
+        gravatar:
+          gravatar: Dopre Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Ce isal Gravatar?
+        new image: Zonte une figure
+        keep image: Ten la figure di cumò
+        delete image: Gjave la figure di cumò
+        replace image: Sostituìs la figure atuâl
+        image size hint: (figuris cuadris di almancul 100x100 a van miôr)
+    locations:
+      show:
+        no home location: No tu âs configurât il lûc iniziâl.
+        update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi
+          parsore de mape?
+        show: Mostre
+        delete: Elimine
   sessions:
     new:
       tab_title: Jentre
@@ -1115,11 +1120,10 @@ fur:
         older: Percors plui vieris
         newer: Percors plui gnûfs
   site:
-    about:
+    about_section:
       contribute_1_user_diaries: diaris dai utents
       open_data_title: Dâts vierts
       legal_title: Legâl
-      legal_1_terms_of_use: Cundizions pal ûs
       partners_title: Associâts
     copyright:
       title: Copyright e licence
@@ -1218,7 +1222,11 @@ fur:
       title: Comunitâts
       other_groups:
         title: Altris grups
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Aumente il zoom par viodi lis notis su la mape
+      map_data_zoom_in_tooltip: Aumente il zoom par viodi i dâts de mape
+  legend_panes:
     show:
       entries:
         motorway: Autostrade
@@ -1262,6 +1270,19 @@ fur:
         construction: Stradis in costruzion
         bus_stop: Fermade autobus
         bicycle_shop: Buteghe di bicicletis
+  share_panes:
+    show:
+      link: Leam o HTML
+      include_marker: Inclût il marcadôr
+      long_link: Leam
+      short_link: Leam curt
+      embed: HTML
+      paste_html: Tache l'HTML par inserîlu tal to sît web
+      image: Figure
+      format: 'Formât:'
+      scale: 'Scjale:'
+      custom_dimensions: Dopre dimensions personalizadis
+      download: Discjame
   traces:
     new:
       upload_trace: Cjame percors GPS
@@ -1420,7 +1441,6 @@ fur:
       my_dashboard: La mê pagjine iniziâl
       blocks on me: Blocs su di me
       blocks by me: Blocs aplicâts di me
-      edit_profile: Cambie il profîl
       send message: Mande messaç
       diary: Diari
       edits: Cambiaments
@@ -1434,11 +1454,6 @@ fur:
       created from: 'Creât di:'
       status: 'Stât:'
       spam score: 'Ponts di spam:'
-      role:
-        administrator: Chest utent al è un aministradôr
-        moderator: Chest utent al è un moderatôr
-        revoke:
-          administrator: Revoche l'acès come aministradôr
       block_history: blocs ricevûts
       moderator_history: blocs aplicâts
       comments: Coments
@@ -1489,6 +1504,12 @@ fur:
       support: assistence
     auth_failure:
       unknown_error: Autenticazion falide
+    role_icons:
+      title:
+        administrator: Chest utent al è un aministradôr
+        moderator: Chest utent al è un moderatôr
+      revoke:
+        administrator: Revoche l'acès come aministradôr
   user_blocks:
     not_found:
       back: Torne al somari
@@ -1584,24 +1605,10 @@ fur:
     close: Siere
     share:
       title: Condivît
-      cancel: Scancele
-      image: Figure
-      link: Leam o HTML
-      long_link: Leam
-      short_link: Leam curt
-      embed: HTML
-      custom_dimensions: Dopre dimensions personalizadis
-      format: 'Formât:'
-      scale: 'Scjale:'
-      download: Discjame
-      short_url: URL curte
-      include_marker: Inclût il marcadôr
-      center_marker: Centre la mape sul marcadôr
-      paste_html: Tache l'HTML par inserîlu tal to sît web
       view_larger_map: Viôt une mape plui grande
     embed:
       report_problem: Segnale un probleme
-    key:
+    legend:
       title: Leiende
       tooltip: Leiende
       tooltip_disabled: La leiende no je disponibile par chest nivel
@@ -1643,20 +1650,16 @@ fur:
       edit_disabled_tooltip: Cres il zoom par cambiâ la mape
       createnote_tooltip: Zonte une note ae mape
       createnote_disabled_tooltip: Aumente il zoom par zontâ une note ae mape
-      map_notes_zoom_in_tooltip: Aumente il zoom par viodi lis notis su la mape
-      map_data_zoom_in_tooltip: Aumente il zoom par viodi i dâts de mape
       queryfeature_tooltip: Domande ce ch'al è intun lûc
       queryfeature_disabled_tooltip: Aumente il zoom par domandâ ce ch'al è
     edit_help: Môf la mape e aumente il zoom tal lûc che tu vuelis cambiâ, po frache
       culì
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: No si à rivât a cjatâ une strade tra chescj doi puescj.
-        no_place: No si à rivât a cjatâ "%{place}".
       instructions:
         continue_without_exit: Continue su %{name}
         slight_right_without_exit: Volte un ninin a diestre su %{name}

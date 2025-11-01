@@ -59,7 +59,6 @@ cy:
       node: Nod
       node_tag: Tag Nod
       note: nod
-      notifier: Hysbysydd
       old_node: Hen Nod
       old_node_tag: Tag Hen Nod
       old_relation: Hen Berthynas
@@ -297,16 +296,15 @@ cy:
       title: Golygu cyfrif
       current email address: Cyfeiriad e-bost cyfredol
       external auth: Dilysu Allanol
-      contributor terms:
+      contributor_terms:
         heading: Telerau Cyfranwyr
         agreed: Rydych chi wedi cytuno â'r Telerau Cyfranwyr newydd.
-        not yet agreed: Nid ydych wedi cytuno â'r Telerau Cyfranwyr newydd eto.
-        review link text: Dilynwch y ddolen hon i adolygu a derbyn y Telerau Cyfranwyr
-          newydd.
         agreed_with_pd: Rydych hefyd wedi datgan eich bod yn ystyried bod eich golygiadau
           yn y Parth Cyhoeddus.
         link: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: beth yw hwn?
+      terms_of_use:
+        heading: Telerau Gwasanaeth
       save changes button: Cadw newidiadau
       delete_account: Dileu cyfrif...
     go_public:
@@ -394,9 +392,7 @@ cy:
       many: '%{count} llwybr'
       other: '%{count} llwybr'
     download_xml: Lawrlwytho XML
-    view_history: Gweld hanes
     view_unredacted_history: Gweld Hanes Heb Ei Orchuddio
-    view_details: Gweld manylion
     location: Lleoliadː
     node:
       title_html: 'Nod: %{name}'
@@ -1593,7 +1589,6 @@ cy:
   reports:
     new:
       title_html: Rhoi gwybod am %{link}
-      missing_params: Ni ellir creu adroddiad newydd
       disclaimer:
         intro: 'Cyn i chi roi gwybod i gymedrolwyr y safle, gwnewch yn siŵr:'
         not_just_mistake: Eich bod chi'n siŵr nad yw'r broblem yn gamgymeriad
@@ -1663,11 +1658,11 @@ cy:
       footer_unsubscribe: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
       footer_unsubscribe_html: Gallwch chi ddad-danysgrifio o'r drafodaeth yn %{unsubscribeurl}
     message_notification:
-      subject: '[OpenStreetMap] %{message_title}'
+      subject: '[OpenHistoricalMap] %{message_title}'
       hi: Helo %{to_user},
-      header: 'Anfonodd %{from_user} neges atoch chi trwy OpenStreetMap gyda''r pwnc
-        %{subject}:'
-      header_html: 'Anfonodd %{from_user} neges atoch chi trwy OpenStreetMap gyda''r
+      header: 'Anfonodd %{from_user} neges atoch chi trwy OpenHistoricalMap gyda''r
+        pwnc %{subject}:'
+      header_html: 'Anfonodd %{from_user} neges atoch chi trwy OpenHistoricalMap gyda''r
         pwnc %{subject}:'
       footer: Gallwch hefyd ddarllen y neges yn %{readurl} a gallwch anfon neges at
         yr awdur yn %{replyurl}
@@ -1697,13 +1692,13 @@ cy:
       greeting: Shwmae!
       created: Mae rhywun (chi gobeithio!) newydd greu cyfrif yn %{site_url}.
     email_confirm:
-      subject: '[OpenStreetMap] Cadarnhewch eich cyfeiriad e-bost'
+      subject: '[OpenHistoricalMap] Cadarnhewch eich cyfeiriad e-bost'
       greeting: Helo,
       hopefully_you: Hoffai rhywun (chi, gobeithio) newid eu cyfeiriad e-bost ar %{server_url}
         i %{new_address}.
       click_the_link: Os mai chi yw hwn, cliciwch ar y ddolen isod i gadarnhau'r newid.
     lost_password:
-      subject: '[OpenStreetMap] Cais ailosod cyfrinair'
+      subject: '[OpenHistoricalMap] Cais ailosod cyfrinair'
       greeting: Helo,
       hopefully_you: Mae rhywun (chi o bosib) wedi gofyn i'r cyfrinair gael ei ailosod
         ar gyfrif openhistoricalmap.org y cyfeiriad e-bost hwn.
@@ -1779,6 +1774,9 @@ cy:
       button: Cadarnhau
       success: Wedi cadarnhau eich newid cyfeiriad e-bost!
       failure: Mae cyfeiriad e-bost eisoes wedi'i gadarnhau gyda'r tocyn hwn.
+    gravatar:
+      disabled: Mae Gravatar wedi'i analluogi.
+      enabled: Mae arddangos eich Gravatar wedi'i alluogi.
   messages:
     new:
       title: Anfon neges
@@ -1889,32 +1887,37 @@ cy:
         title: Dewisiadau
         save: Diweddaru Dewisiadau
   profiles:
-    show:
-      title: Golygu proffil
-      save: Diweddaru proffil
-      cancel: Canslo
-      image: Delwedd
-      gravatar:
-        gravatar: Defnyddio Gravatar
-        link: https://wiki.openstreetmap.org/wiki/Gravatar
-        what_is_gravatar: Beth yw Gravatar?
-        disabled: Mae Gravatar wedi'i analluogi.
-        enabled: Mae arddangos eich Gravatar wedi'i alluogi.
-      new image: Ychwanegu delwedd
-      keep image: Cadw'r ddelwedd gyfredol
-      delete image: Tynnu'r ddelwedd gyfredol
-      replace image: Newid y ddelwedd gyfredol
-      image size hint: (delweddau sgwâr o leiaf 100x100 yw'r gorau)
-      home location: Lleoliad Cartref
-      no home location: Nid ydych wedi gosod eich lleoliad cartref.
-      update home location on click: Diweddaru lleoliad cartref pan fyddaf yn clicio
-        ar y map?
-      show: Dangos
-      delete: Dileu
-      undelete: Dadwneud dileu
-    update:
-      success: Proffil wedi'i ddiweddaru.
-      failure: Ni ellir diweddaru'r proffil.
+    profile_sections:
+      navigation:
+        image: Delwedd
+    descriptions:
+      show:
+        title: Golygu proffil
+        save: Diweddaru proffil
+        cancel: Canslo
+    links:
+      show:
+        title: Golygu Proffil
+        cancel: Canslo
+    images:
+      show:
+        gravatar:
+          gravatar: Defnyddio Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
+          what_is_gravatar: Beth yw Gravatar?
+        new image: Ychwanegu delwedd
+        keep image: Cadw'r ddelwedd gyfredol
+        delete image: Tynnu'r ddelwedd gyfredol
+        replace image: Newid y ddelwedd gyfredol
+        image size hint: (delweddau sgwâr o leiaf 100x100 yw'r gorau)
+    locations:
+      show:
+        no home location: Nid ydych wedi gosod eich lleoliad cartref.
+        update home location on click: Diweddaru lleoliad cartref pan fyddaf yn clicio
+          ar y map?
+        show: Dangos
+        delete: Dileu
+        undelete: Dadwneud dileu
   sessions:
     new:
       tab_title: Mewngofnodi
@@ -2005,7 +2008,7 @@ cy:
         mapping_link: dechrau mapio
       legal_babble:
         introduction_4_creative_commons: Creative Commons Attribution-ShareAlike 2.0
-        credit_title_html: Sut i gydnabod OpenStreetMap
+        credit_title_html: Sut i gydnabod OpenHistoricalMap
         credit_1_html: 'Pan fyddwch yn defnyddio data OpenStreetMap, mae rhaid i chi
           wneud y ddau beth canlynol:'
         credit_2_this_copyright_page: dudalen hawlfraint hon
@@ -2042,8 +2045,6 @@ cy:
       user_page_link: tudalen defnyddiwr
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Gweld pam.
-    edit:
-      id_not_configured: iD heb ei ffurfweddu
     export:
       title: Allforio
       manually_select: Dewiswch ardal wahanol â llaw
@@ -2196,7 +2197,11 @@ cy:
           Nid oes rhaid sefydlu grŵp ffurfiol yn yr un modd â'r Siapteri Lleol.
           Mae llawer o grwpiau llwyddiannus yn bodoli fel grwpiau anffurfiol neu fel grŵp cymunedol. Gall unrhyw un ddechrau neu ymuno â grwp. Darllenwch fwy ar y %{communities_wiki_link}.
         communities_wiki: dudalen wici Cymunedau
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Chwyddwch mewn i weld nodiadau'r map
+      map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
+  legend_panes:
     show:
       entries:
         motorway: Traffordd
@@ -2280,6 +2285,23 @@ cy:
         bicycle_parking: Man parcio beiciau
         bicycle_parking_small: Parcio Beiciau Bach
         toilets: Toiledau
+  share_panes:
+    show:
+      link: Dolen neu HTML
+      include_marker: Cynnwys marciwr
+      long_link: Dolen
+      short_link: Dolen Fer
+      embed: HTML
+      embed_html_disabled: Nid yw mewnosod HTML ar gael ar gyfer yr haen fap hon
+      paste_html: Gludwch HTML i'w fewnosod yn y wefan
+      geo_uri: Geo-URI
+      image: Delwedd
+      format: 'Fformat:'
+      scale: 'Graddfa:'
+      custom_dimensions: Gosod dimensiynau addas
+      image_dimensions_html: Bydd y llun yn dangos yr haen %{layer} ar %{width} x
+        %{height}
+      download: Lawrlwytho
   traces:
     visibility:
       private: Preifat (dim ond yn cael ei rannu fel pwyntiau dienw, heb eu trefnu)
@@ -2524,7 +2546,6 @@ cy:
       blocks by me: Blociau gennyf i
       create_mute: Anwybyddu'r Defnyddiwr hwn
       destroy_mute: Dad-anwybyddu'r Defnyddiwr hwn
-      edit_profile: Golygu Proffil
       send message: Anfon Neges
       diary: Dyddiadur
       edits: Golygiadau
@@ -2541,18 +2562,6 @@ cy:
       created from: 'Crëwyd o:'
       status: 'Statws:'
       spam score: 'Sgôr Sbam:'
-      role:
-        administrator: Mae'r defnyddiwr hwn yn weinyddwr.
-        moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
-        importer: Mae'r defnyddiwr hwn yn fewnforiwr
-        grant:
-          administrator: Rhoi statws gweinyddwr
-          moderator: Rhoi statws cymedrolwr
-          importer: Rhoi statws mewnforiwr
-        revoke:
-          administrator: Tynnu statws gweinyddwr
-          moderator: Tynnu statws cymedrolwr
-          importer: Tynnu statws mewnforiwr
       block_history: Blociau Gweithredol
       moderator_history: Blociau a roddwyd
       revoke_all_blocks: Diddymu pob bloc
@@ -2634,6 +2643,18 @@ cy:
       heading: Nid yw eich ID yn gysylltiedig â chyfrif OpenHistoricalMap eto.
       option_1: "Os ydych yn newydd i OpenStreetMap, crëwch \ngyfrif newydd\ngan ddefnyddio'r
         ffurflen isod."
+    role_icons:
+      title:
+        administrator: Mae'r defnyddiwr hwn yn weinyddwr.
+        moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
+      grant:
+        administrator: Rhoi statws gweinyddwr
+        moderator: Rhoi statws cymedrolwr
+        importer: Rhoi statws mewnforiwr
+      revoke:
+        administrator: Tynnu statws gweinyddwr
+        moderator: Tynnu statws cymedrolwr
+        importer: Tynnu statws mewnforiwr
   user_blocks:
     model:
       non_moderator_update: Rhaid bod yn gymedrolwr i greu neu ddiweddaru bloc.
@@ -2811,26 +2832,10 @@ cy:
     close: Cau
     share:
       title: Rhannu
-      cancel: Canslo
-      image: Delwedd
-      link: Dolen neu HTML
-      long_link: Dolen
-      short_link: Dolen Fer
-      geo_uri: Geo-URI
-      embed: HTML
-      custom_dimensions: Gosod dimensiynau addas
-      format: 'Fformat:'
-      scale: 'Graddfa:'
-      image_dimensions: Bydd y llun yn dangos yr haen %{layer} ar %{width} x %{height}
-      download: Lawrlwytho
-      short_url: URL Byr
-      include_marker: Cynnwys marciwr
-      center_marker: Canoli'r map ar y marciwr
-      paste_html: Gludwch HTML i'w fewnosod yn y wefan
       view_larger_map: Gweld Map Mawr
     embed:
       report_problem: Rhoi gwybod am broblem
-    key:
+    legend:
       title: Allwedd Map
       tooltip: Allwedd Map
       tooltip_disabled: Nid yw Allwedd Map ar gael ar gyfer yr haenen hon
@@ -2874,21 +2879,16 @@ cy:
       edit_disabled_tooltip: Chwyddwch mewn i olygu'r map
       createnote_tooltip: Ychwanegu nodyn i'r map
       createnote_disabled_tooltip: Chwyddwch mewn i ychwanegu nodyn i'r map
-      map_notes_zoom_in_tooltip: Chwyddwch mewn i weld nodiadau'r map
-      map_data_zoom_in_tooltip: Chwyddwch mewn i weld data'r map
       queryfeature_tooltip: Manylion nodweddion
       queryfeature_disabled_tooltip: Chwyddwch i mewn i gael manylion nodweddion
-      embed_html_disabled: Nid yw mewnosod HTML ar gael ar gyfer yr haen fap hon
     edit_help: Symudwch y map a chwyddwch i mewn i leoliad rydych chi am ei olygu,
       yna cliciwch yma.
     directions:
       distance_in_units:
-        meters:
-          m: '%{distance}m'
-          km: '%{distance}km'
+        m: '%{distance}m'
+        km: '%{distance}km'
       errors:
         no_route: Ni ellir dod o hyd i'r llwybr rhwng y ddau le.
-        no_place: Ymddiheuriadau - ni ellir canfod '%{place}'.
       instructions:
         continue_without_exit: Parhau ar %{name}
         slight_right_without_exit: Ychydig i'r dde i %{name}
@@ -2976,6 +2976,9 @@ cy:
       show_address: Dangos cyfeiriad
       query_features: Manylion nodweddion
       centre_map: Canoli'r map yma
+    edit:
+      id_not_configured:
+        title: iD heb ei ffurfweddu
   redactions:
     edit:
       heading: Golygu Gorchuddiad

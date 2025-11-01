@@ -46,7 +46,6 @@ aln:
       message: Mesazh
       node: Nyjë
       node_tag: Nyja Tag
-      notifier: Notifier
       old_node: Nyja e Vjetër
       old_node_tag: Tag Nyja e Vjetër
       old_relation: Raporti i vjetër
@@ -642,7 +641,7 @@ aln:
         te %{commenturl} apo me u përgjigj te %{replyurl}
     message_notification:
       hi: Tung %{to_user},
-      header: '%{from_user} ju ka dërgu një mesazh përmes OpenStreetMap me titullin
+      header: '%{from_user} ju ka dërgu një mesazh përmes OpenHistoricalMap me titullin
         %{subject}:'
     follow_notification:
       see_their_profile: Ju muni me pa profilin e tyre tek %{userurl}.
@@ -654,12 +653,12 @@ aln:
     signup_confirm:
       subject: '[OpenHistoricalMap] Konfirmoje email adresën tonde'
     email_confirm:
-      subject: '[OpenStreetMap] Konfirmoje email adresën tonde'
+      subject: '[OpenHistoricalMap] Konfirmoje email adresën tonde'
       greeting: Tung,
       click_the_link: Nëse ky je ti, ju lutem trusni lidhjen e mëposhtme për me konfirmu
         ndryshimin.
     lost_password:
-      subject: '[OpenStreetMap] kërkesës Password reset'
+      subject: '[OpenHistoricalMap] kërkesës Password reset'
       greeting: Tung,
       click_the_link: Nëse kjo është që ju, ju lutemi klikoni lidhjen më poshtë për
         të rivendosni fjalëkalimin tuaj.
@@ -750,17 +749,21 @@ aln:
     update:
       flash changed: Fjalëkalimi juaj u ndryshua.
   profiles:
-    show:
-      image: 'Imazhi:'
-      new image: Shto ni imazh
-      keep image: Maje imazhin e tanishëm
-      delete image: Heke imazhin e tanishëm
-      replace image: Ndryshoje imazhin e tanishëm
-      image size hint: (imazhet katrore s'paku me madhsi 100x100px doken ma mir)
-      home location: 'Veni juej:'
-      no home location: Ju se keni caktu venin e juj.
-      update home location on click: Ndryshoma venin kur të klikoj në hart?
-      show: Tregoj
+    profile_sections:
+      navigation:
+        image: 'Imazhi:'
+    images:
+      show:
+        new image: Shto ni imazh
+        keep image: Maje imazhin e tanishëm
+        delete image: Heke imazhin e tanishëm
+        replace image: Ndryshoje imazhin e tanishëm
+        image size hint: (imazhet katrore s'paku me madhsi 100x100px doken ma mir)
+    locations:
+      show:
+        no home location: Ju se keni caktu venin e juj.
+        update home location on click: Ndryshoma venin kur të klikoj në hart?
+        show: Tregoj
   sessions:
     new:
       tab_title: Kycu
@@ -795,7 +798,7 @@ aln:
         native_link: Gegë verzion
         mapping_link: fillo hartografimin
       legal_babble:
-        credit_title_html: Si të kreditit OpenStreetMap
+        credit_title_html: Si të kreditit OpenHistoricalMap
         credit_1_html: |-
           Nëse jeni duke përdorur harta imazhe OpenStreetMap, ne kërkojmë që
             kreditit tuaj lexon të paktën "© OpenStreetMap
@@ -843,7 +846,7 @@ aln:
       where_am_i: Ku jom une?
       where_am_i_title: Përshkruje lokacionin e tanishëm tuj e përdor makinën kërkuese
       submit_text: Shkoj
-  map_keys:
+  legend_panes:
     show:
       entries:
         motorway: Autostradë
@@ -996,15 +999,6 @@ aln:
       created from: 'U krijue prej:'
       status: 'Statuti:'
       spam score: 'Piket e Badihavgjive:'
-      role:
-        administrator: Ky shfrytëzues asht aministrator
-        moderator: Ky shfrytëzues asht moderator
-        grant:
-          administrator: Banu administrator
-          moderator: Banu moderator
-        revoke:
-          administrator: Riqoje aksesin e administratorit
-          moderator: Riqoje aksesin e moderatorit
       block_history: shih blokimet e marrne
       moderator_history: shihe kan e ke blloku
       create_block: blloko ket shfrytzues
@@ -1047,17 +1041,25 @@ aln:
     suspended:
       title: Llogaria u Suspendu
       heading: Llogaria u Suspendu
+    role_icons:
+      title:
+        administrator: Ky shfrytëzues asht aministrator
+        moderator: Ky shfrytëzues asht moderator
+      grant:
+        administrator: Banu administrator
+        moderator: Banu moderator
+        are_you_sure: A jeni i sigurt që po doni mja dhonë rolin `%{role}' te përdoruesi
+          `%{name}'?
+      revoke:
+        administrator: Riqoje aksesin e administratorit
+        moderator: Riqoje aksesin e moderatorit
+        are_you_sure: A jeni i sigurt qe ju doni me zgjue rolin `%{role}' prej perdoruesit
+          `%{name}'?
   user_role:
     filter:
       not_a_role: Lidhja `%{role}' nuk asht rol valid.
       already_has_role: Shfrytzuesi tashmë ka ni rol %{role}.
       doesnt_have_role: Ky shfrytzeus nuk ka asni rrol %{role}
-    grant:
-      are_you_sure: A jeni i sigurt që po doni mja dhonë rolin `%{role}' te përdoruesi
-        `%{name}'?
-    revoke:
-      are_you_sure: A jeni i sigurt qe ju doni me zgjue rolin `%{role}' prej perdoruesit
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Duhet të jetë një moderator për të krijuar ose rinovuar

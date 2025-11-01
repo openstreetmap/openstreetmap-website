@@ -64,7 +64,6 @@ lv:
       node: Punkts
       node_tag: Punkta apzīmējums
       note: piezīme
-      notifier: Paziņotājs
       old_node: Vecais punkts
       old_node_tag: Vecā punkta birka
       old_relation: Vecā relācija
@@ -200,12 +199,9 @@ lv:
       title: Rediģēt kontu
       current email address: Pašreizējā e-pasta adrese
       external auth: Ārējā autentifikācija
-      contributor terms:
+      contributor_terms:
         heading: Devuma noteikumi
         agreed: Tu esi pieņēmis jaunos Veidotāju Noteikumus.
-        not yet agreed: Tu vēl neesi piekritis jaunajiem Veidotāju Noteikumiem
-        review link text: Lūdzu sekojiet šai saitei un izskatiet un pieņemiet jaunos
-          Veidotāju Noteikumus.
         agreed_with_pd: Tu arī esi paziņojis, ka tavi labojumi var būt Publiskajā
           Domēnā.
         link text: Kas tas ir?
@@ -260,8 +256,6 @@ lv:
       one: '%{count} attiecība'
       other: '%{count} attiecības'
     download_xml: Lejupielādēt XML
-    view_history: Skatīt vēsturi
-    view_details: Skatīt detaļas
     location: 'Atrašanās vieta:'
     node:
       title_html: 'Punkts: %{name}'
@@ -1183,8 +1177,8 @@ lv:
         %{commenturl} vai atbildēt saitē %{replyurl}
     message_notification:
       hi: Sveiks %{to_user},
-      header: 'OpenStreetMap lietotājs %{from_user} ir jums nosūtījis ziņu ar tematu
-        %{subject}:'
+      header: 'OpenHistoricalMap lietotājs %{from_user} ir jums nosūtījis ziņu ar
+        tematu %{subject}:'
       footer_html: Tu arī vari izlasīt ziņojumu iekš %{readurl} un atbildēt iekš %{replyurl}
     follow_notification:
       hi: Sveiks, %{to_user}
@@ -1204,14 +1198,14 @@ lv:
       welcome: Kad tu apstiprināsi savu lietotāju, mēs tev dosim papildus informāciju,
         lai tu varētu sākt kartēt.
     email_confirm:
-      subject: '[OpenStreetMap] Apstipriniet savu e-pasta adresi'
+      subject: '[OpenHistoricalMap] Apstipriniet savu e-pasta adresi'
       greeting: Sveicināti,
       hopefully_you: Kāds (cerams Tu) vēlas mainīt savu e-pasta adresi %{server_url}
         uz %{new_address}.
       click_the_link: Ja tas esat jūs, lūdzu klikšķiniet uz zemāk esošās saites lai
         apstiprinātu e-pasta adreses nomaiņu.
     lost_password:
-      subject: '[OpenStreetMap] Paroles atiestatīšanas pieprasījums'
+      subject: '[OpenHistoricalMap] Paroles atiestatīšanas pieprasījums'
       greeting: Sveicināti,
       hopefully_you: Kāds (iespējams Tu) ir pieprasījis paroles atjaunošanu ar šo
         e-pasta adresi reģistrētam openstreetmap.org lietotājam.
@@ -1283,6 +1277,9 @@ lv:
       failure: E-pasta adrese jau ir apstiprināta ar šo pilnvaru.
       unknown_token: Šim apstiprinājuma kodam ir izbeidzies derīguma termiņš vai arī
         tas neeksistē.
+    gravatar:
+      disabled: Gravatar ir atspējots.
+      enabled: Jūsu Gravatar apskate ir iespējota
   messages:
     new:
       title: Nosūtīt ziņu
@@ -1378,27 +1375,31 @@ lv:
         title: Mani uzstādījumi
         save: Atjaunināt uzstādījumus
   profiles:
-    show:
-      save: Atjaunot profilu
-      cancel: Atcelt
-      image: Attēls
-      gravatar:
-        gravatar: Izmantot Gravatar
-        disabled: Gravatar ir atspējots.
-        enabled: Jūsu Gravatar apskate ir iespējota
-      new image: Pievienot attēlu
-      keep image: Paturēt pašreizējo attēlu
-      delete image: Novākt pašreizējo attēlu
-      replace image: Aizstāt pašreizējo attēlu
-      image size hint: (vislabāk der kvadrātveida attēli vismaz 100x100 izmērā)
-      home location: Māju atrašanās vieta
-      no home location: Jūs neesat norādījis mājas atrašanās vietu.
-      update home location on click: Atjaunināt māju atrašanās vietu, noklikšķinot
-        uz kartes?
-      show: Rādīt
-    update:
-      success: Profils atjaunināts.
-      failure: Nevarēja atjaunināt profilu.
+    profile_sections:
+      navigation:
+        image: Attēls
+    descriptions:
+      show:
+        save: Atjaunot profilu
+        cancel: Atcelt
+    links:
+      show:
+        cancel: Atcelt
+    images:
+      show:
+        gravatar:
+          gravatar: Izmantot Gravatar
+        new image: Pievienot attēlu
+        keep image: Paturēt pašreizējo attēlu
+        delete image: Novākt pašreizējo attēlu
+        replace image: Aizstāt pašreizējo attēlu
+        image size hint: (vislabāk der kvadrātveida attēli vismaz 100x100 izmērā)
+    locations:
+      show:
+        no home location: Jūs neesat norādījis mājas atrašanās vietu.
+        update home location on click: Atjaunināt māju atrašanās vietu, noklikšķinot
+          uz kartes?
+        show: Rādīt
   sessions:
     new:
       tab_title: Pieslēgties
@@ -1454,7 +1455,7 @@ lv:
         native_link: latviskā versija
         mapping_link: sākt kartēt
       legal_babble:
-        credit_title_html: Kā atsaukties uz OpenStreetMap
+        credit_title_html: Kā atsaukties uz OpenHistoricalMap
         credit_1_html: |-
           Mēs pieprasām, ka tu izmanto atsauci &ldquo;&copy; OpenStreetMap
           veidotāji&rdquo;.
@@ -1491,8 +1492,6 @@ lv:
       user_page_link: dalībnieka lapa
       anon_edits_link: https://wiki.OpenHistoricalMap.org/wiki/Anonymous_edits
       anon_edits_link_text: Uzzini, kāpēc tā notiek.
-    edit:
-      id_not_configured: iD nav konfigurēts
     export:
       title: Eksportēt
       manually_select: Manuāli izvēlēties citu teritoriju
@@ -1631,7 +1630,11 @@ lv:
           Nav nepieciešams formāli izveidot grupu tādā pašā apjomā kā vietējās nodaļas.
           Patiešām, daudzas grupas ļoti veiksmīgi pastāv kā neformāla cilvēku pulcēšanās vai kā
           kopienas grupa. Tās var izveidot vai pievienoties ikviens. Vairāk lasiet %{communities_wiki_link}.
-  map_keys:
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Pietuvināt, lai redzētu piezīmes
+      map_data_zoom_in_tooltip: Pietuvināt, lai redzētu kartes datus
+  legend_panes:
     show:
       entries:
         motorway: Automaģistrāle
@@ -1687,6 +1690,21 @@ lv:
         bicycle_shop: Velosipēdu veikals
         bicycle_parking: Velosipēdu novietne
         toilets: Tualetes
+  share_panes:
+    show:
+      link: Saite vai HTML
+      include_marker: Iekļaut marķieri
+      long_link: Saite
+      short_link: Īsā saite
+      embed: HTML
+      paste_html: Ielīmē HTML, lai ievietotu mājaslapā
+      geo_uri: Ģeo saite
+      image: Bilde
+      format: 'Formāts:'
+      scale: 'Mērogs:'
+      custom_dimensions: Uzstādīt pielāgotus izmērus
+      image_dimensions_html: Attēlā būs redzams standarta slānis %{width} x %{height}
+      download: Lejupielādēt
   traces:
     visibility:
       private: Privāts (kopīgots kā anonīms, nesakārtoti punkti)
@@ -1838,15 +1856,6 @@ lv:
       created from: 'Izveidota no:'
       status: 'Statuss:'
       spam score: 'Surogātpasta rādītājs:'
-      role:
-        administrator: Šis lietotājs ir administrators
-        moderator: Šis lietotājs ir moderators
-        grant:
-          administrator: Piešķirt administratora tiesības
-          moderator: Piešķirt moderatora tiesības
-        revoke:
-          administrator: Atņemt administratora tiesības
-          moderator: Atņemt moderatora tiesības
       block_history: Aktīvie bloki
       moderator_history: dotie bloķējumi
       comments: Komentāri
@@ -1906,17 +1915,25 @@ lv:
         kontu izmantojot zemāk esošo formu.
       option_2: Ja jums jau ir konts, jūs varat ieiet savā kontā izmantojot jūsu lietotājvārdu
         un paroli un tad sasaistīt savu kontu ar jūsu ID lietotāja iestatījumos.
+    role_icons:
+      title:
+        administrator: Šis lietotājs ir administrators
+        moderator: Šis lietotājs ir moderators
+      grant:
+        administrator: Piešķirt administratora tiesības
+        moderator: Piešķirt moderatora tiesības
+        are_you_sure: Vai tu esi pārliecināts, ka vēlies piešķirt lomu `%{role}' lietotājam
+          `%{name}'?
+      revoke:
+        administrator: Atņemt administratora tiesības
+        moderator: Atņemt moderatora tiesības
+        are_you_sure: Vai tu esi drošs, ka vēlies atsaukt lomu `%{role}' no lietotāja
+          `%{name}'?
   user_role:
     filter:
       not_a_role: Virkne `%{role}' nav derīga kā loma.
       already_has_role: Lietotājam jau ir loma %{role}.
       doesnt_have_role: Lietotājam nav loma %{role}.
-    grant:
-      are_you_sure: Vai tu esi pārliecināts, ka vēlies piešķirt lomu `%{role}' lietotājam
-        `%{name}'?
-    revoke:
-      are_you_sure: Vai tu esi drošs, ka vēlies atsaukt lomu `%{role}' no lietotāja
-        `%{name}'?
   user_blocks:
     model:
       non_moderator_update: Jābūt moderatoram, lai veidotu vai atjaunotu liegumu.
@@ -2016,26 +2033,10 @@ lv:
     close: Aizvērt
     share:
       title: Dalīties
-      cancel: Atcelt
-      image: Bilde
-      link: Saite vai HTML
-      long_link: Saite
-      short_link: Īsā saite
-      geo_uri: Ģeo saite
-      embed: HTML
-      custom_dimensions: Uzstādīt pielāgotus izmērus
-      format: 'Formāts:'
-      scale: 'Mērogs:'
-      image_dimensions: Attēlā būs redzams standarta slānis %{width} x %{height}
-      download: Lejupielādēt
-      short_url: Īsais URL
-      include_marker: Iekļaut marķieri
-      center_marker: Centrēt karti uz marķieri
-      paste_html: Ielīmē HTML, lai ievietotu mājaslapā
       view_larger_map: Skatīt lielāku karti
     embed:
       report_problem: Ziņot par problēmu
-    key:
+    legend:
       title: Apzīmējumi
       tooltip: Apzīmējumi
       tooltip_disabled: Kartes leģenda šim slānim nav pieejama
@@ -2063,15 +2064,12 @@ lv:
       edit_disabled_tooltip: Pietuvini, lai rediģētu karti
       createnote_tooltip: Pievienot piezīmi kartei
       createnote_disabled_tooltip: Pietuvini karti, lai pievienotu piezīmi
-      map_notes_zoom_in_tooltip: Pietuvināt, lai redzētu piezīmes
-      map_data_zoom_in_tooltip: Pietuvināt, lai redzētu kartes datus
       queryfeature_tooltip: Vaicājuma funkcijas
       queryfeature_disabled_tooltip: Tuvināt pie kārtas funkcijām
     edit_help: Pārvieto karti un pietuvini vietai, kuru vēlies labot, tad spied šeit.
     directions:
       errors:
         no_route: Nevarēja atrast maršrutu starp šīm divām vietām.
-        no_place: Atvainojiet - nevarēja atrast šo vietu.
       instructions:
         continue_without_exit: Turpināt uz %{name}
         slight_right_without_exit: Nedaudz pa labi uz %{name}
@@ -2125,6 +2123,9 @@ lv:
       directions_to: Norādes uz šejieni
       add_note: Pievienot piezīmi šeit
       show_address: Rādīt adresi
+    edit:
+      id_not_configured:
+        title: iD nav konfigurēts
   redactions:
     edit:
       heading: Labot redakciju

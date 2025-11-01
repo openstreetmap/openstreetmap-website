@@ -8,6 +8,10 @@
 xmf:
   html:
     dir: ltr
+  date:
+    formats:
+      brief_bce: ჯვ. წ. %{year}
+      brief_ce: ახ. წ. %{year}
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
@@ -17,7 +21,7 @@ xmf:
       prompt: ფაილიშ გიშაგორუა
     submit:
       diary_comment:
-        create: კომენტარი
+        create: კომენტირება
       diary_entry:
         create: გუმობჟინაფა
         update: გოახალაფა
@@ -38,6 +42,10 @@ xmf:
         create: ბლოკირაფაშ გოჭყაფა
         update: ბლოკირაფაშ გოახალაფა
   activerecord:
+    errors:
+      models:
+        user_mute:
+          is_already_muted: უკვე გოქალერი რე
     models:
       acl: ხემეჭირნაფაშ კონტროლიშ ერკებული
       changeset: თირაფეფიშ პაკეტი
@@ -52,7 +60,6 @@ xmf:
       node: ჭურჭული
       node_tag: ჭურჭულიშ ხინტკი
       note: ხვილაფა
-      notifier: გჷმართხილებერი
       old_node: ჯვეში ჭურჭული
       old_node_tag: ჭურჭულიშ ჯვეში ხინტკი
       old_relation: ჯვეში ურთიართობა
@@ -83,8 +90,7 @@ xmf:
         support_url: აზარაშ URL
         allow_read_prefs: წეკითხით ომახვარებე პარამეტრეფი
         allow_write_prefs: ომახვარებე პარამეტრეფიშ თირუა
-        allow_write_diary: დღარეფიშ დინნაჭარეფიშ გოჭყაფა, კომენტირაფა დო მაჸალეეფიშ
-          გეძინა
+        allow_write_diary: დღარეფიშ დინნაჭარეფიშ გოჭყაფა დო კომენტირაფა
         allow_write_api: რუკაშ თირუა
         allow_read_gpx: კერზო GPS-ტრეკეფიშ კითხირი
         allow_write_gpx: GPS-ტრეკეფიშ ეხარგუა
@@ -94,6 +100,7 @@ xmf:
       diary_entry:
         user: მახვარებუ
         title: 'თემა:'
+        body: ტექსტი
         latitude: განედი
         longitude: გრძედი
         language_code: ნინა
@@ -114,7 +121,7 @@ xmf:
         longitude: გრძედი
         public: ჯარალობური
         description: ეჭარუა
-        gpx_file: GPX ფაილიშ ეხარგუა
+        gpx_file: GPX-ტრეკ ფაილიშ გიშაგორუა
         visibility: ძირაფუა
         tagstring: ხინტკეფი
       message:
@@ -136,6 +143,7 @@ xmf:
         active: აქტიური
         display_name: ჯოხო ეკრანს
         description: პროფილიშ ეჭარუა
+        company: კომპანია
         home_lat: განედი
         home_lon: გრძედი
         languages: კორინელი ნინეფი
@@ -231,7 +239,7 @@ xmf:
       title: ანგარიშიშ რედაქტირაფა
       current email address: ელ-ფოსტაშ ასეიანი მიოწურაფუ
       external auth: გალენი აუთენტიფიკაცია
-      contributor terms:
+      contributor_terms:
         link text: მუ რე თენა?
       save changes button: თირუეფიშ ჩუალა
       delete_account: ანგარიშიშ ლასუა...
@@ -268,8 +276,6 @@ xmf:
       one: 1 ღოზი
       other: '%{count} ღოზი'
     download_xml: XML-იშ გჷმოხარგუა
-    view_history: ისტორიაშ ძირაფა
-    view_details: დეტალეფიშ ძირაფა
     location: ორენიː
     node:
       title_html: 'ჭურჭული: %{name}'
