@@ -1033,3 +1033,91 @@ img.trace_image {
     }
   }
 }
+
+/* Tag change highlighting for history views */
+.browse-tag-list {
+  .tag-added {
+    background-color: rgba(var(--bs-success-rgb), 0.08) !important;
+    border-left: 4px solid var(--bs-success);
+
+    th, td {
+      background-color: inherit !important;
+    }
+  }
+
+  .tag-modified {
+    background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
+    border-left: 4px solid var(--bs-warning);
+
+    th, td {
+      background-color: inherit !important;
+    }
+  }
+
+  .tag-removed {
+    background-color: rgba(var(--bs-danger-rgb), 0.08) !important;
+    border-left: 4px solid var(--bs-danger);
+
+    th, td {
+      background-color: inherit !important;
+    }
+  }
+
+  .tag-unmodified {
+    background-color: rgba(var(--bs-secondary-rgb), 0.05) !important;
+    border-left: 4px solid var(--bs-border-color);
+
+    th, td {
+      background-color: inherit !important;
+    }
+  }
+
+  /* Diff indicators for tag changes */
+  .diff-indicator-cell {
+    padding: 0 !important;
+    width: 1em;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    color: white;
+    background-color: inherit !important;
+  }
+
+  .diff-indicator-cell.diff-added {
+    background-color: var(--bs-success) !important;
+  }
+
+  .diff-indicator-cell.diff-removed {
+    background-color: var(--bs-danger) !important;
+  }
+
+  .diff-indicator-cell.diff-unmodified {
+    background-color: var(--bs-border-color) !important;
+    color: var(--bs-body-color) !important;
+  }
+
+  /* Modified tag key cell styling */
+  .tag-removed .diff-key-modified,
+  .tag-added .diff-key-modified {
+    color: var(--bs-body-color) !important;
+    background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
+  }
+
+  .tag-removed:has(.diff-key-modified),
+  .tag-added:has(.diff-key-modified) {
+    border-left: 4px solid var(--bs-warning) !important;
+  }
+
+  .tag-removed:has(.diff-key-modified) + .tag-added {
+    border-left: 4px solid var(--bs-warning) !important;
+  }
+
+  th {
+    font-weight: normal !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+}
+
+.diff-cell {
+  padding: 0.25rem 0.5rem !important;
+}
