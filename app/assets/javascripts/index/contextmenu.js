@@ -190,7 +190,7 @@ class ContextMenu {
   }
 
   _createMenuItem(item) {
-    const $icon = $("<i>").addClass(`bi ${item.icon}`);
+    const $icon = $("<i>").addClass(`bi ${item.icon}`).prop("ariaHidden", true);
     const $label = $("<span>").text(item.text);
 
     const $link = $("<a>")
