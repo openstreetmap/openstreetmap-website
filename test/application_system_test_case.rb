@@ -48,7 +48,7 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     end
   end
 
-  driven_by_selenium
+  driven_by :rack_test
 
   def before_setup
     super
