@@ -35,6 +35,11 @@ module Preferences
         success &= map_color_scheme_preference.update(:v => params[:map_color_scheme])
       end
 
+      if params[:editor_color_scheme]
+        editor_color_scheme_preference = current_user.preferences.find_or_create_by(:k => "editor.color_scheme")
+        success &= editor_color_scheme_preference.update(:v => params[:editor_color_scheme])
+      end
+
       success
     end
   end

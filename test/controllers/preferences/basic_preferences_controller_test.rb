@@ -27,6 +27,7 @@ module Preferences
       user = create(:user, :languages => [])
       user.preferences.create(:k => "site.color_scheme", :v => "light")
       user.preferences.create(:k => "map.color_scheme", :v => "light")
+      user.preferences.create(:k => "editor.color_scheme", :v => "light")
       session_for(user)
 
       # Changing to a invalid editor should fail
@@ -39,6 +40,7 @@ module Preferences
       assert_nil user.preferred_editor
       assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
+      assert_equal "light", user.preferences.find_by(:k => "editor.color_scheme")&.v
 
       # Changing to a valid editor should work
       put basic_preferences_path, :params => { :user => { :preferred_editor => "id" } }
@@ -50,6 +52,7 @@ module Preferences
       assert_equal "id", user.preferred_editor
       assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
+      assert_equal "light", user.preferences.find_by(:k => "editor.color_scheme")&.v
 
       # Changing to the default editor should work
       put basic_preferences_path, :params => { :user => { :preferred_editor => "default" } }
@@ -61,6 +64,7 @@ module Preferences
       assert_nil user.preferred_editor
       assert_equal "light", user.preferences.find_by(:k => "site.color_scheme")&.v
       assert_equal "light", user.preferences.find_by(:k => "map.color_scheme")&.v
+      assert_equal "light", user.preferences.find_by(:k => "editor.color_scheme")&.v
     end
 
     def test_update_with_referer
@@ -147,6 +151,28 @@ module Preferences
       assert_template :show
       assert_select ".alert-success", /^Preferences updated/
       assert_equal "auto", user.preferences.find_by(:k => "map.color_scheme")&.v
+    end
+
+    def test_update_preferred_editor_color_scheme
+      user = create(:user, :languages => [])
+      session_for(user)
+      assert_nil user.preferences.find_by(:k => "editor.color_scheme")
+
+      # Changing when previously not defined
+      put basic_preferences_path, :params => { :user => user.attributes, :editor_color_scheme => "light" }
+      assert_redirected_to basic_preferences_path
+      follow_redirect!
+      assert_template :show
+      assert_select ".alert-success", /^Preferences updated/
+      assert_equal "light", user.preferences.find_by(:k => "editor.color_scheme")&.v
+
+      # Changing when previously defined
+      put basic_preferences_path, :params => { :user => user.attributes, :editor_color_scheme => "auto" }
+      assert_redirected_to basic_preferences_path
+      follow_redirect!
+      assert_template :show
+      assert_select ".alert-success", /^Preferences updated/
+      assert_equal "auto", user.preferences.find_by(:k => "editor.color_scheme")&.v
     end
 
     private
