@@ -32,5 +32,13 @@
                    :class => "form-select" %>
   </div>
 
+  <div class="mb-3">
+    <%= label_tag "editor_color_scheme", t(".preferred_editor_color_scheme"), :class => "form-label" %>
+    <%= select_tag "editor_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".editor_color_schemes.#{scheme}"), scheme] },
+                                      current_user&.preferred_color_scheme(:editor) || "auto"),
+                   :class => "form-select" %>
+  </div>
+
   <%= f.primary t(".save") %>
 <% end %>
