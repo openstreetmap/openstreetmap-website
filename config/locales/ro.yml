@@ -117,6 +117,7 @@ ro:
         allow_write_prefs: modifică preferințele utilizatorului
         allow_write_diary: creați intrări în jurnal și comentarii
         allow_write_api: modifică harta
+        allow_write_changeset_comments: comentați la seturile de modificări
         allow_read_gpx: citiți traseele GPS private
         allow_write_gpx: încărcați urma GPS
         allow_write_notes: modificați notele
@@ -197,9 +198,9 @@ ro:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: aproximativ 1 oră în urmă}}
-        few: aproximativ %{count} ore în urmă}}
-        other: …}}
+        one: aproximativ 1 oră în urmă
+        few: aproximativ %{count} ore în urmă
+        other: aproximativ %{count} de ore în urmă
       about_x_months:
         one: aproximativ o lună în urmă
         few: aproximativ %{count} luni în urmă
@@ -257,6 +258,7 @@ ro:
     providers:
       none: Fără
       google: OpenID
+      apple: Apple
       facebook: OpenID
       microsoft: Microsoft
       github: GitHub
@@ -294,10 +296,21 @@ ro:
       contributor_terms:
         heading: Termenii contribuitorului
         agreed: Ați acceptat Termenii Contributorului de la data de %{date}.
+        not_agreed: Încă nu ați fost de acord cu Termenii de Contributor.
         agreed_with_pd: De asemenea, ați declarat că considerați că editările dvs.
           sunt în Domeniul Public.
         not_agreed_with_pd: Dvs. nu ați declarat că vă considerați editările ca fiind
           în Domeniul Public.
+        review: Revizuiți Termenii și Condițiile
+        review_and_accept: Revizuiți și acceptați Termenii
+        consider_pd: Luați în considerare domeniul public
+      terms_of_use:
+        heading: Termeni de utilizare
+        agreed: Ați fost de acord cu Termenii și condițiile de utilizare pe data de
+          %{date}.
+        not_agreed: Nu ați fost încă de acord cu Termenii și condițiile de utilizare.
+        review: Revizuiţi Termenii
+        review_and_accept: Revizuiți și acceptați Termenii
       save changes button: Salvează modificările
       delete_account: Șterge Cont...
     go_public:
@@ -362,6 +375,7 @@ ro:
           html: Aceste %{tou_link} guvernează utilizarea site-ului web și a altor
             infrastructuri furnizate de OSMF. Faceți clic pe link, citiți și agregați
             textul.
+          tou: Termeni de utilizare
         read_tou: Am citit și sunt de acord cu Termenii și condițiile
         guidance_info_html: 'Informații pentru a ajuta la înțelegerea acestor termeni:
           un %{readable_summary_link} și câteva %{informal_translations_link}'
@@ -382,6 +396,19 @@ ro:
         terms_declined_html: Ne pare rău că ați decis să nu acceptați noii Termeni
           de Contributor. Pentru mai multe informații, consultați %{terms_declined_link}.
         terms_declined_link: această pagină wiki
+    pd_declarations:
+      show:
+        title: Consideră contribuțiile mele ca fiind în Domeniul Public
+        consider_pd: Consider că contribuțiile mele sunt în Domeniul Public
+        consider_pd_why: De ce aș vrea ca contribuțiile mele să fie Domeniu Public?
+        confirm: Confirmă
+      create:
+        successfully_declared: Aţi declarat cu succes că vă consideraţi modificările
+          în Domeniul Public.
+        already_declared: Aţi declarat deja că vă consideraţi modificările în Domeniul
+          Public.
+        did_not_confirm: Nu aţi confirmat că vă consideraţi modificările în Domeniul
+          Public.
   browse:
     deleted_ago_by_html: Șters %{time_ago} de %{user}
     edited_ago_by_html: Editat %{time_ago} de %{user}
@@ -462,11 +489,22 @@ ro:
         key: Pagina de pe wiki pentru tagul %{key}
         tag: Pagina de pe wiki pentru tagul %{key}=%{value}
       wikidata_link: Elementul %{page} pe Wikidata
+      wikidata_preview:
+        one: previzualizare element Wikidata
+        few: previzualizare elemente Wikidata
+        other: previzualizare elemente Wikidata
       wikipedia_link: Articolul %{page} pe Wikipedia
       wikimedia_commons_link: Item-ul %{page} pe Wikimedia Commons
       telephone_link: Sună %{phone_number}
       colour_preview: Previzualizează %{colour_value} culoare
       email_link: Email %{email}
+    versions_navigation:
+      node: Nod
+      way: Cale
+      relation: Relație
+      history: Istoric
+      version: 'Versiunea #%{version}'
+      versions_label: 'Versiuni:'
   feature_queries:
     show:
       title: Interogări ale funcțiilor
@@ -481,6 +519,8 @@ ro:
         title_html: 'Istoricul căii: %{name}'
       relation:
         title_html: 'Istoricul relației: %{name}'
+      older_versions: Versiuni mai vechi
+      newer_versions: Versiuni mai noi
     actions:
       view_redacted_data: Vedeți Datele Cenzurate
       view_redaction_message: Afișează Mesajul Ascuns
@@ -502,6 +542,36 @@ ro:
     timeout:
       sorry: Ne pare rău, datele pentru drumul cu id-ul %{id} a durat prea mult pentru
         a fi preluate.
+  old_ways:
+    not_found_message:
+      sorry: 'Ne pare rău, calea #%{id} versiunea %{version} nu a putut fi găsit.'
+    timeout:
+      sorry: Ne pare rău, istoricul căii cu ID-ul %{id} a durat prea mult pentru a
+        fi preluat.
+  relations:
+    not_found_message:
+      sorry: 'Ne pare rău, relația #%{id} nu a putut fi găsită.'
+    timeout:
+      sorry: Ne pare rău, datele pentru relația cu ID-ul %{id} au durat prea mult
+        pentru a fi preluate.
+  relation_members:
+    not_found_message:
+      sorry: 'Ne pare rău, relația #%{id} nu a putut fi găsită.'
+    timeout:
+      sorry: Ne pare rău, datele pentru relația cu ID-ul %{id} au durat prea mult
+        pentru a fi preluate.
+  old_relations:
+    not_found_message:
+      sorry: 'Ne pare rău, relația #%{id} versiunea %{version} nu a putut fi găsită.'
+    timeout:
+      sorry: Ne pare rău, istoricul relației cu ID-ul %{id} a durat prea mult pentru
+        a fi preluat.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Ne pare rău, relația #%{id} versiunea %{version} nu a putut fi găsită.'
+    timeout:
+      sorry: Ne pare rău, membrii relației cu ID-ul %{id} au avut nevoie de prea mult
+        timp pentru a fi preluați.
   changeset_comments:
     feeds:
       comment:
@@ -514,10 +584,32 @@ ro:
         sorry: Ne pare rău, lista de comenzi modificate pe care le-ați solicitat a
           durat prea mult timp pentru a fi preluate.
   changesets:
+    changeset_line:
+      comments:
+        one: un comentariu
+        few: '%{count} comentarii'
+        other: '%{count} de comentarii'
+      changes:
+        one: o modificare
+        few: '%{count} modificări'
+        other: '%{count} de modificări'
+      n_elements_created:
+        one: un element creat
+        few: '%{count} elemente create'
+        other: '%{count} de elemente create'
+      n_elements_modified:
+        one: un element modificat
+        few: '%{count} elemente modificate'
+        other: '%{count} de elemente modificate'
+      n_elements_deleted:
+        one: un element șters
+        few: '%{count} elemente șterse'
+        other: '%{count} de elemente șterse'
     index:
       title: Set de modificări
       title_user: Seturi de modificări făcute de %{user}
       title_user_link_html: Seturi de modificări făcute de %{user_link}
+      title_followed: Seturi de modificări de către utilizatorii pe care îi urmăriți
       title_nearby: Modificări făcute de utilizatori din apropiere
       empty: Niciun set de modificări găsit.
       empty_area: Niciun set de modificări în această zonă.
@@ -525,6 +617,8 @@ ro:
       no_more: Nu s-au mai găsit seturi de modificări.
       no_more_area: Nu s-au mai găsit seturi de modificări în această zonă.
       no_more_user: Nu s-au mai găsit seturi de modificări făcute de acest utilizator.
+      older_changesets: Seturi de modificări mai vechi
+      newer_changesets: Seturi de modificări mai noi
       feed:
         title: 'Set de modificări: %{id}'
         title_comment: Set de modificări %{id} — %{comment}
@@ -553,18 +647,33 @@ ro:
       changesetxml: Set de modificări XML
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Noduri
       nodes_paginated: Noduri (%{x}-%{y} din %{count})
+      ways_title: Căi
       ways_paginated: Căi (%{x}-%{y} din %{count})
+      relations_title: Relații
       relations_paginated: Comunicații (%{x}-%{y} din %{count})
+      range: '%{x}-%{y} din %{count}'
+    not_found_message:
+      sorry: 'Ne pare rău, setul de modificări #%{id} nu a putut fi găsit.'
     timeout:
       sorry: Ne pare rău, preluarea listei de modificări pe care ați solicitat-o a
         durat prea mult.
   changeset_subscriptions:
     show:
       subscribe:
+        heading: Vă abonați la următoarea discuție despre setul de modificări?
         button: Abonează-te la discuție
       unsubscribe:
+        heading: Vă dezabonați de la următoarea discuție despre setul de modificări?
         button: Dezabonează-te de la discuție
+    heading:
+      title: 'Set de modificări: %{id}'
+      created_by_html: Creat de %{link_user} pe %{created}.
+    no_such_entry:
+      heading: 'Nici o înregistrare cu identificatorul: %{id}'
+      body: Ne pare rău, nu există niciun set de modificări cu ID-ul %{id}. Vă rugăm
+        să verificați ortografia sau poate linkul pe care ați dat clic este greșit.
   dashboards:
     contact:
       km away: '%{count} km depărtare'
@@ -575,14 +684,19 @@ ro:
     popup:
       your location: Locația utilizatorului
       nearby mapper: Cartograful din apropiere
+      following: Urmăriți
     show:
       title: Dashboardul meu
       no_home_location_html: '%{edit_profile_link} și setați locația de acasă pentru
         a vedea utilizatorii din apropiere.'
       edit_your_profile: Editați-vă profilul
+      followings: Utilizatori pe care îi urmăriți
+      no followings: Nu ai urmărit încă niciun utilizator.
       nearby users: Alți utilizatori din apropriere
       no nearby users: Nu există alți utilizatori care să admită cartografiere în
         apropiere.
+      followed_changesets: seturi de modificări
+      followed_diaries: înregistrări în jurnal
       nearby_changesets: schimbări de setări ale utilizatorilor
       nearby_diaries: intrările în jurnalul utilizatorului din apropiere
   diary_entries:
@@ -593,6 +707,7 @@ ro:
       use_map_link: Utilizează Harta
     index:
       title: Jurnalele utilizatorilor
+      title_followed: Jurnalele utilizatorilor urmăriți
       title_nearby: Jurnalele utilizatorilor aflați în apropiere
       user_title: Jurnalul utilizatorului %{user}
       in_language_title: Înregistrări de jurnal în %{language}
@@ -620,6 +735,7 @@ ro:
     diary_entry:
       posted_by_html: Postat de %{link_user} pe %{created} în %{language_link}
       updated_at_html: Ultima actualizare pe %{updated}.
+      full_entry: Vezi intrarea completă
       comment_link: Comentează la această înregistrare
       reply_link: Trimite un mesaj autorului
       comment_count:
@@ -658,9 +774,19 @@ ro:
       heading: Te dezabonezi de la următoarea discuție de intrare a jurnalului?
       button: Dezabonează-te de la discuție
     navigation:
+      in_language: Înregistrări de jurnal în %{language}
       my_diary: Jurnalul meu
       new: O nouă înregistrare în jurnal
       new_title: Compune o înregistrare nouă în jurnalul meu de utilizator
+    profile_diaries:
+      latest_diaries: Ultimele jurnale
+      comments:
+        one: un comentariu
+        few: '%{count} comentarii'
+        other: '%{count} de comentarii'
+      title_label: Înregistrare în jurnal
+      comments_label: Comentarii
+      date_label: Dată
   diary_comments:
     new:
       heading: Adaugi un comentariu la următoarea discuție de intrare a jurnalului?
@@ -703,6 +829,7 @@ ro:
         OpenStreetMap dacă ați găsit un link invalid/o eroare. Notați adresa URL exactă
         a solicitării dvs.
     bad_request:
+      title: Cerere greșită
       description: Cererea pe care ați făcut-o pe serverul OpenStreetMap nu este validă.
         (HTTP 400)
     forbidden:
@@ -717,6 +844,18 @@ ro:
       title: Fișierul nu a fost găsit
       description: Nu s-a putut găsi o operație de file/directory/API operation cu
         acest nume pe serverul OpenStreetMap (HTTP 404)
+  follows:
+    show:
+      follow:
+        heading: Doriți să-l urmăriți pe %{user}?
+        button: Urmăriți utilizatorul
+      unfollow:
+        heading: Doriți să-l scoateți de la urmăriri pe %{user}?
+        button: Scoațeți din lista de urmăriți pe utilizator
+    create:
+      success: Acum urmăriți pe %{name}
+      failed: Ne pare rău, solicitarea ta de a urmări %{name} a eșuat.
+      already_followed: Deja urmărești %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:

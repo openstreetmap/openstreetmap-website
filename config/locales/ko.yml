@@ -54,6 +54,7 @@
 # Author: 렌즈
 # Author: 밥풀떼기
 # Author: 아라
+# Author: 타르타르산
 # Author: 한림
 ---
 ko:
@@ -201,6 +202,7 @@ ko:
         company: 회사
         home_lat: 위도
         home_lon: 경도
+        home_location_name: 내 집 이름
         languages: 선호하는 언어
         preferred_editor: 선호하는 편집기
         pass_crypt: 비밀번호
@@ -354,6 +356,7 @@ ko:
         tou_explain:
           html: 이러한 %{tou_link}는 오픈스트리트맵 재단에서 제공하는 웹사이트 및 기타 인프라 사용을 관리합니다. 링크를 클릭하여
             텍스트를 읽고 동의하십시오.
+          tou: 이용 약관
         read_tou: 이용약관을 읽었으며 동의합니다
         guidance_info_html: '이러한 용어를 이해하는 데 도움이 되는 정보: %{readable_summary_link} /
           일부 %{informal_translations_link}'
@@ -488,7 +491,7 @@ ko:
       view_redaction_message: 수정 메시지 보기
   nodes:
     not_found_message:
-      sorry: 죄송합니다, 노드 %{id}을(를) 찾을 수 없었습니다.
+      sorry: 죄송합니다, 노드 %{id}을(를) 찾을 수 없습니다.
     timeout:
       sorry: 죄송합니다, %{id} id인 노드에 대한 데이터를 가져오는 데 너무 오래 걸립니다.
   old_nodes:
@@ -511,11 +514,21 @@ ko:
       sorry: '죄송합니다. 관계 #%{id}을(를) 찾을 수 없습니다.'
     timeout:
       sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는 데 너무 오래 걸립니다.
+  relation_members:
+    not_found_message:
+      sorry: '죄송합니다. 관계 #%{id}을(를) 찾을 수 없습니다.'
+    timeout:
+      sorry: 죄송합니다, %{id} id인 관계 데이터를 가져오는데 너무 오래 걸립니다.
   old_relations:
     not_found_message:
       sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
     timeout:
       sorry: 죄송합니다, %{id} id인 관계 역사를 가져오는 데 너무 오래 걸립니다.
+  old_relation_members:
+    not_found_message:
+      sorry: '죄송합니다. 버전 %{version}의 관계 #%{id}를 찾을 수 없습니다.'
+    timeout:
+      sorry: 죄송합니다. %{id} id인 관계 구성 요소를 불러오는 데 너무 오래 걸립니다.
   changeset_comments:
     feeds:
       comment:
@@ -1569,6 +1582,8 @@ ko:
       miles_feet: 마일, 피트
       miles_yards: 마일, 야드
       distance_units_settings: 거리 단위 설정
+      download: GeoJSON으로 경로 다운로드
+      filename: 경로
       directions_courtesy_html: '%{link}의 가는 방향'
   issues:
     index:
@@ -1665,6 +1680,7 @@ ko:
       provide_details: 필수 상세 정보를 지정해 주십시오
   languages_panes:
     select_language_list:
+      search_language: 검색...
       languages:
         af: 아프리칸스어
         gsw: 알레만어
@@ -1748,9 +1764,9 @@ ko:
         yi: 이디시어
         he: 히브리어
         ar: 아랍어
-        skr-arab: 사라이키어(아랍 문자)
+        skr-arab: 사라이키어
         fa: 페르시아어
-        arz: 아랍어(이집트)
+        arz: 이집트 아랍어
         pnb: 서펀자브어
         ps: 파슈토어
         nqo: 은코어
@@ -1765,6 +1781,7 @@ ko:
         kn: 칸나다어
         th: 태국어
         my: 버마어
+        shn: 샨어
         xmf: 민그렐어
         ka: 조지아어
         km: 크메르어
@@ -1808,8 +1825,14 @@ ko:
     more: 더 보기
     header:
       select_language: 언어 선택
+      loading: 불러오는 중...
     select_language_button:
       title: 언어 선택
+    offline_flash:
+      osm_offline: 현재 필수 유지보수 작업이 진행되고 있어 OpenStreetMap 데이터베이스는 오프라인 상태입니다.
+      osm_read_only: 현재 필수 유지보수 작업이 진행되고 있어 OpenStreetMap 데이터베이스는 읽기 전용 상태입니다.
+      expected_restore_html: 서비스는 %{time} 내에 복구될 것으로 예상됩니다.
+      announcement: 여기에서 공지사항을 읽어보실 수 있습니다.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap 일기 항목 #%{id}'
@@ -1843,6 +1866,11 @@ ko:
     gpx_failure:
       hi: 안녕하세요 %{to_user}님,
       failed_to_import: GPS 트레이스로 파일을 가져오지 못한 것 같습니다.
+      verify: 파일이 유효한 GPX 파일인지, 또는 지원되는 형식(.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2)의 GPX 파일이 포함된 아카이브인지 확인하세요. 파일에 형식이나 구문 문제가 있을 수 있을까요? 불러오기 오류는 다음과
+        같습니다.
+      more_info: GPX 불러오기 실패에 대한 자세한 내용과 이를 방지하는 방법은 %{url}에서 확인할 수 있습니다.
+      more_info_html: GPX 불러오기 실패에 대한 자세한 내용과 이를 방지하는 방법은 %{url}에서 확인할 수 있습니다.
       subject: '[OpenStreetMap] GPX 가져오기 실패'
     gpx_success:
       hi: 안녕하세요 %{to_user}님,
@@ -1974,6 +2002,10 @@ ko:
         notice: 메시지를 읽은 것으로 표시
       destroy:
         notice: 메시지를 읽지 않은 것으로 표시
+    mutes:
+      destroy:
+        notice: 메시지가 내 메시지로 이동되었습니다.
+        error: 메시지를 내 메시지로 이동할 수 없습니다.
     mailboxes:
       heading:
         my_inbox: 받은 쪽지함
@@ -1989,6 +2021,7 @@ ko:
         unread_button: 읽지 않음으로 표시
         read_button: 읽음으로 표시
         destroy_button: 삭제
+        unmute_button: 내 메시지로 이동
     inboxes:
       show:
         title: 받은 쪽지함
@@ -2052,6 +2085,7 @@ ko:
     basic_preferences:
       show:
         title: 내 환경 설정
+        preferred_language: 선호하는 언어
         preferred_site_color_scheme: 선호하는 웹사이트 색상 구성표
         site_color_schemes:
           auto: 자동
@@ -2065,6 +2099,7 @@ ko:
         save: 환경 설정 업데이트
     advanced_preferences:
       show:
+        title: 내 고급 환경 설정
         save: 환경 설정 업데이트
   profiles:
     profile_sections:
@@ -2087,6 +2122,10 @@ ko:
         title: 프로필 수정
         save: 프로필 업데이트
         cancel: 취소
+        social_links:
+          title: 소셜 프로필 링크
+          remove: 제거
+          add: 소셜 링크 추가
       update:
         success: 프로필 링크가 업데이트되었습니다.
         failure: 프로필 링크를 업데이트할 수 없습니다.
@@ -2131,6 +2170,10 @@ ko:
     new:
       tab_title: 로그인
       login_to_authorize_html: '%{client_app_name}에 접근하려면 오픈스트리트맵에 로그인하십시오.'
+      already_logged_in_html: 이미 %{user}로 로그인되어 있습니다. 다시 로그인하면 현재 계정이 변경됩니다.
+      access_another_page: '다른 문서에 접근하려고 시도하다가 이 문서에 접속하셨습니다. 현재 계정을 사용하여 해당 문서에 접근하려면,
+        아래 버튼을 클릭하세요:'
+      visit_referring_page: 참조 페이지 방문하기
       email or username: 이메일 주소 또는 사용자 이름
       password: 비밀번호
       remember: 로그인 상태를 기억하기
@@ -2191,9 +2234,13 @@ ko:
       traces:
         older: 이전 궤적
         newer: 다음 궤적
+        oldest: 가장 오래된 GPS 궤적
+        newest: 가장 최근의 GPS 궤적
       user_blocks:
         older: 옛 차단내역
         newer: 최근 차단내역
+        oldest: 가장 오래된 차단내역
+        newest: 가장 최근의 차단내역
       users:
         older: 이전 사용자
         newer: 신규 사용자
@@ -2252,17 +2299,37 @@ ko:
         native_link: 한국어 버전
         mapping_link: 매핑을 시작
       legal_babble:
+        lead_1_html: |-
+          오픈스트리트맵은 수천 개의 웹사이트, 모바일 앱, 하드웨어 장치에 대한 오픈 맵 데이터를 제공합니다.
+          오픈스트리트맵은 전세계의 도로, 산책로, 카페, 기차역 등에 대한 지도 데이터를 기여하고 유지 관리하는 여러분과 같은 커뮤니티에 의해 구축되었습니다.
+        lead_2_html: |-
+          %{learn_more_about_osm_link}를 참고해서 %{get_started_mapping_link}! %{osm_blog_link}에서 더 자세한 내용을 읽어보고 %{weeklyosm_link}을 구독하세요.
+          여러분의 지역 %{osm_community_link}에서 다른 매퍼를 찾아보세.
+          %{osm_foundation_link}과 %{making_donation_link}에 참여해서 프로젝트를 지원하세요.
         lead_2_learn_more_about_osm: OpenStreetMap 더 알아보기
+        lead_2_get_started_mapping: 매핑을 시작해보세요
         lead_2_osm_blog: OpenStreetMap 블로그
         lead_2_weeklyosm: 주간OSM
         lead_2_osm_community: OSM 커뮤니티
         lead_2_osm_foundation: OSM 재단
         lead_2_making_donation: 기부하기
         licensing_title: OpenStreetMap 라이선스 정책
+        licensing_1_html: |-
+          오픈스트리트맵은 %{osm_foundation_link} (OSMF)에서 %{odc_odbl_link} (ODbL)를 받은 말 그대로 '%{open}' 데이터입니다.
+          요약하면:
+        licensing_1_open: 오픈된
         licensing_1_odc_odbl: 오픈 데이터 커먼즈 오픈 데이터베이스 라이선스
         licensing_1_osm_foundation: OpenStreetMap 재단
+        licensing_2_html: |-
+          오픈스트리트맵과 그 기여자를 명시하는 한, 오픈스트리트맵 데이터를 자유롭게 복사, 배포, 전송 및 사용할 수 있습니다.
+          데이터를 바꾸거나 데이터를 기초로 작업할 때는 오로지
+          같은 라이선스에 따라서만 결과를 배포할 수 있습니다. %{legal_code_link}에서는 당신의 권리와 책임을 설명합니다.
+        licensing_2_legal_code: 오픈 데이터 커먼즈의 전체 규정
+        licensing_3_html: 본 문서는 %{creative_commons_license_link} (CC BY-SA 2.0) 라이선스에
+          따라 제공됩니다.
         licensing_3_creative_commons_license: 크리에이티브 커먼즈 저작자표시-동일조건변경허락 2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: '%{osmf_license_page_link}에서 데이터 사용에 대한 자세한 내용을 알아보세요.'
         licensing_4_osmf_license_page: OSMF 라이선스 페이지
         credit_title_html: OpenStreetMap의 기여진을 밝히는 방법
         credit_1_html: 오픈스트리트맵 데이터를 이용하려면 다음 두 가지를 해야 합니다.
@@ -2326,7 +2393,11 @@ ko:
           %{france}: 프랑스 국세청 (Direction Générale des Impôts)이 제공한
           데이터를 포함합니다.
         contributors_fr_france: 프랑스
+        contributors_hr_credit_html: |-
+          %{croatia}: %{dgu_link}과 %{open_data_portal}
+          (크로아티아 공개 정보)의 데이터를 포함합니다.
         contributors_hr_croatia: 크로아티아
+        contributors_hr_dgu: 크로아티아 측량국
         contributors_hr_open_data_portal: 국가 공개 데이터 포털
         contributors_nl_credit_html: '%{netherlands}: 2007년 &copy; AND 데이터 (%{and_link})를
           포함합니다.'
@@ -2358,6 +2429,7 @@ ko:
         contributors_za_credit_html: '%{south_africa}: %{ngi_link}에서 가져온 데이터를 포함합니다.
           저작권은 남아프리카 공화국 정부에 있습니다.'
         contributors_za_south_africa: 남아프리카 공화국
+        contributors_za_ngi: 국가 지리공간 정보국
         contributors_gb_united_kingdom: 영국
         contributors_2_html: 이러한 정보와 오픈스트리트맵의 개선에 도움이 되는 기타 자료에 대한 자세한 내용은 오픈스트리트맵
           위키의 %{contributors_page_link}를 참조하십시오.
@@ -2401,6 +2473,11 @@ ko:
           description: OpenStreetMap Wiki에서 찾아보기
       export_button: 내보내기
       export_download: 다운로드 중...
+      confirmation:
+        header: XML 데이터 다운로드
+        body: 이 지역의 지도 데이터를 XML 형식으로 다운로드하시겠습니까? 넓은 지역은 다운로드하는 데 시간이 걸릴 수 있습니다.
+        cancel: 취소
+        download: 다운로드
     fixthemap:
       title: 문제 보고 / 지도 수정
       how_to_help:
@@ -2476,6 +2553,8 @@ ko:
         bicycle: 자전거
         car: 자동차
         foot: 도보
+      providers:
+        description: 길찾기 알고리즘
     welcome:
       title: 환영합니다!
       introduction: 누구나 편집 가능한 세계 지도, 오픈스트리트맵에 오신 것을 환영합니다. 이제 가입이 완료된 이상 지도 제작에 나설
@@ -2512,6 +2591,8 @@ ko:
     add_a_note:
       title: 편집할 짬을 내기가 어려우신가요? 손쉽게 '노트'(참고)를 덧붙이세요!
       para_1: 가입한 다음 편집 방법을 배울 시간이 없거나 자잘한 사항만 고치고 싶은 경우, '노트'(참고)를 덧붙여서 알려주면 쉽습니다.
+      para_2_html: '%{note_icon}이나 %{map_link}에서 똑같이 생긴 아이콘을 누르면 됩니다. 그러면 지도에 참고가
+        추가되며, 끌어서 옮길 수 있습니다. 내용을 추가한 다음 저장하면 다른 매퍼가 해결해 줄 것입니다.'
       the_map: 지도
     communities:
       title: 커뮤니티
@@ -2628,6 +2709,7 @@ ko:
         bicycle_parking: 자전거 주차장
         bicycle_parking_small: 소형 자전거 주차장
         toilets: 화장실
+      see_external_legend: 모든 범례 보기
   share_panes:
     show:
       link: 링크 또는 HTML
@@ -2816,6 +2898,8 @@ ko:
       consume_messages: 사용자 메시지 읽기, 상태 업데이트 및 삭제
       send_messages: 다른 사용자에게 개인 메시지 보내기
       skip_authorization: 애플리케이션 자동 승인
+    for_roles:
+      moderator: 이 권한은 관리자 전용 작업에 대한 것입니다
   oauth2_applications:
     index:
       title: 내 클라이언트 애플리케이션
@@ -2999,8 +3083,12 @@ ko:
     comments:
       index:
         heading_html: '%{user}님의 의견'
+        changesets: 바뀜집합
+        diary_entries: 일기 항목
         no_comments: 의견 없음
     changeset_comments:
+      index:
+        title: '%{user}님이 추가한 바뀜집합 댓글'
       page:
         changeset: 바뀜집합
         when: 날짜
@@ -3010,6 +3098,7 @@ ko:
         title: '%{user}님이 추가한 일기 댓글'
       page:
         post: 게시물
+        when: 날짜
         comment: 의견
     suspended:
       title: 계정 정지
@@ -3214,12 +3303,13 @@ ko:
     share:
       title: 공유
       view_larger_map: 큰 지도 보기
+      filename: 지도
     embed:
       report_problem: 문제점 보고
     legend:
       title: 범례
       tooltip: 범례
-      tooltip_disabled: 범례는 이 레이어에 사용할 수 없습니다
+      tooltip_disabled: 이 레이어에 범례를 사용할 수 없습니다
     map:
       zoom:
         in: 확대
@@ -3236,6 +3326,8 @@ ko:
         transport_map: 교통 지도
         tracestracktop_topo: 트레이스트랙 토포
         hot: 인도주의
+        shortbread: 쇼트브레드
+        openmaptiles_osm: 맵타일러 OMT
       layers:
         header: 지도 레이어
         notes: 지도 참고
@@ -3260,6 +3352,9 @@ ko:
       createnote_disabled_tooltip: 지도에 참고를 추가하려면 확대
       queryfeature_tooltip: 지물 정보
       queryfeature_disabled_tooltip: 지물 정보를 확인하려면 확대
+    profile:
+      social_link_n: 소셜 프로필 링크 %{n}
+      remove_social_link_n: 소셜 프로필 링크 %{n} 제거
     edit_help: 편집하려는 위치에 지도를 이동하고 확대한 다음, 여기를 클릭하세요.
     directions:
       distance_in_units:
@@ -3272,6 +3367,7 @@ ko:
         no_route: 두 장소 사이의 경로를 찾을 수 없습니다.
         no_place:
           title: 검색 실패
+          body: '''%{place}''을(를) 찾을 수 없습니다.'
       instructions:
         continue_without_exit: '%{name}(으)로 계속 가세요'
         slight_right_without_exit: '%{name}을(를) 따라 오른쪽으로 완만하게 도세요'
@@ -3328,6 +3424,7 @@ ko:
         roundabout_with_exit: 회전교차로에서 %{name} 방향의 %{exit} 출구로 떠나세요
         roundabout_with_exit_ordinal: '%{name} 방향  %{exit} 출구로 회전교차로를 나가세요.'
         exit_roundabout: '%{name} 방향 회전교차로 출구'
+        ferry_without_exit: '%{name}을(를) 잇는 페리를 타세요'
         unnamed: 이름 없는 도로
         exit_counts:
           first: 1번째
@@ -3356,12 +3453,20 @@ ko:
       show_address: 주소 보기
       query_features: 지물 보기
       centre_map: 여기를 가운데로 지정
+      scroll_to_changeset: 해당 바뀜집합까지 스크롤
+    home:
+      marker_title: 내 집 위치
+      not_set: 이 계정에서는 내 집 위치가 설정되지 않았습니다.
+    heatmap:
+      tooltip:
+        no_contributions: '%{date}에느 기여가 없습니다'
     remote_edit:
       failed:
         title: 편집 실패
     edit:
       id_not_configured:
         title: iD가 설정되지 않았습니다
+        body: 자세한 내용은 CONFIGURE.md를 참조하세요.
   redactions:
     edit:
       heading: 교정 편집

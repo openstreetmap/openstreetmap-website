@@ -6,6 +6,7 @@
 # Author: Balint36
 # Author: BanKris
 # Author: Bencemac
+# Author: Boro
 # Author: BáthoryPéter
 # Author: City-busz
 # Author: Csega
@@ -447,7 +448,7 @@ hu:
       title: Nem található
     timeout:
       title: Időtúllépési hiba
-      sorry: Sajnáljuk, a(z) %{id} azonosítójú %{type} adatainak beolvasása túl sokáig
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú %{type} adatainak lekérése túl sokáig
         tartott.
       type:
         node: pont
@@ -539,12 +540,24 @@ hu:
     timeout:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú kapcsolat adatainak lekérése túl sokáig
         tartott.
+  relation_members:
+    not_found_message:
+      sorry: Sajnáljuk, a(z) %{id} kapcsolat nem található.
+    timeout:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú kapcsolat adatainak lekérése túl sokáig
+        tartott.
   old_relations:
     not_found_message:
       sorry: 'Sajnáljuk, nem található meg #%{id} kapcsolat %{version} verziója.'
     timeout:
       sorry: Sajnáljuk, a(z) %{id} azonosítójú kapcsolat előzményeinek lekérése túl
         sokáig tartott.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Sajnáljuk, nem található a(z) #%{id} kapcsolat %{version} verziója.'
+    timeout:
+      sorry: Sajnáljuk, a(z) %{id} azonosítójú kapcsolat tagjainak lekérése túl sokáig
+        tartott.
   changeset_comments:
     feeds:
       comment:
@@ -1792,6 +1805,119 @@ hu:
     create:
       successful_report: Bejelentésedet sikeresen regisztráltuk
       provide_details: Kérjük, add meg a szükséges részleteket
+  languages_panes:
+    select_language_list:
+      search_language: Keresés…
+      languages:
+        af: afrikaans
+        gsw: alemann
+        frp: arpitán
+        ast: asztúriai
+        az: azeri
+        id: indonéz
+        ms: maláj
+        bs: bosnyák
+        br: breton
+        ca: katalán
+        cs: cseh
+        cy: walesi
+        da: dán
+        de: német
+        dsb: alsó szorb
+        et: észt
+        en: angol
+        en-GB: angol (Egyesült Királyság)
+        es: spanyol
+        eo: eszperantó
+        eu: baszk
+        fr: francia
+        fy: nyugati fríz
+        fur: friuli nyelv
+        ga: ír
+        gd: skót gael
+        gl: galiciai nyelv
+        aln: geg albán
+        hsb: felső szorb
+        hr: horvát
+        ia: interlingva
+        is: izlandi
+        it: olasz
+        gcf: guadeloupe-i kreol
+        ku-Latn: kurd (latin)
+        lv: lett
+        lb: luxemburgi
+        lt: litván
+        hu: magyar
+        fit: meänkieli
+        nl: holland
+        nb: norvég bokmål
+        nn: norvég nynorsk
+        oc: okcitán
+        nds: alnémet
+        pl: lengyel
+        pt-PT: portugál
+        pt: portugál (Brazília)
+        ksh: kölni
+        ro: román
+        sc: szárd
+        sco: scots
+        sq: albán
+        scn: szicíliai
+        sk: szlovák
+        sl: szlovén
+        sr-Latn: szerb (latin)
+        sh: szerb-horvát (latin)
+        fi: finn
+        sv: svéd
+        tl: tagalog
+        kab: kabil
+        vi: vietnámi
+        tr: török
+        yo: joruba
+        diq: zazaki
+        el: görög
+        ba: baskír
+        be: belarusz
+        be-Tarask: belarusz (tarašk.)
+        bg: bolgár
+        mk: macedón
+        mo: moldáv
+        ce: csecsen
+        ru: orosz
+        sr: szerb (cirill)
+        tt: tatár (cirill)
+        uk: ukrán
+        kk-cyrl: kazak (cirill)
+        yi: jiddis
+        he: héber
+        ar: arab
+        skr-arab: szaraiki
+        fa: perzsa
+        arz: egyiptomi arab
+        pnb: nyugati pandzsábi
+        ps: pastu
+        nqo: n’ko
+        ne: nepáli
+        mr: maráthi
+        hi: hindi
+        bn: bengáli
+        pa: pandzsábi
+        gu: gudzsaráti
+        ta: tamil
+        te: telugu
+        kn: kannada
+        th: thai
+        my: burmai
+        shn: shan
+        xmf: mingrél
+        ka: grúz
+        km: khmer
+        sat: szantháli
+        zh-CN: kínai (egyszerűsített)
+        zh-TW: kínai (hagyományos)
+        zh-HK: kínai (Hongkong)
+        ja: japán
+        ko: koreai
   layouts:
     logo:
       alt_text: OpenStreetMap logó
@@ -1824,6 +1950,7 @@ hu:
     more: Több
     header:
       select_language: Nyelv kiválasztása
+      loading: Betöltés…
     select_language_button:
       title: Nyelv kiválasztása
     offline_flash:
@@ -2560,6 +2687,12 @@ hu:
           description: További források az OpenStreetMap wiki oldalán találhatók
       export_button: Exportálás
       export_download: Letöltés...
+      confirmation:
+        header: XML-adat letöltése
+        body: Szeretnéd letölteni a térkép adatait XML-formátumban? Vedd figyelembe,
+          hogy a nagyobb területek letöltése eltarthat egy ideig.
+        cancel: Mégse
+        download: Letöltés
     fixthemap:
       title: Probléma bejelentése / Térkép javítása
       how_to_help:
@@ -3506,7 +3639,7 @@ hu:
     legend:
       title: Jelmagyarázat
       tooltip: Jelmagyarázat
-      tooltip_disabled: A jelmagyarázat nem érhető el ezen a rétegen
+      tooltip_disabled: A jelkulcs nem érhető el ezen a rétegen
     map:
       zoom:
         in: Nagyítás
@@ -3544,6 +3677,7 @@ hu:
       tracestrack_credit: A csempék a %{tracestrack_link} jóvoltából
       hotosm_credit: 'A %{hotosm_link} csempestílusa: %{osm_france_link}'
       hotosm_name: Humanitárius OpenStreetMap csapat
+      openmaptiles_credit: 'Vektoros csempék: %{openmaptiles_link}, kiszolgáló: %{maptiler_link}'
     site:
       edit_tooltip: Térkép szerkesztése
       edit_disabled_tooltip: Közelíts a térkép szerkesztéséhez
