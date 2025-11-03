@@ -3,10 +3,10 @@
   <%= javascript_include_tag "turbo", :type => "module" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/#{I18n.locale}" %>
-  <% if preferred_color_scheme(:site) == "auto" %>
-    <%= stylesheet_link_tag "screen-auto-#{dir}", :media => "screen" %>
-  <% else %>
+  <% if current_user&.preferred_color_scheme(:site) %>
     <%= stylesheet_link_tag "screen-manual-#{dir}", :media => "screen" %>
+  <% else %>
+    <%= stylesheet_link_tag "screen-auto-#{dir}", :media => "screen" %>
   <% end %>
   <%= stylesheet_link_tag "print-#{dir}", :media => "print" %>
   <%= stylesheet_link_tag "leaflet-all", :media => "screen, print" %>

@@ -393,8 +393,6 @@ L.OSM.Map = L.Map.extend({
 OSM.isDarkMap = function () {
   const mapTheme = $("body").attr("data-map-theme");
   if (mapTheme) return mapTheme === "dark";
-  const siteTheme = $("html").attr("data-bs-theme");
-  if (siteTheme) return siteTheme === "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 

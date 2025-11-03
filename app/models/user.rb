@@ -260,6 +260,15 @@ class User < ApplicationRecord
     @preferred_languages ||= Locale.list(languages)
   end
 
+  def preferred_color_scheme(*priority_list)
+    color_preferences = preferences.color_schemes.where.not(:v => "auto").pluck(:k, :v).to_h
+    priority_list.each do |target|
+      scheme = color_preferences["#{target}.color_scheme"]
+      return scheme unless scheme.nil?
+    end
+    nil
+  end
+
   def default_diary_language
     diary_language_preference = preferences.find_by(:k => "diary.default_language")
     if diary_language_preference
