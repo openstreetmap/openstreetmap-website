@@ -6,18 +6,21 @@
         <div class="card h-100">
           <div class="card-body d-flex flex-column">
             <p class="card-title d-flex gap-2">
-              <%= inline_svg_tag "icons/journal-text.svg", :size => "32px", :title => t(".title_label"), :class => "flex-shrink-0" %>
+              <i class="bi bi-journal-text fs-2 my-n2 flex-shrink-0" aria-hidden="true"></i>
+              <span class="visually-hidden"><%= t ".title_label" %></span>
               <%= link_to entry.title, diary_entry_path(@user, entry), :class => "align-self-center lh-sm" %>
             </p>
             <p class="card-text flex-grow-1"><%= truncate(strip_tags(entry.body.to_html), :length => 150) %></p>
 
             <div class="card-text d-flex justify-content-between align-items-center mt-auto">
               <small class="text-body-secondary d-flex gap-1 align-items-center">
-                <%= inline_svg_tag entry.comments.empty? ? "icons/chat.svg" : "icons/chat-fill.svg", :size => "20px", :title => t(".comments_label") %>
+                <i class="bi bi-chat fs-5 my-n1" aria-hidden="true"></i>
+                <span class="visually-hidden"><%= t ".comments_label" %></span>
                 <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(@user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
               </small>
               <small class="text-body-secondary d-flex gap-1 align-items-center">
-                <%= inline_svg_tag "icons/calendar.svg", :size => "20px", :title => t(".date_label") %>
+                <i class="bi bi-calendar fs-5 my-n1" aria-hidden="true"></i>
+                <span class="visually-hidden"><%= t ".date_label" %></span>
                 <span><%= l(entry.created_at.to_date, :format => :long) %></span>
               </small>
             </div>
