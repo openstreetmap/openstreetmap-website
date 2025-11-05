@@ -8,8 +8,10 @@ module AuthorizationHelper
     html << t("oauth.scopes.#{scope}")
     if Oauth::MODERATOR_SCOPES.include? scope
       html << " "
-      html << inline_svg_tag("icons/role-star.svg", :class => "role-icon moderator align-text-bottom",
-                                                    :title => t("oauth.for_roles.moderator"))
+      html << tag.i(:class => "bi bi-star-fill fs-5 role-moderator align-middle",
+                    :title => t("oauth.for_roles.moderator"),
+                    :aria => { :hidden => "true" })
+      html << tag.span(t("oauth.for_roles.moderator"), :class => "visually-hidden")
     end
     safe_join(html)
   end
