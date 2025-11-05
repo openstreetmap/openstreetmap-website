@@ -115,9 +115,7 @@ module BrowseTagChangesHelper
       cells = [tag.th(format_key(key), :class => "py-1 border-secondary-subtle table-secondary fw-normal")]
 
       # Only add diff indicator cell if we're in a history/diff context
-      if change_info[:type]
-        cells << tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type]))
-      end
+      cells << tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type])) if change_info[:type]
 
       cells << tag.td(format_tag_value_with_change(key, change_info), :class => "diff-cell")
 
