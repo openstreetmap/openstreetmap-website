@@ -11,7 +11,7 @@ module ApplicationHelper
   end
 
   def rss_link_to(args = {})
-    link_to tag.i(:class => "bi bi-rss-fill fs-6", :aria => { :hidden => "true" }), args
+    link_to tag.i(:class => "bi bi-rss-fill fs-6 role-administrator", :aria => { :hidden => "true" }), args
   end
 
   def dir
