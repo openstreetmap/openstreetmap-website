@@ -54,15 +54,15 @@ module BrowseTagChangesHelper
     case change_info[:type]
     when :added, :unmodified, nil
       # For added, unmodified, and tags with unknown versioning (nil), show the current value
-      format_value(key, change_info[:current], :skip_wikidata_preview => true)
+      format_value(key, change_info[:current])
     when :modified
       # Return array of two values for the two rows that will be created
       [
-        format_value(key, change_info[:previous], :skip_wikidata_preview => true),
-        format_value(key, change_info[:current], :skip_wikidata_preview => true)
+        format_value(key, change_info[:previous]),
+        format_value(key, change_info[:current])
       ]
     when :removed
-      format_value(key, change_info[:previous] || "", :skip_wikidata_preview => true)
+      format_value(key, change_info[:previous] || "")
     end
   end
 
