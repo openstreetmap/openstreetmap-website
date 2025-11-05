@@ -3,7 +3,7 @@
 <% unless tag_details.empty? %>
   <h4><%= t ".tags" %></h4>
   <div class='mb-3 border border-secondary-subtle rounded overflow-hidden'>
-    <table class='mb-0 browse-tag-list table align-middle'>
+    <table class='mb-0 browse-tag-list table align-middle <%= "browse-tag-list-history" if all_versions.present? %>'>
       <%= render :partial => "browse/tag", :collection => wrap_tags_with_version_changes(tag_details, current_version, all_versions).sort %>
     </table>
   </div>

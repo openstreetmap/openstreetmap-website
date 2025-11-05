@@ -98,7 +98,7 @@ module BrowseTagChangesHelper
       [
         tag.tr(:class => "tag-removed") do
           safe_join([
-                      tag.th(format_key(key), :class => "diff-key-modified", :rowspan => 2),
+                      tag.th(format_key(key), :class => "py-1 border-secondary-subtle table-secondary fw-normal diff-key-modified", :rowspan => 2),
                       tag.td(get_change_indicator_text(:removed), :class => get_indicator_cell_class(:removed)),
                       tag.td(value_cells[0], :class => "diff-cell")
                     ])
@@ -112,13 +112,18 @@ module BrowseTagChangesHelper
       ]
     else
       # Generate single row for other change types
+      cells = [tag.th(format_key(key), :class => "py-1 border-secondary-subtle table-secondary fw-normal")]
+
+      # Only add diff indicator cell if we're in a history/diff context
+      if change_info[:type]
+        cells << tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type]))
+      end
+
+      cells << tag.td(format_tag_value_with_change(key, change_info), :class => "diff-cell")
+
       [
         tag.tr(:class => tag_change_class(change_info[:type])) do
-          safe_join([
-                      tag.th(format_key(key)),
-                      tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type])),
-                      tag.td(format_tag_value_with_change(key, change_info), :class => "diff-cell")
-                    ])
+          safe_join(cells)
         end
       ]
     end

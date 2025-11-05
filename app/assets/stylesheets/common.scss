@@ -1035,89 +1035,64 @@ img.trace_image {
 }
 
 /* Tag change highlighting for history views */
-.browse-tag-list {
-  .tag-added {
-    background-color: rgba(var(--bs-success-rgb), 0.08) !important;
+#sidebar_content .browse-tag-list.browse-tag-list-history {
+  tr.tag-added {
+    background-color: rgba(var(--bs-success-rgb), 0.08);
     border-left: 4px solid var(--bs-success);
-
-    th, td {
-      background-color: inherit !important;
-    }
   }
 
-  .tag-modified {
-    background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
+  tr.tag-modified {
+    background-color: rgba(var(--bs-warning-rgb), 0.08);
     border-left: 4px solid var(--bs-warning);
 
-    th, td {
-      background-color: inherit !important;
-    }
   }
 
-  .tag-removed {
-    background-color: rgba(var(--bs-danger-rgb), 0.08) !important;
+  tr.tag-removed {
+    background-color: rgba(var(--bs-danger-rgb), 0.08);
     border-left: 4px solid var(--bs-danger);
-
-    th, td {
-      background-color: inherit !important;
-    }
   }
 
-  .tag-unmodified {
-    background-color: rgba(var(--bs-secondary-rgb), 0.05) !important;
+  tr.tag-unmodified {
+    background-color: rgba(var(--bs-secondary-rgb), 0.05);
     border-left: 4px solid var(--bs-border-color);
-
-    th, td {
-      background-color: inherit !important;
-    }
   }
 
   /* Diff indicators for tag changes */
-  .diff-indicator-cell {
-    padding: 0 !important;
+  td.diff-indicator-cell {
+    padding: 0;
     width: 1em;
     text-align: center;
     font-family: monospace;
     font-weight: bold;
     color: white;
-    background-color: inherit !important;
   }
 
-  .diff-indicator-cell.diff-added {
-    background-color: var(--bs-success) !important;
+  td.diff-indicator-cell.diff-added {
+    background-color: var(--bs-success);
   }
 
-  .diff-indicator-cell.diff-removed {
-    background-color: var(--bs-danger) !important;
+  td.diff-indicator-cell.diff-removed {
+    background-color: var(--bs-danger);
   }
 
-  .diff-indicator-cell.diff-unmodified {
-    background-color: var(--bs-border-color) !important;
-    color: var(--bs-body-color) !important;
+  td.diff-indicator-cell.diff-unmodified {
+    background-color: var(--bs-border-color);
+    color: var(--bs-body-color);
   }
 
   /* Modified tag key cell styling */
-  .tag-removed .diff-key-modified,
-  .tag-added .diff-key-modified {
-    color: var(--bs-body-color) !important;
-    background-color: rgba(var(--bs-warning-rgb), 0.08) !important;
+  tr.tag-removed .diff-key-modified,
+  tr.tag-added .diff-key-modified {
+    color: var(--bs-body-color);
+    background-color: rgba(var(--bs-warning-rgb), 0.08);
   }
 
-  .tag-removed:has(.diff-key-modified),
-  .tag-added:has(.diff-key-modified) {
-    border-left: 4px solid var(--bs-warning) !important;
+  tr.tag-removed:has(.diff-key-modified),
+  tr.tag-added:has(.diff-key-modified) {
+    border-left: 4px solid var(--bs-warning);
   }
 
-  .tag-removed:has(.diff-key-modified) + .tag-added {
-    border-left: 4px solid var(--bs-warning) !important;
+  tr.tag-removed:has(.diff-key-modified) + tr.tag-added {
+    border-left: 4px solid var(--bs-warning);
   }
-
-  th {
-    font-weight: normal !important;
-    padding: 0.25rem 0.5rem !important;
-  }
-}
-
-.diff-cell {
-  padding: 0.25rem 0.5rem !important;
 }
