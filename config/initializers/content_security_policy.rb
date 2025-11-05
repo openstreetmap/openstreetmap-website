@@ -7,7 +7,7 @@
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
 Rails.application.configure do
-  connect_src = [:self]
+  connect_src = [:self, "tile.openstreetmap.org"]
   img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
   script_src = [:self]
 
