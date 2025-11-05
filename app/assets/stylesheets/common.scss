@@ -1039,22 +1039,37 @@ img.trace_image {
   tr.tag-added {
     background-color: rgba(var(--bs-success-rgb), 0.08);
     border-left: 4px solid var(--bs-success);
+
+    th, td {
+      background-color: inherit;
+    }
   }
 
   tr.tag-modified {
     background-color: rgba(var(--bs-warning-rgb), 0.08);
     border-left: 4px solid var(--bs-warning);
 
+    th, td {
+      background-color: inherit;
+    }
   }
 
   tr.tag-removed {
     background-color: rgba(var(--bs-danger-rgb), 0.08);
     border-left: 4px solid var(--bs-danger);
+
+    th, td {
+      background-color: inherit;
+    }
   }
 
   tr.tag-unmodified {
-    background-color: rgba(var(--bs-secondary-rgb), 0.05);
+    background-color: rgba(var(--bs-secondary-rgb), 0.08);
     border-left: 4px solid var(--bs-border-color);
+
+    th, td {
+      background-color: inherit;
+    }
   }
 
   /* Diff indicators for tag changes */
@@ -1094,5 +1109,10 @@ img.trace_image {
 
   tr.tag-removed:has(.diff-key-modified) + tr.tag-added {
     border-left: 4px solid var(--bs-warning);
+  }
+
+  /* Cell padding adjustments for consistent row height */
+  th, td {
+    padding: $lineheight * 0.2 $lineheight * 0.4;
   }
 }
