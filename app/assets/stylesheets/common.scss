@@ -419,6 +419,18 @@ body.small-nav {
   border-top: 0px !important;
 }
 
+@each $anchor, $border in (
+  left: right,
+  right: left,
+  top: bottom,
+  bottom: top
+) {
+  .maplibregl-popup#{'[class*="anchor-#{$anchor}"]'} .maplibregl-popup-tip {
+    border-#{$border}-color: var(--bs-body-bg);
+  }
+}
+
+.maplibregl-popup-content,
 .leaflet-popup-content-wrapper, .leaflet-popup-tip,
 .leaflet-control-attribution, .leaflet-control-scale-line {
   @extend .bg-body, .text-body;
