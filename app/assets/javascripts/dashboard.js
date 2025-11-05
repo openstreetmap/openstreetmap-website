@@ -1,32 +1,55 @@
-//= require leaflet.locate
-
 $(function () {
   const defaultHomeZoom = 12;
   let map;
 
   if ($("#map").length) {
-    map = L.map("map", {
+    map = new maplibregl.Map({
+      container: "map",
+      style: {
+        version: 8,
+        sources: {
+          osm: {
+            type: "raster",
+            tiles: [
+              "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+            ],
+            tileSize: 256,
+            maxzoom: 19,
+          }
+        },
+        layers: [
+          {
+            id: "osm",
+            type: "raster",
+            source: "osm"
+          }
+        ]
+      },
       attributionControl: false,
-      zoomControl: false
-    }).addLayer(new L.OSM.Mapnik());
+      center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
+      zoom: OSM.home ? defaultHomeZoom : 0
+    });
 
-    const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
-
-    L.OSM.zoom({ position }).addTo(map);
-
-    L.OSM.locate({ position }).addTo(map);
-
-    if (OSM.home) {
-      map.setView([OSM.home.lat, OSM.home.lon], defaultHomeZoom);
-    } else {
-      map.setView([0, 0], 0);
-    }
+    const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), position);
+    const geolocate = new maplibregl.GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    });
+    map.addControl(geolocate, position);
 
     $("[data-user]").each(function () {
       const user = $(this).data("user");
       if (user.lon && user.lat) {
-        L.marker([user.lat, user.lon], { icon: OSM.getMarker({ color: user.color }) }).addTo(map)
-          .bindPopup(user.description, { minWidth: 200 });
+        const popup = new maplibregl.Popup()
+          .setHTML(user.description);
+
+        new maplibregl.Marker({ color: user.color })
+          .setLngLat([user.lon, user.lat])
+          .setPopup(popup)
+          .addTo(map);
       }
     });
   }
