@@ -267,6 +267,42 @@ class UserTest < ActiveSupport::TestCase
     assert_equal %w[en de], user.languages
   end
 
+  def test_preferred_color_scheme_nil_if_nothing_selected
+    user = create(:user)
+    assert_nil user.preferred_color_scheme(:map, :site)
+  end
+
+  def test_preferred_color_scheme_as_selected
+    preferences = [
+      create(:user_preference, :k => "map.color_scheme", :v => "dark"),
+      create(:user_preference, :k => "site.color_scheme", :v => "light")
+    ]
+    user = create(:user, :preferences => preferences)
+
+    assert_equal "dark", user.preferred_color_scheme(:map, :site)
+  end
+
+  def test_preferred_color_scheme_fallback_if_auto
+    preferences = [
+      create(:user_preference, :k => "map.color_scheme", :v => "auto"),
+      create(:user_preference, :k => "site.color_scheme", :v => "light")
+    ]
+    user = create(:user, :preferences => preferences)
+
+    assert_nil user.preferred_color_scheme(:map)
+    assert_equal "light", user.preferred_color_scheme(:map, :site)
+  end
+
+  def test_preferred_color_scheme_fallback_if_missing
+    preferences = [
+      create(:user_preference, :k => "site.color_scheme", :v => "light")
+    ]
+    user = create(:user, :preferences => preferences)
+
+    assert_nil user.preferred_color_scheme(:map)
+    assert_equal "light", user.preferred_color_scheme(:map, :site)
+  end
+
   def test_default_diary_language_undefined
     create(:language, :code => "en")
     user = create(:user, :languages => [])
