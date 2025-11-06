@@ -14,14 +14,13 @@
 #  home_lat             :float
 #  home_lon             :float
 #  home_zoom            :integer          default(3)
-#  home_location_name   :string
 #  pass_salt            :string
 #  email_valid          :boolean          default(FALSE), not null
 #  new_email            :string
 #  languages            :string
 #  status               :enum             default("pending"), not null
 #  terms_agreed         :datetime
-#  consider_pd          :boolean          default(FALSE), not null
+#  consider_pd          :boolean          default(TRUE), not null
 #  auth_uid             :string
 #  preferred_editor     :string
 #  terms_seen           :boolean          default(FALSE), not null
@@ -36,6 +35,7 @@
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
 #  creation_address     :inet
+#  home_location_name   :string
 #  company              :string
 #
 # Indexes
