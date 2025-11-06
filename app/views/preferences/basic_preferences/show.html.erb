@@ -20,7 +20,7 @@
     <%= label_tag "site_color_scheme", t(".preferred_site_color_scheme"), :class => "form-label" %>
     <%= select_tag "site_color_scheme",
                    options_for_select(%w[auto light dark].map { |scheme| [t(".site_color_schemes.#{scheme}"), scheme] },
-                                      preferred_color_scheme(:site)),
+                                      current_user&.preferred_color_scheme(:site) || "auto"),
                    :class => "form-select" %>
   </div>
 
@@ -28,7 +28,15 @@
     <%= label_tag "map_color_scheme", t(".preferred_map_color_scheme"), :class => "form-label" %>
     <%= select_tag "map_color_scheme",
                    options_for_select(%w[auto light dark].map { |scheme| [t(".map_color_schemes.#{scheme}"), scheme] },
-                                      preferred_color_scheme(:map)),
+                                      current_user&.preferred_color_scheme(:map) || "auto"),
+                   :class => "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag "editor_color_scheme", t(".preferred_editor_color_scheme"), :class => "form-label" %>
+    <%= select_tag "editor_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".editor_color_schemes.#{scheme}"), scheme] },
+                                      current_user&.preferred_color_scheme(:editor) || "auto"),
                    :class => "form-select" %>
   </div>
 
