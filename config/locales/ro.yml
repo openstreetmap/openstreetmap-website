@@ -22,6 +22,7 @@
 # Author: Minisarm
 # Author: Popetedenis
 # Author: Ruila
+# Author: SZ475
 # Author: Strainu
 # Author: Trotinel Iftode
 # Author: WebSourceContentRO
@@ -1259,6 +1260,8 @@ ro:
           track: Pistă de atletism
           water_park: Parc acvatic
           "yes": Relaxare
+        lock:
+          "yes": Blocare
         man_made:
           adit: Galerie de acces
           advertising: Publicitate
@@ -1600,6 +1603,8 @@ ro:
           culvert: Canal de scurgere
           "yes": Tunel
         water:
+          lake: Lac
+          pond: Iaz
           reservoir: Rezervor
           basin: Bazin de Apă
           fishpond: Lac cu peşte
@@ -1639,6 +1644,8 @@ ro:
     show:
       title:
         latlon: Intern
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Niciun rezultat găsit
@@ -1750,6 +1757,119 @@ ro:
     create:
       successful_report: Raportul dvs. a fost înregistrat cu succes
       provide_details: Furnizați detaliile necesare
+  languages_panes:
+    select_language_list:
+      search_language: Căutare...
+      languages:
+        af: Afrikaans
+        gsw: Alemanică
+        frp: Arpitană
+        ast: Asturiană
+        az: Azerbaidjan
+        id: Indoneziană
+        ms: Malaeziană
+        bs: Bosniană
+        br: Bretonă
+        ca: Catalană
+        cs: Cehă
+        cy: Galeză
+        da: Daneză
+        de: Germană
+        dsb: Soarbă de Jos
+        et: Estoniană
+        en: Engleză
+        en-GB: Engleză (Regatul Unit)
+        es: Spaniolă
+        eo: Esperanto
+        eu: Bască
+        fr: Franceză
+        fy: Frisiană de Vest
+        fur: Friulană
+        ga: Irlandeză
+        gd: Gaelică scoțiană
+        gl: Galiciană
+        aln: Albaneză ghegă
+        hsb: Soarbă de Sus
+        hr: Croată
+        ia: Interlingua
+        is: Islandeză
+        it: Italiană
+        gcf: Creolă guadeloupeană
+        ku-Latn: Kurdă (latină)
+        lv: Letonă
+        lb: Luxemburgheză
+        lt: Lituaniană
+        hu: Maghiară
+        fit: Finlandeză Tornedalen
+        nl: Olandeză
+        nb: Norvegiană Bokmål
+        nn: Norvegiană Nynorsk
+        oc: Occitană
+        nds: Germană joasă
+        pl: Poloneză
+        pt-PT: Portugheză
+        pt: Portugheză (Brazilia)
+        ksh: Cologniană
+        ro: Română
+        sc: Sardiniană
+        sco: Scotă
+        sq: Albaniană
+        scn: Siciliană
+        sk: Slovacă
+        sl: Slovenă
+        sr-Latn: Sârbă (latină)
+        sh: Sârbo-croată (latină)
+        fi: Finlandeză
+        sv: Suedeză
+        tl: Tagalog
+        kab: Kabyle
+        vi: Vietnameză
+        tr: Turcă
+        yo: Yoruba
+        diq: Dimli
+        el: Greacă
+        ba: Bașkir
+        be: Belarusă
+        be-Tarask: Belarusă (Tarašk.)
+        bg: Bulgară
+        mk: Macedoneană
+        mo: Moldovenească
+        ce: Chechenă
+        ru: Rusă
+        sr: Sârbă (chirilică)
+        tt: Tătară (chirilică)
+        uk: Ucraineană
+        kk-cyrl: Kazahă (chirilică)
+        yi: Yiddish
+        he: Ebraică
+        ar: Arabă
+        skr-arab: Saraiki
+        fa: Persană
+        arz: Arabă egipteană
+        pnb: Punjabi occidentală
+        ps: Pashto
+        nqo: N'Ko
+        ne: Nepaleză
+        mr: Marathi
+        hi: Hindi
+        bn: Bengaleză
+        pa: Punjabi
+        gu: Gujarati
+        ta: Tamilă
+        te: Telugu
+        kn: Kannada
+        th: Thailandeză
+        my: Burmeză
+        shn: Shan
+        xmf: Mingreliană
+        ka: Georgiană
+        km: Khmeră
+        sat: Santali
+        zh-CN: Chineză (simplificată)
+        zh-TW: Chineză (tradițională)
+        zh-HK: Chineză (Hong Kong)
+        ja: Japoneză
+        ko: Coreeană
   layouts:
     logo:
       alt_text: Logoul OpenStreetMap
@@ -1780,6 +1900,11 @@ ro:
     communities: Comunități
     learn_more: Aflați mai multe
     more: Mai multe
+    header:
+      select_language: Selectare limbă
+      loading: Se încarcă...
+    select_language_button:
+      title: Selectare limbă
     offline_flash:
       osm_offline: Baza de date OpenStreetMap este momentan offline, de vreme ce se
         desfășoară lucrări esențiale de întreținere.
@@ -1815,6 +1940,11 @@ ro:
       followed_you: '%{user} vă urmărește acum pe OpenStreetMap.'
       see_their_profile: Puteți vedea profilul lor la %{userurl}.
       see_their_profile_html: Puteți vedea profilul respectiv la %{userurl}.
+    gpx_details:
+      url: URL
+      description: Descriere
+      tags: Etichete
+      total_points: Numărul total de puncte
     gpx_failure:
       hi: Salut %{to_user},
       failed_to_import: Se pare că importarea fișierului dvs. drept urmă GPS a eșuat.
@@ -2046,9 +2176,23 @@ ro:
         failure: Nu se pot salva preferințele.
       update_success_flash:
         message: Preferințele au fost salvate.
+      navigation:
+        preferences: Preferințe
+        advanced_preferences: Preferințe avansate
     basic_preferences:
       show:
         title: Preferințe
+        preferred_language: Limbă preferată
+        preferred_site_color_scheme: Schema de culori preferată pentru site-ul web
+        site_color_schemes:
+          auto: Automat
+          light: Luminos
+          dark: Întunecat
+        preferred_map_color_scheme: Schema de culori preferată a hărții
+        map_color_schemes:
+          auto: Automat
+          light: Luminos
+          dark: Întunecat
         save: Actualizare Preferințe
   profiles:
     profile_sections:
@@ -2062,8 +2206,12 @@ ro:
     links:
       show:
         title: Editează profilul
+        cancel: Anulare
+        social_links:
+          remove: Elimină
     images:
       show:
+        cancel: Anulare
         gravatar:
           gravatar: Utilizați Gravatar
           what_is_gravatar: Ce este Gravatar?
@@ -2074,6 +2222,7 @@ ro:
         image size hint: (imagini pătrate cel puțin 100x100 merg cel mai bine)
     locations:
       show:
+        cancel: Anulare
         no home location: Nu ați introdus locația dvs. de domiciliu.
         update home location on click: Actualizați locația locuinței dvs. când faceți
           click pe hartă?
@@ -2122,15 +2271,26 @@ ro:
       preview: Previzualizare
       help: Ajutor
     pagination:
+      changeset_comments:
+        older: Comentarii mai vechi
+        newer: Comentarii mai noi
+        oldest: Cele mai vechi comentarii
+        newest: Cele mai noi comentarii
       diary_comments:
         older: Comentarii mai vechi
         newer: Comentarii mai noi
+        oldest: Cele mai vechi comentarii
+        newest: Cele mai noi comentarii
       diary_entries:
         older: Înregistrări mai vechi
         newer: Înregistrări mai noi
+        oldest: Cele mai vechi intrări
+        newest: Cele mai noi intrări
       issues:
         older: Probleme mai vechi
         newer: Probleme noi
+        oldest: Cele mai vechi probleme
+        newest: Cele mai noi probleme
       traces:
         older: Urme mai vechi
         newer: Urme mai noi
@@ -2393,6 +2553,9 @@ ro:
           title: Alte surse
           description: Surse suplimentare listate pe wiki-ul OpenStreetMap
       export_button: Exportare
+      confirmation:
+        cancel: Anulare
+        download: Descarcă
     fixthemap:
       title: Raportați o problemă / Reparați harta
       how_to_help:
@@ -2779,6 +2942,9 @@ ro:
       google:
         title: Autentificați-vă cu Google
         alt: Sigla Google
+      apple:
+        title: Conectați-vă cu Apple
+        alt: Sigla Apple
       facebook:
         title: Autentificare cu Facebook
         alt: Sigla Facebook
@@ -3225,7 +3391,7 @@ ro:
     embed:
       report_problem: Semnalare problemă
     legend:
-      title: Cheia hărții
+      title: Legendă
       tooltip: Legendă
       tooltip_disabled: Legenda hărții nu este disponibilă pentru acest strat
     map:

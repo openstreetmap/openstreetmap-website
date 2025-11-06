@@ -215,7 +215,7 @@ th:
     default: ค่าปกติ (ขณะนี้ %{name})
     id:
       name: iD
-      description: iD (ตัวแก้ไขในเบราว์เซอร์)
+      description: iD (เครื่องมือแก้ไขในเบราว์เซอร์)
     remote:
       name: การควบคุมระยะไกล
       description: การควบคุมทางไกล (JOSM, Potlatch, Merkaator)
@@ -234,8 +234,8 @@ th:
         opened_at_by_html: สร้างเมื่อ %{when} โดย %{user}
         commented_at_html: ปรับปรุงเมื่อ %{when}
         commented_at_by_html: ปรับปรุงเมื่อ %{when} โดย %{user}
-        closed_at_html: ปิดเรื่องเมื่อ %{when}
-        closed_at_by_html: แก้ไขเมื่อ %{when} โดย %{user}
+        closed_at_html: แก้ไขแล้วเมื่อ %{when}
+        closed_at_by_html: แก้ไขแล้วเมื่อ %{when} โดย %{user}
         reopened_at_html: เปิดใหม่เมื่อ %{when}
         reopened_at_by_html: เปิดใหม่เมื่อ %{when} โดย %{user}
       rss:
@@ -1617,7 +1617,7 @@ th:
       states:
         ignored: ละเว้น
         open: เปิด
-        resolved: ปิดเรื่องแล้ว
+        resolved: แก้ไขแล้ว
     page:
       user_not_found: ไม่มีผู้ใช้นี้
       issues_not_found: ไม่พบปัญหาดังกล่าว
@@ -1633,7 +1633,7 @@ th:
       states:
         ignored: ละเว้น
         open: เปิด
-        resolved: ปิดเรื่องแล้ว
+        resolved: แก้ไขแล้ว
     show:
       title:
         open: 'เปิดปัญหา #%{issue_id}'
@@ -1643,7 +1643,7 @@ th:
         other: '%{count} การรายงาน'
       no_reports: ไม่มีรายงาน
       report_created_at_html: รายงานครั้งแรกเมื่อ %{datetime}
-      last_resolved_at_html: ปิดเรื่องล่าสุดเมื่อ %{datetime}
+      last_resolved_at_html: แก้ไขแล้วล่าสุดเมื่อ %{datetime}
       last_updated_at_html: ปรับปรุงล่าสุดเมื่อ %{datetime} โดย %{displayname}
       resolve: ปิดเรื่อง
       ignore: ละเว้น
@@ -1655,7 +1655,7 @@ th:
       no_other_issues: ไม่มีรายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
       comments_on_this_issue: ความคิดเห็นที่มีต่อปัญหานี้
     resolve:
-      resolved: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ปิดเรื่องแล้ว'
+      resolved: สถานะปัญหาได้ถูกตั้งค่าเป็น 'แก้ไขแล้ว'
     ignore:
       ignored: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ละเว้น'
     reopen:
@@ -1968,14 +1968,15 @@ th:
         commented_note_html: '%{commenter} ได้แสดงความคิดเห็นในหมายเหตุแผนที่ที่คุณเคยแสดงความคิดเห็นไว้
           หมายเหตุดังกล่าวอยู่ใกล้บริเวณ %{place}'
       closed:
-        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านหนึ่งฉบับแล้ว'
-        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ทำการตอบสนองหมายเหตุที่ท่านสนใจ'
+        subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้แก้ไขหมายเหตุหนึ่งของคุณแล้ว'
+        subject_other: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ทำการแก้ไขหมายเหตุที่ท่านสนใจแล้ว'
         your_note: ผู้ใช้ %{commenter} ได้แก้ไขหรือสนองตอบต่อบันทึกของท่านที่อยู่ใกล้กับ
-          %{place}
-        your_note_html: '%{commenter} ได้แก้ไขหมายเหตุแผนที่ของคุณใกล้บริเวณ %{place}'
-        commented_note: ผู้ใช้ %{commenter} ได้สนองตอบต่อหมายเหตุที่ท่านแสดงความเห็นไว้ก่อนหน้านี้
+          %{place} แล้ว
+        your_note_html: '%{commenter} ได้แก้ไขหมายเหตุแผนที่ของคุณใกล้บริเวณ %{place}
+          แล้ว'
+        commented_note: ผู้ใช้ %{commenter} ได้แก้ไขหมายเหตุที่คุณได้แสดงความเห็นไว้ก่อนหน้านี้แล้ว
           ซึ่งหมายเหตุนั้นแปะอยู่ใกล้กับ %{place}
-        commented_note_html: '%{commenter} ได้แก้ไขหมายเหตุแผนที่ที่คุณเคยแสดงความคิดเห็นไว้
+        commented_note_html: '%{commenter} ได้แก้ไขหมายเหตุแผนที่ที่คุณเคยแสดงความคิดเห็นไว้แล้ว
           หมายเหตุดังกล่าวอยู่ใกล้บริเวณ %{place}'
       reopened:
         subject_own: '[OpenStreetMap] ผู้ใช้ %{commenter} ได้ขอรื้อฟื้นหรือเปิดใช้งานบันทึกของท่าน'
@@ -2394,17 +2395,54 @@ th:
           ผลลัพธ์ที่ได้สามารถแจกจ่ายได้เฉพาะภายใต้ใบอนุญาตเดียวกัน %{legal_code_link}
           อธิบายสิทธิ์และความรับผิดชอบของคุณ
         licensing_2_legal_code: ระเบียบทางกฎหมายฉบับเต็มที่ Open Data Commons
+        licensing_3_html: เอกสารของเราถูกให้สิทธิ์ใช้งานภายใต้ %{creative_commons_license_link}
+          (CC BY-SA 2.0)
+        licensing_3_creative_commons_license: สัญญาอนุญาตครีเอทีฟคอมมอนส์ แบบแสดงที่มา-อนุญาตแบบเดียวกัน
+          2.0
+        licensing_4_html: อ่านเพิ่มเติมเกี่ยวกับการใช้ข้อมูลของเราได้ที่ %{osmf_license_page_link}
+        licensing_4_osmf_license_page: หน้าใบอนุญาต OSMF
         credit_title_html: วิธีการแสดงที่มาหรือคำขอบคุณ OpenStreetMap
         credit_1_html: 'ในการใช้ข้อมูลแผนที่ OpenStreetMap จำเป็นต้องปฏิบัติตามข้อกำหนด
           2 ข้อ:'
+        credit_2_attribution: ให้เครดิตกับ OpenStreetMap โดยแสดงข้อความระบุแหล่งที่มาของเรา
+        credit_2_license: ระบุให้ชัดเจนว่าข้อมูลสามารถใช้งานได้ภายใต้ Open Database
+          License
+        credit_3_v2025_html: |-
+          สำหรับข้อความการให้เครดิต (attribution notice) เรามี%{requirements_on_how_displayed_link} ที่แตกต่างกัน ขึ้นอยู่กับลักษณะการใช้งานข้อมูลของคุณ
+          ตัวอย่างเช่น การแสดงข้อความให้เครดิตจะแตกต่างกันไปตามการใช้งานว่าคุณสร้างแผนที่แบบเลื่อนดูได้ แผนที่แบบพิมพ์ หรือภาพแบบคงที่
+          รายละเอียดเพิ่มเติมสามารถดูได้ในส่วน %{attribution_guidelines_link} ของ %{licensing_requirements_link}
+        credit_3_v2025_requirements_on_how_displayed: ข้อกำหนดเกี่ยวกับวิธีที่ควรแสดงผล
         credit_3_v2025_attribution_guidelines: แนวทางการระบุแหล่งที่มา
+        credit_3_v2025_licensing_requirements: ข้อกำหนดในการออกใบอนุญาต
+        credit_4_v2025_html: |-
+          เพื่อให้ชัดเจนว่าข้อมูลถูกเผยแพร่ภายใต้สัญญาอนุญาต Open Database License โดยทั่วไปแล้วคุณสามารถใส่ลิงก์ไปยัง %{this_copyright_page_link}
+          หากคุณเผยแพร่ OSM ในรูปแบบข้อมูล โปรดระบุชื่อและลิงก์ไปยังสัญญาอนุญาตโดยตรง
+          ในสื่อที่ไม่สามารถใส่ลิงก์ได้ (เช่น งานพิมพ์) กรุณาระบุ URL แบบเต็มลงบนหน้า เช่น %{copyright_page_url}
+        credit_4_v2025_this_copyright_page: หน้าลิขสิทธิ์นี้
+        credit_5_v2025_html: 'ในตัวอย่างนี้เครดิตจะปรากฏที่มุมของแผนที่:'
         attribution_example:
           alt: ตัวอย่างการอ้างอิง OpenStreetMap บนหน้าเว็บ
           title: ตัวอย่างการอ้างอิง
         infringement_title_html: การละเมิดลิขสิทธิ์
         infringement_1_html: ผู้ร่วมให้ข้อมูล OSM จะถูกเตือนไม่ให้เพิ่มข้อมูลจากแหล่งข้อมูลที่มีลิขสิทธิ์
           (เช่น Google Maps หรือแผนที่แบบพิมพ์) โดยไม่ได้รับอนุญาตอย่างชัดเจนจากเจ้าของลิขสิทธิ์
+        infringement_2_1_html: |-
+          หากคุณเชื่อว่ามีผลงานที่มีลิขสิทธิ์ถูกนำมาเพิ่มในฐานข้อมูล OpenStreetMap หรือบนเว็บไซต์นี้โดยไม่เหมาะสม โปรดดูที่ %{takedown_procedure_link}
+          หรือยื่นเรื่องโดยตรงได้ที่ %{online_filing_page_link}
+        infringement_2_1_takedown_procedure: ขั้นตอนการถอดออก
+        infringement_2_1_online_filing_page: หน้าการยื่นแบบออนไลน์
         trademarks_title: เครื่องหมายการค้า
+        trademarks_1_1_html: |-
+          OpenStreetMap โลโก้รูปแว่นขยาย และ State of the Map เป็นเครื่องหมายการค้าจดทะเบียนของมูลนิธิ OpenStreetMap
+          หากคุณมีคำถามเกี่ยวกับการใช้งานเครื่องหมายดังกล่าว โปรดดูได้ที่ %{trademark_policy_link}
+        trademarks_1_1_trademark_policy: นโยบายเครื่องหมายการค้า
+        services_title_html: บริการเพิ่มเติม
+        services_1_html: |-
+          แม้ว่า OpenStreetMap จะเป็นข้อมูลแบบเปิด แต่เราไม่สามารถให้บริการ API แผนที่หรือช่องกระเบื้องแผนที่ (map tiles) ฟรีสำหรับบุคคลหรือบริการภายนอกได้
+          โปรดดู %{api_usage_policy_link}, %{tile_usage_policy_link} และ %{nominatim_usage_policy_link}
+        services_1_api_usage_policy: นโยบายการใช้งาน API
+        services_1_tile_usage_policy: นโยบายการใช้งานช่องกระเบื้อง
+        services_1_nominatim_usage_policy: นโยบายการใช้งาน Nominatim
         contributors_title_html: ผู้ร่วมให้ข้อมูลของเรา
         contributors_intro_html: 'ผู้ร่วมให้ข้อมูลของเรามีอยู่หลายพันคน เรายังมีข้อมูลที่ใช้สัญญาอนุญาตแบบเปิด
           จากตัวแทนการทำแผนที่ของชาติต่าง ๆ และแหล่งข้อมูลอื่น ๆ ต่อไปนี้:'
@@ -2414,10 +2452,41 @@ th:
         contributors_at_stadt_wien: เมืองเวียนนา
         contributors_at_land_vorarlberg: แลนด์ ฟอร์อาร์ลแบร์ค
         contributors_at_cc_by_at_with_amendments: CC BY AT with amendments
+        contributors_au_credit_html: |-
+          %{australia}: รวมถึงหรือพัฒนาด้วยข้อมูลขอบเขตการปกครอง © %{geoscape_australia_link}
+          ซึ่งได้รับอนุญาตจากหน่วยงานเครือรัฐออสเตรเลียภายใต้ %{cc_licence_link}.
+        contributors_au_australia: ออสเตรเลีย
+        contributors_au_geoscape_australia: จีโอสเคปออสเตรเลีย
+        contributors_au_cc_licence: ใบอนุญาตครีเอทีฟคอมมอนส์แสดงที่มา 4.0 สากล (CC
+          BY 4.0)
+        contributors_ca_credit_html: "%{canada}: มีข้อมูลจาก \nGeoBase®, GeoGratis
+          (© กรมทรัพยากรธรรมชาติแคนาดา) CanVec (© กรมทรัพยากรธรรมชาติแคนาดา)\nและ
+          StatCan (กองภูมิศาสตร์ สำนักงานสถิติแคนาดา)"
+        contributors_ca_canada: แคนาดา
+        contributors_cz_credit_html: '%{czechia}: มีข้อมูลจากสำนักงานบริหารที่ดิน
+          และเขตที่ดินของรัฐที่ได้รับอนุญาตภายใต้ %{cc_licence_link}'
         contributors_cz_czechia: เช็กเกีย
+        contributors_cz_cc_licence: ใบอนุญาตครีเอทีฟคอมมอนส์แสดงที่มา 4.0 สากล (CC
+          BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: มีข้อมูลจากฐานข้อมูลภูมิประเทศของ National Land Survey of Finland
+          และชุดข้อมูลอื่น ๆ ภายใต้ %{nlsfi_license_link}
         contributors_fi_finland: ฟินแลนด์
+        contributors_fi_nlsfi_license: ใบอนุญาต NLSFI
+        contributors_fr_credit_html: '%{france}: มีข้อมูลที่มาจาก Direction Générale
+          des Impôts'
         contributors_fr_france: ฝรั่งเศส
+        contributors_hr_credit_html: '%{croatia}: มีข้อมูลจาก %{dgu_link} และ %{open_data_portal}
+          (ข้อมูลสาธารณะของโครเอเชีย)'
         contributors_hr_croatia: โครเอเชีย
+        contributors_hr_dgu: สำนักงานภูมิสารสนเทศแห่งรัฐโครเอเชีย
+        contributors_hr_open_data_portal: พอร์ทัลข้อมูลเปิดแห่งชาติ
+        contributors_nl_credit_html: '%{netherlands}: มีข้อมูล &copy; ข้อมูล AND,
+          2007 (%{and_link})'
+        contributors_nl_netherlands: เนเธอร์แลนด์
+        contributors_nz_new_zealand: นิวซีแลนด์
+        contributors_nz_linz_data_service: บริการข้อมูล LINZ
+        contributors_rs_serbia: เซอร์เบีย
         contributors_si_slovenia: สโลวีเนีย
         contributors_si_gu: หน่วยงานสำรวจและจัดทำแผนที่
         contributors_si_mkgp: กระทรวงการเกษตร ป่าไม้ และอาหาร
@@ -2425,6 +2494,7 @@ th:
           (%{ign_link}) และระบบการทำแผนที่แห่งชาติสเปน (%{scne_link}) ซึ่งได้รับอนุญาตให้ทำซ้ำภายใต้สัญญา
           %{cc_by_link}'
         contributors_es_spain: สเปน
+        contributors_2_contributors_page: หน้าผู้มีส่วนร่วมให้ข้อมูล
         contributors_footer_2_html: การรวมข้อมูลใน OpenStreetMap ไม่ได้หมายความว่าผู้ให้บริการข้อมูลดั้งเดิมจะรับรอง
           OpenStreetMap รับประกัน หรือรับผิดชอบใด ๆ
     index:
@@ -2442,6 +2512,8 @@ th:
       title: ส่งออก
       manually_select: เลือกพื้นที่อื่นด้วยตนเอง
       licence: สัญญาอนุญาต
+      licence_details_html: ข้อมูล OpenStreetMap ได้รับอนุญาตภายใต้ %{odbl_link} (ODbL)
+      odbl: สัญญาอนุญาตแบบเปิดสำหรับฐานข้อมูลเปิด
       too_large:
         advice: 'ถ้าการส่งออกข้างต้นล้มเหลว โปรดพิจารณาใช้แหล่งข้อมูลตามที่ระบุด้านล่างนี้:'
         body: พื้นที่ใหญ่เกินกว่าที่จะส่งออกเป็นข้อมูล XML ของ OpenStreetMap โปรดขยายเข้าหรือเลือกพื้นที่ที่เล็กลง
@@ -2459,6 +2531,11 @@ th:
           title: แหล่งข้อมูลอื่น
           description: แหล่งข้อมูลอื่นตามที่ระบุไว้ใน OpenStreetMap wiki
       export_button: ส่งออก
+      export_download: กำลังดาวน์โหลด...
+      confirmation:
+        header: ดาวน์โหลดข้อมูล XML
+        cancel: ยกเลิก
+        download: ดาวน์โหลด
     fixthemap:
       title: รายงานปัญหา/แก้ไขข้อผิดพลาดในแผนที่
       how_to_help:
@@ -2470,9 +2547,11 @@ th:
             OpenStreetMap เพื่อดำเนินการแก้ไขด้วยตัวท่านเอง
       other_concerns:
         title: ข้อกังวลอื่น ๆ
+        copyright: หน้าข้อมูลลิขสิทธิ์
     help:
       title: ขอรับความช่วยเหลือ
       welcome:
+        url: /welcome
         title: ยินดีต้อนรับสู่ OpenStreetMap
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Th:Beginners%27_guide
@@ -2482,6 +2561,10 @@ th:
       irc:
         title: ไออาร์ซี
         description: แชทโต้ตอบได้ในหลากหลายภาษา และหลายหัวข้อ
+      switch2osm:
+        title: switch2osm
+      welcomemat:
+        title: สำหรับองค์กร
     potlatch:
       change_preferences: เปลี่ยนการตั้งค่าของคุณที่นี่
     any_questions:
@@ -2496,23 +2579,30 @@ th:
       where_am_i: ตรงนี้คือที่ไหน?
       where_am_i_title: อธิบายตำแหน่งปัจจุบันโดยใช้เครื่องมือค้นหา
       submit_text: ไป
+      reverse_directions_text: ทิศทางย้อนกลับ
       modes:
         bicycle: จักยาน
         car: รถยนต์
         foot: เดินเท้า
+      providers:
+        description: บริการแนะนำเส้นทาง
     welcome:
       title: ยินดีต้อนรับ!
       introduction: 'ยินดิต้อนรับสู่ OpenStreetMap, แผนที่โลกแบบเสรีที่ทุกคนสามารถแก้ไขได้
         ซึ่งตอนนี้คุณได้ลงทะเบียนมาแล้ว ก่อนจะไปลุยกัน ด้านล่างมีสิ่งสำคัญที่คุณควรจะรู้ไว้ตลอดการทำแผนที่ของคุณ:'
       whats_on_the_map:
         title: บนแผนที่ควรมีอะไร
+        doesnt: ไม่
       basic_terms:
         title: คำศัพท์พื้นฐานในการทำแผนที่
         paragraph_1: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenStreetMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
           ซึ่งความหมายจะอธิบายไว้เบื้องต้นที่ด้านล่างนี้:'
+        an_editor_html: '%{editor} คือโปรแกรมหรือเว็บไซต์ที่คุณสามารถใช้แก้ไขแผนที่'
+        editor: เครื่องมือแก้ไข
       rules:
         title: อย่าลืมกติกา!
       start_mapping: เริ่มการทำแผนที่
+      continue_authorization: ดำเนินการอนุญาตต่อ
     add_a_note:
       title: ไม่มีเวลาแก้ไขใช่ไหม? ใส่หมายเหตุไว้แทนได้!
       para_1: หากคุณต้องการจะแก้ไขแค่เล็กน้อย และไม่มีเวลาเข้าใช้ระบบและเรียนรู้วิธีแก้ไขด้วยตัวเอง
@@ -2520,6 +2610,12 @@ th:
       the_map: แผนที่
     communities:
       title: ชุมชน
+      local_chapters:
+        about_text: Local Chapters เป็นกลุ่มในระดับประเทศหรือระดับภูมิภาคที่ได้ดำเนินการอย่างเป็นทางการในการจัดตั้งองค์กรนิติบุคคลที่ไม่แสวงหากำไร
+          โดนทำหน้าที่เป็นตัวแทนของแผนที่และผู้ทำแผนที่ในพื้นที่นั้น ๆ เมื่อมีการประสานงานกับหน่วยงานภาครัฐ
+          ธุรกิจ และสื่อท้องถิ่น นอกจากนี้ พวกเขายังได้เข้าร่วมเป็นพันธมิตรกับมูลนิธิ
+          OpenStreetMap (OSMF) ทำให้เชื่อมโยงกับหน่วยงานที่ดูแลด้านกฎหมายและลิขสิทธิ์ของโครงการ
+          OpenStreetMap
   social_links:
     show:
       website: เว็บไซต์
@@ -2546,9 +2642,13 @@ th:
         mountain_bike_route: เส้นทางจักรยานเสือภูเขา
         footway: ทางเดินเท้า
         rail: ทางรถไฟ
+        train: รถไฟ
         subway: รถไฟฟ้า/รถไฟใต้ดิน
+        ferry: เรือข้ามฟาก
         light_rail: รถไฟเบา
         tram: รถราง
+        trolleybus: รถประจำทางพ่วงไฟฟ้า
+        bus: รถประจำทาง
         cable_car: รถกระเช้า
         chair_lift: รถกระเช้าเปลือย
         runway: ทางวิ่งสนามบิน
@@ -2617,11 +2717,16 @@ th:
       include_marker: แสดงไอคอนหมุด
       long_link: ลิงก์
       short_link: ลิงก์สั้น
+      embed: HTML
+      embed_html_disabled: การฝัง HTML ไม่พร้อมใช้งานสำหรับเลเยอร์แผนที่นี้
+      paste_html: วาง HTML เพื่อฝังลงในเว็บไซต์
+      geo_uri: Geo URI
       image: ภาพ
       format: 'รูปแบบ:'
       scale: 'ขนาด:'
       custom_dimensions: กำหนดขนาดแผนที่เอง
       download: ดาวน์โหลด
+      downloading: กำลังดาวน์โหลด...
   traces:
     visibility:
       private: ส่วนตัว (เผยแพร่ในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดไม่เรียงลำดับ)
@@ -2629,17 +2734,24 @@ th:
       trackable: ติดตามได้ (แสดงในนามผู้ไม่ประสงค์ออกนาม แต่ละจุดมีเวลากำกับ)
       identifiable: ระบุได้ (แสดงเป็นชื่อให้ติดตามได้ แต่ละจุดมีเวลากำกับ)
     new:
+      upload_trace: อัปโหลดรอยทาง GPS
       visibility_help: นี่หมายความว่าอะไร?
       help: วิธีใช้
     create:
       upload_trace: อัปโหลดรอยทาง GPS
       trace_uploaded: แฟ้มข้อมูล GPX ของท่านอัปโหลดเข้าระบบแล้ว กำลังรอบรรจุเข้าฐานข้อมูล
         ซึ่งจะใช้เวลาประมาณครึ่งชั่วโมง เมื่อกระบวนการเรียบร้อยแล้วจะมีอีเมลแจ้งท่านให้ทราบ
+      upload_failed: ขออภัย การอัปโหลด GPX ล้มเหลว ผู้ดูแลระบบได้รับการแจ้งเตือนถึงข้อผิดพลาดนี้
+        โปรดลองอีกครั้ง
       traces_waiting: คุณมีรอยทาง %{count} ชุด ที่กำลังรออัพโหลด กรุณารอให้การอัพโหลดเหล่านี้เสร็จสิ้น
         ก่อนที่จะเพิ่มรอยทางชุดต่อไป, เพื่อไม่ให้ผู้ใช้คนอื่นๆ จะต้องรอคิวนาน
     edit:
       cancel: ยกเลิก
+      title: แก้ไขรอยทาง %{name}
+      heading: แก้ไขรอยทาง %{name}
       visibility_help: นี่หมายความว่าอะไร?
+    update:
+      updated: อัพเดทรอยทาง
     show:
       title: แสดงรอยทางชื่อ %{name}
       heading: แสดงรอยทางชื่อ %{name}
@@ -2649,6 +2761,7 @@ th:
       uploaded: 'อัปโหลดเมื่อ:'
       points: 'จุด:'
       start_coordinates: 'เริ่มจากตำแหน่ง:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: แผนที่
       edit: แก้ไข
       owner: 'เจ้าของ:'
@@ -2659,6 +2772,7 @@ th:
       delete_trace: ลบรอยทางนี้
       trace_not_found: ไม่พบรอยทางนี้!
       visibility: 'สถานะการแสดง:'
+      confirm_delete: ลบรอยทางนี้?
     trace:
       pending: ค้างอยู่
       count_points:
@@ -2671,13 +2785,22 @@ th:
       identifiable: ระบุได้
       private: ส่วนตัว
       trackable: ติดตามได้
+      details_with_tags_html: '%{time_ago} โดย %{user} ใน %{tags}'
+      details_without_tags_html: '%{time_ago} โดย %{user}'
     index:
       public_traces: รอยทาง GPS สาธารณะ
+      my_gps_traces: รอยทาง GPS ของฉัน
       public_traces_from: รอยทางจีพีเอสสาธารณะโดยผู้ใช้ %{user}
       description: ค้นหาการอัปโหลดรอยทางจีพีเอสล่าสุด
       tagged_with: ระบุด้วยป้าย %{tags}
+      empty_title: ยังไม่มีอะไรที่นี่
+      upload_new: อัปโหลดรอยทางใหม่
+      wiki_page: หน้าวิกิ
       upload_trace: อัปโหลดรอยทาง
+      all_traces: รอยทางทั้งหมด
       my_traces: รอยทาง GPS ของฉัน
+      traces_from_html: รอยทางที่เป็นสาธารณะจาก %{user}
+      remove_tag_filter: ลบตัวกรองแท็ก
     offline_warning:
       message: ระบบอัปโหลดแฟ้มข้อมูล GPX ไม่พร้อมใช้งานในขณะนี้
     offline:
@@ -2715,20 +2838,40 @@ th:
       write_prefs: แก้ไขการตั้งค่าผู้ใช้
       write_diary: สร้างรายการบันทึกและความคิดเห็น
       write_api: แก้ไขแผนที่
+      write_notes: แก้ไขหมายเหตุ
+      write_redactions: ปรับปรุงข้อมูลแผนที่
   oauth2_applications:
     index:
       name: ชื่อ
+      permissions: การอนุญาต
+    application:
+      edit: แก้ไข
+      delete: ลบ
+      confirm_delete: ลบแอพพลิเคชั่นนี้ไหม?
+    new:
+      title: ลงทะเบียนแอปพลิเคชันใหม่
+    edit:
+      title: แก้ไขแอปพลิเคชันของคุณ
     show:
       edit: แก้ไข
       delete: ลบ
+      confirm_delete: ลบแอพพลิเคชั่นนี้ไหม?
+      permissions: การอนุญาต
   users:
     new:
       title: สมัครบัญชี
       tab_title: สมัครบัญชี
+      support: การสนับสนุน
       about:
         header: เสรีและแก้ไขได้
+        welcome: ยินดีต้อนรับสู่ OpenStreetMap
       display name description: ชื่อที่แสดงต่อสาธารณะ ท่านสามารถเปลี่ยนในภายหลังได้ในหน้าการตั้งค่า
+      by_signing_up:
+        tou: ข้อกำหนดการใช้งาน
       continue: สมัครบัญชี
+      email_help:
+        privacy_policy: นโยบายความเป็นส่วนตัว
+      or: หรือ
       use external auth: หรือสมัครด้วยบัญชีอื่น
     no_such_user:
       title: ไม่มีผู้ใช้ที่ระบุ
@@ -2752,6 +2895,8 @@ th:
       edits: การแก้ไข
       traces: รอยทาง
       notes: หมายเหตุแผนที่
+      unfollow: เลิกติดตาม
+      follow: ติดตาม
       mapper since: 'ทำแผนที่นี้ตั้งแต่:'
       ct status: 'เงื่อนไขผู้ร่วมให้ข้อมูล:'
       ct undecided: ยังไม่ตัดสินใจ
@@ -2766,6 +2911,9 @@ th:
       activate_user: เปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
+    sidebar_section:
+      home_location: ตำแหน่งบ้าน
+      company: บริษัท
     go_public:
       flash success: การแก้ไขของท่านเป็นสาธารณะ ท่านสามารถแก้ไขได้
     issued_blocks:
@@ -2777,10 +2925,20 @@ th:
         title: การถูกระงับใช้งานของ %{name}
         heading_html: รายการการถูกระงับของผู้ใช้ %{name}
         empty: '%{name} ยังไม่เคยถูกระงับใช้งาน'
+      edit:
+        revoke: เพิกถอน!
     lists:
       show:
         title: ผู้ใช้
         heading: ผู้ใช้
+        states:
+          pending: รอดำเนินการ
+          active: เปิดใช้
+          confirmed: ยืนยันแล้ว
+          suspended: ถูกระงับ
+          deleted: ถูกลบ
+        name_or_email: ชื่อหรืออีเมล
+        ip_address: หมายเลขไอพี
       page:
         confirm: ยืนยันผู้ใช้ที่เลือก
         hide: ซ่อนผู้ใช้ที่เลือก
@@ -2862,14 +3020,33 @@ th:
       until_login: มีผลจนถึงการเริ่มเข้าระบบครั้งถัดไป
       time_past_html: สิ้นสุดไปเมื่อ %{time}
       block_duration:
+        hours:
+          other: '%{count} ชั่วโมง'
+        days:
+          other: '%{count} วัน'
+        weeks:
+          other: '%{count} สัปดาห์'
+        months:
+          other: '%{count} เดือน'
         years:
           other: '%{count} ปี'
+      short:
+        ended: สิ้นสุดแล้ว
+        revoked_html: ถูกเพิกถอนโดย %{name}
+        active: เปิดใช้
+        active_until_read: เปิดใช้จนกว่าจะอ่าน
+        read_html: อ่านตอน %{time}
+        time_in_future_title: '%{time_absolute}; ใน %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
+      title: '%{block_on} โดนระงับโดย %{block_by}'
       heading_html: '%{block_on} โดนระงับโดย %{block_by}'
       created: 'ระงับเมื่อ:'
+      duration: 'ระยะเวลา:'
       status: 'สถานะ:'
       edit: แก้ไข
       reason: 'เหตุผลสำหรับการระงับใช้งาน:'
+      revoker: 'ผู้เพิกถอน:'
     block:
       show: แสดง
       edit: แก้ไข
@@ -2877,31 +3054,86 @@ th:
       display_name: ผู้ใช้ที่ถูกระงับ
       creator_name: ผู้สั่งให้ระงับ
       reason: เหตุผลที่ต้องระงับใช้งาน
+      start: เริ่ม
+      end: สิ้นสุด
       status: สถานะ
+    navigation:
+      all_blocks: การบล็อกทั้งหมด
+      blocks_on_me: การถูกระงับของฉัน
+      blocks_on_user_html: การถูกระงับใช้งานของ %{user}
+      blocks_by_me: บล็อกโดยฉัน
+      blocks_by_user_html: บล็อกโดย %{user}
+      block: 'บล็อค #%{id}'
+      new_block: การบล็อคใหม่
+  user_mutes:
+    index:
+      title: ผู้ใช้ที่ปิดการแจ้งเตือน
+      my_muted_users: ผู้ใช้งานที่ฉันปิดการแจ้งเตือน
   notes:
     index:
       heading: หมายเหตุของ %{user}
+      subheading_submitted: ส่งแล้ว
+      subheading_commented: ความคิดเห็นบน
+      no_notes: ไม่มีหมายเหตุ
+      id: ID
       creator: ผู้สร้าง
+      description: คำอธิบาย
+      created_at: สร้างเมื่อ
+      last_changed: เปลี่ยนแปลงล่าสุด
+      apply: นำไปใช้
+      all: ทั้งหมด
+      open: ยังไม่ได้รับการแก้ไข
+      closed: แก้ไขแล้ว
+      hidden: ซ่อนอยู่
+      status: สถานะ
     show:
       title: 'หมายเหตุ: %{id}'
       description: คำอธิบาย
-      open_title: 'หมายเหตุที่ยังไม่มีคำตอบ #%{note_name}'
-      closed_title: หมายเหตุที่ตอบสนองแล้ว %{note_name}
+      open_title: 'หมายเหตุที่ยังไม่ได้รับการแก้ไข #%{note_name}'
+      closed_title: หมายเหตุที่แก้ไขแล้ว %{note_name}
       hidden_title: 'หมายเหตุที่ซ่อนอยู่ #%{note_name}'
+      description_when_author_is_deleted: ลบแล้ว
+      description_when_there_is_no_opening_comment: ไม่ทราบ
+      event_commented_by_html: ความคิดเห็นจาก %{user} %{time_ago}
+      event_commented_by_anonymous_html: ความคิดเห็นจากผู้ที่ไม่ทราบชื่อ %{time_ago}
+      event_closed_by_html: แก้ไขแล้วโดย%{user} %{time_ago}
+      event_closed_by_anonymous_html: แก้ไขแล้วโดยผู้ที่ไม่ทราบชื่อ %{time_ago}
+      event_reopened_by_html: เปิดใหม่โดย %{user} %{time_ago}
+      event_reopened_by_anonymous_html: เปิดใช้งานอีกครั้งโดยผู้ไม่ทราบชื่อ %{time_ago}
+      event_hidden_by_html: ซ่อนโดย %{user} %{time_ago}
       report: แจ้งปัญหาเกี่ยวกับหมายเหตุนี้
       anonymous_warning: หมายเหตุนี้มีข้อความจากผู้ที่ไม่ประสงค์จะออกนาม ซึ่งควรทำการตรวจสอบตามข้อมูลที่แจ้งมานี้ด้วยตัวคุณเองอีกครั้ง
         ก่อนจะดำเนินการใดๆ ต่อ
+      discussion: การอภิปราย
+      subscribe: ติดตาม
+      unsubscribe: เลิกสมัครรับ
       hide: ซ่อน
       resolve: ปิดเรื่อง
       reactivate: รื้อฟื้นหมายเหตุ
       comment_and_resolve: แสดงความเห็น และปิดเรื่อง
       comment: แสดงความเห็น
+      log_in_to_comment: เข้าสู่ระบบเพื่อแสดงความคิดเห็นเกี่ยวกับหมายเหตุนี้
+      report_link_html: หากหมายเหตุนี้มีข้อมูลละเอียดอ่อนที่ต้องลบออก คุณสามารถ %{link}
+      other_problems_resolve: สำหรับปัญหาอื่นๆ ทั้งหมดที่เกิดขึ้นกับหมายเหตุ โปรดแก้ไขด้วยตนเองโดยแสดงความคิดเห็น
+      other_problems_resolved: สำหรับปัญหาอื่นๆ การแก้ไขก็เพียงพอแล้ว
+      disappear_date_html: หมายเหตุที่แก้ไขแล้วนี้จะหายไปจากแผนที่ใน %{disappear_in}
     new:
       title: หมายเหตุใหม่
       intro: พบข้อผิดพลาดหรือสิ่งที่ขาดหายใช่ไหม? แจ้งให้ผู้ทำแผนที่คนอื่นทราบเพื่อที่เราจะได้ดำเนินการแก้ไข
         ย้ายตัวชี้ไปยังตำแหน่งที่ถูกต้องและพิมพ์หมายเหตุอธิบายปัญหา
+      anonymous_warning_html: คุณยังไม่ได้เข้าสู่ระบบ กรุณา %{log_in} หรือ %{sign_up}
+        เพื่อรับการอัปเดตสำหรับหมายเหตุของคุณและช่วยผู้ทำแผนที่แก้ไขปัญหา
       anonymous_warning_log_in: เข้าสู่ระบบ
       anonymous_warning_sign_up: สมัครบัญชี
+      counter_warning_html: |-
+        คุณได้โพสต์อย่างน้อย %{x_anonymous_notes} แล้ว ซึ่งเป็นเรื่องดีต่อชุมชน ขอบคุณมากๆ!
+        ตอนนี้เราขอเชิญคุณ %{contribute_by_yourself} มันไม่ได้ยาก หรือซับซ้อนขนาดนั้น และ %{community_can_help}
+      x_anonymous_notes:
+        other: '%{count} หมายเหตุนิรนาม'
+      counter_warning_guide_link:
+        text: มีส่วนร่วมด้วยตัวเอง
+      counter_warning_forum_link:
+        text: ชุมชนสามารถช่วยคุณได้
       advice: หมายเหตุของคุณจะเป็นสาธารณะและอาจถูกใช้เพื่ออัปเดตแผนที่ ดังนั้นอย่ากรอกข้อมูลส่วนตัว
         หรือข้อมูลจากแผนที่ หรือเอกสารที่มีลิขสิทธิ์
       add: เพิ่มหมายเหตุ
@@ -2919,22 +3151,33 @@ th:
     close: ปิด
     share:
       title: แบ่งปัน
+      view_larger_map: ดูแผนที่ขนาดใหญ่กว่า
+      export_failed_title: การส่งออกแผนที่ล้มเหลว
+      filename: แผนที่
     embed:
       report_problem: แจ้งปัญหา
     legend:
       title: ความหมายสัญลักษณ์
       tooltip: ความหมายสัญลักษณ์
+      tooltip_disabled: ความหมายสัญลักษณ์ไม่พร้อมใช้งานสำหรับเลเยอร์นี้
     map:
       zoom:
         in: ซูมเข้า
         out: ซูมออก
       locate:
         title: แสดงตำแหน่งของฉัน
+        metersPopup:
+          other: คุณอยู่ภายในระยะ %{count} เมตรจากจุดนี้
+        feetPopup:
+          other: คุณอยู่ภายในระยะ %{count} ฟุตจากจุดนี้
       base:
         standard: ปกติ
         cycle_map: แผนที่จักรยาน
         transport_map: แผนที่การขนส่ง
+        tracestracktop_topo: Tracestrack Topo
         hot: เพื่อมนุษยธรรม
+        shortbread: Shortbread
+        openmaptiles_osm: แมปไทเลอร์ OMT
       layers:
         header: ชั้นแผนที่
         notes: หมายเหตุแผนที่
@@ -2943,6 +3186,17 @@ th:
         overlays: 'ซ้อนชั้นข้อมูลพิเศษเพื่อช่วยในการแก้ปัญหาแผนที่:'
         title: ชั้นแผนที่
       openstreetmap_contributors: ผู้ร่วมให้ข้อมูล OpenStreetMap
+      make_a_donation: บริจาค
+      website_and_api_terms: เงื่อนไขเว็บไซต์และ API
+      cyclosm_credit: รูปแบบช่องกระเบื้องโดย %{cyclosm_link} เป็นเจ้าของโดย %{osm_france_link}
+      osm_france: OpenStreetMap ฝรั่งเศส
+      thunderforest_credit: ช่องกระเบื้องได้รับความอนุเคราะห์จาก %{thunderforest_link}
+      andy_allan: แอนดี อัลลัน
+      tracestrack_credit: กระเบื้องได้รับความอนุเคราะห์จาก %{tracestrack_link}
+      hotosm_credit: รูปแบบช่องกระเบื้องโดย %{hotosm_link} เป็นเจ้าของโดย %{osm_france_link}
+      hotosm_name: ทีม Humanitarian OpenStreetMap
+      openmaptiles_credit: ช่องกระเบื้องเวกเตอร์จาก %{openmaptiles_link} เป็นเข้าของโดย
+        %{maptiler_link}
     site:
       edit_tooltip: แก้ไขแผนที่
       edit_disabled_tooltip: ซูมเข้าเพื่อแก้ไขแผนที่
@@ -2950,39 +3204,78 @@ th:
       createnote_disabled_tooltip: ซูมเข้าเพื่อหมายเหตุไปยังแผนที่
       queryfeature_tooltip: เรียกดูคุณลักษณะ
       queryfeature_disabled_tooltip: ซูมเข้าเพื่อเรียกดูคุณลักษณะ
+    profile:
+      social_link_n: ลิงก์โปรไฟล์โซเชียล %{n}
+      remove_social_link_n: ลบลิงก์โปรไฟล์โซเชียล %{n}
     edit_help: เลื่อนแผนที่และซูมเข้าไปยังตำแหน่งที่ต้องการแก้ไข จากนั้นคลิกที่นี่
     directions:
+      distance_in_units:
+        m: '%{distance}ม.'
+        km: '%{distance}กม.'
+        ft: '%{distance}ฟุต'
+        yd: '%{distance}หลา'
+        mi: '%{distance}ไมล์'
       errors:
         no_route: ไม่พบเส้นทางระหว่างสองจุดที่คุณต้องการ
+        no_place:
+          title: การค้นหาล้มเหลว
+          body: ไม่สามารถหา '%{place}' ได้
       instructions:
-        continue_without_exit: เคลื่อนต่อไปทางถนน %{name}
-        slight_right_without_exit: เบนขวาไปที่ %{name}
-        offramp_right_with_name: ใช้ทางลาดด้านขวาไปที่ถนน %{name}
-        onramp_right_without_exit: เลี่ยวขวาที่ทางลาดไปที่ถนน %{name}
-        endofroad_right_without_exit: เมื่อถึงสุดถนนแล้ว ให้เลี้ยวขวาเข้า %{name}
-        merge_right_without_exit: เลี้ยวขวาเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
-        fork_right_without_exit: ที่ทางแยกเลี้ยวขวาไปที่ถนน %{name}
-        turn_right_without_exit: เลี้ยวขวาเข้า %{name}
-        sharp_right_without_exit: หักขวาเข้า %{name}
-        uturn_without_exit: วกกลับไปตามถนน %{name}
-        sharp_left_without_exit: หักซ้ายเข้า %{name}
-        turn_left_without_exit: เลี้ยวซ้ายไปที่ %{name}
-        offramp_left_with_name: ใช้ทางลาดด้านซ้ายไปที่ %{name}
-        onramp_left_without_exit: เลี้ยวซ้ายบนทางลาดไปที่ถนน %{name}
+        continue_without_exit: เคลื่อนต่อไปบน%{name}
+        slight_right_without_exit: เบนขวาไปยัง%{name}
+        offramp_right: เข้าทางลาดด้านขวา
+        offramp_right_with_exit: ใช้ทางออก %{exit} ด้านขวา
+        offramp_right_with_exit_name: ใช้ทางออก %{exit} ด้านขวาเข้าสู่%{name}
+        offramp_right_with_exit_directions: ใช้ทางออก %{exit} ทางขวาไปทาง%{directions}
+        offramp_right_with_exit_name_directions: ใช้ทางออก %{exit} ด้านขวาเข้าสู่%{name}
+          ไปทาง%{directions}
+        offramp_right_with_name: ใช้ทางลาดด้านขวาเข้าสู่%{name}
+        offramp_right_with_directions: ใช้ทางลาดด้านขวาเข้าสู่%{directions}
+        offramp_right_with_name_directions: ใช้ทางลาดด้านขวาเข้าสู่%{name} ไปทาง%{directions}
+        onramp_right_without_exit: เลี่ยวขวาที่ทางลาดเข้าสู่%{name}
+        onramp_right_with_directions: เลี้ยวขวาเข้าทางลาดไปทาง%{directions}
+        onramp_right_with_name_directions: เลี้ยวขวาเข้าทางลาดเข้าสู่%{name} ไปทาง%{directions}
+        onramp_right_without_directions: เลี้ยวขวาเข้าสู่ทางลาด
+        onramp_right: เลี้ยวขวาเข้าสู่ทางลาด
+        endofroad_right_without_exit: เมื่อถึงสุดถนนแล้ว ให้เลี้ยวขวาเข้า%{name}
+        merge_right_without_exit: เลี้ยวขวาเข้าสู่%{name}
+        fork_right_without_exit: ที่ทางแยกเลี้ยวขวาเข้าสู่%{name}
+        turn_right_without_exit: เลี้ยวขวาเข้าสู่%{name}
+        sharp_right_without_exit: หักขวาเข้า%{name}
+        uturn_without_exit: วกกลับไปตาม%{name}
+        sharp_left_without_exit: หักซ้ายเข้า%{name}
+        turn_left_without_exit: เลี้ยวซ้ายเข้าสู่%{name}
+        offramp_left: ใช้ทางลาดด้านซ้าย
+        offramp_left_with_exit: ใช้ทางออก %{exit} ด้านซ้าย
+        offramp_left_with_exit_name: ใช้ทางออก %{exit} ทางซ้ายเข้าสู่%{name}
+        offramp_left_with_exit_directions: ใช้ทางออก %{exit} ทางซ้ายมุ่งหน้าสู่%{directions}
+        offramp_left_with_exit_name_directions: ใช้ทางออก %{exit} ทางซ้ายเข้าสู่%{name}
+          มุ่งหน้าสู่%{directions}
+        offramp_left_with_name: ใช้ทางลาดด้านซ้ายเข้าสู่%{name}
+        offramp_left_with_directions: ใช้ทางลาดด้านซ้ายไปยัง%{directions}
+        offramp_left_with_name_directions: เข้าใช้ทางลาดเข้าสู่%{name} ไปทาง%{directions}
+        onramp_left_without_exit: เลี้ยวซ้ายเข้าทางลาดเข้าสู่%{name}
+        onramp_left_with_directions: เลี้ยวซ้ายเข้าทางลาดไปทาง%{directions}
+        onramp_left_with_name_directions: เลี้ยวซ้ายบนทางลาดเข้าสู่%{name} ไปทาง%{directions}
         onramp_left_without_directions: เลี้ยวซ้ายขึ้นทางลาด
         onramp_left: เลี้ยวซ้ายขึ้นทางลาด
-        endofroad_left_without_exit: เมื่อถึงสุดถนนเลี้ยวซ้ายไปที่ถนน %{name}
-        merge_left_without_exit: เลี้ยวซ้ายเข้าสู่ถนน %{name} ซึ่งเป็นทางเอก
-        fork_left_without_exit: ที่ทางแยกเลี้ยวซ้ายไปที่ถนน %{name}
-        slight_left_without_exit: ขยับซ้ายเล็กน้อยไปที่ %{name}
-        follow_without_exit: ไปตาม %{name}
+        endofroad_left_without_exit: เมื่อถึงสุดถนนเลี้ยวซ้ายเข้าสู่%{name}
+        merge_left_without_exit: เลี้ยวซ้ายเข้าสู่%{name}
+        fork_left_without_exit: ที่ทางแยกเลี้ยวซ้ายเข้าสู่%{name}
+        slight_left_without_exit: เบนซ้ายเข้าสู่%{name}
+        via_point_without_exit: (ผ่านจุด)
+        follow_without_exit: ไปตาม%{name}
+        roundabout_without_exit: ที่วงเวียนใช้ทางออกเข้าสู่%{name}
         leave_roundabout_without_exit: ออกจากวงเวียน - %{name}
-        start_without_exit: เริ่มที่ %{name}
-        destination_without_exit: ตรงไปยังจุดหมาย
-        against_oneway_without_exit: ให้วิ่งสวนเลนไปบน %{name}
-        end_oneway_without_exit: สิ้นสุดช่วงเดินรถทางเดียวบน %{name}
-        roundabout_with_exit: ณ วงเวียน ใช้ทางออก %{exit} ไปที่ถนน %{name}
-        exit_roundabout: ออกจากวงเวียนไปทาง %{name}
+        stay_roundabout_without_exit: อยู่บนวงเวียน - %{name}
+        start_without_exit: เริ่มต้นที่%{name}
+        destination_without_exit: ถึงจุดหมายปลายทาง
+        against_oneway_without_exit: ให้วิ่งสวนเลนไปบน%{name}
+        end_oneway_without_exit: สิ้นสุดช่วงเดินรถทางเดียวบน%{name}
+        roundabout_with_exit: ที่วงเวียน ใช้ทางออก %{exit} เข้าสู่%{name}
+        roundabout_with_exit_ordinal: ที่วงเวียน ใช้ทางออก %{exit} เข้าสู่%{name}
+        exit_roundabout: ออกจากวงเวียนเข้าสู่%{name}
+        ferry_without_exit: ขึ้นเรือข้ามฟาก%{name}
         unnamed: ถนนไม่มีชื่อ
         exit_counts:
           first: แรก
@@ -3002,6 +3295,8 @@ th:
       nothing_found: ไม่พบคุณลักษณะ
       error: 'มีความผิดพลาดขณะติดต่อ %{server}: %{error}'
       timeout: หมดเวลาขณะพยายามติดต่อ %{server}
+    element:
+      wikipedia: วิกิพีเดีย
     context:
       directions_from: เส้นทางจากที่นี่
       directions_to: เส้นทางมาที่นี่
@@ -3009,9 +3304,23 @@ th:
       show_address: แสดงที่อยู่
       query_features: เรียกดูคุณลักษณะ
       centre_map: วางแผนที่ตรงกลางที่นี่
+      scroll_to_changeset: เลื่อนไปที่ชุดการเปลี่ยนแปลง
+    home:
+      marker_title: ตำแหน่งบ้านของฉัน
+      not_set: ตำแหน่งบ้านไม่ได้ถูกตั้งค่าสำหรับบัญชีของคุณ
+    heatmap:
+      tooltip:
+        no_contributions: ไม่มีส่วนร่วมใน %{date}
+        contributions:
+          other: '%{count} การมีส่วนร่วมใน %{date}'
+    remote_edit:
+      failed:
+        title: การแก้ไขล้มเหลว
+        body: ตรวจสอบให้แน่ใจว่าโหลด JOSM หรือ Merkaartor แล้ว และเปิดใช้งานตัวเลือกการควบคุมระยะไกลแล้ว
     edit:
       id_not_configured:
         title: ยังไม่ได้กำหนดค่า iD
+        body: โปรดดู CONFIGURE.md สำหรับข้อมูลเพิ่มเติม
   redactions:
     edit:
       heading: แก้ไขการตรวจทาน
@@ -3020,6 +3329,7 @@ th:
       empty: ไม่มีการตรวจทานให้แสดง
       heading: รายการการตรวจทาน
       title: รายการการตรวจทาน
+      new: ส่วนใหม่
     new:
       heading: กรอกรายละเอียดการตรวจทานใหม่
       title: สร้างการตรวจทานใหม่
@@ -3039,4 +3349,9 @@ th:
       not_empty: การตรวจทานยังไม่ว่าง โปรดถอดการตรวจทานรุ่นเก่า ๆ ที่เกี่ยวเนื่องกับการตรวจทานนี้ก่อนลบทิ้ง
       flash: การตรวจทานถูกลบแล้ว
       error: มีความผิดพลาดขณะลบการตรวจทานนี้
+  validations:
+    leading_whitespace: มีช่องว่างนำหน้า
+    trailing_whitespace: มีช่องว่างต่อท้าย
+    invalid_characters: มีอักขระที่ไม่ถูกต้อง
+    url_characters: มีอักขระ URL พิเศษ (%{characters})
 ...
