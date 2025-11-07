@@ -25,6 +25,7 @@
 //= require router
 
 OSM.initializations = [];
+
 $(function () {
   const map = new L.OSM.Map("map", {
     zoomControl: false,

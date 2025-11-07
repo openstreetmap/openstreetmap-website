@@ -31,6 +31,7 @@ OSM.initializations.push(function (map) {
     OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom }));
   });
 });
+
 OSM.Search = function (map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)

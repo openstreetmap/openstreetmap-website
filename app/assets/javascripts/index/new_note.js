@@ -8,6 +8,7 @@ OSM.initializations.push(function () {
     OSM.router.route("/note/new");
   });
 });
+
 OSM.NewNote = function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
