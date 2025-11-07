@@ -33,7 +33,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get -yqq update
-        sudo apt-get -yqq install memcached libvips-dev
+        sudo apt-get -yqq install memcached libvips-dev xvfb mesa-utils libgl1-mesa-dri
     - name: Create database
       run: |
         sudo systemctl start postgresql
@@ -60,10 +60,16 @@ jobs:
       timeout-minutes: 10
     - name: Create tmp/pids directory
       run: mkdir -p tmp/pids
+    - name: Enable virtual display
+      run: Xvfb :99 -screen 0 1024x768x24 &
     - name: Run tests
       run: bundle exec rails test:all
+      env:
+        DISPLAY: ":99"
     - name: Run javascript tests
       run: bundle exec teaspoon
+      env:
+        DISPLAY: ":99"
     - name: Upload screenshots
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
       if: failure()
