@@ -1,4 +1,4 @@
-OSM.Search = function (map) {
+OSM.initializations.push(function (map) {
   $(".search_form a.btn.switch_link").on("click", function (e) {
     e.preventDefault();
     const query = $(this).closest("form").find("input[name=query]").val();
@@ -30,7 +30,8 @@ OSM.Search = function (map) {
 
     OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom }));
   });
-
+});
+OSM.Search = function (map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult);

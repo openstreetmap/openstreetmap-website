@@ -24,6 +24,7 @@
 //= require index/element
 //= require router
 
+OSM.initializations = [];
 $(function () {
   const map = new L.OSM.Map("map", {
     zoomControl: false,
@@ -140,7 +141,7 @@ $(function () {
   L.control.scale()
     .addTo(map);
 
-  OSM.initializeContextMenu(map);
+  OSM.initializations.forEach(func => func(map));
 
   if (OSM.STATUS !== "api_offline" && OSM.STATUS !== "database_offline") {
     OSM.initializeNotesLayer(map);

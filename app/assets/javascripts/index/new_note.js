@@ -1,3 +1,13 @@
+OSM.initializations.push(function () {
+  $(".control-note .control-button").on("click", function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if ($(this).hasClass("disabled")) return;
+
+    OSM.router.route("/note/new");
+  });
+});
 OSM.NewNote = function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
@@ -6,15 +16,6 @@ OSM.NewNote = function (map) {
         addNoteButton = control.find(".control-button");
   let newNoteMarker,
       halo;
-
-  addNoteButton.on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if ($(this).hasClass("disabled")) return;
-
-    OSM.router.route("/note/new");
-  });
 
   function createNote(location, text, callback) {
     fetch("/api/0.6/notes.json", {
