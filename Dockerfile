@@ -30,6 +30,9 @@ RUN apt-get update \
     osmosis \
     ca-certificates \
     firefox-esr \
+    xvfb \
+    mesa-utils \
+    libgl1-mesa-dri \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* # Replace with `apt-get dist-clean` after upgrading to Debian 13 (Trixie)
 
@@ -50,3 +53,9 @@ RUN bundle install
 COPY package.json yarn.lock /app/
 COPY bin/yarn /app/bin/
 RUN bundle exec bin/yarn install
+
+# Copy and set entrypoint
+COPY docker/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
