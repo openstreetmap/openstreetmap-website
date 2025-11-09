@@ -13,10 +13,18 @@ module BrowseTagsHelper
     end
   end
 
-  def format_value(key, value)
+  def format_value(key, value, skip_wikidata_preview: false)
     if wp = wikipedia_link(key, value)
       link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
     elsif wdt = wikidata_links(key, value)
+      if skip_wikidata_preview
+        # just return the links without the preview button
+        wdt = wdt.map do |w|
+          link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
+        end
+        return safe_join(wdt, ";")
+      end
+
       # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
       # which just returns one such hash.
       svg = button_tag :type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) } do
