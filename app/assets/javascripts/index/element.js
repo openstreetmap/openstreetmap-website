@@ -112,11 +112,8 @@
 
   function renderWikidataResponse({ icon, label, article, description }, $link) {
     const localeName = new Intl.DisplayNames(OSM.preferred_languages, { type: "language" });
-    // Calculate colspan based on the number of cells in the parent row
-    const parentRow = $link.closest("tr");
-    const colspan = parentRow.children("th, td").length;
     const cell = $("<td>")
-      .attr("colspan", colspan)
+      .attr("colspan", 2)
       .addClass("bg-body-tertiary");
 
     if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
