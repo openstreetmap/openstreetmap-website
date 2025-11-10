@@ -38,7 +38,10 @@ module Api
                     :description => "test",
                     :terms_agreed => Date.yesterday,
                     :home_lat => 12.1, :home_lon => 23.4,
-                    :languages => ["en"])
+                    :languages => ["en"]) do |user|
+                      create(:social_link, :user => user, :url => "https://twitter.com/testuser")
+                      create(:social_link, :user => user, :url => "https://github.com/testuser")
+                    end
 
       # check that a visible user is returned properly
       get api_user_path(:id => user.id)
@@ -408,6 +411,18 @@ module Api
     def check_xml_details(user, include_private, include_email)
       assert_select "user[id='#{user.id}']", :count => 1 do
         assert_select "description", :count => 1, :text => user.description
+        assert_select "company", :count => 1, :text => user.company if user.company
+
+        if user.social_links.present?
+          assert_select "social-links link", :count => user.social_links.count do
+            user.social_links.each do |link|
+              details = link.parsed
+              assert_select "link[platform='#{details[:platform]}']", :count => 1, :text => details[:url]
+            end
+          end
+        else
+          assert_select "social-links link", :count => 0
+        end
 
         assert_select "contributor-terms", :count => 1 do
           if user.terms_agreed.present?
@@ -487,6 +502,26 @@ module Api
     def check_json_details(js, user, include_private, include_email)
       assert_equal user.id, js["user"]["id"]
       assert_equal user.description, js["user"]["description"]
+      if user.company
+        assert_equal user.company, js["user"]["company"]
+      else
+        assert_nil js["user"]["company"]
+      end
+
+      if user.social_links.present?
+        ordered_js_links = js.dig("user", "social_links").sort_by { |link| link["url"] }
+        ordered_user_links = user.social_links.sort_by(&:url).map(&:parsed)
+
+        assert_equal ordered_user_links.count, ordered_js_links.count
+
+        ordered_user_links.zip(ordered_js_links).each do |user_link, js_link|
+          assert_equal user_link[:url], js_link["url"]
+          assert_equal user_link[:platform], js_link["platform"]
+        end
+      else
+        assert_empty js["user"]["social_links"]
+      end
+
       assert_operator js["user"]["contributor_terms"], :[], "agreed"
 
       if include_private
