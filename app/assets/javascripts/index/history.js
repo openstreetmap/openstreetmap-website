@@ -277,11 +277,6 @@ OSM.History = function (map) {
     });
 
     changesetsLayer.updateChangesets(map, changesets);
-
-    if (location.pathname !== "/history") {
-      const bounds = changesetsLayer.getBounds();
-      if (bounds.isValid()) map.fitBounds(bounds);
-    }
   }
 
   page.pushstate = page.popstate = function (path) {
