@@ -7,13 +7,13 @@
 //= link_tree ../opensearch .xml
 //= link_directory ../stylesheets .css
 
-//= link_tree ../../../vendor/assets/iD/iD/img
-//= link_directory ../../../vendor/assets/iD/iD/data .json
-//= link_directory ../../../vendor/assets/iD/iD/locales .json
-//= link_directory ../../../vendor/assets/iD/iD/mapillary-js .css
-//= link_directory ../../../vendor/assets/iD/iD/mapillary-js .js
-//= link_directory ../../../vendor/assets/iD/iD/pannellum .js
-//= link_directory ../../../vendor/assets/iD/iD/pannellum .css
+//= link_tree ../../../node_modules/@openstreetmap/id/dist/img
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/data .json
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/locales .json
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/mapillary-js .css
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/mapillary-js .js
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/pannellum .js
+//= link_directory ../../../node_modules/@openstreetmap/id/dist/pannellum .css
 
 //= link_tree ../../../vendor/assets/leaflet .png
 
