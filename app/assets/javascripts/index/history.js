@@ -168,10 +168,11 @@ OSM.History = function (map) {
 
   function loadFirstChangesets() {
     const data = new URLSearchParams();
+    const isHistory = location.pathname === "/history";
 
     disableChangesetIntersectionObserver();
 
-    if (location.pathname === "/history") {
+    if (isHistory) {
       setBboxFetchData(data);
       const feedLink = $("link[type=\"application/atom+xml\"]"),
             feedHref = feedLink.attr("href").split("?")[0];
@@ -197,7 +198,7 @@ OSM.History = function (map) {
           sidebar.scrollTop = 0;
         }
 
-        updateMap();
+        updateMap(isHistory);
       });
   }
 
@@ -206,6 +207,7 @@ OSM.History = function (map) {
     e.stopPropagation();
 
     const div = $(this).parents(".changeset_more");
+    const isHistory = location.pathname === "/history";
 
     div.find(".pagination").addClass("invisible");
     div.find("[hidden]").prop("hidden", false);
@@ -225,7 +227,7 @@ OSM.History = function (map) {
         displayMoreChangesets(div, html);
         enableChangesetIntersectionObserver();
 
-        updateMap();
+        updateMap(isHistory);
       });
   }
 
@@ -269,7 +271,7 @@ OSM.History = function (map) {
     changesetsLayer.updateChangesetsGeometry(map);
   }
 
-  function updateMap() {
+  function updateMap(isHistory) {
     const changesets = $("[data-changeset]").map(function (index, element) {
       return $(element).data("changeset");
     }).get().filter(function (changeset) {
@@ -278,7 +280,7 @@ OSM.History = function (map) {
 
     changesetsLayer.updateChangesets(map, changesets);
 
-    if (location.pathname !== "/history") {
+    if (!isHistory) {
       const bounds = changesetsLayer.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds);
     }
