@@ -129,8 +129,17 @@ module RichText
     private
 
     def expand_link_shorthands(text)
+      linkify_detection_rules = Array.wrap(Settings.linkify&.detection_rules)
+      linkify_detection_rules.each do |rule|
+        next unless rule.path_template && rule.patterns.is_a?(Array)
+
+        rule.patterns.each do |pattern|
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          text.gsub!(Regexp.new("(?<before>\\s|^|>)#{pattern}(?<after>\\s|$|<)", Regexp::IGNORECASE), "\\k<before>#{expanded_path}\\k<after>")
+        end
+      end
       [[Settings.linkify_hosts, Settings.linkify_hosts_replacement], [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]].each do |hosts, replacement|
-        text.gsub!(/(\s)#{Regexp.escape(replacement)}/, "\\1#{Settings.server_protocol}://#{hosts[0]}") if replacement && hosts&.any?
+        text.gsub!(/(\s)#{Regexp.escape(replacement)}/) { "#{Regexp.last_match(1)}#{Settings.server_protocol}://#{hosts[0]}" } if replacement && hosts&.any?
       end
       text
     end
