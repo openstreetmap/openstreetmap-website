@@ -5,7 +5,7 @@ module Api
     include QueryMethods
 
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-    before_action :setup_user_auth, :only => [:create, :show]
+    before_action :setup_user_auth, :only => [:create, :show, :index, :search]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
@@ -28,6 +28,7 @@ module Api
 
       # Get any conditions that need to be applied
       notes = closed_condition(Note.all)
+      notes = notes.or(Note.where(:status => "hidden")) if show_hidden?
 
       # Check that the boundaries are valid
       bbox.check_boundaries
@@ -255,6 +256,7 @@ module Api
     def search
       # Get the initial set of notes
       @notes = closed_condition(Note.all)
+      @notes = @notes.or(Note.where(:status => "hidden")) if show_hidden?
       @notes = bbox_condition(@notes)
 
       # Add any user filter
@@ -327,6 +329,10 @@ module Api
       else
         notes.where(:status => "open")
       end
+    end
+
+    def show_hidden?
+      current_user&.moderator? && params[:show_hidden] == "true"
     end
 
     ##
