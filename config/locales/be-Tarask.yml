@@ -8,6 +8,7 @@
 # Author: Nieszczarda2
 # Author: Red Winged Duck
 # Author: Renessaince
+# Author: Ucukor
 # Author: Wizardist
 ---
 be-Tarask:
@@ -151,7 +152,7 @@ be-Tarask:
         new_email: Новы адрас электроннай пошты
         active: Актыўны
         display_name: Бачнае імя
-        description: Апісаньне профілю
+        description: Зьвесткі пра карыстача
         company: Кампанія
         home_lat: Шырата
         home_lon: Даўгата
@@ -229,6 +230,7 @@ be-Tarask:
     providers:
       none: Няма
       google: Google
+      apple: Apple
       facebook: Facebook
       github: GitHub
       wikipedia: Вікіпэдыя
@@ -265,8 +267,19 @@ be-Tarask:
       contributor_terms:
         heading: Умовы супрацоўніцтва
         agreed: '%{date} Вы пагадзіліся з новымі ўмовамі супрацоўніцтва.'
+        not_agreed: Вы яшчэ не пагадзіліся з умовамі супрацы.
         agreed_with_pd: Вы таксама заяўляеце, што перадаеце Вашыя рэдагаваньні ў грамадзкі
           набытак.
+        not_agreed_with_pd: Вы не пазначылі, што мяркуеце свой унёсак Грамадскім Здабыткам.
+        review: Знаёмства з умовамі
+        review_and_accept: Азнаёміцца й прыняць Умовы
+        consider_pd: Прыняць Грамадзкі Здабытак
+      terms_of_use:
+        heading: Умовы карыстаньня
+        agreed: Вы далі згоду з Умовамі карыстаньня %{date}.
+        not_agreed: Вы яшчэ не далі згоду з Умовамі карыстаньня.
+        review: Знаёмства з умовамі
+        review_and_accept: Азнаёміцца й прыняць Умовы
       save changes button: Захаваць зьмены
       delete_account: Выдаліць уліковы запіс…
     go_public:
@@ -275,17 +288,31 @@ be-Tarask:
         даслаць вам паведамленьні ці бачыць вашае знаходжаньне. Каб паказаць, што
         вы рэдагавалі і дазволіць людзям зьвязвацца з вамі пра сайт, націсьніце кнопку
         ніжэй.
+      only_public_can_edit: З вэрсіі API 0.6 толькі публічныя карыстачы могуць рэдагаваць
+        мапу.
+      find_out_why: Знайсьці чаму
+      email_not_revealed: Ваш email не будзе раскрыты, калі стане публічным.
+      not_reversible: Гэту дзею нельга скасаваць, і ўсе новыя карыстачы цяпер публічныя
+        (прадвызначана).
       make_edits_public_button: Зрабіць усе мае рэдагаваньні публічнымі
     update:
       success_confirm_needed: Інфармацыя карыстальніка была абноўленая пасьпяхова.
         Праверце Вашую электронную пошту каб пацьвердзіць Ваш новы адрас электроннай
         пошты.
       success: Зьвесткі пра карыстальніка пасьпяхова абноўленыя.
+    destroy:
+      success: Уліковы запіс выдалены.
     deletions:
       show:
         title: Выдаліць мой уліковы запіс
         warning: Увага! Працэс выдаленьня ўліковага запісу канчатковы і незваротны.
         delete_account: Выдаліць уліковы запіс
+        delete_introduction: 'Вы можаце выдаліць свой уліковы запіс OpenStreetMap,
+          націснуўшы кнопку ніжэй. Калі ласка, зьвярніце ўвагу на наступную інфармацыю:'
+        delete_profile: Інфармацыя вашага профілю, аватар, апісаньне і хатняе месцазнаходжаньне
+          будуць выдалены.
+        delete_display_name: Вашае імя карыстача будзе выдалена і можа быць зноў выкарыстана
+          іншымі ўліковымі запісамі.
         confirm_delete: Вы ўпэўненыя?
     terms:
       show:
@@ -408,6 +435,10 @@ be-Tarask:
       your location: Вашае месцазнаходжаньне
       nearby mapper: Бліжэйшы стваральнік мапаў
     show:
+      title: Панэль агляду
+      no_home_location_html: '%{edit_profile_link} і пазначце сваё хатняе разьмяшчэньне,
+        каб бачыць карыстачоў паблізу.'
+      edit_your_profile: Рэдагаваць зьвесткі
       nearby users: Іншыя бліжэйшыя карыстальнікі
       no nearby users: Няма іншых карыстальнікаў, якія прызнаюць, што займаюцца складаньнем
         мапы каля Вас.
@@ -471,8 +502,20 @@ be-Tarask:
         title: Запісы ў дзёньніку OpenStreetMap
         description: Апошнія запісы ў дзёньніку карыстальнікаў OpenStreetMap
     navigation:
+      my_diary: Мой дзёньнік
       new: Новы запіс у дзёньніку
       new_title: Стварыць новы запіс у маім дзёньніку удзельніка
+    profile_diaries:
+      latest_diaries: Апошнія допісы ў дзёньніках
+      comments:
+        one: '%{count} камэнтар'
+        other: '%{count} камэнтароў'
+      title_label: Допіс у дзёньнік
+      comments_label: Камэнтары
+      date_label: Дата
+  doorkeeper:
+    scopes:
+      profile: Паказаць зьвесткі свайго профілю
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -575,7 +618,7 @@ be-Tarask:
           bus_guideway: Аўтобусная паласа
           bus_stop: Аўтобусны прыпынак
           construction: Будаўніцтва дарогі
-          cycleway: Роварная дарожка
+          cycleway: Роварная сьцяжына
           emergency_access_point: Пункт хуткай дапамогі
           footway: Пешаходная сьцежка
           ford: Брод
@@ -620,6 +663,8 @@ be-Tarask:
           wayside_cross: Прыдарожны крыж
           wayside_shrine: Прыдарожная капліца
           wreck: Месца катастрофы
+        information:
+          map: Мапа
         landuse:
           allotments: Агароды
           basin: Басэйн
@@ -863,6 +908,16 @@ be-Tarask:
       create:
         no_results: Нічога ня знойдзена
         more_results: Больш вынікаў
+  issues:
+    show:
+      resolve: Разьвязаць
+  reports:
+    new:
+      categories:
+        user:
+          spam_label: Зьвесткі гэтага карыстача маюць спам
+          offensive_label: Зьвесткі гэтага карыстача непрыстойныя альбо абразьлівыя
+          threat_label: Зьвесткі гэтага карыстача зьмяшчаюць пагрозу
   layouts:
     logo:
       alt_text: Лягатып OpenStreetMap
@@ -870,6 +925,7 @@ be-Tarask:
     logout: Выйсьці
     log_in: Увайсьці
     sign_up: Зарэгістравацца
+    start_mapping: Пачаць мапіць
     edit: Рэдагаваць
     history: Гісторыя
     export: Экспартаваць
@@ -878,6 +934,7 @@ be-Tarask:
     edit_with: Рэдагаваць праз %{editor}
     help: Дапамога
     copyright: Аўтарскія правы
+    communities: Супольнасьці
   user_mailer:
     diary_comment_notification:
       subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
@@ -890,7 +947,8 @@ be-Tarask:
       hi: Вітаем, %{to_user},
       header: '%{from_user} даслаў Вам паведамленьне праз OpenStreetMap з тэмай %{subject}:'
     follow_notification:
-      see_their_profile: Вы можаце прагледзець яго профіль на %{userurl}.
+      see_their_profile: Вы можаце пабачыць іхныя зьвесткі на %{userurl}.
+      see_their_profile_html: Вы можаце пабачыць іхныя зьвесткі на %{userurl}.
     gpx_failure:
       failed_to_import: Падобна, што ваш файл не атрымалася імпартаваць як GPS-сьлед.
       subject: '[OpenStreetMap] памылка імпарту GPX'
@@ -958,7 +1016,8 @@ be-Tarask:
         notice: Паведамленьне пазначанае як непрачытанае
     mailboxes:
       heading:
-        my_inbox: Мае ўваходзячыя
+        my_inbox: Уваходзячыя
+        my_outbox: Выходзячыя
       messages_table:
         from: Ад
         to: Да
@@ -1015,22 +1074,81 @@ be-Tarask:
       flash token bad: Немагчыма знайсьці такі ключ, можа праверце URL-адрас?
     update:
       flash changed: Ваш пароль быў зьменены.
+  preferences:
+    basic_preferences:
+      show:
+        title: Установы
+        map_color_schemes:
+          light: Сьветлая
+          dark: Цёмная
+    advanced_preferences:
+      show:
+        title: Пашыраныя ўстановы
   profiles:
     profile_sections:
       navigation:
+        description: Зьвесткі
+        links: Спасылкі
         image: Выява
+        company: Кампанія
+        location: Месцазнаходжаньне
+    descriptions:
+      show:
+        title: Рэдагаваць профіль
+        save: Абнавіць профіль
+        cancel: Скасаваць
+      update:
+        success: Зьвесткі пра карыстача абноўлены.
+        failure: Не атрымалася абнавіць зьвесткі пра карыстача
+    links:
+      show:
+        title: Рэдагаваць профіль
+        save: Абнавіць профіль
+        cancel: Скасаваць
+        social_links:
+          title: Спасылкі на сацыяльныя сеткі
+          remove: Выдаліць
+          add: Дадаць спасылку
+      update:
+        success: Спасылкі абноўлены.
+        failure: Не атрымалася абнавіць спасылкі.
     images:
       show:
+        title: Рэдагаваць профіль
+        save: Абнавіць профіль
+        cancel: Скасаваць
+        gravatar:
+          gravatar: Ужываць Gravatar
+          what_is_gravatar: Што за Gravatar?
         new image: Дадаць выяву
         keep image: Пакінуць цяперашнюю выяву
         delete image: Выдаліць цяперашнюю выяву
         replace image: Замяніць цяперашнюю выяву
         image size hint: (найлепей пасуюць квадратныя выявы памерам 100×100)
+      update:
+        success: Выява профілю абноўлена.
+        failure: Не атрымалася абнавіць выяву профілю.
+    companies:
+      show:
+        title: Рэдагаваць профіль
+        save: Абнавіць профіль
+        cancel: Скасаваць
+      update:
+        success: Кампаніі абноўлены.
+        failure: Не атрымалася абнавіць кампаніі.
     locations:
       show:
-        no home location: Вы не падалі Вашае месцазнаходжаньне.
-        update home location on click: Абнаўляць маё месцазнаходжаньне, калі як націскаю
-          на мапу?
+        title: Рэдагаваць профіль
+        save: Абнавіць профіль
+        cancel: Скасаваць
+        no home location: Вы не пазначылі сваё хатняе разьмяшчэньне.
+        update home location on click: Абнавіць хатняе разьмяшчэньне дотыкам на мапу?
+        show: Паказаць
+        delete: Выдаліць
+        undelete: Скасаваць выдаленьне
+      update:
+        success: Зьвесткі разьмяшчэньня абноўлены.
+        failure: Не атрымалася абнавіць зьвесткі разьмяшчэньня.
   sessions:
     new:
       tab_title: Уваход
@@ -1091,9 +1209,9 @@ be-Tarask:
       manually_select: Выбраць іншы абшар
       licence: Ліцэнзія
       too_large:
-        body: 'Гэты абшар занадта вялікі для экспарту ў фармаце XML OpenStreetMap.
-          Калі ласка, зьменшыце маштаб, выберыце меншы абшар, ці паспрабуйце адну
-          з наступных крыніцаў для пакетнай запампоўкі зьвестак:'
+        body: 'Гэты абшар завялікі для экспарту ў фармаце XML OpenStreetMap. Калі
+          ласка, зьменшыце маштаб, выберыце меншы абшар, ці паспрабуйце адну з наступных
+          крыніцаў для пакетнай запампоўкі зьвестак:'
         planet:
           title: Плянэта OSM
       export_button: Экспартаваць
@@ -1104,9 +1222,34 @@ be-Tarask:
     search:
       search: Пошук
       where_am_i: Дзе гэта?
-      where_am_i_title: Апішыце цяперашняе месцазнаходжаньне з дапамогай інструмэнту
-        пошуку
+      where_am_i_title: Адшукаць зьвесткі пра гэтае разьмяшчэньне
       submit_text: Перайсьці
+    communities:
+      title: Супольнасьці
+      lede_text: Людзі з усяго сьвету карыстаюцца ці робяць унёсак у OpenStreetMap.
+        Багата хто бярэ ўдзел паасобку, але іншыя стварылі свае супольнасьці. Гэтыя
+        групы бываюць розных памераў і могуць прадстаўляць як невялікія мястэчкі,
+        так і буйныя рэгіёны зь некалькімі краінамі. Яны таксама могуць быць афіцыйнымі
+        й неафіцыйнымі.
+      local_chapters:
+        title: Мясцовыя падрозьдзелы
+        about_text: Мясцовыя падрозьдзелы - згуртаваньні краіны альбо рэгіёна, афіцыйна
+          створаныя некамерцыйнымі юрыдычнымі асобамі. Ад імя стваральнікаў мапы,
+          яны падтрымліваюць кантакт зь мясцовымі ўладамі, бізнэсам і СМІ.Іхная супраца
+          з OpenStreetMap Foundation (OSMF) дазваляе спалучыць юрыдычныя і аўтарскія
+          бакі.
+        list_text: 'Наступныя супольнасці афіцыйна маюць пасаду мясцовых падрозьдзелаў:'
+      other_groups:
+        title: Іншыя супольнасьці
+        other_groups_html: Няма неабходнасьці афіцыйна рэгістраваць суполку як мясцовы
+          падрозьдзел. Насамрэч многія групы вельмі пасьпяхова існуюць у выглядзе
+          нефармальных сустрэч або суполак. Кожны можа заснаваць такую суполку або
+          далучыцца да яе. Больш падрабязна на старонцы %{communities_wiki_link}.
+        communities_wiki: Вікі-старонка супольнасьцяў
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Павялічце маштаб, каб убачыць нататкі на мапе
+      map_data_zoom_in_tooltip: Павялічце маштаб для дэталёвага прагляду мапы
   legend_panes:
     show:
       entries:
@@ -1115,6 +1258,7 @@ be-Tarask:
         primary: Галоўная дарога
         secondary: Другасная дарога
         unclassified: Дарога раённага значэньня
+        pedestrian: Пешаходная дарога
         track: Грунтовая дарога
         bridleway: Дарога для коней
         cycleway: Роварная дарога
@@ -1222,9 +1366,11 @@ be-Tarask:
       trackable: МАГЧЫМА САЧЫЦЬ
     index:
       public_traces: Публічныя GPS-трэкі
+      my_gps_traces: Мае GPS-трэкі
       public_traces_from: Публічныя GPS-трэкі ўдзельніка %{user}
       tagged_with: ' пазначаныя %{tags}'
       upload_trace: Загрузіць трэк
+      my_traces: Мае сьляды
     destroy:
       scheduled_for_deletion: Трэк заплянаваны на выдаленьне
     offline_warning:
@@ -1242,6 +1388,12 @@ be-Tarask:
       need_to_see_terms: Ваш доступ да API часова прыпынены. Каб паглядзець умовы
         супрацоўніцтва, калі ласка, увайдзіце ў вэб-інтэрфэйс. Можаце зь імі не пагаджацца,
         але азнаёміцца абавязкова.
+  oauth2_applications:
+    index:
+      title: Мае кліенцкія праграмы
+  oauth2_authorized_applications:
+    index:
+      title: Мае аўтарызаваныя праграмы
   users:
     new:
       title: Зарэгістравацца
@@ -1259,6 +1411,13 @@ be-Tarask:
       my diary: Мой дзёньнік
       my edits: Мае рэдагаваньні
       my traces: Мае трэкі
+      my notes: Мае нататкі
+      my messages: Паведамленьні
+      my profile: Профіль
+      my_account: Уліковы запіс
+      my comments: Мае камэнтары
+      my_preferences: Установы
+      my_dashboard: Панэль агляду
       blocks on me: Атрыманыя блякаваньні
       blocks by me: Заблякаваныя мной
       send message: Адаслаць паведамленьне
@@ -1282,6 +1441,10 @@ be-Tarask:
       unhide_user: Паказаць гэтага ўдзельніка
       delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
+      edit_profile_details: Рэдагаваць зьвесткі профілю
+      edit_location: Зьмена разьмяшчэньня
+    sidebar_section:
+      home_location: Хатняе разьмяшчэньне
     go_public:
       flash success: Усе Вашыя рэдагаваньні цяпер публічныя, і цяпер Вам дазволена
         рэдагаваньне.
@@ -1386,19 +1549,45 @@ be-Tarask:
       creator_name: Стваральнік
       reason: Прычына блякаваньня
       status: Статус
+  user_mutes:
+    index:
+      my_muted_users: Заглушаныя карыстачы
   notes:
     show:
       title: 'Нататка: %{id}'
+    new:
+      counter_warning_html: Вы ўжо апублікавалі прынамсі %{x_anonymous_notes}, выдатная
+        праца для супольнасьці, дзякуй! Цяпер мы заклікаем вас %{contribute_by_yourself},
+        гэта не складана, і %{community_can_help}.
+      counter_warning_forum_link:
+        text: супольнасьць можа дапамагчы
     notes_paging_nav:
       showing_page: Старонка %{page}
   javascripts:
     map:
+      zoom:
+        in: Бліжэй
+        out: Далей
+      locate:
+        title: Знайсьці мяне
       base:
+        standard: Звычайная мапа
         cycle_map: Роварная мапа
         transport_map: Транспартная мапа
+        hot: Гуманітарная мапа
       layers:
         data: Зьвесткі мапы
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня
+      createnote_disabled_tooltip: Наблізьце мапу, каб дадаць нататку
+      queryfeature_disabled_tooltip: Наблізьце мапу для доступу к запытам
+    profile:
+      social_link_n: Сацыяльная сетка %{n}
+      remove_social_link_n: Выдаліць сацыяльную сетку %{n}
+    edit_help: Перасуньце мапу й наблізьце яе ў месцы, якое трэба рэдагаваць, а потым
+      націсьніце тут.
+    home:
+      marker_title: Хатняе разьмяшчэньне
+      not_set: Хатняе разьмяшчэньне не пазначана для вашага ўліковага запісу
 ...
