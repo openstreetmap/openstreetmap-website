@@ -9,11 +9,16 @@
 frp:
   date:
     formats:
+      brief: '%{year}'
+      brief_bce: '%{year} AEC'
+      brief_ce: '%{year} EC'
       heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y a %H:%M'
       blog: '%e %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Chouèsir un fichiér
@@ -46,6 +51,9 @@ frp:
           d'usanciér(e)
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: est ja en sordina
         social_link:
           attributes:
@@ -208,9 +216,12 @@ frp:
       x_years:
         one: fêt %{count} an
         other: fêt %{count} ans
+  printable_name:
+    version: v%{version}
   editor:
     default: Per dèfôt (ora %{name})
     id:
+      name: iD
       description: iD (èditor entègrâ u navegator)
     remote:
       name: Èditor èxtèrno
@@ -218,12 +229,14 @@ frp:
   auth:
     providers:
       none: Nion
+      openid: OpenID
       google: Google
       apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
       wikipedia: Vouiquipèdia
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -236,7 +249,7 @@ frp:
         reopened_at_html: Rèactivâye %{when}
         reopened_at_by_html: Rèactivâye %{when} per %{user}
       rss:
-        title: Notes OpenStreetMap
+        title: Notes OpenHistoricalMap
         description_all: Una lista de notes signalâyes, comentâyes ou cllôses
         description_area: Una lista de notes, signalâyes, comentâyes ou cllôses dens
           voutra zona [(%{min_lat} ; %{min_lon}) – (%{max_lat} ; %{max_lon})]
@@ -260,12 +273,15 @@ frp:
         not_agreed: Vos éd pas oncor accèptâ les condicions de contribucion.
         agreed_with_pd: Vos étes asse-ben d'acôrd que vos changements seyont dens
           lo domêno publico.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms/FR
+        link text: Qu'o est cen ?
         not_agreed_with_pd: Vos éd pas dit si vos étes d'acôrd que vos changements
           seyont dens lo domêno publico.
         review: Liére les condicions
         review_and_accept: Liére et accèptar les condicions
         consider_pd: Considèrar lo domêno publico
       terms_of_use:
+        heading: condicions d'usâjo
         agreed: Vos éd accèptâ les condicions d'usâjo lo %{date}.
         not_agreed: Vos éd pas oncor accèptâ les condicions d'usâjo.
         review: Liére les condicions
@@ -282,6 +298,7 @@ frp:
         avouéc un comto public pôvont modifiar les balyês de la mapa.
       find_out_why_html: (%{link}).
       find_out_why: vêre porquè
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Voutron mèl serat pas balyê a tot lo mondo si voutron compto
         est public.
       not_reversible: Ceta accion se pôt pas étre dèfâta et tôs los novéls comptos
@@ -356,12 +373,14 @@ frp:
           les novèles Condicions de contribucion. Por vêre més d'enformacions, liére
           %{terms_declined_link}.
         terms_declined_link: ceta pâge du wiki
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
         title: Considèrar mes contribucions come dens lo domêno publico
         consider_pd: Je considèro que mes contribucions sont dens lo domêno publico
         consider_pd_why: Porquè vodrêjo que mes contribucions seyont dens lo domêno
           publico ?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: Confirmar
       create:
         successfully_declared: Vos étes ben d'acôrd que vos changements seyont dens
@@ -538,7 +557,7 @@ frp:
           %{author}
         commented_at_by_html: Betâ a jorn %{when} per %{user}
       show:
-        title_all: Discussion sur la benda de changements OpenStreetMap
+        title_all: Discussion sur la benda de changements OpenHistoricalMap
         title_particular: Discussion sur la benda de changements OpenHistoricalMap
           nº %{changeset_id}
       timeout:
@@ -546,6 +565,12 @@ frp:
           demandâye at prês trop de temps a étre rècupèrâye.
   changesets:
     changeset_line:
+      comments:
+        one: '%{count} comentèro'
+        other: '%{count} comentèros'
+      changes:
+        one: '%{count} changement'
+        other: '%{count} changements'
       n_elements_created:
         one: Yon èlèment crèâ
         other: '%{count} èlèments crèâs'
@@ -717,6 +742,9 @@ frp:
       all:
         title: Entrâyes des jornâls OpenHistoricalMap
         description: Entrâyes novèles des jornâls d'usanciér(e)s d'OpenHistoricalMap
+    comments:
+      title: Entrâs dos jornals OpenHistoricalMap
+      description: Entrâyes novèles des jornâls d'usanciér(e)s d'OpenHistoricalMap
     subscribe:
       heading: S'abonar a la discussion sur les entrâyes de jornâl cé-aprés ?
       button: S'abonar a la discussion
@@ -776,6 +804,7 @@ frp:
       profile: Vêre les enformacions de voutron profil
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: Difèrents canâls de contacto èxplicâs
       contact: contactar
       contact_the_community_html: Margalyéd pas a %{contact_link} la comunôtât OpenHistoricalMap
@@ -815,6 +844,11 @@ frp:
       success: Vos éd ben arrètâ de siuvre %{name}.
       not_followed: Vos siude pas %{name}.
   geocoder:
+    search:
+      title:
+        latlon: Entèrno
+        osm_nominatim: OpenHistoricalMap Nominatim
+        osm_nominatim_reverse: OpenHistoricalMap Nominatim
     search_osm_nominatim:
       prefix:
         aerialway:
@@ -1610,32 +1644,88 @@ frp:
         level10: Tèrmeno de quartiér (nivél 10)
         level11: Tèrmeno de vêsenâjo (nivél 11)
       border_types:
+        archdiocese: Frontiére d'arch·idiocèse
         arrondissement: Tèrmeno d'arrondissement
+        audiencia: Frontiére d'ôdiance
         borough: Tèrmeno de borough
+        caliphate: Frontiére de califat
+        canton: Frontiére de canton
+        captaincy_general: Frontiére de capitèneria gènèrâla
+        census_area: Frontiére statistica
         cercle: Tèrmeno de cèrcllo
+        chiefdom: Frontiére de ch·èferie
         city: Tèrmeno de vela
+        city-state: Frontiére de citât-ètât
+        colony: Frontiére coloniâla
         comarca: Tèrmeno de comarca
+        commonwealth: Frontiére de Commonwealth
+        commune: Frontiére de comena
+        condominium: Frontiére de condominium
+        confederation: Frontiére de confèdèracion
         county: Tèrmeno de comtât
         departement: Tèrmeno dèpartementâl
         department: Tèrmeno dèpartementâl
+        diocese: Frontiére de diocèse
         district: Tèrmeno de district
         distrito: Tèrmeno de district
+        dominion: Frontiére de dominion
+        emirate: Frontière d'èmirat
+        empire: Frontiére d'empiro
+        eyalet: Frontiére d'eyalet
+        federal_district: Frontiére de districto fèdèrâl
+        federation: Frontiére de fèdèracion
         freguesia: Tèrmeno de freguesia
+        ghetto: Frontiére de ghetto
+        governorate: Frontiére de governorat
+        hundred: Frontiére de hundred
+        intendancy: Frontiére d'entendance
+        kingdom: Frontiére de royômo
         local_authority: Tèrmeno de l'ôtoritât locâla
+        major_division: Frontiére de division maj·ora
+        markaz: Frontiére de markaz
         municipality: Tèrmeno municipâl
         municipi: Tèrmeno municipâl
         município: Tèrmeno municipâl
         nation: Frontiére entèrnacionâla
         national: Frontiére entèrnacionâla
         neighbourhood: Tèrmeno de vesenâjo
+        oblast: Frontiére d'oblast
+        occupation: Frontiére de zona ocupâye
+        overseas_collectivity: Frontiére de colèctivitât d'ultra-mar
+        overseas_department: Frontiére de dèpartament d'ultra-mar
+        overseas_territory: Frontiére de tèrritouèro d'ultra-mar
         parish: Tèrmeno de paroche
+        planning_region: Frontiére de règ·ion planifiyêe
+        possession: Frontiére de possèssion
+        prefecture: Frontiére de prèfèctura
+        prefecture_apostolic: Frontiére de prèfèctura apostolica
+        principate: Frontiére de prencipât
+        protectorate: Frontiére de protèctorat
         province: Tèrmeno provenciâl
+        rancho: Frontiére de rancho
+        realm: Frontiére de realm
         região: Tèrmeno règionâl
         region: Tèrmeno règional
+        reichsgau: Frontiére de Reichgau
+        republic: Frontiére de rèpublica
+        rode: Frontiére de rode
+        sanjak: Frontiére de sanjak
+        sector: Frontiére de sèctor
+        shire: Frontiére de shire
         state: Frontiére d'ètat
+        subdistrict: Frontiére de districto
+        sultanate: Frontiére de sultanât
+        territory: Frontiére de tèrritouèro
+        territorial_prelature: Frontiére de tèrritouèro de prèlatura
         town: Tèrmeno de comena
         township: Tèrmeno de township (canton)
+        vicariate_apostolic: Frontiére de viquéro apostolico
+        viceroyalty: Frontiére de vice-royotât
         village: Tèrmeno de velâjo
+        viyalet: Frontiére de viyalet
+        voivodeship: Frontiére de wojewoda
+        ward: Frontiére de ward
+        zone: Frontiére de zona
   searches:
     show:
       title:
@@ -1783,7 +1873,7 @@ frp:
       provide_details: Mèrci de fornir los dètalys ègzigiês
   layouts:
     logo:
-      alt_text: Simbolo d'OpenStreetMap
+      alt_text: Simbolo d'OpenHistoricalMap
     home: Alar u luè de voutron domicilo
     logout: Sè dèbranchiér
     log_in: Sè branchiér
@@ -1796,9 +1886,10 @@ frp:
     gps_traces: Traces GPS
     user_diaries: Jornâls de l'usanciér(e)
     edit_with: Changiér avouéc %{editor}
-    intro_header: Benvenua dens OpenStreetMap !
-    intro_text: OpenStreetMap est una mapa du mondo, fâte per des gens come vos, et
-      libra d'usâjo sot licence libra.
+    tag_line: La mapa vouiqui libra du mondo
+    intro_header: Benvenua dens OpenHistoricalMap!
+    intro_text: OpenHistoricalMap est una mapa du mondo, fâte per des gens come vos,
+      et libra d'usâjo sot licence libra.
     hosting_partners_2024_html: OpenHistoricalMap est un projèt fondator de %{osmus},
       una organisacion sen gagnâjo 501(c)(3) enrolâye a la %{osmf}. Lo dèvelopament
       tècnico est sotenu per %{greeninfo} et %{devseed}.
@@ -1816,10 +1907,10 @@ frp:
     select_language_button:
       title: Chouèsir la lengoua
     offline_flash:
-      osm_offline: 'La bâsa de balyês OpenStreetMap est fôr de legne ora : de travâlys
-        de maneyance èssencièls sont en cors.'
-      osm_read_only: 'La bâsa de balyês OpenStreetMap est en lèctura solèta ora :
-        de travâlys de maneyance èssencièls sont en cors.'
+      osm_offline: 'La bâsa de balyês OpenHistoricalMap est fôr de legne ora : de
+        travâlys de maneyance èssencièls sont en cors.'
+      osm_read_only: 'La bâsa de balyês OpenHistoricalMap est en lèctura solèta ora
+        : de travâlys de maneyance èssencièls sont en cors.'
       expected_restore_html: Los sèrvicios devrant étre rètablis dens %{time}.
       announcement: Vos pouede liére l'anonce icé.
   user_mailer:
@@ -2202,7 +2293,7 @@ frp:
   sessions:
     new:
       tab_title: Sè branchiér
-      login_to_authorize_html: Reliyéd vos a OpenStreetMap por arrevar a %{client_app_name}.
+      login_to_authorize_html: Reliyéd vos a OpenHistoricalMap por arrevar a %{client_app_name}.
       already_logged_in_html: Vos éte ja branchiê coment %{user}, en vos rebranchiant
         vos changieréd de compto.
       access_another_page: 'Vos étes arrevâ icé mas vos éd èprovâ arrivar alyor. Se
@@ -2219,7 +2310,7 @@ frp:
       auth failure: Dèsolâ, les enformacions fornies ant pas pèrmês de vos branchiér.
     destroy:
       title: Sè dèbranchiér
-      heading: Dè dèbranchiér d'OpenStreetMap
+      heading: Dè dèbranchiér d'OpenHistoricalMap
       logout_button: Sè dèbranchiér
     suspended_flash:
       suspended: Dèsolâ, voutron compto at étâ suspendu a côsa d'una activitât bizârra.
@@ -2286,8 +2377,8 @@ frp:
     about:
       used_by_html: '%{name} at forni les balyês de la mapa por des milyérs de sitos
         vouèbe, d''aplicacions mobiles et d''aparèlys'
-      lede_text: OpenStreetMap est bâti per una comunôtât de mapors volontèros que
-        contribuont et mantegnont les balyês des rotes, sentiérs, câfès, stacions
+      lede_text: OpenHistoricalMap est bâti per una comunôtât de mapors volontèros
+        que contribuont et mantegnont les balyês des rotes, sentiérs, câfès, stacions
         de tren et ben més, pertot dens lo mondo.
     about_section:
       open_data_title: Balyês uvèrtes
@@ -2671,7 +2762,7 @@ frp:
         ora
     feeds:
       show:
-        title: Traces GPS d'OpenStreetMap
+        title: Traces GPS d'OpenHistoricalMap
       description:
         description_with_count:
           one: Fichiér GPX avouéc %{count} gins de %{user}
@@ -2683,7 +2774,7 @@ frp:
       cookies_needed: O semble que los tèmouens (cookies) seyont dèbranchiês dens
         voutron navegator. Mèrci d'y activar devant que de continuar.
     setup_user_auth:
-      blocked_zero_hour: Vos éd un mèssâjo urgent sur lo sito vouèbe OpenStreetMap.
+      blocked_zero_hour: Vos éd un mèssâjo urgent sur lo sito vouèbe OpenHistoricalMap.
         Vos dête liére lo mèssâjo devant que de povêr encartar voutres modificacions.
       blocked: Voutron accès a l'API at étâ blocâ. Branchiéd vos sur l'entèrface vouèbe
         por més d'enformacions.
@@ -2743,7 +2834,7 @@ frp:
     permissions:
       missing: Vos éd pas permèssu a l'aplicacion d'arrevar a ceta fonccionalitât
     scopes:
-      openid: Sè branchiér avouéc OpenStreetMap
+      openid: Sè branchiér avouéc OpenHistoricalMap
       read_prefs: Liére les prèferences de l'usanciér(e)
       write_prefs: Changiér les prèferences de l'usanciér(e)
       write_diary: Crèar d'entrâyes du jornâl et de comentèros
@@ -3226,7 +3317,7 @@ frp:
       add: Apondre una nota
     new_readonly:
       title: Novèla nota
-      warning: De novèles notes pôvont pas étre apondues porce que l'API d'OpenStreetMap
+      warning: De novèles notes pôvont pas étre apondues porce que l'API d'OpenHistoricalMap
         est ora en lèctura solèta.
     notes_paging_nav:
       showing_page: Pâge %{page}
