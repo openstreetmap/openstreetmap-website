@@ -216,6 +216,10 @@ class User < ApplicationRecord
 
     # Accounts can be automatically suspended by spam_check
     event :suspend do
+      before do
+        close_open_issues
+      end
+
       transitions :from => [:pending, :active], :to => :suspended
     end
 
@@ -226,6 +230,10 @@ class User < ApplicationRecord
 
     # Mark the account as deleted but keep all data intact
     event :hide do
+      before do
+        close_open_issues
+      end
+
       transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
     end
 
@@ -236,6 +244,7 @@ class User < ApplicationRecord
     # Mark the account as deleted and remove personal data
     event :soft_destroy do
       before do
+        close_open_issues
         revoke_authentication_tokens
         remove_personal_data
       end
@@ -353,6 +362,12 @@ class User < ApplicationRecord
   # a message, or nil if there are none.
   def blocked_on_view
     blocks.active.detect(&:needs_view?)
+  end
+
+  ##
+  # close any open issues
+  def close_open_issues
+    issues.with_status(:open).each(&:resolve!)
   end
 
   ##

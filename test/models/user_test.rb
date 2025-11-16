@@ -405,10 +405,26 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "suspended", user.status
   end
 
+  def test_suspend_closes_issues
+    user = create(:user)
+    issue = create(:issue, :reportable => user)
+    user.suspend
+    assert_equal "suspended", user.status
+    assert_equal "resolved", issue.reload.status
+  end
+
   def test_hide
     user = create(:user)
     user.hide
     assert_equal "deleted", user.status
+  end
+
+  def test_hide_closes_issues
+    user = create(:user)
+    issue = create(:issue, :reportable => user)
+    user.hide
+    assert_equal "deleted", user.status
+    assert_equal "resolved", issue.reload.status
   end
 
   def test_soft_destroy
@@ -422,6 +438,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "deleted", user.status
     assert_not_predicate user, :visible?
     assert_not_predicate user, :active?
+  end
+
+  def test_soft_destroy_closes_issues
+    user = create(:user)
+    issue = create(:issue, :reportable => user)
+    user.soft_destroy
+    assert_equal "deleted", user.status
+    assert_equal "resolved", issue.reload.status
   end
 
   def test_soft_destroy_revokes_oauth2_tokens
