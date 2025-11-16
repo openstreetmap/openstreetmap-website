@@ -399,6 +399,18 @@ class UserTest < ActiveSupport::TestCase
     assert create(:moderator_user).role?("moderator")
   end
 
+  def test_suspend
+    user = create(:user)
+    user.suspend
+    assert_equal "suspended", user.status
+  end
+
+  def test_hide
+    user = create(:user)
+    user.hide
+    assert_equal "deleted", user.status
+  end
+
   def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
     user.soft_destroy
