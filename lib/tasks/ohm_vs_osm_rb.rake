@@ -45,10 +45,7 @@ namespace :ohm do
             v.scan(/\bOHM\b/i).count,
             v.scan(/\bOSM\b/i).count
           ]
-          if (counts.any? { |n| n != 0 }) then
-            tally[@locale].store(new_path.join("."), counts)
-          end
-          # new_path.join(".")
+          tally[@locale].store(new_path.join("."), counts) if (@locale == 'en' || counts.any? { |n| n != 0 })
         else
           raise "wtf? #{ v }"
         end
