@@ -19,6 +19,9 @@
 is:
   html:
     dir: ltr
+  date:
+    formats:
+      heatmap: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -74,7 +77,7 @@ is:
       message: Skilaboð
       node: Liður
       node_tag: Merki hnúts
-      note: minnispunktur
+      note: Minnispunktur
       old_node: Gamall liður
       old_node_tag: Merki gamals hnúts
       old_relation: Gömul vensl
@@ -105,8 +108,7 @@ is:
         support_url: Slóð á aðstoð
         allow_read_prefs: lesa notandastillingar þeirra
         allow_write_prefs: breyta notandastillingum þeirra
-        allow_write_diary: búa til bloggfærslur, setja inn athugasemdir og bæta við
-          vinum
+        allow_write_diary: búa til bloggfærslur og athugasemdir
         allow_write_api: breyta kortagögnunum
         allow_read_gpx: lesa einka-GPS-ferlana þeirra
         allow_write_gpx: senda inn GPS ferla
@@ -159,6 +161,7 @@ is:
         active: Virkur
         display_name: Sýnilegt nafn
         description: Lýsing á þér
+        company: Fyrirtæki
         home_lat: Breiddargráða
         home_lon: Lengdargráða
         languages: Ákjósanleg tungumál
@@ -238,10 +241,12 @@ is:
       none: Ekkert
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
       wikipedia: Wikipedia
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -271,17 +276,28 @@ is:
   accounts:
     show:
       title: Stillingar
+      my_account: Notandaaðgangurinn minn
       current email address: Núverandi póstfang
       external auth: Ytri auðkenning
       contributor_terms:
         heading: Skilmálar vegna framlags
-        agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns.
+        agreed: Þú hefur samþykkt nýju skilmálana vegna framlags þíns þann %{date}.
+        not_agreed: Þú hefur ekki ennþá samþykkt nýju skilmálana vegna framlags þíns.
         agreed_with_pd: Þú hefur einnig lýst því yfir að breytingar þínar verði í
           almenningseigu (Public Domain).
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: hvað er openID?
+        not_agreed_with_pd: Þú hefur ekki lýst því yfir að breytingar þínar verði
+          í almenningseigu (Public Domain).
+        review: Yfirfara skilmálana
+        review_and_accept: Farðu yfir og samþykktu skilmálana
+        consider_pd: Íhugaðu almenningseign (Public Domain)
       terms_of_use:
         heading: Notkunarskilmála
+        agreed: Þú samþykktir notkunarskilmálana þann %{date}.
+        not_agreed: Þú hefur ekki enn samþykkt notkunarskilmálana.
+        review: Yfirfara skilmálana
+        review_and_accept: Farðu yfir og samþykktu skilmálana
       save changes button: Vista breytingar
       delete_account: Eyði aðgangi...
     go_public:
@@ -2066,7 +2082,6 @@ is:
           tvennt:'
         credit_2_this_copyright_page: þessa höfundarréttarsíðu
         attribution_example:
-          alt: Dæmi um hvernig eigi að vísa til OpenStreetMap á vefsíðu
           title: Dæmi um tilvísun höfundarréttar
         more_title_html: Finna út meira
         more_2_1_html: |-
@@ -2090,7 +2105,7 @@ is:
           samþykki skaðabótaskyldu vegna þeirra.
         infringement_title_html: Brot á höfundarrétti
         infringement_1_html: |-
-          Þátttakendur í OSM eru minntir á að þeir megi aldrei bæta inn gögnum frá neinum
+          Þátttakendur í OHM eru minntir á að þeir megi aldrei bæta inn gögnum frá neinum
           höfundarréttarvörðum upptökum (t.d. Google Maps eða prentuðum kortum) án
           sérstakrar heimildar frá handhöfum höfundarréttarins.
         trademarks_title: Vörumerki
@@ -2098,8 +2113,6 @@ is:
       js_1: Þú ert annaðhvort að nota vafra sem styður ekki JavaScript eða hefur slökkt
         á JavaScript stuðning.
       js_2: OpenHistoricalMap notar JavaScript til að útfæra gagnvirk kort.
-      license:
-        copyright: Höfundarréttur OpenStreetMap og þátttakendur, með opnu notkunarleyfi
       remote_failed: Breytingar mistókust - gakktu úr skugga um að JOSM eða Merkaartor
         sé hlaðið inn og að fjarstjórnunarvalkosturinn sé virkur
     not_public_flash:
@@ -2122,10 +2135,10 @@ is:
           af eftirfarandi leiðum til að flytja inn mikið magn gagna.
         planet:
           title: OHM-plánetan
-          description: Reglulega uppfærð afrit af öllum OpenStreetMap gagnagrunninum
+          description: Reglulega uppfærð afrit af öllum OpenHistoricalMap gagnagrunninum
         overpass:
           title: Overpass API-forritsviðmót
-          description: Sæktu þennan gagnaramma frá spegli af OpenStreetMap gagnagrunninum
+          description: Sæktu þennan gagnaramma frá spegli af OpenHistoricalMap gagnagrunninum
         geofabrik:
           title: Niðurhöl frá Geofabrik
           description: Reglulega uppfært yfirlit heimsálfa, landa og valinna borga
@@ -2159,7 +2172,7 @@ is:
         url: /velkomin
         title: Velkomin í OpenHistoricalMap
         description: Byrjaðu með þessum fljótlega leiðarvísi með helstu grunnatriðum
-          varðandi OpenStreetMap.
+          varðandi OpenHistoricalMap.
       beginners_guide:
         url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
         title: Leiðbeiningar fyrir byrjendur
@@ -2182,8 +2195,6 @@ is:
       welcomemat:
         url: https://welcome.openstreetmap.org/
         title: Fyrir félög, stofnanir og fyrirtæki
-        description: Ertu á vegum stofnunar/fyrirtækis sem hefur hug á að nota OpenStreetMap?
-          Finndu það sem þú þarft að vita á kynningarsíðunni.
       discord:
         title: switch2osm
       forum:
@@ -2231,7 +2242,7 @@ is:
     welcome:
       title: Velkomin!
       introduction: |-
-        Velkomin í OpenStreetMap, frjálsa heimskortinu sem þú getur breytt og lagað. Núna þegar þú ert
+        Velkomin í OpenHistoricalMap, frjálsa heimskortinu sem þú getur breytt og lagað. Núna þegar þú ert
         búin(n) að skrá þig, geturðu farið að setja atriði inn á kortið. Hér er fljótlegur leiðarvísir
         með því helsta sem þú þarft að vita.
       whats_on_the_map:
@@ -2243,8 +2254,8 @@ is:
         doesnt: inniheldur ekki
       basic_terms:
         title: Grunnhugtök við kortagerð
-        paragraph_1: OpenStreetMap inniheldur svolítið af eigin slangurorðum. Hér
-          eru nokkur algeng orð sem gott er að hafa á bak við eyrað.
+        paragraph_1: OpenHistoricalMap inniheldur svolítið af eigin slangurorðum.
+          Hér eru nokkur algeng orð sem gott er að hafa á bak við eyrað.
         an_editor_html: '%{editor} er forrit eða vefsvæði sem hægt er að nota við
           breytingar á landakortinu.'
         a_node_html: '%{node} er punktur á kortinu, eins og til dæmis einn veitingastaður
