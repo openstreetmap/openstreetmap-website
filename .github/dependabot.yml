@@ -1,11 +1,39 @@
 version: 2
 updates:
+  - package-ecosystem: "bundler"
+    versioning-strategy: "increase-if-necessary"
+    directory: "/"
+    ignore:
+      - dependency-name: rails
+        update-types: version-update:semver-minor
+    groups:
+      rails:
+        applies-to: version-updates
+        patterns:
+          - rails
+      rubocop:
+        applies-to: version-updates
+        patterns:
+          - rubocop*
+      dependencies:
+        applies-to: version-updates
+        exclude-patterns:
+          - rails
+          - rubocop*
+    schedule:
+      interval: "weekly"
   - package-ecosystem: "npm"
     versioning-strategy: "increase-if-necessary"
     directory: "/"
+    groups:
+      dependencies:
+        applies-to: version-updates
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "github-actions"
     directory: "/"
+    groups:
+      dependencies:
+        applies-to: version-updates
     schedule:
-      interval: "daily"
+      interval: "weekly"
