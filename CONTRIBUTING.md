@@ -23,7 +23,7 @@ This guide covers our development workflow, coding standards, and how to get you
 > [!NOTE]
 > We don't assign issues to individual contributors. You are welcome to work on any issue, and there's no need to ask first.
 
-For more details see [our FAQ](FAQ.md)
+For more details see [our FAQ](doc/FAQ.md)
 
 ## How to Contribute
 
@@ -31,7 +31,7 @@ Here's the typical contribution workflow:
 
 1. **Find an Issue**: Browse our [issues](https://github.com/openstreetmap/openstreetmap-website/issues) or identify a bug/feature you'd like to work on
 2. **Fork & Clone**: Fork the repository and clone it to your local machine
-3. **Set Up**: Follow the [installation guide](INSTALL.md) to set up your development environment
+3. **Set Up**: Follow the [installation guide](doc/INSTALL.md) to set up your development environment
 4. **Develop**: Make your changes following our [code quality guidelines](#code-quality-guidelines)
 5. **Test**: Write tests for your changes and ensure all existing tests pass
 6. **Commit**: Write clear commit messages following our [guidelines](#committing)
