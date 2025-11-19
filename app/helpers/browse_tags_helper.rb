@@ -14,8 +14,11 @@ module BrowseTagsHelper
   end
 
   def format_value(key, value)
-    if wp = wikipedia_link(key, value)
-      link_to h(wp[:title]), wp[:url], :title => t("browse.tag_details.wikipedia_link", :page => wp[:title])
+    if wp = wikipedia_links(key, value)
+      wp = wp.map do |w|
+        link_to(h(w[:title]), w[:url], :title => t("browse.tag_details.wikipedia_link", :page => w[:title]))
+      end
+      safe_join(wp, ";")
     elsif wdt = wikidata_links(key, value)
       # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
       # which just returns one such hash.
@@ -71,7 +74,7 @@ module BrowseTagsHelper
     url
   end
 
-  def wikipedia_link(key, value)
+  def wikipedia_links(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if %r{^https?://}.match?(value)
 
@@ -84,20 +87,26 @@ module BrowseTagsHelper
       return nil
     end
 
-    # This regex should match Wikipedia language codes, everything
-    # from de to zh-classical
-    if value =~ /^([a-z-]{2,12}):(.+)$/i
-      lang = Regexp.last_match(1)
-      title_section = Regexp.last_match(2)
-    else
-      title_section = value
+    # Value could be a semicolon-separated list of Wikipedia pages
+    value.split(";").map do |wiki_value|
+      wiki_value = wiki_value.strip
+
+      # This regex should match Wikipedia language codes, everything
+      # from de to zh-classical
+      if wiki_value =~ /^([a-z-]{2,12}):(.+)$/i
+        page_lang = Regexp.last_match(1)
+        title_section = Regexp.last_match(2)
+      else
+        page_lang = lang
+        title_section = wiki_value
+      end
+
+      title, section = title_section.split("#", 2)
+      url = "https://#{page_lang}.wikipedia.org/wiki/#{wiki_encode(title)}?uselang=#{I18n.locale}"
+      url += "##{wiki_encode(section)}" if section
+
+      { :url => url, :title => wiki_value }
     end
-
-    title, section = title_section.split("#", 2)
-    url = "https://#{lang}.wikipedia.org/wiki/#{wiki_encode(title)}?uselang=#{I18n.locale}"
-    url += "##{wiki_encode(section)}" if section
-
-    { :url => url, :title => value }
   end
 
   def wiki_encode(s)
