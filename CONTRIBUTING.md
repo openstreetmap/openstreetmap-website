@@ -18,12 +18,62 @@ This guide covers our development workflow, coding standards, and how to get you
 * https://www.ruby-lang.org/ - The homepage of Ruby which has more links and some great tutorials.
 * https://rubyonrails.org/ - The homepage of Rails, also has links and tutorials.
 
-### Finding Issues to Work On
+### Finding Opportunities to Contribute
 
 > [!NOTE]
 > We don't assign issues to individual contributors. You are welcome to work on any issue, and there's no need to ask first.
+> For more details see [our FAQ](FAQ.md)
 
-For more details see [our FAQ](FAQ.md)
+We welcome the community to contribute to this repository in any form:
+
+- **Documentation:** are the docs clear? Are they correct? Did you come across
+  any issues when trying to follow them? Could something be explained more
+  clearly?
+- **Bug reporting:** something is broken on the website? Something doesn't work
+  as expected? Create an issue and give as much detail as possible, so that
+  others can understand the context, the conditions in which it happens,
+  and your use case. Or comment on an existing report if one already exists.
+- **Bug triage:** we receive many issue reports. Can you take one and reproduce
+  it? Can you add more detail that could help others fix the issue more
+  easily? Or perhaps you think it's not really an issue and should be left
+  as is? Come to the issue tracker and let us know your thoughts.
+- **Feature discussion:** is there a use case that is not covered? Is there
+  something that you wish that the website did, or did differently? Create
+  an issue to discuss it, or comment on an existing issue if it's already
+  being discussed. Try to express your use case in a way that helps understand
+  your needs well, and frames them in the context of the wider community.
+- **Code reviews:** at any given point, there will be pending PRs, waiting for
+  reviews. Can you take on one, understand what it's trying to do, and
+  provide actionable feedback? Is the code clear, maintainable, and readable?
+  Would you do something differently? Are useful, clear tests provided?
+- **Code:** take an existing issue and try to fix it, or try to implement
+  an idea.
+- And probably other ideas not captured here.
+
+Bear in mind that OSM attracts very diverse contributors with very different
+needs. Others may have needs different from yours, and reaching a consensus
+is sometimes difficult.
+
+If you want to code a feature to this repository, we recommend that you ask
+for feedback early and often. Create an issue to discuss it, or start with a
+["draft" PR](https://github.blog/news-insights/product-news/introducing-draft-pull-requests/)
+that shows your intention clearly and can be used to provide early
+feedback. We are not strict on how you communicate, but it's important that
+you do communicate, early and often, so that you can get feedback quickly.
+This will help you get buy-in from the maintainers, which will translate into
+less waste for everyone and a much easier time getting your code merged.
+
+Bug fixes should be more straighforward than new features, but the same
+guidance applies. If it turns out to be more complex than initially expected,
+stop for a moment and seek feedback, be it in an issue or in a draft PR.
+
+If you are looking for some additional inspiration, you may want to have
+a look at the [Roadmap](https://github.com/openstreetmap/software-roadmap)
+that the OSM Foundation published in 2025. This lists items that OSMF
+would like to focus on, and is not limited to this website. Note that this
+is not a mandatory list of the contributions that will be accepted. You
+can choose to ignore it and provide your own contributions. After all,
+the mission of the OSMF is to support OSM, not to control it.
 
 ## How to Contribute
 
@@ -36,6 +86,8 @@ Here's the typical contribution workflow:
 5. **Test**: Write tests for your changes and ensure all existing tests pass
 6. **Commit**: Write clear commit messages following our [guidelines](#committing)
 7. **Submit a Pull Request**: Create a pull request with a clear description of your changes
+  - In fact, we suggest that you publish a draft PR early in the process, so
+    that maintainers can provide feedback and guidance as soon as possible.
 
 ## Code Quality Guidelines
 
