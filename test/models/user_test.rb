@@ -150,6 +150,11 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?, "should allow nil value"
   end
 
+  def test_spam_score
+    user = build(:user, :description => "foo [bar](http://example.com/) baz")
+    assert_equal 12, user.spam_score
+  end
+
   def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)
