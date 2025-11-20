@@ -20,4 +20,10 @@ class SpamScorerTest < ActiveSupport::TestCase
     scorer = SpamScorer.new_from_rich_text(r)
     assert_equal 141, scorer.score.round
   end
+
+  def test_user_spam_score
+    user = build(:user, :description => "foo [bar](http://example.com/) baz")
+    scorer = SpamScorer.new_from_user(user)
+    assert_equal 12, scorer.score
+  end
 end
