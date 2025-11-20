@@ -10,7 +10,7 @@ class Ability
     can [:show, :create], Note
     can :read, :directions
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
-    can [:finish, :embed], :export
+    can [:create, :show], :export
     can [:create, :read], :search
 
     if Settings.status != "database_offline"

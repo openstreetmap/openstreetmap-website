@@ -368,8 +368,8 @@ OpenStreetMap::Application.routes.draw do
   resource :directions, :only => :show
 
   # export
-  post "/export/finish" => "export#finish"
-  get "/export/embed" => "export#embed"
+  post "/export/finish" => "export#create"
+  get "/export/embed" => "export#show"
 
   # messages
   resources :messages, :path_names => { :new => "new/:display_name" }, :id => /\d+/, :only => [:new, :create, :show, :destroy] do
