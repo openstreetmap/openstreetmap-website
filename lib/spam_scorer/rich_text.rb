@@ -23,8 +23,9 @@ module SpamScorer
         link_proportion = link_size.to_f / doc.content.length
       end
 
+      downcased_content = doc.content.downcase
       spammy_phrases = SpammyPhrase.pluck(:phrase).count do |phrase|
-        doc.content.include?(phrase)
+        downcased_content.include?(phrase.downcase)
       end
 
       ([link_proportion - 0.2, 0.0].max * 200) +
