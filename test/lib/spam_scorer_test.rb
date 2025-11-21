@@ -30,8 +30,18 @@ class SpamScorerTest < ActiveSupport::TestCase
   def test_spammy_phrases
     create(:spammy_phrase, :phrase => "Business Description:")
     create(:spammy_phrase, :phrase => "Additional Keywords:")
-    r = RichText.new("markdown", "Business Description: totally legit beesknees. Additional Keywords: apiary joints")
+    create(:spammy_phrase, :phrase => "Große Preise")
+    create(:spammy_phrase, :phrase => "Relevant Experience:")
+    r = RichText.new(
+      "markdown",
+      <<~SPAM
+        BUSINESS DESCRIPTION: totally legit beesknees.
+        Additional Keywords: apiary joints.
+        GROSSE PREISE: VIEL GELD.
+        RELEVANT EⅩPERIENCE: disguising latin characters as roman numerals.
+      SPAM
+    )
     scorer = SpamScorer.new_from_rich_text(r)
-    assert_equal 80, scorer.score.round
+    assert_equal 160, scorer.score.round
   end
 end

@@ -23,8 +23,9 @@ module SpamScorer
         link_proportion = link_size.to_f / doc.content.length
       end
 
+      comparable_content = to_comparable_form(doc.content)
       spammy_phrases = SpammyPhrase.pluck(:phrase).count do |phrase|
-        doc.content.include?(phrase)
+        comparable_content.include?(to_comparable_form(phrase))
       end
 
       ([link_proportion - 0.2, 0.0].max * 200) +
@@ -35,5 +36,9 @@ module SpamScorer
     private
 
     attr_reader :text
+
+    def to_comparable_form(str)
+      str.downcase(:fold).unicode_normalize(:nfkc)
+    end
   end
 end
