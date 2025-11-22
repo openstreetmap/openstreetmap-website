@@ -62,7 +62,7 @@ module BrowseHelper
 
   def element_strikethrough(object, &)
     if object.redacted? || !object.visible?
-      tag.s(&)
+      tag.del(&)
     else
       yield
     end
