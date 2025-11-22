@@ -22,8 +22,28 @@ This guide covers our development workflow, coding standards, and how to get you
 
 > [!NOTE]
 > We don't assign issues to individual contributors. You are welcome to work on any issue, and there's no need to ask first.
+> For more details see [our FAQ](FAQ.md)
 
-For more details see [our FAQ](FAQ.md)
+This is a project that attracts very diverse contributors with very different
+needs. Before starting work on a new feature, it is important to
+consider whether it represents the desires of the community and the general
+direction of the project.
+
+In 2025 we published a [Roadmap](https://github.com/openstreetmap/software-roadmap)
+for the project. Note that this is not the last word on what will be accepted,
+and we are open to new suggestions.
+
+If you plan on spending any significant time on a contribution, check
+if there's a discussion in the issue tracker already. If there isn't one,
+open a new one or start with a Draft PR that shows your intention
+clearly. We are not strict on how you communicate, but it's important that
+you do communicate, early and often, so that you can get feedback quickly.
+This will help you get buy-in from the maintainers, which will translate into
+less waste for everyone and a much easier time getting your code merged.
+
+Bug fixes should be more straighforward than new features, but the same rules
+apply. If it turns out to be more complex than initially expected, stop
+for a moment and seek feedback, be it in an issue or in a draft PR.
 
 ## How to Contribute
 
