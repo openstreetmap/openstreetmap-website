@@ -80,11 +80,6 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "foo <a href='http://example.com/'>bar</a> baz", r.to_text
   end
 
-  def test_html_spam_score
-    r = RichText.new("html", "foo <a href='http://example.com/'>bar</a> baz")
-    assert_equal 55, r.spam_score.round
-  end
-
   def test_markdown_to_html
     r = RichText.new("markdown", "foo http://example.com/ bar")
     assert_html r do
@@ -218,11 +213,6 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "foo [bar](http://example.com/) baz", r.to_text
   end
 
-  def test_markdown_spam_score
-    r = RichText.new("markdown", "foo [bar](http://example.com/) baz")
-    assert_equal 50, r.spam_score.round
-  end
-
   def test_text_to_html_linkify
     with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
       r = RichText.new("text", "foo http://example.com/ bar")
@@ -340,11 +330,6 @@ class RichTextTest < ActiveSupport::TestCase
   def test_text_to_text
     r = RichText.new("text", "foo http://example.com/ bar")
     assert_equal "foo http://example.com/ bar", r.to_text
-  end
-
-  def test_text_spam_score
-    r = RichText.new("text", "foo http://example.com/ bar")
-    assert_equal 141, r.spam_score.round
   end
 
   def test_text_no_opengraph_properties

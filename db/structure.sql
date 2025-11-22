@@ -1410,6 +1410,37 @@ ALTER SEQUENCE public.social_links_id_seq OWNED BY public.social_links.id;
 
 
 --
+-- Name: spammy_phrases; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.spammy_phrases (
+    id bigint NOT NULL,
+    phrase character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: spammy_phrases_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.spammy_phrases_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: spammy_phrases_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.spammy_phrases_id_seq OWNED BY public.spammy_phrases.id;
+
+
+--
 -- Name: user_blocks; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1813,6 +1844,13 @@ ALTER TABLE ONLY public.social_links ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
+-- Name: spammy_phrases id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.spammy_phrases ALTER COLUMN id SET DEFAULT nextval('public.spammy_phrases_id_seq'::regclass);
+
+
+--
 -- Name: user_blocks id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2182,6 +2220,14 @@ ALTER TABLE ONLY public.schema_migrations
 
 ALTER TABLE ONLY public.social_links
     ADD CONSTRAINT social_links_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spammy_phrases spammy_phrases_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.spammy_phrases
+    ADD CONSTRAINT spammy_phrases_pkey PRIMARY KEY (id);
 
 
 --
@@ -3523,6 +3569,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20251121134648'),
 ('20250704143751'),
 ('20250506052030'),
 ('20250304172798'),
