@@ -26,6 +26,13 @@ jobs:
         ruby-version: ${{ matrix.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
+    - name: Enable virtual display & WebGL
+      run: |
+        sudo apt-get install -y xvfb mesa-utils libgl1-mesa-dri
+        Xvfb :99 -screen 0 1024x768x24 &
+        export DISPLAY=:99
+        echo "Using virtual display $DISPLAY"
+        glxinfo | grep "OpenGL renderer" || echo "GL info not available"
     - name: Cache node modules
       uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
       with:
@@ -62,8 +69,12 @@ jobs:
       run: mkdir -p tmp/pids
     - name: Run tests
       run: bundle exec rails test:all
+      env:
+        DISPLAY: ":99"
     - name: Run javascript tests
       run: bundle exec teaspoon
+      env:
+        DISPLAY: ":99"
     - name: Upload screenshots
       uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
       if: failure()
