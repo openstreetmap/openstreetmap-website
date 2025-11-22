@@ -118,15 +118,42 @@ module RichText
 
     def linkify(text, mode = :urls)
       link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
-        url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-        shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
-          path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
-        end
+      Rinku.auto_link(expand_link_shorthands(ERB::Util.html_escape(text)), mode, link_attr) do |url|
+        format_link_text(url)
       end.html_safe
     end
 
     private
+
+    def expand_link_shorthands(text)
+      linkify_detection_rules = Array.wrap(Settings.linkify&.detection_rules)
+      linkify_detection_rules.each do |rule|
+        next unless rule.path_template && rule.patterns.is_a?(Array)
+
+        rule.patterns.each do |pattern|
+          next unless pattern.is_a?(String)
+
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          text.gsub!(Regexp.new("(?<before>\\s|^|>)#{pattern}(?<after>\\s|$|<)", Regexp::IGNORECASE), "\\k<before>#{expanded_path}\\k<after>")
+        end
+      end
+      [[Settings.linkify_hosts, Settings.linkify_hosts_replacement], [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]].each do |hosts, replacement|
+        text.gsub!(/(\s)#{Regexp.escape(replacement)}/) { "#{Regexp.last_match(1)}#{Settings.server_protocol}://#{hosts[0]}" } if replacement && hosts&.any?
+      end
+      text
+    end
+
+    def format_link_text(url)
+      url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
+      url = shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
+        path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
+      end
+      linkify_display_rules = Array.wrap(Settings.linkify&.display_rules)
+      linkify_display_rules.each do |rule|
+        url.sub!(Regexp.new(rule.pattern), rule.replacement) if rule.pattern && rule.replacement
+      end
+      url
+    end
 
     def shorten_host(url, hosts, hosts_replacement)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|
