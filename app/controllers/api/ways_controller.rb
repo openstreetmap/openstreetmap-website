@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module Api
-  class WaysController < ApiController
+  class WaysController < ElementsController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :setup_user_auth, :only => :index
     before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
@@ -12,19 +13,7 @@ module Api
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
-      raise OSM::APIBadUserInput, "The parameter ways is required, and must be of the form ways=id[,id[,id...]]" unless params["ways"]
-
-      ids = params["ways"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
-
-      @ways = Way.includes(:nodes, :element_tags).find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
+      index_for_models Way.includes(:nodes, :element_tags), OldWay
     end
 
     def show
