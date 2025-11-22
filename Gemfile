@@ -44,6 +44,10 @@ gem "argon2"
 # Support brotli compression for assets
 gem "sprockets-exporters_pack"
 
+# Needed for ruby 3.5.0 compatibility with delayed_job
+# https://github.com/collectiveidea/delayed_job/issues/1239
+gem "benchmark"
+
 # Load rails plugins
 gem "actionpack-page_caching", ">= 1.2.0"
 gem "activerecord-import"
