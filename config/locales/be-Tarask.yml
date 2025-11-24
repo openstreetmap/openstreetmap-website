@@ -309,7 +309,7 @@ be-Tarask:
         delete_account: Выдаліць уліковы запіс
         delete_introduction: 'Вы можаце выдаліць свой уліковы запіс OpenStreetMap,
           націснуўшы кнопку ніжэй. Калі ласка, зьвярніце ўвагу на наступную інфармацыю:'
-        delete_profile: Інфармацыя вашага профілю, аватар, апісаньне і хатняе месцазнаходжаньне
+        delete_profile: Інфармацыя гэтага профілю, аватар, апісаньне й хатняе разьмяшчэньне
           будуць выдалены.
         delete_display_name: Вашае імя карыстача будзе выдалена і можа быць зноў выкарыстана
           іншымі ўліковымі запісамі.
@@ -470,6 +470,8 @@ be-Tarask:
       no_home_location_html: '%{edit_profile_link} і пазначце сваё хатняе разьмяшчэньне,
         каб бачыць карыстачоў паблізу.'
       edit_your_profile: Рэдагаваць зьвесткі
+      followings: Карыстальнікі, на якіх падпісаны
+      no followings: Яшчэ няма падпісаных карыстачоў.
       nearby users: Іншыя бліжэйшыя карыстальнікі
       no nearby users: Няма іншых карыстальнікаў, якія прызнаюць, што займаюцца складаньнем
         мапы каля Вас.
@@ -547,6 +549,11 @@ be-Tarask:
   doorkeeper:
     scopes:
       profile: Паказаць зьвесткі свайго профілю
+  follows:
+    create:
+      success: Падпіска на %{name} зроблена!
+    destroy:
+      success: Адпіска ад %{name} выканана пасьпяхова.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -960,7 +967,7 @@ be-Tarask:
     edit: Рэдагаваць
     history: Гісторыя
     export: Экспартаваць
-    gps_traces: GPS-шляхі
+    gps_traces: GPS-сьляды
     user_diaries: Дзёньнікі карыстальнікаў
     edit_with: Рэдагаваць праз %{editor}
     help: Дапамога
@@ -1106,15 +1113,20 @@ be-Tarask:
     update:
       flash changed: Ваш пароль быў зьменены.
   preferences:
+    preferences:
+      navigation:
+        advanced_preferences: Пашыраныя ўстановы
     basic_preferences:
       show:
         title: Установы
         map_color_schemes:
           light: Сьветлая
           dark: Цёмная
+        save: Абнавіць установы
     advanced_preferences:
       show:
         title: Пашыраныя ўстановы
+        save: Абнавіць установы
   profiles:
     profile_sections:
       navigation:
@@ -1122,7 +1134,7 @@ be-Tarask:
         links: Спасылкі
         image: Выява
         company: Кампанія
-        location: Месцазнаходжаньне
+        location: Разьмяшчэньне
     descriptions:
       show:
         title: Рэдагаваць профіль
@@ -1266,10 +1278,10 @@ be-Tarask:
         title: Мясцовыя падрозьдзелы
         about_text: Мясцовыя падрозьдзелы - згуртаваньні краіны альбо рэгіёна, афіцыйна
           створаныя некамерцыйнымі юрыдычнымі асобамі. Ад імя стваральнікаў мапы,
-          яны падтрымліваюць кантакт зь мясцовымі ўладамі, бізнэсам і СМІ.Іхная супраца
+          яны падтрымліваюць кантакт зь мясцовымі ўладамі, бізнэсам і СМІ. Іхная супраца
           з OpenStreetMap Foundation (OSMF) дазваляе спалучыць юрыдычныя і аўтарскія
           бакі.
-        list_text: 'Наступныя супольнасці афіцыйна маюць пасаду мясцовых падрозьдзелаў:'
+        list_text: 'Наступныя супольнасьці афіцыйна маюць пасаду мясцовых падрозьдзелаў:'
       other_groups:
         title: Іншыя супольнасьці
         other_groups_html: Няма неабходнасьці афіцыйна рэгістраваць суполку як мясцовы
@@ -1293,6 +1305,7 @@ be-Tarask:
         track: Грунтовая дарога
         bridleway: Дарога для коней
         cycleway: Роварная дарога
+        international_bike_route: Міжнародны роварны шлях
         footway: Пешаходная дарога
         rail: Чыгунка
         subway: Мэтро
@@ -1333,6 +1346,10 @@ be-Tarask:
         private: Прыватны доступ
         destination: Мэтавы доступ
         construction: Будаўніцтва дарогаў
+      see_external_legend: Глядзець поўную ляґенду на новай старонцы
+  share_panes:
+    show:
+      only_layers_exported_as_image: 'Толькі гэтыя пласты можна спампаваць як выяву:'
   traces:
     visibility:
       private: Прыватны (даступны толькі ананімна, неўладкаваныя пункты)
@@ -1396,11 +1413,12 @@ be-Tarask:
       private: ПРЫВАТНЫ
       trackable: МАГЧЫМА САЧЫЦЬ
     index:
-      public_traces: Публічныя GPS-трэкі
+      public_traces: Публічныя GPS-сьляды
       my_gps_traces: Мае GPS-трэкі
-      public_traces_from: Публічныя GPS-трэкі ўдзельніка %{user}
+      public_traces_from: Публічныя GPS-сьляды ўдзельніка %{user}
       tagged_with: ' пазначаныя %{tags}'
       upload_trace: Загрузіць трэк
+      all_traces: Усе сьляды
       my_traces: Мае сьляды
     destroy:
       scheduled_for_deletion: Трэк заплянаваны на выдаленьне
@@ -1455,7 +1473,10 @@ be-Tarask:
       diary: Дзёньнік
       edits: Рэдагаваньні
       traces: Трэкі
+      notes: Заўвагі на мапе
+      follow: Падпісацца
       mapper since: 'Стварае мапы з:'
+      last map edit: 'Апошняе рэдагаваньне мапы:'
       ct status: 'Умовы супрацоўніцтва:'
       ct undecided: Нявырашана
       ct declined: Адхіленыя
@@ -1473,7 +1494,14 @@ be-Tarask:
       delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
       edit_profile_details: Рэдагаваць зьвесткі профілю
+      edit_description: Зьмяніць зьвесткі
+      edit_links: Зьмена спасылак
+      change_image: Зьмяніць выяву
+      edit_company: Зьмена кампаніі
       edit_location: Зьмена разьмяшчэньня
+      contributions:
+        one: '%{count} унёсак летась'
+        other: '%{count} унёску летась'
     sidebar_section:
       home_location: Хатняе разьмяшчэньне
     go_public:
@@ -1587,6 +1615,9 @@ be-Tarask:
     show:
       title: 'Нататка: %{id}'
     new:
+      intro: Знайшлася памылка ці чагосьці бракуе? Раскажыце іншым удзельнікам, каб
+        яны змаглі выправіць гэта. Рухаючы маркер у патрэбнае месца, напішыце нататку
+        й растлумачце праблему.
       counter_warning_html: Вы ўжо апублікавалі прынамсі %{x_anonymous_notes}, выдатная
         праца для супольнасьці, дзякуй! Цяпер мы заклікаем вас %{contribute_by_yourself},
         гэта не складана, і %{community_can_help}.
@@ -1595,6 +1626,11 @@ be-Tarask:
     notes_paging_nav:
       showing_page: Старонка %{page}
   javascripts:
+    share:
+      title: Абагуліць
+    legend:
+      title: Ляґенда
+      tooltip: Ляґенда
     map:
       zoom:
         in: Бліжэй
@@ -1608,10 +1644,13 @@ be-Tarask:
         hot: Гуманітарная мапа
       layers:
         header: Пласты мапы
+        notes: Заўвагі на мапе
         data: Зьвесткі мапы
+        title: Пласты
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня
+      createnote_tooltip: Дадаць заўвагу на мапу
       createnote_disabled_tooltip: Наблізьце мапу, каб дадаць нататку
       queryfeature_tooltip: Шукаць аб'екты
       queryfeature_disabled_tooltip: Наблізьце мапу для доступу к запытам
@@ -1621,6 +1660,9 @@ be-Tarask:
     edit_help: Перасуньце мапу й наблізьце яе ў месцы, якое трэба рэдагаваць, а потым
       націсьніце тут.
     context:
+      directions_from: Рушыць адсюль
+      directions_to: Рушыць сюды
+      add_note: Дадаць сюды заўвагу
       query_features: Шукаць аб'екты
       centre_map: Цэнтраваць мапу тут
     home:
