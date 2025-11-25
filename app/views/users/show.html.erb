@@ -180,6 +180,12 @@
               </li>
             <% end %>
 
+            <% if @user.may_suspend? %>
+              <li>
+                <%= link_to t(".suspend_user"), user_status_path(@user, :event => "suspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
             <% if @user.may_unsuspend? %>
               <li>
                 <%= link_to t(".unsuspend_user"), user_status_path(@user, :event => "unsuspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
