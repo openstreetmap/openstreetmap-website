@@ -37,6 +37,7 @@ module Users
 
       User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
       User.where(:id => ids).update_all(:status => "deleted") if params[:hide]
+      User.where(:id => ids).each(&:suspend_if_possible!) if params[:suspend]
 
       redirect_to url_for(params.permit(:status, :username, :ip, :edits, :before, :after))
     end
