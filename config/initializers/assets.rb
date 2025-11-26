@@ -13,3 +13,6 @@ Rails.application.config.assets.paths << Rails.root.join("config")
 
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join("node_modules")
+
+# Add iD's dist directory to the asset load path.
+Rails.application.config.assets.paths << Rails.root.join("node_modules/@openstreetmap/id/dist")

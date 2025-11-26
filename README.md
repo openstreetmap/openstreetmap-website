@@ -11,7 +11,6 @@ This repository consists of:
 
 * The web site, including user accounts, diary entries, user-to-user messaging.
 * The XML- and JSON-based editing [API](https://wiki.openstreetmap.org/wiki/API_v0.6).
-* The integrated version of the [iD](https://wiki.openstreetmap.org/wiki/ID) editor.
 * The Browse pages - a web front-end to the OpenStreetMap data.
 * The GPX uploads, browsing and API.
 
