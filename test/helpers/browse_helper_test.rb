@@ -62,10 +62,10 @@ class BrowseHelperTest < ActionView::TestCase
     assert_equal "test", normal_output
 
     redacted_output = element_strikethrough(node_v1) { "test" }
-    assert_equal "<s>test</s>", redacted_output
+    assert_equal "<del>test</del>", redacted_output
 
     deleted_output = element_strikethrough(create(:node, :deleted)) { "test" }
-    assert_equal "<s>test</s>", deleted_output
+    assert_equal "<del>test</del>", deleted_output
   end
 
   def test_element_icon
