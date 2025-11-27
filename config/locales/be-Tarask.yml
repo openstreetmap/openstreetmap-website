@@ -130,8 +130,8 @@ be-Tarask:
         latitude: Шырата
         longitude: Даўгата
         public: Публічны
-        description: Апісаньне
-        gpx_file: Абраць файл GPS-сьледу
+        description: Зьвесткі
+        gpx_file: Абраць GPS-трэк файл
         visibility: Бачнасьць
         tagstring: Тэгі
       message:
@@ -285,9 +285,8 @@ be-Tarask:
     go_public:
       heading: Публічнае рэдагаваньне
       currently_not_public: Цяпер вашыя рэдагаваньні ананімныя, і людзі ня могуць
-        даслаць вам паведамленьні ці бачыць вашае знаходжаньне. Каб паказаць, што
-        вы рэдагавалі і дазволіць людзям зьвязвацца з вамі пра сайт, націсьніце кнопку
-        ніжэй.
+        даслаць вам паведамленьні ці бачыць вашую лякацыю. Каб паказаць, што вы рэдагавалі
+        і дазволіць людзям зьвязвацца з вамі пра сайт, націсьніце кнопку ніжэй.
       only_public_can_edit: З вэрсіі API 0.6 толькі публічныя карыстачы могуць рэдагаваць
         мапу.
       find_out_why: Знайсьці чаму
@@ -309,7 +308,7 @@ be-Tarask:
         delete_account: Выдаліць уліковы запіс
         delete_introduction: 'Вы можаце выдаліць свой уліковы запіс OpenStreetMap,
           націснуўшы кнопку ніжэй. Калі ласка, зьвярніце ўвагу на наступную інфармацыю:'
-        delete_profile: Інфармацыя гэтага профілю, аватар, апісаньне й хатняе разьмяшчэньне
+        delete_profile: Інфармацыя гэтага профілю, аватар, апісаньне й хатняя лякацыя
           будуць выдалены.
         delete_display_name: Вашае імя карыстача будзе выдалена і можа быць зноў выкарыстана
           іншымі ўліковымі запісамі.
@@ -377,7 +376,7 @@ be-Tarask:
       many: '%{count} лініяў'
       other: '%{count} лініяў'
     download_xml: Спампаваць XML
-    location: 'Месцазнаходжаньне:'
+    location: 'Лякацыя:'
     way:
       nodes: Вузлы
       nodes_count:
@@ -429,15 +428,42 @@ be-Tarask:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
+    versions_navigation:
+      node: Пункт
+      way: Лінія
+      relation: Залежнасьць
+      history: Гісторыя
+      version: 'Вэрсія #%{version}'
+      versions_label: 'Вэрсіі:'
   feature_queries:
     show:
+      title: Шукаць аб'екты
+      introduction: Дотык на мапу, каб адшукаць аб'екты побач.
       nearby: Аб’екты паблізу
       enclosing: Навакольныя аб’екты
+  old_elements:
+    index:
+      node:
+        title_html: 'Гісторыя пункта: %{name}'
+      way:
+        title_html: 'Гісторыя лініі: %{name}'
+      relation:
+        title_html: 'Гісторыя залежнасьцяў: %{name}'
+      older_versions: Старэйшыя вэрсіі
+      newer_versions: Сьвяжэйшыя вэрсіі
+    actions:
+      view_redacted_data: Прагляд рэдактаваных зьвестак
+      view_redaction_message: Прагляд рэдактаванага паведамленьня
+  nodes:
+    not_found_message:
+      sorry: 'На жаль, пункт #%{id} ня знойдзены.'
   changesets:
     index:
       title: Наборы зьменаў
       title_user: Набор зьменаў %{user}
       title_nearby: Наборы зьменаў для суседніх удзельнікаў
+      older_changesets: Старыя зьмены
+      newer_changesets: Сьвежыя зьмены
       feed:
         title: Набор зьменаў %{id}
         title_comment: Набор зьменаў %{id} - %{comment}
@@ -446,11 +472,20 @@ be-Tarask:
         belongs_to: Аўтар
     show:
       title: 'Набор зьменаў: %{id}'
+      discussion: Абмеркаваньне
+      subscribe: Падпісацца
+      unsubscribe: Адпісацца
+      hide_comment: схаваць
+      unhide_comment: паказаць
+      comment: Камэнтар
       changesetxml: Набор зьменаў у фармаце XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Пункты
       nodes_paginated: Пункты (%{x}-%{y} з %{count})
+      ways_title: Лініі
       ways_paginated: Лініі (%{x}-%{y} з %{count})
+      relations_title: Залежнасьці
       relations_paginated: Сувязі (%{x}-%{y} з %{count})
     timeout:
       sorry: Прабачце, сьпіс набораў зьменаў, які Вы запыталі, занадта вялікі для
@@ -463,25 +498,25 @@ be-Tarask:
       no_edits: (без рэдагаваньняў)
       view_changeset_details: Паказаць падрабязнасьці набору зьменаў
     popup:
-      your location: Вашае месцазнаходжаньне
+      your location: Вашая лякацыя
       nearby mapper: Бліжэйшы стваральнік мапаў
     show:
       title: Панэль агляду
-      no_home_location_html: '%{edit_profile_link} і пазначце сваё хатняе разьмяшчэньне,
+      no_home_location_html: '%{edit_profile_link} і пазначце сваю хатнюю лякацыю,
         каб бачыць карыстачоў паблізу.'
       edit_your_profile: Рэдагаваць зьвесткі
       followings: Карыстальнікі, на якіх падпісаны
       no followings: Яшчэ няма падпісаных карыстачоў.
       nearby users: Іншыя бліжэйшыя карыстальнікі
-      no nearby users: Няма іншых карыстальнікаў, якія прызнаюць, што займаюцца складаньнем
-        мапы каля Вас.
+      no nearby users: Пакуль няма карыстачоў, якія пазначылі сваю лякацыю побач.
+      followed_diaries: Дзёньнік
       nearby_changesets: наборы зьменаў суседніх удзельнікаў
       nearby_diaries: запісы дзёньнікаў суседніх удзельнікаў
   diary_entries:
     new:
       title: Новы запіс у дзёньніку
     form:
-      location: Месцазнаходжаньне
+      location: Лякацыя
       use_map_link: Выкарыстаць мапу
     index:
       title: Дзёньнікі карыстальнікаў
@@ -493,10 +528,13 @@ be-Tarask:
       recent_entries: Апошнія запісы ў дзёньніку
     edit:
       title: Рэдагаваць запіс у дзёньніку
-      marker_text: Месцазнаходжаньне запісу дзёньніка
+      marker_text: Лякацыя запісу дзёньніка
     show:
       title: Дзёньнік %{user} | %{title}
       user_title: Дзёньнік %{user}
+      discussion: Абмеркаваньне
+      subscribe: Падпісацца
+      unsubscribe: Адпісацца
       leave_a_comment: Пакінуць камэнтар
       login_to_leave_a_comment_html: '%{login_link} каб пакінуць камэнтар'
       login: Увайдзіце
@@ -509,21 +547,27 @@ be-Tarask:
     diary_entry:
       posted_by_html: Дасланы %{link_user} %{created} на %{language_link}.
       updated_at_html: Апошняе абнаўленьне %{updated}.
+      full_entry: Глядзець допіс цалкам
       comment_link: Камэнтаваць гэты запіс
       reply_link: Адаслаць аўтару паведамленьне
       comment_count:
         one: '%{count} камэнтар'
         few: '%{count} камэнтары'
         other: '%{count} камэнтароў'
+      no_comments: Няма камэнтароў
       edit_link: Рэдагаваць гэты запіс
       hide_link: Схаваць гэты запіс
+      unhide_link: Паказваць гэты допіс
       confirm: Пацьвердзіць
+      report: Паскардзіцца на гэты допіс
     diary_comment:
       comment_from_html: Камэнтар %{link_user} ад %{comment_created_at}
       hide_link: Схаваць гэты камэнтар
+      unhide_link: Паказваць гэты камэнтар
       confirm: Пацьвердзіць
+      report: Паскардзіцца на гэты камэнтар
     location:
-      location: 'Месцазнаходжаньне:'
+      location: 'Лякацыя:'
     feed:
       user:
         title: Запісы ў дзёньніку OpenStreetMap карыстальніка %{user}
@@ -534,7 +578,12 @@ be-Tarask:
       all:
         title: Запісы ў дзёньніку OpenStreetMap
         description: Апошнія запісы ў дзёньніку карыстальнікаў OpenStreetMap
+    subscribe:
+      button: Падпісацца на абмеркаваньне
+    unsubscribe:
+      button: Адпісацца ад абмеркаваньня
     navigation:
+      in_language: Дзёньнікі на %{language}
       my_diary: Мой дзёньнік
       new: Новы запіс у дзёньніку
       new_title: Стварыць новы запіс у маім дзёньніку удзельніка
@@ -549,6 +598,17 @@ be-Tarask:
   doorkeeper:
     scopes:
       profile: Паказаць зьвесткі свайго профілю
+  errors:
+    contact:
+      contact: зьвязацца
+    bad_request:
+      title: Галёмы запыт
+    forbidden:
+      title: Забаронена
+    internal_server_error:
+      title: Памылка праґрамы
+    not_found:
+      title: Файл ня знойдзены
   follows:
     create:
       success: Падпіска на %{name} зроблена!
@@ -599,6 +659,7 @@ be-Tarask:
           hunting_stand: Паляўнічая вежа
           ice_cream: Марозіва
           kindergarten: Дзіцячы садок
+          language_school: Школа мовы
           library: Бібліятэка
           marketplace: Рынкавая плошча
           nightclub: Начны клюб
@@ -677,11 +738,13 @@ be-Tarask:
           service: Службовая дарога
           services: Прыдарожны сэрвіс
           steps: Прыступкі
+          stop: Знак «Стоп»
           tertiary: Дарога раённага значэньня
           track: Ґрунтовая дарога
           trunk: Шаша
           trunk_link: Шаша
           unclassified: Дарога раённага значэньня
+          "yes": Дарога
         historic:
           archaeological_site: Археалягічныя раскопкі
           battlefield: Поле гістарычнай бойкі
@@ -881,10 +944,13 @@ be-Tarask:
           hairdresser: Цырульня
           hardware: Гаспадарчыя тавары
           hifi: Крама аўдыё/відэатэхнікі
+          ice_cream: Крама марозіва
           jewelry: Ювэлірная крама
           kiosk: Шапік
           laundry: Пральня
+          lottery: Лятарэя
           mall: Гандлёвы цэнтар
+          massage: Масаж
           mobile_phone: Крама мабільных тэлефонаў
           motorcycle: Крама матацыклаў
           music: Музычная крама
@@ -946,7 +1012,20 @@ be-Tarask:
       create:
         no_results: Нічога ня знойдзена
         more_results: Больш вынікаў
+  directions:
+    show:
+      time: Час
+      ascend: Пад'ём
+      descend: Спуск
+      kilometers: кілямэтры
+      miles_feet: мілі, футы
+      miles_yards: мілі, ярды
+      distance_units_settings: Налады адзінак адлегласьці
+      download: Сьцягнуць маршрут як GeoJSON
+      filename: маршрут
   issues:
+    index:
+      title: Праблемы
     show:
       resolve: Разьвязаць
   reports:
@@ -956,6 +1035,25 @@ be-Tarask:
           spam_label: Зьвесткі гэтага карыстача маюць спам
           offensive_label: Зьвесткі гэтага карыстача непрыстойныя альбо абразьлівыя
           threat_label: Зьвесткі гэтага карыстача зьмяшчаюць пагрозу
+  languages_panes:
+    select_language_list:
+      search_language: Пошук...
+      languages:
+        af: Афрыкаанс
+        az: Азэрбайджанская
+        cs: Чэская
+        da: Дацкая
+        de: Нямецкая
+        en: Ангельская
+        es: Гішпанская
+        ga: Ірляндская
+        be: Беларуская
+        be-Tarask: Беларуская (клясычная)
+        ru: Расейская
+        uk: Украінская
+        ka: Грузінская
+        ja: Японская
+        ko: Карэйская
   layouts:
     logo:
       alt_text: Лягатып OpenStreetMap
@@ -967,12 +1065,16 @@ be-Tarask:
     edit: Рэдагаваць
     history: Гісторыя
     export: Экспартаваць
-    gps_traces: GPS-сьляды
+    gps_traces: GPS-трэкі
     user_diaries: Дзёньнікі карыстальнікаў
     edit_with: Рэдагаваць праз %{editor}
     help: Дапамога
     copyright: Аўтарскія правы
     communities: Супольнасьці
+    header:
+      select_language: Выбар мовы
+    select_language_button:
+      title: Выбар мовы
   user_mailer:
     diary_comment_notification:
       subject: Карыстальнік [OpenStreetMap] %{user} пакінуў камэнтар у дзёньніку
@@ -988,9 +1090,13 @@ be-Tarask:
       see_their_profile: Вы можаце пабачыць іхныя зьвесткі на %{userurl}.
       see_their_profile_html: Вы можаце пабачыць іхныя зьвесткі на %{userurl}.
     gpx_failure:
-      failed_to_import: Падобна, што ваш файл не атрымалася імпартаваць як GPS-сьлед.
+      failed_to_import: Файл не атрымалася імпартаваць як GPS-трэк.
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
+      imported_successfully: Файл пасьпяхова імпартаваны як GPS-трэк.
+      all_your_traces: Усё пасьпяхова зацягнутыя GPX-трэкі можна знайсьці на %{url}
+      all_your_traces_html: Усё пасьпяхова зацягнутыя GPX-трэкі можна знайсьці на
+        %{url}.
       subject: '[OpenStreetMap] імпарт GPX адбыўся пасьпяхова'
     signup_confirm:
       subject: '[OpenStreetMap] Вітаем у OpenStreetMap'
@@ -1114,19 +1220,37 @@ be-Tarask:
       flash changed: Ваш пароль быў зьменены.
   preferences:
     preferences:
+      update:
+        failure: Не атрымалася абнавіць налады.
+      update_success_flash:
+        message: Налады абноўлены.
       navigation:
-        advanced_preferences: Пашыраныя ўстановы
+        preferences: Налады
+        advanced_preferences: Пашыраныя налады
     basic_preferences:
       show:
-        title: Установы
+        title: Налады
+        preferred_language: Пажаданая мова
+        preferred_site_color_scheme: Пажаданае адценьне сайта
+        site_color_schemes:
+          auto: Аўтаматычна
+          light: Сьветлае
+          dark: Цёмнае
+        preferred_map_color_scheme: Пажаданае адценьне мапы
         map_color_schemes:
-          light: Сьветлая
-          dark: Цёмная
-        save: Абнавіць установы
+          auto: Як у сайта
+          light: Сьветлае
+          dark: Цёмнае
+        preferred_editor_color_scheme: Пажаданае адценьне рэдактара
+        editor_color_schemes:
+          auto: Як у сайта
+          light: Сьветлае
+          dark: Цёмнае
+        save: Абнавіць налады
     advanced_preferences:
       show:
-        title: Пашыраныя ўстановы
-        save: Абнавіць установы
+        title: Пашыраныя налады
+        save: Абнавіць налады
   profiles:
     profile_sections:
       navigation:
@@ -1134,7 +1258,7 @@ be-Tarask:
         links: Спасылкі
         image: Выява
         company: Кампанія
-        location: Разьмяшчэньне
+        location: Лякацыя
     descriptions:
       show:
         title: Рэдагаваць профіль
@@ -1184,14 +1308,14 @@ be-Tarask:
         title: Рэдагаваць профіль
         save: Абнавіць профіль
         cancel: Скасаваць
-        no home location: Вы не пазначылі сваё хатняе разьмяшчэньне.
-        update home location on click: Абнавіць хатняе разьмяшчэньне дотыкам на мапу?
+        no home location: Вы не пазначылі сваю хатнюю лякацыю.
+        update home location on click: Абнавіць хатнюю лякацыю дотыкам на мапу?
         show: Паказаць
         delete: Выдаліць
         undelete: Скасаваць выдаленьне
       update:
-        success: Зьвесткі разьмяшчэньня абноўлены.
-        failure: Не атрымалася абнавіць зьвесткі разьмяшчэньня.
+        success: Лякацыя профіля абноўлена.
+        failure: Не атрымалася абнавіць лякацыю профіля.
   sessions:
     new:
       tab_title: Уваход
@@ -1206,10 +1330,18 @@ be-Tarask:
       heading: Выйсьці з OpenStreetMap
       logout_button: Выйсьці
   shared:
+    markdown_help:
+      unordered: Ненумараваны сьпіс
+      ordered: Нумараваны сьпіс
     pagination:
       diary_entries:
         older: Старэйшыя запісы
         newer: Навейшыя запісы
+      traces:
+        older: Старыя трэкі
+        newer: Сьвежыя трэкі
+        oldest: Найстарэйшыя трэкі
+        newest: Найсьвяжэйшыя трэкі
   site:
     about_section:
       open_data_title: Адкрытыя зьвесткі
@@ -1258,6 +1390,11 @@ be-Tarask:
         planet:
           title: Плянэта OSM
       export_button: Экспартаваць
+    help:
+      irc:
+        description: Інтэрактыўны чат на розных мовах, на розныя тэмы.
+    potlatch:
+      change_preferences: Зьмяніць налады тут
     any_questions:
       title: Маеце пытаньні?
     sidebar:
@@ -1265,7 +1402,7 @@ be-Tarask:
     search:
       search: Пошук
       where_am_i: Дзе гэта?
-      where_am_i_title: Адшукаць зьвесткі пра гэтае разьмяшчэньне
+      where_am_i_title: Адшукаць зьвесткі пра гэту лякацыю
       submit_text: Перайсьці
     communities:
       title: Супольнасьці
@@ -1359,13 +1496,17 @@ be-Tarask:
       identifiable: Які можна ідэнтыфікаваць (паказаны толькі ў сьпісе трэкаў і як
         той, які можна ідэнтыфікаваць, уладкаваныя пункты з пазначэньнямі часу)
     new:
+      upload_trace: Даслаць GPS-трэк
       visibility_help: што гэта азначае?
       help: Дапамога
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
-      upload_trace: Загрузіць GPS-трэк
-      trace_uploaded: Ваш GPX-файл быў загружаны і чакае ўстаўкі ў базу зьвестак.
+      upload_trace: Даслаць GPS-трэк
+      trace_uploaded: Ваш GPX-файл быў зацягнуты і чакае ўстаўкі ў базу зьвестак.
         Звычайна гэта адбываецца на працягу паўгадзіны, і Вам будзе дасланы электронны
         ліст з абвяшчэньнем пра завяршэньне.
+      upload_failed: На жаль, не атрымалася даслаць GPX. Адміністратар папярэджаны
+        пра памылку. Калі ласка, паспрабуйце яшчэ раз.
       traces_waiting:
         one: Вы маеце %{count} трэк, які чакае загрузкі. Калі ласка, пачакайце сканчэньня
           перадачы гэтага трэку перад тым, як загружаць іншыя, гэта дазволіць не блякаваць
@@ -1377,18 +1518,22 @@ be-Tarask:
           сканчэньня перадачы гэтых трэкаў перад тым, як загружаць іншыя, гэта дазволіць
           не блякаваць чаргу для іншых удзельнікаў.
     edit:
+      cancel: Скасаваць
       title: Рэдагаваньне трэку %{name}
       heading: Рэдагаваньне трэку %{name}
       visibility_help: што гэта азначае?
+    update:
+      updated: Трэк абноўлены
     show:
       title: Прагляд трэку %{name}
       heading: Прагляд трэку %{name}
       pending: ЧАКАЕ
       filename: 'Назва файла:'
       download: загрузіць
-      uploaded: 'Загружаны:'
+      uploaded: 'Зацягнуты:'
       points: 'Пункты:'
       start_coordinates: 'Пачатковыя каардынаты:'
+      coordinates_html: '%{latitude}; %{longitude}'
       map: мапа
       edit: рэдагаваць
       owner: 'Уладальнік:'
@@ -1399,6 +1544,7 @@ be-Tarask:
       delete_trace: Выдаліць гэты трэк
       trace_not_found: Трэк ня знойдзены!
       visibility: 'Бачнасьць:'
+      confirm_delete: Выдаліць гэты трэк?
     trace:
       pending: ЧАКАЕ
       count_points:
@@ -1412,14 +1558,23 @@ be-Tarask:
       identifiable: ІДЭНТЫФІКАВАНЫ
       private: ПРЫВАТНЫ
       trackable: МАГЧЫМА САЧЫЦЬ
+      details_with_tags_html: '%{time_ago} ад %{user} на %{tags}'
+      details_without_tags_html: '%{time_ago} ад %{user}'
     index:
-      public_traces: Публічныя GPS-сьляды
+      public_traces: Публічныя GPS-трэкі
       my_gps_traces: Мае GPS-трэкі
-      public_traces_from: Публічныя GPS-сьляды ўдзельніка %{user}
+      public_traces_from: Публічныя GPS-трэкі %{user}
+      description: Прагляд апошніх прысланых GPS-трэкаў
       tagged_with: ' пазначаныя %{tags}'
+      empty_title: Тут яшчэ пуста
+      empty_upload_html: '%{upload_link} ці даведацца больш пра GPS-трэкі на %{wiki_link}.'
+      upload_new: Даслаць новы трэк
+      wiki_page: вікістаронка
       upload_trace: Загрузіць трэк
-      all_traces: Усе сьляды
-      my_traces: Мае сьляды
+      all_traces: Усе трэкі
+      my_traces: Мае трэкі
+      traces_from_html: Публічныя трэкі %{user}
+      remove_tag_filter: Выдаліць фільтр тэгаў
     destroy:
       scheduled_for_deletion: Трэк заплянаваны на выдаленьне
     offline_warning:
@@ -1427,6 +1582,16 @@ be-Tarask:
     offline:
       heading: GPX-сховішча адключанае
       message: Сховішча GPX-файлаў і сыстэма іх загрузкі, у цяперашні момант, недаступная.
+    feeds:
+      show:
+        title: OpenStreetMap GPS-трэкі
+      description:
+        description_with_count:
+          one: Файл GPX з %{count} пунктам ад %{user}
+          few: Файл GPX з %{count} пунктамі ад %{user}
+          many: Файл GPX з %{count} пунктаў ад %{user}
+          other: ""
+        description_without_count: GPX-файл ад %{user}
   application:
     require_cookies:
       cookies_needed: Здаецца, што ў Ва забароненыя закладкі (cookies). Калі ласка,
@@ -1437,6 +1602,12 @@ be-Tarask:
       need_to_see_terms: Ваш доступ да API часова прыпынены. Каб паглядзець умовы
         супрацоўніцтва, калі ласка, увайдзіце ў вэб-інтэрфэйс. Можаце зь імі не пагаджацца,
         але азнаёміцца абавязкова.
+  oauth:
+    scopes:
+      read_prefs: Атрымаць налады карыстача
+      write_prefs: Зьмяніць налады карыстача
+      read_gpx: Атрымаць прыватныя GPS-трэкі
+      write_gpx: Даслаць GPS-трэкі
   oauth2_applications:
     index:
       title: Мае кліенцкія праграмы
@@ -1465,7 +1636,7 @@ be-Tarask:
       my profile: Профіль
       my_account: Уліковы запіс
       my comments: Мае камэнтары
-      my_preferences: Установы
+      my_preferences: Налады
       my_dashboard: Панэль агляду
       blocks on me: Атрыманыя блякаваньні
       blocks by me: Заблякаваныя мной
@@ -1498,12 +1669,12 @@ be-Tarask:
       edit_links: Зьмена спасылак
       change_image: Зьмяніць выяву
       edit_company: Зьмена кампаніі
-      edit_location: Зьмена разьмяшчэньня
+      edit_location: Зьмена лякацыі
       contributions:
         one: '%{count} унёсак летась'
         other: '%{count} унёску летась'
     sidebar_section:
-      home_location: Хатняе разьмяшчэньне
+      home_location: Хатняя лякацыя
     go_public:
       flash success: Усе Вашыя рэдагаваньні цяпер публічныя, і цяпер Вам дазволена
         рэдагаваньне.
@@ -1641,12 +1812,15 @@ be-Tarask:
         standard: Звычайная мапа
         cycle_map: Роварная мапа
         transport_map: Транспартная мапа
+        tracestracktop_topo: Тапаґрафічная мапа
         hot: Гуманітарная мапа
       layers:
         header: Пласты мапы
         notes: Заўвагі на мапе
         data: Зьвесткі мапы
+        gps: Публічныя GPS-трэкі
         title: Пласты
+      tracestrack_credit: Крыніца тайлаў %{tracestrack_link}
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня
@@ -1666,6 +1840,9 @@ be-Tarask:
       query_features: Шукаць аб'екты
       centre_map: Цэнтраваць мапу тут
     home:
-      marker_title: Хатняе разьмяшчэньне
-      not_set: Хатняе разьмяшчэньне не пазначана для вашага ўліковага запісу
+      marker_title: Мая хатняя лякацыя
+      not_set: Хатняя лякацыя не пазначана для гэтага ўліковага запісу
+  redactions:
+    index:
+      title: Сьпіс рэдакцый
 ...

@@ -43,6 +43,7 @@ az:
         update: Yenilə
       redaction:
         create: Redaksiya yarat
+        update: Redaksiya yarat
       trace:
         create: Yüklə
         update: Dəyişiklikləri yadda saxla
@@ -50,6 +51,17 @@ az:
         create: Blok yarat
         update: Bloku yenilə
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: n sizin istifadəçi identifikatorunuz olmadığı halda
+          user_n ola bilməz
+      models:
+        user_mute:
+          is_already_muted: artıq səssizdir
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url http:// və ya https:// ilə başlamalıdır.
     models:
       acl: Giriş Məhdudiyyətləri siyahısı
       changeset: Dəyişikliklər Dəsti
@@ -63,6 +75,7 @@ az:
       message: Mesaj
       node: Nöqtə
       node_tag: Nöqtənin Teqi
+      note: Qeyd
       old_node: Köhnə Nöqtə
       old_node_tag: Köhnə Nöqtənin Teqi
       old_relation: Köhnə Əlaqə
@@ -88,17 +101,31 @@ az:
     attributes:
       client_application:
         name: Ad (Vacib)
+        url: Əsas Tətbiq URL (Tələb olunur)
+        callback_url: Callback URL
         support_url: Dəstək linki
         allow_read_prefs: Digər istifadəçilərin fikirlərini oxu
+        allow_write_prefs: istifadəçi seçimlərini dəyişdirmək
+        allow_write_diary: gündəlik qeydləri və şərhlər yaratmaq
         allow_write_api: Xəritəni dəyişmək
+        allow_write_changeset_comments: dəyişikliklərdə şərh yazmaq
+        allow_read_gpx: onların şəxsi GPS izlərini oxumaq
+        allow_write_gpx: GPS izlərini yükləmək
+        allow_write_notes: qeydləri dəyişdirmək
       diary_comment:
         body: Mətn
       diary_entry:
         user: İstifadəçi
         title: Mövzu
+        body: Mətn
         latitude: En dairəsi
         longitude: Uzunluq dairəsi
         language_code: Dil
+      doorkeeper/application:
+        name: Ad
+        redirect_uri: Yönləndirmə URIləri
+        confidential: Konfidensial tətbiqdir?
+        scopes: İcazələr
       friend:
         user: İstifadəçi
         friend: Dost
@@ -119,29 +146,57 @@ az:
         title: Mövzu
         body: Mətn
         recipient: Qəbul edən
+      redaction:
+        title: Başlıq
+        description: Təsvir
       report:
         category: Şikayətinizin səbəbini seçin
         details: Çətinlik haqqında daha ətraflı danışın (vacib)
       user:
+        auth_provider: Autentifikasiya provayderi
+        auth_uid: Autentifikasiya UID
         email: E-poçt
         new_email: Yeni E-Poçt Ünvanı
         active: Aktivdir
         display_name: 'Gorüntülənən ad:'
         description: Profil Açıqlaması
+        company: Şirkət
         home_lat: En dairəsi
         home_lon: Uzunluq dairəsi
         home_location_name: Evinizin adı
         languages: Üstünlük Verilən Dillər
+        preferred_editor: Üstünlük verilən redaktor
         pass_crypt: Parol
         pass_crypt_confirmation: Parolu təsdiqlə
     help:
+      doorkeeper/application:
+        confidential: Tətbiq müştəri sirrinin məxfi saxlanıla biləcəyi yerlərdə istifadə
+          olunacaq (əsas mobil proqramlar və tək səhifə proqramları məxfi deyil)
+        redirect_uri: Hər URI üçün bir sətir
       trace:
         tagstring: Vergül ilə ayrılmış
+      user_block:
+        reason: İstifadəçinin bloklanmasının səbəbi. Zəhmət olmasa, mümkün qədər sakit
+          və məntiqli olun, vəziyyət haqqında bacardığınız qədər ətraflı məlumat verin,
+          mesajın ictimaiyyətə görünəcəyini unutmayın. Nəzərə alın ki, bütün istifadəçilər
+          icma jarqonunu başa düşmür, ona görə də sadə dildə yazmağa çalışın.
+        needs_view: Bu blok ləğv edilməzdən əvvəl istifadəçinin daxil olması lazımdır?
+      user:
+        new_email: (heç vaxt açıq şəkildə göstərilmir)
   datetime:
     distance_in_words_ago:
       about_x_hours:
         one: təxminən %{count} saat əvvəl
         other: təxminən %{count} saat əvvəl
+      about_x_months:
+        one: təxminən %{count} ay əvvəl
+        other: təxminən %{count} ay əvvəl
+      about_x_years:
+        one: təxminən %{count} il əvvəl
+        other: təxminən %{count} il əvvəl
+      almost_x_years:
+        one: demək olar ki, %{count} il əvvəl
+        other: demək olar ki, %{count} il əvvəl
       half_a_minute: yarım dəqiqə əvvəl
   editor:
     default: Defolt (hal-hazırda %{name})
