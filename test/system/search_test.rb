@@ -4,13 +4,13 @@ require "application_system_test_case"
 
 class SearchTest < ApplicationSystemTestCase
   def setup
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/search\?})
+    stub_request(:get, %r{^https://nominatim\.openhistoricalmap\.org/search\?})
       .to_return(:status => 404)
 
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+    stub_request(:get, %r{^https://nominatim\.openhistoricalmap\.org/reverse\?})
       .to_return(:status => 404)
 
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?.*zoom=$})
+    stub_request(:get, %r{^https://nominatim\.openhistoricalmap\.org/reverse\?.*zoom=$})
       .to_return(:status => 400, :body => <<-BODY)
         <?xml version="1.0" encoding="UTF-8"?>
         <error>
@@ -19,10 +19,10 @@ class SearchTest < ApplicationSystemTestCase
         </error>
       BODY
 
-    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?.*zoom=15$})
+    stub_request(:get, %r{^https://nominatim\.openhistoricalmap\.org/reverse\?.*zoom=15$})
       .to_return(:status => 200, :body => <<-BODY)
         <?xml version="1.0" encoding="UTF-8"?>
-        <reversegeocode timestamp="Sun, 01 Mar 15 22:49:45 +0000" attribution="Data © OpenStreetMap contributors, ODbL 1.0. http://www.openstreetmap.org/copyright" querystring="accept-language=&amp;lat=51.76320&amp;lon=-0.00760&amp;zoom=15">
+        <reversegeocode timestamp="Sun, 01 Mar 15 22:49:45 +0000" attribution="Data © openhistoricalmap contributors, ODbL 1.0. http://www.openhistoricalmap.org/copyright" querystring="accept-language=&amp;lat=51.76320&amp;lon=-0.00760&amp;zoom=15">
           <result place_id="150696" osm_type="node" osm_id="28825933" ref="Broxbourne" lat="51.7465723" lon="-0.0190782">Broxbourne, Hertfordshire, East of England, England, United Kingdom</result>
           <addressparts>
             <suburb>Broxbourne</suburb>
