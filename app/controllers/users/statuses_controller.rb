@@ -18,7 +18,6 @@ module Users
       @user.activate! if params[:event] == "activate"
       @user.confirm! if params[:event] == "confirm"
       @user.unconfirm! if params[:event] == "unconfirm"
-      @user.hide! if params[:event] == "hide"
       @user.unhide! if params[:event] == "unhide"
       @user.unsuspend! if params[:event] == "unsuspend"
       @user.suspend! if params[:event] == "suspend"

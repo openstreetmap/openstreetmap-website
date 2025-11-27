@@ -204,21 +204,9 @@
               </li>
             <% end %>
 
-            <% if @user.may_hide? %>
-              <li>
-                <%= link_to t(".hide_user"), user_status_path(@user, :event => "hide"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
             <% if @user.may_unhide? %>
               <li>
                 <%= link_to t(".unhide_user"), user_status_path(@user, :event => "unhide"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
-            <% if @user.may_soft_destroy? %>
-              <li>
-                <%= link_to t(".delete_user"), user_status_path(@user, :event => "soft_destroy"), :method => :put, :data => { :confirm => t(".confirm") } %>
               </li>
             <% end %>
           </ul>
