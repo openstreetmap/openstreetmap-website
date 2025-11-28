@@ -72,4 +72,5 @@ Rails.application.configure do
 
   # Disable host validation.
   config.hosts = []
+
 end

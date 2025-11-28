@@ -32,7 +32,7 @@ services:
       - web_network
 
   db:
-    image: ghcr.io/openhistoricalmap/db:0.0.1-0.dev.git.2836.hbee0465
+    image: ghcr.io/openhistoricalmap/db:0.0.1-0.dev.git.3101.ha4a4757
     ports:
       - "54321:5432"
     env_file:
@@ -46,6 +46,8 @@ volumes:
   web-tmp:
   web-storage:
   db-data:
+    driver: local
+    name: ohm_web_pg17
 
 networks:
   web_network:
