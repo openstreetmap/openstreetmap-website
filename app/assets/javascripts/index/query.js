@@ -312,10 +312,36 @@ OSM.Query = function (map) {
         .join(),
       geom = `geom(${bbox})`,
       radius = 10 * Math.pow(1.5, 19 - zoom),
-      here = `(around:${radius},${latlng})`,
-      enclosed = "(pivot.a);out tags bb",
-      nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
-      isin = `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
+      here = `(around:${radius},${latlng})`;
+
+    // Filter by time slider date if available
+    let dateFilter = "";
+    if (map.timeslider) {
+      const currentDate = map.timeslider.getDate();
+      if (currentDate) {
+        // Use current slider date as the filter reference
+        const startDate = currentDate; // Current slider position date (e.g., 1952)
+        const startYear = startDate.split("-")[0];
+        // Filter: objects that started on or after the current date, or have no start_date
+        // Only filter by start_date, end_date is left free (not evaluated)
+        // Objects without start_date are included because we don't know when they were created
+        // Example with currentDate = 1952:
+        //   - Object 1952-2000: 1952 >= 1952 ✓ (matches)
+        //   - Object 1960-2000: 1960 >= 1952 ✓ (matches)
+        //   - Object 1900-1950: 1900 >= 1952 ✗ (starts before current date, excluded)
+        //   - Object start_date=1600: 1600 >= 1952 ✗ (starts before current date, excluded)
+        //   - Object (no start_date): no start_date ✓ (included - unknown creation date)
+        dateFilter = `(if: !is_tag("start_date") || t["start_date"] >= "${startYear}")`;
+      }
+    }
+
+    const enclosed = dateFilter ? `(pivot.a)${dateFilter}` : "(pivot.a)",
+      nearby = dateFilter 
+        ? `(node${here}${dateFilter};way${here}${dateFilter};);out tags ${geom};relation${here}${dateFilter};out ${geom};`
+        : `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
+      isin = dateFilter
+        ? `is_in(${latlng})->.a;way${enclosed};out geom;relation${enclosed};out geom;`
+        : `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -327,6 +353,7 @@ OSM.Query = function (map) {
       ...featureStyle
     }).addTo(map);
 
+    console.log(nearby)
     runQuery(nearby, $("#query-nearby"), false);
     runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
