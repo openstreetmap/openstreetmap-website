@@ -90,6 +90,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("website", "example.com/page")
     assert_dom_equal "example.com/page", html
   end
+<<<<<<< HEAD
 
   def test_wiki_link
     link = wiki_link("key", "highway")
