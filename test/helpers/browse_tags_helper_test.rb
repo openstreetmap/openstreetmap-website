@@ -51,6 +51,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_select dom, "a[title='The Q42 item on Wikidata'][href$='www.wikidata.org/entity/Q42?uselang=en']", :text => "Q42"
     assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
+    # test with skip_wikidata_preview option
+    html = format_value("wikidata", "Q42", :skip_wikidata_preview => true)
+    assert_dom_equal "<a title=\"The Q42 item on Wikidata\" href=\"//www.wikidata.org/entity/Q42?uselang=en\">Q42</a>", html
+
     html = format_value("operator:wikidata", "Q12;Q98")
     dom = Rails::Dom::Testing.html_document_fragment.parse html
     assert_select dom, "a[title='The Q12 item on Wikidata'][href$='www.wikidata.org/entity/Q12?uselang=en']", :text => "Q12"
