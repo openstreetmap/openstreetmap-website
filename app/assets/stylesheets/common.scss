@@ -1045,3 +1045,86 @@ img.trace_image {
 .layer-info-toggle {
   mix-blend-mode: difference;
 }
+
+/* Tag change highlighting for history views */
+#sidebar_content .browse-tag-list.browse-tag-list-history {
+  tr.tag-added {
+    background-color: rgba(var(--bs-success-rgb), 0.08);
+    border-left: 4px solid var(--bs-success);
+
+    th, td {
+      background-color: inherit;
+    }
+  }
+
+  tr.tag-modified {
+    background-color: rgba(var(--bs-warning-rgb), 0.08);
+    border-left: 4px solid var(--bs-warning);
+
+    th, td {
+      background-color: inherit;
+    }
+  }
+
+  tr.tag-removed {
+    background-color: rgba(var(--bs-danger-rgb), 0.08);
+    border-left: 4px solid var(--bs-danger);
+
+    th, td {
+      background-color: inherit;
+    }
+  }
+
+  tr.tag-unmodified {
+    background-color: rgba(var(--bs-secondary-rgb), 0.08);
+    border-left: 4px solid var(--bs-border-color);
+
+    th, td {
+      background-color: inherit;
+    }
+  }
+
+  /* Diff indicators for tag changes */
+  td.diff-indicator-cell {
+    padding: 0;
+    width: 1em;
+    text-align: center;
+    font-family: monospace;
+    font-weight: bold;
+    color: white;
+  }
+
+  td.diff-indicator-cell.diff-added {
+    background-color: var(--bs-success);
+  }
+
+  td.diff-indicator-cell.diff-removed {
+    background-color: var(--bs-danger);
+  }
+
+  td.diff-indicator-cell.diff-unmodified {
+    background-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+  }
+
+  /* Modified tag key cell styling */
+  tr.tag-removed .diff-key-modified,
+  tr.tag-added .diff-key-modified {
+    color: var(--bs-body-color);
+    background-color: rgba(var(--bs-warning-rgb), 0.08);
+  }
+
+  tr.tag-removed:has(.diff-key-modified),
+  tr.tag-added:has(.diff-key-modified) {
+    border-left: 4px solid var(--bs-warning);
+  }
+
+  tr.tag-removed:has(.diff-key-modified) + tr.tag-added {
+    border-left: 4px solid var(--bs-warning);
+  }
+
+  /* Reset styling for ins and del tags in diff view */
+  ins, del {
+    text-decoration: none;
+  }
+}
