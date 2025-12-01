@@ -134,9 +134,12 @@ module RichText
 
     def format_link_text(url)
       url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-      shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
+      url = shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
         path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
       end
+      Array.wrap(Settings.linkify&.display_rules)
+           .select { |rule| rule.pattern && rule.replacement }
+           .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
     end
 
     def shorten_host(url, hosts, hosts_replacement)
