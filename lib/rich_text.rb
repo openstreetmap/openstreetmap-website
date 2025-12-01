@@ -89,12 +89,30 @@ module RichText
 
     def linkify(text, mode = :urls)
       ERB::Util.html_escape(text)
+               .then { |html| expand_link_shorthands(html) }
                .then { |html| expand_host_shorthands(html) }
                .then { |html| auto_link(html, mode) }
                .html_safe
     end
 
     private
+
+    def gsub_pairs_for_linkify_detection
+      Array
+        .wrap(Settings.linkify&.detection_rules)
+        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
+        .flat_map do |rule|
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          rule.patterns
+              .select { |pattern| pattern.is_a?(String) }
+              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
+        end
+    end
+
+    def expand_link_shorthands(text)
+      gsub_pairs_for_linkify_detection
+        .reduce(text) { |text, (pattern, replacement)| text.gsub(pattern, replacement) }
+    end
 
     def expand_host_shorthands(text)
       [

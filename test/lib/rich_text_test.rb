@@ -352,6 +352,55 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_recognize_path
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      r = RichText.new("text", "foo @example bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://test.host/user/example" do
+          assert_dom "> @href", "http://test.host/user/example"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_path_no_partial_match
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      r = RichText.new("text", "foo example@example.com bar")
+      assert_html r do
+        assert_select "a", 0
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_wiki_path
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"], :path_template => "Tag:\\k<key>=\\k<value>", :host => "http://example.wiki" }] }) do
+      r = RichText.new("text", "foo surface=metal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.wiki/Tag:surface=metal" do
+          assert_dom "> @href", "http://example.wiki/Tag:surface=metal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=\\*?"], :path_template => "Key:\\k<key>", :host => "http://example.wiki" }] }) do
+      r = RichText.new("text", "foo surface=* bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.wiki/Key:surface" do
+          assert_dom "> @href", "http://example.wiki/Key:surface"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_no_year_misinterpretation
+    r = RichText.new("text", "We thought there was no way 2020 could be worse than 2019. We were wrong. Please note 2025 is the first square year since OSM started. In that year, some osmlab repos switched from node 22 to bun 1.3.")
+    assert_html r do
+      assert_select "a", 0
+    end
+  end
+
   def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
