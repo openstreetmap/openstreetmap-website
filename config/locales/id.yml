@@ -34,6 +34,7 @@
 # Author: Mnam23
 # Author: NikolasKHF
 # Author: Pebaryan
+# Author: Penyuwangi
 # Author: Polos
 # Author: RXerself
 # Author: Rachmat04
@@ -48,6 +49,9 @@
 # Author: 아라
 ---
 id:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y pada %H:%M'
@@ -66,9 +70,9 @@ id:
         create: Kirim
       oauth2_application:
         create: Daftar
-        update: Perbarui
+        update: Mutakhirkan
       redaction:
-        create: Membuat redaksi
+        create: Buat redaksi
         update: Simpan redaksi
       trace:
         create: Unggah
@@ -84,53 +88,57 @@ id:
       models:
         user_mute:
           is_already_muted: sudah dibisukan
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url harus dimulai dengan http:// atau https://
     models:
-      acl: Daftar Kontrol Akses
-      changeset: Set Perubahan
-      changeset_tag: Tag Set Perubahan
+      acl: Daftar Kendali Akses
+      changeset: Perangkat Perubahan
+      changeset_tag: Tanda Perangkat Perubahan
       country: Negara
-      diary_comment: Komentar pada Catatan Harian
+      diary_comment: Komentar Catatan Harian
       diary_entry: Entri Catatan harian
       friend: Teman
       issue: Masalah
       language: Bahasa
       message: Pesan
-      node: Titik noda
-      node_tag: Tag titik noda
+      node: Simpul
+      node_tag: Tanda Simpul
       note: Catatan
-      old_node: Titik noda Lama
-      old_node_tag: Tag Titik noda Lama
-      old_relation: Relasi Lama
-      old_relation_member: Anggota Relasi Lama
-      old_relation_tag: Tag Relasi Lama
-      old_way: Way/Garis Lama
-      old_way_node: Node/Titik dari garis lama
-      old_way_tag: Tag way/garis lama
-      relation: Relasi
-      relation_member: Anggota Relasi
-      relation_tag: Tag Relasi
+      old_node: Simpul Lama
+      old_node_tag: Tanda Simpul Lama
+      old_relation: Hubungan Lama
+      old_relation_member: Anggota Hubungan Lama
+      old_relation_tag: Tanda Hubungan Lama
+      old_way: Garis Lama
+      old_way_node: Simpul Garis Lama
+      old_way_tag: Tanda Garis Lama
+      relation: Hubungan
+      relation_member: Anggota Hubungan
+      relation_tag: Tanda Hubungan
       report: Laporkan
       session: Sesi
       trace: Jejak
-      tracepoint: Titik Digitasi
-      tracetag: Label Jejak
+      tracepoint: Titik Jejak
+      tracetag: Tanda Jejak
       user: Pengguna
       user_preference: Preferensi Pengguna
       user_token: Token Pengguna
       way: Garis
-      way_node: Node/Titik dari garis
-      way_tag: Tag way/garis
+      way_node: Simpul Garis
+      way_tag: Tanda Garis
     attributes:
       client_application:
-        name: Nama (diperlukan)
-        url: URL Aplikasi Utama (diperlukan)
+        name: Nama (Diperlukan)
+        url: URL Aplikasi Utama (Diperlukan)
         callback_url: Panggilan kembali URL
         support_url: URL Dukungan
-        allow_read_prefs: membaca pengaturan pengguna mereka.
-        allow_write_prefs: memodifikasi pengaturan mereka sebagai pengguna
-        allow_write_diary: buat entri buku harian dan komentar
+        allow_read_prefs: membaca preferensi pengguna mereka.
+        allow_write_prefs: memodifikasi preferensi pengguna mereka
+        allow_write_diary: membuat entri catatan harian dan komentar
         allow_write_api: memodifikasi peta
-        allow_write_changeset_comments: komentar pada set perubahan
+        allow_write_changeset_comments: komentar pada perangkat perubahan
         allow_read_gpx: baca jejak GPS pribadi mereka
         allow_write_gpx: unggah jejak GPS
         allow_write_notes: memodifikasi catatan
@@ -1572,6 +1580,8 @@ id:
     communities: Komunitas
     learn_more: Pelajari Lagi
     more: Selanjutnya
+    meta:
+      openstreetmap_search: Pencarian OpenStreetMap
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} mengomentari sebuah entri catatan harian'

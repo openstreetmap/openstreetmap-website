@@ -275,14 +275,14 @@ be:
         opened_at_by_html: Створана %{when} удзельнікам %{user}
         commented_at_html: Абноўлена %{when}
         commented_at_by_html: Абноўлена %{when} удзельнікам %{user}
-        closed_at_html: Вырашана %{when}
-        closed_at_by_html: Вырашаны %{when} удзельнікам %{user}
+        closed_at_html: Закрыта %{when}
+        closed_at_by_html: Закрыта %{when} удзельнікам %{user}
         reopened_at_html: Пераадкрыта %{when}
         reopened_at_by_html: Пераадкрыта %{when} удзельнікам %{user}
       rss:
         title: Заўвагі OpenStreetMap
         description_all: Спіс створаных, пракаментаваных або закрытых нататак
-        description_area: Спіс заўваг створаных, пракаментаваных ці вырашаных у вашым
+        description_area: Спіс заўваг створаных, пракаментаваных ці закрытых у вашым
           рэгіёне [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS-стужка заўваг %{id}
         opened: новая заўвага (каля %{place})
@@ -553,7 +553,7 @@ be:
       ways_paginated: Лініі (%{x}-%{y} з %{count})
       relations_paginated: Дачыненні (%{x}-%{y} з %{count})
     timeout:
-      sorry: На жаль, запытаны сьпіс правак занадта доўгі, каб выцягнуць.
+      sorry: На жаль, запытаны спіс правак занадта доўгі, каб выцягнуць.
   changeset_subscriptions:
     show:
       subscribe:
@@ -1526,7 +1526,7 @@ be:
       states:
         ignored: Праігнаравана
         open: Адкрыта
-        resolved: Вырашана
+        resolved: Развязана
     page:
       user_not_found: Такога карыстальніка няма
       issues_not_found: Няма такіх пытанняў
@@ -1539,7 +1539,11 @@ be:
         many: '%{count} скаргаў'
         other: '%{count} скаргі(-аў)'
       reported_item: Скарга
+      states:
+        resolved: Развязана
     show:
+      title:
+        resolved: 'Развязаная праблема #%{issue_id}'
       reports:
         one: '%{count} скарга'
         few: '%{count} скаргі'
@@ -1547,7 +1551,7 @@ be:
         other: '%{count} скаргі(-аў)'
       no_reports: Няма скаргаў
       report_created_at_html: Упершыню паведамлена %{datetime}
-      last_resolved_at_html: Апошні раз вырашана %{datetime}
+      last_resolved_at_html: Апошні раз развязана %{datetime}
       last_updated_at_html: Апошняе абнаўленне %{datetime} карыстальнікам %{displayname}
       resolve: Развязаць
       ignore: Ігнараваць
@@ -1559,7 +1563,7 @@ be:
       no_other_issues: Няма іншых праблем з гэтым карыстальнікам
       comments_on_this_issue: Каментары па гэтай праблеме
     resolve:
-      resolved: Статус праблемы быў зменены на «Вырашана»
+      resolved: Статус праблемы быў зменены на «Развязана»
     ignore:
       ignored: Статус праблемы быў зменены на «Праігнаравана»
     reopen:
@@ -1720,13 +1724,13 @@ be:
         commented_note_html: '%{commenter} пакінуў каментар да адной з нататак, якую
           вы таксама каментавалі. Нататка знаходзіцца каля %{place}.'
       closed:
-        subject_own: '[OpenStreetMap] %{commenter} вырашыў адну з вашых заўваг'
-        subject_other: '[OpenStreetMap] %{commenter} вырашыў заўвагу, што можа быць
+        subject_own: '[OpenStreetMap] %{commenter} развязаў адну з вашых заўваг'
+        subject_other: '[OpenStreetMap] %{commenter} развязаў заўвагу, што можа быць
           вам цікава'
-        your_note: '%{commenter} вырашыў адну з вашых заўваг на карце, каля %{place}.'
+        your_note: '%{commenter} развязаў адну з вашых заўваг на карце, каля %{place}.'
         your_note_html: '%{commenter} закрыў адну з вашых нататак на мапе побач з
           %{place}.'
-        commented_note: '%{commenter} вырашыў заўвагу на карце, што вы каментавалі.
+        commented_note: '%{commenter} развязаў заўвагу на карце, што вы каментавалі.
           Заўвага каля %{place}.'
         commented_note_html: '%{commenter} закрыў адну з пракаментаваных вамі нататак
           побач з %{place}.'
@@ -2507,7 +2511,7 @@ be:
       no activity yet: Актыўнасці пакуль няма
       uid: 'ID карыстальніка:'
       ct status: 'Умовы ўдзелу:'
-      ct undecided: Нявырашана
+      ct undecided: Нявызначана
       ct declined: Адхіленыя
       email address: 'Адрас электроннай пошты:'
       created from: 'Створана з:'
@@ -2691,11 +2695,12 @@ be:
       description: Апісанне
       created_at: Створаны ў
       last_changed: Апошнія змены
+      closed: Закрытыя
     show:
       title: 'Заўвага: %{id}'
       description: Апісанне
-      open_title: 'Нявырашаная заўвага #%{note_name}'
-      closed_title: 'Вырашаная заўвага #%{note_name}'
+      open_title: 'Незакрытая заўвага #%{note_name}'
+      closed_title: 'Закрытая заўвага #%{note_name}'
       hidden_title: 'Схаваная заўвага #%{note_name}'
       event_opened_by_html: Створана карыстальнікам %{user} %{time_ago}
       event_opened_by_anonymous_html: Створана ананімным карыстальнікам %{time_ago}
@@ -2705,9 +2710,9 @@ be:
       anonymous_warning: Гэтая нататка змяшчае каментары ад ананімных карыстальнікаў,
         што павінны быць незалежна правераны.
       hide: Схаваць
-      resolve: Вырашыць
+      resolve: Закрыць
       reactivate: Актываваць паўторна
-      comment_and_resolve: Каментаваць і вырашыць
+      comment_and_resolve: Каментаваць і закрыць
       comment: Каментаваць
     new:
       title: Новая заўвага
