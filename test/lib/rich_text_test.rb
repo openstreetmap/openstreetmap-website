@@ -394,6 +394,96 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_openstreetmap_links
+    with_settings(:server_url => "www.openstreetmap.org", :server_protocol => "https") do
+      cases = {
+        "https://www.openstreetmap.org/note/4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"],
+
+        "https://www.openstreetmap.org/changeset/163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "https://www.openstreetmap.org/way/1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "https://www.openstreetmap.org/way/1249366504/history" =>
+          ["way/1249366504/history", "https://www.openstreetmap.org/way/1249366504/history"],
+
+        "https://www.openstreetmap.org/way/1249366504/history/2" =>
+          ["way/1249366504/history/2", "https://www.openstreetmap.org/way/1249366504/history/2"],
+
+        "https://www.openstreetmap.org/node/12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "https://www.openstreetmap.org/relation/7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "https://www.openstreetmap.org/user/aharvey" =>
+          ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
+
+        "https://wiki.openstreetmap.org/wiki/Key:boundary" =>
+          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
+
+        "https://wiki.openstreetmap.org/wiki/Tag:boundary=place" =>
+          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
+
+        "boundary=*" =>
+          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
+
+        "boundary=place" =>
+          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
+
+        "node/12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "node 12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "n12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "way/1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "way 1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "w1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "relation/7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "relation 7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "r7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "changeset/163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "changeset 163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "note/4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"],
+
+        "note 4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"]
+      }
+
+      cases.each do |input, (expected_text, expected_href)|
+        r = RichText.new("text", input)
+        assert_html r do
+          assert_dom "a", :count => 1, :text => expected_text do
+            assert_dom "> @href", expected_href
+          end
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_no_year_misinterpretation
     r = RichText.new("text", "We thought there was no way 2020 could be worse than 2019. We were wrong. Please note 2025 is the first square year since OSM started. In that year, some osmlab repos switched from node 22 to bun 1.3.")
     assert_html r do

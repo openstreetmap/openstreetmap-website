@@ -177,6 +177,15 @@ linkify:
       - "(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"
       path_template: "wiki/Tag:\\k<key>=\\k<value>"
       host: "https://wiki.openstreetmap.org"
+  display_rules:
+    - pattern: "osm\\.org/user/"
+      replacement: "@"
+    - pattern: "osm\\.org/(?<type>node|way|relation|changeset|note)/"
+      replacement: "\\k<type>/"
+    - pattern: "osm\\.wiki/Key:(?<key>[^\"?#<>/\\s]+)"
+      replacement: "\\k<key>=*"
+    - pattern: "osm\\.wiki/Tag:(?<key>[^\"?#<>/\\s]+)(?:=|%3D)(?<value>[^\"?#<>\\s]+)"
+      replacement: "\\k<key>=\\k<value>"
 # Main website hosts to match in linkify
 linkify_hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
 # Shorter host to replace main hosts
