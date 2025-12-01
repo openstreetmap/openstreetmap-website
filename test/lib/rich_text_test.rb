@@ -237,6 +237,18 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_recognize
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo repl.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "http://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_replace_other_scheme
     with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
       r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
@@ -310,6 +322,33 @@ class RichTextTest < ActiveSupport::TestCase
           assert_dom "> @rel", "nofollow noopener noreferrer"
         end
       end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_wiki
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo wiki.example.com/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "http://replace-me-wiki.example.com/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_idempotent
+    with_settings(:linkify_hosts => ["test.host"], :linkify_hosts_replacement => "test.host") do
+      t0 = "foo https://test.host/way/123456789 bar"
+
+      r1 = RichText.new("text", t0)
+      t1 = Nokogiri::HTML.fragment(r1.to_html).text
+
+      r2 = RichText.new("text", t1)
+      t2 = Nokogiri::HTML.fragment(r2.to_html).text
+
+      assert_equal t1, t2
     end
   end
 

@@ -3,6 +3,7 @@
 module RichText
   DESCRIPTION_MAX_LENGTH = 500
   DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH = 450
+  URL_UNSAFE_CHARS = "[^\\w!#$%&'*+,./:;=?@_~^\\-]"
 
   def self.new(format, text)
     case format
@@ -88,11 +89,25 @@ module RichText
 
     def linkify(text, mode = :urls)
       ERB::Util.html_escape(text)
+               .then { |html| expand_host_shorthands(html) }
                .then { |html| auto_link(html, mode) }
                .html_safe
     end
 
     private
+
+    def expand_host_shorthands(text)
+      [
+        [Settings.linkify_hosts, Settings.linkify_hosts_replacement],
+        [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]
+      ]
+        .select { |hosts, replacement| replacement && hosts&.any? }
+        .reduce(text) do |text, (hosts, replacement)|
+          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(replacement)}/) do
+            "#{Settings.server_protocol}://#{hosts[0]}"
+          end
+        end
+    end
 
     def auto_link(text, mode)
       link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
