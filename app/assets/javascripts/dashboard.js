@@ -1,4 +1,5 @@
 //= require maplibre.map
+//= require maplibre.i18n
 
 $(function () {
   const defaultHomeZoom = 11;
@@ -9,6 +10,7 @@ $(function () {
       container: "map",
       style: OSM.Mapnik,
       attributionControl: false,
+      locale: OSM.MaplibreLocale,
       center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
       zoom: OSM.home ? defaultHomeZoom : 0
     });
