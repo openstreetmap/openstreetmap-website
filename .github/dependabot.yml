@@ -5,21 +5,23 @@ updates:
     directory: "/"
     ignore:
       - dependency-name: rails
-        update-types: version-update:semver-minor
+        update-types:
+          - version-update:semver-major
+          - version-update:semver-minor
     groups:
       rails:
         applies-to: version-updates
         patterns:
-          - rails
+          - "rails"
       rubocop:
         applies-to: version-updates
         patterns:
-          - rubocop*
+          - "rubocop*"
       dependencies:
         applies-to: version-updates
         exclude-patterns:
-          - rails
-          - rubocop*
+          - "rails"
+          - "rubocop*"
     schedule:
       interval: "weekly"
   - package-ecosystem: "npm"
@@ -28,6 +30,8 @@ updates:
     groups:
       dependencies:
         applies-to: version-updates
+        patterns:
+          - "*"
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
@@ -35,5 +39,7 @@ updates:
     groups:
       dependencies:
         applies-to: version-updates
+        patterns:
+          - "*"
     schedule:
       interval: "weekly"
