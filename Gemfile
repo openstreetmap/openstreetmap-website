@@ -12,9 +12,9 @@ gem "pg"
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
 # Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
-gem "sass-embedded", "~> 1.64.0"
+gem "sass-embedded", "~> 1.94.2"
 # Pin uri to avoid errors in dartsass-ruby
-gem "uri", "< 1.0.0"
+gem "uri", "< 2.0.0"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"
@@ -29,7 +29,7 @@ gem "jbuilder", "~> 2.7"
 gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use rtlcss for RTL conversion
-gem "mini_racer", "~> 0.9.0"
+gem "mini_racer", "~> 0.19.1"
 gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
@@ -63,7 +63,7 @@ gem "http_accept_language", "~> 2.1.1"
 gem "i18n-js", "~> 4.2.3"
 gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 8.0.0"
+gem "rails-i18n", "~> 8.1.0"
 gem "rails_param"
 gem "rinku", ">= 2.0.6", :require => "rails_rinku"
 gem "strong_migrations"
@@ -83,7 +83,7 @@ gem "omniauth-github"
 gem "omniauth-google-oauth2", ">= 0.6.0"
 gem "omniauth-mediawiki", ">= 0.0.4"
 gem "omniauth-microsoft_graph"
-gem "omniauth-rails_csrf_protection", "~> 1.0"
+gem "omniauth-rails_csrf_protection", "~> 2.0"
 
 # Doorkeeper for OAuth2
 gem "doorkeeper"
@@ -175,7 +175,7 @@ group :test do
   gem "jwt"
   gem "minitest"
   gem "minitest-focus", :require => false
-  gem "puma", "~> 6.6"
+  gem "puma", "~> 7.1"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
