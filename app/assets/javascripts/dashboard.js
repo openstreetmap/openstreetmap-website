@@ -1,5 +1,6 @@
 //= require maplibre.map
 //= require maplibre.i18n
+//= require maplibre.combinedcontrolgroup
 
 $(function () {
   const defaultHomeZoom = 11;
@@ -16,14 +17,14 @@ $(function () {
     });
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), position);
-    const geolocate = new maplibregl.GeolocateControl({
+    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    const geolocateControl = new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
       },
       trackUserLocation: true
     });
-    map.addControl(geolocate, position);
+    map.addControl(new OSM.CombinedControlGroup([navigationControl, geolocateControl]), position);
 
     $("[data-user]").each(function () {
       const user = $(this).data("user");
