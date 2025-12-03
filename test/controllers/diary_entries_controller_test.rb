@@ -476,8 +476,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
   def test_index_user_paged
     user = create(:user)
-    create_list(:diary_entry, 50, :user => user)
-    user.confirm!
+    num_entries = 50
+    build_list(:diary_entry, num_entries, :user => user) do |entry, i|
+      entry.created_at = (num_entries - i).days.ago
+      entry.save!
+    end
     check_pagination_of_50_entries user_diary_entries_path(user)
   end
 

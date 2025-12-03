@@ -220,7 +220,7 @@ class User < ApplicationRecord
         close_open_issues
       end
 
-      transitions :from => [:pending, :active], :to => :suspended
+      transitions :from => [:pending, :active, :confirmed], :to => :suspended
     end
 
     # Unsuspending an account moves it back to active without overriding the spam scoring
