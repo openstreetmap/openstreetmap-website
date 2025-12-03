@@ -11,7 +11,7 @@ gem "pg"
 
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
-# Pin the dependentent sass-embedded to avoid deprecation warnings in bootstrap
+# Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
 gem "sass-embedded", "~> 1.64.0"
 # Pin uri to avoid errors in dartsass-ruby
 gem "uri", "< 1.0.0"
