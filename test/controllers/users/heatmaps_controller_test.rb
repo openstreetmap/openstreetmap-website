@@ -87,6 +87,76 @@ module Users
       assert_select ".heatmap", :count => 0
     end
 
+    def test_show_data_suspended_user
+      user = create(:user, :suspended)
+      # Create two changesets
+      create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+      create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
+
+      get user_heatmap_path(user)
+
+      # Should fail for suspended users
+      assert_response :not_found
+
+      session_for(create(:administrator_user))
+
+      get user_heatmap_path(user)
+
+      # Should work when requested by an administrator
+      assert_response :success
+      # The data should not be empty
+      heatmap_data = assigns(:heatmap_data)
+      assert_not_nil heatmap_data
+      assert_predicate heatmap_data[:data], :any?
+      # The data should be in the right format
+      heatmap_data[:data].each_value do |entry|
+        assert_equal [:date, :max_id, :total_changes], entry.keys.sort, "Heatmap data entries should have expected keys"
+      end
+      assert_equal 30, heatmap_data[:count]
+    end
+
+    def test_show_data_deleted_user
+      user = create(:user, :deleted)
+      # Create two changesets
+      create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+      create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
+
+      get user_heatmap_path(user)
+
+      # Should fail for deleted users
+      assert_response :not_found
+
+      session_for(create(:administrator_user))
+
+      get user_heatmap_path(user)
+
+      # Should work when requested by an administrator
+      assert_response :success
+      # The data should not be empty
+      heatmap_data = assigns(:heatmap_data)
+      assert_not_nil heatmap_data
+      assert_predicate heatmap_data[:data], :any?
+      # The data should be in the right format
+      heatmap_data[:data].each_value do |entry|
+        assert_equal [:date, :max_id, :total_changes], entry.keys.sort, "Heatmap data entries should have expected keys"
+      end
+      assert_equal 30, heatmap_data[:count]
+    end
+
+    def test_show_data_unknown_user
+      get user_heatmap_path(:user_display_name => "unknown_user")
+
+      # Should fail for unknown users
+      assert_response :not_found
+
+      session_for(create(:administrator_user))
+
+      get user_heatmap_path(:user_display_name => "unknown_user")
+
+      # Should still fail when requested by an administrator
+      assert_response :not_found
+    end
+
     def test_show_rendering_of_user_with_no_changesets
       user_without_changesets = create(:user)
 
