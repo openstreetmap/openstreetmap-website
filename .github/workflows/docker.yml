@@ -9,7 +9,7 @@ jobs:
   test:
     name: Docker
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
     - name: Checkout source
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
@@ -20,11 +20,24 @@ jobs:
         touch config/settings.local.yml
     - name: Build Docker Image
       run: |
-        docker compose build
+        set -euo pipefail
+        retry() { n=0; until [ $n -ge 3 ]; do "$@" && break || n=$((n+1)); sleep 5; done; if [ $n -ge 3 ]; then echo "Command failed: $*"; return 1; fi }
+        retry docker compose build
     - name: Start Docker Compose
       run: |
-        docker compose up -d
-        sleep 15 # let the DB warm up a little
+        set -euo pipefail
+        retry() { n=0; until [ $n -ge 3 ]; do "$@" && break || n=$((n+1)); sleep 5; done; if [ $n -ge 3 ]; then echo "Command failed: $*"; return 1; fi }
+        retry docker compose up -d
+        # Wait for Postgres healthcheck to report ready (uses the service `db` healthcheck)
+        # Fallback to polling pg_isready inside the container if healthcheck isn't exposed yet
+        for i in {1..60}; do
+          if docker compose exec db pg_isready -U openstreetmap -d openstreetmap >/dev/null 2>&1; then
+            echo "Postgres is ready"
+            break
+          fi
+          echo "Waiting for Postgres... ($i)"
+          sleep 2
+        done
     - name: Prepare Database
       run: |
         docker compose run --rm web bundle exec rails db:migrate

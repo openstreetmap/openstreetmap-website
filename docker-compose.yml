@@ -31,6 +31,11 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_DB: openstreetmap
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openstreetmap -d openstreetmap || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     volumes:
       # Mount the Postgres data directory so it persists between runs
       - db-data:/var/lib/postgresql/data
