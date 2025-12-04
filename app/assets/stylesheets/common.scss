@@ -995,27 +995,22 @@ img.trace_image {
 .apple-logo rect { fill: black; }
 .apple-logo path { fill: white; }
 
-@media (prefers-color-scheme: dark) {
+@include color-mode(dark) {
   .apple-logo rect { fill: white; }
   .apple-logo path { fill: black; }
 }
 
-.github-logo rect { fill: white; }
-.github-logo path { fill: black; }
+.github-logo rect { fill: black; }
+.github-logo path { fill: white; }
 
-@media (prefers-color-scheme: dark) {
-  .github-logo rect { fill: black; }
-  .github-logo path { fill: white; }
+@include color-mode(dark) {
+  .github-logo rect { fill: white; }
+  .github-logo path { fill: #1b1f24; }
 }
 
 /* Rules for contextmenu */
 
 #map-context-menu {
-  .dropdown-item {
-    &:hover, &:active {
-      background-color: $gray-200;
-    }
-  }
   &.cm_dropdown {
     position: absolute;
     z-index: 1000;
@@ -1024,15 +1019,5 @@ img.trace_image {
     position: absolute;
     display: block;
     min-width: 200px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  #map-context-menu {
-    .dropdown-item {
-      &:hover, &:active {
-        background-color: $gray-700;
-      }
-    }
   }
 }
