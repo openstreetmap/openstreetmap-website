@@ -58,7 +58,7 @@
         distance: leg.summary.length * 1000,
         time: leg.summary.time,
         credit: "Valhalla (FOSSGIS)",
-        creditlink: "https://gis-ops.com/global-open-valhalla-server-online/"
+        creditlink: "https://valhalla.openstreetmap.de/"
       };
     }
 
