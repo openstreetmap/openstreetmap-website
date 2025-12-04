@@ -319,15 +319,23 @@ el:
       external auth: Εξωτερική επαλήθευση ταυτότητας
       contributor_terms:
         heading: Όροι Συνεισφοράς
-        agreed: Έχετε αποδεχτεί τους νέους Όρους Συνεισφοράς.
+        agreed: Έχετε αποδεχτεί τους Όρους Συνεισφοράς στις %{date}.
+        not_agreed: Δεν έχετε αποδεχτεί ακόμη τους Όρους Συνεισφοράς.
         agreed_with_pd: Δηλώσατε επίσης ότι αποδέχεστε ότι οι τροποποιήσεις σας αποτελούν
           κοινό κτήμα.
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: τι είναι αυτό;
         not_agreed_with_pd: Δεν έχετε δηλώσει ότι θεωρείτε ότι οι τροποποιήσεις σας
           ανήκουν στο Κοινό Κτήμα.
+        review: Ελέγξτε τους Όρους
+        review_and_accept: Ελέγξτε και αποδεχτείτε τους Όρους
+        consider_pd: Θεωρήστε το Κοινό Κτήμα
       terms_of_use:
         heading: Όρους Χρήσης
+        agreed: Έχετε αποδεχτεί τους Όρους Χρήσης στις %{date}.
+        not_agreed: Δεν έχετε αποδεχτεί ακόμη τους Όρους Χρήσης.
+        review: Ελέγξτε τους Όρους
+        review_and_accept: Ελέγξτε και αποδεχτείτε τους Όρους
       save changes button: Αποθήκευση αλλαγών
       delete_account: Διαγραφή λογαριασμού...
     go_public:
@@ -397,6 +405,7 @@ el:
           html: Αυτοί οι %{tou_link} καλύπτουν τη χρήση της ιστοσελίδας και άλλης
             υποδομής που προσφέρει το OpenHistoricalMap. Παρακαλούμε ακολουθήστε τον
             σύνδεσμο, διαβάστε και αποδεχτείτε το κείμενο.
+          tou: όρους χρήσης
         read_tou: Έχω διαβάσει και αποδέχομαι τους όρους χρήσης
         guidance_info_html: 'Πληροφορίες για να βοηθήσουν να κατανοήσετε αυτούς τους
           όρους: a %{readable_summary_link} και μερικά %{informal_translations_link}'
@@ -509,11 +518,21 @@ el:
         key: Η σελίδα περιγραφής της wiki για την ετικέτα %{key}
         tag: Η σελίδα περιγραφής της wiki για την ετικέτα %{key}=%{value}
       wikidata_link: Το αντικείμενο %{page} στο Wikidata
+      wikidata_preview:
+        one: Προεπισκόπηση στοιχείου Wikidata
+        other: Προεπισκόπηση στοιχείων Wikidata
       wikipedia_link: Το άρθρο %{page} στη Βικιπαίδεια
       wikimedia_commons_link: Το αντικείμενο %{page} στο Wikimedia Commons
       telephone_link: Καλέστε %{phone_number}
       colour_preview: Προεπισκόπηση χρώματος %{colour_value}
       email_link: Email %{email}
+    versions_navigation:
+      node: Κόμβος
+      way: Γραμμή
+      relation: Σχέση
+      history: Ιστορικό
+      version: 'Έκδοση #%{version}'
+      versions_label: 'Εκδόσεις:'
   feature_queries:
     show:
       title: Πληροφορίες χαρακτηριστικών
@@ -528,6 +547,8 @@ el:
         title_html: 'Ιστορικό γραμμής: %{name}'
       relation:
         title_html: 'Ιστορικό σχέσης: %{name}'
+      older_versions: Παλαιότερες εκδόσεις
+      newer_versions: Νεότερες εκδόσεις
     actions:
       view_redacted_data: Προβολή αναδιατυπωμένων δεδομένων
       view_redaction_message: Προβολή μηνύματος διόρθωσης
@@ -561,12 +582,24 @@ el:
     timeout:
       sorry: Λυπάμαι, τα δεδομένα για την σχέση με αναγνωριστικό %{id} χρειάστηκαν
         πολύ χρόνο για να ανακτηθούν.
+  relation_members:
+    not_found_message:
+      sorry: 'Λυπούμαστε, η σχέση #%{id} δεν βρέθηκε.'
+    timeout:
+      sorry: Λυπούμαστε, τα δεδομένα για την σχέση με αναγνωριστικό %{id} χρειάστηκαν
+        πολύ χρόνο για να ανακτηθούν.
   old_relations:
     not_found_message:
       sorry: 'Λυπούμαστε, η έκδοση %{version} της σχέσης #%{id} δεν βρέθηκε.'
     timeout:
       sorry: Λυπάμαι, το ιστορικό για την σχέση με αναγνωριστικό %{id} χρειάστηκε
         πολύ χρόνο για να ανακτηθεί.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Λυπούμαστε, η έκδοση %{version} της σχέσης #%{id} δεν βρέθηκε.'
+    timeout:
+      sorry: Λυπούμαστε, τα μέλης της σχέσης με αναγνωριστικό %{id} χρειάστηκαν πολύ
+        χρόνο για να ανακτηθούν.
   changeset_comments:
     feeds:
       comment:
@@ -586,6 +619,15 @@ el:
       changes:
         one: '%{count} αλλαγή'
         other: '%{count} αλλαγές'
+      n_elements_created:
+        one: '%{count} στοιχείο διαγράφηκε'
+        other: '%{count} στοιχεία διαγράφηκαν'
+      n_elements_modified:
+        one: '%{count} στοιχείο διαγράφηκε'
+        other: '%{count} στοιχεία διαγράφηκαν'
+      n_elements_deleted:
+        one: '%{count} στοιχείο διαγράφηκε'
+        other: '%{count} στοιχεία διαγράφηκαν'
     index:
       title: Αλλαγές
       title_user: Αλλαγές από %{user}
@@ -672,7 +714,7 @@ el:
         να δείτε κοντινούς χρήστες.'
       edit_your_profile: Επεξεργαστείτε το προφίλ σας
       followings: Χρήστες που ακολουθείτε
-      no followings: Δεν έχετε ακολουθήσει κανέναν χρήστη ακόμα.
+      no followings: Δεν έχετε ακολουθήσει κανέναν χρήστη ακόμη.
       nearby users: Άλλοι κοντινοί χρήστες
       no nearby users: Δεν υπάρχουν άλλοι χρήστες που δήλωσαν ότι χαρτογραφούν κοντά
         σας προς το παρόν.
@@ -815,7 +857,6 @@ el:
       profile: Προβολή των πληροφοριών του προφίλ σας
   errors:
     contact:
-      contact_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Communication
       contact_url_title: Επεξήγηση διαφόρων καναλιών επικοινωνίας
       contact: επικοινωνήσετε
       contact_the_community_html: Μη διστάσετε να %{contact_link} με την κοινότητα
@@ -1659,32 +1700,58 @@ el:
         level10: Διοικητικό όριο (Επίπεδο 10)
         level11: Διοικητικό όριο (Επίπεδο 11)
       border_types:
+        archdiocese: Όρια αρχιεπισκοπής
         arrondissement: Όριο διαμερίσματος
         borough: Όριο δήμου
+        caliphate: Όρια χαλιφάτου
+        canton: Όρια καντονίου
+        census_area: Όρια περιοχής απογραφής
         cercle: Όριο cercle
         city: Όριο πόλης
+        city-state: Όρια πόλης-κράτους
         comarca: Όριο κομάρκας
+        commonwealth: Όρια κοινοπολιτείας
         county: Όριο κομητείας
         departement: Όριο νομού
         department: Όριο νομού
+        diocese: Όρια επισκοπής
         district: Όριο διαμερίσματος
         distrito: Όριο διαμερίσματος
+        emirate: Όρια εμιράτου
+        empire: Όρια αυτοκρατορίας
+        eyalet: Όρια εγιαλετιού
+        federal_district: Όρια ομοσπονδιακής περιφέρειας
+        federation: Όρια ομοσπονδίας
         freguesia: Όριο ενορίας
+        ghetto: Όρια γκέτου
+        governorate: Όρια κυβερνείου
+        kingdom: Όρια βασιλείου
         local_authority: Όριο τοπικής αρχής
+        markaz: Όρια μαρκάζ
         municipality: Όριο δήμου
         municipi: Όριο δήμου
         município: Όριο δήμου
         nation: Διεθνές σύνορο
         national: Διεθνές σύνορο
         neighbourhood: Όριο γειτονιάς
+        oblast: Όρια όμπλαστ
+        overseas_territory: Όρια υπερπόντιων εδαφών
         parish: Όριο ενορίας
+        principate: Όρια ηγεμονίας
+        protectorate: Όρια προτεκτοράτου
         province: Όριο επαρχίας
         região: Όριο περιφέρειας
         region: Όριο περιφέρειας
+        sanjak: Σύνορα σαντζακίου
         state: Όριο πολιτείας
+        sultanate: Όρια σουλτανάτου
+        territory: Εδαφικά όρια
         town: Όριο κωμόπολης
         township: Όριο κωμόπολης
         village: Όριο χωριού
+        viyalet: Όρια βιλαετίου
+        voivodeship: Όρια βοεβοδάτου
+        zone: Ζωνικά όρια
   searches:
     show:
       title:
@@ -1702,6 +1769,10 @@ el:
       time: Διάρκεια
       ascend: Ανάβαση
       descend: Κατάβαση
+      kilometers: χιλιόμετρα
+      miles_feet: μίλια, πόδια
+      miles_yards: μίλια, γιάρδες
+      distance_units_settings: Ρυθμίσεις μονάδων απόστασης
       download: Λήψη διαδρομής ως GeoJSON
       filename: διαδρομή
       directions_courtesy_html: Οι οδηγίες είναι προσφορά του %{link}
@@ -1710,7 +1781,9 @@ el:
       title: Ζητήματα
       select_status: Επιλογή κατάστασης
       select_type: Επιλογή τύπου
+      select_last_managed_by: Επιλογή τελευταίας διαχείρισης από
       reported_user: Αναφερόμενος χρήστης
+      not_managed: Δεν Διαχειρίζεται
       search: Αναζήτηση
       search_guidance: 'Αναζήτηση ζητημάτων:'
       states:
@@ -1724,6 +1797,7 @@ el:
       status: Κατάσταση
       reports: Αναφορές
       last_updated: Τελευταία ενημέρωση
+      last_managed: Τελευταία Διαχείριση
       reporting_users: Αναφορά χρηστών
       reports_count:
         one: '%{count} Αναφορά'
@@ -1771,6 +1845,19 @@ el:
       reportable_title:
         diary_comment: '%{entry_title}, σχόλιο #%{comment_id}'
         note: 'Σημείωση #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Σχόλιο Ημερολογίου %{title} δημιουργήθηκε στις %{datetime_created},
+          ενημερώθηκε στις %{datetime_updated}
+        diary_entry_html: Καταχώριση Ημερολογίου %{title} δημιουργήθηκε στις %{datetime_created},
+          ενημερώθηκε στις %{datetime_updated}
+        note_html: '%{title} δημιουργήθηκε στις %{datetime_created}, ενημερώθηκε στις
+          %{datetime_updated}'
+        user_html: Χρήστης %{title} δημιουργήθηκε στις %{datetime_created}
+    reporters:
+      index:
+        title: 'Ζήτημα #%{issue_id} Αναφερόμενοι'
+      reporters:
+        more_reporters: και %{count} ακόμα
   issue_comments:
     create:
       comment_created: Το σχόλιο σας δημιουργήθηκε επιτυχώς
@@ -1835,6 +1922,10 @@ el:
       ανθρώπους σαν κι εσάς και είναι δωρεάν, υπό άδεια ελεύθερης χρήσης.
     intro_2_create_account: Δημιουργήστε ένα λογαριασμό χρήστη
     partners_title: Συνεργάτες
+    hosting_partners_2024_html: Το OpenHistoricalMap είναι ένα ιδρυτικό έργο του %{osmus},
+      ενός μη κερδοσκοπικού οργανισμού 501(c)(3) που συνδέεται με το %{osmf}. Η τεχνική
+      ανάπτυξη υποστηρίζεται από το %{greeninfo} και το %{devseed}.
+    partners_devseed: Development Seed
     partners_greeninfo: Δίκτυο GreenInfo
     partners_osmf: Ίδρυμα OpenStreetMap
     partners_osmus: OpenStreetMap U.S.
@@ -1846,7 +1937,16 @@ el:
     communities: Κοινότητες
     learn_more: Μάθετε περισσότερα
     more: Περισσότερα
+    header:
+      ok: ΟΚ
+      select_language: Επιλέξτε γλώσσα
+    select_language_button:
+      title: Επιλέξτε γλώσσα
     offline_flash:
+      osm_offline: Η βάση δεδομένων του OpenHistoricalMap είναι προσωρινά εκτός λειτουργίας
+        λόγω απαραίτητων εργασιών συντήρησης.
+      osm_read_only: Η βάση δεδομένων του OpenHistoricalMap έχει τεθεί προσωρινά σε
+        λειτουργία «μόνο για ανάγνωση» λόγω απαραίτητων εργασιών συντήρησης.
       expected_restore_html: Οι υπηρεσίες αναμένεται να αποκατασταθούν σε %{time}.
       announcement: Μπορείτε να διαβάσετε την ανακοίνωση εδώ.
   user_mailer:
@@ -1893,19 +1993,21 @@ el:
       imported_points: Αριθμός εισαγόμενων σημείων
     gpx_failure:
       hi: Γεια σας %{to_user},
-      failed_to_import: 'απέτυχε να εισαχθεί ως αρχείο ίχνους GPX. Παρακαλώ επαληθεύστε
-        ότι το αρχείο σας είναι ένα έγκυρο αρχείο GPX ή ένα συμπιεσμένο αρχείο που
-        περιέχει αρχείο/αρχεία GPX στην υποστηριζόμενη μορφή (.tar.gz, .tar.bz2, .tar,
-        .zip, .gpx.gz, .gpx.bz2). Μπορεί να υπάρχει πρόβλημα μορφής ή σύνταξης με
-        το αρχείο σας; Το σφάλμα της εισαγωγής είναι:'
-      more_info: Περισσότερες πληροφορίες σχετικά με τα σφάλματα εισαγωγής GPX και
-        πως να τα αποφύγετε, μπορείτε να βρείτε στο %{url}.
+      failed_to_import: Φαίνεται ότι το αρχείο σας απέτυχε να εισαχθεί ως ίχνος GPS.
+      verify: 'Παρακαλούμε επαληθεύστε ότι το αρχείο σας είναι ένα έγκυρο αρχείο GPX
+        ή ένα συμπιεσμένο αρχείο που περιέχει αρχείο/αρχεία GPX στην υποστηριζόμενη
+        μορφή (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2). Μπορεί να υπάρχει
+        πρόβλημα μορφής ή σύνταξης με το αρχείο σας; Το σφάλμα της εισαγωγής είναι:'
+      more_info: Περισσότερες πληροφορίες σχετικά με τις αποτυχίες εισαγωγής GPX και
+        τον τρόπο αποφυγής τους μπορείτε να βρείτε στη διεύθυνση %{url}
       more_info_html: Περισσότερες πληροφορίες σχετικά με τις αποτυχίες εισαγωγής
         GPX και τον τρόπο αποφυγής τους μπορείτε να βρείτε στη διεύθυνση %{url}.
       import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenHistoricalMap] Η εισαγωγή GPX απέτυχε'
     gpx_success:
       hi: Γεια σας %{to_user},
+      imported_successfully: Φαίνεται ότι το αρχείο σας εισήχθη με επιτυχία ως ίχνος
+        GPS.
       all_your_traces: Όλα τα επιτυχώς ανεβασμένα ίχνη GPX σας μπορούν να βρεθούν
         στο %{url}
       all_your_traces_html: Όλα τα ίχνη GPX που ανεβάσατε με επιτυχία μπορούν να βρεθούν
@@ -2099,8 +2201,8 @@ el:
         old_messages:
           one: '%{count} παλιό μήνυμα'
           other: '%{count} παλιά μηνύματα'
-        no_messages_yet_html: Δεν έχετε μηνύματα ακόμα. Γιατί δεν έρχεστε σε επαφή
-          με μερικά από τα %{people_mapping_nearby_link}?
+        no_messages_yet_html: Δεν έχετε μηνύματα ακόμη. Γιατί δεν έρχεστε σε επαφή
+          με μερικά από τα %{people_mapping_nearby_link};
         people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
     muted_inboxes:
       show:
@@ -2114,8 +2216,8 @@ el:
         messages:
           one: Έχετε %{count} απεσταλμένο μήνυμα
           other: Έχετε %{count} απεσταλμένα μηνύματα
-        no_sent_messages_html: Δεν έχετε στείλει κανένα μήνυμα ακόμα. Γιατί δεν έρχεστε
-          σε επαφή με μερικά %{people_mapping_nearby_link}?
+        no_sent_messages_html: Δεν έχετε στείλει κανένα μήνυμα ακόμη. Γιατί δεν έρχεστε
+          σε επαφή με μερικά από τα %{people_mapping_nearby_link};
         people_mapping_nearby: άτομα που χαρτογραφούν κοντά σας
       message:
         destroy_button: Διαγραφή
@@ -2176,23 +2278,36 @@ el:
   profiles:
     profile_sections:
       navigation:
+        description: Περιγραφή
+        links: Σύνδεσμοι
         image: Εικόνα
         company: Εταιρεία
+        location: Τοποθεσία
     descriptions:
       show:
         title: Επεξεργασία προφίλ
         save: Ενημέρωση προφίλ
         cancel: Ακύρωση
+      update:
+        success: Η περιγραφή του προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της περιγραφής του προφίλ.
     links:
       show:
         title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
         cancel: Ακύρωση
         social_links:
           title: Σύνδεσμοι προφίλ κοινωνικής δικτύωσης
           remove: Αφαίρεση
           add: Προσθήκη συνδέσμου κοινωνικής δικτύωσης
+      update:
+        success: Οι σύνδεσμοι προφίλ ενημερώθηκαν.
+        failure: Δεν ήταν δυνατή η ενημέρωση των συνδέσμων προφίλ.
     images:
       show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
         gravatar:
           gravatar: Χρήση Gravatar
           link: https://wiki.openstreetmap.org/wiki/Gravatar
@@ -2202,14 +2317,31 @@ el:
         delete image: Αφαίρεση της τρέχουσας εικόνας
         replace image: Αντικατάσταση της τρέχουσας εικόνας
         image size hint: (τετράγωνες εικόνες τουλάχιστον 100 x 100 λειτουργούν καλύτερα)
+      update:
+        success: Η εικόνα προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της εικόνας προφίλ.
+    companies:
+      show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
+      update:
+        success: Ενημερώθηκε το προφίλ της εταιρείας.
+        failure: Δεν ήταν δυνατή η ενημέρωση του προφίλ της εταιρείας.
     locations:
       show:
+        title: Επεξεργασία προφίλ
+        save: Ενημέρωση προφίλ
+        cancel: Ακύρωση
         no home location: Δεν έχετε εισάγει την τοποθεσία του σπιτιού σας.
         update home location on click: Ενημέρωση τοποθεσίας σπιτιού όταν κάνω κλικ
           στον χάρτη;
         show: Εμφάνιση
         delete: Διαγραφή
         undelete: Αναίρεση διαγραφής
+      update:
+        success: Η τοποθεσία του προφίλ ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση της τοποθεσίας του προφίλ.
   sessions:
     new:
       tab_title: Σύνδεση
@@ -2264,24 +2396,38 @@ el:
       changeset_comments:
         older: Παλαιότερα σχόλια
         newer: Νεότερα σχόλια
+        oldest: Παλαιότερα σχόλια
+        newest: Νεότερα σχόλια
       diary_comments:
         older: Παλαιότερα σχόλια
         newer: Νεότερα σχόλια
+        oldest: Παλαιότερα σχόλια
+        newest: Νεότερα σχόλια
       diary_entries:
         older: Παλιότερες καταχωρήσεις
         newer: Νεότερες καταχωρήσεις
+        oldest: Παλαιότερες καταχωρίσεις
+        newest: Νεότερες καταχωρίσεις
       issues:
         older: Παλαιότερα ζητήματα
         newer: Νεότερα ζητήματα
+        oldest: Παλαιότερα ζητήματα
+        newest: Νεότερα ζητήματα
       traces:
         older: Παλαιότερα ίχνη
         newer: Νεότερα ίχνη
+        oldest: Παλαιότερα ίχνη
+        newest: Νεότερα ίχνη
       user_blocks:
         older: Παλαιότερες φραγές
         newer: Νεότερες φραγές
+        oldest: Παλαιότερες φραγές
+        newest: Νεότερες φραγές
       users:
         older: Παλαιότεροι Χρήστες
         newer: Νεότεροι Χρήστες
+        oldest: Παλαιότεροι χρήστες
+        newest: Νεότεροι χρήστες
   site:
     about:
       used_by_html: Εξερευνήστε τον κόσμο σε οποιαδήποτε χρονική περίοδο με το %{name}.
@@ -2318,7 +2464,7 @@ el:
       legal_3_osmf_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Συνεργάτες
     copyright:
-      title: Πνευματικά δικαιώματα και άδεια χρήσης
+      title: Πνευματικά Δικαιώματα και Ευχαριστίες
       foreign:
         title: Σχετικά με αυτήν τη μετάφραση
         html: Σε περίπτωση διένεξης μεταξύ αυτής της μεταφρασμένης σελίδας και %{english_original_link},
@@ -2348,7 +2494,7 @@ el:
         credit_2_this_copyright_page: αυτή τη σελίδα πνευματικών δικαιωμάτων
         credit_2_home: η αρχική μας σελίδα
         attribution_example:
-          title: Παράδειγμα αναφοράς δημιουργού
+          title: Παράδειγμα του πως αναφέρεται το OpenHistoricalMap σε μια ιστοσελίδα
         more_title_html: Μαθαίνοντας περισσότερα
         more_1_wiki: στο Wiki του OpenStreetMap
         more_1_wiki_url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/License
@@ -2403,6 +2549,7 @@ el:
       not_public_description_html: Δεν μπορείτε πλέον να επεξεργαστείτε το χάρτη αν
         δεν το κάνετε. Μπορείτε να κάνετε τις επεξεργασίες σας δημόσιες από την %{user_page}.
       user_page_link: σελίδα χρήστη
+      anon_edits_html: (%{link})
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Μάθετε γιατί συμβαίνει αυτό.
     export:
@@ -2435,6 +2582,7 @@ el:
           description: Επιπλέον πηγές απαριθμούνται στο wiki του OpenStreetMap
           url: https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Reuse
       export_button: Εξαγωγή
+      export_download: Γίνεται λήψη...
     fixthemap:
       title: Αναφέρετε πρόβλημα / Διορθώστε τον χάρτη
       how_to_help:
@@ -2504,7 +2652,7 @@ el:
       removed: Ο προεπιλεγμένος σας επεξεργαστής του OpenHistoricalMap έχει τεθεί
         ως Potlatch. Επειδή το Adobe Flash Player έχει αποσυρθεί, ο Potlatch δεν είναι
         πια διαθέσιμος για χρήση σε πρόγραμμα περιήγησης ιστού.
-      desktop_application_html: Μπορείτε να χρησιμοποιήσετε ακόμα το Potlatch από
+      desktop_application_html: Μπορείτε να χρησιμοποιήσετε ακόμη το Potlatch κάνοντας
         %{download_link}.
       download: λήψη της εφαρμογής επιφάνειας εργασίας για Mac και Windows
       download_url: https://www.systemed.net/potlatch/
@@ -2727,6 +2875,7 @@ el:
       custom_dimensions: Ορισμός προσαρμοσμένων διαστάσεων
       image_dimensions_html: Η εικόνα θα εμφανίζει το %{layer} στο %{width} x %{height}
       download: Λήψη
+      downloading: Γίνεται λήψη...
   traces:
     visibility:
       private: Προσωπικό (διαμοιρασμός μόνο σαν ανώνυμος, μη χρονοσημασμένα σημεία)
@@ -2805,7 +2954,7 @@ el:
       public_traces_from: Δημόσια ίχνη GPS από %{user}
       description: Προβολή πρόσφατων μεταφορτωμένων ιχνών GPS
       tagged_with: ' με ετικέτα %{tags}'
-      empty_title: Τίποτα εδώ ακόμα
+      empty_title: Τίποτα εδώ ακόμη
       empty_upload_html: '%{upload_link} ή μάθετε περισσότερα για την ανίχνευση GPS
         στο %{wiki_link}.'
       upload_new: Μεταφόρτωση νέου ίχνους
@@ -2856,6 +3005,9 @@ el:
       google:
         title: Σύνδεση με Google
         alt: Λογότυπο Google
+      apple:
+        title: Σύνδεση με Apple
+        alt: Λογότυπο της Apple
       facebook:
         title: Σύνδεση με Facebook
         alt: Λογότυπο Facebook
@@ -2997,6 +3149,7 @@ el:
       by_signing_up:
         html: Με την εγγραφή σας, συμφωνείτε στους %{tou_link}, στην %{privacy_policy_link}
           και στους %{contributor_terms_link}.
+        tou: όρους χρήσης
         privacy_policy: πολιτική απορρήτου
         privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Πολιτική απορρήτου OSMF, συμπεριλαμβανομένης της ενότητας
@@ -3067,11 +3220,18 @@ el:
       delete_user: Διαγραφή αυτού του Χρήστη
       confirm: Επιβεβαίωση
       report: Αναφορά αυτού του χρήστη
+      edit_profile_details: Επεξεργασία λεπτομερειών προφίλ
+      edit_description: Επεξεργασία περιγραφής
+      edit_links: Επεξεργασία συνδέσμων
+      change_image: Αλλαγή εικόνας
+      edit_company: Επεξεργασία εταιρείας
+      edit_location: Επεξεργασία τοποθεσίας
       contributions:
         one: '%{count} συνεισφορά τον τελευταίο χρόνο'
         other: '%{count} συνεισφορές τον τελευταίο χρόνο'
     sidebar_section:
       home_location: Τοποθεσία σπιτιού
+      company: Εταιρεία
       company_tooltip: Η εταιρική σχέση είναι αυτοαναφερόμενη και όχι επαληθευμένη
     go_public:
       flash success: Όλες οι επεξεργασίες σας είναι τώρα δημόσιες και έχετε τη δυνατότητα
@@ -3080,12 +3240,12 @@ el:
       show:
         title: Φραγές από %{name}
         heading_html: Κατάλογος φραγών από %{name}
-        empty: Ο/Η %{name} δεν έχει κάνει φραγή ακόμα.
+        empty: Ο/Η %{name} δεν έχει κάνει φραγή ακόμη.
     received_blocks:
       show:
         title: Φραγές στον %{name}
         heading_html: Κατάλογος φραγών στον %{name}
-        empty: Ο %{name} δεν έχει φραχτεί ακόμα.
+        empty: Ο/Η %{name} δεν έχει φραγεί ακόμη.
       edit:
         title: Ανάκληση όλων των φραγών σε %{block_on}
         heading_html: Ανάκληση όλων των φραγών σε %{block_on}
@@ -3161,7 +3321,7 @@ el:
       invalid_scope: Μη έγκυρο φάσμα
       unknown_error: Η ταυτοποίηση απέτυχε
     auth_association:
-      heading: Το ID σας δεν σχετίζεται ακόμα με λογαριασμό στο OpenHistoricalMap.
+      heading: Το ID σας δεν σχετίζεται ακόμη με λογαριασμό στο OpenHistoricalMap.
       option_1: |-
         Εάν είστε νέοι στο OpenHistoricalMap, παρακαλούμε να δημιουργήσετε έναν νέο λογαριασμό
         χρησιμοποιώντας την παρακάτω φόρμα.
@@ -3172,6 +3332,7 @@ el:
       title:
         administrator: Αυτός ο χρήστης είναι διαχειριστής
         moderator: Αυτός ο χρήστης είναι συντονιστής
+        importer: Αυτός ο χρήστης είναι εισαγωγέας
       grant:
         administrator: Χορήγηση πρόσβασης διαχειριστή
         moderator: Χορήγηση πρόσβασης συντονιστή
@@ -3226,7 +3387,7 @@ el:
     index:
       title: Φραγές χρήστη
       heading: Λίστα φραγών του χρήστη
-      empty: Δεν έχουν γίνει ακόμα φραγές.
+      empty: Δεν έχουν γίνει ακόμη φραγές.
     helper:
       time_future_html: Τελειώνει σε %{time}.
       until_login: Ενεργό έως ότου ο χρήστης συνδεθεί.
@@ -3324,8 +3485,9 @@ el:
       last_changed: Τελευταία αλλαγή
       apply: Εφαρμογή
       all: Όλες
-      open: Ανοιχτές
-      closed: Κλειστές
+      open: Μη επιλυμένη
+      closed: Επιλυμένη
+      hidden: Κρυμμένη
       status: Κατάσταση
     show:
       title: 'Σημείωση: %{id}'
@@ -3405,6 +3567,8 @@ el:
     share:
       title: Διαμοιρασμός
       view_larger_map: Προβολή Μεγαλύτερου Χάρτη
+      export_failed_title: Η εξαγωγή του χάρτη απέτυχε.
+      filename: χάρτης
     embed:
       report_problem: Αναφορά προβλήματος
     legend:
@@ -3454,6 +3618,8 @@ el:
       tracestrack: Tracetrack
       hotosm_credit: Στυλ πλακιδίων από %{hotosm_link} φιλοξενημένο από %{osm_france_link}
       hotosm_name: Humanitarian OpenStreetMap Team
+      openmaptiles_credit: Διανυσματικά πλακίδια από %{openmaptiles_link} που φιλοξενούνται
+        από %{maptiler_link}
     site:
       edit_tooltip: Επεξεργασία του χάρτη
       edit_disabled_tooltip: Κάντε μεγέθυνση για να επεξεργαστείτε το χάρτη
@@ -3472,9 +3638,13 @@ el:
         m: '%{distance}m'
         km: '%{distance}km'
         ft: '%{distance}πδ'
+        yd: '%{distance}γδ'
         mi: '%{distance}μι'
       errors:
         no_route: Δεν βρέθηκε διαδρομή ανάμεσα σε αυτά τα δύο μέρη.
+        no_place:
+          title: Η αναζήτηση απέτυχε
+          body: Δεν ήταν δυνατός ο εντοπισμός του μέρους '%{place}'.
       instructions:
         continue_without_exit: Συνεχίστε στην %{name}
         slight_right_without_exit: Ελαφριά δεξιά στην %{name}
@@ -3576,9 +3746,15 @@ el:
         contributions:
           one: '%{count} συνεισφορά στις %{date}'
           other: '%{count} συνεισφορές στις %{date}'
+    remote_edit:
+      failed:
+        title: Η επεξεργασία απέτυχε
+        body: Βεβαιωθείτε ότι το JOSM ή το Merkaartor έχει φορτώσει και ότι η επιλογή
+          απομακρυσμένου ελέγχου είναι ενεργοποιημένη.
     edit:
       id_not_configured:
         title: Ο iD δεν έχει ρυθμιστεί
+        body: Ανατρέξτε στο CONFIGURE.md για περισσότερες πληροφορίες
   redactions:
     edit:
       heading: Επεξεργασία παράληψης
