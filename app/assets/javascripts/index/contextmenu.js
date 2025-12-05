@@ -34,7 +34,7 @@ OSM.initializations.push(function (map) {
   const contextmenuItems = [
     {
       id: "menu-action-directions-from",
-      icon: "bi-geo-alt",
+      icon: "bi-play",
       text: OSM.i18n.t("javascripts.context.directions_from"),
       callback: () => {
         const params = new URLSearchParams({
@@ -46,7 +46,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-directions-to",
-      icon: "bi-flag",
+      icon: "bi-stop",
       text: OSM.i18n.t("javascripts.context.directions_to"),
       callback: () => {
         const params = new URLSearchParams({
@@ -61,7 +61,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-add-note",
-      icon: "bi-pencil",
+      icon: "bi-chat-text",
       text: OSM.i18n.t("javascripts.context.add_note"),
       callback: () => routeWithLatLon("/note/new")
     },
@@ -76,7 +76,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-query-features",
-      icon: "bi-question-circle",
+      icon: "bi-question",
       text: OSM.i18n.t("javascripts.context.query_features"),
       callback: () => routeWithLatLon("/query")
     },
