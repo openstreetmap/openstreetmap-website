@@ -77,11 +77,18 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
 
-    html = format_value("source", "https://example.com")
+    html = format_value("website", "https://example.com")
     assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>", html
 
-    html = format_value("source", "https://example.com;hello;https://example.net")
+    html = format_value("website", "https://example.com;hello;https://example.net")
     assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow\" dir=\"auto\">https://example.net</a>", html
+
+    html = format_value("website", "https://routing.openstreetmap.de/routed-car/route/v1/driving/-3.68,57.63;-3.68,57.61")
+    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    assert_select dom, "a", 1
+
+    html = format_value("website", "example.com/page")
+    assert_dom_equal "example.com/page", html
   end
 
   def test_wiki_link

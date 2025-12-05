@@ -17,8 +17,8 @@ module Tag2link
 
   def self.build_dict(data)
     data
-      # exclude deprecated and third-party URLs
-      .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" }
+      # exclude deprecated, third-party, and non-HTTP URLs
+      .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" || !item["url"].match?(%r{\Ahttps?://[^$]}) }
       .group_by { |item| item["key"].sub(/^Key:/, "") }
       .transform_values { |items| choose_best_item(items) }
       .compact
