@@ -100,26 +100,34 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "encouragement to contribute appears after 10 created notes and disappears after login" do
-    check_encouragement_while_creating_notes(10)
+  test "encouragement to contribute appears after 5 created notes and disappears after login" do
+    check_encouragement_while_creating_notes(5)
 
     sign_in_as(create(:user))
 
     check_no_encouragement_while_logging_out
   end
 
-  test "encouragement to contribute appears after 10 created notes and disappears after email signup" do
-    check_encouragement_while_creating_notes(10)
+  test "encouragement to contribute appears after 5 created notes and disappears after email signup" do
+    check_encouragement_while_creating_notes(5)
 
     sign_up_with_email
 
     check_no_encouragement_while_logging_out
   end
 
-  test "encouragement to contribute appears after 10 created notes and disappears after google signup" do
-    check_encouragement_while_creating_notes(10)
+  test "encouragement to contribute appears after 5 created notes and disappears after google signup" do
+    check_encouragement_while_creating_notes(5)
 
     sign_up_with_google
+
+    check_no_encouragement_while_logging_out
+  end
+
+  test "strict encouragement to contribute appears after 10 created notes and disappears after login" do
+    check_strict_encouragement_while_creating_notes(5, 10)
+
+    sign_in_as(create(:user))
 
     check_no_encouragement_while_logging_out
   end
@@ -144,6 +152,32 @@ class CreateNoteTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_content(/already posted at least #{encouragement_threshold} anonymous note/)
+    end
+  end
+
+  def check_strict_encouragement_while_creating_notes(encouragement_threshold, strict_encouragement_threshold)
+    strict_encouragement_threshold.times do |n|
+      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}")
+
+      within_sidebar do
+        if n < encouragement_threshold
+          assert_no_content(/already posted at least \d+ anonymous note/)
+        else
+          assert_content(/already posted at least \d+ anonymous note/)
+        end
+
+        fill_in "text", :with => "new note ##{n + 1}"
+        click_on "Add Note"
+
+        assert_content "new note ##{n + 1}"
+      end
+    end
+
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * strict_encouragement_threshold}")
+
+    within_sidebar do
+      assert_content(/already posted at least #{strict_encouragement_threshold} anonymous note/)
+      assert_no_button "Add Note"
     end
   end
 
