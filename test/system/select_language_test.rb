@@ -14,7 +14,7 @@ class SelectLanguageTest < ApplicationSystemTestCase
     click_on "Select Language"
 
     assert_content "English"
-    fill_in "Search...", :with => "fra"
+    find_by_id("language_search").set("fra").send_keys(:tab)
     assert_no_content "English"
 
     click_on "français"
@@ -40,7 +40,7 @@ class SelectLanguageTest < ApplicationSystemTestCase
     click_on "Select Language"
 
     assert_content "English"
-    fill_in "Search...", :with => "fra"
+    find_by_id("language_search").set("fra").send_keys(:tab)
     assert_no_content "English"
 
     click_on "français"
