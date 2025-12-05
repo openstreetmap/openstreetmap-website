@@ -40,6 +40,8 @@ module Users
             :to => to
           }
         end
+      else
+        head :not_found
       end
     end
   end
