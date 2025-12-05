@@ -155,6 +155,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 12, user.spam_score
   end
 
+  def test_suspend_if_possible
+    active = create(:user, :active)
+    active.suspend_if_possible!
+    assert_equal "suspended", active.reload.status
+
+    confirmed = create(:user, :confirmed)
+    confirmed.suspend_if_possible!
+    assert_equal "suspended", confirmed.reload.status
+
+    suspended = create(:user, :suspended)
+    suspended.suspend_if_possible!
+    assert_equal "suspended", suspended.reload.status
+  end
+
   def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)

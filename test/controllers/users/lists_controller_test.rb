@@ -308,6 +308,7 @@ module Users
     def test_update_suspend
       normal_user = create(:user)
       confirmed_user = create(:user, :confirmed)
+      suspended_user = create(:user, :suspended)
       issue = create(:issue, :reportable => normal_user)
 
       # Shouldn't work when not logged in
@@ -318,6 +319,7 @@ module Users
 
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
       assert_equal "open", issue.reload.status
 
       session_for(create(:user))
@@ -329,6 +331,7 @@ module Users
       assert_redirected_to :controller => "/errors", :action => :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
       assert_equal "open", issue.reload.status
 
       session_for(create(:moderator_user))
@@ -340,6 +343,7 @@ module Users
       assert_redirected_to :controller => "/errors", :action => :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
       assert_equal "open", issue.reload.status
 
       session_for(create(:administrator_user))
@@ -351,15 +355,17 @@ module Users
       assert_redirected_to :action => :show
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
       assert_equal "open", issue.reload.status
 
       # Should work when logged in as an administrator
       assert_difference "User.active.count", -2 do
-        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
       assert_redirected_to :action => :show
       assert_equal "suspended", normal_user.reload.status
       assert_equal "suspended", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
       assert_equal "resolved", issue.reload.status
     end
 

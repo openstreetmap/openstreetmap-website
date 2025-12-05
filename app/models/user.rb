@@ -406,6 +406,12 @@ class User < ApplicationRecord
   end
 
   ##
+  # suspend the user only if allowed by aasm rules
+  def suspend_if_possible!
+    suspend! if may_suspend?
+  end
+
+  ##
   # return an oauth 2 access token for a specified application
   def oauth_token(application_id)
     application = Doorkeeper.config.application_model.find_by(:uid => application_id)
