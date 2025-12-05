@@ -45,8 +45,20 @@ module Api
       )
     end
 
-    ##
-    # test fetching multiple nodes
+    def test_index_no_param
+      get api_nodes_path
+
+      assert_response :bad_request
+      assert_match "parameter nodes is required", @response.body
+    end
+
+    def test_index_empty_param
+      get api_nodes_path(:nodes => "")
+
+      assert_response :bad_request
+      assert_match "No nodes were given", @response.body
+    end
+
     def test_index
       node1 = create(:node)
       node2 = create(:node, :deleted)
@@ -54,29 +66,29 @@ module Api
       node4 = create(:node, :with_history, :version => 2)
       node5 = create(:node, :deleted, :with_history, :version => 2)
 
-      # check error when no parameter provided
-      get api_nodes_path
-      assert_response :bad_request
-
-      # check error when no parameter value provided
-      get api_nodes_path(:nodes => "")
-      assert_response :bad_request
-
-      # test a working call
       get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}")
-      assert_response :success
-      assert_select "osm" do
-        assert_select "node", :count => 5
-        assert_select "node[id='#{node1.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node2.id}'][visible='false']", :count => 1
-        assert_select "node[id='#{node3.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node4.id}'][visible='true']", :count => 1
-        assert_select "node[id='#{node5.id}'][visible='false']", :count => 1
-      end
 
-      # test a working call with json format
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 5
+        assert_dom "node[id='#{node1.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node2.id}'][visible='false']", :count => 1
+        assert_dom "node[id='#{node3.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node4.id}'][visible='true']", :count => 1
+        assert_dom "node[id='#{node5.id}'][visible='false']", :count => 1
+      end
+    end
+
+    def test_index_json
+      node1 = create(:node)
+      node2 = create(:node, :deleted)
+      node3 = create(:node)
+      node4 = create(:node, :with_history, :version => 2)
+      node5 = create(:node, :deleted, :with_history, :version => 2)
+
       get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id}", :format => "json")
 
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 5, js["elements"].count
@@ -86,10 +98,218 @@ module Api
       assert_equal(1, js["elements"].count { |a| a["id"] == node3.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == node4.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == node5.id && a["visible"] == false })
+    end
 
-      # check error when a non-existent node is included
-      get api_nodes_path(:nodes => "#{node1.id},#{node2.id},#{node3.id},#{node4.id},#{node5.id},0")
+    def test_index_nonexisting_element
+      get api_nodes_path(:nodes => "0")
+
       assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_element
+      node = create(:node)
+
+      get api_nodes_path(:nodes => "#{node.id},0")
+
+      assert_response :not_found
+    end
+
+    def test_index_versions
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "new")
+      create(:node_tag, :node => node, :k => "name", :v => "new")
+
+      get api_nodes_path(:nodes => "#{node.id}v1,#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonversion_and_versions
+      node1 = create(:node, :with_history)
+      node2 = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node1.old_nodes.find_by(:version => 1), :k => "name", :v => "one")
+      create(:node_tag, :node => node1, :k => "name", :v => "one")
+      create(:old_node_tag, :old_node => node2.old_nodes.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_node_tag, :old_node => node2.old_nodes.find_by(:version => 2), :k => "name", :v => "new")
+      create(:node_tag, :node => node2, :k => "name", :v => "new")
+
+      get api_nodes_path(:nodes => "#{node1.id},#{node2.id}v1,#{node2.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 3
+        assert_dom "node[id='#{node1.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "one"
+          end
+        end
+        assert_dom "node[id='#{node2.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "node[id='#{node2.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonexistent_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id}v2,#{node.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_when_specified_version_coincides_with_top_version
+      node = create(:node, :with_history, :version => 2)
+
+      get api_nodes_path(:nodes => "#{node.id},#{node.id}v1,#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1
+      end
+    end
+
+    def test_index_redacted_version
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v1")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_and_visible_version
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v1,#{node.id}v2")
+
+      assert_response :not_found
+    end
+
+    def test_index_visible_version_of_element_with_redacted_version
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "public")
+      create(:node_tag, :node => node, :k => "name", :v => "public")
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 1
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_version_with_show_redactions_when_unauthorized
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_nodes_path(:nodes => "#{node.id}v1", :show_redactions => "true")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_regular_user
+      node = create(:node, :with_history, :version => 2)
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header
+
+      get api_nodes_path(:nodes => "#{node.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_moderator
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "public")
+      create(:node_tag, :node => node, :k => "name", :v => "public")
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_nodes_path(:nodes => "#{node.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 1
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_and_visible_version_with_show_redactions_for_moderator
+      node = create(:node, :with_history, :version => 2)
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_node_tag, :old_node => node.old_nodes.find_by(:version => 2), :k => "name", :v => "public")
+      create(:node_tag, :node => node, :k => "name", :v => "public")
+      node.old_nodes.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_nodes_path(:nodes => "#{node.id}v1,#{node.id}v2", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "node", :count => 2
+        assert_dom "node[id='#{node.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+        assert_dom "node[id='#{node.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
     end
 
     def test_create_when_unauthorized
