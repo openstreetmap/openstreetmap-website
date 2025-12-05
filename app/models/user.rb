@@ -220,7 +220,7 @@ class User < ApplicationRecord
         close_open_issues
       end
 
-      transitions :from => [:pending, :active], :to => :suspended
+      transitions :from => [:pending, :active, :confirmed], :to => :suspended
     end
 
     # Unsuspending an account moves it back to active without overriding the spam scoring
@@ -403,6 +403,12 @@ class User < ApplicationRecord
   # perform a spam check on a user
   def spam_check
     suspend! if may_suspend? && spam_score > Settings.spam_threshold
+  end
+
+  ##
+  # suspend the user only if allowed by aasm rules
+  def suspend_if_possible!
+    suspend! if may_suspend?
   end
 
   ##

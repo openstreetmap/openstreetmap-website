@@ -13,7 +13,7 @@ module Users
       )
     end
 
-    def test_update
+    def test_confirm
       user = create(:user)
 
       # Try without logging in
@@ -30,6 +30,25 @@ module Users
       put user_status_path(user, :event => "confirm")
       assert_redirected_to user_path(user)
       assert_equal "confirmed", User.find(user.id).status
+    end
+
+    def test_suspend
+      user = create(:user)
+
+      # Try without logging in
+      put user_status_path(user, :event => "suspend")
+      assert_response :forbidden
+
+      # Now try as a normal user
+      session_for(user)
+      put user_status_path(user, :event => "suspend")
+      assert_redirected_to :controller => "/errors", :action => :forbidden
+
+      # Finally try as an administrator
+      session_for(create(:administrator_user))
+      put user_status_path(user, :event => "suspend")
+      assert_redirected_to user_path(user)
+      assert_equal "suspended", User.find(user.id).status
     end
 
     def test_destroy
