@@ -168,6 +168,7 @@ end
 
 # Gems needed for running tests
 group :test do
+  gem "rack-test"
   gem "brakeman"
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
