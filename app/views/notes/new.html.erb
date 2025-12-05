@@ -1,15 +1,14 @@
 <% set_title(t(".title")) %>
 
 <%= render "sidebar_header", :title => t(".title") %>
-
 <div class="note">
   <p class="alert alert-info"><%= t(".intro") %></p>
   <% if !current_user %>
-    <div class="alert alert-warning pb-0">
+    <div class="alert <%= hard_anonymous_notes_limit_reached?(@anonymous_notes_count) ? "alert-danger" : "alert-warning" %> pb-0">
       <p><%= t ".anonymous_warning_html",
                :log_in => link_to(t(".anonymous_warning_log_in"), login_path(:referer => new_note_path)),
                :sign_up => link_to(t(".anonymous_warning_sign_up"), new_user_path) %></p>
-    <% if @anonymous_notes_count >= 10 %>
+    <% if soft_anonymous_notes_limit_reached?(@anonymous_notes_count) %>
       <p><%= t ".counter_warning_html",
                :x_anonymous_notes => t(".x_anonymous_notes", :count => @anonymous_notes_count),
                :contribute_by_yourself => link_to(t(".counter_warning_guide_link.text"), t(".counter_warning_guide_link.url")),
@@ -17,6 +16,7 @@
     <% end %>
     </div>
   <% end %>
+  <% if !hard_anonymous_notes_limit_reached?(@anonymous_notes_count) %>
   <p class="alert alert-warning" id="new-note-zoom-warning" hidden><%= t "javascripts.site.createnote_disabled_tooltip" %></p>
   <form action="#">
     <input type="hidden" name="lon" autocomplete="off">
@@ -28,4 +28,5 @@
       <%= submit_tag t(".add"), :name => "add", :disabled => 1, :class => "btn btn-primary" %>
     </div>
   </form>
+  <% end %>
 </div>
