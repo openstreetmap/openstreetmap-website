@@ -80,7 +80,7 @@ the mission of the OSMF is to support OSM, not to control it.
 Here's the typical contribution workflow:
 
 1. **Find an Issue**: Browse our [issues](https://github.com/openstreetmap/openstreetmap-website/issues) or identify a bug/feature you'd like to work on
-2. **Fork & Clone**: Fork the repository and clone it to your local machine
+2. **Fork, Clone & Branch**: Fork the repository, clone it to your local machine, and create a new branch for your work. Avoid working directly on the `master` branch.
 3. **Set Up**: Follow the [installation guide](INSTALL.md) to set up your development environment
 4. **Develop**: Make your changes following our [code quality guidelines](#code-quality-guidelines)
 5. **Test**: Write tests for your changes and ensure all existing tests pass
@@ -197,6 +197,7 @@ For simple commits the one line summary is often enough and the body of the comm
 If you have forked on GitHub then the best way to submit your patches is to push your changes back to GitHub and open a Pull Request on GitHub.
 
 If your pull request is small, for example one or two commits each containing only a few lines of code, then it is easy for the maintainers to review.
+Please ensure your commit history is clean. Avoid including "fixup" commits. If you have added a fixup commit (for example to fix a rubocop warning, or because you changed your own new code) please combine the fixup commit into the commit that introduced the problem. `git rebase -i` is very useful for this.
 
 > [!IMPORTANT]
 > If you are creating a larger pull request, then please help the maintainers with making the reviews as straightforward as possible:
@@ -208,7 +209,6 @@ If your pull request is small, for example one or two commits each containing on
 > If you are creating a large pull request then please:
 >
 > * Consider splitting your pull request into multiple PRs. If part of your work can be considered standalone, or is a foundation for the rest of your work, please submit it separately first.
-> * Avoid including "fixup" commits. If you have added a fixup commit (for example to fix a rubocop warning, or because you changed your own new code) please combine the fixup commit into the commit that introduced the problem. `git rebase -i` is very useful for this.
 > * Avoid including "merge" commits. If your PR can no longer be merged cleanly (for example, an unrelated change to Gemfile.lock on master now conflicts with your PR) then please rebase your PR onto the latest master. This allows you to fix the conflicts, while keeping the PR a straightforward list of commits. If there are no conflicts, then there is no need to rebase anything.
 
 ## Localization (i18n)
