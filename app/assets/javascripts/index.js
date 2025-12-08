@@ -162,8 +162,9 @@ $(function () {
 
   $(".leaflet-control .control-button").tooltip({ placement: "left", container: "body" });
 
-  const expiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 10);
+  const expires = new Date();
+  const thisYear = expires.getFullYear();
+  expires.setFullYear(thisYear + 10);
 
   map.on("moveend baselayerchange overlayadd overlayremove", function () {
     updateLinks(
@@ -172,7 +173,7 @@ $(function () {
       map.getLayersCode(),
       map._object);
 
-    OSM.cookies.set("_osm_location", OSM.locationCookie(map), { expires: expiry });
+    OSM.cookies.set("_osm_location", OSM.locationCookie(map), { expires });
   });
 
   if (OSM.cookies.get("_osm_welcome") !== "hide") {
@@ -181,18 +182,17 @@ $(function () {
 
   $(".welcome .btn-close").on("click", function () {
     $(".welcome").hide();
-    OSM.cookies.set("_osm_welcome", "hide", { expires: expiry });
+    OSM.cookies.set("_osm_welcome", "hide", { expires });
   });
 
-  const bannerExpiry = new Date();
-  bannerExpiry.setYear(bannerExpiry.getFullYear() + 1);
+  expires.setFullYear(thisYear + 1);
 
   $("#banner .btn-close").on("click", function (e) {
     const cookieId = e.target.id;
     $("#banner").hide();
     e.preventDefault();
     if (cookieId) {
-      OSM.cookies.set(cookieId, "hide", { expires: bannerExpiry });
+      OSM.cookies.set(cookieId, "hide", { expires });
     }
   });
 

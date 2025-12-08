@@ -28,8 +28,8 @@ OSM.Directions = function (map) {
     OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
   ];
 
-  const expiry = new Date();
-  expiry.setYear(expiry.getFullYear() + 10);
+  const expires = new Date();
+  expires.setFullYear(expires.getFullYear() + 10);
 
   const modeGroup = $(".routing_modes");
   const select = $("select#routing_engines");
@@ -140,13 +140,13 @@ OSM.Directions = function (map) {
 
   modeGroup.on("change", "input[name='modes']", function (e) {
     setEngine(chosenEngine.provider + "_" + e.target.value);
-    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires: expiry });
+    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
     getRoute(true, true);
   });
 
   select.on("change", function (e) {
     setEngine(e.target.value + "_" + chosenEngine.mode);
-    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires: expiry });
+    OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
     getRoute(true, true);
   });
 
