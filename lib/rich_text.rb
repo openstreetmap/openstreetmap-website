@@ -3,6 +3,7 @@
 module RichText
   DESCRIPTION_MAX_LENGTH = 500
   DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH = 450
+  URL_UNSAFE_CHARS = "[^\\w!#$%&'*+,./:;=?@_~^\\-]"
 
   def self.new(format, text)
     case format
@@ -87,16 +88,59 @@ module RichText
     end
 
     def linkify(text, mode = :urls)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(ERB::Util.html_escape(text), mode, link_attr) do |url|
-        url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-        shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
-          path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
-        end
-      end.html_safe
+      ERB::Util.html_escape(text)
+               .then { |html| expand_link_shorthands(html) }
+               .then { |html| expand_host_shorthands(html) }
+               .then { |html| auto_link(html, mode) }
+               .html_safe
     end
 
     private
+
+    def gsub_pairs_for_linkify_detection
+      Array
+        .wrap(Settings.linkify&.detection_rules)
+        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
+        .flat_map do |rule|
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          rule.patterns
+              .select { |pattern| pattern.is_a?(String) }
+              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
+        end
+    end
+
+    def expand_link_shorthands(text)
+      gsub_pairs_for_linkify_detection
+        .reduce(text) { |text, (pattern, replacement)| text.gsub(pattern, replacement) }
+    end
+
+    def expand_host_shorthands(text)
+      [
+        [Settings.linkify_hosts, Settings.linkify_hosts_replacement],
+        [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]
+      ]
+        .select { |hosts, replacement| replacement && hosts&.any? }
+        .reduce(text) do |text, (hosts, replacement)|
+          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(replacement)}/) do
+            "#{Settings.server_protocol}://#{hosts[0]}"
+          end
+        end
+    end
+
+    def auto_link(text, mode)
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      Rinku.auto_link(text, mode, link_attr) { |url| format_link_text(url) }
+    end
+
+    def format_link_text(url)
+      url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
+      url = shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
+        path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
+      end
+      Array.wrap(Settings.linkify&.display_rules)
+           .select { |rule| rule.pattern && rule.replacement }
+           .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
+    end
 
     def shorten_host(url, hosts, hosts_replacement)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|

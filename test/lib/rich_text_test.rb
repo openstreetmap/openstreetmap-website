@@ -237,6 +237,18 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_recognize
+    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+      r = RichText.new("text", "foo repl.example.com/some/path?query=te<st&limit=20>10#result12 bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
+          assert_dom "> @href", "http://replace-me.example.com/some/path?query=te<st&limit=20>10#result12"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
   def test_text_to_html_linkify_replace_other_scheme
     with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
       r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
@@ -310,6 +322,172 @@ class RichTextTest < ActiveSupport::TestCase
           assert_dom "> @rel", "nofollow noopener noreferrer"
         end
       end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_wiki
+    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
+                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+      r = RichText.new("text", "foo wiki.example.com/Tag:surface%3Dmetal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
+          assert_dom "> @href", "http://replace-me-wiki.example.com/Tag:surface%3Dmetal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_idempotent
+    with_settings(:linkify_hosts => ["test.host"], :linkify_hosts_replacement => "test.host") do
+      t0 = "foo https://test.host/way/123456789 bar"
+
+      r1 = RichText.new("text", t0)
+      t1 = Nokogiri::HTML.fragment(r1.to_html).text
+
+      r2 = RichText.new("text", t1)
+      t2 = Nokogiri::HTML.fragment(r2.to_html).text
+
+      assert_equal t1, t2
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_path
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      r = RichText.new("text", "foo @example bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://test.host/user/example" do
+          assert_dom "> @href", "http://test.host/user/example"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_path_no_partial_match
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      r = RichText.new("text", "foo example@example.com bar")
+      assert_html r do
+        assert_select "a", 0
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_recognize_wiki_path
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"], :path_template => "Tag:\\k<key>=\\k<value>", :host => "http://example.wiki" }] }) do
+      r = RichText.new("text", "foo surface=metal bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.wiki/Tag:surface=metal" do
+          assert_dom "> @href", "http://example.wiki/Tag:surface=metal"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=\\*?"], :path_template => "Key:\\k<key>", :host => "http://example.wiki" }] }) do
+      r = RichText.new("text", "foo surface=* bar")
+      assert_html r do
+        assert_dom "a", :count => 1, :text => "http://example.wiki/Key:surface" do
+          assert_dom "> @href", "http://example.wiki/Key:surface"
+          assert_dom "> @rel", "nofollow noopener noreferrer"
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_openstreetmap_links
+    with_settings(:server_url => "www.openstreetmap.org", :server_protocol => "https") do
+      cases = {
+        "https://www.openstreetmap.org/note/4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"],
+
+        "https://www.openstreetmap.org/changeset/163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "https://www.openstreetmap.org/way/1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "https://www.openstreetmap.org/way/1249366504/history" =>
+          ["way/1249366504/history", "https://www.openstreetmap.org/way/1249366504/history"],
+
+        "https://www.openstreetmap.org/way/1249366504/history/2" =>
+          ["way/1249366504/history/2", "https://www.openstreetmap.org/way/1249366504/history/2"],
+
+        "https://www.openstreetmap.org/node/12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "https://www.openstreetmap.org/relation/7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "https://www.openstreetmap.org/user/aharvey" =>
+          ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
+
+        "https://wiki.openstreetmap.org/wiki/Key:boundary" =>
+          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
+
+        "https://wiki.openstreetmap.org/wiki/Tag:boundary=place" =>
+          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
+
+        "boundary=*" =>
+          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
+
+        "boundary=place" =>
+          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
+
+        "node/12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "node 12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "n12639964186" =>
+          ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
+
+        "way/1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "way 1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "w1249366504" =>
+          ["way/1249366504", "https://www.openstreetmap.org/way/1249366504"],
+
+        "relation/7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "relation 7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "r7876483" =>
+          ["relation/7876483", "https://www.openstreetmap.org/relation/7876483"],
+
+        "changeset/163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "changeset 163353772" =>
+          ["changeset/163353772", "https://www.openstreetmap.org/changeset/163353772"],
+
+        "note/4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"],
+
+        "note 4655490" =>
+          ["note/4655490", "https://www.openstreetmap.org/note/4655490"]
+      }
+
+      cases.each do |input, (expected_text, expected_href)|
+        r = RichText.new("text", input)
+        assert_html r do
+          assert_dom "a", :count => 1, :text => expected_text do
+            assert_dom "> @href", expected_href
+          end
+        end
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_no_year_misinterpretation
+    r = RichText.new("text", "We thought there was no way 2020 could be worse than 2019. We were wrong. Please note 2025 is the first square year since OSM started. In that year, some osmlab repos switched from node 22 to bun 1.3.")
+    assert_html r do
+      assert_select "a", 0
     end
   end
 
