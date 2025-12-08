@@ -197,7 +197,8 @@ For simple commits the one line summary is often enough and the body of the comm
 If you have forked on GitHub then the best way to submit your patches is to push your changes back to GitHub and open a Pull Request on GitHub.
 
 If your pull request is small, for example one or two commits each containing only a few lines of code, then it is easy for the maintainers to review.
-Please ensure your commit history is clean. Avoid including "fixup" commits. If you have added a fixup commit (for example to fix a rubocop warning, or because you changed your own new code) please combine the fixup commit into the commit that introduced the problem. `git rebase -i` is very useful for this.
+
+Please ensure your commit history is clean and avoid including "fixup" commits. If you have added a fixup commit (for example to fix a rubocop warning, or because you changed your own new code) please combine the fixup commit into the commit that introduced the problem. `git rebase -i` is very useful for this.
 
 > [!IMPORTANT]
 > If you are creating a larger pull request, then please help the maintainers with making the reviews as straightforward as possible:
