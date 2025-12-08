@@ -59,7 +59,7 @@ L.OSM.Map = L.Map.extend({
         }).prop("outerHTML")
       });
 
-      attribution += credit.donate ? " &hearts; " : ". ";
+      attribution += credit.donate ? " ♥️ " : ". ";
       attribution += makeCredit(credit);
       attribution += ". ";
 
