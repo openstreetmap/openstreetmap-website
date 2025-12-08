@@ -107,14 +107,12 @@ module RichText
     end
 
     def expand_host_shorthands(text)
-      [
-        [Settings.linkify_hosts, Settings.linkify_hosts_replacement],
-        [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]
-      ]
-        .select { |hosts, replacement| replacement && hosts&.any? }
-        .reduce(text) do |text, (hosts, replacement)|
-          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(replacement)}/) do
-            "#{Settings.server_protocol}://#{hosts[0]}"
+      Array
+        .wrap(Settings.linkify&.normalisation_rules)
+        .select { |rule| rule.host_replacement && rule.hosts&.any? }
+        .reduce(text) do |text, rule|
+          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(rule.host_replacement)}/) do
+            "#{Settings.server_protocol}://#{rule.hosts[0]}"
           end
         end
     end
@@ -125,9 +123,12 @@ module RichText
     end
 
     def format_link_text(url)
-      url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-      url = shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
-        path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
+      url = Array
+            .wrap(Settings.linkify&.normalisation_rules)
+            .reduce(url) do |normalised_url, rule|
+              shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
+                path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
+              end
       end
       Array.wrap(Settings.linkify&.display_rules)
            .select { |rule| rule.pattern && rule.replacement }

@@ -139,6 +139,7 @@ fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
 # Endpoints for Wikimedia integration
 wikidata_api_url: "https://www.wikidata.org/w/api.php"
 wikimedia_commons_url: "https://commons.wikimedia.org/wiki/"
+# Linkification rules
 linkify:
   detection_rules:
     - patterns:
@@ -186,16 +187,12 @@ linkify:
       replacement: "\\k<key>=*"
     - pattern: "osm\\.wiki/Tag:(?<key>[^\"?#<>/\\s]+)(?:=|%3D)(?<value>[^\"?#<>\\s]+)"
       replacement: "\\k<key>=\\k<value>"
-# Main website hosts to match in linkify
-linkify_hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
-# Shorter host to replace main hosts
-linkify_hosts_replacement: "osm.org"
-# Wiki website hosts to match in linkify
-linkify_wiki_hosts: ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
-# Shorter host to replace wiki hosts
-linkify_wiki_hosts_replacement: "osm.wiki"
-# Regexp for wiki prefix that can be removed
-linkify_wiki_optional_path_prefix: "^/wiki(?=/[A-Z])"
+  normalisation_rules:
+    - hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
+      host_replacement: "osm.org"
+    - hosts : ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
+      host_replacement: "osm.wiki"
+      optional_path_prefix: "^/wiki(?=/[A-Z])"
 # External authentication credentials
 #google_auth_id: ""
 #google_auth_secret: ""
