@@ -10,6 +10,9 @@
 # Author: Mikławš
 ---
 hsb:
+  date:
+    formats:
+      heatmap: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y %H:%M'
@@ -46,6 +49,10 @@ hsb:
       models:
         user_mute:
           is_already_muted: je so hižo zněmił
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL měł z http:// abo https:// započeć
     models:
       acl: Lisćina za přistupnu kontrolu
       changeset: Sadźba změnow
@@ -144,8 +151,10 @@ hsb:
         active: Aktiwny
         display_name: Wužiwarske mjeno
         description: Profilowy wopis
+        company: Předewzaće
         home_lat: Šěrina
         home_lon: Dołhota
+        home_location_name: Mjeno ródneho města
         languages: Preferowane rěče
         preferred_editor: Preferowany editor
         pass_crypt: Hesło
@@ -237,6 +246,7 @@ hsb:
     providers:
       none: Žane
       google: Google
+      apple: Apple
       facebook: Facebook
       github: GitHub
       wikipedia: Wikipedija
@@ -273,12 +283,27 @@ hsb:
       contributor_terms:
         heading: Wuměnjenja za sobuskutkowarjow
         agreed: Sy do nowych wuměnjenjow za sobuskutkowarjow dnja %{date} zwolił.
+        not_agreed: Hišće njejsy do wuměnjenjow za sobuskutkowarjow zwolił.
         agreed_with_pd: Sy tež deklarował, zo twoje změny su zjawne.
         not_agreed_with_pd: Sy deklarował, zo maš swoje změny za zjawne.
+        review: Wuměnjenja čitać
+        review_and_accept: Wuměnjenja čitać a akceptować
+      terms_of_use:
+        heading: Wužiwanske wuměnjenja
+        agreed: Sy do wužiwanskich wuměnjenjow dnja %{date} {{GENDER:|zwolił|zwoliła}}.
+        not_agreed: Hišće njejsy do wužiwanskich wuměnjenjow {{GENDER:|zwolił|uwoliła}}.
+        review: Wuměnjenja čitać
+        review_and_accept: Wuměnjenja čitać a akceptować
       save changes button: Změny składować
       delete_account: Konto zhašeć…
     go_public:
       heading: Zjawne wobdźěłowanje
+      only_public_can_edit: Wot wersije API 0.6 móža jenož zjawni wužiwarjo kartowe
+        daty wobdźěłać.
+      find_out_why: wuslědźće čehodla
+      email_not_revealed: Waša e-mejlowa adresa so přez wozjewjenje njepřeradźi.
+      not_reversible: Tuta akcija njeda so cofnyć a wšitcy nowu wužiwarjo su nětko
+        po standardźe zjawni.
       make_edits_public_button: Wšě moje změny zjawne činić
     update:
       success_confirm_needed: Wužiwarske informacije wuspěšnje zaktualizowane. Dóstanješ
@@ -297,6 +322,17 @@ hsb:
           a bydlišćo so wotstronja.
         delete_display_name: Waše pokazowanske mjeno so wotstroni a da so z druhimi
           kontami znowa wužiwać.
+        retain_caveats: 'Ale někotre informacije wo was na OpenStreetmap wostawaja,
+          samo hdyž waše konto je zhašane:'
+        retain_edits: Waše změny na kartowej datowej bance so, jeli tajke su, wobchowaja.
+        retain_traces: Waše nahrate ćěrje so wobchowaja, jeli tajke su.
+        retain_diary_entries: Waše dźenikowe zapiski a dźenikowe komentary so wobchowaja,
+          jeli tajke su, so pak schowane.
+        retain_notes: Waše kartowe noticy a komentary k noticam so wobchowaja, jeli
+          tajke su, su pak schowane.
+        retain_changeset_discussions: Waše diskusije wo sadźbach změnow so wobchowaja,
+          jeli tajke su.
+        retain_email: Waša e-mejlowa adresa so wobchowa.
         confirm_delete: Sy sej wěsty?
         cancel: Přetorhnyć
     terms:
@@ -304,7 +340,13 @@ hsb:
         title: Wuměnjenja
         heading: Wuměnjenja
         heading_ct: Wuměnjenja za sobuskutkowarjow
+        tou_explain:
+          tou: Wužiwanske wuměnjenja
         read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
+        guidance_info_html: 'Informacije, kotrež pomhaja, tej zapřijeći rozumić: %{readable_summary_link}
+          a někotre %{informal_translations_link}'
+        readable_summary: wot čłowjeka čitajomne zjeće
+        informal_translations: informelne přełožki
         continue: Dale
         cancel: Přetorhnyć
         you need to accept or decline: Prošu přečitaj nowe wužiwarske wuměnjenja a
@@ -413,6 +455,13 @@ hsb:
       telephone_link: '%{phone_number} zawołać'
       colour_preview: Přehlad barba %{colour_value}
       email_link: E-mejl %{email}
+    versions_navigation:
+      node: Suk
+      way: Puć
+      relation: Relacija
+      history: Historija
+      version: 'Wersija #%{version}'
+      versions_label: 'Wersije:'
   feature_queries:
     show:
       title: Funkcije naprašować
@@ -427,6 +476,48 @@ hsb:
         title_html: 'Historija puća: %{name}'
       relation:
         title_html: 'Historija relacije: %{name}'
+      older_versions: Starše wersije
+      newer_versions: Nowše wersije
+  nodes:
+    not_found_message:
+      sorry: 'Bohužel njeda so suk #%{id} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho, daty z ID %{id} wotwołać.
+  old_nodes:
+    not_found_message:
+      sorry: 'Bohužel njeda so suk #%{id} wersija %{version} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho historiju suka z ID %{id} wotwołać.
+  ways:
+    not_found_message:
+      sorry: 'Bohužel njeda so puć #%{id} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho daty za puć z ID %{id} wotwołać.
+  old_ways:
+    not_found_message:
+      sorry: 'Bohužel njeda so puć #%{id} wersija %{version} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho historiju puća z ID %{id} wotwołać.
+  relations:
+    not_found_message:
+      sorry: 'Bohužel njeda so relacija #%{id} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho daty za relaciju z ID %{id} wotwołać.
+  relation_members:
+    not_found_message:
+      sorry: 'Bohužel njeda so relacija #%{id} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho daty za relaciju z ID %{id} wotwołać.
+  old_relations:
+    not_found_message:
+      sorry: 'Bohužel njeda so relacija #%{id} wersija %{version} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho historiju relacije z ID %{id} wotwołać.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Bohužel njeda so relacija #%{id} wersija %{version} namakać.'
+    timeout:
+      sorry: Bohužel traješe předołho čłony relacije z ID %{id} wotwołać.
   changeset_comments:
     feeds:
       comment:
@@ -438,9 +529,37 @@ hsb:
       timeout:
         sorry: Bohužel je předołho trało, wot tebje požadanu lisćinu komentarow wotwołać.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} komentar'
+        two: '%{count} komentaraj'
+        few: '%{count} komentary'
+        other: '%{count} komentarow'
+      changes:
+        one: '%{count} změna'
+        two: '%{count} změnje'
+        few: '%{count} změny'
+        other: '%{count} změnow'
+      n_elements_created:
+        one: '%{count} element wutworjeny'
+        two: '%{count} elementaj wutworjenej'
+        few: '%{count} elementy wutworjene'
+        other: '%{count} elementowy wutworjenych'
+      n_elements_modified:
+        one: '%{count} element změnjeny'
+        two: '%{count} elementaj změnjenej'
+        few: '%{count} elementy změnjene'
+        other: '%{count} elementow změnjenych'
+      n_elements_deleted:
+        one: '%{count} element zhašany'
+        two: '%{count} elementaj zhašanej'
+        few: '%{count} elementy zhašane'
+        other: '%{count} elementow zhašanych'
     index:
       title: Sadźby změnow
       title_user: Sadźby změnow wot %{user}
+      title_user_link_html: Sadźby změnow wot %{user_link}
+      title_followed: Sadźby změnow wot wužiwarjow, kotrymž slědujeće
       title_nearby: Sadźby změnow wužiwarjow w bliskosći
       empty: Žane sadźby změnow namakane.
       empty_area: Žane sadźby změnow w tutej kónčinje.
@@ -448,6 +567,8 @@ hsb:
       no_more: Žane dalše sadźby změnow namakane.
       no_more_area: Žane dalše sadźby změnow w tutej kónčinje.
       no_more_user: Žane dalše sadźby změnow wot tutoho wužiwarja.
+      older_changesets: Starše sadźby změnow
+      newer_changesets: Nowše sadźby změnow
       feed:
         title: Sadźba změnow %{id}
         title_comment: Sadźba změnow %{id} - %{comment}
@@ -476,19 +597,32 @@ hsb:
       changesetxml: Sadźba změnow XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Suki
       nodes_paginated: Suki (%{x}-%{y} z %{count})
+      ways_title: Puće
       ways_paginated: Puće (%{x}-%{y} z %{count})
+      relations_title: Relacije
       relations_paginated: Relacije (%{x}-%{y} z %{count})
+      range: '%{x}–%{y} z %{count}'
+    not_found_message:
+      sorry: 'Bohužel njeda so sadźba změnow #%{id} namakać.'
     timeout:
       sorry: Bohužel je předołho trało, požadanu lisćinu změnow wotwołać.
   changeset_subscriptions:
     show:
       subscribe:
+        heading: Slědowacu diskusiju sadźby změnow abonować?
         button: Diskusiju abonować
       unsubscribe:
+        heading: Wot slědowaceje diskusije sadźby změnow wotskazać?
         button: Diskusiju wotskazać
     heading:
       title: Sadźba změnow %{id}
+      created_by_html: Wot %{link_user} dnja %{created} wutworjeny.
+    no_such_entry:
+      heading: Žadyn zapisk z čisłom %{id}
+      body: Bohužel sadźba změnow z %{id} njeje. Prošu kontroluj prawopis, abo wotkaz,
+        na kotryž sy kliknył, je wopačny.
   dashboards:
     contact:
       km away: '%{count} km zdaleny'
@@ -499,11 +633,13 @@ hsb:
     popup:
       your location: Twoje městno
       nearby mapper: Kartěrowar w bliskosći
+      following: Abonowany
     show:
       title: Moja přehladna strona
       no_home_location_html: '%{edit_profile_link} a nastaj swoje ródne město, zo
         by wužiwarjow w bliskosći widźał.'
       edit_your_profile: Wobdźěłaj swój profil
+      followings: Wužiwarjo, kotrymž slědujeće
       nearby users: Druzy wužiwarjo w bliskosći
       no nearby users: Njejsu druzy wužiwarjo, kotřiž w bliskosći kartěruja.
       nearby_changesets: sadźby změnow wužiwarjow w bliskosći
@@ -580,6 +716,9 @@ hsb:
       my_diary: Mój dźenik
       new: Nowy zapisk do dźenika
       new_title: Nowy zapisk do twojeho wužiwarskeho dźenika pisać
+    profile_diaries:
+      comments_label: Komentary
+      date_label: Datum
   doorkeeper:
     flash:
       applications:
@@ -917,6 +1056,8 @@ hsb:
           wayside_shrine: modlerski stołp
           wreck: wrak
           "yes": historiska městnosć
+        information:
+          map: Karta
         junction:
           "yes": křižowanišćo
         landuse:
@@ -1312,6 +1453,13 @@ hsb:
           building_passage: přechod přez twarjenje
           culvert: wotwódny kanal
           "yes": tunl
+        water:
+          lake: Jězor
+          pond: Hat
+          basin: Wodowy basenk
+          fishpond: Rybjacy hat
+          lagoon: Laguna
+          wastewater: Wopłóčki
         waterway:
           artificial: kumštna wodowa dróha
           boatyard: łódźnica
@@ -1346,6 +1494,8 @@ hsb:
     show:
       title:
         latlon: Interny
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Žane wuslědki namakane
@@ -1357,6 +1507,9 @@ hsb:
       time: Čas
       ascend: Postupowacy
       descend: Spadowacy
+      kilometers: kilometry
+      miles_feet: mile, stopy
+      miles_yards: mile, yardy
       directions_courtesy_html: Směrowe instrukcije pochadźeja wot %{link}
   issues:
     index:
@@ -1453,6 +1606,11 @@ hsb:
     create:
       successful_report: Twoja rozprawa je so wuspěšnje registrowała
       provide_details: Prošu zapodaj trěbne podrobnosće
+  languages_panes:
+    select_language_list:
+      languages:
+        dsb: Delnjoserbšćina
+        hsb: Hornjoserbšćina
   layouts:
     logo:
       alt_text: OpenStreetMap logo
@@ -1479,6 +1637,18 @@ hsb:
     communities: Zhromadnosće
     learn_more: Wjace zhonić
     more: Wjace
+    header:
+      select_language: Rěč wubrać
+      loading: Začituje so...
+    meta:
+      openstreetmap_search: Pytanje OpenStreetMap
+    select_language_button:
+      title: Rěč wubrać
+    offline_flash:
+      osm_offline: Datowa banka OpenStreetMap je tuchwilu offline, dokelž so wažne
+        hladanske dźěła přewjedu.
+      osm_read_only: Datowa banka OpenStreetMap je tuchwilu jenož čitajomna, dokelž
+        so wažne hladanske dźěła přewjedu.
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} je twój dźenikowy zapisk komentował(a)'
@@ -1504,6 +1674,11 @@ hsb:
       hi: Witaj %{to_user},
       see_their_profile: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
       see_their_profile_html: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
+    gpx_details:
+      filename: Datajowe mjeno
+      url: URL
+      description: Wopisanje
+      tags: Znački
     gpx_failure:
       hi: Witaj %{to_user},
       failed_to_import: Zda so, zo so waša dataja njehodźi so jako čara GPS importować.
@@ -1733,24 +1908,61 @@ hsb:
         failure: Preferency njedachu so aktualizować.
       update_success_flash:
         message: Nastajenja su so zaktualizowali.
+      navigation:
+        preferences: Nastajenja
+        advanced_preferences: Rozšěrjene nastajenja
     basic_preferences:
       show:
         title: Moje preferency
+        preferred_language: Preferowana rěč
+        site_color_schemes:
+          auto: Awtomatisce
+          light: Swětły
+          dark: Ćmowy
+        map_color_schemes:
+          auto: Runje tak kaž websydło
+          light: Swětły
+          dark: Ćmowy
+        editor_color_schemes:
+          auto: Runje tak kaž websydło
+          light: Swětły
+          dark: Ćmowy
         save: Preferency aktualizować
+    advanced_preferences:
+      show:
+        title: Moje rozšěrjene nastajenja
+        save: Nastajenja aktualizować
   profiles:
     profile_sections:
       navigation:
+        description: Wopisanje
+        links: Wotkazy
         image: Wobraz
+        company: Předewzaće
+        location: Městno
     descriptions:
       show:
         title: Profil wobdźěłać
         save: Profil aktualizować
         cancel: Přetorhnyć
+      update:
+        success: Wopisanje profila je so aktualizowało.
+        failure: Profilowe wopisanje njeda so aktualizować.
     links:
       show:
         title: Profil wobdźěłać
+        save: Profil aktualizować
+        cancel: Přetorhnyć
+        social_links:
+          remove: Wotstronić
+      update:
+        success: Profilowe wotkazy zaktualizowane.
+        failure: Profilowe wotkazy njedachu so aktualizować.
     images:
       show:
+        title: Profil wobdźěłać
+        save: Profil aktualizować
+        cancel: Přetorhnyć
         gravatar:
           gravatar: Gravatar wužiwać
           what_is_gravatar: Što Grawatar je?
@@ -1760,13 +1972,30 @@ hsb:
         replace image: Aktualny wobraz narunać
         image size hint: (kwadratiske wobrazy z wulkosću wot znajmjeńša 100x100 najlěpje
           funguja)
+      update:
+        success: Profilowy wobraz zaktualizowany.
+        failure: Profilowy wobraz njeda so aktualizować.
+    companies:
+      show:
+        title: Profil wobdźěłać
+        save: Profil aktualizować
+        cancel: Přetorhnyć
+      update:
+        success: Profilowe předewzaće zaktualizowane.
+        failure: Profilowe předewzaće njeda so aktualizować.
     locations:
       show:
+        title: Profil wobdźěłać
+        save: Profil aktualizować
+        cancel: Přetorhnyć
         no home location: Njejsy swoje domjace stejnišćo zapodał.
         update home location on click: Domjace stejnišćo při kliknjenju na kartu aktualizować?
         show: Pokazać
         delete: Zhašeć
         undelete: Zhašenje cofnyć
+      update:
+        success: Profilowe stejnišćo je so aktualizowało.
+        failure: Profilowe stejnišćo njeda so aktualizować.
   sessions:
     new:
       tab_title: Přizjewić
@@ -1776,6 +2005,7 @@ hsb:
       lost password link: Swoje hesło zabył?
       login_button: Přizjewić
       with external: abo přizjew so wot třećeho poskićowarja
+      or: abo
       auth failure: Bohužel přizjewjenje z tutymi podaćemi móžno njeje.
     destroy:
       title: Wotzjewić
@@ -1801,16 +2031,38 @@ hsb:
     richtext_field:
       edit: Wobdźěłać
       preview: Přehlad
+      help: Pomoc
     pagination:
+      changeset_comments:
+        older: Starše komentary
+        newer: Nowše komentary
+        oldest: Najstarše komentary
+        newest: Najnowše komentary
       diary_comments:
         older: Starše komentary
         newer: Nowše komentary
+        oldest: Najstarše komentary
+        newest: Najnowše komentary
       diary_entries:
         older: Starše zapiski
         newer: Nowše zapiski
+        oldest: Najstarše zapiski
+        newest: Najnowše zapiski
+      issues:
+        older: Starše problemy
+        newer: Nowše problemy
+        oldest: Najstarše problemy
+        newest: Najnowše problemy
       traces:
         older: Starše ćěrje
         newer: Nowše ćěrje
+        oldest: Najstarše ćěrje
+        newest: Najnowše ćěrje
+      users:
+        older: Starši wužiwarjo
+        newer: Nowši wužiwarjo
+        oldest: Najstarši wužiwarjo
+        newest: Najnowši wužiwarjo
   site:
     about:
       used_by_html: '%{name} kartowe daty za tysacy websydłow, mobilnych nałoženjow
@@ -1833,6 +2085,10 @@ hsb:
       legal_1_1_openstreetmap_foundation: Załožba OpenStreetMap
       legal_1_1_terms_of_use: Wužiwanske wuměnjenja
       legal_1_1_privacy_policy: Prawidła priwatnosće
+      legal_attribution_example_film_title: Film
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
+      legal_attribution_example_tv_title: Telewizija
+      legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       partners_title: Partnerojo
     copyright:
       title: Awtorske prawo a licenca
@@ -1849,7 +2105,21 @@ hsb:
         native_link: hornjoserbskej wersiji
         mapping_link: z kartěrowanjom započeć
       legal_babble:
+        lead_2_learn_more_about_osm: Zhoń wjace wo OpenStreetMap
+        lead_2_osm_blog: Blog OpenStreetMap
+        lead_2_osm_community: Zhromadźenstwo OSM
+        lead_2_osm_foundation: Załožba OSM
+        licensing_1_open: wočinjene
+        licensing_1_odc_odbl: Licenca Open Data Commons Open Database
         licensing_1_osm_foundation: Załožba OpenStreetMap
+        licensing_2_html: Směš naše daty kopěrować, rozdźělić, přenošować a přiměrić,
+          dołhož OpenStreetMap a jeho sobuskutkowacych naspominaš. Jeli naše daty
+          změniš abo so na nje zepěraš, móžeš wuslědk jenož pod samsnej licencu rozdźělić.
+          Dospołny %{legal_code_link} twoje prawa a winowatosće wujasnja.
+        licensing_3_creative_commons_license: Licenca Creative Commons Attribution-ShareAlike
+          2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_osmf_license_page: Licencna strona OSMF
         credit_title_html: Kak ma so na awtorstwo OpenStreetMap pokazać
         credit_1_html: 'Hdyž daty OpenStreetMap wužiwaš, dyrbiš slědowacej dwě wěcy
           činić:'
@@ -1861,6 +2131,7 @@ hsb:
           kotrež su přez awtorske prawo škitane (na př. z Google Maps abo z wućišćanych
           kartow) bjez wurazneje dowolnosće awtorow  njepřidawaja.
         trademarks_title: Tworowe znamjenja
+        services_title_html: Přidatne słužby
         contributors_title_html: Naši sobuskutkowacy
         contributors_intro_html: 'Naši sobuskutkowacy su tysacy jednotliwcow. Zapřijamy
           tež wotewrjenje licencowane daty narodnych kartowych agenturow a z druhich
@@ -1869,11 +2140,18 @@ hsb:
         contributors_at_stadt_wien: Město Wien
         contributors_at_land_vorarlberg: Kraj Vorarlberg
         contributors_au_australia: Awstralija
+        contributors_au_geoscape_australia: Geoscape Awstralska
+        contributors_au_cc_licence: Licenca Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: Wobsahuje daty z GeoBase&reg;, GeoGratis
+          (&copy; Department of Natural Resources Canada), CanVec (&copy; Department
+          of Natural Resources Canada) a StatCan (Geography Division, Statistics Canada).'
         contributors_ca_canada: Kanada
         contributors_cz_czechia: Čěska
         contributors_fi_finland: Finska
         contributors_fi_nlsfi_license: Licenca NLSFI
         contributors_fr_france: Francoska
+        contributors_hr_croatia: Chorwatska
         contributors_nl_netherlands: Nižozemska
         contributors_nz_new_zealand: Nowoseelandska
         contributors_nz_linz_data_service: Datowa słužba LINZ
@@ -1883,6 +2161,7 @@ hsb:
         contributors_es_spain: Španiska
         contributors_za_south_africa: Južna Afrika
         contributors_gb_united_kingdom: Zjednoćene kralestwo
+        contributors_2_contributors_page: Strona sobuskutkowarjow
         contributors_footer_2_html: Zapřijimanje datow do OpenStreetMap njerěka, zo
           poskićowar originalnych datow OpenStreetMap připóznawa, někajku garantiju
           dodawa abo rukowanje přewozmje.
@@ -1902,6 +2181,8 @@ hsb:
       title: Eksportować
       manually_select: Druhi wobłuk manuelnje wubrać
       licence: Licenca
+      licence_details_html: Daty OpenStreetMap su pod %{odbl_link} (ODbL) licencowane.
+      odbl: Licenca Open Data Commons Open Database
       too_large:
         advice: 'Jeli horni eksport so njeradźi, prošu wuwaž, hač wužiwaš jednu ze
           slědowacych lisćinow:'
@@ -1924,6 +2205,11 @@ hsb:
           title: Druhe žórła
           description: Přidatne žórła nalistowane na wikiju OpenStreetMap
       export_button: Eksport
+      export_download: Sćahuje so…
+      confirmation:
+        header: XML-daty sćahnyć
+        cancel: Přetorhnyć
+        download: Sćahnyć
     fixthemap:
       title: Problem zdźělić / Kartu poprawić
       how_to_help:
@@ -2023,6 +2309,9 @@ hsb:
       other_groups:
         title: Druhe skupiny
         communities_wiki: Wikistrona zhromadnosćow
+  social_links:
+    show:
+      website: websydło
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Powjetš kartu, zo by pokazki widźał
@@ -2057,6 +2346,7 @@ hsb:
         taxiway: Lětadłowa jězdnja
         apron: Lětanišćowe předpolo
         admin: Zarjadniska hranica
+        capital: Stolica
         city: Město
         forest: Hajina
         wood: Lěs
@@ -2116,6 +2406,7 @@ hsb:
       custom_dimensions: Swójske wotměry nastajić
       image_dimensions_html: Wobraz runinu %{layer} pola %{width} x %{height} pokaza
       download: Sćahnyć
+      downloading: Sćahuje so…
   traces:
     visibility:
       private: Priwatna (jenož jako anonymna, njezrjadowane dypki )
@@ -2234,6 +2525,9 @@ hsb:
       google:
         title: Z Google přizjewić
         alt: Logo Google
+      apple:
+        title: Z Apple přizjewić
+        alt: Logo Apple
       facebook:
         title: Z Facebook přizjewić
         alt: Logo Facebook
@@ -2246,8 +2540,30 @@ hsb:
       wikipedia:
         title: Z Wikipediju přizjewić
         alt: Logo Wikipedije
+    share:
+      share:
+        title: Dźělić
+      email:
+        alt: E-mejlowy symbol
+      bluesky:
+        alt: Symbol Bluesky
+      facebook:
+        title: Přez Facebook dźělić
+        alt: Symbol Facebook
+      linkedin:
+        alt: Symbol LinkedIn
+      mastodon:
+        title: Na Mastodon dźělić
+        alt: Symbol Mastodon
+      telegram:
+        title: Na Telegram dźělić
+        alt: Symbol Telegram
+      x:
+        title: Na X dźělić
+        alt: Symbol X
   oauth:
     scopes:
+      openid: Přizjew so z OpenStreetMap
       read_prefs: Wužiwarske nastajenja čitać
       write_prefs: Wužiwarske nastajenja změnić
       write_api: Kartu změnić
@@ -2301,16 +2617,20 @@ hsb:
   users:
     new:
       title: Registrować
+      tab_title: Registrować
       no_auto_account_create: Bohužel njemóžemy tuchwilu žane konto za tebje awtomatisce
         załožić.
       support: pomoc
       about:
         header: Swobodny a wobdźěłujomny.
+        welcome: Witaj k OpenStreetMap
       display name description: Sy wužiwarske mjeno zjawnje pokazał. Móžeš to pozdźišo
         w nastajenjach změnić.
       by_signing_up:
+        tou: Wužiwanske wuměnjenja
         privacy_policy: prawidła priwatnosće
       continue: Registrować
+      or: abo
       use external auth: abo registruj so wot třećeho poskićowarja
     no_such_user:
       title: Wužiwar njeeksistuje
@@ -2325,6 +2645,7 @@ hsb:
       my notes: Moje pokazki
       my messages: Moje powěsće
       my profile: Mój profil
+      my_account: Moje konto
       my comments: Moje komentary
       my_preferences: Moje preferency
       my_dashboard: Moja přehladna strona
@@ -2357,6 +2678,15 @@ hsb:
       delete_user: Tutoho wužiwarja zhašeć
       confirm: Wobkrućić
       report: Tutoho wužiwarja zdźělić
+      edit_profile_details: Profilowe podrobnosće wobdźěłać
+      edit_description: Wopisanje wobdźěłać
+      edit_links: Wotkazy wobdźěłać
+      change_image: Wobraz změnić
+      edit_company: Předewzaće wobdźěłać
+      edit_location: Stejnišćo wobdźěłać
+    sidebar_section:
+      home_location: Domjace stejnišćo
+      company: Předewzaće
     go_public:
       flash success: Wšě twoje změny su nětko zjawne, a směš nětko wobdźěłać.
     issued_blocks:
@@ -2383,6 +2713,17 @@ hsb:
       show:
         title: Wužiwarjo
         heading: Wužiwarjo
+        select_status: Status wubrać
+        states:
+          active: Aktiwny
+          confirmed: Wobkrućeny
+          deleted: Zhašany
+        name_or_email: Mjeno abo e-mejl
+        ip_address: IP-adresa
+        edits: Změny?
+        has_edits: Ma změny
+        no_edits: Žane změny
+        search: Pytać
       page:
         confirm: Wubranych wužiwarjow wobkrućic
         hide: Wubranych wužiwarjow schować
@@ -2390,8 +2731,14 @@ hsb:
       user:
         summary_html: '%{name} wot %{ip_address} dnja %{date} wutworjeny'
         summary_no_ip_html: '%{name} dnja %{date} wutworjeny'
+    comments:
+      index:
+        changesets: Sadźby změnow
+        diary_entries: Dźenikowe zapiski
+        no_comments: Žane komentary
     changeset_comments:
       page:
+        changeset: Sadźba změnow
         when: Hdy
         comment: Komentar
     diary_comments:
@@ -2399,6 +2746,8 @@ hsb:
         title: Dźenikowe komentary přidate wot wužiwarja %{user}
       page:
         post: Zapisk
+        when: Hdy
+        comment: Komentar
     suspended:
       title: Konto wupowědźene
       heading: Konto wupowědźene
@@ -2496,6 +2845,8 @@ hsb:
           two: '%{count} lěće'
           few: '%{count} lěta'
           other: '%{count} lět'
+      short:
+        active: aktiwny
     show:
       title: '%{block_on} wot %{block_by} zablokowany'
       heading_html: '%{block_on} wot %{block_by} zablokowany'
@@ -2512,6 +2863,8 @@ hsb:
       display_name: Zablokowany wužiwar
       creator_name: Blokowar
       reason: Přičina za blokowanje
+      start: Spočatk
+      end: Kónc
       status: Status
   user_mutes:
     index:
@@ -2549,18 +2902,27 @@ hsb:
       description: Wopisanje
       created_at: 'Wutworjeny:'
       last_changed: Posledni raz změnjeny
+      apply: Nałožić
+      all: Wšě
+      hidden: Schowany
+      status: Status
     show:
       title: 'Suk: %{id}'
       description: Wopisanje
       open_title: 'Njesčinjena pokazka #%{note_name}'
       closed_title: 'Sčinjena pokazka #%{note_name}'
       hidden_title: 'Schowana pokazka #%{note_name}'
+      description_when_author_is_deleted: zhašany
+      description_when_there_is_no_opening_comment: njeznaty
       event_commented_by_html: Komentar wot %{user} %{time_ago}
       event_commented_by_anonymous_html: Komentar wot anonymneho wužiwarja %{time_ago}
       event_hidden_by_html: Schowany wot %{user} %{time_ago}
       report: tutón pokazku zdźělić
       anonymous_warning: Tuta pokazka wobsahuje komentary wot anonymnych wužiwarjow,
         kotrež měli so njewotwisnje přepruwować.
+      discussion: Diskusija
+      subscribe: Abonować
+      unsubscribe: Wotskazać
       hide: Schować
       resolve: Sčinjeny
       reactivate: Znowa aktiwizować
@@ -2572,6 +2934,10 @@ hsb:
       intro: Sy zmylk widźał abo zo něšto faluje? Informuj druhich kartografow, zo
         móhli to porjedźić. Přesuń marku ke korektnej poziciji a zapisaj pokazku,
         zo by problem wujasnił.
+      anonymous_warning_log_in: přizjewić
+      anonymous_warning_sign_up: registrować
+      counter_warning_forum_link:
+        text: zhromadźenstwo móže ći pomhać
       add: Pokazku přidać
     notes_paging_nav:
       showing_page: Strona %{page}
@@ -2580,6 +2946,7 @@ hsb:
     share:
       title: Dźělić
       view_larger_map: Wjetšu kartu pokazać
+      filename: karta
     embed:
       report_problem: Problem zdźělić
     legend:
@@ -2608,6 +2975,8 @@ hsb:
         transport_map: Wobchadna karta
         tracestracktop_topo: Tracestrack Topo
         hot: Sobuskutkowacy humanitarneje pomocy
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Kartowe runiny
         notes: Pokazki
@@ -2716,12 +3085,16 @@ hsb:
       nothing_found: Žane funkcije namakane
       error: 'Zmylk při kontaktowanju %{server}: %{error}'
       timeout: Čas překročowany při kontaktowanju %{server}
+    element:
+      wikipedia: Wikipedija
     context:
       directions_from: Čara wottud
       directions_to: Čara tam
       show_address: Adresu pokazać
       query_features: Funkcije naprašować
       centre_map: Kartu tu srjedźić
+    home:
+      marker_title: Moje domjace stejnišćo
     edit:
       id_not_configured:
         title: iD njeje so konfigurował
