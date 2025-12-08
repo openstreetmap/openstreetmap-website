@@ -200,6 +200,8 @@ class Changeset < ApplicationRecord
     end
   end
 
+  def comment = tags["comment"].presence
+
   ##
   # set the auto-close time to be one hour in the future unless
   # that would make it more than 24h long, in which case clip to

@@ -24,8 +24,8 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
                  :href => api_changeset_download_url(changeset, :only_path => false),
                  :type => "application/osmChange+xml"
 
-      if !changeset.tags.empty? && changeset.tags.key?("comment")
-        entry.title t(".feed.title_comment", :id => changeset.id, :comment => changeset.tags["comment"])
+      if changeset.comment.present?
+        entry.title t(".feed.title_comment", :id => changeset.id, :comment => changeset.comment)
       else
         entry.title t(".feed.title", :id => changeset.id)
       end

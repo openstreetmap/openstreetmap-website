@@ -176,7 +176,7 @@ class UserMailer < ApplicationMailer
       @comment = comment.body
       @owner = recipient == comment.changeset.user
       @commenter = comment.author.display_name
-      @changeset_comment = comment.changeset.tags["comment"].presence
+      @changeset_comment = comment.changeset.comment
       @time = comment.created_at
       @changeset_author = comment.changeset.user.display_name
       @changeset_subscription_url = changeset_subscription_url(comment.changeset)
