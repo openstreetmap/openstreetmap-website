@@ -34,4 +34,17 @@ module NoteHelper
               :class => "mw-100 d-inline-block align-bottom text-truncate text-wrap", :dir => "auto"
     end
   end
+
+  def note_list_row_class(note, user)
+    opened_by_user = note.author == user
+    closed_by_user = note.comments.last&.author == user && note.comments.last&.event == "closed"
+
+    if opened_by_user && closed_by_user
+      "table-warning"
+    elsif opened_by_user
+      "table-danger"
+    elsif closed_by_user
+      "table-success"
+    end
+  end
 end
