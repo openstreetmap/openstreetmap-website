@@ -49,7 +49,8 @@ class Ability
         can [:read, :create, :destroy], Message
         can [:close, :reopen], Note
         can :create, Report
-        can [:mine, :create, :update, :destroy], Trace
+        can :mine, Trace
+        can [:create, :update, :destroy], Trace if user.blocks.active.empty?
         can [:account, :go_public], User
         can [:read, :create, :destroy], UserMute
 
