@@ -37,6 +37,7 @@
 #  note_comments_count  :integer          default(0)
 #  creation_address     :inet
 #  company              :string
+#  public_heatmap       :boolean          default(TRUE), not null
 #
 # Indexes
 #
