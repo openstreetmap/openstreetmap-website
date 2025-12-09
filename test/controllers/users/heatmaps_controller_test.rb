@@ -13,12 +13,22 @@ module Users
       )
     end
 
+    def test_show_data_when_not_logged_in
+      user = create(:user)
+      create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
+
+      get user_heatmap_path(user)
+
+      assert_response :success
+      assert_nil assigns(:heatmap_data)
+    end
+
     def test_show_data
       user = create(:user)
-      # Create two changesets
       create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
       create(:changeset, :user => user, :created_at => 3.months.ago, :num_changes => 20)
 
+      session_for(create(:user))
       get user_heatmap_path(user)
 
       assert_response :success
@@ -45,6 +55,7 @@ module Users
       create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 15)
 
       # First request to populate the cache
+      session_for(create(:user))
       get user_heatmap_path(user)
       first_response_data = assigns(:heatmap_data)
       assert_not_nil first_response_data, "Expected heatmap data to be assigned on the first request"
@@ -77,13 +88,13 @@ module Users
       Rails.cache = @original_cache_store
     end
 
-    def test_show_data_no_changesets
+    def test_show_rendering_when_not_logged_in
       user = create(:user)
+      create(:changeset, :user => user, :created_at => 6.months.ago, :num_changes => 10)
 
       get user_heatmap_path(user)
 
       assert_response :success
-      assert_empty(assigns(:heatmap_data)[:data].values)
       assert_select ".heatmap", :count => 0
     end
 
@@ -160,6 +171,7 @@ module Users
     def test_show_rendering_of_user_with_no_changesets
       user_without_changesets = create(:user)
 
+      session_for(create(:user))
       get user_heatmap_path(user_without_changesets)
 
       assert_response :success
@@ -172,6 +184,7 @@ module Users
       _changeset5 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 5)
       changeset11 = create(:changeset, :user => user, :created_at => 3.months.ago.beginning_of_day, :num_changes => 11)
 
+      session_for(create(:user))
       get user_heatmap_path(user)
 
       assert_response :success
@@ -186,6 +199,7 @@ module Users
     def test_headline_changeset_zero
       user = create(:user)
 
+      session_for(create(:user))
       get user_heatmap_path(user)
 
       assert_response :success
@@ -196,6 +210,7 @@ module Users
       user = create(:user)
       create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 1)
 
+      session_for(create(:user))
       get user_heatmap_path(user)
 
       assert_response :success
@@ -206,6 +221,7 @@ module Users
       user = create(:user)
       create(:changeset, :user => user, :created_at => 4.months.ago.beginning_of_day, :num_changes => 12)
 
+      session_for(create(:user))
       get user_heatmap_path(user)
 
       assert_response :success
