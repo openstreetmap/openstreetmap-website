@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+require "time"
+require "rexml/parsers/sax2parser"
+require "rexml/text"
+
 # The OSM module provides support functions for OSM.
 module OSM
-  require "time"
-  require "rexml/parsers/sax2parser"
-  require "rexml/text"
-
   # The base class for API Errors.
   class APIError < RuntimeError
     def initialize(message = "Generic API Error")
