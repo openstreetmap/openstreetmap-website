@@ -9,9 +9,9 @@ $(function () {
   if ($("#map").length) {
     map = new maplibregl.Map({
       container: "map",
-      style: OSM.Mapnik,
+      style: OSM.MapLibre.Styles.Mapnik,
       attributionControl: false,
-      locale: OSM.MaplibreLocale,
+      locale: OSM.MapLibre.Locale,
       center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
       zoom: OSM.home ? defaultHomeZoom : 0
     });
@@ -24,14 +24,14 @@ $(function () {
       },
       trackUserLocation: true
     });
-    map.addControl(new OSM.CombinedControlGroup([navigationControl, geolocateControl]), position);
+    map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
 
     $("[data-user]").each(function () {
       const user = $(this).data("user");
       if (user.lon && user.lat) {
-        OSM.createMapLibreMarker({ icon: "dot", color: user.color })
+        OSM.MapLibre.getMarker({ icon: "dot", color: user.color })
           .setLngLat([user.lon, user.lat])
-          .setPopup(OSM.createMapLibrePopup(user.description))
+          .setPopup(OSM.MapLibre.getPopup(user.description))
           .addTo(map);
       }
     });

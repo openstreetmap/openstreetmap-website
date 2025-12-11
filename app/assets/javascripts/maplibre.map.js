@@ -1,6 +1,6 @@
 //= require maplibre-gl/dist/maplibre-gl
 
-OSM.Mapnik = {
+OSM.MapLibre.Styles.Mapnik = {
   version: 8,
   sources: {
     osm: {
@@ -23,7 +23,7 @@ OSM.Mapnik = {
 
 // Helper function to create Leaflet style (SVG comes from Leaflet) markers for MapLibre
 // new maplibregl.Marker({ color: color }) is simpler, but does not have the exact same gradient
-OSM.createMapLibreMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
+OSM.MapLibre.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
   const el = document.createElement("div");
   el.className = "maplibre-gl-marker";
   el.style.width = "25px";
@@ -58,7 +58,7 @@ OSM.createMapLibreMarker = function ({ icon = "dot", color = "var(--marker-red)"
 };
 
 // Helper function to create MapLibre popups that don't overlap with Leaflets' markers
-OSM.createMapLibrePopup = function (content) {
+OSM.MapLibre.getPopup = function (content) {
   // General offset 5px for each side, but the offset depends on the popup position:
   // Popup above the marker -> lift it by height + 5px = 45px
   // Popup left the marker -> lift it by width/2 + 5px = 22.5px ~= 17px

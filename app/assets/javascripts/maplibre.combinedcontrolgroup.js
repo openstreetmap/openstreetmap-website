@@ -31,4 +31,4 @@ class CombinedControlGroup {
   }
 }
 
-OSM.CombinedControlGroup = CombinedControlGroup;
+OSM.MapLibre.CombinedControlGroup = CombinedControlGroup;
