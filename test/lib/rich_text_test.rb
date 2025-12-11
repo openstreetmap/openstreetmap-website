@@ -496,6 +496,33 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal t0.delete("`"), t1.strip
   end
 
+  def test_text_to_html_linkify_trims_punctuation
+    r = RichText.new("text", "foo `surface=metal) bar inscription=🙂 baz")
+    assert_html r do
+      assert_dom "a", :count => 1
+      assert_dom "a[href$='Tag:surface=metal']", :text => "surface=metal"
+    end
+  end
+
+  def test_text_to_html_linkify_recognizes_non_standard_wiki_pages
+    r_paren = RichText.new("text", "foo source=Isle_of_Man_Government_1:25000_map_(2007) bar")
+    assert_html r_paren do
+      assert_dom "a[href*='Tag:source']", :text => "source=Isle_of_Man_Government_1:25000_map_(2007)"
+    end
+    r_latin_ext = RichText.new("text", "foo cuisine=açaí bar")
+    assert_html r_latin_ext do
+      assert_dom "a[href*='Tag:cuisine']", :text => "cuisine=açaí"
+    end
+    r_cyrillic = RichText.new("text", "foo name=Продукты bar")
+    assert_html r_cyrillic do
+      assert_dom "a[href*='Tag:name']", :text => "name=Продукты"
+    end
+    r_cjk = RichText.new("text", "foo shop=園芸店 bar")
+    assert_html r_cjk do
+      assert_dom "a[href*='Tag:shop']", :text => "shop=園芸店"
+    end
+  end
+
   def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
