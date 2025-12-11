@@ -16,6 +16,11 @@ class Tag2linkTest < ActiveSupport::TestCase
     assert_equal "https://www.wikidata.org/entity/Q936", url
   end
 
+  def test_link_strips_path_terminators
+    url = Tag2link.link("hashtags", "#maproulette")
+    assert_equal "https://resultmaps.neis-one.org/osm-changesets?comment=maproulette", url
+  end
+
   def test_build_dict_rejects_deprecated_and_third_party
     data = [
       { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "deprecated", "source" => "osmwiki:P8" },

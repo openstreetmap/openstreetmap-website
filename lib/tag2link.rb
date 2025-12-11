@@ -12,7 +12,7 @@ module Tag2link
     url_template = @dict[key]
     return nil unless url_template
 
-    url_template.gsub("$1", value)
+    url_template.gsub("$1", value.sub(/^#/, ""))
   end
 
   def self.build_dict(data)
