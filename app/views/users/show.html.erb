@@ -299,10 +299,9 @@
   <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :src => user_heatmap_path(@user), :data => { :turbo => false }, :class => "heatmap_frame" %>
 <% end %>
 <% if owned %>
-  <%= bootstrap_form_for current_user, :url => profile_heatmap_path, :layout => :inline do |f| %>
-    <%= f.check_box :public_heatmap, :label => "Show the heatmap on your profile page", :checked => current_user.public_heatmap? %>
-    <%= f.primary "Save" %>
-  <% end %>
+  <div class="mt-2">
+    <%= link_to t(".edit_heatmap"), profile_heatmap_path, :class => "btn btn-sm w-100 btn-outline-primary" %>
+  </div>
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>

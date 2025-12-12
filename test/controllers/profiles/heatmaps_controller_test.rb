@@ -8,9 +8,29 @@ module Profiles
     # test all routes which lead to this controller
     def test_routes
       assert_routing(
+        { :path => "/profile/heatmap", :method => :get },
+        { :controller => "profiles/heatmaps", :action => "show" }
+      )
+      assert_routing(
         { :path => "/profile/heatmap", :method => :put },
         { :controller => "profiles/heatmaps", :action => "update" }
       )
+    end
+
+    def test_show
+      user = create(:user)
+      session_for(user)
+
+      get profile_heatmap_path
+
+      assert_response :success
+      assert_template :show
+    end
+
+    def test_show_unauthorized
+      get profile_heatmap_path
+
+      assert_redirected_to login_path(:referer => profile_heatmap_path)
     end
 
     def test_update
