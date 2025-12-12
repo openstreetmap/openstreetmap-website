@@ -157,6 +157,26 @@ module Users
       assert_response :not_found
     end
 
+    def test_show_not_public
+      user = create(:user)
+      user.update(:public_heatmap => false)
+
+      get user_heatmap_path(user)
+      assert_response :not_found
+
+      session_for(create(:user))
+      get user_heatmap_path(user)
+      assert_response :not_found
+
+      session_for(create(:moderator_user))
+      get user_heatmap_path(user)
+      assert_response :not_found
+
+      session_for(create(:administrator_user))
+      get user_heatmap_path(user)
+      assert_response :not_found
+    end
+
     def test_show_rendering_of_user_with_no_changesets
       user_without_changesets = create(:user)
 
