@@ -225,6 +225,12 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_linkify_username_with_space
+    text = 'Hello @"Open Mapper"'
+    html = RichText.new("markdown", text).to_html
+    assert_match %r{<a href="/user/Open%20Mapper" rel="nofollow noopener noreferrer">&#64;”Open Mapper”</a>}, html
+  end
+
   def test_text_to_html_linkify_replace
     with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
       r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
@@ -356,8 +362,10 @@ class RichTextTest < ActiveSupport::TestCase
     with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
       r = RichText.new("text", "foo @example bar")
       assert_html r do
-        assert_dom "a", :count => 1, :text => "http://test.host/user/example" do
-          assert_dom "> @href", "http://test.host/user/example"
+        # We now expect the visible text to be "@example", not the full URL
+        assert_dom "a", :count => 1, :text => "@example" do
+          # We now expect a standard relative URL
+          assert_dom "> @href", "/user/example"
           assert_dom "> @rel", "nofollow noopener noreferrer"
         end
       end

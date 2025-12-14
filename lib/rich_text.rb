@@ -89,6 +89,7 @@ module RichText
 
     def linkify(text, mode = :urls)
       ERB::Util.html_escape(text)
+               .then { |html| linkify_users(html) }
                .then { |html| expand_link_shorthands(html) }
                .then { |html| expand_host_shorthands(html) }
                .then { |html| auto_link(html, mode) }
@@ -96,6 +97,16 @@ module RichText
     end
 
     private
+
+    def linkify_users(text)
+      text.gsub(/(?<!\w)@(?:(?:&quot;|["“”])(.+?)(?:&quot;|["“”])|(\w+))/) do |match|
+        name = ::Regexp.last_match(1) || ::Regexp.last_match(2)
+        slug = ERB::Util.url_encode(name)
+        safe_match = match.sub("@", "&#64;")
+
+        "<a href=\"/user/#{slug}\" rel=\"nofollow noopener noreferrer\">#{safe_match}</a>"
+      end
+    end
 
     def gsub_pairs_for_linkify_detection
       Array
