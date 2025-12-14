@@ -1,0 +1,69 @@
+/*
+ *= require maplibre-gl
+ */
+
+@import "parameters";
+
+.maplibregl-ctrl {
+  margin-right: 0 !important;
+}
+
+.maplibregl-control-container .maplibregl-ctrl button {
+  display: block;
+  height: 40px;
+  width: 40px;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+
+  &:hover, &:focus {
+    background-color: black !important;
+  }
+
+  &:first-child,
+  &:first-child:focus {
+    border-radius: 4px 0 0 0;
+  }
+
+  &:last-child,
+  &:last-child:focus {
+    border-radius: 0 0 0 4px;
+  }
+}
+
+.maplibregl-ctrl-group {
+  background-color: transparent !important;
+}
+
+.maplibregl-ctrl-group button+button {
+  border-top: 0;
+}
+
+.maplibregl-user-location-accuracy-circle {
+  background-color: $green !important;
+  opacity: 0.2 !important;
+}
+
+.maplibregl-user-location-dot, .maplibregl-user-location-dot:before {
+  background-color: $vibrant-green !important;
+}
+
+.maplibregl-ctrl button .maplibregl-ctrl-icon {
+  background-image: none !important;
+  background-color: white;
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-zoom-in .maplibregl-ctrl-icon {
+  mask-image: image-url("map-controls/zoomin.svg");
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-zoom-out .maplibregl-ctrl-icon {
+  mask-image: image-url("map-controls/zoomout.svg");
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-geolocate .maplibregl-ctrl-icon {
+  mask-image: image-url("map-controls/geolocate.svg");
+}
+
+.maplibregl-ctrl button.maplibregl-ctrl-geolocate.maplibregl-ctrl-geolocate-active .maplibregl-ctrl-icon {
+  background-color: $vibrant-green;
+}
