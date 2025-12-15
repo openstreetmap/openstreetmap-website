@@ -193,7 +193,6 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_markdown_table_alignment
-    # Ensure that kramdown table alignment styles are converted to bootstrap classes
     markdown_table = <<~MARKDOWN
       | foo  | bar |
       |:----:|----:|
@@ -226,9 +225,11 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_linkify_username_with_space
-    text = 'Hello @"Open Mapper"'
-    html = RichText.new("markdown", text).to_html
-    assert_match %r{<a href="/user/Open%20Mapper" rel="nofollow noopener noreferrer">&#64;”Open Mapper”</a>}, html
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      text = 'Hello @"Open Mapper"'
+      html = RichText.new("markdown", text).to_html
+      assert_match %r{<a href="/user/Open%20Mapper" #{RichText::LINK_ATTRIBUTES}>&#64;[“”]Open Mapper[“”]</a>}o, html
+    end
   end
 
   def test_text_to_html_linkify_replace
@@ -241,6 +242,18 @@ class RichTextTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  def test_linkify_username_with_quotes
+    text = "Hello @'\"Yo\"'"
+    html = RichText.new("markdown", text).to_html
+    assert_match %r{<a href="/user/%22Yo%22" #{RichText::LINK_ATTRIBUTES}>&#64;[‘'’]“Yo”[‘'’]</a>}o, html
+  end
+
+  def test_linkify_short_username
+    text = "Hello @Yo"
+    html = RichText.new("markdown", text).to_html
+    assert_match %r{<a href="/user/Yo" #{RichText::LINK_ATTRIBUTES}>&#64;Yo</a>}o, html
   end
 
   def test_text_to_html_linkify_recognize

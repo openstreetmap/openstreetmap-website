@@ -4,6 +4,7 @@ module RichText
   DESCRIPTION_MAX_LENGTH = 500
   DESCRIPTION_WORD_BREAK_THRESHOLD_LENGTH = 450
   URL_UNSAFE_CHARS = "[^\\w!#$%&'*+,./:;=?@_~^\\-]"
+  LINK_ATTRIBUTES = 'rel="nofollow noopener noreferrer" dir="auto"'
 
   def self.new(format, text)
     case format
@@ -99,12 +100,18 @@ module RichText
     private
 
     def linkify_users(text)
-      text.gsub(/(?<!\w)@(?:(?:&quot;|["“”])(.+?)(?:&quot;|["“”])|(\w+))/) do |match|
-        name = ::Regexp.last_match(1) || ::Regexp.last_match(2)
-        slug = ERB::Util.url_encode(name)
-        safe_match = match.sub("@", "&#64;")
+      regex = /(?<!\w)@(?:“([^”]+?)”|”([^”]+?)”|‘([^’]+?)’|’([^’]+?)’|"([^"]+?)"|'([^']+?)'|(\w+))/
 
-        "<a href=\"/user/#{slug}\" rel=\"nofollow noopener noreferrer\">#{safe_match}</a>"
+      text.gsub(regex) do |match|
+        name = ::Regexp.last_match.captures.compact.first
+        next match unless name
+
+        slug_name = name.tr("“”‘’", %q(""''
+))
+        slug = ERB::Util.url_encode(slug_name)
+
+        safe_match = match.sub("@", "&#64;")
+        "<a href=\"/user/#{slug}\" #{LINK_ATTRIBUTES}>#{safe_match}</a>"
       end
     end
 
@@ -139,8 +146,7 @@ module RichText
     end
 
     def auto_link(text, mode)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(text, mode, link_attr) { |url| format_link_text(url) }
+      Rinku.auto_link(text, mode, LINK_ATTRIBUTES) { |url| format_link_text(url) }
     end
 
     def format_link_text(url)
