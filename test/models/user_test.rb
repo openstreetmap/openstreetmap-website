@@ -432,16 +432,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "resolved", issue.reload.status
   end
 
-  def test_hide
+  def test_mark_deleted
     user = create(:user)
-    user.hide
+    user.mark_deleted
     assert_equal "deleted", user.status
   end
 
-  def test_hide_closes_issues
+  def test_mark_deleted_closes_issues
     user = create(:user)
     issue = create(:issue, :reportable => user)
-    user.hide
+    user.mark_deleted
     assert_equal "deleted", user.status
     assert_equal "resolved", issue.reload.status
   end

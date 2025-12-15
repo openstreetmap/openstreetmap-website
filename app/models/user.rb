@@ -229,7 +229,9 @@ class User < ApplicationRecord
     end
 
     # Mark the account as deleted but keep all data intact
-    event :hide do
+    # Only to be used in tests. There's currently no production
+    # use for this transition.
+    event :mark_deleted do
       before do
         close_open_issues
       end
