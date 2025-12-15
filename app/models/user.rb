@@ -237,7 +237,7 @@ class User < ApplicationRecord
       transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
     end
 
-    event :unhide do
+    event :undelete do
       transitions :from => [:deleted], :to => :active
     end
 

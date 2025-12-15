@@ -251,7 +251,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     get api_user_preferences_path, :headers => auth_header
     assert_response :forbidden
 
-    user.unhide!
+    user.undelete!
 
     get api_user_preferences_path, :headers => auth_header
     assert_response :success

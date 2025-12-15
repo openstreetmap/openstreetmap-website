@@ -82,16 +82,16 @@ module Users
       assert_equal "deleted", user.status
     end
 
-    def test_unhide
+    def test_undelete
       user = create(:user, :deleted)
 
       # Try without logging in
-      put user_status_path(user, :event => "unhide")
+      put user_status_path(user, :event => "undelete")
       assert_response :forbidden
 
       # Now try as a normal user
       session_for(create(:user))
-      put user_status_path(user, :event => "unhide")
+      put user_status_path(user, :event => "undelete")
       assert_redirected_to :controller => "/errors", :action => :forbidden
 
       # Double-checking that there were no changes to the user
@@ -99,7 +99,7 @@ module Users
 
       # Finally try as an administrator
       session_for(create(:administrator_user))
-      put user_status_path(user, :event => "unhide")
+      put user_status_path(user, :event => "undelete")
       assert_redirected_to user_path(user)
 
       # Check that the user was deleted properly

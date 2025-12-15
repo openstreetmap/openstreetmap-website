@@ -204,9 +204,9 @@
               </li>
             <% end %>
 
-            <% if @user.may_unhide? %>
+            <% if @user.may_undelete? %>
               <li>
-                <%= link_to t(".unhide_user"), user_status_path(@user, :event => "unhide"), :method => :put, :data => { :confirm => t(".confirm") } %>
+                <%= link_to t(".undelete_user"), user_status_path(@user, :event => "undelete"), :method => :put, :data => { :confirm => t(".confirm") } %>
               </li>
             <% end %>
           </ul>

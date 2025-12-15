@@ -18,7 +18,7 @@ module Users
       @user.activate! if params[:event] == "activate"
       @user.confirm! if params[:event] == "confirm"
       @user.unconfirm! if params[:event] == "unconfirm"
-      @user.unhide! if params[:event] == "unhide"
+      @user.undelete! if params[:event] == "undelete"
       @user.unsuspend! if params[:event] == "unsuspend"
       @user.suspend! if params[:event] == "suspend"
       @user.soft_destroy! if params[:event] == "soft_destroy" # destroy a user, marking them as deleted and removing personal data
