@@ -168,7 +168,7 @@ be-Tarask:
           не канфідэнцыйныя)
         redirect_uri: Кожны URI з асобнага радка
       trace:
-        tagstring: падзеленае коскамі
+        tagstring: праз коскі
       user_block:
         reason: Падайце прычыну, па якой карыстальнік блякуецца. Калі ласка, будзьце
           цярплівы і дзейнічайце разумна, прадстаўляючы падрабязную інфармацыю пра
@@ -743,6 +743,19 @@ be-Tarask:
       applications:
         create:
           notice: Запыт зарэгістраваны.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Памылка праз брак канфіґурацыі
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+          reauthenticate_resource_owner_not_configured: Памылка праз брак канфіґурацыі
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+          resource_owner_from_access_token_not_configured: Памылка праз брак канфіґурацыі
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+          select_account_for_resource_owner_not_configured: Памылка праз брак канфіґурацыі
+            Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+          subject_not_configured: Памылка ґенэрацыі ID Token праз брак канфіґурацыі
+            Doorkeeper::OpenidConnect.configure.subject
     scopes:
       address: Глядзець свой адрас
       email: Глядзець свой адрас электроннай пошты
@@ -760,6 +773,9 @@ be-Tarask:
       title: Памылка праґрамы
     not_found:
       title: Файл ня знойдзены
+  export:
+    show:
+      title: OpenStreetMap Інтэґраваны
   follows:
     show:
       follow:
@@ -1427,27 +1443,76 @@ be-Tarask:
       search_language: Пошук...
       languages:
         af: Афрыкаанс
+        gsw: Швайцарская нямецкая
+        ast: Астурыйская
         az: Азэрбайджанская
+        ms: Малайская
+        bs: Басьнійская
+        br: Брэтонская
+        ca: Каталёнская
         cs: Чэская
+        cy: Валійская
         da: Дацкая
         de: Нямецкая
-        en: Ангельская
+        dsb: Ніжнялужыцкая
+        et: Эстонская
+        en: Анґельская
         en-GB: Анґельская (Вялікабрытанія)
         es: Гішпанская
+        eo: Эспэранта
+        eu: Баскаўская
+        fr: Француская
+        fy: Заходняя фрыская
+        fur: Фрыюльская
         ga: Ірляндская
+        gd: Шатляндзкая гэльская
+        gl: Галіцыйская
+        hsb: Верхнялужыцкая
+        hr: Харвацкая
+        ia: Інтэрлінгва
+        it: Італьянская
+        ku-Latn: Курдзкая (лацінка)
+        lb: Люксэмбурская
+        hu: Вугорская
+        nl: Нідэрляндзкая
+        nb: Нарвэская (букмал)
+        nn: Нарвэская (нюнашк)
         pl: Польская
+        pt-PT: Партугальская эўрапейская
+        pt: Партугальская
+        ro: Румынская
+        sc: Сардынская
         sq: Альбанская
         sk: Славацкая
         sl: Славенская
         sr-Latn: Сэрбская (лацінка)
         sh: Сэрбскахарвацкая (лацінка)
+        fi: Фінская
         tl: Сьпіс тэґаў
+        vi: Віетнамская
+        tr: Турэцкая
+        yo: Ёрубская
+        el: Ґрэцкая
         be: Беларуская
         be-Tarask: Беларуская (клясычная)
         bg: Баўгарская
         mk: Македонская
+        ce: Чачэнская
         ru: Расейская
         uk: Украінская
+        kk-cyrl: Казаская (кірыліца)
+        yi: Ідыш
+        he: Іўрыт
+        ar: Арабская
+        arz: Эґіпецкая арабская
+        ps: Пуштунская
+        nqo: Нкоская
+        mr: Маратгійская
+        hi: Гіндзі
+        ta: Тамільская
+        te: Тэлуская
+        th: Тайская
+        my: Бірманская
         ka: Грузінская
         km: Кгмэрская
         ja: Японская
@@ -1478,7 +1543,7 @@ be-Tarask:
     nothing_to_preview: Няма чаго паказываць.
     help: Дапамога
     about: Пра праект
-    copyright: Аўтарскія правы
+    copyright: Аўтарства
     communities: Супольнасьці
     learn_more: Даведацца больш
     more: Яшчэ
@@ -1945,6 +2010,8 @@ be-Tarask:
       legal_1_1_openstreetmap_foundation: OpenStreetMap Фундацыя
       legal_1_1_terms_of_use: Умовы карыстаньня
       legal_1_1_privacy_policy: Палітыкай прыватнасьці
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
+      legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       partners_title: Партнэры
     copyright:
       title: Аўтарскія правы і ліцэнзія
@@ -2082,17 +2149,28 @@ be-Tarask:
       introduction: OpenStreetMap мае шэраг рэсурсаў каб вучыцца, задаваць і адказваць
         на пытаньні, супольна абмяркоўваць і дакумэнтаваць.
       welcome:
+        url: /welcome
         title: Вітаем у OpenStreetMap
+        description: Хуткае кіраўніцтва з асновамі OpenStreetMap
       beginners_guide:
         title: Кіраўніцтва пачаткоўцы
         description: Падрыхтаванае кіраўніцтва для пачаткоўцы ад супольнасьці.
+      community:
+        description: Месца дзе можна адшукаць дапамогу й абмеркаваць OpenStreetMap
       irc:
         title: IRC
         description: Інтэрактыўны чат на розных мовах, на розныя тэмы.
       switch2osm:
         title: switch2osm
+        description: Дапамога кампаніям і арганізацыям зь пераходам на мапы OpenStreetMap
+          ды іншыя сэрвісы.
+      welcomemat:
+        title: Для арганізацыяў
+        description: Вы арганізацыя, якая плянуе ўжываць OpenStreetMap? Усё што варта
+          знаць ёсьць на нашым Вітальным Дыванку.
       wiki:
         title: OpenStreetMap Wiki
+        description: Праглядзець дэталёвую дакумэнтацыю OpenStreetMap на вікі.
     potlatch:
       removed: Прадвызначаны рэдактар OpenStreetMap — Potlatch. Паколькі Adobe Flash
         Player быў адкліканы, Potlatch больш не даступны ў браўзэры.
@@ -2188,11 +2266,11 @@ be-Tarask:
         list_text: 'Наступныя супольнасьці афіцыйна маюць пасаду мясцовых падрозьдзелаў:'
       other_groups:
         title: Іншыя супольнасьці
-        other_groups_html: Няма неабходнасьці афіцыйна рэгістраваць суполку як мясцовы
+        other_groups_html: Няма неабходнасьці афіцыйна рэґістраваць суполку як мясцовы
           падрозьдзел. Насамрэч многія групы вельмі пасьпяхова існуюць у выглядзе
           нефармальных сустрэч або суполак. Кожны можа заснаваць такую суполку або
-          далучыцца да яе. Больш падрабязна на старонцы %{communities_wiki_link}.
-        communities_wiki: Вікі-старонка супольнасьцяў
+          далучыцца да яе. Больш падрабязна на %{communities_wiki_link}.
+        communities_wiki: Вікі-старонцы супольнасьцяў
   social_links:
     show:
       website: сайт
@@ -2960,9 +3038,12 @@ be-Tarask:
       openstreetmap_contributors: Удзельнікі OpenStreetMap
       make_a_donation: Ахвяраваць
       website_and_api_terms: Правілы сайта і API
+      cyclosm_credit: Тайлы %{cyclosm_link} забясьпечаны %{osm_france_link}
       osm_france: OpenStreetMap Францыя
       tracestrack_credit: Крыніца тайлаў %{tracestrack_link}
-      openmaptiles_credit: Вэктарныя тайлы з %{openmaptiles_link} знаходзяцца %{maptiler_link}
+      hotosm_credit: Тайлы %{hotosm_link} забясьпечаны %{osm_france_link}
+      hotosm_name: Humanitarian OpenStreetMap Team
+      openmaptiles_credit: Вэктарныя тайлы з %{openmaptiles_link} забясьпечаны %{maptiler_link}
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня
