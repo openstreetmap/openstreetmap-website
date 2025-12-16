@@ -14,22 +14,23 @@ jobs:
     strategy:
       matrix:
         ruby: ['3.2']
+      fail-fast: false
     runs-on: ubuntu-latest
     env:
       RAILS_ENV: test
       OPENSTREETMAP_MEMCACHE_SERVERS: 127.0.0.1
-      PGGSSENCMODE: disable # attempt to solve "PG::Error: Unexpected binary struct layout "
+    timeout-minutes: 20
     steps:
     - name: Checkout source
-      uses: actions/checkout@v4
+      uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
     - name: Setup ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@8aeb6ff8030dd539317f8e1769a044873b56ea71 # v1.268.0
       with:
         ruby-version: ${{ matrix.ruby }}
         rubygems: 3.4.10
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
       with:
         cache: yarn
     - name: Install packages
@@ -59,6 +60,7 @@ jobs:
       run: bundle exec i18n export
     - name: Compile assets
       run: bundle exec rails assets:precompile
+      timeout-minutes: 10
     - name: Create tmp/pids directory
       run: mkdir -p tmp/pids
     - name: Run tests
@@ -66,14 +68,14 @@ jobs:
     - name: Run javascript tests
       run: bundle exec teaspoon
     - name: Upload screenshots
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
       if: failure()
       with:
         name: screenshots
         path: tmp/screenshots
         if-no-files-found: ignore
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
       with:
         github-token: ${{ secrets.github_token }}
         flag-name: ruby-${{ matrix.ruby }}
@@ -83,9 +85,10 @@ jobs:
     name: Finalise
     needs: test
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     steps:
     - name: Report completion to Coveralls
-      uses: coverallsapp/github-action@v2.3.6
+      uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e # v2.3.7
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true

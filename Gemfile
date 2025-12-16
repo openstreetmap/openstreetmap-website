@@ -5,7 +5,7 @@ gem "rails", "~> 8.0.0"
 gem "turbo-rails"
 
 # Use postgres as the database
-gem "pg"
+gem "pg", "~> 1.6"
 
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
