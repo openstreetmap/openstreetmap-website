@@ -187,7 +187,7 @@ OSM.Query = function (map) {
     }
   }
 
-  function runQuery(query, $section, merge, compare) {
+  function runQuery(query, $section, merge, compare, dateFilter) {
     const $ul = $section.find("ul");
 
     $ul.empty();
@@ -198,6 +198,7 @@ OSM.Query = function (map) {
     }
 
     $section.data("ajax", new AbortController());
+
     fetch(OSM.OVERPASS_URL, {
       method: "POST",
       body: new URLSearchParams({
@@ -208,7 +209,7 @@ OSM.Query = function (map) {
     })
       .then(response => response.json())
       .then(function (results) {
-        let elements = results.elements;
+        let elements = results.elements || [];
 
         $section.find(".loader").hide();
 
@@ -226,6 +227,11 @@ OSM.Query = function (map) {
             hash[key] = { ...hash[key], ...element };
             return hash;
           }, {}));
+        }
+
+        // Apply JavaScript date filtering if needed (for dates < 1000 CE)
+        if (dateFilter) {
+          elements = filterByDate(elements, dateFilter);
         }
 
         if (compare) {
@@ -284,25 +290,81 @@ OSM.Query = function (map) {
     return (maxlon - minlon) * (maxlat - minlat);
   }
 
+  // Check if date is before 1000 CE (OverpassQL doesn't support these dates)
+  function isBeforeYear1000(dateStr) {
+    if (!dateStr) return false;
+    const match = dateStr.match(/^(-?\d+)/);
+    return match ? parseInt(match[1], 10) < 1000 : false;
+  }
+
+  // Compare ISO 8601 dates correctly (handles BCE dates where string comparison fails)
+  function compareDates(date1, date2) {
+    if (!date1 && !date2) return 0;
+    if (!date1) return -1;
+    if (!date2) return 1;
+
+    const match1 = date1.match(/^(-?\d+)(?:-(\d{1,2}))?(?:-(\d{1,2}))?/);
+    const match2 = date2.match(/^(-?\d+)(?:-(\d{1,2}))?(?:-(\d{1,2}))?/);
+    if (!match1 || !match2) return date1.localeCompare(date2);
+
+    const [, year1Str, month1Str, day1Str] = match1;
+    const [, year2Str, month2Str, day2Str] = match2;
+    const year1Int = parseInt(year1Str, 10);
+    const year2Int = parseInt(year2Str, 10);
+
+    if (year1Int !== year2Int) return year1Int - year2Int;
+
+    const month1 = month1Str ? parseInt(month1Str, 10) : 1;
+    const month2 = month2Str ? parseInt(month2Str, 10) : 1;
+    if (month1 !== month2) return month1 - month2;
+
+    const day1 = day1Str ? parseInt(day1Str, 10) : 1;
+    const day2 = day2Str ? parseInt(day2Str, 10) : 1;
+    return day1 - day2;
+  }
+
+  function filterByDate(elements, currentDate) {
+    if (!currentDate) return elements;
+    return elements.filter(element => {
+      const tags = element.tags || {};
+      const startDate = tags.start_date;
+      const endDate = tags.end_date;
+      if (startDate && compareDates(startDate, currentDate) > 0) return false;
+      if (endDate && compareDates(endDate, currentDate) <= 0) return false;
+      return true;
+    });
+  }
+
   /*
-   * To find nearby objects we ask overpass for the union of the
-   * following sets:
+   * QUERY MECHANISM:
    *
+   * To find nearby objects we ask Overpass for the union of the following sets:
    *   node(around:<radius>,<lat>,<lng>)
    *   way(around:<radius>,<lat>,<lng>)
    *   relation(around:<radius>,<lat>,<lng>)
    *
-   * to find enclosing objects we first find all the enclosing areas:
-   *
+   * To find enclosing objects we first find all the enclosing areas:
    *   is_in(<lat>,<lng>)->.a
    *
    * and then return the union of the following sets:
-   *
    *   relation(pivot.a)
    *   way(pivot.a)
    *
-   * In both cases we then ask to retrieve tags and the geometry
-   * for each object.
+   * In both cases we then ask to retrieve tags and the geometry for each object.
+   *
+   * TEMPORAL FILTERING (OpenHistoricalMap - Added Feature):
+   * Filter objects to only include those that existed at the time slider date.
+   * - Dates >= 1000 CE: Use OverpassQL filtering via `if:` condition
+   * - Dates < 1000 CE: Use JavaScript filtering (OverpassQL limitation + BCE date comparison bug)
+   * Filter logic: start_date <= currentDate AND (no end_date OR end_date > currentDate)
+   *
+   * Examples:
+   * - currentDate="1914-07-28": start_date="1910", end_date="1920" → MATCHES
+   * - currentDate="1914-07-28": start_date="1915" → EXCLUDED (started after)
+   * - currentDate="-0003-01-01": start_date="-0003-06-01" → EXCLUDED (JavaScript handles BCE correctly)
+   * - currentDate="-0003-01-01": start_date="-0004-01-01", end_date="-0002-01-01" → MATCHES
+   *
+   * https://wiki.openstreetmap.org/wiki/OpenHistoricalMap/Overpass#Country_boundaries_at_a_given_date_(start_of_WWI)
    */
   function queryOverpass(latlng) {
     const bounds = map.getBounds(),
@@ -312,10 +374,31 @@ OSM.Query = function (map) {
         .join(),
       geom = `geom(${bbox})`,
       radius = 10 * Math.pow(1.5, 19 - zoom),
-      here = `(around:${radius},${latlng})`,
-      enclosed = "(pivot.a);out tags bb",
-      nearby = `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
-      isin = `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
+      here = `(around:${radius},${latlng})`;
+
+    let dateFilter = "";  // OverpassQL filter (dates >= 1000 CE)
+    let jsDateFilter = null;  // JavaScript filter (dates < 1000 CE)
+
+    if (map.timeslider) {
+      const currentDate = map.timeslider.getDate();
+      if (currentDate) {
+        if (isBeforeYear1000(currentDate)) {
+          // OverpassQL doesn't support dates < 1000 CE, filter in JavaScript instead
+          jsDateFilter = currentDate;
+        } else {
+          dateFilter = `(if: (!is_tag("start_date") || t["start_date"] <= "${currentDate}") && (!is_tag("end_date") || t["end_date"] > "${currentDate}"))`;
+        }
+      }
+    }
+
+    // Build queries - match original format when no dateFilter
+    const enclosed = dateFilter ? `(pivot.a)${dateFilter}` : "(pivot.a);out tags bb",
+      nearby = dateFilter
+        ? `(node${here}${dateFilter};way${here}${dateFilter};);out tags ${geom};relation${here}${dateFilter};out ${geom};`
+        : `(node${here};way${here};);out tags ${geom};relation${here};out ${geom};`,
+      isin = dateFilter
+        ? `is_in(${latlng})->.a;way${enclosed};out geom;relation${enclosed};out geom;`
+        : `is_in(${latlng})->.a;way${enclosed};out ids ${geom};relation${enclosed};`;
 
     $("#sidebar_content .query-intro")
       .hide();
@@ -327,8 +410,8 @@ OSM.Query = function (map) {
       ...featureStyle
     }).addTo(map);
 
-    runQuery(nearby, $("#query-nearby"), false);
-    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
+    runQuery(nearby, $("#query-nearby"), false, null, jsDateFilter);
+    runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds), jsDateFilter);
   }
 
   function clickHandler(e) {
@@ -361,7 +444,7 @@ OSM.Query = function (map) {
   page.load = function (path, noCentre) {
     // the original page.load content is the function below, and is used when one visits this page, be it first load OR later routing change
     // below, we wrap "if map.timeslider" so we only try to add the timeslider if we don't already have it
-    function originalLoadFunction () {
+    function originalLoadFunction() {
       const params = new URLSearchParams(path.substring(path.indexOf("?"))),
         latlng = L.latLng(params.get("lat"), params.get("lon"));
 
