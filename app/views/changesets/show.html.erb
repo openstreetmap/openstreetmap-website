@@ -4,7 +4,7 @@
 
 <div class="mb-3 border-bottom border-secondary-subtle pb-3">
   <p class="fs-6 overflow-x-auto" dir="auto">
-    <%= RichText.new("text", @changeset.comment || t("browse.no_comment")) %>
+    <%= @changeset.comment_html || t("browse.no_comment") %>
   </p>
   <%= tag.p :class => "details", :data => { :changeset => changeset_data(@changeset) } do %>
     <%= changeset_details(@changeset) %>
