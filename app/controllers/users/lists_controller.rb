@@ -35,7 +35,7 @@ module Users
     def update
       ids = params.fetch(:user, {}).keys.collect(&:to_i)
 
-      User.where(:id => ids).update_all(:status => "confirmed") if params[:confirm]
+      User.where(:id => ids).each(&:confirm!) if params[:confirm]
       User.where(:id => ids).each(&:suspend_if_possible!) if params[:suspend]
 
       redirect_to url_for(params.permit(:status, :username, :ip, :edits, :before, :after))
