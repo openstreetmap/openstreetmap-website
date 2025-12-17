@@ -62,5 +62,30 @@ module Users
       assert_nil user.auth_uid
       assert_equal "deleted", user.status
     end
+
+    def test_unhide
+      user = create(:user, :deleted)
+
+      # Try without logging in
+      put user_status_path(user, :event => "unhide")
+      assert_response :forbidden
+
+      # Now try as a normal user
+      session_for(create(:user))
+      put user_status_path(user, :event => "unhide")
+      assert_redirected_to :controller => "/errors", :action => :forbidden
+
+      # Double-checking that there were no changes to the user
+      assert_predicate user.reload, :deleted?
+
+      # Finally try as an administrator
+      session_for(create(:administrator_user))
+      put user_status_path(user, :event => "unhide")
+      assert_redirected_to user_path(user)
+
+      # Check that the user was deleted properly
+      user.reload
+      assert_equal "active", user.status
+    end
   end
 end
