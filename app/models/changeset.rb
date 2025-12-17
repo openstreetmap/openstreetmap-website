@@ -201,6 +201,7 @@ class Changeset < ApplicationRecord
   end
 
   def comment = tags["comment"].presence
+  def comment_html = comment ? RichText.new("text", comment).to_html : nil
 
   ##
   # set the auto-close time to be one hour in the future unless

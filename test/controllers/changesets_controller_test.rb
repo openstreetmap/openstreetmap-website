@@ -408,6 +408,15 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_linkified_comment
+    changeset = create(:changeset)
+    create(:changeset_tag, :changeset => changeset, :k => "comment", :v => "Check out http://example.com/ & special <characters>!")
+    sidebar_browse_check :changeset_path, changeset.id, "changesets/show"
+    assert_dom "p", :text => %r{Check out http://example.com/ & special <characters>!} do
+      assert_dom "a[href='http://example.com/']", :text => "http://example.com/"
+    end
+  end
+
   def test_show_closed_changeset
     changeset = create(:changeset, :closed)
 
