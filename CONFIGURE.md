@@ -118,7 +118,7 @@ Alternatively you can register the applications manually, as described in the ne
 ### Setting up OAuth for iD
 
 1. **Navigate to OAuth applications:**
-   - Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page
+   - Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My Account page
 
 2. **Register new application:**
    - Click on "Register new application"
@@ -154,7 +154,7 @@ Alternatively you can register the applications manually, as described in the ne
 To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discussions to work:
 
 1. **Register OAuth application for the website:**
-   - Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My settings page
+   - Go to "[OAuth 2 applications](http://localhost:3000/oauth2/applications)" on the My Account page
    - Click on "Register new application"
    - **Name:** "OpenStreetMap Web Site"
    - **Redirect URIs:** "http://localhost:3000"
