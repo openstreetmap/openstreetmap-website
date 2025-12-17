@@ -171,7 +171,6 @@ group :test do
   gem "brakeman"
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
-  gem "factory_bot_rails"
   gem "jwt"
   gem "minitest"
   gem "minitest-focus", :require => false
@@ -192,6 +191,7 @@ end
 
 group :development, :test do
   gem "annotaterb"
+  gem "factory_bot_rails"
   gem "rackup"
   gem "teaspoon"
   gem "teaspoon-mocha", "~> 2.3.3"
