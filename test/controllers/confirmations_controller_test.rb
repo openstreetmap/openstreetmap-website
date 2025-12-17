@@ -177,7 +177,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
-    User.find_by(:display_name => user.display_name).hide!
+    User.find_by(:display_name => user.display_name).mark_deleted!
 
     # Get the confirmation page
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -212,7 +212,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     user = build(:user, :pending)
     post users_path, :params => { :user => user.attributes }
 
-    User.find_by(:display_name => user.display_name).hide!
+    User.find_by(:display_name => user.display_name).mark_deleted!
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do

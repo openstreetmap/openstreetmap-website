@@ -155,6 +155,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 12, user.spam_score
   end
 
+  def test_suspend_if_possible
+    active = create(:user, :active)
+    active.suspend_if_possible!
+    assert_equal "suspended", active.reload.status
+
+    confirmed = create(:user, :confirmed)
+    confirmed.suspend_if_possible!
+    assert_equal "suspended", confirmed.reload.status
+
+    suspended = create(:user, :suspended)
+    suspended.suspend_if_possible!
+    assert_equal "suspended", suspended.reload.status
+  end
+
   def test_follows
     alice = create(:user, :active)
     bob = create(:user, :active)
@@ -418,16 +432,16 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "resolved", issue.reload.status
   end
 
-  def test_hide
+  def test_mark_deleted
     user = create(:user)
-    user.hide
+    user.mark_deleted
     assert_equal "deleted", user.status
   end
 
-  def test_hide_closes_issues
+  def test_mark_deleted_closes_issues
     user = create(:user)
     issue = create(:issue, :reportable => user)
-    user.hide
+    user.mark_deleted
     assert_equal "deleted", user.status
     assert_equal "resolved", issue.reload.status
   end

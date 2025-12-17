@@ -180,6 +180,12 @@
               </li>
             <% end %>
 
+            <% if @user.may_suspend? %>
+              <li>
+                <%= link_to t(".suspend_user"), user_status_path(@user, :event => "suspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
             <% if @user.may_unsuspend? %>
               <li>
                 <%= link_to t(".unsuspend_user"), user_status_path(@user, :event => "unsuspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
@@ -198,21 +204,9 @@
               </li>
             <% end %>
 
-            <% if @user.may_hide? %>
+            <% if @user.may_undelete? %>
               <li>
-                <%= link_to t(".hide_user"), user_status_path(@user, :event => "hide"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
-            <% if @user.may_unhide? %>
-              <li>
-                <%= link_to t(".unhide_user"), user_status_path(@user, :event => "unhide"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
-            <% if @user.may_soft_destroy? %>
-              <li>
-                <%= link_to t(".delete_user"), user_status_path(@user, :event => "soft_destroy"), :method => :put, :data => { :confirm => t(".confirm") } %>
+                <%= link_to t(".undelete_user"), user_status_path(@user, :event => "undelete"), :method => :put, :data => { :confirm => t(".confirm") } %>
               </li>
             <% end %>
           </ul>

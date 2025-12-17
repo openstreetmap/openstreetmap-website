@@ -253,56 +253,68 @@ module Users
       assert_equal "confirmed", suspended_user.reload.status
     end
 
-    def test_update_hide
+    def test_update_suspend
       normal_user = create(:user)
       confirmed_user = create(:user, :confirmed)
+      suspended_user = create(:user, :suspended)
+      issue = create(:issue, :reportable => normal_user)
 
       # Shouldn't work when not logged in
       assert_no_difference "User.active.count" do
-        put users_list_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
       assert_response :forbidden
 
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+      assert_equal "open", issue.reload.status
 
       session_for(create(:user))
 
       # Shouldn't work when logged in as a normal user
       assert_no_difference "User.active.count" do
-        put users_list_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
       assert_redirected_to :controller => "/errors", :action => :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+      assert_equal "open", issue.reload.status
 
       session_for(create(:moderator_user))
 
       # Shouldn't work when logged in as a moderator
       assert_no_difference "User.active.count" do
-        put users_list_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
       assert_redirected_to :controller => "/errors", :action => :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+      assert_equal "open", issue.reload.status
 
       session_for(create(:administrator_user))
 
       # Should do nothing when no users selected
       assert_no_difference "User.active.count" do
-        put users_list_path, :params => { :hide => 1 }
+        put users_list_path, :params => { :suspend => 1 }
       end
       assert_redirected_to :action => :show
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+      assert_equal "open", issue.reload.status
 
       # Should work when logged in as an administrator
       assert_difference "User.active.count", -2 do
-        put users_list_path, :params => { :hide => 1, :user => { normal_user.id => 1, confirmed_user.id => 1 } }
+        put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
       assert_redirected_to :action => :show
-      assert_equal "deleted", normal_user.reload.status
-      assert_equal "deleted", confirmed_user.reload.status
+      assert_equal "suspended", normal_user.reload.status
+      assert_equal "suspended", confirmed_user.reload.status
+      assert_equal "suspended", suspended_user.reload.status
+      assert_equal "resolved", issue.reload.status
     end
 
     private

@@ -220,7 +220,7 @@ class User < ApplicationRecord
         close_open_issues
       end
 
-      transitions :from => [:pending, :active], :to => :suspended
+      transitions :from => [:pending, :active, :confirmed], :to => :suspended
     end
 
     # Unsuspending an account moves it back to active without overriding the spam scoring
@@ -229,7 +229,9 @@ class User < ApplicationRecord
     end
 
     # Mark the account as deleted but keep all data intact
-    event :hide do
+    # Only to be used in tests. There's currently no production
+    # use for this transition.
+    event :mark_deleted do
       before do
         close_open_issues
       end
@@ -237,7 +239,7 @@ class User < ApplicationRecord
       transitions :from => [:pending, :active, :confirmed, :suspended], :to => :deleted
     end
 
-    event :unhide do
+    event :undelete do
       transitions :from => [:deleted], :to => :active
     end
 
@@ -402,7 +404,13 @@ class User < ApplicationRecord
   ##
   # perform a spam check on a user
   def spam_check
-    suspend! if may_suspend? && spam_score > Settings.spam_threshold
+    suspend! if !confirmed? && may_suspend? && spam_score > Settings.spam_threshold
+  end
+
+  ##
+  # suspend the user only if allowed by aasm rules
+  def suspend_if_possible!
+    suspend! if may_suspend?
   end
 
   ##
