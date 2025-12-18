@@ -3,9 +3,9 @@
 <%= render "sidebar_header", :title => t(".title", :id => @changeset.id) %>
 
 <div class="mb-3 border-bottom border-secondary-subtle pb-3">
-  <p class="fs-6 overflow-x-auto" dir="auto">
+  <div class="fs-6 overflow-x-auto">
     <%= @changeset.comment_html || t("browse.no_comment") %>
-  </p>
+  </div>
   <%= tag.p :class => "details", :data => { :changeset => changeset_data(@changeset) } do %>
     <%= changeset_details(@changeset) %>
   <% end %>
