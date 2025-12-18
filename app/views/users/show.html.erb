@@ -180,18 +180,6 @@
               </li>
             <% end %>
 
-            <% if @user.may_suspend? %>
-              <li>
-                <%= link_to t(".suspend_user"), user_status_path(@user, :event => "suspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
-            <% if @user.may_unsuspend? %>
-              <li>
-                <%= link_to t(".unsuspend_user"), user_status_path(@user, :event => "unsuspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
-              </li>
-            <% end %>
-
             <% if @user.may_confirm? %>
               <li>
                 <%= link_to t(".confirm_user"), user_status_path(@user, :event => "confirm"), :method => :put, :data => { :confirm => t(".confirm") } %>
@@ -201,6 +189,18 @@
             <% if @user.may_unconfirm? %>
               <li>
                 <%= link_to t(".unconfirm_user"), user_status_path(@user, :event => "unconfirm"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
+            <% if @user.may_suspend? %>
+              <li>
+                <%= link_to t(".suspend_user"), user_status_path(@user, :event => "suspend"), :method => :put, :data => { :confirm => t(".confirm") }, :class => "link-danger" %>
+              </li>
+            <% end %>
+
+            <% if @user.may_unsuspend? %>
+              <li>
+                <%= link_to t(".unsuspend_user"), user_status_path(@user, :event => "unsuspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
               </li>
             <% end %>
 
