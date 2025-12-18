@@ -755,6 +755,19 @@ bcl:
       applications:
         create:
           notice: Narehistro na an Aplikasyon.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Dai nagibo huli sa nawawarang
+            kumpigurasyon kan Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Dai nagibo huli sa nawawarang
+            kumpigurasyon kan  Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Dai nagibo huli sa nawawarang
+            kumpigurasyon kan Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Dai nagibo huli sa nawawarang
+            kumpigurasyon kan Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: An paggibo nin ID Token dai nagin mapanggana huli
+            ta sa nawawarang kumpigurasyon kan  Doorkeeper::OpenidConnect.configure.subject.
     scopes:
       address: Hilingon an saimong pisikal na address
       email: Hilingon an saimong email address
@@ -1161,6 +1174,7 @@ bcl:
         leisure:
           adult_gaming_centre: Sentro nin Pag-aling para sa mga Adulto
           dog_park: Parke kan Ayam
+          fishing: Lugar nin Pagsira
           garden: Hardin
           marina: Marina
           park: Parke
@@ -1190,6 +1204,8 @@ bcl:
           gasometer: Gasometro
           kiln: Horno
           lighthouse: Parola
+          petroleum_well: Bubon nin Petrolyo
+          pier: Pier
           silo: Silo
           snow_cannon: Kanyon nin Niyebe
           storage_tank: Tangke nin Imbakan
@@ -1218,6 +1234,7 @@ bcl:
           hot_spring: Mainit na burabod
           island: Puro
           land: Kadagaan
+          mud: Laboy
           peninsula: Rawis
           rock: Gapo
           stone: Gapo
@@ -1285,6 +1302,9 @@ bcl:
         railway:
           halt: Punduhan nin Tren
           rail: Riles
+          station: Istasyon nin Tren
+          stop: Untukan kan Riles
+          subway: Sabwey
         shop:
           antiques: Mga Antigo
           appliance: Bakalan nin mga Gamit sa Harong
@@ -1605,6 +1625,7 @@ bcl:
         az: Aserbayhani
         id: Indones
         ms: Malayo
+        bcl: Bikol Sentral
         bs: Bosnyano
         br: Breton
         ca: Katalan
@@ -2293,6 +2314,13 @@ bcl:
           pwedeng iwaras an resulta sa irarom sana kan parehong lisensya. An
           An %{legal_code_link} nagpapaliwanag kan saimong mga deretso asin responsibilidad.
         licensing_2_legal_code: bilog na legal na kodigo sa Bukas na Data Commons
+        licensing_3_html: An samong dokumentasyon lisensyado sa irarom kan %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Attribution-ShareAlike
+          2.0 license
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Magbasa pa manungod sa paggamit kan samong datos sa %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: Pahina nin Lisensya kan OSMF
         credit_title_html: Pano ikredito an OpenStreetMap
         credit_1_html: 'Kun sain ka naggagamit nin datos kan OpenStreetMap, kaipuhan
           mong gibohon an minasunod na duwang bagay:'
@@ -2337,6 +2365,10 @@ bcl:
         infringement_2_1_takedown_procedure: Prosedimyento nin pagtangkas
         infringement_2_1_online_filing_page: pahina nin pagsampa sa online
         trademarks_title: Mga Trademark
+        trademarks_1_1_html: |-
+          An OpenStreetMap, an logo kan magnifying glass, asin an Estado kan Mapa mga rehistradong trademark kan
+          OpenStreetMap Foundation. Kun igwa kamong mga kahaputan manungod sa paggamit nindo kan mga marka, hilingon tabi an samong
+          %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Polisiya sa Trademark
         services_title_html: Dugang pang mga serbisyo
         services_1_html: |-
@@ -2399,27 +2431,306 @@ bcl:
           asin lisensyado para sa paggamit giraray sa irarom kan %{cc_by_link}.
         contributors_nz_new_zealand: Bagong Selandya
         contributors_nz_linz_data_service: LINZ Data Service
+        contributors_rs_credit_html: |-
+          %{serbia}: Igwa nin datos gikan sa %{rgz_link} asin %{open_data_portal}
+          (pampublikong impormasyon kan Serbia), 2018.
+        contributors_rs_serbia: Serbya
+        contributors_rs_rgz: Awtoridad nin Heodetiko kan Serbya
+        contributors_rs_open_data_portal: Portal nin Nasyunal na Bukas na Datos
+        contributors_si_credit_html: |-
+          %{slovenia}: Igwa nin datos gikan sa %{gu_link} asin %{mkgp_link}
+          (impormasyon publiko kan Islobenya).
+        contributors_si_slovenia: Islobenya
+        contributors_si_gu: Awtoridad sa Pagsurbey asin Pagmapa
+        contributors_si_mkgp: Ministri nin Agrikultura, Pangangadlagan asin Pagkakan
+        contributors_es_credit_html: |-
+          %{spain}: Igwa nin datos na hale sa
+          Instituto nin Nasyunal na Heograpiko kan Espanya (%{ign_link}) asin
+          Sistemang Nasyunal nin Kartograpiya (%{scne_link})
+          lisensyado para sa paggamit giraray sa irarom kan %{cc_by_link}.
         contributors_es_spain: Espanya
+        contributors_za_credit_html: '%{south_africa}: Igwa nin datos na hale sa %{ngi_link},
+          Reserbado an deretso sa pagkopya kan estado.'
+        contributors_za_south_africa: Habagatan na Aprika
+        contributors_za_ngi: 'Panginot na Direktorado: Nasyonal na Impormasyon sa
+          Heyo-Espasyo'
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: Igwa nin Ordinansa nin
+          Datos kan surbey &copy; Deretso sa pagkopya kan korona asin deretso sa database
+          2010-2023.
+        contributors_gb_united_kingdom: Reino Unido
+        contributors_2_html: |-
+          Para sa dugang na detalye kan mga ini, asin iba pang mga pinagkukuanan na ginamit
+          tanganing matabangan na mapakarhay an OpenStreetMap, tabi hilingon an %{contributors_page_link} sa OpenStreetMap Wiki.
+        contributors_2_contributors_page: Pahina kan mga nag-ambag
+        contributors_footer_2_html: |-
+          An paglaog kan datos sa OpenStreetMap dai nangangahulugan na an orihinal
+          an paratao nin datos nag-eendorso sa OpenStreetMap, nagtatao nin anuman na garantiya, o
+          inaako an anuman na paninimbagan.
+    index:
+      js_1: Naggagamit ka nin sarong browser na dai nagsusuporta sa JavaScript, o
+        ika naka-disable kan JavaScript.
+      js_2: An OpenStreetMap naggagamit nin JavaScript para sa saiyang mahalnas na
+        mapa.
+      license:
+        copyright: Copyright OpenStreetMap asin mga nag-ambag, sa irarom nin sarong
+          bukas na lisensya
+    not_public_flash:
+      not_public: Dai mo itinalaga an saimong mga pagliwat na magin pampubliko.
+      not_public_description_html: Dai mo na pwedeng liwaton an mapa kun dai mo ini
+        gigibuhon. Pwede mong ibugtak an saimong mga pagliwat bilang pampubliko gikan
+        sa saimong %{user_page}.
+      user_page_link: pahina nin paragamít
+      anon_edits_link_text: Aramon kun tano ta arog kaini an kamugtakan.
+    export:
+      title: Ipaluwás
+      manually_select: Manwal na magpili nin ibang lugar
+      licence: Lisensiya
+      licence_details_html: An datos kan OpenStreetMap lisensyado sa irarom kan %{odbl_link}
+        (ODbL).
+      odbl: Bukas na Data Commons Lisensya sa Bukas na Database
+      too_large:
+        advice: 'Kun an pagpapaluwas sa itaas dai nagin mapanggana, pakikonsiderar
+          na gamiton an saro sa mga pinagkukuanan na nakalista sa ibaba:'
+        body: An lugar na ini dakulaon na gayo tanganing ipaluwas bilang OpenStreetMap
+          XML Data. Mag-zoom in o magpili nin mas sadit na lugar, o gamiton an saro
+          sa mga pinagkukuanan na nakalista sa ibaba para sa mga pag-download nin
+          bulto nin datos.
+        planet:
+          title: Planet OSM
+          description: Mga regular na pig-a-update na mga kopya kan kumpletong database
+            kan OpenStreetMap
+        overpass:
+          title: Overpass API
+          description: I-download an kahon na nagbubugkos na ini gikan sa sarong salming
+            kan database kan OpenStreetMap
+        geofabrik:
+          title: Geofabrik Downloads
+          description: Regular na pig-a-update na mga ekstrakto kan mga kontinente,
+            nasyon, asin piniling mga syudad
+        other:
+          title: Iba pang mga Gikanan
+          description: Mga dagdag na pinagkukuanan na nakalista sa Wiki kan OpenStreetMap
+      export_button: Ipaluwás
+      export_download: Nag-da-download...
+      confirmation:
+        header: I-download an Datos nin XML
+        body: Gusto mong mag-download nin datos kan mapa para sa lugar na ini sa format
+          na XML? Mangnoha na an darakulang lugar tibaad kaipuhan nin kadikit na panahon
+          tanganing ma-download.
+        cancel: Dai idagos
+        download: Download
+    fixthemap:
+      title: Magsumbong nin problema / Pakarayon an mapa
+      how_to_help:
+        title: Pa'no Makakatabang
+        join_the_community:
+          title: Mag-ayon sa komunidad
+          explanation_html: |-
+            Kun may nariparo kang problema sa datos kan samong mapa, halimbawa may nawawarang tinampo o an saimong address, an pinakamarahay na paagi tanganing
+            an pagpadagos iyo an mag-ayon sa komunidad kan OpenStreetMap asin magdugang o maghirahay kan datos sa sadiri mo.
+      other_concerns:
+        title: Iba pang mga kahaditan
+        concerns_html: |-
+          Kun igwa kamong mga kahaditan manungod sa kun pano ginagamit an samong datos o manungod sa mga laog, pakikonsulta an samong
+          %{copyright_link} para sa kadugangan na legal na impormasyon, o kontakon an maninigong %{working_group_link}.
+        copyright: pahina nin deretso sa pagkopya
+        working_group: grupo na nagtatrabaho kan OSMF
     help:
+      title: Pagkua nin Tabang
+      introduction: |-
+        An OpenStreetMap igwa nin nagkapirang rekurso para sa pag-adal manungod sa proyekto, paghapot asin pagsimbag nin mga kahaputan,
+        asin magkasararong pag-orolay asin pagdokumento kan mga topiko sa pagmapa.
+      welcome:
+        url: /welcome
+        title: Maugmang pag-abot sa OpenStreetMap
+        description: Magpoon sa marikas na giya na ini na nagtatakop kan mga pundamental
+          na OpenStreetMap.
       beginners_guide:
         url: http://wiki.openstreetmap.org/wiki/Beginners%27_giya
+        title: Giya sa mga Nagpopoon
+        description: Komunidad na pinapagdanay na giya para sa mga nagpopoon pa sana.
+      community:
+        title: Tabang asin Forum sa Komunidad
+        description: Sarong pinag-iribang lugar para sa paghagad nin tabang asin magkaigwa
+          nin mga urolay manungod sa OpenStreetMap.
+      mailing_lists:
+        title: Mga Listahan sa Pagpadara
+        description: Maghapot o pag-olayan an mga interesanteng bagay sa mahiwas na
+          hanay nin mga topikal o rehiyonal na mga lista nin mga koreo.
       irc:
         title: IRC
+        description: Interaktibong pakikipag-olay sa manlain-lain na tataramon asin
+          sa manlain-lain na tema.
+      switch2osm:
+        title: switch2osm
+        description: Tabang para sa mga kompanya asin organisasyon na nagbabalyo sa
+          mga mapa asin iba pang serbisyo na nakasusog sa OpenStreetMap.
+      welcomemat:
+        title: Para sa mga Organisasyon
+        description: Sa sarong organisasyon na naggigibo nin mga plano para sa OpenStreetMap?
+          Hanapon an kaipuhan mong maaraman sa Welcome Mat.
+      wiki:
+        title: Wiki kan OpenStreetMap
+        description: Mag-browse sa wiki para sa detalyadong dokumentasyon kan OpenStreetMap.
+    potlatch:
+      removed: An saimong default na editor kan OpenStreetMap nakabugtak bilang Potlatch.
+        Nin huli ta an Adobe Flash Player hinale na, an Potlatch dai na magagamit
+        sa sarong web browser.
+      desktop_application_html: Pwede mo pa man giraray gamiton an Potlatch sa paagi
+        kan %{download_link}.
+      download: pag-download kan aplikasyon sa desktop para sa Mac asin Windows
+      id_editor_html: Sa ibong na lado, pwede mong ibugtak an saimong default na editor
+        sa iD, na nagdadalagan sa saimong web browser arog kan dati ni Potlatch. %{change_preferences_link}.
+      change_preferences: Baguhon an saimong mga kagustuhan digdi
+    any_questions:
+      title: Igwa nin mga kahaputan?
+      paragraph_1_html: |-
+        An OpenStreetMap igwa nin nagkapirang rekurso para sa pag-adal manungod sa proyekto, paghapot asin pagsimbag
+        mga hapot, asin magkasararong pag-urolay asin pagdokumento kan mga topiko sa pagmapa.
+        %{help_link}. Sa sarong organisasyon na naggigibo nin mga plano para sa OpenStreetMap? %{welcome_mat_link}.
+      get_help_here: Magkua nin tabang digdi
+      welcome_mat: Hilingon an Welcome Mat
+    sidebar:
+      search_results: Mga Resulta nin Paghanap
     search:
+      search: Maghanap
+      get_directions_title: Maghanap nin direksyon sa pag-ultanan kan duwang punto
+      from: Gikan sa/ki
+      to: Pasiring sa/ki
+      where_am_i: Hain ini?
+      where_am_i_title: Iladawan an presenteng kinamumugtakan gamit an makina nin
+        paghanap
+      submit_text: Magduman
+      reverse_directions_text: Baliskad na Direksyon
       modes:
         bicycle: Bisikleta
         car: Awto
         foot: Bitis
+      providers:
+        description: Mga serbisyo sa direksyon
     welcome:
       title: Maugmang Pag-abot!
+      introduction: |-
+        Maogmang pag-abot sa OpenStreetMap, an libre asin pwedeng liwaton na mapa kan kinaban. Ngunyan na nakapag-sign up ka na, andam ka nang magpoon sa pagmapa. Uya an sarong marikas na giya sa pinaka-importante
+        mga bagay na kaipuhan mong maaraman.
+      whats_on_the_map:
+        title: Ano an yaon sa Mapa
+        on_the_map_html: |-
+          An OpenStreetMap sarong lugar para sa pagmapa nin mga bagay na parehong %{real_and_current} -
+          kaiba dyan an minilyon na edipisyo, tinampo, asin iba pang detalye manongod sa mga lugar. Pwede kang mag-mapa
+          ano man na mga tampok sa totoong kinaban na interesante sa saimo.
+        real_and_current: tunay asin presente
+        off_the_map_html: |-
+          An %{doesnt} kabali kaini iyo an mga datos na may opinyon arog kan mga ranggo, makasaysayan o
+          mga katangian na hipotetikal, asin datos gikan sa mga mga pinagkukuanan na may deretso sa pagkopya. Apuwera sana kun igwa ka nin espesyal
+          pagtugot, dai magkopya sa mga online o mapa na papel.
+        doesnt: dai
+      basic_terms:
+        title: Mga Pundamental na Termino Para sa Pagmapa
+        paragraph_1: An OpenStreetMap igwa nin sadiring tataramon. Uya an nagkapirang
+          panginot na taga na magigin kapaki-pakinabang.
+        an_editor_html: An %{editor} sarong programa o websityo na pwede mong gamiton
+          sa pagliwat kan mapa.
+        a_node_html: .An %{node} sarong punto sa mapa, arog kan sarong restawran o
+          sarong poon.
+        a_way_html: An %{way} sarong linya o lugar, arog kan tinampo, sapa, danaw
+          o edipisyo.
+        a_tag_html: An %{tag} sarong dikit na datos manungod sa sarong nodo o paagi,
+          arog kan pangaran kan sarong restawran o an limitasyon kan rikas kan tinampo.
+        editor: paraliwat
+        node: nodo
+        way: paagi
+        tag: tatak
+      rules:
+        title: Mga regulasyon!
+        para_1_html: |-
+          An OpenStreetMap igwa nin dikit na pormal na mga regulasyon alagad naglalaom kami na an gabos na partisipante makikipagtabangan
+          sa, asin makipag-ulay sa, komunidad. Kun ika nag-iisip
+          ano man na aktibidad apwera sa pagliwat gamit an kamot, pakibasa asin sunudon an mga giya sa
+          %{imports_link} asin %{automated_edits_link}.
+        automated_edits: Mga awtomatikong pagliwat
+      start_mapping: Magpoon nin Pagmapa
+      continue_authorization: Padagos an Pag-awtorisar
     add_a_note:
       title: Mayo nin Oras na Magliwat? Magdugang nin Tala!
+      para_1: |-
+        Kun gusto mo sanang may sadit na bagay na pakarayon asin mayo kang panahon na mag-sign up asin makanuod kun pano magliwat,
+        madali sanang magdugang nin tala.
+      para_2_html: |-
+        Pinduton sana an %{note_icon} o an parehong icon sa %{map_link}.
+        Ini makakadugang nin sarong marker sa mapa, na pwede mong ibalyo sa paagi nin pagguyod.
+        Idugang an saimong mensahe, dangan pinduton an itagama, asin an ibang mga paramapa mag-iimbestigar.
+      the_map: mapa
     communities:
+      title: Mga Komunidad
       lede_text: |-
         An mga tawo hali sa bilog na kinaban nag-aambag o naggagamit kan OpenStreetMap.
         Mantang an dakol nakikikabtang bilang mga indibiduwal, an iba nagbilog nin mga komunidad.
         An mga grupong ini igwa nin manlain-lain na kadakulaan asin nagrerepresentar nin mga heograpiya poon sa saradit na banwaan sagkod sa darakulang rona na may manlain-lain na nasyon.
         Pwede man sindang magin pormal o impormal.
+      local_chapters:
+        title: Mga Lokal na Kapitulo
+        about_text: |-
+          An mga Lokal na Kapitulo mga grupo sa lebel kan nasyon o rehiyon na nagkua kan pormal na lakdang kan
+          pagmukna nin mga legal na entidad na bakong para sa ganansya. Sinda an nagrerepresentar kan mapa asin mga paragibo nin mapa kan lugar kun nakikipag-olay sa lokal na gobyerno, negosyo, asin media. Nagbilog man sinda nin sarong afiliasyon sa OpenStreetMap Foundation (OSMF), na nagtatao sainda nin sumpay sa legal asin deretso sa pagkopya na namamayo sa grupo.
+        list_text: 'An minasunod na mga komunidad pormal na naestablisar bilang mga
+          Lokal na Kapitulo:'
+      other_groups:
+        title: Iba Pang Grupo
+        other_groups_html: |-
+          Dai kaipuhan na pormal na magmukna nin sarong grupo na kapareho kan mga Lokal na Kapitulo.
+          Tunay nanggad na kadakol na grupo an nag-eeksister nin mapangganang marhay bilang sarong impormal na pagtiripon nin mga tawo o bilang sarong
+          grupo nin komunidad. An siisay man pwedeng magbugtak o mag-ayon sa mga ini. Magbasa pa sa %{communities_wiki_link}.
+        communities_wiki: Pahina kan wiki kan mga komunidad
+  social_links:
+    show:
+      website: websityo
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Mag-zoom in tanganing mahiling an mga tala sa mapa
+      map_data_zoom_in_tooltip: Mag-zoom in tanganing mahiling an datos kan mapa
+  legend_panes:
+    show:
+      entries:
+        international_bike_route: Internasyonal na ruta nin bisikleta
+        national_bike_route: Nasyonal na ruta nin bisikleta
+        regional_bike_route: Panrehiyon na ruta nin bisikleta
+        local_bike_route: Lokal na ruta nin bisikleta
+        mountain_bike_route: Ruta nin bisikletang pambukid
+        chair_lift: Chair Lift
+        city: Syudad
+        grass: Duot
+        resident: Lugar nin Residensya
+        retail: Lugar nin Lakuan
+        industrial: Lugar nin Industriyal
+        commercial: Lugar nin komersyo
+        lake: Danaw
+        cemetery: Kampo Santo
+        allotments: Mga Alokasyon
+        military: Lugar nin Militar
+        school: Eskwelahan
+        university: Unibersidad
+        hospital: Pabulungan
+        building: Makahulogan na edipisyo
+        station: Istasyon nin Tren
+        toilets: Mga kasilyasan
+      see_external_legend: Hilingon an panluwas na pananda kan mapa
+  share_panes:
+    show:
+      link: Takod o HTML
+      include_marker: Iiba an marker
+      long_link: Takod
+      short_link: Halipot na takod
+      embed: HTML
+      embed_html_disabled: An HTML embedding dai makukua para sa patong nin mapa na
+        ini
+      paste_html: Idukot an HTML tanganing maibugtak sa websityo
+      geo_uri: Geo URI
+      image: Ladawan
+  traces:
+    new:
+      help: Tabang
   application:
     auth_providers:
       facebook:

@@ -454,6 +454,7 @@ be-Tarask:
         one: прагляд аб'екту Wikidata
         other: прагляд аб'ектаў Wikidata
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
+      wikimedia_commons_link: Элемэнт %{page} на Wikimedia Commons
       telephone_link: Тэлефанаваць %{phone_number}
       colour_preview: Прягляд колера %{colour_value}
       email_link: Электронная пошта %{email}
@@ -739,6 +740,13 @@ be-Tarask:
     new:
       heading: Дадаць камэнтар да абмяркаваньня допісу ў дзёньніку?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Сэрвэр аўтарызацыі патрабуе выбару рахунку мэтавага
+          карыстальніка.
+        consent_required: Сэрвэр аўтарызацыі патрабуе згоды мэтавага карыстальніка.
+        interaction_required: Сэрвэр аўтарызацыі патрабуе ўдзелу мэтавага карыстальніка.
+        login_required: Сэрвэр аўтарызацыі патрабуе аўтэнтыфікацыі мэтавага карыстальніка.
     flash:
       applications:
         create:
@@ -767,12 +775,20 @@ be-Tarask:
       contact: зьвязацца
     bad_request:
       title: Галёмы запыт
+      description: Запытаная аперацыя на сэрвэр OpenStreetMap ня ёсьць слушнай (HTTP
+        400)
     forbidden:
       title: Забаронена
+      description: Запытаная аперацыя на сэрвэр OpenStreetMap даступная толькі адміністратарам
+        (HTTP 400)
     internal_server_error:
       title: Памылка праґрамы
+      description: Сэрвэр OpenStreetMap сутыкнуўся зь нечаканым станам і ня здоляў
+        выканаць запыт (HTTP 500)
     not_found:
       title: Файл ня знойдзены
+      description: Не знойдзены файл/тэчка/апэрацыя API з такой назвай на сэрвэры
+        OpenStreetMap (HTTP 404)
   export:
     show:
       title: OpenStreetMap Інтэґраваны
@@ -1597,6 +1613,10 @@ be-Tarask:
     gpx_failure:
       hi: Вітаем, %{to_user},
       failed_to_import: Файл не атрымалася імпартаваць як GPS-трэк.
+      verify: 'Калі ласка, варта пераканацца, што гэты файл ёсьць слушным GPX-файлам
+        ці архівам з GPX-файлам(і) у зразумелым фармаце (.tar.gz, .tar.bz2, .tar,
+        .zip, .gpx.gz, .gpx.bz2). Мажліва праблема з фарматам файла? Такая памылка
+        імпарту:'
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
       hi: Вітаем, %{to_user},
@@ -2000,9 +2020,15 @@ be-Tarask:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} удзельнікі'
     about_section:
+      community_driven_1_html: |-
+        Супольнасьць OpenStreetMap разнастайная, зацятая і павялічваецца штодзень.
+        Нашыя ўдзельнікі гэта энтузіясты, ҐІС прафэсіяналы, інжынэры OSM сэрвэраў, дабрачынцы якія абнаўляюць месцы стыхійных бедзтваў, ды многія іншыя.
+        Больш інфармацыі пра супольнасьць: %{osm_blog_link},
+        %{user_diaries_link}, %{community_blogs_link}, ды сайт
+        %{osm_foundation_link}.
       community_driven_osm_blog: OpenStreetMap блёґ
       community_driven_user_diaries: дзёньнікі карыстальнікаў
-      community_driven_community_blogs: блёгі супольнасьці
+      community_driven_community_blogs: блёґі супольнасьці
       community_driven_osm_foundation: OSM Фундацыя
       open_data_title: Адкрытыя зьвесткі
       open_data_open_data: адкрытыя зьвесткі
@@ -2035,7 +2061,7 @@ be-Tarask:
           Падтрымаць праект, далучыўшыся да %{osm_foundation_link} і %{making_donation_link}.
         lead_2_learn_more_about_osm: Пачытайце больш пра OpenStreetMap
         lead_2_get_started_mapping: пачынайце мапіць
-        lead_2_osm_blog: OpenStreetMap блёгу
+        lead_2_osm_blog: OpenStreetMap блёґу
         lead_2_weeklyosm: weeklyOSM
         lead_2_osm_community: OSM суполцы
         lead_2_osm_foundation: OSM Фундацыі
@@ -2704,9 +2730,6 @@ be-Tarask:
       create_block: Заблякаваць гэтага ўдзельніка
       activate_user: Актываваць гэтага ўдзельніка
       confirm_user: Пацьвердзіць гэтага ўдзельніка
-      hide_user: Схаваць гэтага ўдзельніка
-      unhide_user: Паказаць гэтага ўдзельніка
-      delete_user: Выдаліць гэтага ўдзельніка
       confirm: Пацьвердзіць
       report: Паскардзіцца на карыстальніка
       edit_profile_details: Рэдагаваць зьвесткі профілю
@@ -2754,7 +2777,6 @@ be-Tarask:
           one: '%{count} знойдзены карыстальнік'
           other: '%{count} знойдзеных карыстальнікаў'
         confirm: Пацьвердзіць выбраных карыстальнікаў
-        hide: Схаваць выбраных карыстальнікаў
         empty: Адпаведныя карыстальнікі ня знойдзеныя
       user:
         summary_html: '%{name} створаны з %{ip_address}, %{date}'
@@ -3145,6 +3167,7 @@ be-Tarask:
       way: Лінія
       relation: Зьвязак
       nothing_found: Аб'екты ня знойдзены
+      error: 'Памылка сувязі %{server}: %{error}'
       timeout: Няма адказу %{server}
     context:
       directions_from: Рушыць адсюль
@@ -3183,4 +3206,9 @@ be-Tarask:
         перад тым як зьнішчыць яе.
       flash: Праўка зьнішчана.
       error: Памылка зьнішчэньня праўкі.
+  validations:
+    leading_whitespace: ёсьць прабел у пачатку
+    trailing_whitespace: ёсьць прабел у канцы
+    invalid_characters: месьціць няслушныя сымбалі
+    url_characters: месьціць спэцыяльныя URL сымбалі (%{characters})
 ...
