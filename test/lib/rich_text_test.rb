@@ -428,6 +428,9 @@ class RichTextTest < ActiveSupport::TestCase
         "boundary=place" =>
           ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
 
+        "@aharvey" =>
+          ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
+
         "node/12639964186" =>
           ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
 
@@ -471,9 +474,7 @@ class RichTextTest < ActiveSupport::TestCase
       cases.each do |input, (expected_text, expected_href)|
         r = RichText.new("text", input)
         assert_html r do
-          assert_dom "a", :count => 1, :text => expected_text do
-            assert_dom "> @href", expected_href
-          end
+          assert_dom "a[href='#{expected_href}']", :count => 1, :text => expected_text
         end
       end
     end
