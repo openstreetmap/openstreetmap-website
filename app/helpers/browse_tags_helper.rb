@@ -47,21 +47,28 @@ module BrowseTagsHelper
 
   def format_wikidata_link(wdt, skip_wikidata_preview)
     if skip_wikidata_preview
-      wdt = wdt.map do |w|
-        link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
-      end
-      safe_join(wdt, ";")
+      multiple_links_to_wikidata(wdt)
     else
-      svg = button_tag :type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) } do
-        tag.svg :width => 27, :height => 16 do
-          concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
-          concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h1V0h-1Z"
-        end
+      wikidata_preview(wdt) + multiple_links_to_wikidata(wdt)
+    end
+  end
+
+  def multiple_links_to_wikidata(details_list)
+    details_list
+      .map { |details| single_link_to_wikidata(details) }
+      .then { |links| safe_join(links, ";") }
+  end
+
+  def single_link_to_wikidata(details)
+    link_to(details[:title], details[:url], :title => t("browse.tag_details.wikidata_link", :page => details[:title].strip))
+  end
+
+  def wikidata_preview(wdt)
+    button_tag :type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) } do
+      tag.svg :width => 27, :height => 16 do
+        concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
+        concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h1V0h-1Z"
       end
-      wdt = wdt.map do |w|
-        link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
-      end
-      svg + safe_join(wdt, ";")
     end
   end
 
