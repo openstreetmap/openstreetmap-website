@@ -1173,6 +1173,9 @@ bcl:
           "yes": Paggamit kan daga
         leisure:
           adult_gaming_centre: Sentro nin Pag-aling para sa mga Adulto
+          bowling_alley: Bulingan
+          common: Karaniwan na daga
+          dance: Baylehan
           dog_park: Parke kan Ayam
           fishing: Lugar nin Pagsira
           garden: Hardin
@@ -1237,6 +1240,7 @@ bcl:
           mud: Laboy
           peninsula: Rawis
           rock: Gapo
+          sand: Baybay
           stone: Gapo
           strait: Itiot
           tree: Puon
@@ -1291,6 +1295,7 @@ bcl:
           locality: Lokalidad
           municipality: Munisipalidad
           neighbourhood: Pagtaraid
+          plot: Lote
           postcode: Kodigo nin postal
           region: Rona
           sea: Dagat
@@ -1483,7 +1488,12 @@ bcl:
         região: Linderos nin Rona
         region: Linderos nin Rona
         state: Linderos nin Estado
+        village: Linderos nin Dolohan
   searches:
+    show:
+      title:
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Mayong resultang nakua
@@ -1508,6 +1518,7 @@ bcl:
       select_status: Pilion an Kamugtakan
       select_type: Pilion an Tipo
       select_last_managed_by: Pilion an Huring Pinamamayuhan Ni
+      reported_user: Sinumbong na Paragamit
       not_managed: Dai Namamayuhan
       search: Maghanap
       search_guidance: 'Maghanap nin mga Isyu:'
@@ -1518,11 +1529,15 @@ bcl:
     page:
       user_not_found: An paragamit dai nag-eeksister
       issues_not_found: Mayo nin nakuang siring na mga isyu
+      reported_user: Sinumbong na Paragamit
       status: Kamugtakan
       reports: Mga sumbong
       last_updated: Huring Na-update
       last_managed: Huring Namayuhan
       reporting_users: Sinusumbong na mga paragamit
+      reports_count:
+        one: '%{count} na Sumbong'
+        other: '%{count} na mga Sumbong'
       reported_item: Sinumbong na Aytem
       states:
         ignored: Dai pagmangnuhon
@@ -1533,6 +1548,9 @@ bcl:
         open: 'Bukas na Isyu #%{issue_id}'
         ignored: 'Dai Pagmangnuhon an Isyu #%{issue_id}'
         resolved: 'Naresolberan an Isyu #%{issue_id}'
+      reports:
+        one: '%{count} na sumbong'
+        other: '%{count} na mga sumbong'
       no_reports: Mayong mga sumbong
       report_created_at_html: Inot na sinumbong kan %{datetime}
       last_resolved_at_html: Huring naresolba kan %{datetime}
@@ -1861,6 +1879,45 @@ bcl:
       description: 'Tala sa OpenStreetMap #%{id}'
       anonymous: Sarong daing ngaran na paragamit
       greeting: Hi,
+      commented:
+        subject_own: Si [OpenStreetMap] %{commenter} nagkomento sa saro sa saimong
+          mga tala
+        subject_other: Si [OpenStreetMap] %{commenter} nagkomento sa sarong tala na
+          saimong interesado
+        your_note: Nagwalat si %{commenter} nin komento sa saro sa saimong mga tala
+          sa mapa harani sa %{place}.
+        your_note_html: Nagwalat si %{commenter} nin komento sa saro sa saimong mga
+          tala sa mapa harani sa %{place}.
+        commented_note: Nagwalat si %{commenter} nin sarong komento sa sarong tala
+          sa mapa na saimong pigkomentohan. An tala harani sa %{place}.
+        commented_note_html: Nagwalat si %{commenter} nin sarong komento sa sarong
+          tala sa mapa na saimong pigkomentohan. An tala harani sa %{place}.
+      closed:
+        subject_own: Naresulbaran ni [OpenStreetMap] %{commenter} an saro sa saimong
+          mga tala
+        subject_other: Naresulbaran ni [OpenStreetMap] %{commenter} an saro sa mga
+          tala na kun sain interesado ka
+        your_note: Naresulbaran ni %{commenter} an saro sa saimong mga tala sa mapa
+          harani sa %{place}.
+        your_note_html: Naresulbaran ni %{commenter} an saro sa saimong mga tala sa
+          mapa harani sa %{place}.
+        commented_note: Naresulbaran ni %{commenter} an sarong tala sa mapa na kun
+          sain nagkomento ka. Harani an tala sa %{place}.
+        commented_note_html: Naresulbaran ni %{commenter} an sarong tala sa mapa na
+          kun sain nagkomento ka. Harani an tala sa %{place}.
+      reopened:
+        subject_own: Si [OpenStreetMap] %{commenter} nag-aktibo giraray kan saro sa
+          saimong mga tala
+        subject_other: Si [OpenStreetMap] %{commenter} nag-aktibo giraray kan mga
+          tala na kun sain interesado ka
+        your_note: Si %{commenter} pinag-aktibo giraray an saro sa saimong mga tala
+          sa mapa harani sa %{place}.
+        your_note_html: Si %{commenter} pinag-aktibo giraray an saro sa saimong mga
+          tala sa mapa harani sa %{place}.
+        commented_note: Si %{commenter} nag-aktibo giraray nin tala sa mapa na saimong
+          pigkomentohan. An tala harani sa %{place}
+        commented_note_html: Si %{commenter} nag-aktibo giraray nin tala sa mapa na
+          saimong pigkomentohan. An tala harani sa %{place}
       details: Magsimbag o aramon pa an dapit sa tala sa %{url}.
       details_html: Magsimbag o aramon pa an dapit sa tala sa %{url}.
     changeset_comment_notification:
@@ -2693,19 +2750,42 @@ bcl:
   legend_panes:
     show:
       entries:
+        main_road: Pinaka-dalan
+        primary: Panginot na Dalan
+        secondary: Ikaduwang Dalan
+        unclassified: Daing Klasipikong Dalan
+        pedestrian: Dalan nin mga Naglalakaw
+        track: Bakas
+        bridleway: Agihan kan mga Kabalyero
+        cycleway: Agihan kan bisikleta
         international_bike_route: Internasyonal na ruta nin bisikleta
         national_bike_route: Nasyonal na ruta nin bisikleta
         regional_bike_route: Panrehiyon na ruta nin bisikleta
         local_bike_route: Lokal na ruta nin bisikleta
         mountain_bike_route: Ruta nin bisikletang pambukid
+        footway: Agihan kan mga tawo
+        rail: Agihan-riles
+        train: Tren
+        subway: Sabwey
+        ferry: Ferry
+        tram: Tram
+        bus: Bus
+        cable_car: Awtong Nakakable
         chair_lift: Chair Lift
+        capital: Kapitolyo
         city: Syudad
+        forest: Kadlagan
+        wood: Kahoy
+        farmland: Dagang umahan
         grass: Duot
+        meadow: Duotan
+        sand: Baybay
         resident: Lugar nin Residensya
         retail: Lugar nin Lakuan
         industrial: Lugar nin Industriyal
         commercial: Lugar nin komersyo
         lake: Danaw
+        farm: Uma
         cemetery: Kampo Santo
         allotments: Mga Alokasyon
         military: Lugar nin Militar
@@ -2714,6 +2794,11 @@ bcl:
         hospital: Pabulungan
         building: Makahulogan na edipisyo
         station: Istasyon nin Tren
+        bus_stop: Punduhan nin Bus
+        bicycle_shop: Bakalan nin Bisikleta
+        bicycle_rental: Rentahan nin Bisikleta
+        bicycle_parking: Paradahan nin Bisikleta
+        bicycle_parking_small: Sadit na paradahan nin bisikleta
         toilets: Mga kasilyasan
       see_external_legend: Hilingon an panluwas na pananda kan mapa
   share_panes:
@@ -2728,11 +2813,135 @@ bcl:
       paste_html: Idukot an HTML tanganing maibugtak sa websityo
       geo_uri: Geo URI
       image: Ladawan
+      format: 'Pormat:'
+      scale: 'Iskala:'
+      custom_dimensions: Magbugtak nin mga pasadyang sukol
+      image_dimensions_html: Ipapahiling kan ladawan an patong na %{layer} sa %{width}
+        x %{height}
+      download: I-download
+      downloading: Nag-da-download...
   traces:
+    visibility:
+      private: Pribado (ipinapakipag-ulay sana bilang daing ngaran, dai nakasunod
+        na mga punto)
+      public: Pampubliko (ipinapahiling sa listahan nin pagsubaybay asin bilang mga
+        daing ngaran, daing pagkasunod-sunod na mga punto)
+      trackable: Pwedeng masubaybayan (ipinapahiling sana bilang daing ngaran, mga
+        pinag-order na punto na may mga timestamp)
+      identifiable: Mamimidbid (ipinapahiling sa listahan nin pagsubaybay asin bilang
+        mamimidbid, mga puntong nakasunod-sunod na may mga timestamp)
     new:
+      upload_trace: magkarga nin mga bakas nin GPS
+      visibility_help: Ano an boot sabihon kaini?
       help: Tabang
+    create:
+      upload_trace: magkarga nin mga bakas nin GPS
+      trace_uploaded: An saimong sagunsun nin GPX nakarga na asin naghahalat na ibugtak
+        sa database. Ini parati mangyayari sa laog nin kabangang oras, asin sarong
+        email an ipapadara saimo pagtapos.
+      upload_failed: Dispensa, dai nagin mapanggana an pagkarga kan GPX. Sarong administrador
+        an naalerto na sa sala. Pakibalui giraray
+      traces_waiting:
+        one: Igwa ka nin %{count} na bakas na naghahalat nin pagkarga. Paki-isip na
+          maghalat na matapos ini bago mag-upload pa, tanganing dai mabara an pila
+          para sa ibang mga paragamit.
+        other: Igwa ka nin %{count} na mga bakas na naghahalat nin pagkarga. Paki-isip
+          na maghalat na matapos ini bago mag-upload pa, tanganing dai mabara an pila
+          para sa ibang mga paragamit.
+    edit:
+      cancel: Dai idagos
+      title: Pagliwat kan Bakas na %{name}
+      heading: Pagliwat kan Bakas na %{name}
+      visibility_help: Ano an boot sabihon kaini?
+    update:
+      updated: Na-update na an Bakas
+    show:
+      title: Paghiling kan Bakas na %{name}
+      heading: Paghiling kan Bakas na %{name}
+      pending: DAI PA TAPOS
+      filename: 'Ngaran nin sagunson:'
+      download: i-download
+      uploaded: 'Pinagkarga na:'
+      points: 'Mga puntos:'
+      start_coordinates: 'Magpoon na managboan:'
+      coordinates_html: '%{latitude}; %{longitude}'
+      map: mapa
+      edit: liwaton
+      owner: 'Kagsadiri:'
+      description: 'Paglaladawan:'
+      tags: 'Mga tatak:'
+      none: Mayo
+      edit_trace: Liwaton an bakas na ini
+      delete_trace: Puraon an bakas na ini
+      trace_not_found: Dai mahanap an Bakas!
+      visibility: 'Bisibilidad:'
+      confirm_delete: Puraon ining bakas?
+    trace:
+      pending: DAI PA TAPOS
+      count_points:
+        one: '%{count} na puntos'
+        other: '%{count} na mga puntos'
+      more: dakol pa
+      trace_details: Hilingon an mga Detalye kan Bakas
+      view_map: Tanawon an Mapa
+      edit_map: Liwaton an Mapa
+      public: PUBLIKO
+      identifiable: MAMIMIDBIDAN
+      private: PRIBADO
+      trackable: MABABAKASAN
+      details_with_tags_html: '%{time_ago} ni %{user} sa %{tags}'
+      details_without_tags_html: '%{time_ago} ni %{user}'
+    index:
+      public_traces: Mga Bakas kan Pampublikong GPS
+      my_gps_traces: An Sakong mga Bakas kan GPS
+      public_traces_from: Mga Pampublikong Bakas nin GPS gikan ki %{user}
+      description: Hilingon an mga bagong pag-upload nin bakas nin GPS
+      tagged_with: ' may tatak na %{tags}'
+      empty_title: Mayo pa digdi
+      empty_upload_html: '%{upload_link} o aramon pa an dapit sa pagbabakas nin GPS
+        sa %{wiki_link}.'
+      upload_new: Magkarga nin bagong bakas
+      wiki_page: pahina nin wiki
+      upload_trace: magkarga nin bakas
+      all_traces: Gabos na mga Bakas
+      my_traces: An Sakong mga Bakas
+      traces_from_html: Mga Publikong mga Bakas gikan sa %{user}
+      remove_tag_filter: Halion an Salaan nin Tatak
+    destroy:
+      scheduled_for_deletion: An bakas nakaiskedyul para sa pagpura
+    offline_warning:
+      message: An sistema nin pagkarga nin sagunson kan GPX dai pa magagamit sa ngunyan
+    offline:
+      heading: GPX Storage Offline
+      message: An sistema nin pagtipig asin pagkarga nin mga sagunson kan GPX dai
+        pa magagamit sa ngunyan.
+    feeds:
+      show:
+        title: Mga Bakas nin GPS kan OpenStreetMap
+      description:
+        description_with_count:
+          one: Sagunson nin GPX na may %{count} na punto gikan ki %{user}
+          other: Sagunson nin GPX na may %{count} na mga punto gikan ki %{user}
+        description_without_count: Sagunson nin GPX gikan ki %{user}
   application:
+    permission_denied: Mayo kang permiso na maakses an aksyon na iyan
+    setup_user_auth:
+      blocked: An saimong pag-akses sa API nabagat. Maglaog sa interface nin web tanganing
+        maaraman an orog pa.
+      need_to_see_terms: An saimong pag-akses sa API pansamantalang sinuspinde. Maglaog
+        sa interface nin web tanganing mahiling an Mga Kondisyon kan Paraambag. Dai
+        mo kaipuhan na umoyon, alagad dapat mong hilingon sinda.
+    settings_menu:
+      account_settings: Mga Panuytoy kan Account
+      oauth2_applications: Mga Aplikasyon nin OAuth 2
+      oauth2_authorizations: Mga Awtorisasyon nin OAuth 2
     auth_providers:
+      google:
+        title: Maglaog sa Google
+        alt: Logo nin Google
+      apple:
+        title: Maglaog sa Apple
+        alt: Logo kan Apple
       facebook:
         title: Maglaog gamit an Facebook
         alt: Logo kan Facebook
@@ -2748,16 +2957,253 @@ bcl:
     share:
       share:
         title: Iheras
+        alt: Aykon nin Paghiras
       email:
         title: Iheras sa paagi kan Email
+        alt: Aykon nin Email
+      bluesky:
+        title: Iheras sa paagi nin Bluesky
+        alt: Aykon kan Bluesky
+      facebook:
+        title: Iheras sa paagi nin Facebook
+        alt: Aykon kan Facebook
+      linkedin:
+        title: Iheras sa paagi nin LikedIn
+        alt: Aykon kan LinkedIn
+      mastodon:
+        title: Iheras sa paagi kan Mastodon
+        alt: Aykon kan Mastodon
+      telegram:
+        title: Iheras sa paagi nin Telegram
+        alt: Aykon kan Telegram
+      x:
+        title: Iheras sa paagi kan X
+        alt: Aykon kan X
+  oauth:
+    permissions:
+      missing: Dai mo tinugutan an aplikasyon na makalaog sa pasilidad na ini
+    scopes:
+      openid: Mag-ayon gamit an OpenStreetMap
+      read_prefs: Basahon an mga kagustuhan kan paragamit
+      write_prefs: Baguhon an mga kagustuhan kan paragamit
+      write_diary: Magmukna nin mga entrada sa talaaldawan asin mga komento
+      write_api: Baguhon an mapa
+      write_changeset_comments: Magkomento sa mga changeset
+      read_gpx: Basahon an mga pribadong bakas kan GPS
+      write_gpx: Magkarga nin mga bakas nin GPS
+      write_notes: Baguhon an mga tala
+      write_redactions: I-redit an datos kan mapa
+      write_blocks: Magmukna asin magbawi nin mga pagbagat nin paragamit
+      read_email: Basahon an email address kan paragamit
+      consume_messages: Basahon, i-update an kamugtakan asin puraon an mga mensahe
+        kan paragamit
+      send_messages: Magpadara nin mga pribadong mensahe sa ibang mga paragamit
+      skip_authorization: Awtomatikong pag-aprobar kan aplikasyon
+    for_roles:
+      moderator: An pagtugot na ini para sa mga aksyon na makukua sana kan mga moderator
+  oauth2_applications:
+    index:
+      title: An Sakuyang mga Aplikasyon sa Kliyente
+      no_applications_html: Igwa ka daw nin sarong aplikasyon na gusto mong irehistro
+        tanganing gamiton sa samo gamit an panusugan nin %{oauth2}? Kaipuhan mong
+        irehistro an saimong aplikasyon bago ini makagibo nin mga kahagadan nin OAuth
+        sa serbisyong ini.
+      new: Pagparehistro nin bagong aplikasyon
+      name: Ngaran
+      permissions: Mga pagtugot
+    application:
+      edit: Liwaton
+      delete: Puraon
+      confirm_delete: Puraon an aplikasyon na ini?
+    new:
+      title: Magrehistro nin bagong aplikasyon
+    edit:
+      title: Liwaton an saimong aplikasyon
+    show:
+      edit: Liwaton
+      delete: Puraon
+      confirm_delete: Puraon an aplikasyon na ini?
+      client_id: ID kan Kliyente
+      client_secret: Hilom kan Kliyente
+      client_secret_warning: Siguraduhon na naitagama an hilom na ini - dai na ini
+        maaakses giraray
+      permissions: Mga pagtugot
+      redirect_uris: Iredirekta an mga URI
+    not_found:
+      sorry: Dispensa, dai nakua an aplikasyon na iyan.
+  oauth2_authorizations:
+    new:
+      title: Kaipuhan an Awtorisasyon
+      introduction: Awtorisaron an %{application} na maakses an saimong account na
+        may minasunod na mga pagtugot?
+      authorize: Awtorisaron
+      deny: Magsayuma
+    error:
+      title: May nangyaring sala
+    show:
+      title: Kodigo nin awtorisasyon
+  oauth2_authorized_applications:
+    index:
+      title: An Sakong mga Awtorisadong Aplikasyon
+      application: Aplikasyon
+      permissions: Mga pagtugot
+      last_authorized: Huring Na-awtorisado
+      no_applications_html: Ika dae pa nag-awtorisar nin anuman na mga aplikasyon
+        nin %{oauth2}.
+    application:
+      revoke: Pagbawi nin Akses
+      confirm_revoke: Bawion an akses para sa aplikasyon na ini?
   users:
+    new:
+      title: Mag-ayon
+      tab_title: Mag-ayon
+      signup_to_authorize_html: Mag-ayon sa OpenStreetMap tanganing maakses an %{client_app_name}.
+      no_auto_account_create: Sa kamunduan, dai pa kami nakakagibo nin sarong account
+        para saimo nin awtomatiko.
+      please_contact_support_html: Tabi makipag-olay sa %{support_link} tanganing
+        iareglo an pagmukna nin sarong account - hihingoahon ming aatubangon an kahagadan
+        sa pinakamadaling panahon.
+      support: suporta
+      about:
+        header: Libre asin pwedeng liwaton.
+        paragraph_1: Bakong arog kan ibang mga mapa, an OpenStreetMap biyong ginibo
+          kan mga tawong arog mo, asin libre ini para sa siisay man na ayuson, i-update,
+          i-download asin gamiton.
+        paragraph_2: Mag-ayon tanganing makapoon na mag-ambag.
+        welcome: Maugmang pag-abot sa OpenStreetMap
+      duplicate_social_email: Kun igwa ka nang OpenStreetMap account asin boot mong
+        gumamit nin Tagatao kan indentidad nin ikatolong partido, maglaog gamit an
+        saimong pasa-taramon asin baguhon an mga panuytoy kan saimong account.
+      display name description: An saimong pampublikong ipinapahiling na pangaran
+        nin paragamit. Pwede mong baguhon ini sa huri sa mga kagustuhan.
+      by_signing_up:
+        html: Sa pagpirma, minaoyon ka sa samong %{tou_link}, %{privacy_policy_link}
+          asin %{contributor_terms_link}.
+        tou: Mga Kondisyon sa Paggamit
+        privacy_policy: Polisiya nin pribasidad
+        privacy_policy_title: Polisiya sa pribasidad kan OSMF kabali an seksyon sa
+          mga email address
+        contributor_terms: mga kondisyon kan paraambag
+      continue: Mag-ayon
+      email_help:
+        privacy_policy: polisiya nin pribasidad
+        privacy_policy_title: Polisiya sa pribasidad kan OSMF kabali an seksyon sa
+          mga email address
+        html: An saimong iniirukan dai ipinapahiling sa publiko, hilingon an samuyang
+          %{privacy_policy_link} para sa kadugangan na impormasyon.
+      or: o
+      use external auth: o maglaog sa ikatolong partido
+    no_such_user:
+      title: Mayo nin siring na paragamit
+      heading: An paragamit na %{user} dai nag-eeksister
+      body: Dispensa, mayong paragamit na may ngaran na %{user}. Hilingon tabi an
+        saimong pagbiaba, o tibaad sala an takod na saimong pigpindot.
+      deleted: pinagpura
+    show:
+      my diary: An Sakuyang Talaaldawan
+      my edits: An Sakong mga Naliwat
+      my traces: An Sakong mga Bakas
+      my notes: An Sakong mga Tala
+      my messages: An Sakong mga Mensahe
+      my profile: An Sakong Profile
+      my_account: An Sakuyang Account
+      my comments: An Sakong mga Komento
+      my_preferences: Mga Kagustuhan Ko
+      my_dashboard: An Sakuyang Dashboard
+      blocks on me: Mga Nagbagat Sakuya
+      blocks by me: Mga Binagat Ko
+      send message: Magpadara nin Mensahe
+      diary: Talaaldawan
+      edits: Mga pagliwat
+      traces: Mga bakas
+      notes: Mga tala sa Mapa
+      unfollow: Dai na pagsundan
+      follow: Sundan
+      mapper since: 'Paramapa na poon pa kadtong:'
+      last map edit: 'Huring pagliwat kan mapa:'
+      no activity yet: Mayo pang aktibidad
+      uid: 'Id kan paragamit:'
+      ct status: 'Mga kondisyon kan Paraambag:'
+      ct undecided: Dai pa nakapagdesisyon
+      ct declined: Dai inako
+      email address: 'Email address:'
+      created from: 'Ginibo gikan sa:'
+      status: 'Kamugtakan:'
+      spam score: 'Iskor nin Ispam:'
+      block_history: Mga aktibong Nabagat
+      moderator_history: Mga Binagat na Itinao
+      revoke_all_blocks: Bawion an gabos na pagbagat
+      comments: Mga Komento
+      create_block: Bagaton an Paragamit na ini
+      activate_user: I-aktibo an Paragamit na ini
+      confirm_user: Kumpirmaron an Paragamit na ini
+      unconfirm_user: Dai kumpirmaron an Paragamit na ini
+      suspend_user: Suspendihon an Paragamit na ini
+      unsuspend_user: Dai suspendihon an Paragamit na ini
+      undelete_user: Balikon sa pagkapura an Paragamit na ini
+      confirm: Kumpirmaron
+      report: Isumbong an Paragamit na ini
+      edit_profile_details: Liwaton an mga Detalye kan Profile
+      edit_description: Liwaton an Paglaladawan
+      edit_links: Liwaton an mga Takod
+      change_image: Ribayan an Ladawan
+      edit_company: Liwaton an Kompanya
+      edit_location: Liwaton an Kinamumugtakan
+    sidebar_section:
+      home_location: Kinamumugtakan kan Iniirukan
+      company: Kompanya
+      company_tooltip: An pakikisumaro kan kumpanya pigsusumbong kan sadiri asin dai
+        naberipika
+    go_public:
+      flash success: An gabos mong pagliwat publiko na ngunyan, asin tinutugutan ka
+        nang magliwat.
+    issued_blocks:
+      show:
+        title: Mga Binagat ni %{name}
+        heading_html: Lista kan mga Binagat ni %{name}
+        empty: An %{name} dai pa nakagibo nin anuman na mga pagbagat.
+    lists:
+      show:
+        title: Mga Paragamit
+        heading: Mga Paragamit
+        select_status: Pilion an Kamugtakan
+        states:
+          pending: Dai pa tapos
+          active: Aktibo
+          confirmed: Nakompirmar
+          suspended: Suspendido
+          deleted: Pinagpura na
+        name_or_email: Ngaran o Email
+        edits: Mga pagliwat?
+        has_edits: Igwa nin mga Pagliwat
+        no_edits: Mayo nin mga Pagliwat
+        search: Maghanap
+    suspended:
+      title: Suspendido an Account
+      heading: Suspendido an Account
+      support: suporta
+      automatically_suspended: Dispensa, an saimong account awtomatikong nasuspinde
+        huli sa kaduda-dudang aktibidad.
     auth_failure:
       no_authorization_code: Mayong kodigo nin awtorisasyon
       unknown_signature_algorithm: Bakong bistadong pirma nin algoritmo
       invalid_scope: Imbalidong kinasakupan
+    role_icons:
+      title:
+        administrator: An paragamit na ini sarong administrador
+        moderator: An paragamit na ini sarong moderator
+        importer: An paragamit na ini sarong para-import
+  notes:
+    show:
+      hide: Itago
+      comment: Komento
+    new:
+      title: Bagong Tala
   redactions:
     show:
+      description: 'Paglaladawan:'
       user: 'Kaglalang:'
+      confirm: Sigurado ka?
     update:
       flash: Naitagama an mga Pagbabago.
   validations:

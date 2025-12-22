@@ -791,6 +791,9 @@ vi:
       title: Không tìm thấy tập tin
       description: Không thể tìm thấy thao tác tập tin/thư mục/API có tên đó trên
         máy chủ OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap Nhúng
   follows:
     show:
       follow:
@@ -1677,6 +1680,7 @@ vi:
       provide_details: Vui lòng cung cấp các chi tiết được yêu cầu
   languages_panes:
     select_language_list:
+      search_language: Tìm kiếm…
       languages:
         af: Afrikaans
         gsw: Alemanni
@@ -1685,6 +1689,7 @@ vi:
         az: Azerbaijan
         id: Indonesia
         ms: Mã Lai
+        bcl: Bikol Trung
         bs: Bosna
         br: Breton
         ca: Catalunya
@@ -1760,9 +1765,9 @@ vi:
         yi: Yiddish
         he: Hê-brơ
         ar: Ả Rập
-        skr-arab: Saraiki (Ả Rập)
+        skr-arab: Saraiki
         fa: Ba Tư
-        arz: Ả Rập (Ai Cập)
+        arz: Ả Rập Ai Cập
         pnb: Punjab Tây
         ps: Pashto
         nqo: N’Ko
@@ -1777,6 +1782,7 @@ vi:
         kn: Kannada
         th: Thái
         my: Miến Điện
+        shn: Shan
         xmf: Mingrelia
         ka: Gruzia
         km: Khơ-me
@@ -1818,6 +1824,9 @@ vi:
     more: Thêm
     header:
       select_language: Chọn Ngôn ngữ
+      loading: Đang tải…
+    meta:
+      openstreetmap_search: Tìm kiếm OpenStreetMap
     select_language_button:
       title: Chọn Ngôn ngữ
     offline_flash:
@@ -2125,7 +2134,12 @@ vi:
           dark: Tối
         preferred_map_color_scheme: Bộ màu Bản đồ Ưa thích
         map_color_schemes:
-          auto: Tự động
+          auto: Khớp màu Trang Web
+          light: Sáng
+          dark: Tối
+        preferred_editor_color_scheme: Bộ màu Trình vẽ Ưa thích
+        editor_color_schemes:
+          auto: Khớp màu Trang Web
           light: Sáng
           dark: Tối
         save: Cập nhật Tùy chỉnh
@@ -2326,9 +2340,22 @@ vi:
       legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy?uselang=vi
       legal_1_1_privacy_policy: Quy định về Quyền riêng tư
       legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy?uselang=vi
-      legal_2_1_html: |-
-        Xin vui lòng %{contact_the_osmf_link}
-        nếu có thắc mắc về giấy phép, bản quyền, hoặc vấn đề pháp lý khác.
+      legal_1_2_html: Nếu bạn muốn sử dụng bản đồ hoặc dữ liệu của OpenStreetMap,
+        xin vui lòng ghi công OpenStreetMap. Tham khảo %{attribution_guidelines_link}
+        để biết thêm thông tin.
+      legal_attribution_guidelines_title: Hướng dẫn ghi công
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines?uselang=vi
+      legal_1_3_html: Đặc biệt, nếu muốn sử dụng ảnh chụp màn hình từ OpenStreetMap
+        trực tiếp trong cuốn sách, ẩn phẩm, phim, hoặc chương trình truyền hình của
+        bạn, bạn không cần phải xin phép trước tiên, bởi vì toàn bộ dữ liệu OpenStreetMap
+        được phát hành cho tất cả mọi người sử dụng thoải mái. Hãy tham khảo %{attribution_guidelines_link}
+        và các ví dụ tại %{attribution_example_film} and %{attribution_example_tv}.
+      legal_attribution_example_film_title: Điện ảnh
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films?uselang=vi
+      legal_attribution_example_tv_title: Truyền hình
+      legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series?uselang=vi
+      legal_2_1_html: Xin vui lòng %{contact_the_osmf_link} nếu có thắc mắc về giấy
+        phép, bản quyền, hoặc vấn đề pháp lý khác.
       legal_2_1_contact_the_osmf: liên lạc với Quỹ OSM
       legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact?uselang=vi
       legal_2_2_html: OpenStreetMap, biểu trưng kính lúp, và State of the Map là %{registered_trademarks_link}.
@@ -2562,6 +2589,12 @@ vi:
           description: Những nguồn khác được liệt kê trên wiki OpenStreetMap
       export_button: Xuất
       export_download: Đang tải về…
+      confirmation:
+        header: Tải về Dữ liệu XML
+        body: Bạn có muốn tải về toàn bộ dữ liệu bản đồ trong khu vực này dưới dạng
+          XML? Lưu ý rằng các khu vực lớn có thể mất nhiều thời gian để tải về.
+        cancel: Hủy bỏ
+        download: Tải về
     fixthemap:
       title: Báo lỗi / Sửa bản đồ
       how_to_help:
@@ -3072,6 +3105,7 @@ vi:
         khoản tự động cho bạn.
       please_contact_support_html: Vui lòng liên hệ với %{support_link} để yêu cầu
         tạo tài khoản – chúng tôi sẽ cố gắng giải quyết yêu cầu nhanh nhất có thể.
+      support: nhóm hỗ trợ
       about:
         header: Tự do sử dụng và sửa đổi.
         paragraph_1: Không giống như với các bản đồ kia, OpenStreetMap được xây dựng
@@ -3148,7 +3182,9 @@ vi:
       activate_user: Kích hoạt Tài khoản Này
       confirm_user: Xác nhận Người dùng Này
       unconfirm_user: Bỏ Xác nhận Người dùng Này
+      suspend_user: Đình chỉ Người dùng Này
       unsuspend_user: Bỏ cấm Người dùng Này
+      undelete_user: Phục hồi Người dùng Này
       confirm: Xác nhận
       report: Báo cáo Người dùng này
       edit_profile_details: Sửa đổi Chi tiết Hồ sơ
@@ -3208,6 +3244,7 @@ vi:
         found_users:
           other: Đã tìm thấy %{count} người dùng
         confirm: Xác nhận những Người dùng Được chọn
+        suspend: Đình chỉ các Người dùng Được chọn
         empty: Không tìm thấy người dùng.
       user:
         summary_html: '%{name} do %{ip_address} mở ngày %{date}'
@@ -3485,15 +3522,18 @@ vi:
     embed:
       report_problem: Báo vấn đề
     legend:
-      title: Chú giải Bản đồ
-      tooltip: Chú giải Bản đồ
+      title: Chú giải
+      tooltip: Chú giải
       tooltip_disabled: Bảng Chú giải không có sẵn cho lớp này
     map:
+      popup:
+        close: Đóng
       zoom:
         in: Phóng to
         out: Thu nhỏ
       locate:
         title: Bay tới Vị trí của Tôi
+        not_available: Vị trí không có sẵn
         metersPopup:
           other: Bạn đang cách địa điểm này trong vòng %{count} mét
         feetPopup:
