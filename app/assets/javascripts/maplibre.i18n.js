@@ -1,5 +1,3 @@
-//= require i18n
-
 OSM.MapLibre.Locale = {
   "GeolocateControl.FindMyLocation": OSM.i18n.t("javascripts.map.locate.title"),
   "GeolocateControl.LocationNotAvailable": OSM.i18n.t("javascripts.map.locate.not_available"),
