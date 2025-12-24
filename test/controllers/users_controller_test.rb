@@ -375,4 +375,73 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select ".profile-diary-card", 0
   end
+
+  def test_heatmap_visibility
+    edit_heatmap_button_selector = ".edit_heatmap_button"
+    heatmap_selector = ".heatmap_frame"
+    protagonist = create(:user)
+
+    # Testing unauthenticated user first
+
+    protagonist.update(:public_heatmap => true)
+    get user_path(protagonist)
+    assert_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    protagonist.update(:public_heatmap => false)
+    get user_path(protagonist)
+    refute_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    session_for(protagonist)
+
+    protagonist.update(:public_heatmap => true)
+    get user_path(protagonist)
+    assert_select heatmap_selector
+    assert_select edit_heatmap_button_selector
+
+    protagonist.update(:public_heatmap => false)
+    get user_path(protagonist)
+    refute_select heatmap_selector
+    assert_select edit_heatmap_button_selector
+
+    antagonist = create(:user)
+    session_for(antagonist)
+
+    protagonist.update(:public_heatmap => true)
+    get user_path(protagonist)
+    assert_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    protagonist.update(:public_heatmap => false)
+    get user_path(protagonist)
+    refute_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    moderator = create(:moderator_user)
+    session_for(moderator)
+
+    protagonist.update(:public_heatmap => true)
+    get user_path(protagonist)
+    assert_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    protagonist.update(:public_heatmap => false)
+    get user_path(protagonist)
+    refute_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    admin = create(:administrator_user)
+    session_for(admin)
+
+    protagonist.update(:public_heatmap => true)
+    get user_path(protagonist)
+    assert_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+
+    protagonist.update(:public_heatmap => false)
+    get user_path(protagonist)
+    refute_select heatmap_selector
+    refute_select edit_heatmap_button_selector
+  end
 end

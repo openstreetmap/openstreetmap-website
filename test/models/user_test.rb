@@ -227,6 +227,17 @@ class UserTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordInvalid) { user.save! }
   end
 
+  def test_heatmap_public_by_default
+    # A bit roundabout, but want to make sure that
+    # the factory doesn't betray us here by setting
+    # a default value.
+    attrs = attributes_for(:user)
+    attrs.delete(:public_heatmap)
+    user = User.new(attrs)
+    user.save!
+    assert_predicate user, :public_heatmap?
+  end
+
   def test_visible
     pending = create(:user, :pending)
     active = create(:user, :active)

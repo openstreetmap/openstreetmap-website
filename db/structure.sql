@@ -1593,7 +1593,8 @@ CREATE TABLE public.users (
     note_comments_count integer DEFAULT 0,
     creation_address inet,
     home_location_name character varying,
-    company character varying
+    company character varying,
+    public_heatmap boolean DEFAULT true NOT NULL
 );
 
 
@@ -3569,6 +3570,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20251218105716'),
 ('20251121134648'),
 ('20250704143751'),
 ('20250506052030'),

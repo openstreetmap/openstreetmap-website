@@ -1,3 +1,5 @@
+<% owned = current_user && @user == current_user %>
+
 <% content_for :head do %>
   <%= javascript_include_tag "heatmap" %>
 <% end %>
@@ -235,7 +237,6 @@
   </div>
 <% end %>
 
-<% owned = current_user && @user == current_user %>
 <% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
@@ -295,7 +296,12 @@
 <% end %>
 
 <% if @heatmap_frame %>
-  <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :src => user_heatmap_path(@user), :data => { :turbo => false } %>
+  <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :src => user_heatmap_path(@user), :data => { :turbo => false }, :class => "heatmap_frame" %>
+<% end %>
+<% if owned %>
+  <div class="mt-2">
+    <%= link_to t(".edit_heatmap"), profile_heatmap_path, :class => "btn btn-sm w-100 btn-outline-primary edit_heatmap_button" %>
+  </div>
 <% end %>
 
 <%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>

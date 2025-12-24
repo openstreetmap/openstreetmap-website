@@ -13,7 +13,7 @@ module Users
     def show
       @user = User.find_by(:display_name => params[:user_display_name])
 
-      if @user && (@user.visible? || current_user&.administrator?)
+      if @user&.public_heatmap? && (@user.visible? || current_user&.administrator?)
         @heatmap_data = Rails.cache.fetch("heatmap_data_of_user_#{@user.id}", :expires_at => Time.zone.now.end_of_day) do
           from = 1.year.ago.beginning_of_day
           to = Time.zone.now.end_of_day
