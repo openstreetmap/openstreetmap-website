@@ -14,8 +14,8 @@ module HeatmapHelper
              .chunk_while { |before, after| before == after }
              .map(&:first)
              .map do |month|
-      month_offset += 12 if month == 1
-      month + month_offset
+               month_offset += 12 if month == 1
+               month + month_offset
     end
 
     {
