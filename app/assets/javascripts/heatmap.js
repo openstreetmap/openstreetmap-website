@@ -39,7 +39,7 @@ $(document).on("turbo:frame-load", function () {
       continue;
     }
     const count = $day.data("count") ?? 0;
-    const tooltipText = getTooltipText(date, count);
+    const tooltipText = getTooltipText($day.data("date"), count);
     $day
       .css("grid-area", getWeekdayRow(date.getUTCDay()) + " / " + weekColumn)
       .attr("aria-label", tooltipText)
