@@ -84,6 +84,10 @@ he:
       models:
         user_mute:
           is_already_muted: כבר מושתק
+        social_link:
+          attributes:
+            url:
+              http_parse_error: כתובת אמורה להתחיל ב־http://‎ או https://‎
     models:
       acl: רשימת בקרת גישה
       changeset: ערכת שינויים
@@ -182,8 +186,10 @@ he:
         active: פעיל
         display_name: שם לתצוגה
         description: תיאור פרופיל
+        company: חברה
         home_lat: קו רוחב
         home_lon: קו אורך
+        home_location_name: שם מקום הבית
         languages: שפות מועדפות
         preferred_editor: עורך מועדף
         pass_crypt: סיסמה
@@ -315,8 +321,17 @@ he:
       contributor_terms:
         heading: תנאי תרומה
         agreed: הסכמת לתנאי התרומה החדשים בתאריך %{date}.
+        not_agreed: עדיין לא הסכמת לתנאי התורמים.
         agreed_with_pd: הצהרת גם שמבחינתך העריכות שלך יהיו בנחלת הכלל.
         not_agreed_with_pd: לא הצהרת שמבחינתך העריכות שלך יהיו בנחלת הכלל.
+        review: לסקירת התנאים
+        review_and_accept: לסקור ולקבל את התנאים
+      terms_of_use:
+        heading: תנאי שימוש
+        agreed: הסכמת לתנאי השימוש ב־%{date}.
+        not_agreed: עדיין לא הסכמת לתנאי השימוש.
+        review: לסקירת התנאים
+        review_and_accept: לסקור ולקבל את התנאים
       save changes button: שמירת השינויים
       delete_account: מחיקת חשבון...
     go_public:
@@ -373,6 +388,7 @@ he:
         tou_explain:
           html: '%{tou_link} האלה מאגדים את תנאי השימוש באתר ובתשתית נוספת שמסופקת
             על־ידי ה־OSMF. נא ללחוץ על הקישור, לקרוא ולהסכים לטקסט.'
+          tou: תנאי שימוש
         read_tou: קראתי את תנאי השימוש ואני מסכימ/ה לתנאים אלו
         guidance_info_html: 'מידע שיעזור להבין את המונחים האלה: %{readable_summary_link}
           וכמה %{informal_translations_link}'
@@ -493,6 +509,13 @@ he:
       telephone_link: להתקשר למספר %{phone_number}
       colour_preview: תצוגה מקדימה של הצבע %{colour_value}
       email_link: דוא״ל %{email}
+    versions_navigation:
+      node: נקודה
+      way: דרך
+      relation: יחס
+      history: היסטוריה
+      version: גרסה מס׳ %{version}
+      versions_label: 'גרסאות:'
   feature_queries:
     show:
       title: שאילתת ישויות
@@ -507,6 +530,8 @@ he:
         title_html: 'היסטוריית הקו: %{name}'
       relation:
         title_html: 'היסטוריית היחס: %{name}'
+      older_versions: גרסאות ישנות יותר
+      newer_versions: גרסאות חדשות יותר
     actions:
       view_redacted_data: הצגת הנתונים שהוסרו
       view_redaction_message: הצגת הודעת הסרה
@@ -535,6 +560,9 @@ he:
       sorry: מצטערים, לא ניתן למצוא את היחס %{id}.
     timeout:
       sorry: מצטערים, אחזור הנתונים עבור היחס מספר %{id} ארך זמן רב מדי.
+  relation_members:
+    not_found_message:
+      sorry: מחילה, יחס מס׳ %{id} לא נמצא.
   old_relations:
     not_found_message:
       sorry: מצטערים, לא ניתן למצוא את יחס מס׳ %{id} בגרסה %{version}.
@@ -731,6 +759,15 @@ he:
       my_diary: היום שלי
       new: רשומת יומן חדשה
       new_title: כתיבת רשומה חדשה ביומן המשתמש שלי
+    profile_diaries:
+      comments:
+        one: הערה
+        two: שתי הערות
+        many: '%{count} הערות'
+        other: '%{count} הערות'
+      title_label: רשומת יומן
+      comments_label: הערות
+      date_label: תאריך
   diary_comments:
     new:
       heading: להוסיף הערה לדיון ברשומת היומן הבאה?
@@ -1642,6 +1679,7 @@ he:
       kilometers: קילומטר
       miles_feet: מייל, יארד
       miles_yards: מייל, רגל
+      distance_units_settings: הגדרות יחידות מרחק
       download: הורדת מסלול בתור GeoJSON
       filename: מסלול
       directions_courtesy_html: הכיוונים באדיבות %{link}
@@ -1768,6 +1806,7 @@ he:
       provide_details: נא לספק את הפרטים הנדרשים
   languages_panes:
     select_language_list:
+      search_language: חיפוש...
       languages:
         af: אפריקאנס
         gsw: אלמאנית
@@ -1909,6 +1948,13 @@ he:
     communities: קהילות
     learn_more: מידע נוסף
     more: עוד
+    header:
+      select_language: בחירת שפה
+      loading: טעינה...
+    meta:
+      openstreetmap_search: חיפוש ב־OpenStreetMap
+    select_language_button:
+      title: בחירת שפה
     offline_flash:
       osm_offline: מסד הנתונים של אתר OpenStreetMap אינו מקוון כעת בשל ביצוע עבודות
         תחזוקה.
@@ -2186,9 +2232,11 @@ he:
         message: ההעדפות עודכנו.
       navigation:
         preferences: העדפות
+        advanced_preferences: העדפות מתקדמות
     basic_preferences:
       show:
         title: ההעדפות שלי
+        preferred_language: שפה מועדפת
         preferred_site_color_scheme: ערכת צבעי האתר המועדפת
         site_color_schemes:
           auto: אוטומטית
@@ -2196,24 +2244,53 @@ he:
           dark: כהה
         preferred_map_color_scheme: ערכת צבעי המפה המועדפת
         map_color_schemes:
-          auto: אוטומטית
+          auto: כמו האתר
           light: בהירה
           dark: כהה
+        preferred_editor_color_scheme: ערכת צבעי עורך מועדפת
+        editor_color_schemes:
+          auto: כמו האתר
+          light: בהירה
+          dark: כהה
+        save: עדכון העדפות
+    advanced_preferences:
+      show:
+        title: ההעדפות המתקדמות שלי
         save: עדכון העדפות
   profiles:
     profile_sections:
       navigation:
+        description: תיאור
+        links: קישורים
         image: תמונה
+        company: חברה
+        location: מקום
+        heatmap: מפת חום
     descriptions:
       show:
         title: עריכת פרופיל
         save: עדכון פרופיל
         cancel: ביטול
+      update:
+        success: תיאור הפרופיל עודכן.
+        failure: לא ניתן לעדכן את תיאור הפרופיל.
     links:
       show:
         title: עריכת פרופיל
+        save: עדכון פרופיל
+        cancel: ביטול
+        social_links:
+          title: קישורים לפרופילים ברשתות חברתיות
+          remove: הסרה
+          add: הוספת קישור לרשת חברתית
+      update:
+        success: קישורי הפרופיל עודכנו.
+        failure: לא ניתן לעדכן את קישורי הפרופיל.
     images:
       show:
+        title: עריכת פרופיל
+        save: עדכון פרופיל
+        cancel: ביטול
         gravatar:
           gravatar: להשתמש ב־Gravatar
           what_is_gravatar: מה זה Gravatar?
@@ -2222,13 +2299,39 @@ he:
         delete image: להסרת התמונה הנוכחית
         replace image: להחלפת התמונה הנוכחית
         image size hint: (תמונה מרובעת בגודל 100x100 לפחות עובדת הכי טוב)
+      update:
+        success: תמונת הפרופיל עודכנה.
+        failure: לא ניתן לעדכן את תמונת הפרופיל.
+    companies:
+      show:
+        title: עריכת פרופיל
+        save: עדכון פרופיל
+        cancel: ביטול
+      update:
+        success: החברה בפרופיל עודכנה.
+        failure: לא ניתן לעדכן את החברה בפרופיל.
     locations:
       show:
+        title: עריכת פרופיל
+        save: עדכון פרופיל
+        cancel: ביטול
         no home location: לא הזנת את מיקומך הראשי.
         update home location on click: עדכון המיקום הראשי שלך בעת לחיצה על המפה?
         show: הצגה
         delete: מחיקה
         undelete: ביטול מחיקה
+      update:
+        success: המקום בפרופיל עודכן.
+        failure: לא ניתן לעדכן את המקום בפרופיל.
+    heatmaps:
+      show:
+        title: הגדרת מפת חום
+        show_heatmap_in_public: הצגת מפת החום בדף הפרופיל שלך
+        save: עדכון הגדרות מפת חום
+        cancel: ביטול
+      update:
+        success: מפת החום עודכנה.
+        failure: לא ניתן לעדכן את מפת החום.
   sessions:
     new:
       tab_title: כניסה
@@ -2273,24 +2376,38 @@ he:
       changeset_comments:
         older: הערות ישנות
         newer: הערות חדשות
+        oldest: ההערות הישנות ביותר
+        newest: ההערות החדשות ביותר
       diary_comments:
         older: הערות ישנות
         newer: הערות חדשות
+        oldest: ההערות הישנות ביותר
+        newest: ההערות החדשות ביותר
       diary_entries:
         older: רשומות ישנות יותר
         newer: רשומות חדשות יותר
+        oldest: הרשומות הישנות ביותר
+        newest: הרשומות החדשות ביותר
       issues:
         older: בעיות ישנות יותר
         newer: בעיות חדשות יותר
+        oldest: הבעיות הישנות ביותר
+        newest: הבעיות החדשות ביותר
       traces:
         older: מסלולים ישנים יותר
         newer: מסלולים חדשים יותר
+        oldest: המסלולים הישנים ביותר
+        newest: המסלולים החדשים ביותר
       user_blocks:
         older: חסימות ישנות יותר
         newer: חסימות חדשות יותר
+        oldest: החסימות הישנות ביותר
+        newest: החסימות החדשות ביותר
       users:
         older: משתמשים ישנים יותר
         newer: משתמשים חדשים יותר
+        oldest: המשתמשים הישנים ביותר
+        newest: המשתמשים החדשים ביותר
   site:
     about:
       heading_html: '%{copyright}תורמי %{br} OpenStreetMap'
@@ -2334,6 +2451,7 @@ he:
       legal_1_1_terms_of_use: תנאי שימוש
       legal_1_1_aup: מדיניות שימוש מקובל
       legal_1_1_privacy_policy: מדיניות פרטיות
+      legal_attribution_guidelines_title: הנחיות ייחוס
       legal_2_1_html: |-
         נא %{contact_the_osmf_link}
         אם יש לך שאלות על רישוי, זכויות יוצרים או נושאים משפטיים אחרים.
@@ -2355,6 +2473,8 @@ he:
         native_link: גרסה העברית
         mapping_link: להתחיל למפות
       legal_babble:
+        lead_2_osm_foundation: קרן OSM
+        licensing_title: רישוי OpenStreetMap
         licensing_1_odc_odbl: רישיון מסד נתונים פתוח של Open Data Commons
         licensing_1_osm_foundation: קרן אופן סטריט מאפ
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.he
@@ -2364,6 +2484,7 @@ he:
           הבאים:'
         credit_2_license: יש להבהיר שהנתונים זמינים לפי רישיון מסד נתונים פתוח.
         credit_3_v2025_attribution_guidelines: הנחיות ייחוס
+        credit_3_v2025_licensing_requirements: דרישות הרישוי
         credit_4_v2025_this_copyright_page: דף זכויות היוצרים הזה
         attribution_example:
           alt: דוגמה לצורה הנכונה לתת ייחוס ל־OpenStreetMap באתר האינטרנט
@@ -2386,6 +2507,7 @@ he:
           קרן OpenStreetMap. אם יש לך שאלות לגבי השימוש שלך בסימנים,
           ר׳ את %{trademark_policy_link} שלנו.
         trademarks_1_1_trademark_policy: מדיניות הסימנים המסחריים
+        services_title_html: שירותים נוספים
         services_1_api_usage_policy: מדינית השימוש ב־API
         services_1_tile_usage_policy: מדיניות השימוש באריחים
         services_1_nominatim_usage_policy: מדיניות השימוש בנומינטים
@@ -2521,6 +2643,11 @@ he:
           title: מקורות אחרים
           description: מקורות נוספים רשומים בוויקי של OpenStreetMap
       export_button: יצוא
+      export_download: בהורדה...
+      confirmation:
+        header: הורדת נתוני XML
+        cancel: ביטול
+        download: הורדה
     fixthemap:
       title: לדווח על בעיה / לתקן את המפה
       how_to_help:
@@ -2600,6 +2727,8 @@ he:
         bicycle: באופניים
         car: במכונית
         foot: ברגל
+      providers:
+        description: שירותי הכוונה
     welcome:
       title: ברוך בואך!
       introduction: ברוך בואך ל־OpenStreetMap, מפה חופשית של העולם, שאפשר לערוך. עכשיו
@@ -2664,6 +2793,9 @@ he:
           אומנם, קבוצות רבות קיימות בהצלחה רבה ככינוס בלתי־רשמי של אנשים או כקבוצה
           קהילתית. כל אחד יכול להקים אותן או להצטרף אליהן. אפשר לקרוא עוד ב%{communities_wiki_link}.
         communities_wiki: דף הוויקי של קהילות
+  social_links:
+    show:
+      website: אתר
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: התקרבות כדי לראות הערות על המפה
@@ -2758,6 +2890,7 @@ he:
         bicycle_parking: חניית אופניים
         bicycle_parking_small: חניית אופניים קטנה
         toilets: שירותים
+      see_external_legend: הצגת מקרא מפה חיצונית
   share_panes:
     show:
       link: קישור או HTML
@@ -2775,6 +2908,7 @@ he:
       custom_dimensions: הגדרת ממדים בהתאמה אישית
       image_dimensions_html: התמונה תופיע כחלק מהשכבה %{layer} בגודל %{width} x %{height}
       download: הורדה
+      downloading: בהורדה...
   traces:
     visibility:
       private: פרטי (משותף רק כאלמוני, נקודות לא ממוינות)
@@ -2891,6 +3025,9 @@ he:
       google:
         title: כניסה עם גוגל
         alt: סמל גוגל
+      apple:
+        title: כניסה עם Apple
+        alt: הלוגו של Apple
       facebook:
         title: כניסה עם פייסבוק
         alt: סמל פייסבוק
@@ -3018,6 +3155,7 @@ he:
       by_signing_up:
         html: הרשמה מהווה את הסכמתך ל%{tou_link}, ל%{privacy_policy_link} ול%{contributor_terms_link}
           שלנו.
+        tou: תנאי שימוש
         privacy_policy: מדיניות הפרטיות
         privacy_policy_title: מדיניות הפרטיות של OSMF כוללת סעיף על כתובות דוא״ל
         contributor_terms: תנאי התרומה
@@ -3076,9 +3214,20 @@ he:
       activate_user: הפעלת המשתמש הזה
       confirm_user: אישור המשתמש הזה
       unconfirm_user: ביטול אישור המשתמש הזה
+      suspend_user: השעיית המשתמש הזה
       unsuspend_user: ביטול השעיית המשתמש הזה
+      undelete_user: ביטול מחיקת המשתמש הזה
       confirm: אישור
       report: דיווח על המשתמש
+      edit_profile_details: עריכת פרטי הפרופיל
+      edit_description: עריכת תיאור
+      edit_links: עריכת קישורים
+      change_image: החלפת תמונה
+      edit_company: עריכת חברה
+      edit_location: עריכת מקום
+    sidebar_section:
+      company: חברה
+      company_tooltip: השיוך לחברה מדווח עצמית ולא עבר אימות
     go_public:
       flash success: כל העריכות שלך ציבוריות עכשיו ויש לך הרשאה לערוך.
     issued_blocks:
@@ -3128,6 +3277,7 @@ he:
           many: נמצאו %{count} משתמשים
           other: נמצאו %{count} משתמשים
         confirm: אישור משתמשים נבחרים
+        suspend: השעיית המשתמשים הנבחרים
         empty: לא נמצאו משתמשים תואמים
       user:
         summary_html: '%{name} נוצר מכתובת %{ip_address} ב־%{date}'
@@ -3406,18 +3556,23 @@ he:
     share:
       title: שיתוף
       view_larger_map: צפייה במפה גדולה יותר
+      export_failed_title: ייצוא המפה נכשל
+      filename: מפה
     embed:
       report_problem: דיווח על בעיה
     legend:
-      title: מפתח מפה
-      tooltip: מפתח מפה
-      tooltip_disabled: מפתח מפה אינו זמין לשכבה הזאת
+      title: מקרא
+      tooltip: מקרא
+      tooltip_disabled: אין מקרא זמין לשכבה הזאת
     map:
+      popup:
+        close: סגירה
       zoom:
         in: התקרבות
         out: התרחקות
       locate:
         title: הצגת המיקום שלי
+        not_available: המקום לא זמין
         metersPopup:
           one: המרחק שלך מהנקודה הזאת הוא פחות ממטר
           two: המרחק שלך מהנקודה הזאת הוא עד %{count} מטרים
@@ -3458,6 +3613,9 @@ he:
       createnote_disabled_tooltip: התקרבות כדי להוסיף הערה למפה
       queryfeature_tooltip: שאילתת ישויות
       queryfeature_disabled_tooltip: התקרבות כדי להריץ שאילתת ישויות
+    profile:
+      social_link_n: קישור ברשת החברתית %{n}
+      remove_social_link_n: הסרת קישור לפרופיל ברשת החברתית %{n}
     edit_help: יש להזיז את המפה ולהתמקד על מיקום שברצונך לערוך ואז ללחוץ כאן.
     directions:
       distance_in_units:
@@ -3468,6 +3626,9 @@ he:
         mi: '%{distance} מייל'
       errors:
         no_route: לא מצאנו נתיב שמחבר בין שני המקומות האלה.
+        no_place:
+          title: החיפוש נכשל
+          body: לא ניתן לאתר את ‚%{place}’.
       instructions:
         continue_without_exit: להמשיך על %{name}
         slight_right_without_exit: קצת ימינה אל %{name}
@@ -3546,6 +3707,8 @@ he:
       nothing_found: לא נמצאו ישויות
       error: 'שגיאה תקשורת עם %{server}, מידע נוסף: %{error}'
       timeout: פג זמן ההתקשרות על %{server}
+    element:
+      wikipedia: ויקיפדיה
     context:
       directions_from: כיוונים מכאן
       directions_to: כיוונים הנה
@@ -3564,9 +3727,14 @@ he:
           two: '%{count} תרומות ב־%{date}'
           many: '%{count} תרומות ב־%{date}'
           other: '%{count} תרומות ב־%{date}'
+    remote_edit:
+      failed:
+        title: העריכה נכשלה
+        body: נא לוודא ש־JOSM או Merkaartor נטענו ושאפשרות השליטה מרחוק פעילה
     edit:
       id_not_configured:
         title: לא התבצעו הגדרות של iD
+        body: נא לפנות אל CONFIGURE.md לפרטים נוספים
   redactions:
     edit:
       heading: עריכת הסרה

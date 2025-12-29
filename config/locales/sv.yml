@@ -513,6 +513,7 @@ sv:
       email_link: Mejla %{email}
     versions_navigation:
       node: Nod
+      way: Väg
       relation: Relation
       history: Historik
       version: 'Version #%{version}'
@@ -1304,6 +1305,7 @@ sv:
           mineshaft: Gruvschakt
           monitoring_station: Övervakningsstation
           petroleum_well: Oljebrunn
+          planter: Växtlåda
           pier: Pir
           pipeline: Pipeline
           pumping_station: Pumpstation
@@ -1655,13 +1657,17 @@ sv:
         level10: Administrativ gräns (nivå 10)
         level11: Administrativ gräns (nivå 11)
       border_types:
+        arrondissement: Arrondissementsgräns
         borough: Stadsdelsgräns
+        cercle: Cirkelgräns
         city: Stadsgräns
+        comarca: Comarca-gränsen
         county: Länsgräns
         departement: Avdelningsgräns
         department: Avdelningsgräns
         district: Distriktgräns
         distrito: Distriktgräns
+        freguesia: Freguesia-gränsen
         local_authority: Lokal myndighetsgräns
         municipality: Kommungräns
         municipi: Kommungräns
@@ -1674,11 +1680,15 @@ sv:
         região: Regionsgräns
         region: Regionsgräns
         state: Statsgräns
+        town: Stadsgräns
+        township: Kommungräns
         village: Bygräns
   searches:
     show:
       title:
         latlon: Intern
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Inga resultat hittades
@@ -1702,7 +1712,9 @@ sv:
       title: Ärenden
       select_status: Välj status
       select_type: Välj typ
+      select_last_managed_by: Välj Senast hanterad av
       reported_user: Rapporterad användare
+      not_managed: Inte hanterad
       search: Sök
       search_guidance: 'Sök ärenden:'
       states:
@@ -1716,6 +1728,7 @@ sv:
       status: Status
       reports: Rapporter
       last_updated: Senast uppdaterad
+      last_managed: Senast hanterad
       reporting_users: Anmälda användare
       reports_count:
         one: '%{count} rapport'
@@ -1817,27 +1830,116 @@ sv:
     select_language_list:
       search_language: Sök...
       languages:
+        af: Afrikaans
+        gsw: Alemannisk
+        frp: Arpitan
+        ast: Asturiska
+        az: Azerbajdzjanska
+        id: Indonesiska
+        ms: Malajiska
+        bcl: Centrala Bikol
+        bs: Bosniska
+        br: Bretonska
         ca: Katalanska
         cs: Tjeckiska
+        cy: Walesiska
         da: Danska
+        de: Tyska
+        dsb: Nedersorbiska
+        et: Estniska
         en: Engelska
+        en-GB: Engelska (Storbritannien)
+        es: Spanska
+        eo: Esperanto
         eu: Baskiska
+        fr: Franska
+        fy: Västfrisiska
+        fur: Friuliska
+        ga: Irländsk
+        gd: Skotsk gaelisk
+        gl: Galiciska
+        aln: Gheg albansk
+        hsb: Övre sorbiska
+        hr: Kroatiska
+        ia: Interlingua
         is: Isländska
+        it: Italienska
+        gcf: Guadeloupe-kreolsk
+        ku-Latn: Kurdiska (latin)
+        lv: Lettiska
+        lb: Luxemburgiska
+        lt: Litauiska
+        hu: Ungerska
+        fit: Tornedalens finska
+        nl: Holländska
         nb: Norska bokmål
         nn: Norska nynorsk
+        oc: Occitanska
+        nds: Lågtyska
         pl: Polska
+        pt-PT: Portugisiska
+        pt: Portugisiska (Brasilien)
+        ksh: Kölnska
+        ro: Rumänska
+        sc: Sardiska
+        sco: Skottar
+        sq: Albanska
+        scn: Siciliansk
         sk: Slovakiska
+        sl: Slovenska
+        sr-Latn: Serbiska (latin)
+        sh: Serbokroatiska (latin)
         fi: Finska
         sv: Svenska
+        tl: Tagalog
+        kab: Kabyliska
+        vi: Vietnamesiska
         tr: Turkiska
+        yo: Yoruba
+        diq: Dimli
         el: Grekiska
+        ba: Bashkir
+        be: Vitryska
+        be-Tarask: Vitryska (Tarašk.)
+        bg: Bulgariska
+        mk: Makedonska
+        mo: Moldavisk
+        ce: Tjetjenska
         ru: Ryska
+        sr: Serbiska (kyrilliska)
+        tt: Tatariska (kyrilliska)
+        uk: Ukrainska
+        kk-cyrl: Kazakiska (kyrilliska)
+        yi: Jiddisch
+        he: Hebreiska
         ar: Arabiska
+        skr-arab: Saraiki
         fa: Persiska
+        arz: Egyptisk arabiska
+        pnb: Västra Punjabi
         ps: Pashto
+        nqo: N'Ko
+        ne: Nepalesiska
+        mr: Marathiska
+        hi: Hindi
+        bn: Bangladeshiska
+        pa: Punjabi
+        gu: Gujarati
+        ta: Tamilska
+        te: Telugu
+        kn: Kannada
+        th: Thailändsk
+        my: Burmesiska
+        shn: Shan
+        xmf: Mingrelian
+        ka: Georgiska
+        km: Khmer
+        sat: Santali
         zh-CN: Kinesiska (förenklad)
         zh-TW: Kinesiska (traditionell)
         zh-HK: Kinesiska (Hong Kong)
+        ja: Japanska
+        ko: Koreanska
   layouts:
     logo:
       alt_text: OpenStreetMaps logotyp
@@ -2403,7 +2505,17 @@ sv:
       legal_1_1_terms_of_use: Användarvillkor
       legal_1_1_aup: Riktlinjer för tillåten användning
       legal_1_1_privacy_policy: Integritetspolicy
+      legal_1_2_html: Om du vill använda OpenStreetMap-kartor eller data, se till
+        att attributet OpenStreetMap anges – se %{attribution_guidelines_link} för
+        mer information.
+      legal_attribution_guidelines_title: Erkännande riktlinjer
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_1_3_html: Specifikt för att använda en skärmdump från OpenStreetMap direkt
+        i din bok, publikation, film eller TV-program behöver du inte be om tillstånd
+        eftersom data i OpenStreetMap är öppna för alla att använda. Se %{attribution_guidelines_link}
+        och se befintliga exempel i %{attribution_example_film} och %{attribution_example_tv}.
       legal_attribution_example_film_title: Film
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
       legal_attribution_example_tv_title: TV
       legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       legal_2_1_html: |-
@@ -2429,19 +2541,51 @@ sv:
         native_link: svensk version
         mapping_link: börja kartlägga
       legal_babble:
+        lead_1_html: "OpenStreetMap tillhandahåller öppna kartdata för tusentals webbplatser,
+          mobilappar och hårdvaruenheter. \nOpenStreetMap är byggt av en gemenskap
+          av människor som du som bidrar med och underhåller kartdata\nom vägar, stigar,
+          kaféer, järnvägsstationer och mycket mer, över hela världen."
+        lead_2_html: |-
+          %{learn_more_about_osm_link} och %{get_started_mapping_link}!
+          Du kan läsa mer på %{osm_blog_link} och prenumerera på %{weeklyosm_link}.
+          Hitta andra kartläggare i din lokala %{osm_community_link}.
+          Stöd projektet genom att gå med i %{osm_foundation_link} och %{making_donation_link}.
+        lead_2_learn_more_about_osm: Läs mer om OpenStreetMap
+        lead_2_get_started_mapping: komma igång med kartläggning
+        lead_2_osm_blog: OpenStreetMap-bloggen
         lead_2_osm_community: OSM-gemenskap
         lead_2_osm_foundation: OSM-stiftelsen
         lead_2_making_donation: att donera
         licensing_title: OpenStreetMap-licensiering
+        licensing_1_html: "OpenStreetMap är %{open} data, licensierad under \n%{odc_odbl_link}
+          (ODbL) av %{osm_foundation_link} (OSMF). Sammanfattningsvis:"
         licensing_1_open: öppen
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: OpenStreetMap-stiftelsen
+        licensing_2_html: Du får kopiera, distribuera, överföra och anpassa våra data,
+          så länge du anger källan till OpenStreetMap och dess bidragsgivare. Om du
+          ändrar eller bygger vidare på våra data får du distribuera resultatet endast
+          under samma licens. %{legal_code_link} förklarar dina rättigheter och skyldigheter.
+        licensing_2_legal_code: fullständig juridisk kod på Open Data Commons
+        licensing_3_html: Vår dokumentation är licensierad under %{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Creative Commons Erkännande-DelaLika
+          2.0-licens
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.sv
+        licensing_4_html: Läs mer om hur du använder våra data på %{osmf_license_page_link}.
         licensing_4_osmf_license_page: OSMF-licenssida
         credit_title_html: Hur du anger OpenStreetMap som källa
         credit_1_html: 'När du använder OpenStreetMap-data, måste du göra dessa två
           saker:'
+        credit_2_attribution: Ge OpenStreetMap erkännande genom att visa vårt erkännandemeddelande.
         credit_2_license: Gör klart att uppgifterna är tillgängliga under Öppen Database
           Licensen.
+        credit_3_v2025_html: |-
+          För erkännandemeddelandet har vi olika %{requirements_on_how_displayed_link}, beroende på hur du använder våra data.
+          Till exempel gäller olika regler för hur erkännandemmeddelandet ska visas beroende på om du har
+          skapat en bläddrbar karta, en utskriven karta eller en statisk bild.
+          Mer information finns i avsnittet %{attribution_guidelines_link} i %{licensing_requirements_link}.
+        credit_3_v2025_requirements_on_how_displayed: krav på hur detta ska visas
         credit_3_v2025_attribution_guidelines: erkännande riktlinjer
         credit_3_v2025_licensing_requirements: licenskraven
         credit_4_v2025_html: |-
@@ -2453,6 +2597,7 @@ sv:
           där länkar inte är möjliga (t.ex. tryckta verk),
           vänligen inkludera den fullständiga URL:en på sidan, t.ex. %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: denna upphovsrättssida
+        credit_5_v2025_html: 'I det här exemplet visas erkännande i hörnet av kartan:'
         attribution_example:
           alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
           title: Exempel på attribuering.
@@ -2474,6 +2619,9 @@ sv:
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Varumärkespolicy
         services_title_html: Ytterligare tjänster
+        services_1_html: Även om OpenHistoricalMap är öppen data kan vi inte tillhandahålla
+          ett gratis kart-API för tredje part. Se våra %{api_usage_policy_link}, %{tile_usage_policy_link}
+          och %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: API-användningspolicy
         services_1_tile_usage_policy: Användningspolicy för Brickor
         services_1_nominatim_usage_policy: Nominativ användningspolicy
@@ -2603,6 +2751,12 @@ sv:
           description: Ytterligare källor anges på OpenStreetMaps wiki
       export_button: Exportera
       export_download: Hämtar...
+      confirmation:
+        header: Ladda ner XML-data
+        body: Vill du ladda ner kartdata för det här området i XML-format? Observera
+          att det kan ta lite tid att ladda ner stora områden.
+        cancel: Avbryt
+        download: Ladda ned
     fixthemap:
       title: Rapportera ett problem / Fixa kartan
       how_to_help:
@@ -2686,6 +2840,8 @@ sv:
         bicycle: Cykel
         car: Bil
         foot: Till fots
+      providers:
+        description: Vägbeskrivningstjänster
     welcome:
       title: Välkommen!
       introduction: Välkommen till OpenStreetMap, den fria och redigerbara kartan
@@ -2734,6 +2890,10 @@ sv:
       title: Ingen tid att redigera? Lägg till en kommentar!
       para_1: Om du bara vill ha ett litet problem fixat och inte har tid att registrera
         dig så är det lätt att lämna en kartanteckning.
+      para_2_html: |-
+        Klicka bara på %{note_icon} eller samma ikon på %{map_link}.
+        Detta lägger till en markör på kartan, som du kan flytta genom att dra.
+        Lägg till ditt meddelande, klicka sedan på spara, så kommer andra kartläggare att undersöka saken.
       the_map: kartan
     communities:
       title: Gemenskaper
@@ -2754,6 +2914,9 @@ sv:
           Det finns inget behov av att formellt bilda en grupp i samma utsträckning som de lokala avdelningarna.
           Många grupper existerar faktiskt mycket framgångsrikt som en informell sammankomst av människor eller som en gemenskapsgrupp. Vem som helst kan ställa in eller gå med i dessa. Läs mer på %{communities_wiki_link}.
         communities_wiki: Gemenskapswikisida
+  social_links:
+    show:
+      website: webbplats
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Zooma in för att se kartanteckningar
@@ -2867,6 +3030,7 @@ sv:
       custom_dimensions: Ange anpassade dimensioner
       image_dimensions_html: Bilden kommer visa lager %{layer} på %{width} x %{height}
       download: Ladda ned
+      downloading: Laddar ner...
   traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
@@ -2989,6 +3153,9 @@ sv:
       google:
         title: Logga in med Google
         alt: Google-logotyp
+      apple:
+        title: Logga in med Apple
+        alt: Apple-logo
       facebook:
         title: Logga in med Facebook
         alt: Facebook-logotyp
@@ -3124,6 +3291,7 @@ sv:
       by_signing_up:
         html: Genom att registrera dig accepterar du vår %{tou_link}, %{privacy_policy_link}
           och %{contributor_terms_link}.
+        tou: Användarvillkor
         privacy_policy: integritetspolicy
         privacy_policy_title: OSMFs integritetspolicy inklusive avsnitt om e-postadresser
         contributor_terms: bidragsvillkor
@@ -3182,14 +3350,24 @@ sv:
       activate_user: Aktivera denna användare
       confirm_user: Bekräfta denna användare
       unconfirm_user: Häv denna användares bekräftelse
+      suspend_user: Stäng av den här användaren
       unsuspend_user: Avaktivera denna användare
+      undelete_user: Återställ den här användaren
       confirm: Bekräfta
       report: Rapportera denna användare
+      edit_profile_details: Redigera profiluppgifter
+      edit_description: Redigera beskrivning
+      edit_links: Redigera länkar
+      change_image: Ändra bild
+      edit_company: Redigera företag
+      edit_location: Redigera plats
+      edit_heatmap: Konfigurera värmekarta
       contributions:
         one: '%{count} bidrag under det senaste året'
         other: '%{count} bidrag under det senaste året'
     sidebar_section:
       home_location: Hemplats
+      company: Företag
       company_tooltip: Företagstillhörigheten är självrapporterad och inte verifierad
     go_public:
       flash success: Alla dina ändringar är nu publika, och du får lov att redigera.
@@ -3236,6 +3414,7 @@ sv:
           one: '%{count} användare hittade'
           other: '%{count} användare hittade'
         confirm: Bekräfta valda användare
+        suspend: Stäng av valda användare
         empty: Inga motsvarande användare hittades
       user:
         summary_html: '%{name} skapades från %{ip_address} den %{date}'

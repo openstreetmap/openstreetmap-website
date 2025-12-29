@@ -2794,6 +2794,9 @@ bcl:
         hospital: Pabulungan
         building: Makahulogan na edipisyo
         station: Istasyon nin Tren
+        private: Pribadong akses
+        destination: Padudumanan na akses
+        construction: Mga tinampo na piggigibo pa
         bus_stop: Punduhan nin Bus
         bicycle_shop: Bakalan nin Bisikleta
         bicycle_rental: Rentahan nin Bisikleta
@@ -2813,6 +2816,8 @@ bcl:
       paste_html: Idukot an HTML tanganing maibugtak sa websityo
       geo_uri: Geo URI
       image: Ladawan
+      only_layers_exported_as_image: 'An minasunod na mga layer sana an pwedeng iluwas
+        bilang sarong ladawan:'
       format: 'Pormat:'
       scale: 'Iskala:'
       custom_dimensions: Magbugtak nin mga pasadyang sukol
@@ -2925,7 +2930,12 @@ bcl:
         description_without_count: Sagunson nin GPX gikan ki %{user}
   application:
     permission_denied: Mayo kang permiso na maakses an aksyon na iyan
+    require_cookies:
+      cookies_needed: Minalataw na ika naka-disable nin mga cookies - paki-enable
+        an mga cookies sa saimong browser bago magpadagos.
     setup_user_auth:
+      blocked_zero_hour: Igwa ka nin apuradong mensahe sa websityo kan OpenStreetMap.
+        Kaipuhan mong basahon an mensahe bago mo maitagama an saimong mga pagliwat.
       blocked: An saimong pag-akses sa API nabagat. Maglaog sa interface nin web tanganing
         maaraman an orog pa.
       need_to_see_terms: An saimong pag-akses sa API pansamantalang sinuspinde. Maglaog
@@ -3149,6 +3159,10 @@ bcl:
       change_image: Ribayan an Ladawan
       edit_company: Liwaton an Kompanya
       edit_location: Liwaton an Kinamumugtakan
+      edit_heatmap: I-configure an Heatmap
+      contributions:
+        one: '%{count} kontribusyon sa nakaaging taon'
+        other: '%{count} mga kontribusyon sa nakaaging taon'
     sidebar_section:
       home_location: Kinamumugtakan kan Iniirukan
       company: Kompanya
@@ -3162,6 +3176,22 @@ bcl:
         title: Mga Binagat ni %{name}
         heading_html: Lista kan mga Binagat ni %{name}
         empty: An %{name} dai pa nakagibo nin anuman na mga pagbagat.
+    received_blocks:
+      show:
+        title: Mga pagbagat ki %{name}
+        heading_html: Lista kan mga Pagbagat ki %{name}
+        empty: Dai pa nababagat si %{name}
+      edit:
+        title: Pagbabawi kan gabos na mga pagbagat ki %{block_on}
+        heading_html: Pagbabawi kan gabos na mga pagbagat ki %{block_on}
+        empty: Mayo nin aktibong pagbagat ki %{name}.
+        confirm: Sigurado ka daw na gusto mong bawion an %{active_blocks}?
+        active_blocks:
+          one: '%{count} aktibong pagbagat'
+          other: '%{count} aktibong mga pagbagat'
+        revoke: Bawion!
+      destroy:
+        flash: An gabos na aktibong mga pagbagat binawi na.
     lists:
       show:
         title: Mga Paragamit
@@ -3179,13 +3209,27 @@ bcl:
         has_edits: Igwa nin mga Pagliwat
         no_edits: Mayo nin mga Pagliwat
         search: Maghanap
+      page:
+        found_users:
+          one: '%{count} paragamit an nahanap'
+          other: '%{count} mga paragamit an nahanap'
+        confirm: Kumpirmaron an mga Napiling Paragamit
+        suspend: Isuspinde an mga Piniling Paragamit
+        empty: Mayo nin nakuang magkaparehong paragamit
+    comments:
+      index:
+        changesets: Mga Changeset
+        diary_entries: Mga Entrada sa Talaaldawan
+        no_comments: Mayong mga komento
     changeset_comments:
       page:
         changeset: Changeset
+        when: Nuarin
         comment: Komento
     diary_comments:
       page:
         post: Paskil
+        when: Nuarin
         comment: Komento
     suspended:
       title: Suspendido an Account
@@ -3193,10 +3237,25 @@ bcl:
       support: suporta
       automatically_suspended: Dispensa, an saimong account awtomatikong nasuspinde
         huli sa kaduda-dudang aktibidad.
+      contact_support_html: An desisyon na ini rerepasohon kan sarong administrador
+        sa dai mahahaloy, o ika puwedeng makipag-ulay sa %{support_link} kun boot
+        mong pag-ulayan ini.
     auth_failure:
+      connection_failed: Dai nagibo an koneksyon sa paratao nin pagpapatunay
+      invalid_credentials: Bakong balidong mga kredensyal sa pagpapatunay
       no_authorization_code: Mayong kodigo nin awtorisasyon
       unknown_signature_algorithm: Bakong bistadong pirma nin algoritmo
       invalid_scope: Imbalidong kinasakupan
+      unknown_error: Dai nagin mapanggana an pagpapatunay
+    auth_association:
+      heading: An saimong ID dai pa naka-asosyar sa sarong OpenStreetMap account.
+      option_1: |-
+        Kun ika bago sa OpenStreetMap, maggibo nin bagong account
+        gamit an porma sa ibaba.
+      option_2: |-
+        Kun igwa ka nang account, pwede kang maglaog sa saimong account
+        gamit an saimong pangaran nin paragamit asin sekretong panlaog dangan i-asosyar an account
+        sa saimong ID sa saimong mga panuytoy nin paragamit.
     role_icons:
       title:
         administrator: An paragamit na ini sarong administrador
@@ -3217,6 +3276,8 @@ bcl:
     block:
       show: Ipahiling
       edit: Liwaton
+    page:
+      reason: Rason kan pagbagat
   notes:
     index:
       id: Id
