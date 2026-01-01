@@ -1212,6 +1212,7 @@ bcl:
           silo: Silo
           snow_cannon: Kanyon nin Niyebe
           storage_tank: Tangke nin Imbakan
+          street_cabinet: Aparador sa Dalan
           surveillance: Pangmatyag
           telescope: Teleskopyo
           tower: Torre
@@ -1233,6 +1234,7 @@ bcl:
           cliff: Bangin
           coastline: Gilid-baybayon
           forest: Kadlagan
+          grassland: Kaduotan
           hill: Bulod
           hot_spring: Mainit na burabod
           island: Puro
@@ -1302,14 +1304,26 @@ bcl:
           square: Plasa
           state: Estado
           subdivision: Subdibisyon
+          town: Banwaan
           village: Dolohan
           "yes": Lugar
         railway:
+          abandoned: Inabandonang Agihan-riles
+          construction: Riles na Pigtutugdok pa
+          disused: Dai na ginagamit na Riles
+          funicular: Punikular na Agihan-riles
           halt: Punduhan nin Tren
+          monorail: Monoriles
+          platform: Plataporma kan Agihan-riles
+          preserved: Napreserbar na Agihan-riles
+          proposed: Ipinanukalang Agihan-riles
           rail: Riles
           station: Istasyon nin Tren
           stop: Untukan kan Riles
           subway: Sabwey
+          subway_entrance: Laugan kan Sabwey
+          tram: Agihan nin tram
+          tram_stop: Punduhan nin Tram
         shop:
           antiques: Mga Antigo
           appliance: Bakalan nin mga Gamit sa Harong
@@ -1428,6 +1442,8 @@ bcl:
         tourism:
           alpine_hut: Kubong Alpino
           apartment: Apartamento nin bakasyunan
+          attraction: Atraksyon
+          cabin: Kabin nin mga Turista
           camp_site: Kampingan
           caravan_site: Lugar nin Karaban
           chalet: Tsalet
@@ -1488,10 +1504,12 @@ bcl:
         região: Linderos nin Rona
         region: Linderos nin Rona
         state: Linderos nin Estado
+        town: Linderos nin Banwaan
         village: Linderos nin Dolohan
   searches:
     show:
       title:
+        latlon: Internal
         nominatim: Nominatim
         nominatim_reverse: Nominatim
     queries:
@@ -2177,6 +2195,9 @@ bcl:
       update:
         success: Na-update na an kinamumugtakan kan profile
         failure: Dai na-update an kinamumugtakan kan profile.
+    heatmaps:
+      show:
+        cancel: Dai idagos
   sessions:
     new:
       tab_title: Maglaog
@@ -2780,11 +2801,14 @@ bcl:
         grass: Duot
         meadow: Duotan
         sand: Baybay
+        park: Parke
+        common: Komun
         resident: Lugar nin Residensya
         retail: Lugar nin Lakuan
         industrial: Lugar nin Industriyal
         commercial: Lugar nin komersyo
         lake: Danaw
+        reef: Bahura
         farm: Uma
         cemetery: Kampo Santo
         allotments: Mga Alokasyon
@@ -2794,6 +2818,7 @@ bcl:
         hospital: Pabulungan
         building: Makahulogan na edipisyo
         station: Istasyon nin Tren
+        tram_stop: Punduhan nin Tram
         private: Pribadong akses
         destination: Padudumanan na akses
         construction: Mga tinampo na piggigibo pa
@@ -3261,42 +3286,233 @@ bcl:
         administrator: An paragamit na ini sarong administrador
         moderator: An paragamit na ini sarong moderator
         importer: An paragamit na ini sarong para-import
+      grant:
+        are_you_sure: Sigurado ka daw na gusto mong itao an papel na '%{role}' sa
+          paragamit na si '%{name}'?
+      revoke:
+        administrator: Bawion an pag-akses sa administrador
+        moderator: Bawion an pag-akses sa moderator
+        importer: Bawion an pag-akses sa parapaluwas
+        are_you_sure: Sigurado ka daw na gusto mong bawion an papel na '%{role}' gikan
+          sa paragamit na si '%{name}'?
+  user_role:
+    filter:
+      not_a_role: An istring na '%{role}' bakong balidong papel.
+      already_has_role: An paragamit igwa nang papel na %{role}.
+      doesnt_have_role: An paragamit mayo nin papel na %{role}.
+      not_revoke_admin_current_user: Dai pwedeng bawion an papel kan administrador
+        gikan sa presenteng paragamit.
   user_blocks:
+    model:
+      non_moderator_update: Kaipuhan na sarong moderator tanganing makagibo o maka-update
+        nin sarong pagbagat.
+      non_moderator_revoke: Kaipuhan na sarong moderator tanganing mabawi an sarong
+        pagbagat.
     not_found:
+      sorry: Dispensa, an pigbagat na paragamit na may ID na %{id} dae nakua.
       back: Magbalik sa indeks
+    new:
+      title: Naggigibo nin pagbagat ki %{name}
+      heading_html: Naggigibo nin pagbagat ki %{name}
+      period: Gurano kahaloy, poon ngunyan, an paragamit mapapangalad sa API.
+    edit:
+      title: Pagliwat nin pagbagat ki %{name}
+      heading_html: Pagliwat nin pagbagat ki %{name}
+      period: Gurano kahaloy, poon ngunyan, an paragamit mapapangalad sa API.
+      revoke: Bawion an pagbagat
+    filter:
+      block_period: An panahon nin pagbagat dapat na saro sa mga halaga na mapipili
+        sa lista nin desplegable.
+    create:
+      flash: Nagmukna nin pagbagat sa paragamit na si %{name}.
+    update:
+      only_creator_can_edit: An moderator sana na nagmukna kan pagbagat na ini an
+        pwedeng magliwat kaini.
+      only_creator_can_edit_without_revoking: An moderator sana na nagmukna kan pagbagat
+        na ini an pwedeng magliwat kaini na mayong pagbabawi.
+      only_creator_or_revoker_can_edit: An mga moderator sana na nagmukna o nagbawi
+        kan pagbagat na ini an pwedeng magliwat kaini.
+      inactive_block_cannot_be_reactivated: An pagbagat na ini bakong aktibo asin
+        dai pwedeng i-aktibo giraray.
+      success: Na-update na an pagbagat.
+    index:
+      title: Mga pagbagat kan paragamit
+      heading: Lista nin mga pagbagat kan paragamit
+      empty: Mayo pang mga pagbagat na ginibo.
     helper:
+      time_future_html: Matatapos sa %{time}.
+      until_login: Aktibo sagkod na an paragamit maglaog.
+      time_future_and_until_login_html: Matatapos sa %{time} asin pagkatapos na an
+        paragamit nakalaog na.
       time_past_html: Matatapos sa %{time}
+      block_duration:
+        hours:
+          one: '%{count} oras'
+          other: '%{count} mga oras'
+        days:
+          one: '%{count} aldaw'
+          other: '%{count} mga aldaw'
+        weeks:
+          one: '%{count} semana'
+          other: '%{count} mga semana'
+        months:
+          one: '%{count} bulan'
+          other: '%{count} mga bulan'
+        years:
+          one: '%{count} taon'
+          other: '%{count} mga taon'
       short:
+        ended: natapos
+        revoked_html: binawi ni %{name}
         active: aktibo
         active_until_read: aktibo sagkod sa mabasa
+        read_html: nabasa kan %{time}
+        time_in_future_title: '%{time_absolute}; sa %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
+      created: 'Ginibo:'
+      duration: 'Durasyon:'
       status: 'Kamugtakan:'
       edit: Liwaton
       reason: 'Rason kan pagbagat:'
+      revoker: 'Parabawi:'
     block:
       show: Ipahiling
       edit: Liwaton
     page:
+      display_name: Nabagat na Paragamit
+      creator_name: Kaggibo
       reason: Rason kan pagbagat
+      start: Poonan
+      end: Tapos
+      status: Kamugtakan
+    navigation:
+      new_block: Bagong Pagbagat
+  user_mutes:
+    index:
+      table:
+        tbody:
+          send_message: Magpadara nin mensahe
   notes:
     index:
+      heading: Mga tala kan %{user}
       id: Id
+      last_changed: Huring Binago
+      all: Gabos
+      hidden: Itinago
+      status: Kamugtakan
     show:
+      title: 'Tala: %{id}'
+      description: Paglaladawan
+      description_when_there_is_no_opening_comment: dai aram
       discussion: Pag-urolay
+      subscribe: Mag-subscribe
+      unsubscribe: Mag-unsubscribe
       hide: Itago
+      resolve: Resolbado
       comment: Komento
+      log_in_to_comment: Maglaog tanganing makakomento sa tala na ini
+      report_link_html: Kun an tala na ini igwa nin mga sensitibong impormasyon na
+        kaipuhan na halion, ika puwedeng %{link}.
+      other_problems_resolve: Para sa gabos na iba pang problema sa tala, pakiresolberan
+        mo ini sa paagi nin sarong komento.
+      other_problems_resolved: Para sa gabos na iba pang problema, an pagresolber
+        igo na.
+      disappear_date_html: An naresolberan na tala na ini mawawara sa mapa sa %{disappear_in}.
     new:
       title: Bagong Tala
+      intro: May nahiling na sala o may kulang? Ipaaram sa ibang mga paramapa tanganing
+        maiayos mi ini. Ibalyo an marker sa tamang posisyon asin magtipa nin tala
+        tanganing ipaliwanag an problema.
+      anonymous_warning_html: Dai ka pa nakakalaog. Pakiulay na %{log_in} o %{sign_up}
+        tanganing mag-ako nin mga update para sa saimong tala asin tabangan an mga
+        paramapa na resolberan ini.
+      anonymous_warning_log_in: maglaog
+      anonymous_warning_sign_up: mag-ayon
+      counter_warning_html: Nagpaskil ka na nin dai mababa sa %{x_anonymous_notes},
+        marahayon iyan para sa komunidad, salamat! Ngunyan inenkaminar mi kamo na
+        %{contribute_by_yourself}, bako ining komplikado, asin an %{community_can_help}.
+      x_anonymous_notes:
+        one: '%{count} daing ngaran na tala'
+        other: '%{count} daing ngaran na mga tala'
+      counter_warning_guide_link:
+        text: mag-ambag nin sadiri
+      counter_warning_forum_link:
+        text: komunidad makakatabang saimo
+      advice: An saimong nota pampubliko asin pwedeng gamiton sa pag-update kan mapa,
+        kaya dai maglaog nin personal na impormasyon, o impormasyon gikan sa mga dineretso
+        sa pagkopya na mapa o mga listahan nin direktoryo.
+      add: Magdugang nin Tala
+    new_readonly:
+      title: Bagong Tala
+      warning: Dai pwedeng maggibo nin mga bagong tala huli ta an API kan OpenStreetMap
+        yaon sa modo nin pagbasa sana.
+    notes_paging_nav:
+      showing_page: Dahon %{page}
+      next: Sunod
+      previous: Kan nakaagi
+    not_found_message:
+      sorry: 'Dispensa, an tala #%{id} dai nakua.'
   javascripts:
+    close: Isara
+    share:
+      title: Iheras
+      view_larger_map: Tanawon an Urog pang Dakula na Mapa
+      export_failed_title: Dai natapos an pagpaluwas kan mapa
+      filename: mapa
+    embed:
+      report_problem: Isumbong an problema
+    legend:
+      title: Pananda
+      tooltip: Pananda
+      tooltip_disabled: An pananda dai makukua para sa patong na ini
     map:
+      popup:
+        close: Isara
+      zoom:
+        in: Padakulaon
+        out: Pasaditon
       locate:
         title: Ipahiling an Sakong Kinamumugtakan
+        not_available: Dai makukua an kinamumugtakan
+        metersPopup:
+          one: Yaon ka sa laog nin %{count} metro kan puntong ini
+          other: Yaon ka sa laog nin %{count} metro kan puntong ini
+        feetPopup:
+          one: Yaon ka sa laog nin %{count} pye kan puntong ini
+          other: Yaon ka sa laog nin %{count} pye kan puntong ini
+      base:
+        standard: Panusugan
+        cycle_map: Mapa nin Bisikleta
+        transport_map: Mapa nin Transportasyon
+        hot: Humanitaryo
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Mga Patong nin Mapa
         notes: Mga tala nin Mapa
         data: Datos nin Mapa
         gps: Mga Bakas kan Pampublikong GPS
+        overlays: I-enable an mga overlay para sa pag-troubleshoot kan mapa
         title: Mga patong
+      openstreetmap_contributors: Mga paraambag sa OpenStreetMap
+      make_a_donation: Magdonar
+      website_and_api_terms: Mga termino sa websityo asin API
+      osm_france: OpenStreetMap Pransya
+      andy_allan: Andy Allan
+      hotosm_name: Grupo nin Humanitaryo kan OpenStreetMap
+    site:
+      edit_tooltip: Liwaton an mapa
+      edit_disabled_tooltip: Padakulaon tanganing maliwat an mapa
+      createnote_tooltip: Magdugang nin sarong tala sa mapa
+      createnote_disabled_tooltip: Padakulaon tanganing makadugang nin sarong tala
+        sa mapa
+      queryfeature_tooltip: Mga tampok nin kahaputan
+      queryfeature_disabled_tooltip: Padakulaon tanganing makatampok nin kahaputan
+    profile:
+      social_link_n: Takod sa Profile nin Sosyal %{n}
+      remove_social_link_n: Halion an Takod sa Profile nin Sosyal %{n}
+    edit_help: Ibalyo an mapa asin padakulaon an sarong kinamumugtakan na gusto mong
+      liwaton, dangan magpindot digdi.
     directions:
       distance_in_units:
         m: '%{distance}m'
@@ -3306,6 +3522,65 @@ bcl:
         mi: '%{distance}mi'
       errors:
         no_route: Dai makahanap nin mga ruta sa tanga kan duwang mga lugar na iyan.
+        no_place:
+          title: Dai nagin mapanggana an paghanap
+          body: Dai mahanap an '%{place}'.
+      instructions:
+        continue_without_exit: Padagos sa %{name}
+        slight_right_without_exit: Dikit na too sa %{name}
+        offramp_right: Magduman sa rampa sa too
+        offramp_right_with_exit: Magluwas sa %{exit} sa too
+        offramp_right_with_exit_name: Magluwas sa %{exit} sa too pasiring sa %{name}
+        offramp_right_with_exit_directions: Magluwas sa %{exit} sa too pasiring sa
+          %{directions}
+        offramp_right_with_exit_name_directions: Magluwas sa %{exit} sa too pasiring
+          sa %{name}, pasiring sa %{directions}
+        offramp_right_with_name: Magduman sa rampa sa too pasiring sa %{name}
+        offramp_right_with_directions: Magduman sa rampa sa too pasiring sa %{directions}
+        offramp_right_with_name_directions: Magduman sa rampa sa too pasiring sa %{name},
+          pasiring sa %{directions}
+        onramp_right_without_exit: Magliko sa too sa rampa pasiring sa %{name}
+        onramp_right_with_directions: Magliko sa too pasiring sa rampa pasiring sa
+          %{directions}
+        onramp_right_with_name_directions: Magliko sa too sa rampa pasiring sa %{name},
+          pasiring sa %{directions}
+        onramp_right_without_directions: Magliko sa too pasiring sa rampa
+        onramp_right: Magliko sa too pasiring sa rampa
+        endofroad_right_without_exit: Sa katapusan kan tinampo magliko sa too pasiring
+          sa %{name}
+        merge_right_without_exit: Magsararo sa too sa %{name}
+        fork_right_without_exit: Sa sangandalan magliko sa too pasiring sa %{name}
+        turn_right_without_exit: Magliko sa too pasiring sa %{name}
+        sharp_right_without_exit: Biglang liko pa too pasiring sa %{name}
+        uturn_without_exit: Mag-U-turn sa kalabaan kan %{name}
+        sharp_left_without_exit: Biglang liko pa wala pasiring sa %{name}
+        turn_left_without_exit: Magliko sa wala pasiring sa %{name}
+        offramp_left: Magduman sa rampa sa wala
+        offramp_left_with_exit: Magluwas sa %{exit} sa wala
+        offramp_left_with_exit_name: Magluwas sa %{exit} sa wala pasiring sa %{name}
+        offramp_left_with_exit_directions: Magluwas sa %{exit} sa wala pasiring sa
+          %{directions}
+        offramp_left_with_exit_name_directions: Magluwas sa %{exit} sa wala pasiring
+          sa %{name}, pasiring sa %{directions}
+        offramp_left_with_name: Magduman sa rampa sa wala pasiring sa %{name}
+        offramp_left_with_directions: Magduman sa rampa sa wala pasiring sa %{directions}
+        offramp_left_with_name_directions: Magduman sa rampa sa wala pasiring sa %{name},
+          pasiring sa %{directions}
+        onramp_left_without_exit: Magliko sa wala sa rampa pasiring sa %{name}
+        onramp_left_with_directions: Magliko sa wala pasiring sa rampa pasiring sa
+          %{directions}
+        onramp_left_with_name_directions: Magliko sa wala sa rampa pasiring sa %{name},
+          pasiring sa %{directions}
+        onramp_left_without_directions: Magliko sa wala pasiring sa rampa
+        onramp_left: Magliko sa wala pasiring sa rampa
+        endofroad_left_without_exit: Sa katapusan kan tinampo magliko sa wala pasiring
+          sa %{name}
+        merge_left_without_exit: Magsararo sa wala sa %{name}
+        fork_left_without_exit: Sa sangandalan magliko sa wala pasiring sa %{name}
+        slight_left_without_exit: Dikit na wala sa %{name}
+        via_point_without_exit: (sa paagi kan punto)
+        follow_without_exit: Sundan an %{name}
+        roundabout_without_exit: Sa rotonda magluwas pasiring sa %{name}
   redactions:
     show:
       description: 'Paglaladawan:'

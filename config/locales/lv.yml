@@ -21,6 +21,7 @@
 # Author: PeterisP
 # Author: Raitisx
 # Author: Ruila
+# Author: Rusjanis
 # Author: Silraks
 # Author: Soshial
 # Author: Treisijs
@@ -56,6 +57,12 @@ lv:
         create: Veidot liegumu
         update: Atjaunot bloku
   activerecord:
+    errors:
+      models:
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL jāsākas ar http:// vai https://
     models:
       acl: Piekļuves vadības saraksts
       changeset: Izmaiņu kopa
@@ -121,7 +128,7 @@ lv:
         longitude: Garums
         public: Publisks
         description: Apraksts
-        gpx_file: Augšupielādējiet GPX datni
+        gpx_file: Izvēlieties GPS izsekošanas failu
         visibility: Redzamība
         tagstring: Iezīmes
       message:
@@ -140,6 +147,7 @@ lv:
         active: Aktīvs
         display_name: Rādāmais vārds
         description: Profila apraksts
+        company: Uzņēmums
         home_lat: Ģeogrāfiskais platums
         home_lon: Ģeogrāfiskais garums
         languages: Vēlamās valodas
@@ -181,8 +189,8 @@ lv:
         opened_at_by_html: Izveidoja %{user} %{when} atpakaļ
         commented_at_html: Atjaunots %{when} atpakaļ
         commented_at_by_html: '%{user} atjaunoja %{when} atpakaļ'
-        closed_at_html: Atrisināts %{when} atpakaļ
-        closed_at_by_html: '%{user} atrisināja %{when} atpakaļ'
+        closed_at_html: Atrisināts %{when}
+        closed_at_by_html: Atrisināja %{when} lietotājs %{user}
         reopened_at_html: Atkal aktivizēts %{when} atpakaļ
         reopened_at_by_html: '%{user} atkal aktivizēja %{when} atpakaļ'
       rss:
@@ -200,11 +208,13 @@ lv:
   accounts:
     show:
       title: Rediģēt kontu
+      my_account: Mans konts
       current email address: Pašreizējā e-pasta adrese
       external auth: Ārējā autentifikācija
       contributor_terms:
         heading: Devuma noteikumi
-        agreed: Tu esi pieņēmis jaunos Veidotāju Noteikumus.
+        agreed: Jūs piekritāt Ieguldītāja noteikumiem %{date}.
+        not_agreed: Tu vēl neesi piekritis jaunajiem Veidotāju Noteikumiem
         agreed_with_pd: Tu arī esi paziņojis, ka tavi labojumi var būt Publiskajā
           Domēnā.
       save changes button: Saglabāt izmaiņas
