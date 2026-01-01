@@ -9,7 +9,7 @@ class Ability
     can :read, [RelationMember, OldRelationMember]
     can [:show, :create], Note
     can :read, :directions
-    can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
+    can [:index, :permalink, :edit, :help, :donate, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
     can [:create, :show], :export
     can [:create, :read], :search
 

@@ -25,6 +25,10 @@ class SiteController < ApplicationController
     policy.style_src(*policy.style_src, :unsafe_inline)
   end
 
+  content_security_policy(:only => :donate) do |policy|
+    policy.frame_src(*policy.frame_src, "supporting.openstreetmap.org")
+  end
+
   def index
     session[:location] ||= OSM.ip_location(request.env["REMOTE_ADDR"]) unless %w[database_readonly database_offline].include?(Settings.status)
   end
@@ -113,6 +117,8 @@ class SiteController < ApplicationController
   def welcome; end
 
   def help; end
+
+  def donate; end
 
   def about
     @locale = params[:about_locale] || I18n.locale
