@@ -34,4 +34,12 @@ module NoteHelper
               :class => "mw-100 d-inline-block align-bottom text-truncate text-wrap", :dir => "auto"
     end
   end
+
+  def soft_anonymous_notes_limit_reached?(anonymous_notes_count)
+    !current_user && anonymous_notes_count >= 5
+  end
+
+  def hard_anonymous_notes_limit_reached?(anonymous_notes_count)
+    !current_user && anonymous_notes_count >= 10
+  end
 end
