@@ -87,12 +87,19 @@ module RichText
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
     end
 
-    def linkify(text, mode = :urls)
-      ERB::Util.html_escape(text)
-               .then { |html| expand_link_shorthands(html) }
-               .then { |html| expand_host_shorthands(html) }
-               .then { |html| auto_link(html, mode) }
-               .html_safe
+    def linkify(text, mode = :urls, hosts: true, paths: true)
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      html = ERB::Util.html_escape(text)
+
+      html = expand_link_shorthands(html) if paths
+      html = expand_host_shorthands(html) if hosts
+
+      Rinku.auto_link(html, mode, link_attr) do |url|
+        url = shorten_hosts(url) if hosts
+        url = shorten_link(url) if paths
+
+        url
+      end.html_safe
     end
 
     private
@@ -117,19 +124,17 @@ module RichText
         end
     end
 
-    def auto_link(text, mode)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(text, mode, link_attr) { |url| format_link_text(url) }
+    def shorten_hosts(url)
+      Array
+        .wrap(Settings.linkify&.normalisation_rules)
+        .reduce(url) do |normalised_url, rule|
+          shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
+            path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
+          end
+        end
     end
 
-    def format_link_text(url)
-      url = Array
-            .wrap(Settings.linkify&.normalisation_rules)
-            .reduce(url) do |normalised_url, rule|
-              shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
-                path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
-              end
-            end
+    def shorten_link(url)
       Array.wrap(Settings.linkify&.display_rules)
            .select { |rule| rule.pattern && rule.replacement }
            .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
