@@ -491,6 +491,15 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_deactivated_linkify_expansion_in_markdown
+    t0 = "foo `surface=metal` bar"
+
+    r1 = RichText.new("markdown", t0)
+    t1 = Nokogiri::HTML.fragment(r1.to_html).text
+
+    assert_equal t0.delete("`"), t1.strip
+  end
+
   def test_text_to_html_email
     r = RichText.new("text", "foo example@example.com bar")
     assert_html r do
