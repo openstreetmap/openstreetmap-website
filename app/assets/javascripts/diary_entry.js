@@ -1,18 +1,26 @@
+//= require maplibre.map
+
 $(function () {
   let marker, map;
 
+  function updateFormFieldsFromMarkerPosition() {
+    const lngLat = marker.getLngLat();
+    $("#latitude").val(lngLat.lat);
+    $("#longitude").val(lngLat.lng);
+  }
+
   function setLocation(e) {
-    const latlng = e.latlng.wrap();
-
-    $("#latitude").val(latlng.lat);
-    $("#longitude").val(latlng.lng);
-
+    const coords = e.lngLat.wrap();
     if (marker) {
-      map.removeLayer(marker);
+      marker.setLngLat(coords);
+    } else {
+      marker = OSM.MapLibre.getMarker({ draggable: true })
+        .setLngLat(coords)
+        .setPopup(OSM.MapLibre.getPopup(OSM.i18n.t("diary_entries.edit.marker_text")))
+        .addTo(map);
+      marker.on("dragend", updateFormFieldsFromMarkerPosition);
     }
-
-    marker = L.marker(e.latlng, { icon: OSM.getMarker({}) }).addTo(map)
-      .bindPopup(OSM.i18n.t("diary_entries.edit.marker_text"));
+    updateFormFieldsFromMarkerPosition();
   }
 
   $("#usemap").click(function (e) {
@@ -22,21 +30,23 @@ $(function () {
     $("#usemap").hide();
 
     const params = $("#map").data();
-    const centre = [params.lat, params.lon];
-    const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+    map = new maplibregl.Map({
+      ...OSM.MapLibre.defaultSecondaryMapOptions,
+      center: [params.lon, params.lat],
+      zoom: params.zoom - 1
+    });
 
-    map = L.map("map", {
-      attributionControl: false,
-      zoomControl: false
-    }).addLayer(new L.OSM.Mapnik());
+    const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
+    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    map.addControl(navigationControl, position);
+    map.touchZoomRotate.disableRotation();
+    map.keyboard.disableRotation();
 
-    L.OSM.zoom({ position }).addTo(map);
-
-    map.setView(centre, params.zoom);
-
+    // Create marker if coordinates exist when map is shown
     if ($("#latitude").val() && $("#longitude").val()) {
-      marker = L.marker(centre, { icon: OSM.getMarker({}) }).addTo(map)
-        .bindPopup(OSM.i18n.t("diary_entries.edit.marker_text"));
+      const lngLat = new maplibregl.LngLat($("#longitude").val(), $("#latitude").val());
+      setLocation({ lngLat });
+      map.setCenter(lngLat);
     }
 
     map.on("click", setLocation);
