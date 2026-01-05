@@ -1,10 +1,8 @@
 //= require maplibre.map
-//= require maplibre.i18n
 //= require maplibre.combinedcontrolgroup
 //= require ./home_location_name-endpoint
 
 $(function () {
-  const defaultHomeZoom = 11;
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#social_links").length) {
@@ -52,19 +50,7 @@ $(function () {
   }
 
   if ($("#map").length) {
-    map = new maplibregl.Map({
-      container: "map",
-      style: OSM.MapLibre.Styles.Mapnik,
-      attributionControl: false,
-      locale: OSM.MapLibre.Locale,
-      rollEnabled: false,
-      dragRotate: false,
-      pitchWithRotate: false,
-      bearingSnap: 180,
-      maxPitch: 0,
-      center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
-      zoom: OSM.home ? defaultHomeZoom : 0
-    });
+    map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
 
     savedLat = $("#home_lat").val();
     savedLon = $("#home_lon").val();
@@ -132,7 +118,7 @@ $(function () {
       const lat = $("#home_lat").val(),
             lon = $("#home_lon").val();
 
-      map.flyTo({ center: [lon, lat], zoom: defaultHomeZoom });
+      map.flyTo({ center: [lon, lat], zoom: OSM.MapLibre.defaultHomeZoom });
     });
 
     $("#home_delete").click(function () {
@@ -204,10 +190,10 @@ $(function () {
   }
 
   function isCloseEnoughToMapCenter(location) {
-    const inputPt = map.project(location),
-          centerPt = map.project(map.getCenter());
+    const inputPt = map.project(location);
+    const centerPt = map.project(map.getCenter());
 
-    return Math.sqrt(Math.pow(centerPt.x - inputPt.x, 2) + Math.pow(centerPt.y - inputPt.y, 2)) < 10;
+    return centerPt.dist(inputPt) < 10;
   }
 
   function clearDeletedText() {
