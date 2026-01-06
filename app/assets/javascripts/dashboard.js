@@ -1,25 +1,11 @@
 //= require maplibre.map
-//= require maplibre.i18n
 //= require maplibre.combinedcontrolgroup
 
 $(function () {
-  const defaultHomeZoom = 11;
   let map;
 
   if ($("#map").length) {
-    map = new maplibregl.Map({
-      container: "map",
-      style: OSM.MapLibre.Styles.Mapnik,
-      attributionControl: false,
-      locale: OSM.MapLibre.Locale,
-      rollEnabled: false,
-      dragRotate: false,
-      pitchWithRotate: false,
-      bearingSnap: 180,
-      maxPitch: 0,
-      center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
-      zoom: OSM.home ? defaultHomeZoom : 0
-    });
+    map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
     const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
