@@ -33,14 +33,43 @@ $(function () {
     map.touchZoomRotate.disableRotation();
     map.keyboard.disableRotation();
 
-    $("[data-user]").each(function () {
-      const user = $(this).data("user");
-      if (user.lon && user.lat) {
-        OSM.MapLibre.getMarker({ icon: "dot", color: user.color })
-          .setLngLat([user.lon, user.lat])
-          .setPopup(OSM.MapLibre.getPopup(user.description))
-          .addTo(map);
+    const markerObjects = $("[data-user]")
+      .filter(function () {
+        const { lat, lon } = $(this).data("user");
+        return lat && lon;
+      })
+      .map(function () {
+        const { lat, lon, color, description } = $(this).data("user");
+
+        const marker = OSM.MapLibre.getMarker({ icon: "dot", color })
+          .setLngLat([lon, lat])
+          .setPopup(OSM.MapLibre.getPopup(description));
+
+        return { marker, lat, lon };
+      })
+      .get();
+
+    for (const item of markerObjects) {
+      item.marker.addTo(map);
+    }
+
+    const updateZIndex = () => {
+      for (const item of markerObjects) {
+        item.currentY = map.project([item.lon, item.lat]).y;
       }
-    });
+
+      markerObjects.sort((a, b) => a.currentY - b.currentY);
+
+      for (const [index, item] of markerObjects.entries()) {
+        item.marker.getElement().style.zIndex = index;
+      }
+    };
+
+    if (markerObjects.length > 0) {
+      map.on("move", updateZIndex);
+      map.on("rotate", updateZIndex);
+      map.on("pitch", updateZIndex);
+      updateZIndex();
+    }
   }
 });
