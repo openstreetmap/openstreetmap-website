@@ -38,7 +38,7 @@ module SpamScorer
     attr_reader :text
 
     def to_comparable_form(str)
-      str.downcase(:fold).unicode_normalize(:nfkc)
+      str.downcase(:fold).unicode_normalize(:nfkc).gsub(/\s+/u, " ")
     end
   end
 end
