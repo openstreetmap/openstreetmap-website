@@ -15,10 +15,16 @@ L.OSM.Map = L.Map.extend({
     ) => {
       if (credit) layerOptions.attribution = makeAttribution(credit);
       if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
-      const layerConstructor =
-        (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) ||
-        L.OSM[leafletOsmId] ||
-        L.OSM.TileLayer;
+
+      if (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) {
+        layerOptions.leafletOsmId = leafletOsmDarkId;
+      } else if (L.OSM[leafletOsmId]) {
+        layerOptions.leafletOsmId = leafletOsmId;
+      } else {
+        layerOptions.leafletOsmId = "TileLayer";
+      }
+
+      const layerConstructor = L.OSM[layerOptions.leafletOsmId];
 
       const layer = new layerConstructor(layerOptions);
       layer.on("add", () => {

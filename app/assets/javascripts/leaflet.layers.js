@@ -1,3 +1,8 @@
+//= require @maptiler/maplibre-gl-omt-language
+//= require maplibre/map
+//= require maplibre/styles
+//= require maplibre/i18n
+
 L.OSM.layers = function (options) {
   const control = L.OSM.sidebarPane(options, "layers", "javascripts.map.layers.title", "javascripts.map.layers.header");
 
@@ -16,21 +21,29 @@ L.OSM.layers = function (options) {
       input.checked = map.hasLayer(layer);
 
       map.whenReady(function () {
-        const miniMap = L.map(container, { attributionControl: false, zoomControl: false, keyboard: false })
-          .addLayer(new layer.constructor(layer.options));
+        const styleId = layer.options.leafletOsmId;
+        const style = OSM.MapLibre.Styles[styleId](layer.options);
+        const layerDefinition = OSM.LAYER_DEFINITIONS.find(l => l.leafletOsmId === styleId || l.leafletOsmDarkId === styleId);
+        const miniMap = new OSM.MapLibre.Map({
+          container,
+          style,
+          interactive: false,
+          attributionControl: false,
+          fadeDuration: 0,
+          zoomSnap: layerDefinition.isVectorStyle ? 0 : 1
+        });
 
-        miniMap.dragging.disable();
-        miniMap.touchZoom.disable();
-        miniMap.doubleClickZoom.disable();
-        miniMap.scrollWheelZoom.disable();
+        if (styleId === "OpenMapTiles") {
+          OSM.MapLibre.setOMTMapLanguage(miniMap);
+        }
 
         $ui
           .on("show", shown)
           .on("hide", hide);
 
         function shown() {
-          miniMap.invalidateSize();
-          setView({ animate: false });
+          miniMap.resize();
+          setView(false);
           map.on("moveend", moved);
         }
 
@@ -42,8 +55,14 @@ L.OSM.layers = function (options) {
           setView();
         }
 
-        function setView(options) {
-          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0), options);
+        function setView(animate = true) {
+          const center = map.getCenter();
+          const zoom = Math.max(Math.floor(map.getZoom() - 3), -1);
+          if (animate) {
+            miniMap.easeTo({ center: [center.lng, center.lat], zoom });
+          } else {
+            miniMap.jumpTo({ center: [center.lng, center.lat], zoom });
+          }
         }
       });
 
