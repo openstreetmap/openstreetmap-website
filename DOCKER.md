@@ -24,13 +24,13 @@ Use [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) with the [do
 
 The first step is to fork/clone the repo to your local machine:
 
-```
+```bash
 git clone https://github.com/openstreetmap/openstreetmap-website.git
 ```
 
 Now change working directory to the `openstreetmap-website`:
 
-```
+```bash
 cd openstreetmap-website
 ```
 
@@ -38,13 +38,13 @@ cd openstreetmap-website
 
 ### Storage
 
-```
+```bash
 cp config/example.storage.yml config/storage.yml
 ```
 
 ### Database
 
-```
+```bash
 cp config/docker.database.yml config/database.yml
 ```
 
@@ -52,7 +52,7 @@ cp config/docker.database.yml config/database.yml
 
 This is a workaround. [See issues/2185 for details](https://github.com/openstreetmap/openstreetmap-website/issues/2185#issuecomment-508676026).
 
-```
+```bash
 touch config/settings.local.yml
 ```
 
@@ -62,7 +62,7 @@ touch config/settings.local.yml
 
 To build local Docker images run from the root directory of the repository:
 
-```
+```bash
 docker compose build
 ```
 
@@ -70,7 +70,7 @@ If this is your first time running or you have removed cache this will take some
 
 To launch the app run:
 
-```
+```bash
 docker compose up -d
 ```
 
@@ -83,7 +83,7 @@ This will launch one Docker container for each 'service' specified in `docker-co
 
 Run the Rails database migrations:
 
-```
+```bash
 docker compose run --rm web bundle exec rails db:migrate
 ```
 
@@ -91,21 +91,32 @@ docker compose run --rm web bundle exec rails db:migrate
 
 Prepare the test database:
 
-```
+```bash
 docker compose run --rm web bundle exec rails db:test:prepare
 ```
 
 Run the test suite:
 
-```
+```bash
 docker compose run --rm web bundle exec rails test:all
 ```
 
-If you encounter errors about missing assets, precompile the assets:
-
-```
-docker compose run --rm web bundle exec rake assets:precompile
-```
+> [!TIP]
+> If you encounter errors about missing assets, ensure your asset pipeline is correctly configured for your environment.
+>
+> In production, assets must be precompiled for better performance:
+>
+> ```bash
+> docker compose run --rm web bundle exec rake assets:precompile
+> ```
+>
+>In development, missing assets usually indicate a configuration or dependency issue.
+> Precompiling assets in *development* will disable dynamic compilation and make debugging harder due to fingerprinted assets.
+> To clean the assets you can run:
+>
+> ```bash
+> docker compose run --rm web bundle exec rake assets:clobber
+> ```
 
 ### Loading an OSM extract
 
@@ -113,13 +124,13 @@ This installation comes with no geographic data loaded. You can either create ne
 
 For example, let's download the District of Columbia from Geofabrik or [any other region](https://download.geofabrik.de):
 
-```
+```bash
 wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
 ```
 
 You can now use Docker to load this extract into your local Docker-based OSM instance:
 
-```
+```bash
 docker compose run --rm web osmosis \
     -verbose    \
     --read-pbf district-of-columbia-latest.osm.pbf \
@@ -133,7 +144,7 @@ docker compose run --rm web osmosis \
 
 **Windows users:** Powershell uses `` ` `` and CMD uses `^` at the end of each line, e.g.:
 
-```
+```powershell
 docker compose run --rm web osmosis `
     -verbose    `
     --read-pbf district-of-columbia-latest.osm.pbf `
@@ -155,18 +166,18 @@ See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and en
 
 If you want to get into a web container and run specific commands you can fire up a throwaway container to run bash in via:
 
-```
+```bash
 docker compose run --rm web bash
 ```
 
 Alternatively, if you want to use the already-running `web` container then you can `exec` into it via:
 
-```
+```bash
 docker compose exec web bash
 ```
 
 Similarly, if you want to `exec` in the db container use:
 
-```
+```bash
 docker compose exec db bash
 ```
