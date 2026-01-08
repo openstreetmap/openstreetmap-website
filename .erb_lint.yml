@@ -3,6 +3,13 @@ linters:
   AllowedScriptType:
     enabled: true
     disallow_inline_scripts: true
+  HardCodedString:
+    enabled: false # We're using a custom version of this, see below
+  # Add our own linter, refs https://github.com/Shopify/erb_lint/pull/397
+  CustomHardCodedString:
+    enabled: true
+    exclude:
+     - 'app/views/shared/_markdown_help.html.erb'
   Rubocop:
     enabled: true
     rubocop_config:
@@ -25,6 +32,8 @@ linters:
   SelfClosingTag:
     enabled: false
   SpaceInHtmlTag:
+    enabled: true
+  NoUnusedDisable:
     enabled: true
 exclude:
   - '**/vendor/**'
