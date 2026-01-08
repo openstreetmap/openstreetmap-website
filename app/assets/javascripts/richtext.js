@@ -13,43 +13,40 @@
   });
 
   /*
-   * Install keyboard navigation handlers for tabs to meet ARIA best practices
-   * Handles arrow keys, Home, and End keys for accessible tab navigation
+   * Block arrow keys on richtext tabs to prevent Bootstrap's buggy keyboard navigation.
+   * Uses capture phase to intercept before Bootstrap handles the event.
    */
-  $(document).on("keydown", ".richtext_container button[data-bs-toggle='tab']", function (e) {
-    const container = $(this).closest(".richtext_container");
-    const tabs = container.find("button[data-bs-toggle='tab']:visible");
-    const currentIndex = tabs.index(this);
-    let targetIndex;
+  document.addEventListener("keydown", function (e) {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    if (!e.target.matches?.(".richtext_container button[data-bs-toggle='tab']")) return;
 
-    // Handle arrow keys for navigation
-    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-      e.preventDefault();
-      // Move to previous tab, wrap to last if at beginning
-      targetIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
-    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-      e.preventDefault();
-      // Move to next tab, wrap to first if at end
-      targetIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
-    } else if (e.key === "Home") {
-      e.preventDefault();
-      // Jump to first tab
-      targetIndex = 0;
-    } else if (e.key === "End") {
-      e.preventDefault();
-      // Jump to last tab
-      targetIndex = tabs.length - 1;
-    }
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  }, true);
 
-    // If a target was determined, focus and activate it
-    if (targetIndex !== undefined) {
-      const targetTab = tabs.eq(targetIndex);
-      targetTab.trigger("focus");
-      // Activate the tab using Bootstrap's tab method
-      const tab = new bootstrap.Tab(targetTab[0]);
-      tab.show();
-    }
+  /*
+   * Ensure all visible tabs are in the Tab order.
+   * Bootstrap sets tabindex="-1" on inactive tabs, but we want Tab/Shift+Tab
+   * to move between all tabs.
+   */
+  function ensureAllTabsFocusable() {
+    $(".richtext_container button[data-bs-toggle='tab']:visible").attr("tabindex", "0");
+  }
+
+  // Run after page load and after a short delay to catch Bootstrap initialization
+  $(function () {
+    ensureAllTabsFocusable();
+    setTimeout(ensureAllTabsFocusable, 100);
   });
+
+  $(document).on("turbo:load", function () {
+    ensureAllTabsFocusable();
+    setTimeout(ensureAllTabsFocusable, 100);
+  });
+
+  // Run after tab changes since Bootstrap resets tabindex
+  $(document).on("shown.bs.tab", ".richtext_container button[data-bs-toggle='tab']", ensureAllTabsFocusable);
 
   /*
    * Install a handler to set the minimum preview pane height
