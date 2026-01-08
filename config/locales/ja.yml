@@ -172,6 +172,7 @@ ja:
         allow_write_prefs: 利用者設定を変更する
         allow_write_diary: 日記エントリを作成する・コメントする
         allow_write_api: 地図を変更する
+        allow_write_changeset_comments: チェンジセットに関するコメント
         allow_read_gpx: 非公開GPSトレースを読み込む
         allow_write_gpx: GPSトレースをアップロードする
         allow_write_notes: メモを変更する
@@ -223,6 +224,7 @@ ja:
         active: アクティブ
         display_name: 表示名
         description: プロフィールの説明
+        company: 企業
         home_lat: 緯度
         home_lon: 経度
         home_location_name: 自宅所在地名
@@ -329,8 +331,16 @@ ja:
         agreed_with_pd: また、あなたは、自分の編集結果がパブリックドメインにあるべきだと考えているということも宣言しています。
         link: https://www.osmfoundation.org/wiki/License/Contributor_Terms
         link text: これは何ですか?
+        not_agreed_with_pd: あなたはご自身の編集内容をパブリックドメインであると宣言していません。
+        review: 利用規約を確認する
+        review_and_accept: 利用規約を確認して同意する
+        consider_pd: パブリックドメインとみなす
       terms_of_use:
         heading: 利用規約
+        agreed: '%{date}に利用規約に同意済みです。'
+        not_agreed: あなたは利用規約にまだ同意していません。
+        review: 利用規約を確認する
+        review_and_accept: 利用規約を確認して同意する
       save changes button: 変更を保存
       delete_account: アカウントを削除
     go_public:
@@ -338,7 +348,9 @@ ja:
       currently_not_public: 現在、あなたの編集内容は匿名であり、他の人があなたにメッセージを送ったり、あなたの位置情報を確認したりすることはできません。編集内容を表示し、Web
         サイトを通じて他の人があなたに連絡できるようにするには、下のボタンをクリックしてください。
       only_public_can_edit: 0.6 API 変更以来、地図データを登録利用者だけが編集できます.
+      find_out_why_html: （%{%{link}}）。
       find_out_why: 理由を明らかにする
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: あなたのメールアドレスが公開されることはありません
       not_reversible: このアクションを元に戻すことはできず、すべての新規利用者はデフォルトで公開になります。
       make_edits_public_button: 自分の編集をすべて公開する
@@ -352,8 +364,10 @@ ja:
         title: 自分のアカウントを削除する
         warning: 警告！アカウントの削除プロセスは最終的なものであり、元に戻すことはできません。
         delete_account: アカウントを削除
+        delete_introduction: 下のボタンを使用してご自分の OpenStreetMap アカウントを削除してください。次の詳細にご注意願います。
         delete_profile: アバター、説明、自宅の場所などのプロフィール情報が削除されます。
         delete_display_name: 表示名は削除され、他のアカウントで再利用できます。
+        retain_caveats: ただしアカウント削除後も、あなたに関する一部の情報は OpenStreetMap に保持されます（以下ご参照）。
         retain_edits: マップ データベースへの編集内容は保持されます。
         retain_traces: アップロードされたトレースがあれば、保持されます。
         retain_diary_entries: 日記のエントリと日記のコメントがある場合は保持されますが、表示されません。
@@ -373,6 +387,7 @@ ja:
         read_ct: 私は以下の貢献者同意を読み終え、これに同意します
         tou_explain:
           html: これらの%{tou_link}では、OpenHistoricalMapが提供するウェブサイトおよびその他のインフラストラクチャの利用について定めています。リンクをクリックして通読し、文書に同意してください。
+          tou: 利用規約
         read_tou: 私は利用規約を読み終え、これに同意します
         guidance_info_html: 'これらの用語を理解するのに役立つ情報: %{readable_summary_link} といくつかの %{informal_translations_link}'
         readable_summary: 人間が読める要約
@@ -392,6 +407,17 @@ ja:
           を参照してください。
         terms_declined_link: このwikiページ
         terms_declined_url: http://wiki.openstreetmap.org/wiki/JA:Contributor_Terms_Declined
+    pd_declarations:
+      show:
+        title: 私の貢献はパブリックドメインとみなしてください
+        consider_pd: 私の貢献はパブリックドメインと認めます
+        consider_pd_why: 自身の貢献をパブリックドメインにする理由とは？
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: 確認
+      create:
+        successfully_declared: ご自身の編集結果をパブリックドメインとみなすというあなたの宣言はきちんと処理されました。
+        already_declared: あなたはすでに、ご自身の編集内容をパブリックドメインであると宣言済みです。
+        did_not_confirm: あなたはご自身の編集内容がパブリックドメインであると宣言していません。
   browse:
     deleted_ago_by_html: '%{user}が%{time_ago}に削除'
     edited_ago_by_html: '%{user}が%{time_ago}に編集'
@@ -1936,6 +1962,8 @@ ja:
       user_blocks:
         older: 前のブロック
         newer: 次のブロック
+        oldest: 最古のブロック類
+        newest: 最新のブロック類
       users:
         older: 前のユーザー
         newer: 次のユーザー
@@ -1946,6 +1974,8 @@ ja:
     about_section:
       contribute_1_user_diaries: 利用者の日記
       open_data_title: オープンデータ
+      open_data_2_html: データは特記する場合を除きパブリックドメインです。その使用には規制や制約はありません。しかしながら、可能でしたら OpenHistoricalMap
+        に言及もしくは引用していただけると大変ありがたいです。詳細と承認の説明は %{copyright_license_link}をご参照ください。
       legal_title: 法律関係
       legal_1_html: このサイトおよび関連サービスはコミュニティを代表し、OpenStreetMap U.S.財団の提携団体である%{group_link}が運営しています。OpenHistoricalMap
         のいずれのサービスの利用も、私たちの定める%{terms_of_use_link}、%{aup_link}ならびに当財団の%{privacy_policy_link}の対象となります。
@@ -1968,11 +1998,17 @@ ja:
         native_link: 日本語版
         mapping_link: マッピングを開始
       legal_babble:
+        introduction_1_ohm_html: |-
+          OpenHistoricalMap とは公開の地理空間データ集です。特に明記しない限り、OpenHistoricalMap データは %{cc0_link} の指定に準じてパブリックドメインに提供してあります。
+          パブリックドメインにあるものに限り、その目的を問わず、制限も一切なく、自由に複製や配布、送信や改変ができます。
+        introduction_1_cc0_url: https://creativecommons.org/publicdomain/zero/1.0/
+        introduction_3_ohm_html: 私たちのホームページに載せた地図の様式は、CC0 指定によりパブリックドメインです。献呈は無条件で、目的を問わず制限も一切なく、自由に複製や配布、送信や改変ができます。
         introduction_4_creative_commons: Creative Commons Attribution-ShareAlike 2.0
         credit_title_html: OpenHistoricalMap のクレジット表記の仕方
         credit_1_html: 公共財のコンテンツ利用には、著作権法のしばりもしくは条件付与を受けることはありませんが、私たちの地図やデータを再利用し改変し、またはその他の方法で使用する際には、クレジットを
           OpenHistoricalMap としてくだされば誠に幸いです。
         credit_2_this_copyright_page: この著作権ページ
+        credit_3_credit_html: 地図データは %{project_link} プロジェクトの提供で、突起する場合を除きパブリックドメインです。
         attribution_example:
           alt: 「OHM」というラベル付きのリンクは、ウェブページの右下隅、日付スライダー下に表示。
           title: 特定のウェブサイトで OpenHistoricalMap の権利表示をする例
@@ -1984,6 +2020,10 @@ ja:
         more_2_1_nominatim_usage_policy: Nominatim利用規約
         contributors_title_html: 謝辞
         contributors_intro_html: OpenHistoricalMapには、数千人もの個人協力者や組織の共同作業が注がれ、その人々には膨大な学術研究、ジャーナリズム、保存記録の成果が役立っています。これまでの主な情報源と貢献者は以下の通りです。
+        contributors_natural_earth_html: '%{natural_earth_link} データセットはパブリックドメインです。'
+        contributors_gmted_html: 海抜データの出典は右のとおり。 Danielson, J.J. および Gesch, D.B. "
+          %{gmted_link}"（GMTED2010） ''U.S. Geological Survey Open-File Report''、26ページ（U.S.
+          Geological Survey、2011年）。ISSN:2011–1073。パブリックドメイン。
         contributors_footer_2_html: OpenHistoricalMapのデータに含めることは、元データの提供者がOpenHistoricalMapを支持したり、何かしらの保証を行ったり、何かしらの責任を負ったりすることを意味するものではありません。
         infringement_title_html: 著作権侵害
         infringement_1_html: 'OHMの協力者は、著作権者から明確な許諾を得ずに、著作権のある情報源 (例: Google マップや印刷された地図)
@@ -2005,6 +2045,9 @@ ja:
       title: エクスポート
       manually_select: ドラッグして別の領域を選択
       licence: ライセンス
+      licence_details_ohm_html: 特記する場合を除き、OpenHistoricalMap のデータは %{cc0_link} によりパブリックドメインです。詳細は
+        %{copyright_page_link} ページを参照してください。
+      cc0_url: https://creativecommons.org/publicdomain/zero/1.0/
       too_large:
         advice: '上のエクスポートが失敗した場合は、以下に列挙した情報源のいずれかの使用を検討してください:'
         body: 領域が大きすぎて OpenHistoricalMap XML データとしてエクスポートできません。拡大するか、領域を小さくするか、以下に列挙したソースから一括データダウンロードを使用するかしてください。
@@ -2374,6 +2417,7 @@ ja:
       read_gpx: 非公開GPSトレースを読む
       write_gpx: GPSトレースをアップロードする
       write_notes: メモを変更する
+      write_blocks: 利用者ブロックの設定と除去
       read_email: 利用者のメールアドレスを読む
       send_messages: 他の利用者にプライベートメッセージを送信する
       skip_authorization: 自動的に申請を承認する
@@ -2468,7 +2512,7 @@ ja:
       my comments: 自分のコメント
       my_preferences: 個人設定
       my_dashboard: 私のダッシュボード
-      blocks on me: 自分に与えられたブロック
+      blocks on me: 自分が受けているブロック
       blocks by me: 自分が実行したブロック
       create_mute: この利用者をミュート
       destroy_mute: この利用者のミュートを解除
@@ -2490,6 +2534,7 @@ ja:
       spam score: 'スパム評価:'
       block_history: 有効なブロック
       moderator_history: 実行したブロック
+      revoke_all_blocks: ブロックをすべて除去
       comments: コメント
       create_block: この利用者をブロック
       activate_user: この利用者を有効化
@@ -2514,7 +2559,14 @@ ja:
         heading_html: '%{name} のブロックのリスト'
         empty: '%{name} は一度もブロックされていません。'
       edit:
+        title: '%{block_on} のブロックを全て取り消す'
+        heading_html: '%{block_on} のブロックを全て取り消す'
+        empty: '%{name} には有効なブロックを受けていません。'
+        active_blocks:
+          other: '%{count}件の有効なブロック'
         revoke: 取り消す!
+      destroy:
+        flash: 有効なブロックは全て除去済みです。
     lists:
       show:
         title: 利用者
@@ -2588,12 +2640,16 @@ ja:
       title: '%{name} のブロックの編集'
       heading_html: '%{name} のブロックの編集'
       period: 利用者が今からどれくらいの間、APIからブロックされるか。
+      revoke: ブロックを除去
     filter:
       block_period: ブロック期間はドロップダウンリストから一つ選択してください。
     create:
       flash: 利用者 %{name} をブロックしました。
     update:
       only_creator_can_edit: このブロックを編集するにはモデレーター権限が必要です。
+      only_creator_can_edit_without_revoking: このブロックを除去せずに編集できるのは、これを設定したモデレーターに限定されます。
+      only_creator_or_revoker_can_edit: このブロックは設定もしくは有効にしたモデレーターにしか編集できません。
+      inactive_block_cannot_be_reactivated: この無効なブロックは有効にできません。
       success: ブロックを更新しました。
     index:
       title: 利用者のブロック
@@ -2632,6 +2688,11 @@ ja:
       creator_name: 作成者
       reason: ブロックの理由
       status: 状態
+    navigation:
+      all_blocks: 全ブロック
+      blocks_on_me: 自分が受けているブロック
+      blocks_on_user_html: '%{user} が受けたブロック'
+      blocks_by_me: 自分が実行したブロック
   user_mutes:
     index:
       title: ミュートした利用者
