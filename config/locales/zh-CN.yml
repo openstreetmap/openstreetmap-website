@@ -134,6 +134,10 @@ zh-CN:
       models:
         user_mute:
           is_already_muted: 已忽视
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL应以http://或https://开头
     models:
       acl: 访问控制列表
       changeset: 变更集
@@ -178,8 +182,9 @@ zh-CN:
         support_url: 支持 URL
         allow_read_prefs: 读取其用户设置
         allow_write_prefs: 修改其用户偏好
-        allow_write_diary: 创建日记文章、评论并结交朋友。
+        allow_write_diary: 创建日记文章和评论。
         allow_write_api: 修改地图
+        allow_write_changeset_comments: 评论变更集
         allow_read_gpx: 读取他们的私人GPS轨迹
         allow_write_gpx: 上传GPS轨迹
         allow_write_notes: 修改注记
@@ -288,6 +293,7 @@ zh-CN:
       x_years: '%{count}年前'
   printable_name:
     with_name_html: '%{name} (%{id})'
+    current_and_old_links_html: '%{current_link}，%{old_link}'
   editor:
     default: 默认（目前为 %{name}）
     id:
@@ -332,22 +338,33 @@ zh-CN:
   accounts:
     show:
       title: 编辑账户
+      my_account: 我的账号
       current email address: 当前电子邮件地址
       external auth: 外部身份验证
       contributor_terms:
         heading: 贡献者条款
-        agreed: 您已同意新的贡献者条款。
+        agreed: 您已于%{date}同意贡献者条款。
+        not_agreed: 您尚未同意贡献者条款。
         agreed_with_pd: 您也将您的编辑释于公有领域。
         link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: 这是什么？
+        not_agreed_with_pd: 您尚未声明您的编辑属于公有领域。
+        review: 查看条款
+        review_and_accept: 查看并接受条款
+        consider_pd: 考虑公有领域
       terms_of_use:
         heading: 使用条款
+        agreed: 您已于%{date}同意使用条款。
+        not_agreed: 您尚未同意使用条款。
+        review: 查看条款
+        review_and_accept: 查看并接受条款
       save changes button: 保存更改
       delete_account: 删除账户
     go_public:
       heading: 公开编辑
       currently_not_public: 目前您的编辑是匿名的，人们无法向您发送消息或查看您的位置。要显示您编辑的内容并允许人们通过网站与您联系，请单击下面的按钮。
       only_public_can_edit: 自0.6 API上线以来，只有公共用户可以编辑地图数据。
+      find_out_why_html: (%{link})。
       find_out_why: 找出为什么
       email_not_revealed: 您的电子邮件地址不会公开泄露。
       not_reversible: 此操作无法撤消，所有新用户现在默认都是公开的。
@@ -362,8 +379,10 @@ zh-CN:
         title: 删除我的账户
         warning: 警告！这是账户删除流程的最后一步，并且不可被恢复。
         delete_account: 删除账户
+        delete_introduction: 您可以通过下方的按钮删除您的OpenStreetMap账户。请注意如下细节：
         delete_profile: 您的个人简介，包括您的头像、介绍和家的位置，都将被移除。
         delete_display_name: 您的用户名将被移除，并且可以被其他账户重复使用。
+        retain_caveats: 然而，即使在您的账户被删除后，部分关于您的信息仍将被保留在OpenStreetMap里：
         retain_edits: 您对地图数据库的编辑，如果有，将被保留。
         retain_traces: 您上传的轨迹，如果有，将被保留。
         retain_diary_entries: 您的日记与日记下的评论，如果有，将被保留，但不可见。
@@ -382,7 +401,8 @@ zh-CN:
         contributor_terms_explain: 该协议影响到有关您过去、现在及将来的贡献的条款。
         read_ct: 我已了解并同意贡献者条款
         tou_explain:
-          html: 这些%{tou_link}适用于网站方面的使用，与其它由OSMF提供的基础内容。请点击链接，阅读并同意该条款。
+          html: 这些%{tou_link}适用于网站方面的使用，与其它由OpenHistoricalMap提供的基础内容。请点击链接，阅读并同意该条款。
+          tou: 使用条款
         read_tou: 我已阅读并同意使用条款
         guidance_info_html: 有助于理解这些术语的信息：一个 %{readable_summary_link} 和一些 %{informal_translations_link}
         readable_summary: 人类可读的摘要
@@ -403,7 +423,15 @@ zh-CN:
         terms_declined_url: http://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
+        title: 认定我的贡献属于公有领域
+        consider_pd: 我认定我的贡献属于公有领域
+        consider_pd_why: 为什么我要让我的贡献属于公有领域？
         consider_pd_why_url: https://wiki.osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
+        confirm: 确认
+      create:
+        successfully_declared: 您已成功声明您的编辑属于公有领域。
+        already_declared: 您已声明要让您的编辑属于公有领域。
+        did_not_confirm: 您尚未确认要让您的编辑属于公有领域。
   browse:
     deleted_ago_by_html: 由 %{user} 删除于 %{time_ago}
     edited_ago_by_html: 由%{user} 编辑于 %{time_ago}
@@ -443,7 +471,7 @@ zh-CN:
         way: 路径
         relation: 关系
     containing_relation:
-      entry_role_html: 关系 %{relation_name} (作为 %{relation_role})
+      entry_role_html: '%{relation_name}（作为 %{relation_role}）'
     not_found:
       title: 未找到
     timeout:
