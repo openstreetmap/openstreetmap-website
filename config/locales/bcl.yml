@@ -1207,16 +1207,19 @@ bcl:
           gasometer: Gasometro
           kiln: Horno
           lighthouse: Parola
+          manhole: Manhol
           petroleum_well: Bubon nin Petrolyo
           pier: Pier
           silo: Silo
           snow_cannon: Kanyon nin Niyebe
+          snow_fence: Kudal sa Niyebe
           storage_tank: Tangke nin Imbakan
           street_cabinet: Aparador sa Dalan
           surveillance: Pangmatyag
           telescope: Teleskopyo
           tower: Torre
           wastewater_plant: Planta kan Maati na tubig
+          water_tower: Torre nin Tubig
           water_well: Bubon
           works: Pabrika
           "yes": Gibo nin tawo
@@ -1238,9 +1241,11 @@ bcl:
           hill: Bulod
           hot_spring: Mainit na burabod
           island: Puro
+          isthmus: Itmus
           land: Kadagaan
           mud: Laboy
           peninsula: Rawis
+          reef: Bahura
           rock: Gapo
           sand: Baybay
           stone: Gapo
@@ -1304,6 +1309,7 @@ bcl:
           square: Plasa
           state: Estado
           subdivision: Subdibisyon
+          suburb: Suburb
           town: Banwaan
           village: Dolohan
           "yes": Lugar
@@ -1505,6 +1511,7 @@ bcl:
         region: Linderos nin Rona
         state: Linderos nin Estado
         town: Linderos nin Banwaan
+        township: Linderos nin Banwaan
         village: Linderos nin Dolohan
   searches:
     show:
@@ -2035,6 +2042,7 @@ bcl:
       heading:
         my_inbox: An Sakong Inbox
         my_outbox: An Sakong Outbox
+        muted_messages: Pinatikom na mga mensahe
       messages_table:
         from: Gikan sa/ki
         to: Pasiring sa/ki
@@ -2059,6 +2067,9 @@ bcl:
         no_messages_yet_html: Mayo ka pang mga mensahe. Ta'no ta dai makipag-olay
           sa nagkapira sa %{people_mapping_nearby_link}?
         people_mapping_nearby: mga tawong nagmamapa sa harani
+    muted_inboxes:
+      show:
+        title: Pinatikom na mga Mensahe
     outboxes:
       show:
         title: Outbox
@@ -2137,6 +2148,7 @@ bcl:
         image: Ladawan
         company: Kompanya
         location: Kinamumugtakan
+        heatmap: Heatmap
     descriptions:
       show:
         title: Liwaton an Profile
@@ -2793,6 +2805,7 @@ bcl:
         bus: Bus
         cable_car: Awtong Nakakable
         chair_lift: Chair Lift
+        admin: Administratibong Linderos
         capital: Kapitolyo
         city: Syudad
         forest: Kadlagan
@@ -2818,6 +2831,7 @@ bcl:
         hospital: Pabulungan
         building: Makahulogan na edipisyo
         station: Istasyon nin Tren
+        subway_station: Istasyon nin Subwey
         tram_stop: Punduhan nin Tram
         private: Pribadong akses
         destination: Padudumanan na akses
@@ -2970,6 +2984,7 @@ bcl:
       account_settings: Mga Panuytoy kan Account
       oauth2_applications: Mga Aplikasyon nin OAuth 2
       oauth2_authorizations: Mga Awtorisasyon nin OAuth 2
+      muted_users: Mga Paragamit na Pinatikom
     auth_providers:
       google:
         title: Maglaog sa Google
@@ -3147,6 +3162,8 @@ bcl:
       my_dashboard: An Sakuyang Dashboard
       blocks on me: Mga Nagbagat Sakuya
       blocks by me: Mga Binagat Ko
+      create_mute: Patikumon an Paragamit na ini
+      destroy_mute: Dai na Patikumon an Paragamit na ini
       send message: Magpadara nin Mensahe
       diary: Talaaldawan
       edits: Mga pagliwat
@@ -3243,6 +3260,7 @@ bcl:
         empty: Mayo nin nakuang magkaparehong paragamit
     comments:
       index:
+        heading_html: Mga komento ni %{user}
         changesets: Mga Changeset
         diary_entries: Mga Entrada sa Talaaldawan
         no_comments: Mayong mga komento
@@ -3387,16 +3405,38 @@ bcl:
       end: Tapos
       status: Kamugtakan
     navigation:
+      all_blocks: Gabos na mga Pagbagat
       new_block: Bagong Pagbagat
   user_mutes:
     index:
+      title: Mga Paragamit na Pinatikom
+      my_muted_users: An sakong pinatikom na mga paragamit
+      you_have_muted_n_users:
+        one: Igwa kang %{count} pinatikom na paragamit
+        other: Igwa kang %{count} pinatikom na mga paragamit
+      user_mute_explainer: An mga mensahe kan mga pinatikom na paragamit ibinabalyo
+        sa sarong separadong Inbox asin dai ka makakaresibe nin mga notipikasyon sa
+        email.
+      user_mute_admins_and_moderators: Pwede mong patikumon an mga Admin asin Moderator
+        alagad an saindang mga mensahe dai mapapatikom.
       table:
+        thead:
+          muted_user: Paragamit na Pinatikom
+          actions: Mga aksyon
         tbody:
+          unmute: Dai na patikumon
           send_message: Magpadara nin mensahe
+    create:
+      notice: Pinatikom mo si %{name}
+      error: Dai mapapatikom si %{name}. %{full_message}.
+    destroy:
+      notice: Dai mo na pinatikom si %{name}
+      error: Dai na dai napatikom an paragamit. Pakiprobaran giraray.
   notes:
     index:
       heading: Mga tala kan %{user}
       id: Id
+      description: Paglaladawan
       last_changed: Huring Binago
       all: Gabos
       hidden: Itinago
@@ -3539,22 +3579,22 @@ bcl:
         offramp_right_with_directions: Magduman sa rampa sa too pasiring sa %{directions}
         offramp_right_with_name_directions: Magduman sa rampa sa too pasiring sa %{name},
           pasiring sa %{directions}
-        onramp_right_without_exit: Magliko sa too sa rampa pasiring sa %{name}
-        onramp_right_with_directions: Magliko sa too pasiring sa rampa pasiring sa
+        onramp_right_without_exit: Magsiko sa too sa rampa pasiring sa %{name}
+        onramp_right_with_directions: Magsiko sa too pasiring sa rampa pasiring sa
           %{directions}
-        onramp_right_with_name_directions: Magliko sa too sa rampa pasiring sa %{name},
+        onramp_right_with_name_directions: Magsiko sa too sa rampa pasiring sa %{name},
           pasiring sa %{directions}
-        onramp_right_without_directions: Magliko sa too pasiring sa rampa
-        onramp_right: Magliko sa too pasiring sa rampa
-        endofroad_right_without_exit: Sa katapusan kan tinampo magliko sa too pasiring
+        onramp_right_without_directions: Magsiko sa too pasiring sa rampa
+        onramp_right: Magsiko sa too pasiring sa rampa
+        endofroad_right_without_exit: Sa katapusan kan tinampo magsiko sa too pasiring
           sa %{name}
         merge_right_without_exit: Magsararo sa too sa %{name}
-        fork_right_without_exit: Sa sangandalan magliko sa too pasiring sa %{name}
-        turn_right_without_exit: Magliko sa too pasiring sa %{name}
-        sharp_right_without_exit: Biglang liko pa too pasiring sa %{name}
+        fork_right_without_exit: Sa sangandalan magsiko sa too pasiring sa %{name}
+        turn_right_without_exit: Magsiko sa too pasiring sa %{name}
+        sharp_right_without_exit: Biglang siko pa too pasiring sa %{name}
         uturn_without_exit: Mag-U-turn sa kalabaan kan %{name}
-        sharp_left_without_exit: Biglang liko pa wala pasiring sa %{name}
-        turn_left_without_exit: Magliko sa wala pasiring sa %{name}
+        sharp_left_without_exit: Biglang siko pa wala pasiring sa %{name}
+        turn_left_without_exit: Magsiko sa wala pasiring sa %{name}
         offramp_left: Magduman sa rampa sa wala
         offramp_left_with_exit: Magluwas sa %{exit} sa wala
         offramp_left_with_exit_name: Magluwas sa %{exit} sa wala pasiring sa %{name}
@@ -3566,21 +3606,38 @@ bcl:
         offramp_left_with_directions: Magduman sa rampa sa wala pasiring sa %{directions}
         offramp_left_with_name_directions: Magduman sa rampa sa wala pasiring sa %{name},
           pasiring sa %{directions}
-        onramp_left_without_exit: Magliko sa wala sa rampa pasiring sa %{name}
-        onramp_left_with_directions: Magliko sa wala pasiring sa rampa pasiring sa
+        onramp_left_without_exit: Magsiko sa wala sa rampa pasiring sa %{name}
+        onramp_left_with_directions: Magsiko sa wala pasiring sa rampa pasiring sa
           %{directions}
-        onramp_left_with_name_directions: Magliko sa wala sa rampa pasiring sa %{name},
+        onramp_left_with_name_directions: Magsiko sa wala sa rampa pasiring sa %{name},
           pasiring sa %{directions}
-        onramp_left_without_directions: Magliko sa wala pasiring sa rampa
-        onramp_left: Magliko sa wala pasiring sa rampa
-        endofroad_left_without_exit: Sa katapusan kan tinampo magliko sa wala pasiring
+        onramp_left_without_directions: Magsiko sa wala pasiring sa rampa
+        onramp_left: Magsiko sa wala pasiring sa rampa
+        endofroad_left_without_exit: Sa katapusan kan tinampo magsiko sa wala pasiring
           sa %{name}
         merge_left_without_exit: Magsararo sa wala sa %{name}
-        fork_left_without_exit: Sa sangandalan magliko sa wala pasiring sa %{name}
+        fork_left_without_exit: Sa sangandalan magsiko sa wala pasiring sa %{name}
         slight_left_without_exit: Dikit na wala sa %{name}
         via_point_without_exit: (sa paagi kan punto)
         follow_without_exit: Sundan an %{name}
         roundabout_without_exit: Sa rotonda magluwas pasiring sa %{name}
+        start_without_exit: Mapoon sa %{name}
+        destination_without_exit: Nakaabot na sa padudumanan
+        unnamed: dai pa nangaranan na dalan
+        exit_counts:
+          first: Ika-1
+    query:
+      node: Nodo
+      way: Paagi
+      relation: Relasyon
+      nothing_found: Mayong mga tampok na nahiling
+    element:
+      wikipedia: Wikipedya
+    context:
+      add_note: Magdugang nin tala digdi
+      show_address: Ipahiling an iniirukan
+    home:
+      marker_title: An kinamumugtakan kan sakuyang irukan
   redactions:
     show:
       description: 'Paglaladawan:'

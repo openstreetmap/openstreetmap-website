@@ -37,6 +37,7 @@
 # Author: Mskf1383
 # Author: Nbi
 # Author: Omidh
+# Author: OwIultra
 # Author: Pirehelokan
 # Author: Reza koulivand
 # Author: Reza1615
@@ -53,6 +54,9 @@
 fa:
   html:
     dir: rtl
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y ساعت %H:%M'
@@ -82,6 +86,18 @@ fa:
         create: ایجاد مسدودی
         update: به‌روز رسانی مسدودی
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: نمی‌تواند user_n باشد مگر اینکه n شناسه کاربری شما
+          باشد
+      models:
+        user_mute:
+          is_already_muted: از قبل بی صدا شده است.
+        social_link:
+          attributes:
+            url:
+              http_parse_error: آدرس اینترنتی (URL) باید با http:// یا https:// شروع
+                شود
     models:
       acl: فهرست کنترل دسترسی
       changeset: بستهٔ تغییر
@@ -126,8 +142,9 @@ fa:
         support_url: URL پشتیبانی
         allow_read_prefs: ترجیحات کاربری او را بخواند
         allow_write_prefs: ترجیحات کاربری او را تغییر دهد
-        allow_write_diary: روزنوشت ایجاد کند، نظر ثبت کند و دوست اضافه کند
+        allow_write_diary: ایجاد روزنوشت و نظردهی
         allow_write_api: نقشه را تغییر دهد
+        allow_write_changeset_comments: نظر دادن در مورد تغییرات
         allow_read_gpx: ردهای GPS خصوصی او را بخواند
         allow_write_gpx: ردهای GPS بارگذاری کند
         allow_write_notes: یادداشت‌ها را تغییر دهد
@@ -179,8 +196,10 @@ fa:
         active: فعال
         display_name: نام نمایشی
         description: توضیحات نمایه
+        company: شرکت
         home_lat: عرض جغرافیایی
         home_lon: طول جغرافیایی
+        home_location_name: نام مکان خانه
         languages: زبان‌های مورد ترجیح
         preferred_editor: ویرایش‌گر مورد ترجیح
         pass_crypt: گذرواژه
@@ -269,6 +288,7 @@ fa:
         reopened_at_by_html: '%{when} %{user} به جریانش انداخت'
       rss:
         title: یادداشت‌های OpenStreetMap
+        description_all: فهرستی از یادداشت‌های گزارش‌ شده، دارای نظر یا بسته‌شده
         description_area: فهرستی از یادداشت‌های گزارش‌شده، نظردار یا بسته‌شده در منطقهٔ
           شما [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: خوراک rss برای یادداشت %{id}
@@ -282,13 +302,26 @@ fa:
   accounts:
     show:
       title: ویرایش حساب
+      my_account: حساب کاربری من
       current email address: رایانامهٔ کنونی
       external auth: احراز هویت خارجی
       contributor_terms:
         heading: شرایط مشارکت‌کننده
-        agreed: شما شرایط جدید مشارکت‌کننده را پذیرفته‌اید.
+        agreed: شما شرایط جدید مشارکت‌کننده را پذیرفته‌اید در %{date}.
+        not_agreed: شما هنوز با شرایط مشارکت موافقت نکرده‌اید.
         agreed_with_pd: شما همچنین اعلام کرده‌اید که ویرایش‌هایتان در مالکیت عمومی
           باشد.
+        not_agreed_with_pd: شما اعلام نکرده‌اید که می خواهید ویرایش هایتان در دامنه
+          عمومی باشد.
+        review: شرایط را مرور کنید
+        review_and_accept: شرایط را بررسی و آنها را قبول کنید
+        consider_pd: دامنه عمومی را در نظر بگیرید
+      terms_of_use:
+        heading: شرایط استفاده
+        agreed: شما در تاریخ %{date} با شرایط استفاده موافقت کرده اید.
+        not_agreed: شما هنوز با شرایط استفاده موافقت نکرده‌اید.
+        review: شرایط را مرور کنید
+        review_and_accept: شرایط را بررسی و آنها را قبول کنید
       save changes button: ذخیره‌کردن تغییرات
       delete_account: حذف حساب...
     go_public:
@@ -331,6 +364,8 @@ fa:
         retain_changeset_discussions: همهٔ گفت‌وگوهای شما روی بسته‌های تغییر حفظ خواهد
           شد.
         retain_email: نشانی رایانامهٔ شما حفظ خواهد شد.
+        recent_editing_html: از آنجایی که اخیراً ویرایش کرده‌اید، حساب کاربری شما
+          در حال حاضر قابل حذف نیست. حذف در %{time} امکان‌پذیر خواهد بود.
         confirm_delete: آیا مطمئن هستید؟
         cancel: لغو
     terms:
@@ -349,7 +384,12 @@ fa:
             بپذیرید.
           tou: شرایط استفاده
         read_tou: شرایط استفاده را خوانده‌ام و آن را می‌پذیرم
+        guidance_info_html: 'اطلاعاتی برای کمک به درک این اصطلاحات: یک %{readable_summary_link}
+          و کمی %{informal_translations_link}'
+        readable_summary: خلاصه قابل خواندن برای انسان
+        informal_translations: ترجمه‌های غیررسمی
         continue: ادامه
+        cancel: لغو
         you need to accept or decline: برای ادامه لطفاً بخوانید و سپس شرایط جدید مشارکت‌کننده
           را بپذیرید یا رد کنید.
         legale_select: 'كشور محل سكونت:'
@@ -380,6 +420,7 @@ fa:
     deleted_ago_by_html: '%{time_ago} %{user} حذفش کرد'
     edited_ago_by_html: '%{time_ago} %{user} ویرایشش کرد'
     version: نسخهٔ
+    redacted_version: نسخهٔ ویرایش‌شده
     in_changeset: بستهٔ تغییر
     anonymous: گمنام
     no_comment: (بدون توضیح)
@@ -391,6 +432,7 @@ fa:
       one: '%{count} راه'
       other: '%{count} راه'
     download_xml: بارگیری XML
+    view_unredacted_history: مشاهده تاریخچه بدون سانسور
     location: 'مکان: ‪'
     node:
       title_html: 'گره: %{name}'
@@ -421,8 +463,7 @@ fa:
       title: یافت نشد
     timeout:
       title: خطای پایان مهلت
-      sorry: شوربختانه بازیابی دادهٔ مربوط به %{type} با شناسهٔ %{id}، خیلی زمان‌بر
-        شد.
+      sorry: متاسفیم، بازیابی داده‌های مربوط به %{type} با شناسه %{id} خیلی طول کشید.
       type:
         node: گره
         way: راه
@@ -438,8 +479,10 @@ fa:
         way: راه
         relation: رابطه
     start_rjs:
-      feature_warning: در حال بارکردن %{num_features} عارضه. این کار ممکن است مرورگرتان
-        را کُند یا ناپاسخگو کند. با این حال، داده نمایش داده شود؟
+      feature_warning: در حال بارگیری ویژگی‌های %{num_features} هستیم که ممکن است
+        مرورگر شما را کند یا غیرفعال کند. آیا مطمئن هستید که می‌خواهید این داده‌ها
+        را نمایش دهید؟
+      feature_error: 'ویژگی‌ها قابل بارگذاری نبودند: %{message}'
       load_data: بارکردن داده
       loading: در حال بارکردن...
     tag_details:
@@ -457,6 +500,8 @@ fa:
       colour_preview: پیش‌نمایش رنگ %{colour_value}
       email_link: فرستادن رایانامه به %{email}
     versions_navigation:
+      node: گره
+      way: راه
       relation: رابطه
       history: تاریخچه
       version: 'نگارش #%{version}'
@@ -477,6 +522,14 @@ fa:
         title_html: 'تاریخچهٔ رابطه: %{name}'
       older_versions: نگارش‌های قدیمی‌تر
       newer_versions: نگارش‌های جدیدتر
+    actions:
+      view_redacted_data: مشاهده داده‌های ویرایش‌شده
+      view_redaction_message: مشاهده پیام ویرایش شده
+  nodes:
+    not_found_message:
+      sorry: 'متاسفیم، گره #%{id} پیدا نشد.'
+    timeout:
+      sorry: متاسفیم، بازیابی داده‌های گره با شناسه %{id} خیلی طول کشید.
   changeset_comments:
     feeds:
       comment:
