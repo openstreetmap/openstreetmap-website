@@ -13,6 +13,45 @@
   });
 
   /*
+   * Install keyboard navigation handlers for tabs to meet ARIA best practices
+   * Handles arrow keys, Home, and End keys for accessible tab navigation
+   */
+  $(document).on("keydown", ".richtext_container button[data-bs-toggle='tab']", function (e) {
+    const container = $(this).closest(".richtext_container");
+    const tabs = container.find("button[data-bs-toggle='tab']:visible");
+    const currentIndex = tabs.index(this);
+    let targetIndex;
+
+    // Handle arrow keys for navigation
+    if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+      e.preventDefault();
+      // Move to previous tab, wrap to last if at beginning
+      targetIndex = currentIndex > 0 ? currentIndex - 1 : tabs.length - 1;
+    } else if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+      e.preventDefault();
+      // Move to next tab, wrap to first if at end
+      targetIndex = currentIndex < tabs.length - 1 ? currentIndex + 1 : 0;
+    } else if (e.key === "Home") {
+      e.preventDefault();
+      // Jump to first tab
+      targetIndex = 0;
+    } else if (e.key === "End") {
+      e.preventDefault();
+      // Jump to last tab
+      targetIndex = tabs.length - 1;
+    }
+
+    // If a target was determined, focus and activate it
+    if (targetIndex !== undefined) {
+      const targetTab = tabs.eq(targetIndex);
+      targetTab.trigger("focus");
+      // Activate the tab using Bootstrap's tab method
+      const tab = new bootstrap.Tab(targetTab[0]);
+      tab.show();
+    }
+  });
+
+  /*
    * Install a handler to set the minimum preview pane height
    * when switching away from an edit pane
    */
