@@ -21,12 +21,7 @@ L.OSM.locate = function (options) {
       .removeClass("leaflet-bar-part leaflet-bar-part-single")
       .addClass("control-button")
       .empty()
-      .append(
-        $(L.SVG.create("svg"))
-          .attr("class", "h-100 w-100")
-          .append(
-            $(L.SVG.create("use"))
-              .attr("href", "#icon-geolocate")));
+      .append($("<i>").addClass("bi bi-cursor-fill"));
     return container;
   };
 

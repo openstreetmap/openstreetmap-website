@@ -11,11 +11,13 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
       .attr("title", OSM.i18n.t(buttonTitle))
       .on("click", toggle);
 
-    $(L.SVG.create("svg"))
-      .append($(L.SVG.create("use")).attr("href", "#icon-" + uiClass))
-      .attr("class", "h-100 w-100")
-      .appendTo(button);
-
+    const iconMap = {
+      layers: "stack",
+      legend: "info-lg",
+      share: "share-fill"
+    };
+    const iconName = iconMap[uiClass] || uiClass;
+    $("<i>").addClass("bi bi-" + iconName).appendTo(button);
     button.appendTo($container);
 
     const $ui = $("<div>")
