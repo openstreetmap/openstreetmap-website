@@ -23,7 +23,7 @@
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
-  }, true);
+  }, {capture: true});
 
   /*
    * Ensure all visible tabs are in the Tab order.
