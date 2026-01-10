@@ -71,8 +71,11 @@ class I18nTest < ActiveSupport::TestCase
       end
     end
 
-    test "#{code} present once in ui_languages.yml" do
-      assert_equal(1, AVAILABLE_LANGUAGES.count { |language| language[:code] == code })
+    # OHM variant: upstream does not use the 'qqq' dummy language for documenting messages
+    unless code == 'qqq'
+      test "#{code} present once in ui_languages.yml" do
+        assert_equal(1, AVAILABLE_LANGUAGES.count { |language| language[:code] == code })
+      end
     end
   end
 
