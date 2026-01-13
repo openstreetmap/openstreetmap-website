@@ -1018,6 +1018,43 @@ ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
+-- Name: moderation_zones; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.moderation_zones (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    reason character varying NOT NULL,
+    reason_format public.format_enum DEFAULT 'markdown'::public.format_enum,
+    zone public.geometry(Polygon,4326) NOT NULL,
+    ends_at timestamp(6) without time zone,
+    creator_id bigint NOT NULL,
+    revoker_id bigint,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: moderation_zones_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.moderation_zones_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: moderation_zones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.moderation_zones_id_seq OWNED BY public.moderation_zones.id;
+
+
+--
 -- Name: node_tags; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -1796,6 +1833,13 @@ ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.mes
 
 
 --
+-- Name: moderation_zones id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.moderation_zones ALTER COLUMN id SET DEFAULT nextval('public.moderation_zones_id_seq'::regclass);
+
+
+--
 -- Name: note_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2107,6 +2151,14 @@ ALTER TABLE ONLY public.languages
 
 ALTER TABLE ONLY public.messages
     ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: moderation_zones moderation_zones_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.moderation_zones
+    ADD CONSTRAINT moderation_zones_pkey PRIMARY KEY (id);
 
 
 --
@@ -2646,6 +2698,20 @@ CREATE INDEX index_issues_on_updated_by ON public.issues USING btree (updated_by
 
 
 --
+-- Name: index_moderation_zones_on_creator_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_moderation_zones_on_creator_id ON public.moderation_zones USING btree (creator_id);
+
+
+--
+-- Name: index_moderation_zones_on_revoker_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_moderation_zones_on_revoker_id ON public.moderation_zones USING btree (revoker_id);
+
+
+--
 -- Name: index_note_comments_on_author_id_and_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3182,6 +3248,14 @@ ALTER TABLE ONLY public.social_links
 
 
 --
+-- Name: moderation_zones fk_rails_6a0b70e3da; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.moderation_zones
+    ADD CONSTRAINT fk_rails_6a0b70e3da FOREIGN KEY (creator_id) REFERENCES public.users(id);
+
+
+--
 -- Name: oauth_access_tokens fk_rails_732cb83ab7; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3251,6 +3325,14 @@ ALTER TABLE ONLY public.user_mutes
 
 ALTER TABLE ONLY public.oauth_access_tokens
     ADD CONSTRAINT fk_rails_ee63f25419 FOREIGN KEY (resource_owner_id) REFERENCES public.users(id) NOT VALID;
+
+
+--
+-- Name: moderation_zones fk_rails_f2132b7340; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.moderation_zones
+    ADD CONSTRAINT fk_rails_f2132b7340 FOREIGN KEY (revoker_id) REFERENCES public.users(id);
 
 
 --
@@ -3584,6 +3666,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20260113144310'),
 ('20260113142804'),
 ('20251218105716'),
 ('20251121134648'),
