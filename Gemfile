@@ -6,7 +6,8 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.0"
 gem "turbo-rails"
 
-# Use postgres as the database
+# Use postgres+postgis as the database
+gem "activerecord-postgis"
 gem "pg"
 
 # Use SCSS for stylesheets

@@ -7,7 +7,7 @@ These instructions are based on Ubuntu 24.04 LTS, though the OSMF servers are cu
 Many of the dependencies are managed through the standard Ruby on Rails mechanisms - i.e. Ruby gems specified in the Gemfile and installed using Bundler. Some system packages are also required before you can get the various gems installed.
 
 **Minimum requirements:**
-* Ruby 3.2+
+* Ruby 3.3+
 * PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#ruby-version-manager-optional))
 * JavaScript Runtime
