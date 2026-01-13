@@ -2,7 +2,7 @@
 
 [![Lint](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml?query=branch%3Amaster+event%3Apush)
 [![Tests](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml?query=branch%3Amaster+event%3Apush)
-[![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/r/openstreetmap/openstreetmap-website?branch=master)
+[![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/github/openstreetmap/openstreetmap-website?branch=master)
 
 This is `openstreetmap-website`, the [Ruby on Rails](https://rubyonrails.org/)
 application that powers the [OpenStreetMap](https://www.openstreetmap.org) website and API.
