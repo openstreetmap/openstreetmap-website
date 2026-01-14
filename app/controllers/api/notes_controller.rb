@@ -89,6 +89,8 @@ module Api
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
       description = params[:text]
 
+      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
+
       # Get note's author info (for logged in users - user_id, for logged out users - IP address)
       note_author_info = author_info
 
