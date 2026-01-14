@@ -26,4 +26,15 @@
 #  fk_rails_...  (revoker_id => users.id)
 #
 class ModerationZone < ApplicationRecord
+  belongs_to :creator, :class_name => "User"
+  belongs_to :revoker, :class_name => "User", :optional => true
+
+  def self.falls_within_any?(lon:, lat:)
+    factory = RGeo::Cartesian.simple_factory(:srid => 4326)
+    point = factory.point(lon, lat)
+
+    where(
+      arel_table[:zone].st_contains(point)
+    ).exists?
+  end
 end
