@@ -26,6 +26,9 @@
 #  fk_rails_...  (revoker_id => users.id)
 #
 class ModerationZone < ApplicationRecord
+  belongs_to :creator, :class_name => "User"
+  belongs_to :revoker, :class_name => "User", :optional => true
+
   validates :name, :presence => true
   validates :reason, :presence => true
   validates :zone, :presence => true
