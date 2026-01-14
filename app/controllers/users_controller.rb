@@ -33,7 +33,10 @@ class UsersController < ApplicationController
 
   def new
     @title = t ".title"
-    @referer = safe_referer(params[:referer])
+    @referer = safe_referer(params[:referer]) || session[:referer]
+
+    # Store referer in session to preserve through signup flow
+    session[:referer] = @referer if @referer
 
     parse_oauth_referer @referer
 
@@ -84,12 +87,15 @@ class UsersController < ApplicationController
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
           referer = welcome_path(welcome_options(params[:referer]))
+          email_referer = session[:referer] || params[:referer]
+          email_referer_options = welcome_options(email_referer)
+          email_referer = email_referer_options ? welcome_path(email_referer_options) : email_referer
 
           if current_user.status == "active"
             successful_login(current_user, referer)
           else
             session[:pending_user] = current_user.id
-            UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+            UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), email_referer).deliver_later
             redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
           end
         else

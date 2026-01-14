@@ -21,6 +21,9 @@ class SessionsController < ApplicationController
     @safe_referer = referer
     @safe_referer = nil if referer != params[:referer]
 
+    # Store referer in session to preserve OAuth flow through signup/confirmation
+    session[:referer] = referer if referer
+
     parse_oauth_referer referer
   end
 
