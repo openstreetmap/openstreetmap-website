@@ -172,7 +172,7 @@ group :test do
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
   gem "jwt"
-  gem "minitest"
+  gem "minitest", "< 6.0.0"
   gem "minitest-focus", :require => false
   gem "puma", "~> 7.1"
   gem "rails-controller-testing"
