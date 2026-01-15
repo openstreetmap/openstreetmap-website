@@ -300,4 +300,63 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     # gravatar use should now be disabled
     assert_not User.find(user.id).image_use_gravatar
   end
+
+  ##
+  # Test that OAuth referer is preserved through initial signup confirmation
+  def test_confirm_success_with_oauth_referer
+    user = build(:user, :pending)
+    stub_gravatar_request(user.email)
+
+    oauth_referer = "/oauth2/authorize?client_id=test_client&response_type=code&scope=read_prefs"
+    post users_path, :params => { :user => user.attributes, :referer => oauth_referer }
+
+    # Process enqueued jobs to deliver the signup confirmation email
+    perform_enqueued_jobs
+
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+
+    # confirmation email
+    email = ActionMailer::Base.deliveries.last
+    assert_not_nil email
+
+    email_body = email.html_part.body.to_s
+    assert_match(/oauth_return_url/, email_body, "Initial confirmation email should contain oauth_return_url")
+
+    welcome_referer = "/welcome?oauth_return_url=#{CGI.escape(oauth_referer)}"
+    post user_confirm_path, :params => {
+      :display_name => user.display_name,
+      :confirm_string => confirm_string,
+      :referer => welcome_referer
+    }
+
+    assert_redirected_to welcome_referer
+  end
+
+  ##
+  # Test that OAuth referer is preserved when resending confirmation email
+  def test_confirm_resend_preserves_oauth_referer
+    user = build(:user, :pending)
+
+    oauth_referer = "/oauth2/authorize?client_id=test_client&response_type=code&scope=read_prefs"
+    post users_path, :params => { :user => user.attributes, :referer => oauth_referer }
+
+    # Get the first confirmation email sent during signup
+    ActionMailer::Base.deliveries.clear
+
+    # User clicks "Resend confirmation email"
+    assert_difference "ActionMailer::Base.deliveries.size", 1 do
+      perform_enqueued_jobs do
+        post user_confirm_resend_path(user)
+      end
+    end
+
+    email = ActionMailer::Base.deliveries.last
+    assert_not_nil email
+    assert_equal user.email, email.to.first
+
+    email_body = email.html_part.body.to_s
+
+    assert_match(/referer=.*oauth2.*authorize/i, email_body,
+                 "Resent confirmation email should preserve oauth referer in confirmation URL")
+  end
 end
