@@ -1,12 +1,16 @@
 # Messages for Irish (Gaeilge)
 # Exported from translatewiki.net
 # Export driver: phpyaml
+# Author: Aindriu80
 # Author: Cliste
 # Author: Danieldegroot2
 # Author: Marwin H.H.
 # Author: Tem
 ---
 ga:
+  date:
+    formats:
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y ag %H:%M'
@@ -15,7 +19,7 @@ ga:
       prompt: Roghnaigh comhad
     submit:
       diary_comment:
-        create: Sábháil
+        create: Trácht
       diary_entry:
         create: Foilsigh
         update: Nuashonraigh
@@ -24,6 +28,7 @@ ga:
       message:
         create: Seol
       oauth2_application:
+        create: Cláraigh
         update: Nuashonraigh
       redaction:
         create: Cruthaigh ceilt
@@ -35,7 +40,19 @@ ga:
         create: Cruthaigh bac
         update: Cruthaigh bac
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ní féidir é a bheith ina user_n mura bhfuil n mar
+          d'aitheantas úsáideora
+      models:
+        user_mute:
+          is_already_muted: tá sé balbhaithe cheana féin
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Ba chóir go dtosódh an URL le http:// nó https://
     models:
+      acl: Liosta Rialaithe Rochtana
       changeset: Tacar athruithe
       changeset_tag: Clib do Thacar athruithe
       country: Tír
@@ -47,6 +64,7 @@ ga:
       message: Teachtaireacht
       node: Nód
       node_tag: Clib do Nód
+      note: Nóta
       old_node: Sean-nód
       old_node_tag: Sean-Chlib Nóid
       old_relation: Sean-Ghaol
@@ -77,9 +95,9 @@ ga:
         support_url: URL Tacaíochta
         allow_read_prefs: a s(h)ainroghanna úsáideora a léamh
         allow_write_prefs: a s(h)ainroghanna úsáideora a athrú
-        allow_write_diary: iontrálacha dialainne agus nótaí tráchta a chruthú agus
-          cairde a dhéanamh
+        allow_write_diary: cruthaigh iontrálacha dialainne agus tuairimí
         allow_write_api: an léarscáil a athrú
+        allow_write_changeset_comments: trácht ar shraitheanna athruithe
         allow_read_gpx: a loirg phríobháideacha GPS a léamh
         allow_write_gpx: loirg GPS a uaslódáil
         allow_write_notes: nótaí a athrú
@@ -88,9 +106,15 @@ ga:
       diary_entry:
         user: Úsáideoir
         title: Ábhar
+        body: Corp
         latitude: Domhanleithead
         longitude: Domhanfhad
         language_code: Teanga
+      doorkeeper/application:
+        name: Ainm
+        redirect_uri: URIanna atreoraithe
+        confidential: Iarratas rúnda?
+        scopes: Ceadanna
       friend:
         user: Úsáideoir
         friend: Cara
@@ -103,7 +127,7 @@ ga:
         longitude: Domhanfhad
         public: Poiblí
         description: Cur síos
-        gpx_file: Comhad GPX a Uaslódáil
+        gpx_file: Roghnaigh Comhad Rianaithe GPS
         visibility: Infheictheacht
         tagstring: Clibeanna
       message:
@@ -125,13 +149,20 @@ ga:
         active: Gníomhach
         display_name: Ainm Taispeána
         description: Cur síos ar an bpróifíl
+        company: Comhlacht
         home_lat: Domhanleithead
         home_lon: Domhanfhad
+        home_location_name: Ainm an tSuímh Baile
         languages: Rogha Teangacha
         preferred_editor: Rogha Eagarthóra
         pass_crypt: Focal Faire
         pass_crypt_confirmation: Deimhnigh an Focal Faire
     help:
+      doorkeeper/application:
+        confidential: Úsáidfear feidhmchlár nuair is féidir rún an chliaint a choinneáil
+          faoi rún (níl aipeanna soghluaiste dúchasacha agus aipeanna leathanaigh
+          aonair faoi rún)
+        redirect_uri: Úsáid líne amháin in aghaidh an URI
       trace:
         tagstring: teormharcáilte le camóga
       user_block:
@@ -151,6 +182,7 @@ ga:
         few: '%{count} uair an chloig ó shin'
         many: '%{count} n-uair an chloig ó shin'
         other: uair an chloig ó sin
+      half_a_minute: leathnóiméad ó shin
   editor:
     default: Réamhshocraithe (%{name} faoi láthair)
     id:
@@ -163,14 +195,18 @@ ga:
     providers:
       none: Ceann ar bith
       google: Google
+      apple: Apple
       facebook: Facebook
       github: GitHub
       wikipedia: Vicipéid
   api:
     notes:
       comment:
+        opened_at_html: Cruthaithe %{when}
+        opened_at_by_html: Cruthaithe %{when} ag %{user}
         commented_at_html: Nuashonraithe %{when}
         commented_at_by_html: Nuashonraithe %{when} ó shin ag %{user}
+        closed_at_html: Réitithe %{when}
       rss:
         title: Nótaí OpenStreetMap
         description_item: Fotha RSS don nóta %{id}
@@ -184,11 +220,12 @@ ga:
   accounts:
     show:
       title: Cuir an cuntas in eagar
+      my_account: Mo Chuntas
       current email address: An seoladh ríomhphoist reatha
       external auth: Fíordheimhniú Seachtrach
       contributor_terms:
         heading: Téarmaí do Rannchuiditheoirí
-        agreed: D'aontaigh tú leis na Téarmaí nua do Rannchuiditheoirí.
+        agreed: D'aontaigh tú leis na Téarmaí Rannpháirtí ar %{date}.
       save changes button: Sábháil na hAthruithe
     go_public:
       heading: Eagarthóireacht phoiblí
