@@ -19,13 +19,10 @@ OSM.Directions = function (map) {
 
     getRoute(false, !dragging);
   };
-  const endpointChangeCallback = function () {
-    getRoute(true, true);
-  };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "play", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "play", color: "var(--marker-green)" }, endpointDragCallback, getRoute),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, getRoute)
   ];
 
   const expires = new Date();
@@ -87,7 +84,7 @@ OSM.Directions = function (map) {
     select.val(chosenEngine.provider);
   }
 
-  function getRoute(fitRoute, reportErrors) {
+  function getRoute(fitRoute = true, reportErrors = true) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
 
@@ -104,6 +101,7 @@ OSM.Directions = function (map) {
     $("#directions_loader").prop("hidden", false);
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
+    modeGroup.off("click", "input[name='modes']:checked", getRoute);
     map.setSidebarOverlaid(false);
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(async function (route) {
@@ -132,6 +130,7 @@ OSM.Directions = function (map) {
     e.stopPropagation();
     routeOutput.remove();
     sidebarReadyPromise = null;
+    modeGroup.on("click", "input[name='modes']:checked", getRoute);
     map.setSidebarOverlaid(true);
   }
 
@@ -141,18 +140,18 @@ OSM.Directions = function (map) {
   modeGroup.on("change", "input[name='modes']", function (e) {
     setEngine(chosenEngine.provider + "_" + e.target.value);
     OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
-    getRoute(true, true);
+    getRoute();
   });
 
   select.on("change", function (e) {
     setEngine(e.target.value + "_" + chosenEngine.mode);
     OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
-    getRoute(true, true);
+    getRoute();
   });
 
   $(".directions_form").on("submit", function (e) {
     e.preventDefault();
-    getRoute(true, true);
+    getRoute();
   });
 
   $(".routing_marker_column span").on("dragstart", function (e) {
