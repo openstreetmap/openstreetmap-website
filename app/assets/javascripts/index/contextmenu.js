@@ -34,7 +34,7 @@ OSM.initializations.push(function (map) {
   const contextmenuItems = [
     {
       id: "menu-action-directions-from",
-      icon: "bi-play",
+      icon: "bi-cursor",
       text: OSM.i18n.t("javascripts.context.directions_from"),
       callback: () => {
         const params = new URLSearchParams({
@@ -46,7 +46,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-directions-to",
-      icon: "bi-stop",
+      icon: "bi-flag",
       text: OSM.i18n.t("javascripts.context.directions_to"),
       callback: () => {
         const params = new URLSearchParams({
@@ -88,7 +88,6 @@ OSM.initializations.push(function (map) {
     }
   ];
 
-  // Event bindings
   map.on("contextmenu", function (e) {
     map.osm_contextmenu.show(e, contextmenuItems);
     updateContextMenuState();
@@ -159,7 +158,7 @@ class ContextMenu {
         {
           name: "offset",
           options: {
-            offset: [0, 0] // no offset, exactly aligned to placement corner
+            offset: [0, 0]
           }
         },
         {
