@@ -138,6 +138,9 @@ OSM.DirectionsRouteOutput = function (map) {
     $("#directions_route_credit")
       .text(route.credit)
       .prop("href", route.creditlink);
+    $("#directions_route_demo")
+      .text(route.credit)
+      .prop("href", route.demolink);
   };
 
   routeOutput.fit = function () {

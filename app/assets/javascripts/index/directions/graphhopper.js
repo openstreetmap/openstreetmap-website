@@ -1,5 +1,5 @@
 (function () {
-  function GraphHopperEngine(modeId, vehicleType) {
+  function GraphHopperEngine(modeId, vehicleType, profile) {
     const GH_INSTR_MAP = {
       "-3": "sharp-left",
       "-2": "left",
@@ -35,9 +35,7 @@
         distance: path.distance,
         time: path.time / 1000,
         ascend: path.ascend,
-        descend: path.descend,
-        credit: "GraphHopper",
-        creditlink: "https://www.graphhopper.com/"
+        descend: path.descend
       };
     }
 
@@ -55,18 +53,31 @@
           elevation: false,
           instructions: true
         });
-        points.forEach(p => query.append("point", p.lat + "," + p.lng));
+        const demoQuery = new URLSearchParams({ profile });
+
+        for (const { lat, lng } of points) {
+          query.append("point", [lat, lng]);
+          demoQuery.append("point", [lat, lng]);
+        }
+
+        const meta = {
+          credit: "GraphHopper",
+          creditlink: "https://www.graphhopper.com/",
+          demolink: "https://graphhopper.com/maps/?" + demoQuery
+        };
+
         return fetch(OSM.GRAPHHOPPER_URL + "?" + query, { signal })
           .then(response => response.json())
           .then(({ paths }) => {
             if (!paths || paths.length === 0) throw new Error();
-            return _processDirections(paths[0]);
+
+            return { ... _processDirections(paths[0]), ...meta };
           });
       }
     };
   }
 
-  OSM.Directions.addEngine(new GraphHopperEngine("car", "car"), true);
-  OSM.Directions.addEngine(new GraphHopperEngine("bicycle", "bike"), true);
-  OSM.Directions.addEngine(new GraphHopperEngine("foot", "foot"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("car", "car", "car"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("bicycle", "bike", "bike"), true);
+  OSM.Directions.addEngine(new GraphHopperEngine("foot", "foot", "foot"), true);
 }());

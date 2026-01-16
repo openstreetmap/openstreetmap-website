@@ -1,5 +1,5 @@
 (function () {
-  function FOSSGISValhallaEngine(modeId, costing) {
+  function FOSSGISValhallaEngine(modeId, costing, profile) {
     const INSTR_MAP = [
       "straight", // kNone = 0;
       "start", // kStart = 1;
@@ -56,9 +56,7 @@
         line,
         steps,
         distance: leg.summary.length * 1000,
-        time: leg.summary.time,
-        credit: "Valhalla (FOSSGIS)",
-        creditlink: "https://valhalla.openstreetmap.de/"
+        time: leg.summary.time
       };
     }
 
@@ -80,17 +78,28 @@
             }
           })
         });
+        const demoQuery = new URLSearchParams({
+          profile: profile,
+          wps: points.flatMap(({ lat, lng }) => [lng, lat])
+        });
+        const meta = {
+          credit: "Valhalla (FOSSGIS)",
+          creditlink: "https://valhalla.openstreetmap.de/",
+          demolink: "https://valhalla.openstreetmap.de/directions?" + demoQuery
+        };
+
         return fetch(OSM.FOSSGIS_VALHALLA_URL + "?" + query, { signal })
           .then(response => response.json())
           .then(({ trip }) => {
             if (trip.status !== 0) throw new Error();
-            return _processDirections(trip.legs[0]);
+
+            return { ..._processDirections(trip.legs[0]), ...meta };
           });
       }
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("car", "auto"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("bicycle", "bicycle"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("foot", "pedestrian"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("car", "auto", "car"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("bicycle", "bicycle", "bicycle"), true);
+  OSM.Directions.addEngine(new FOSSGISValhallaEngine("foot", "pedestrian", "pedestrian"), true);
 }());

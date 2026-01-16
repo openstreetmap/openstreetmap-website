@@ -2,7 +2,7 @@
 // Doesn't yet support hints
 
 (function () {
-  function FOSSGISOSRMEngine(modeId, vehicleType) {
+  function FOSSGISOSRMEngine(modeId, vehicleType, srv) {
     let cachedHints = [];
 
     function getInstructionText(step) {
@@ -150,9 +150,7 @@
         line: steps.flatMap(step => step[3]),
         steps,
         distance: leg.distance,
-        time: leg.duration,
-        credit: "OSRM (FOSSGIS)",
-        creditlink: "https://routing.openstreetmap.de/about.html"
+        time: leg.duration
       };
     }
 
@@ -175,20 +173,33 @@
           cachedHints = [];
         }
 
+        const demoQuery = new URLSearchParams({ srv: srv });
+
+        for (const { lat, lng } of points) {
+          demoQuery.append("loc", [lat, lng]);
+        }
+
+        const meta = {
+          credit: "OSRM (FOSSGIS)",
+          creditlink: "https://routing.openstreetmap.de/about.html",
+          demolink: "https://routing.openstreetmap.de/?" + demoQuery
+        };
         const req_path = "routed-" + vehicleType + "/route/v1/driving/" + points.map(p => p.lng + "," + p.lat).join(";");
 
         return fetch(OSM.FOSSGIS_OSRM_URL + req_path + "?" + query, { signal })
           .then(response => response.json())
           .then(response => {
             if (response.code !== "Ok") throw new Error();
+
             cachedHints = response.waypoints.map(wp => wp.hint);
-            return _processDirections(response.routes[0].legs[0]);
+
+            return { ... _processDirections(response.routes[0].legs[0]), ...meta };
           });
       }
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("car", "car"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("bicycle", "bike"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("foot", "foot"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("car", "car", "0"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("bicycle", "bike", "1"), true);
+  OSM.Directions.addEngine(new FOSSGISOSRMEngine("foot", "foot", "2"), true);
 }());
