@@ -27,6 +27,7 @@
         instr.distance,
         line.slice(instr.interval[0], instr.interval[1] + 1)
       ]);
+
       steps.at(-1)[0] = "destination";
 
       return {
@@ -71,7 +72,7 @@
           .then(({ paths }) => {
             if (!paths || paths.length === 0) throw new Error();
 
-            return { ... _processDirections(paths[0]), ...meta };
+            return { ..._processDirections(paths[0]), ...meta };
           });
       }
     };

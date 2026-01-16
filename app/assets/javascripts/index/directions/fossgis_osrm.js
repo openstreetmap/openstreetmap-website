@@ -34,6 +34,7 @@
         "depart": "start",
         "arrive": "destination"
       };
+
       function numToWord(num) {
         return ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"][num - 1];
       }
@@ -59,25 +60,33 @@
       if (step.maneuver.type.match(/^exit (rotary|roundabout)$/)) {
         return OSM.i18n.t(template, { name: name });
       }
+
       if (step.maneuver.type.match(/^(rotary|roundabout)$/)) {
         if (!step.maneuver.exit) {
           return OSM.i18n.t(template + "_without_exit", { name: name });
         }
+
         if (step.maneuver.exit > 10) {
           return OSM.i18n.t(template + "_with_exit", { exit: step.maneuver.exit, name: name });
         }
+
         return OSM.i18n.t(template + "_with_exit_ordinal", { exit: OSM.i18n.t(instrPrefix + "exit_counts." + numToWord(step.maneuver.exit)), name: name });
       }
+
       if (!step.maneuver.type.match(/^(on ramp|off ramp)$/)) {
         return OSM.i18n.t(template + "_without_exit", { name: name });
       }
+
       const params = {};
+
       if (step.exits && step.maneuver.type.match(/^(off ramp)$/)) params.exit = step.exits;
       if (step.destinations) params.directions = destinations;
       if (namedRoad) params.directions = name;
+
       if (Object.keys(params).length > 0) {
         template = template + "_with_" + Object.keys(params).join("_");
       }
+
       return OSM.i18n.t(template, params);
     }
 
@@ -86,6 +95,7 @@
         // special case handling
         if (mode === "ferry") return "ferry";
         if (intersections.some(i => i.classes?.includes("ferry"))) return "ferry";
+
         switch (maneuver.type) {
           case "on ramp":
           case "off ramp":
@@ -108,6 +118,7 @@
             return "turn " + maneuver.modifier;
         }
       }
+
       const ICON_MAP = {
         "continue": "straight",
         "merge right": "merge-right",
