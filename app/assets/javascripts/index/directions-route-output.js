@@ -63,13 +63,16 @@ OSM.DirectionsRouteOutput = function (map) {
   function formatTime(s) {
     let m = Math.round(s / 60);
     const h = Math.floor(m / 60);
+
     m -= h * 60;
+
     return h + ":" + (m < 10 ? "0" : "") + m;
   }
 
   function writeSummary(route) {
     $("#directions_route_distance").val(formatTotalDistance(...translateDistanceUnits(route.distance)));
     $("#directions_route_time").val(formatTime(route.time));
+
     if (typeof route.ascend !== "undefined" && typeof route.descend !== "undefined") {
       $("#directions_route_ascend_descend").prop("hidden", false);
       $("#directions_route_ascend").val(formatHeight(...translateDistanceUnits(route.ascend)));
@@ -92,6 +95,7 @@ OSM.DirectionsRouteOutput = function (map) {
       } else {
         row.append("<td class='ps-3'>");
       }
+
       row.append(`<td><b>${i + 1}.</b> ${instruction}`);
       row.append("<td class='pe-3 distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
 
@@ -131,6 +135,7 @@ OSM.DirectionsRouteOutput = function (map) {
     });
 
     const blob = new Blob([JSON.stringify(polyline.toGeoJSON())], { type: "application/geo+json" });
+
     URL.revokeObjectURL(downloadURL);
     downloadURL = URL.createObjectURL(blob);
     $("#directions_route_download").prop("href", downloadURL);
@@ -138,6 +143,9 @@ OSM.DirectionsRouteOutput = function (map) {
     $("#directions_route_credit")
       .text(route.credit)
       .prop("href", route.creditlink);
+    $("#directions_route_demo")
+      .text(route.credit)
+      .prop("href", route.demolink);
   };
 
   routeOutput.fit = function () {

@@ -149,7 +149,7 @@ You can view test coverage statistics by browsing the `coverage` directory.
 The tests are automatically run on Pull Requests and other commits via github actions. The results shown are within the PR display on github.
 
 > [!TIP]
-> **System tests** use Selenium with Firefox for browser automation. On Ubuntu 24.04, if Firefox is installed via snap, you may need to override the Firefox binary path in `config/settings.local.yml`:
+> **System tests** use Selenium with Firefox for browser automation. On Ubuntu 24.04, if Firefox is installed via snap, you may need to override the Firefox binary path in `config/settings/test.local.yml`:
 >
 > ```yaml
 > system_test_firefox_binary: /snap/firefox/current/usr/lib/firefox/firefox

@@ -7,6 +7,11 @@
         <span class="badge position-absolute top-0 start-0 rounded-top-0 rounded-start-0 py-1 px-2 bg-body bg-opacity-75 text-body text-wrap text-start fs-6 lh-base">
           <%= t "javascripts.map.base.#{layer['nameId']}" %>
         </span>
+        <% if layer["wiki"] %>
+          <%= link_to layer["wiki"], :target => "_blank", :rel => "noopener", :title => t("layouts.layer_info"), :class => "layer-info-toggle position-absolute z-3 p-1 end-0 text-white text-decoration-none lh-1" do %>
+            <i class="bi bi-info-circle"></i>
+          <% end %>
+        <% end %>
       </label>
     </div>
   <% end %>

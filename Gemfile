@@ -174,6 +174,7 @@ group :test do
   gem "jwt"
   gem "minitest"
   gem "minitest-focus", :require => false
+  gem "minitest-mock"
   gem "puma", "~> 7.1"
   gem "rails-controller-testing"
   gem "rubocop"

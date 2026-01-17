@@ -273,7 +273,7 @@ After installing a version of Ruby with `rbenv` (the latest stable version is a 
 rbenv local $VERSION
 ```
 
-Where `$VERSION` is the version you installed. Then install bundler:
+Where `$VERSION` is the version you installed. You can see a list of available versions by running `rbenv versions`. Then install bundler:
 
 ```bash
 gem install bundler

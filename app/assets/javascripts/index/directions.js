@@ -24,11 +24,12 @@ OSM.Directions = function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "play", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "stop", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "start", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "destination", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
   ];
 
   const expires = new Date();
+
   expires.setFullYear(expires.getFullYear() + 10);
 
   const modeGroup = $(".routing_modes");
@@ -39,12 +40,15 @@ OSM.Directions = function (map) {
           coordTo = endpoints[1].latlng;
     let routeFrom = "",
         routeTo = "";
+
     if (coordFrom) {
       routeFrom = coordFrom.lat + "," + coordFrom.lng;
     }
+
     if (coordTo) {
       routeTo = coordTo.lat + "," + coordTo.lng;
     }
+
     endpoints[0].swapCachedReverseGeocodes(endpoints[1]);
 
     OSM.router.route("/directions?" + new URLSearchParams({
@@ -61,12 +65,15 @@ OSM.Directions = function (map) {
   function setEngine(id) {
     const engines = OSM.Directions.engines;
     const desired = engines.find(engine => engine.id === id);
+
     if (!desired || (chosenEngine && chosenEngine.id === id)) return;
+
     chosenEngine = desired;
 
     const modes = engines
       .filter(engine => engine.provider === chosenEngine.provider)
       .map(engine => engine.mode);
+
     modeGroup
       .find("input[id]")
       .prop("disabled", function () {
@@ -79,6 +86,7 @@ OSM.Directions = function (map) {
     const providers = engines
       .filter(engine => engine.mode === chosenEngine.mode)
       .map(engine => engine.provider);
+
     select
       .find("option[value]")
       .prop("disabled", function () {
@@ -94,6 +102,7 @@ OSM.Directions = function (map) {
     const points = endpoints.map(p => p.latlng);
 
     if (!points[0] || !points[1]) return;
+
     $("header").addClass("closed");
 
     OSM.router.replace("/directions?" + new URLSearchParams({
@@ -110,13 +119,16 @@ OSM.Directions = function (map) {
       await sidebarLoaded();
       $("#directions_route").prop("hidden", false);
       routeOutput.write(route);
+
       if (fitRoute) {
         routeOutput.fit();
       }
     }).catch(async function (error) {
       if (error.name === "AbortError") return;
+
       await sidebarLoaded();
       routeOutput.remove();
+
       if (reportErrors) {
         $("#directions_error")
           .prop("hidden", false)
@@ -157,12 +169,17 @@ OSM.Directions = function (map) {
 
   $(".routing_marker_column span").on("dragstart", function (e) {
     const dt = e.originalEvent.dataTransfer;
+
     dt.effectAllowed = "move";
+
     const jqthis = $(this);
+
     dt.setData("text", JSON.stringify(jqthis.data()));
+
     if (dt.setDragImage) {
       const img = jqthis.clone()
         .appendTo(document.body);
+
       img.find("svg")
         .toggleClass("position-absolute bottom-100 end-100")
         .attr({ width: "25", height: "40" });
@@ -177,6 +194,7 @@ OSM.Directions = function (map) {
 
   function startingLocationListener({ latlng }) {
     if (endpoints[0].value) return;
+
     endpoints[0].setValue(latlng.join(", "));
   }
 
@@ -205,13 +223,17 @@ OSM.Directions = function (map) {
 
     $("#map").on("drop", function (e) {
       e.preventDefault();
+
       const oe = e.originalEvent;
       const dragData = JSON.parse(oe.dataTransfer.getData("text"));
       const type = dragData.type;
       const pt = L.DomEvent.getMousePosition(oe, map.getContainer()); // co-ordinates of the mouse pointer at present
+
       pt.y += 20;
+
       const ll = map.containerPointToLatLng(pt);
       const llWithPrecision = OSM.cropLocation(ll, map.getZoom());
+
       endpoints[type === "from" ? 0 : 1].setValue(llWithPrecision.join(", "));
     });
 
@@ -226,10 +248,14 @@ OSM.Directions = function (map) {
   function sidebarLoaded() {
     if ($("#directions_route").length) {
       sidebarReadyPromise = null;
+
       return Promise.resolve();
     }
+
     if (sidebarReadyPromise) return sidebarReadyPromise;
+
     sidebarReadyPromise = new Promise(resolve => OSM.loadSidebarContent("/directions", resolve));
+
     return sidebarReadyPromise;
   }
 

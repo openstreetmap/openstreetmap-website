@@ -850,6 +850,9 @@ pt-PT:
       title: Ficheiro não encontrado
       description: Não foi possível encontrar uma operação de ficheiro/diretório/API
         com esse nome no servidor do OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap Incorporado
   follows:
     show:
       follow:
@@ -1312,6 +1315,7 @@ pt-PT:
           mineshaft: Poço de mina
           monitoring_station: Estação de monitorização
           petroleum_well: Poço de petróleo
+          planter: Vaso urbano
           pier: Pontão
           pipeline: Conduta
           pumping_station: Estação de bombagem
@@ -1843,6 +1847,7 @@ pt-PT:
         az: Azeri
         id: Indonésio
         ms: Malaio
+        bcl: Bikol central
         bs: Bósnio
         br: Bretão
         ca: Catalão
@@ -1978,6 +1983,8 @@ pt-PT:
     header:
       select_language: Selecionar Idioma
       loading: A carregar...
+    meta:
+      openstreetmap_search: Pesquisa OpenStreetMap
     select_language_button:
       title: Selecionar Idioma
     offline_flash:
@@ -2296,7 +2303,12 @@ pt-PT:
           dark: Escuro
         preferred_map_color_scheme: Esquema de cores do mapa
         map_color_schemes:
-          auto: Automático
+          auto: Igual ao do website
+          light: Claro
+          dark: Escuro
+        preferred_editor_color_scheme: Esquema de cores preferido do editor
+        editor_color_schemes:
+          auto: Igual ao do website
           light: Claro
           dark: Escuro
         save: Atualizar preferências
@@ -2312,6 +2324,7 @@ pt-PT:
         image: Imagem
         company: Empresa
         location: Localização
+        heatmap: Mapa de calor
     descriptions:
       show:
         title: Editar Perfil
@@ -2370,6 +2383,15 @@ pt-PT:
       update:
         success: Localização atualizada.
         failure: Não foi possível atualizar a localização.
+    heatmaps:
+      show:
+        title: Configurar mapa de calor
+        show_heatmap_in_public: Mostra o mapa de calor na página de perfil
+        save: Atualizar configuração do mapa de calor
+        cancel: Cancelar
+      update:
+        success: Mapa de calor atualizado.
+        failure: Não foi possível atualizar o mapa de calor.
   sessions:
     new:
       tab_title: Iniciar sessão
@@ -2489,8 +2511,21 @@ pt-PT:
       legal_1_1_terms_of_use: Termos de Utilização
       legal_1_1_aup: Políticas de Uso Aceitável
       legal_1_1_privacy_policy: Política de Privacidade
+      legal_1_2_html: Se desejar usar mapas ou dados do OpenStreetMap, certifique-se
+        de atribuir o OpenStreemMap - consulte %{attribution_guidelines_link} para
+        mais informações.
+      legal_attribution_guidelines_title: Diretrizes de Atribuição
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_1_3_html: Para usar uma captura de ecrã do OpenStreetMap diretamente no
+        seu livro, publicação, filme ou programa de TV, não precisa de pedir permissão,
+        pois os dados do OpenStreetMap são de uso livre para todos. Consulte as %{attribution_guidelines_link}
+        e veja exemplos existentes em %{attribution_example_film} e %{attribution_example_tv}.
+      legal_attribution_example_film_title: filme
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
+      legal_attribution_example_tv_title: TV
+      legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       legal_2_1_html: Por favor, %{contact_the_osmf_link} se tiver dúvidas de licenciamento,
-        direitos de autor ou de outro teor.
+        direitos de autor ou sobre outras questões legais.
       legal_2_1_contact_the_osmf: contacte a OSMF
       legal_2_2_html: O OpenStreetMap, o logótipo da lupa e o State of the Map são
         %{registered_trademarks_link}.
@@ -3327,7 +3362,9 @@ pt-PT:
       activate_user: Ativar este utilizador
       confirm_user: Confirmar este utilizador
       unconfirm_user: Desconfirmar este utilizador
+      suspend_user: Suspender este utilizador
       unsuspend_user: Anular suspensão deste utilizador
+      undelete_user: Recuperar este utilizador
       confirm: Confirmar
       report: Denunciar este utilizador
       edit_profile_details: Editar detalhes do perfil
@@ -3336,6 +3373,7 @@ pt-PT:
       change_image: Alterar imagem
       edit_company: Editar empresa
       edit_location: Editar localização
+      edit_heatmap: Configurar mapa de calor
       contributions:
         one: '%{count} contribuição no ano passado'
         other: '%{count} contribuições no ano passado'
@@ -3389,6 +3427,7 @@ pt-PT:
           one: '%{count} utilizador encontrado'
           other: '%{count} utilizadores encontrados'
         confirm: Confirmar utilizadores selecionados
+        suspend: Suspender utilizadores selecionados
         empty: Não foram encontrados utilizadores correspondentes
       user:
         summary_html: '%{name} criado com o ip %{ip_address} em %{date}'
@@ -3683,11 +3722,14 @@ pt-PT:
       tooltip: Legenda
       tooltip_disabled: Legenda indisponível para esta camada
     map:
+      popup:
+        close: Fechar
       zoom:
         in: Aproximar
         out: Afastar
       locate:
         title: Mostrar a minha localização
+        not_available: Localização indisponível
         metersPopup:
           one: Estás a menos de %{count} metro deste ponto
           other: Estás a menos de %{count} metros deste ponto
