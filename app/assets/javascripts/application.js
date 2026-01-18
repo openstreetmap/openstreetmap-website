@@ -13,7 +13,6 @@
 //= require leaflet.zoom
 //= require leaflet.locationfilter
 //= require i18n
-//= require make-plural/cardinals
 //= require matomo
 //= require richtext
 //= require language_selector
@@ -25,11 +24,13 @@
   OSM.i18n.defaultLocale = OSM.DEFAULT_LOCALE;
   OSM.i18n.locale = application_data.locale;
 
-  // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
-  const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
-  if (pluralizer) {
-    OSM.i18n.pluralization.register(locale, (_, count) => [pluralizer(count), "other"]);
-  }
+  import(OSM.MAKE_PLURAL_CARDINALS).then((plurals) => {
+    // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
+    const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
+    if (pluralizer) {
+      OSM.i18n.pluralization.register(locale, (_, count) => [pluralizer(count), "other"]);
+    }
+  });
 
   OSM.preferred_editor = application_data.preferredEditor;
   OSM.preferred_languages = application_data.preferredLanguages;
