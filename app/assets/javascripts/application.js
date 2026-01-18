@@ -18,6 +18,11 @@
 //= require richtext
 //= require language_selector
 
+let plurals = {};
+import("make-plural/cardinals").then((module) => {
+  plurals = module;
+});
+
 {
   const application_data = $("head").data();
   const locale = application_data.locale;
