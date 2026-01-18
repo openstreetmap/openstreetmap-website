@@ -37,7 +37,7 @@ L.OSM.Zoom = L.Control.extend({
     link.href = "#";
     link.title = title;
 
-    L.DomUtil.create("i", "bi bi-" + className, link);
+    L.DomUtil.create("i", "fs-5 bi bi-" + className, link);
 
     const stop = L.DomEvent.stopPropagation;
 

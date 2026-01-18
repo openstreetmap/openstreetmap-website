@@ -17,7 +17,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
       share: "share-fill"
     };
     const iconName = iconMap[uiClass] || uiClass;
-    $("<i>").addClass("bi bi-" + iconName).appendTo(button);
+    $("<i>").addClass("fs-5 bi bi-" + iconName).appendTo(button);
     button.appendTo($container);
 
     const $ui = $("<div>")

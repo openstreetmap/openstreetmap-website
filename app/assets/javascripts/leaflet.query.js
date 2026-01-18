@@ -9,7 +9,7 @@ L.OSM.query = function (options) {
       .attr("class", "control-button")
       .attr("href", "#")
       .attr("title", OSM.i18n.t("javascripts.site.queryfeature_tooltip"))
-      .append($("<i>").addClass("bi bi-question-lg"))
+      .append($("<i>").addClass("fs-5 bi bi-question-lg"))
       .appendTo($container);
 
     map.on("zoomend", update);

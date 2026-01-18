@@ -9,7 +9,7 @@ L.OSM.note = function (options) {
       .attr("class", "control-button")
       .attr("href", "#")
       .attr("title", OSM.i18n.t("javascripts.site.createnote_tooltip"))
-      .append($("<i>").addClass("bi bi-chat-square-text-fill"))
+      .append($("<i>").addClass("fs-5 bi bi-chat-square-text-fill"))
       .appendTo($container);
 
     map.on("zoomend", update);

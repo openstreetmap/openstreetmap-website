@@ -21,7 +21,7 @@ L.OSM.locate = function (options) {
       .removeClass("leaflet-bar-part leaflet-bar-part-single")
       .addClass("control-button")
       .empty()
-      .append($("<i>").addClass("bi bi-cursor-fill"));
+      .append($("<i>").addClass("fs-5 bi bi-cursor-fill"));
     return container;
   };
 
