@@ -127,11 +127,7 @@ module RichText
     def shorten_hosts(url)
       Array
         .wrap(Settings.linkify&.normalisation_rules)
-        .reduce(url) do |normalised_url, rule|
-          shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
-            path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
-          end
-        end
+        .reduce(url) { |url, rule| shorten_host(url, rule) }
     end
 
     def shorten_link(url)
@@ -140,13 +136,13 @@ module RichText
            .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
     end
 
-    def shorten_host(url, hosts, hosts_replacement)
+    def shorten_host(url, rule)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|
         scheme_host, host, path = m.captures
-        if hosts&.include?(host)
-          path = yield(path) if block_given?
-          if hosts_replacement
-            "#{hosts_replacement}#{path}"
+        if rule.hosts&.include?(host)
+          path = path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
+          if rule.host_replacement
+            "#{rule.host_replacement}#{path}"
           else
             "#{scheme_host}#{path}"
           end
