@@ -105,7 +105,15 @@ module RichText
     private
 
     def gsub_pairs_for_linkify_detection
-      []
+      Array
+        .wrap(Settings.linkify&.detection_rules)
+        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
+        .flat_map do |rule|
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          rule.patterns
+              .select { |pattern| pattern.is_a?(String) }
+              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
+        end
     end
 
     def expand_link_shorthands(text)
@@ -153,7 +161,7 @@ module RichText
 
   class HTML < Base
     def to_html
-      linkify(simple_format(self))
+      linkify(simple_format(self), :paths => false)
     end
 
     def to_text
@@ -163,7 +171,7 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(document.to_html), :all)
+      linkify(sanitize(document.to_html), :all, :paths => false)
     end
 
     def to_text
@@ -272,20 +280,6 @@ module RichText
 
     def to_text
       to_s
-    end
-
-    private
-
-    def gsub_pairs_for_linkify_detection
-      Array
-        .wrap(Settings.linkify&.detection_rules)
-        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
-        .flat_map do |rule|
-          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
-          rule.patterns
-              .select { |pattern| pattern.is_a?(String) }
-              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
-        end
     end
   end
 end
