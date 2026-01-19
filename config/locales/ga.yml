@@ -88,19 +88,6 @@ ga:
       way_node: Nód Bealaigh
       way_tag: Clib Bhealaigh
     attributes:
-      client_application:
-        name: Ainm (riachtanach)
-        url: URL an phríomhfheidhmchláir (riachtanach)
-        callback_url: URL Aisghlaoigh
-        support_url: URL Tacaíochta
-        allow_read_prefs: a s(h)ainroghanna úsáideora a léamh
-        allow_write_prefs: a s(h)ainroghanna úsáideora a athrú
-        allow_write_diary: cruthaigh iontrálacha dialainne agus tuairimí
-        allow_write_api: an léarscáil a athrú
-        allow_write_changeset_comments: trácht ar shraitheanna athruithe
-        allow_read_gpx: a loirg phríobháideacha GPS a léamh
-        allow_write_gpx: loirg GPS a uaslódáil
-        allow_write_notes: nótaí a athrú
       diary_comment:
         body: Corp
       diary_entry:
@@ -177,12 +164,78 @@ ga:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: aon uair an chloig ó shin
+        one: thart ar %{count} an chloig ó shin
         two: dhá uair an chloig ó sin
         few: '%{count} uair an chloig ó shin'
         many: '%{count} n-uair an chloig ó shin'
         other: uair an chloig ó sin
+      about_x_months:
+        one: thart ar %{count} mí ó shin
+        two: thart ar %{count} mí ó shin
+        few: thart ar %{count} mí ó shin
+        many: thart ar %{count} mí ó shin
+        other: thart ar %{count} mí ó shin
+      about_x_years:
+        one: thart ar %{count} bhliain ó shin
+        two: thart ar %{count} bliain ó shin
+        few: thart ar %{count} bliain ó shin
+        many: thart ar %{count} bliain ó shin
+        other: thart ar %{count} bliain ó shin
+      almost_x_years:
+        one: beagnach %{count} bhliain ó shin
+        two: beagnach %{count} bliain ó shin
+        few: beagnach %{count} bliain ó shin
+        many: beagnach %{count} bliain ó shin
+        other: beagnach %{count} bliain ó shin
       half_a_minute: leathnóiméad ó shin
+      less_than_x_seconds:
+        one: níos lú ná %{count} soicind ó shin
+        two: níos lú ná %{count} soicind ó shin
+        few: níos lú ná %{count} soicind ó shin
+        many: níos lú ná %{count} soicind ó shin
+        other: níos lú ná %{count} soicind ó shin
+      less_than_x_minutes:
+        one: níos lú ná %{count} nóiméad ó shin
+        two: níos lú ná %{count} nóiméad ó shin
+        few: níos lú ná %{count} nóiméad ó shin
+        many: níos lú ná %{count} nóiméad ó shin
+        other: níos lú ná %{count} nóiméad ó shin
+      over_x_years:
+        one: níos mó ná %{count} bhliain ó shin
+        two: níos mó ná %{count} bliain ó shin
+        few: níos mó ná %{count} bliain ó shin
+        many: níos mó ná %{count} bliain ó shin
+        other: níos mó ná %{count} bliain ó shin
+      x_seconds:
+        one: '%{count} soicind ó shin'
+        two: '%{count} soicind ó shin'
+        few: '%{count} soicind ó shin'
+        many: '%{count} soicind ó shin'
+        other: '%{count} soicind ó shin'
+      x_minutes:
+        one: '%{count} nóiméad ó shin'
+        two: '%{count} nóiméad ó shin'
+        few: '%{count} nóiméad ó shin'
+        many: '%{count} nóiméad ó shin'
+        other: '%{count} nóiméad ó shin'
+      x_days:
+        one: '%{count} lá ó shin'
+        two: '%{count} lá ó shin'
+        few: '%{count} lá ó shin'
+        many: '%{count} lá ó shin'
+        other: '%{count} lá ó shin'
+      x_months:
+        one: '%{count} mí ó shin'
+        two: '%{count} mí ó shin'
+        few: '%{count} mí ó shin'
+        many: '%{count} mí ó shin'
+        other: '%{count} mí ó shin'
+      x_years:
+        one: '%{count} bhliain ó shin'
+        two: '%{count} bliain ó shin'
+        few: '%{count} bliain ó shin'
+        many: '%{count} bliain ó shin'
+        other: '%{count} bliain ó shin'
   editor:
     default: Réamhshocraithe (%{name} faoi láthair)
     id:
@@ -207,8 +260,14 @@ ga:
         commented_at_html: Nuashonraithe %{when}
         commented_at_by_html: Nuashonraithe %{when} ó shin ag %{user}
         closed_at_html: Réitithe %{when}
+        closed_at_by_html: Réitithe %{when} ag %{user}
+        reopened_at_html: Athghníomhachtaithe %{when}
+        reopened_at_by_html: Athghníomhachtaithe %{when} ag %{user}
       rss:
         title: Nótaí OpenStreetMap
+        description_all: Liosta nótaí tuairiscithe, tráchtaithe nó dúnta
+        description_area: Liosta nótaí, tuairiscithe, tráchtaithe nó dúnta i do cheantar
+          [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: Fotha RSS don nóta %{id}
         opened: 'nóta nua (gar do: %{place})'
         commented: 'nóta tráchta nua (gar do: %{place})'
@@ -226,13 +285,96 @@ ga:
       contributor_terms:
         heading: Téarmaí do Rannchuiditheoirí
         agreed: D'aontaigh tú leis na Téarmaí Rannpháirtí ar %{date}.
+        not_agreed: Níl tú tar éis aontú leis na Téarmaí Rannpháirtí fós.
+        agreed_with_pd: Tá dearbhaithe agat freisin go measann tú go bhfuil do chuid
+          eagarthóireachtaí sa Fhearann ​​Poiblí.
+        not_agreed_with_pd: Níor dhearbhaigh tú go measann tú go bhfuil do chuid eagarthóireachtaí
+          sa Fhearann ​​Poiblí.
+        review: Athbhreithnigh na Téarmaí
+        review_and_accept: Athbhreithnigh agus glac leis na Téarmaí
+        consider_pd: Smaoinigh ar an bhFearann ​​Poiblí
+      terms_of_use:
+        heading: Téarmaí Úsáide
+        agreed: D'aontaigh tú leis na Téarmaí Úsáide ar %{date}.
+        not_agreed: Níl tú tar éis aontú leis na Téarmaí Úsáide go fóill.
+        review: Athbhreithnigh na Téarmaí
+        review_and_accept: Athbhreithnigh agus glac leis na Téarmaí
       save changes button: Sábháil na hAthruithe
+      delete_account: Scrios Cuntas...
     go_public:
       heading: Eagarthóireacht phoiblí
+      currently_not_public: Faoi láthair, tá do chuid eagarthóireachtaí gan ainm agus
+        ní féidir le daoine teachtaireachtaí a sheoladh chugat ná do shuíomh a fheiceáil.
+        Chun a thaispeáint cad a rinne tú a chur in eagar agus chun ligean do dhaoine
+        teagmháil a dhéanamh leat tríd an suíomh Gréasáin, cliceáil an cnaipe thíos.
+      only_public_can_edit: Ó athrú API 0.6, ní féidir ach le húsáideoirí poiblí sonraí
+        léarscáile a chur in eagar.
+      find_out_why: faigh amach cén fáth
+      email_not_revealed: Ní nochtfar do sheoladh ríomhphoist trína chur ar fáil don
+        phobal.
+      not_reversible: Ní féidir an gníomh seo a aisiompú agus bíonn gach úsáideoir
+        nua poiblí anois de réir réamhshocraithe.
+      make_edits_public_button: Déan mo chuid eagarthóireachtaí go léir a phoibliú
+    update:
+      success_confirm_needed: Nuashonraíodh faisnéis an úsáideora go rathúil. Seiceáil
+        do r-phost le haghaidh nóta chun do sheoladh ríomhphoist nua a dheimhniú.
+      success: Nuashonraíodh faisnéis an úsáideora go rathúil.
+    destroy:
+      success: Cuntas Scriosta.
+    deletions:
+      show:
+        title: Scrios Mo Chuntas
+        warning: Rabhadh! Is próiseas críochnaitheach é an próiseas scriosta cuntais,
+          agus ní féidir é a aisiompú.
+        delete_account: Scrios Cuntas
+        delete_introduction: 'Is féidir leat do chuntas OpenStreetMap a scriosadh
+          trí úsáid a bhaint as an gcnaipe thíos. Tabhair faoi deara na sonraí seo
+          a leanas:'
+        delete_profile: Bainfear do chuid faisnéise próifíle, lena n-áirítear d’abhatár,
+          cur síos agus suíomh baile.
+        delete_display_name: Bainfear d’ainm taispeána, agus is féidir le cuntais
+          eile é a athúsáid.
+        retain_caveats: 'Mar sin féin, coinneofar roinnt faisnéise fút ar OpenStreetMap,
+          fiú tar éis do chuntas a scriosadh:'
+        retain_edits: Coinneofar d’eagarthóireachtaí ar bhunachar sonraí na léarscáileanna,
+          más ann dóibh.
+        retain_traces: Coinneofar do rianta uaslódáilte, más ann dóibh.
+        retain_diary_entries: Coinneofar do iontrálacha dialainne agus tráchtanna
+          dialainne, más ann dóibh, ach cuirfear i bhfolach iad.
+        retain_notes: Coinneofar do nótaí léarscáile agus do thráchtanna ar nótaí,
+          más ann dóibh, ach ní bheidh siad le feiceáil.
+        retain_changeset_discussions: Coinneofar do phlé faoi na hathruithe, más ann
+          dóibh.
+        retain_email: Coinneofar do sheoladh ríomhphoist.
+        recent_editing_html: Ós rud é gur chuir tú eagar le déanaí, ní féidir do chuntas
+          a scriosadh faoi láthair. Beidh scriosadh indéanta i gceann %{time}.
+        confirm_delete: An bhfuil tú cinnte?
+        cancel: Cealaigh
     terms:
       show:
         title: Téarmaí
         heading: Téarmaí
+        heading_ct: Téarmaí rannpháirtí
+        read and accept with tou: Léigh an comhaontú rannpháirtí agus na téarmaí úsáide
+          le do thoil, seiceáil an dá bhosca seiceála nuair a bheidh tú críochnaithe
+          agus ansin brúigh an cnaipe lean ar aghaidh.
+        contributor_terms_explain: Rialaíonn an comhaontú seo téarmaí do ranníocaíochtaí
+          reatha agus amach anseo.
+        read_ct: Léigh mé téarmaí an rannpháirtí thuas agus aontaím leo
+        tou_explain:
+          html: Rialaíonn na %{tou_link} seo úsáid an tsuímh ghréasáin agus bonneagair
+            eile arna soláthar ag OSMF. Cliceáil ar an nasc, léigh an téacs agus aontaigh
+            leis.
+          tou: Téarmaí Úsáide
+        read_tou: Léigh mé na Téarmaí Úsáide agus aontaím leo
+        guidance_info_html: 'Faisnéis chun cabhrú leat na téarmaí seo a thuiscint:
+          %{readable_summary_link} agus roinnt %{informal_translations_link}'
+        readable_summary: achoimre inléite ag an duine
+        informal_translations: aistriúcháin neamhfhoirmiúla
+        continue: Lean ar aghaidh
+        cancel: Cealaigh
+        you need to accept or decline: Léigh agus ansin glac leis na Téarmaí Rannpháirtí
+          nua nó diúltaigh dóibh le leanúint ar aghaidh.
         legale_select: 'Tír chónaithe:'
         legale_names:
           france: An Fhrainc
@@ -240,13 +382,36 @@ ga:
           rest_of_world: An chuid eile den Domhan
       update:
         terms accepted: Go raibh maith agat as glacadh leis na téarmaí nua do rannchuiditheoirí.
+      terms_declined_flash:
+        terms_declined_html: Tá brón orainn gur shocraigh tú gan glacadh leis na Téarmaí
+          Rannpháirtí nua. Le haghaidh tuilleadh eolais, féach %{terms_declined_link}.
+        terms_declined_link: an leathanach vicí seo
+    pd_declarations:
+      show:
+        title: Meastar go bhfuil mo chuid ranníocaíochtaí i bhFearann ​​​​an Phoiblí
+        consider_pd: Measaim go bhfuil mo chuid ranníocaíochtaí i bhFearann ​​​​an
+          Phoiblí
+        consider_pd_why: Cén fáth ar mhaith liom go mbeadh mo chuid ranníocaíochtaí
+          i bhFearann ​​Poiblí?
+        confirm: Deimhnigh
+      create:
+        successfully_declared: D’éirigh leat a dhearbhú go measann tú go bhfuil do
+          chuid eagarthóireachtaí sa Fhearann ​​Poiblí.
+        already_declared: Tá sé dearbhaithe agat cheana féin go measann tú go bhfuil
+          do chuid eagarthóireachtaí sa Fhearann ​​Poiblí.
+        did_not_confirm: Níor dheimhnigh tú go measann tú go bhfuil do chuid eagarthóireachtaí
+          sa Fhearann ​​Poiblí.
   browse:
+    deleted_ago_by_html: Scriosta %{time_ago} ag %{user}
+    edited_ago_by_html: Eagarthóireacht déanta %{time_ago} ag %{user}
     version: Leagan
+    redacted_version: Leagan Leasaithe
     in_changeset: Tacar athruithe
     anonymous: gan ainm
     no_comment: (níl aon nóta tráchta ann)
     part_of: Cuid de
     download_xml: Íoslódail XML
+    view_unredacted_history: Féach ar Stair Neamh-Leasaithe
     location: 'Suíomh:'
     node:
       title_html: 'Nód: %{name}'
@@ -266,9 +431,13 @@ ga:
         way: Bealach
         relation: Gaol
     containing_relation:
-      entry_role_html: Gaol %{relation_name} (mar %{relation_role})
+      entry_role_html: '%{relation_name} (mar %{relation_role})'
+    not_found:
+      title: Níor aimsíodh
     timeout:
-      sorry: Ár leithscéil, thóg sé rófhada an %{type} leis an ID %{id} a aisghabháil.
+      title: Earráid Ama
+      sorry: Ár leithscéil, thóg sé ró-fhada na sonraí don %{type} leis an aitheantas
+        %{id} a aisghabháil.
       type:
         node: nód
         way: bealach
@@ -284,9 +453,10 @@ ga:
         way: bealach
         relation: gaol
     start_rjs:
-      feature_warning: '%{num_features} gné á lódáil, rud a d''fhéadfadh moill nó
-        easpa freagartha a chur ar do bhrabhsálaí. An bhfuil tú cinnte gur mhaith
-        leat na sonraí seo a thaispeáint?'
+      feature_warning: Ag lódáil %{num_features} gnéithe, rud a d'fhéadfadh do bhrabhsálaí
+        a mhoilliú nó a dhéanamh neamhfhreagrach. An bhfuil tú cinnte gur mhaith leat
+        na sonraí seo a thaispeáint?
+      feature_error: 'Níorbh fhéidir na gnéithe a luchtú: %{message}'
       load_data: Lódáil Sonraí
       loading: Ag Lódáil...
     tag_details:
@@ -296,7 +466,17 @@ ga:
         tag: An leathanach cur síos ar an vicí don chlib %{key}=%{value}
       wikidata_link: An mhír %{page} ar Vicíshonraí
       wikipedia_link: An t-alt %{page} ar an Vicipéid
+      wikimedia_commons_link: An mhír %{page} ar Wikimedia Commons
       telephone_link: Glaoigh ar %{phone_number}
+      colour_preview: Réamhamharc ar dhath %{colour_value}
+      email_link: Ríomhphost %{email}
+    versions_navigation:
+      node: Nód
+      way: Bealach
+      relation: Gaol
+      history: Stair
+      version: 'Leagan #%{version}'
+      versions_label: 'Leaganacha:'
   feature_queries:
     show:
       title: Gnéithe a Fhiosrú
@@ -311,6 +491,60 @@ ga:
         title_html: 'Stair an Bhealaigh: %{name}'
       relation:
         title_html: 'Stair an Ghaoil: %{name}'
+      older_versions: Leaganacha Níos Sine
+      newer_versions: Leaganacha níos nuaí
+    actions:
+      view_redacted_data: Féach ar Shonraí Eagarthóireachta
+      view_redaction_message: Féach ar an Teachtaireacht Eagarthóireachta
+  nodes:
+    not_found_message:
+      sorry: 'Tá brón orm, níorbh fhéidir nód #%{id} a aimsiú.'
+    timeout:
+      sorry: Tá brón orm, thóg sé ró-fhada na sonraí don nód leis an aitheantas %{id}
+        a aisghabháil.
+  old_nodes:
+    not_found_message:
+      sorry: 'Tá brón orm, níorbh fhéidir nód #%{id} leagan %{version} a aimsiú.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada stair an nóid leis an aitheantas %{id}
+        a aisghabháil.
+  ways:
+    not_found_message:
+      sorry: 'Ár leithscéal, níor aimsíodh an bealach #%{id}.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada na sonraí don bhealach leis an aitheantas
+        %{id} a aisghabháil.
+  old_ways:
+    not_found_message:
+      sorry: 'Ár leithscéal, níorbh fhéidir an bealach #%{id} leagan %{version} a
+        aimsiú.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada stair an bhealaigh leis an aitheantas
+        %{id} a aisghabháil.
+  relations:
+    not_found_message:
+      sorry: 'Ár leithscéal, níor aimsíodh an gaol #%{id}.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada na sonraí don ghaol leis an aitheantas
+        %{id} a aisghabháil.
+  relation_members:
+    not_found_message:
+      sorry: 'Ár leithscéal, níor aimsíodh an gaol #%{id}.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada na sonraí don ghaol leis an aitheantas
+        %{id} a aisghabháil.
+  old_relations:
+    not_found_message:
+      sorry: 'Ár leithscéal, níorbh fhéidir gaol #%{id} leagan %{version} a aimsiú.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada stair an chaidrimh leis an aitheantas
+        %{id} a aisghabháil.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Ár leithscéal, níorbh fhéidir gaol #%{id} leagan %{version} a aimsiú.'
+    timeout:
+      sorry: Ár leithscéal, thóg sé ró-fhada ar bhaill an chaidrimh leis an aitheantas
+        %{id} an comhad a aisghabháil.
   changeset_comments:
     feeds:
       comment:
@@ -326,6 +560,8 @@ ga:
     index:
       title: Tacair athruithe
       title_user: Tacair athruithe de chuid %{user}
+      title_user_link_html: Athruithe socraithe ag %{user_link}
+      title_followed: Athruithe arna socrú ag úsáideoirí a leanann tú
       title_nearby: Tacair athruithe a rinne úsáideoirí in aice láimhe
       empty: Níor aimsíodh aon tacar athruithe.
       empty_area: Níl aon tacar athruithe sa limistéar seo.
@@ -333,6 +569,8 @@ ga:
       no_more: Níor aimsíodh aon tacar athruithe eile.
       no_more_area: Níl aon tacar athruithe eile sa limistéar seo.
       no_more_user: Níl aon tacar athruithe eile ón úsáideoir seo.
+      older_changesets: Tacair Athruithe Níos Sine
+      newer_changesets: Tacair Athruithe Níos Nuaí
       feed:
         title: Tacar athruithe %{id}
         title_comment: Tacar athruithe %{id} - %{comment}
@@ -341,22 +579,53 @@ ga:
         belongs_to: Údar
     show:
       title: 'Tacar athruithe: %{id}'
+      created: 'Cruthaithe: %{when}'
+      closed: 'Dúnta: %{when}'
+      created_ago_html: Cruthaithe %{time_ago}
+      closed_ago_html: Dúnta %{time_ago}
+      created_ago_by_html: Cruthaithe %{time_ago} ag %{user}
+      closed_ago_by_html: Dúnta %{time_ago} ag %{user}
       discussion: Plé
       join_discussion: Logáil isteach chun páirt a ghlacadh sa phlé
+      still_open: Tá an tacar athruithe fós oscailte - osclófar an plé a luaithe a
+        dhúnfar an tacar athruithe.
       subscribe: Liostáil
       unsubscribe: Díliostáil
+      comment_by_html: Trácht ó %{user} %{time_ago}
+      hidden_comment_by_html: Trácht i bhfolach ó %{user} %{time_ago}
       hide_comment: folaigh
       unhide_comment: dífholaigh
       comment: Freagair
       changesetxml: XML an Tacair athruithe
       osmchangexml: XML osmChange
     paging_nav:
+      nodes_title: Nóid
       nodes_paginated: Nóid (%{x}-%{y} de %{count})
+      ways_title: Bealaí
       ways_paginated: Bealaí (%{x}-%{y} de %{count})
+      relations_title: Caidreamh
       relations_paginated: Gaolta (%{x}-%{y} de %{count})
+      range: '%{x}-%{y} de %{count}'
+    not_found_message:
+      sorry: 'Ár leithscéal, níor aimsíodh an tacar athruithe #%{id}.'
     timeout:
       sorry: Ár leithscéil, thóg sé rófhada an liosta de na tacair athruithe a d'iarr
         tú a aisghabháil.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Liostáil leis an bplé seo a leanas ar na hathruithe?
+        button: Liostáil le plé
+      unsubscribe:
+        heading: Díliostáil ón bplé seo a leanas ar an tacar athruithe?
+        button: Díliostáil ón bplé
+    heading:
+      title: Tacar athruithe %{id}
+      created_by_html: Cruthaithe ag %{link_user} ar %{created}.
+    no_such_entry:
+      heading: 'Gan aon iontráil leis an aitheantas: %{id}'
+      body: Ár leithscéal, níl aon tacar athruithe ann leis an aitheantas %{id}. Seiceáil
+        do litriú le do thoil, nó b'fhéidir go bhfuil an nasc a chliceáil tú mícheart.
   dashboards:
     contact:
       km away: '%{count} km uait'
@@ -365,9 +634,23 @@ ga:
       no_edits: (níl aon athrú ann)
       view_changeset_details: Amharc ar shonraí an tacair athruithe
     popup:
+      your location: Do shuíomh
       nearby mapper: Léarscálaí in aice láimhe
+      following: Ag leanúint
     show:
+      title: Mo Phainéal
+      no_home_location_html: '%{edit_profile_link} agus socraigh do shuíomh baile
+        chun úsáideoirí in aice láimhe a fheiceáil.'
+      edit_your_profile: Cuir do phróifíl in eagar
+      followings: Úsáideoirí a leanann tú
+      no followings: Níor lean tú aon úsáideoir go fóill.
       nearby users: Úsáideoirí eile in aice láimhe
+      no nearby users: Níl aon úsáideoirí eile a admhaíonn go bhfuil siad ag mapáil
+        in aice láimhe go fóill.
+      followed_changesets: tacair athruithe
+      followed_diaries: iontrálacha dialainne
+      nearby_changesets: tacair athruithe úsáideora in aice láimhe
+      nearby_diaries: iontrálacha dialainne úsáideora in aice láimhe
   diary_entries:
     new:
       title: Iontráil Nua Dialainne
@@ -376,6 +659,7 @@ ga:
       use_map_link: An Léarscáil a Úsáid
     index:
       title: Dialanna úsáideoirí
+      title_followed: Dialann úsáideoirí a leanadh
       title_nearby: Dialann de chuid Úsáideoirí In Aice Láimhe
       user_title: Dialann %{user}
       in_language_title: 'Iontrálacha Dialainne i: %{language}'
@@ -388,6 +672,9 @@ ga:
     show:
       title: Dialann %{user} | %{title}
       user_title: Dialann %{user}
+      discussion: Plé
+      subscribe: Liostáil
+      unsubscribe: Díliostáil
       leave_a_comment: Fág nóta tráchta
       login_to_leave_a_comment_html: '%{login_link} chun nóta tráchta a fhágáil'
       login: Logáil isteach
@@ -400,14 +687,16 @@ ga:
     diary_entry:
       posted_by_html: 'Postáilte ag %{link_user} ar an %{created} sa teanga seo: %{language_link}'
       updated_at_html: Nuashonrú deireanach an %{updated}
+      full_entry: Féach an iontráil iomlán
       comment_link: Déan trácht ar an iontráil seo
       reply_link: Tabhair freagra ar an iontráil seo
       comment_count:
-        one: Aon nóta tráchta amháin
+        one: '%{count} nóta tráchta'
         two: Dhá nóta tráchta
         few: '%{count} nóta tráchta'
         many: '%{count} nóta tráchta'
         other: '%{count} nóta tráchta'
+      no_comments: Gan aon tráchtanna
       edit_link: Cuir an iontráil seo in eagar
       hide_link: Folaigh an iontráil seo
       unhide_link: Taispeáin an iontráil seo
@@ -432,10 +721,100 @@ ga:
       all:
         title: Iontrálacha dialainne OpenStreetMap
         description: Iontrálacha dialainne le déanaí ó úsáideoirí OpenStreetMap
+    subscribe:
+      heading: Liostáil leis an bplé seo a leanas faoi iontrálacha dialainne?
+      button: Liostáil le plé
+    unsubscribe:
+      heading: Díliostáil ón bplé seo a leanas faoi iontrálacha dialainne?
+      button: Díliostáil ón bplé
     navigation:
+      in_language: Iontrálacha Dialainne i %{language}
       my_diary: Mo Dhialann
       new: Iontráil Nua Dialainne
       new_title: Iontráil nua a scríobh i mo dhialann úsáideora
+    profile_diaries:
+      latest_diaries: Dialann is Déanaí
+      title_label: Iontráil Dialainne
+      comments_label: Tráchtanna
+      date_label: Dáta
+  diary_comments:
+    new:
+      heading: Cuir trácht leis an bplé seo a leanas faoin iontráil dialainne?
+  doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Éilíonn an freastalaí údaraithe roghnú cuntais
+          úsáideora deiridh
+        consent_required: Éilíonn an freastalaí údaraithe toiliú an úsáideora deiridh
+        interaction_required: Éilíonn an freastalaí údaraithe idirghníomhaíocht an
+          úsáideora deiridh
+        login_required: Éilíonn an freastalaí údaraithe fíordheimhniú úsáideora deiridh
+    flash:
+      applications:
+        create:
+          notice: Iarratas Cláraithe.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Teip mar gheall ar chumraíocht
+            ar iarraidh i Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Teip mar gheall ar chumraíocht
+            ar iarraidh do Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Teip mar gheall ar chumraíocht
+            ar iarraidh ag Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Teip mar gheall ar chumraíocht
+            ar iarraidh do Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Theip ar ghiniúint Comhartha Aitheantais mar gheall
+            ar chumraíocht ar iarraidh ó Doorkeeper::OpenidConnect.configure.subject.
+    scopes:
+      address: Féach ar do sheoladh fisiciúil
+      email: Féach ar do sheoladh ríomhphoist
+      openid: Fíordheimhnigh do chuntas
+      phone: Féach ar d'uimhir ghuthán
+      profile: Féach ar fhaisnéis do phróifíle
+  errors:
+    contact:
+      contact_url_title: Mínítear bealaí teagmhála éagsúla
+      contact: teagmháil
+      contact_the_community_html: Ná bíodh drogall ort %{contact_link} pobal OpenStreetMap
+        má aimsigh tú nasc/fabairt briste. Déan nóta den URL cruinn a bhaineann le
+        d’iarratas.
+    bad_request:
+      title: Iarratas lochtach
+      description: Níl an oibríocht a d'iarr tú ar an bhfreastalaí OpenStreetMap bailí
+        (HTTP 400)
+    forbidden:
+      title: Toirmiscthe
+      description: Níl an oibríocht a d'iarr tú ar an bhfreastalaí OpenStreetMap ar
+        fáil ach do riarthóirí (HTTP 403)
+    internal_server_error:
+      title: Earráid feidhmchláir
+      description: Tháinig riocht gan choinne ar fhreastalaí OpenStreetMap a chuir
+        cosc ​​air an iarratas a chomhlíonadh (HTTP 500)
+    not_found:
+      title: Níor aimsíodh an comhad
+      description: Níorbh fhéidir comhad/eolaire/oibríocht API leis an ainm sin a
+        aimsiú ar an bhfreastalaí OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap Leabaithe
+  follows:
+    show:
+      follow:
+        heading: Ar mhaith leat %{user} a leanúint?
+        button: Lean an tÚsáideoir
+      unfollow:
+        heading: Ar mhaith leat %{user} a dhíleanúint?
+        button: Díleanúint Úsáideora
+    create:
+      success: Tá tú ag leanúint %{name} anois!
+      failed: Ár leithscéal, theip ar d’iarratas chun %{name} a leanúint.
+      already_followed: Leanann tú %{name} cheana féin.
+      limit_exceeded: Tá tú ag leanúint go leor úsáideoirí le déanaí. Fan tamall sula
+        ndéanann tú iarracht níos mó a leanúint.
+    destroy:
+      success: D’éirigh leat %{name} a dhíleanúint.
+      not_followed: Níl tú ag leanúint %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -444,20 +823,29 @@ ga:
           chair_lift: Cathaoir Chábla
           drag_lift: Ardaitheoir Tarraingthe
           gondola: Ardaitheoir Gandala
+          magic_carpet: Ardaitheoir Cairpéad Draíochta
+          platter: Ardaitheoir Pláta
           pylon: Piolón
           station: Stáisiún do Bhealach Aeir
           t-bar: Ardaitheoir T-bharra
+          "yes": Aerbhealach
         aeroway:
           aerodrome: Aeradróm
           airstrip: Aerstráice
-          apron: Naprún aerfoirt
-          gate: Geata
+          apron: Naprún Aerfoirt
+          gate: Geata an Aerfoirt
           hangar: Haingear
           helipad: Héileapad
+          holding_position: Seasamh Sealbhaíochta
+          navigationaid: Cúnamh Loingseoireachta Eitlíochta
+          parking_position: Suíomh Páirceála
           runway: Rúidbhealach
+          taxilane: Lána tacsaí
           taxiway: Bealach innealta
-          terminal: Críochfort
+          terminal: Críochfort Aerfoirt
+          windsock: Cochall gaoithe
         amenity:
+          animal_boarding: Bordáil Ainmhithe
           animal_shelter: Dídean Ainmhithe
           arts_centre: Ionad Ealaíon
           atm: Meaisín bainc
@@ -467,7 +855,9 @@ ga:
           bench: Binse
           bicycle_parking: Páirceáil Rothar
           bicycle_rental: Rothair ar Cíos
+          bicycle_repair_station: Stáisiún Deisiúcháin Rothar
           biergarten: Gairdín Beorach
+          blood_bank: Banc Fola
           boat_rental: Báid ar Cíos
           brothel: Drúthlann
           bureau_de_change: Bureau de Change
@@ -484,6 +874,7 @@ ga:
           clock: Clog
           college: Coláiste
           community_centre: Ionad Pobail
+          conference_centre: Ionad Comhdhála
           courthouse: Teach cúirte
           crematorium: Créamatóiriam
           dentist: Fiaclóir
@@ -491,28 +882,37 @@ ga:
           drinking_water: Uisce Inólta
           driving_school: Scoil Tiomána
           embassy: Ambasáid
+          events_venue: Ionad Imeachtaí
           fast_food: Mearbhia
           ferry_terminal: Críochfort Farantóireachta
           fire_station: Stáisiún Dóiteáin
           food_court: Cúirt Bhia
           fountain: Scairdeán/fuarán
-          fuel: Breosla
+          fuel: Stáisiún Peitril
           gambling: Cearrbhachas
           grave_yard: Reilg
           grit_bin: Bosca grin
           hospital: Ospidéal
           hunting_stand: Árdán seilge
           ice_cream: Uachtar reoite
+          internet_cafe: Caifé Idirlín
           kindergarten: Naíonra
+          language_school: Scoil Teanga
           library: Leabharlann
+          loading_dock: Duga Lódála
+          love_hotel: Óstán Grá
           marketplace: Áit mhargaidh
+          mobile_money_agent: Gníomhaire Airgid Soghluaiste
           monastery: Mainistir
+          money_transfer: Aistriú Airgid
           motorcycle_parking: Páirceáil do Ghluaisrothair
+          music_school: Scoil Cheoil
           nightclub: Club Oíche
           nursing_home: Teach Altranais
           parking: Páirceáil
           parking_entrance: Bealach Isteach ar Áit Pháirceála
           parking_space: Spás páirceála
+          payment_terminal: Críochfort Íocaíochta
           pharmacy: Cógaslann
           place_of_worship: Ionad Adhartha
           police: Póilíní
@@ -520,9 +920,13 @@ ga:
           post_office: Oifig an Phoist
           prison: Príosún
           pub: Teach tábhairne
+          public_bath: Folcadán Poiblí
+          public_bookcase: Seilf Leabhar Poiblí
           public_building: Foirgneamh Poiblí
+          ranger_station: Stáisiún na bhFear Rangers
           recycling: Ionad Athchúrsála
           restaurant: Bialann
+          sanitary_dump_station: Stáisiún Dumpála Sláintíochta
           school: Scoil
           shelter: Scáthlán
           shower: Cithfholcadh
@@ -535,18 +939,27 @@ ga:
           theatre: Amharclann
           toilets: Leithreas
           townhall: Halla Baile
+          training: Áis Oiliúna
           university: Ollscoil
+          vehicle_inspection: Cigireacht Feithicle
           vending_machine: Meaisín Díola
           veterinary: Ionad Cúraim Tréidlia
           village_hall: Ionad Pobail Sráidbhaile
           waste_basket: Bosca Bruscair
           waste_disposal: Diúscairt Dramhaíola
+          waste_dump_site: Láithreán Dumpála Dramhaíola
+          watering_place: Áit Uisce
           water_point: Pointe uisce
+          weighbridge: Droichead Meáchain
+          "yes": Áis
         boundary:
+          aboriginal_lands: Tailte Bundúchasacha
           administrative: Teorainn Riaracháin
           census: Teorainn Daonáirimh
           national_park: Páirc Náisiúnta
+          political: Teorainn Toghcháin
           protected_area: Limistéar faoi Chosaint
+          "yes": Teorainn
         bridge:
           aqueduct: Uiscerian
           boardwalk: Clárchosán
@@ -555,35 +968,108 @@ ga:
           viaduct: Tarbhealach
           "yes": Droichead
         building:
+          apartment: Árasán
+          apartments: Árasáin
+          barn: Scioból
+          bungalow: Bungaló
+          cabin: Cabán
+          chapel: Séipéal
+          church: Foirgneamh na hEaglaise
+          civic: Foirgneamh Cathartha
+          college: Foirgneamh an Choláiste
+          commercial: Foirgneamh Tráchtála
+          construction: Foirgneamh faoi Thógáil
+          cowshed: Bóitheach
+          detached: Teach Scoite
+          dormitory: Dórtúr
+          duplex: Teach Leathscoite
+          farm: Teach Feirme
+          farm_auxiliary: Teach Feirme Cúnta
+          garage: Garáiste
+          garages: Garáistí
+          greenhouse: Cheaptha Teasa
+          hangar: Haingear
+          hospital: Foirgneamh an Ospidéil
+          hotel: Foirgneamh Óstáin
+          house: Teach
+          houseboat: Bád tí
+          hut: Bothán
+          industrial: Foirgneamh Tionsclaíoch
+          kindergarten: Foirgneamh Naíonra
+          manufacture: Foirgneamh Déantúsaíochta
+          office: Foirgneamh Oifige
+          public: Foirgneamh Poiblí
+          residential: Foirgneamh Cónaithe
+          retail: Foirgneamh Miondíola
+          roof: Díon
+          ruins: Foirgneamh Fothrach
+          school: Foirgneamh Scoile
+          semidetached_house: Teach Leathscoite
+          service: Foirgneamh Seirbhíse
+          shed: Seid
+          stable: Cobhsaí
+          static_caravan: Carbhán
+          temple: Foirgneamh an Teampaill
+          terrace: Foirgneamh Ardáin
+          train_station: Foirgneamh Stáisiún Traenach
+          university: Foirgneamh na hOllscoile
+          warehouse: Trádstóras
           "yes": Foirgneamh
+        club:
+          scout: Bonn Grúpa Gasóg
+          sport: Club Spóirt
+          "yes": Club
         craft:
+          beekeeper: Beachaire
+          blacksmith: Gabha dubh
           brewery: Grúdlann
           carpenter: Siúinéir
+          caterer: Lónadóir
+          confectionery: Milseogra
+          dressmaker: Déantóir gúna
           electrician: Leictreoir
+          electronics_repair: Deisiú Leictreonaice
           gardener: Garraíodóir
+          handicraft: Lámhcheardaíocht
+          hvac: Ceardaíocht HVAC
+          metal_construction: Tógálaí Miotail
           painter: Péintéir
           photographer: Grianghrafadóir
           plumber: Pluiméir
+          roofer: Díontóir
+          sawmill: Muileann sábhadóireachta
           shoemaker: Gréasaí
+          stonemason: Saor cloiche
           tailor: Táilliúir
+          window_construction: Tógáil Fuinneog
+          winery: Fíonlann
           "yes": Siopa Ceardaíochta
         emergency:
+          access_point: Pointe Rochtana
           ambulance_station: Stáisiún Otharchairr
           assembly_point: Pointe tionóil
           defibrillator: Dífhibrileoir
+          fire_extinguisher: Múchtóir Dóiteáin
+          fire_water_pond: Lochán Uisce Dóiteáin
           landing_site: Láthair tuirlingthe éigeandála
+          life_ring: Fáinne Saoil Éigeandála
           phone: Fón Éigeandála
+          siren: Sirean Éigeandála
+          suction_point: Pointe Súchán Éigeandála
           water_tank: Umar uisce éigeandála
         highway:
           abandoned: Bóthar Mór Tréigthe
           bridleway: Cosán marcaíochta
           bus_guideway: Lána Bus Treoraithe
           bus_stop: Stad Bus
+          busway: Busbhealach
           construction: Bealach Mór á Thógáil
           corridor: Conair
+          crossing: Trasnú
           cycleway: Raon Rothar
           elevator: Ardaitheoir
           emergency_access_point: Pointe Rochtana Éigeandála
+          emergency_bay: Bá Éigeandála
           footway: Cosán
           ford: Áth
           give_way: Comhartha géill slí
@@ -614,18 +1100,26 @@ ga:
           tertiary: Bóthar Tríú-Grád
           tertiary_link: Bóthar Tríú-Grád
           track: Cosán
+          traffic_mirror: Scáthán Tráchta
           traffic_signals: Soilse Tráchta
+          trailhead: Ceann an Chosáin
           trunk: Mórbhóthar
           trunk_link: Mórbhóthar
+          turning_circle: Ciorcal Casadh
+          turning_loop: Lúb Casadh
           unclassified: Bóthar Neamhaicmithe
           "yes": Bóthar
         historic:
+          aircraft: Aerárthaí Stairiúla
           archaeological_site: Láithreán Seandálaíochta
+          bomb_crater: Cráitéar Buama Stairiúil
           battlefield: Láthair Chatha
           boundary_stone: Cloch Theorann
           building: Foirgneamh Stairiúil
           bunker: Buncar
+          cannon: Canóin Stairiúil
           castle: Caisleán
+          charcoal_pile: Carn Gualaigh Stairiúil
           church: Eaglais
           city_gate: Geata Cathrach
           citywalls: Ballaí Cathrach
@@ -634,28 +1128,40 @@ ga:
           house: Teach
           manor: Mainéar
           memorial: Leac cuimhneacháin
+          milestone: Cloch Mhíle Stairiúil
           mine: Mianach
           mine_shaft: Sloc mianaigh
           monument: Séadchomhartha
+          railway: Iarnród Stairiúil
           roman_road: Bóthar Rómhánach
           ruins: Fothracha
+          rune_stone: Cloch Rúnach
           stone: Cloch
           tomb: Tuama
           tower: Túr
+          wayside_chapel: Séipéal Taobh an Bhóthair
           wayside_cross: Crois Cois Bealaigh
           wayside_shrine: Scrín Cois Bealaigh
           wreck: Long Bhriste
           "yes": Láthair stairiúil
+        information:
+          guidepost: Treoirphost
+          board: Bord Faisnéise
+          map: Léarscáil
+          office: Oifig Turasóireachta
+          terminal: Teirminéal Faisnéise
+          sign: Comhartha Faisnéise
         junction:
           "yes": Acomhal
         landuse:
           allotments: Cuibhrinn
+          aquaculture: Dobharshaothrú
           basin: Abhantrach
           brownfield: Talamh Athfhorbraíochta
           cemetery: Reilig
           commercial: Limistéar Tráchtála
-          conservation: Caomhnú
-          construction: Tógáil
+          conservation: Limistéar Caomhnaithe
+          construction: Limistéar Tógála
           farmland: Talamh Feirme
           farmyard: Clós Feirme
           forest: Foraois
@@ -668,20 +1174,28 @@ ga:
           military: Limistéar Míleata
           mine: Mianach
           orchard: Úllord
+          plant_nursery: Naíolann Plandaí
           quarry: Cairéal
           railway: Iarnród
           recreation_ground: Páirc Caitheamh Aimsire
+          religious: Talamh Reiligiúnach
           reservoir: Taiscumar
           reservoir_watershed: Dobhardhroim Thaiscumair
           residential: Ceantar Cónaithe
-          retail: Miondíol
+          retail: Limistéar Miondíola
           village_green: Faiche an tSráidbhaile
           vineyard: Fíonghort
           "yes": Úsáid na Talún
         leisure:
+          adult_gaming_centre: Ionad Cearrbhachais do Dhaoine Fásta
+          amusement_arcade: Arcade Siamsaíochta
+          bandstand: Ardán Ceolchoirme
           beach_resort: Ionad Saoire Cois Trá
           bird_hide: Folachán Éanbhreathnóireachta
+          bleachers: Suíocháin fargáin
+          bowling_alley: Halla Babhlála
           common: Coimín
+          dance: Halla Damhsa
           dog_park: Páirc do Mhadraí
           firepit: Clais thine
           fishing: Áit Iascaireachta
@@ -689,12 +1203,14 @@ ga:
           fitness_station: Stáisiún Corpacmhainne
           garden: Gairdín
           golf_course: Galfchúrsa
-          horse_riding: Marcaíocht ar Chapall
+          horse_riding: Ionad Marcaíochta Capall
           ice_rink: Oighear-Rinc
           marina: Muiríne
           miniature_golf: Mionghalf
           nature_reserve: Tearmann Dúlra
+          outdoor_seating: Suíocháin Allamuigh
           park: Páirc
+          picnic_table: Bord Picnic
           pitch: Páirc Spóirt
           playground: Áit Súgartha
           recreation_ground: Páirc Caitheamh Aimsire
@@ -707,31 +1223,55 @@ ga:
           track: Raon Reatha
           water_park: Páirc Uisce
           "yes": Fóillíocht
+        lock:
+          "yes": Glasáil
         man_made:
+          advertising: Fógraíocht
+          antenna: Aeróg
+          avalanche_protection: Cosaint i gcoinne Maidhm Shneachta
           beacon: Rabhchán
+          beam: Bhíoma
           beehive: Coirceog
           breakwater: Tonnchosc
           bridge: Droichead
           bunker_silo: Buncar
+          cairn: Carn
           chimney: Simléar
+          clearcut: Gearradh soiléir
+          communications_tower: Túr Cumarsáide
           crane: Crann tógála
+          cross: Cros
           dolphin: Post ceangail
           dyke: Díog
           embankment: Claífort
+          flagpole: Crann brataí
+          gasometer: Gásiméadar
+          groyne: Claí na Cósta
           kiln: Áith
           lighthouse: Teach Solais
+          manhole: Dúnpholl
+          mast: Crann
           mine: Mianach
           mineshaft: Sloc mianaigh
           monitoring_station: Stáisiún monatóireachta
           petroleum_well: Tobar peitriliam
+          planter: Plandálaí
           pier: Cé
           pipeline: Píblíne
+          pumping_station: Stáisiún Caidéil
+          reservoir_covered: Taiscumar Clúdaithe
           silo: Stór gráin
+          snow_cannon: Canóin Sneachta
+          snow_fence: Fál Sneachta
           storage_tank: Umar stórála
+          street_cabinet: Comh-Aireachta Sráide
           surveillance: Faireachas
+          telescope: Teileascóp
           tower: Túr
+          utility_pole: Pol Fóntais
           wastewater_plant: Ionad cóireála fuíolluisce
           watermill: Muileann uisce
+          water_tap: Sconna Uisce
           water_tower: Túr Uisce
           water_well: Tobar
           water_works: Oibreacha uisce
@@ -742,15 +1282,19 @@ ga:
           airfield: Aerpháirc Mhíleata
           barracks: Beairic
           bunker: Buncar
+          checkpoint: Seicphointe
+          trench: Trinse
           "yes": Míleata
         mountain_pass:
           "yes": Bearnas/mám
         natural:
+          bare_rock: Carraig Nocht
           bay: Cuan
           beach: Trá
           cape: Rinn/ceann tíre
           cave_entrance: Bealach Isteach ar Phluais
           cliff: Aill
+          coastline: Imeallbhord
           crater: Cráitéar
           dune: Dumhach
           fell: Sliabh Carraigeach
@@ -761,12 +1305,15 @@ ga:
           grassland: Féarach
           heath: Móinteach
           hill: Cnoc
+          hot_spring: Earrach Te
           island: Oileán
+          isthmus: Muineál tíre
           land: Talamh
           marsh: Riasc/seascann
           moor: Feistiú
           mud: Puiteach
           peak: Binn
+          peninsula: Leithinis
           point: Rinn
           reef: Sceir/scairbh
           ridge: Iomaire
@@ -775,34 +1322,49 @@ ga:
           sand: Gaineamh
           scree: Scileach
           scrub: Scrobarnach
+          shingle: Scaineagán
           spring: Foinse uisce
           stone: Cloch
           strait: Caolas
           tree: Crann
+          tree_row: Rae na gCrann
+          tundra: Tundra
           valley: Gleann
           volcano: Bolcán
           water: Uisce
           wetland: Bogach
           wood: Coill
+          "yes": Gné Nádúrtha
         office:
           accountant: Cuntasóir
           administrative: Riarachán
+          advertising_agency: Gníomhaireacht Fógraíochta
           architect: Ailtire
           association: Cumann
           company: Comhlacht
+          diplomatic: Oifig Taidhleoireachta
           educational_institution: Institiúid oideachais
           employment_agency: Gníomhaireacht Fostaíochta
+          energy_supplier: Oifig an tSoláthraí Fuinnimh
           estate_agent: Gníomhaire Eastáit
+          financial: Oifig Airgeadais
           government: Oifig Rialtais
           insurance: Oifig Árachais
           it: Oifig ríomhaireachta
           lawyer: Dlíodóir
+          logistics: Oifig Loighistice
+          newspaper: Oifig Nuachtáin
           ngo: Oifig ENR (NGO)
+          notary: Nótaire
+          religion: Oifig Reiligiúnach
+          research: Oifig Taighde
+          tax_advisor: Comhairleoir Cánach
           telecommunication: Oifig Teileachumarsáide
           travel_agent: Gníomhaireacht Taistil
           "yes": Oifig
         place:
           allotments: Cuibhrinn
+          archipelago: Oileánra
           city: Cathair
           city_block: Bloc cathrach
           country: Tír
@@ -817,6 +1379,7 @@ ga:
           locality: Dúiche
           municipality: Cathair bhardais/baile bardais
           neighbourhood: Comharsanacht
+          plot: Plota
           postcode: Cód poist
           quarter: Ceantar
           region: Réigiún
@@ -830,6 +1393,7 @@ ga:
           "yes": Áit
         railway:
           abandoned: Iarnród Tréigthe
+          buffer_stop: Stad Maoláin
           construction: Iarnród á Thógáil
           disused: Iarnróid atá As Úsáid
           funicular: Iarnród Cáblach
@@ -843,6 +1407,7 @@ ga:
           platform: Ardán Iarnróid
           preserved: Iarnród Caomhnaithe
           proposed: Iarnród atá Beartaithe
+          rail: Iarnród
           spur: Craobhlíne Iarnróid
           station: Stáisiún Iarnróid
           stop: Stad Iarnróid
@@ -851,12 +1416,20 @@ ga:
           switch: Ladhróg Iarnróid
           tram: Trambhealach
           tram_stop: Stad Tram
+          turntable: Caschlár
+          yard: Clós Iarnróid
         shop:
+          agrarian: Siopa Talmhaíochta
           alcohol: Eischeadúnas
           antiques: Siopa seandachtaí
+          appliance: Siopa Fearas
           art: Siopa Ealaíon
+          baby_goods: Earraí Leanbh
+          bag: Siopa Málaí
           bakery: Bácús
+          bathroom_furnishing: Troscán Seomra Folctha
           beauty: Siopa Áilleachta
+          bed: Táirgí Leapa
           beverages: Siopa Deochanna
           bicycle: Siopa Rothar
           bookmaker: Geallghlacadóir
@@ -868,68 +1441,100 @@ ga:
           car_repair: Deisiú Carranna
           carpet: Siopa Cairpéad
           charity: Siopa Carthanachta
+          cheese: Siopa Cáise
           chemist: Siopa Poitigéara
+          chocolate: Seacláid
           clothes: Siopa Éadaí
+          coffee: Siopa Caife
           computer: Siopa Ríomhairí
           confectionery: Siopa Milseán
           convenience: Siopa Áise
           copyshop: Siopa Fótachóipeala
           cosmetics: Siopa Cosmaidí
+          craft: Siopa Soláthairtí Ceardaíochta
+          curtain: Siopa Cuirtíní
+          dairy: Siopa Déiríochta
           deli: Deilí
           department_store: Siopa Ilrannach
           discount: Siopa Earraí ar Lascaine
-          doityourself: Déan tú féin é/DIY
+          doityourself: Siopa Déan-é-Féin
           dry_cleaning: Tirimghlanadh
+          e-cigarette: Siopa Toitíní Leictreonacha
           electronics: Siopa Earraí Leictreacha
+          erotic: Siopa Earótach
           estate_agent: Gníomhaire Eastáit
+          fabric: Siopa Fabraice
           farm: Siopa Feirme
           fashion: Siopa Faisin
+          fishing: Siopa Soláthairtí Iascaireachta
           florist: Bláthadóir
           food: Siopa Bia
+          frame: Siopa Frámaí
           funeral_directors: Adhlacóir
           furniture: Troscán
           garden_centre: Ionad Garraíodóireachta
+          gas: Siopa Gáis
           general: Siopa Ginearálta
           gift: Siopa Bronntanas
           greengrocer: Siopa Glasraí
           grocery: Siopa Grósaera
           hairdresser: Gruaigeadóir
           hardware: Siopa Crua-earraí
-          hifi: Hi-Fi
+          health_food: Siopa Bia Sláinte
+          hearing_aids: Gléasanna Éisteachta
+          herbalist: Luibheolaí
+          hifi: Siopa Hi-Fi
           houseware: Siopa crua-earraí
+          ice_cream: Siopa Uachtar Reoite
           interior_decoration: Maisiúchán istigh
           jewelry: Siopa Seodóireachta
           kiosk: Both
           kitchen: Siopa cistine
           laundry: Neachtlann
+          locksmith: Glasadóir
           lottery: Crannchur
           mall: Ionad Siopadóireachta
           massage: Suathaireacht
+          medical_supply: Siopa Soláthairtí Leighis
           mobile_phone: Siopa Fón Póca
+          money_lender: Iasachtóir Airgid
           motorcycle: Siopa Gluaisrothar
+          motorcycle_repair: Siopa Deisiúcháin Gluaisrothair
           music: Siopa Ceoil
+          musical_instrument: Ionstraimí Ceoil
           newsagent: Siopa Nuachtán
+          nutrition_supplements: Forlíonta Cothaithe
           optician: Radharceolaí
           organic: Siopa Bia Orgánaigh
           outdoor: Siopa Earraí don Taobh Amuigh
           paint: Siopa Péinte
+          pastry: Siopa Taosráin
           pawnbroker: Geallbhróicéir
+          perfumery: Cumhránaíocht
           pet: Siopa Peataí
+          pet_grooming: Grúmaeireacht Peataí
           photo: Siopa Grianghrafadóireachta
           seafood: Bia mara
           second_hand: Siopa Earraí Athláimhe
+          sewing: Siopa Fuála
           shoes: Siopa Bróg
           sports: Siopa Spóirt
           stationery: Siopa Stáiseanóireachta
+          storage_rental: Cíos Stórála
           supermarket: Ollmhargadh
           tailor: Táilliúir
+          tattoo: Siopa Tatú
+          tea: Siopa Tae
           ticket: Siopa ticéad
           tobacco: Siopa tobac
           toys: Siopa Bréagán
           travel_agency: Gníomhaireacht Taistil
           tyres: Siopa bonn
           vacant: Siopa folamh
+          variety_store: Siopa Éagsúlachta
           video: Siopa Scannán ar Cíos
+          video_games: Siopa Cluichí Físeáin
+          wholesale: Siopa Mórdhíola
           wine: Siopa fíona
           "yes": Siopa
         tourism:
@@ -938,7 +1543,8 @@ ga:
           artwork: Saothar ealaíne
           attraction: Ní is díol spéise
           bed_and_breakfast: Lóistín (B&B)
-          cabin: Bothán/cábán
+          cabin: Cabán Turasóireachta
+          camp_pitch: Páirc an Champa
           camp_site: Ionad Campála
           caravan_site: Láithreán Carbhán
           chalet: Sealla
@@ -952,10 +1558,22 @@ ga:
           picnic_site: Láthair Phicnicí
           theme_park: Páirc Siamsaíochta ar Théama
           viewpoint: Ionad Amhairc
+          wilderness_hut: Bothán Fiántas
           zoo: Zú
         tunnel:
+          building_passage: Pasáiste Foirgnimh
           culvert: Lintéar
           "yes": Tollán
+        water:
+          lake: Loch
+          pond: Lochán
+          reservoir: Taiscumar
+          basin: Báisín uisce
+          fishpond: Lochán Éisc
+          lagoon: Lagún
+          wastewater: Fuíolluisce
+          stream_pool: Linn Srutha
+          lock: Glasáil
         waterway:
           artificial: Uiscebhealach Saorga
           boatyard: Bádchlós
@@ -976,14 +1594,47 @@ ga:
           weir: Cora
           "yes": Uiscebhealach
       admin_levels:
-        level2: Teorainn Tíre
-        level4: Teorainn Stáit
-        level5: Teorainn Réigiúin
-        level6: Teorainn Contae
-        level8: Teorainn Cathrach
-        level9: Teorainn Sráidbhaile
-        level10: Teorainn Bruachbhaile
+        level2: Teorainn Idirnáisiúnta
+        level3: Teorainn Riaracháin (Leibhéal 3)
+        level4: Teorainn Riaracháin (Leibhéal 4)
+        level5: Teorainn Riaracháin (Leibhéal 5)
+        level6: Teorainn Riaracháin (Leibhéal 6)
+        level7: Teorainn Riaracháin (Leibhéal 7)
+        level8: Teorainn Riaracháin (Leibhéal 8)
+        level9: Teorainn Riaracháin (Leibhéal 9)
+        level10: Teorainn Riaracháin (Leibhéal 10)
+        level11: Teorainn Riaracháin (Leibhéal 11)
+      border_types:
+        arrondissement: Teorainn na hArondissement
+        borough: Teorainn na Buirge
+        cercle: Teorainn an Chiorcail
+        city: Teorainn na Cathrach
+        comarca: Teorainn Comarca
+        county: Teorainn an Chontae
+        departement: Teorainn na Roinne
+        department: Teorainn na Roinne
+        district: Teorainn an Cheantair
+        distrito: Teorainn an Cheantair
+        freguesia: Teorainn Freguesia
+        local_authority: Teorainn an Údaráis Áitiúil
+        municipality: Teorainn Bardasach
+        municipi: Teorainn Bardasach
+        município: Teorainn Bardasach
+        nation: Teorainn Idirnáisiúnta
+        national: Teorainn Idirnáisiúnta
+        neighbourhood: Teorainn na Comharsanachta
+        parish: Teorainn na Paróiste
+        province: Teorainn Cúige
+        região: Teorainn Réigiúnach
+        region: Teorainn Réigiúnach
+        state: Teorainn Stáit
+        town: Teorainn an Bhaile
+        township: Teorainn an Bhaile Mhóir
+        village: Teorainn an tSráidbhaile
   searches:
+    show:
+      title:
+        latlon: Inmheánach
     queries:
       create:
         no_results: Gan torthaí
@@ -995,18 +1646,49 @@ ga:
       time: Am
       ascend: Dul suas
       descend: Dul síos
+      kilometers: ciliméadar
+      miles_feet: míle, troigh
+      miles_yards: míle, slat
+      distance_units_settings: Socruithe Aonaid Fad
+      download: Íoslódáil an bealach mar GeoJSON
+      filename: bealach
       directions_courtesy_html: Treoracha le caoinchead %{link}
+      check_demo_html: Tuilleadh sonraí ó %{link}
   issues:
     index:
       title: Fadhbanna
       select_status: Roghnaigh stádas
+      select_type: Roghnaigh Cineál
+      select_last_managed_by: Roghnaigh Bainistithe Deiridh Ag
+      reported_user: Úsáideoir Tuairiscithe
+      not_managed: Gan Bhainistiú
+      search: Cuardaigh
+      search_guidance: 'Fadhbanna Cuardaigh:'
+      states:
+        ignored: Neamhaird déanta air
+        open: Oscail
+        resolved: Réitithe
     page:
+      user_not_found: Níl an t-úsáideoir ann
+      issues_not_found: Níor aimsíodh aon fhadhbanna den chineál sin
+      reported_user: Úsáideoir Tuairiscithe
+      status: Stádas
+      reports: Tuairiscí
       last_updated: Nuashonrú deireanach
+      last_managed: Bainistithe Deiridh
+      reporting_users: Úsáideoirí Tuairiscithe
+      reported_item: Mír Tuairiscithe
+      states:
+        ignored: Neamhaird déanta air
+        open: Oscail
+        resolved: Réitithe
     show:
       reports:
-        zero: Tuairisc ar bith
-        one: Tuairisc amháin
-        other: '%{count} tuairisc'
+        one: '%{count} tuairisc'
+        two: '%{count} tuairiscí'
+        few: '%{count} tuairiscí'
+        many: '%{count} tuairiscí'
+        other: '%{count} tuairiscí'
       report_created_at_html: Tuairiscíodh den chéad uair ag %{datetime}
       last_resolved_at_html: Réitithe den uair dheirineach ag %{datetime}
       last_updated_at_html: Rinne %{displayname} an nuashonrú is déanaí ag %{datetime}
@@ -1102,7 +1784,7 @@ ga:
       hi: A %{to_user}, a chara,
       see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
     gpx_failure:
-      failed_to_import: ', theip ar an iompórtáil. Seo an earráid:'
+      failed_to_import: Is cosúil nár éirigh le d’chomhad a iompórtáil mar rian GPS.
       subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
     gpx_success:
       subject: '[OpenStreetMap] Iompórtáladh an GPX'
@@ -1159,7 +1841,7 @@ ga:
           gar don áit seo: %{place}.'
         commented_note: 'D''athoscail %{commenter} nóta léarscáile ar fhág tú nóta
           tráchta faoi. Tá an nóta gar don áit seo: %{place}.'
-      details: Tá tuilleadh sonraí faoin nóta ar fáil ag %{url}.
+      details: Freagair nó faigh tuilleadh eolais faoin nóta ag %{url}.
     changeset_comment_notification:
       hi: A %{to_user}, a chara,
       commented:
@@ -1177,11 +1859,11 @@ ga:
         partial_changeset_with_comment_html: a bhfuil an nóta tráchta '%{changeset_comment}'
           ag gabháil leis
         partial_changeset_without_comment: nach bhfuil nóta tráchta ag gabháil leis
-      details: Tá tuilleadh sonraí faoin tacar athruithe ar fáil ag %{url}.
-      unsubscribe: Le díliostáil ó nuashonruithe a dhéanfar ar an tacar athruithe
-        seo, tabhair cuairt ar %{url} agus cliceáil ar "Díoliostáil".
-      unsubscribe_html: Le díliostáil ó nuashonruithe a dhéanfar ar an tacar athruithe
-        seo, tabhair cuairt ar %{url} agus cliceáil ar "Díoliostáil".
+      details: Freagair nó faigh tuilleadh eolais faoin tacar athruithe ag %{url}.
+      unsubscribe: Is féidir leat díliostáil ó nuashonruithe ar an tacar athruithe
+        seo ag %{url}.
+      unsubscribe_html: Is féidir leat díliostáil ó nuashonruithe ar an tacar athruithe
+        seo ag %{url}.
   confirmations:
     confirm:
       heading: Féach sna ríomhphoist!
@@ -1219,8 +1901,8 @@ ga:
       destroy_button: Scrios
       back: Ar ais
       wrong_user: Tá tú logáilte isteach mar '%{user}' ach níor seoladh an teachtaireacht
-        atá tú ag iarraidh léamh chuig an úsáideoir sin agus ní hé a sheol é ach an
-        oiread. Logáil isteach mar an t-úsáideoir ceart chun é a léamh.
+        a d'iarr tú a léamh ag an úsáideoir sin ná níor seoladh chuig an úsáideoir
+        sin í. Logáil isteach mar an úsáideoir ceart le go bhféadfá í a léamh.
     destroy:
       destroyed: Teachtaireacht scriosta
     read_marks:
@@ -1271,13 +1953,13 @@ ga:
     replies:
       new:
         wrong_user: Tá tú logáilte isteach mar '%{user}' ach níor seoladh an teachtaireacht
-          atá tú ag iarraidh freagra a thabhairt uirthi chuig an úsáideoir sin. Logáil
-          isteach mar an t-úsáideoir ceart chun freagra a thabhairt.
+          ar iarr tú freagra a thabhairt uirthi chuig an úsáideoir sin. Logáil isteach
+          mar an úsáideoir ceart le freagra a thabhairt.
   passwords:
     new:
       title: Focal faire caillte
       heading: Focal Faire Caillte?
-      email address: 'Seoladh ríomhphoist:'
+      email address: Seoladh Ríomhphoist
       new password button: Athshocraigh an focal faire
       help_text: Iontráil an seoladh ríomhphoist a d'úsáid tú le clárú, agus seolfaimid
         nasc chugat a bheidh tú in ann a úsáid chun do phasfhocal a athshocrú.
@@ -1304,13 +1986,13 @@ ga:
         image size hint: (íomhá chearnógach atá 100x100 ar a laghad is fearr)
   sessions:
     new:
-      tab_title: Logáil isteach
-      email or username: 'Seoladh Ríomhphoist nó Ainm Úsáideora:'
-      password: 'Focal Faire:'
+      tab_title: Logáil Isteach
+      email or username: Seoladh Ríomhphoist nó Ainm Úsáideora
+      password: Pasfhocal
       remember: Cuimhnigh orm
       lost password link: Focal faire caillte agat?
       login_button: Logáil isteach
-      with external: 'Nó, bain úsáid as tríú páirtí le logáil isteach:'
+      with external: nó logáil isteach le tríú páirtí
       auth failure: Ár leithscéil, níorbh fhéidir logáil isteach leis na sonraí sin.
     destroy:
       title: Logáil amach
@@ -1329,8 +2011,8 @@ ga:
         newer: Loirg Níos Úire
   site:
     about:
-      used_by_html: Cumhachtaíonn %{name} sonraí léarscáile ar  na mílte suíomh gréasáin,
-        feidhmchlár móibíleach agus gléas crua-earraí
+      used_by_html: Soláthraíonn %{name} sonraí léarscáile do na mílte suíomh Gréasáin,
+        aipeanna soghluaiste agus gléasanna crua-earraí
     about_section:
       local_knowledge_title: Eolas Áitiúil
       community_driven_title: Faoi Smacht an Phobail
@@ -1353,8 +2035,8 @@ ga:
         mapping_link: dul i mbun léarscáilithe
       legal_babble:
         credit_title_html: Conas OpenStreetMap a lua
-        credit_1_html: Ceanglaímid ort an lua &ldquo;&copy;Rannchuiditheoirí OpenStreetMap&rdquo;
-          a úsáid.
+        credit_1_html: 'I gcás ina n-úsáideann tú sonraí OpenStreetMap, ní mór duit
+          an dá rud seo a leanas a dhéanamh:'
         attribution_example:
           alt: Sampla den bhealach chun OpenStreetMap a lua ar shuíomh gréasáin
           title: Lua samplach
@@ -1588,11 +2270,11 @@ ga:
     trace:
       pending: AR FEITHEAMH
       count_points:
-        one: Pointe amháin
-        two: Dhá phointe
+        one: '%{count} phointe'
+        two: '{count} phointe'
         few: '%{count} phointe'
-        many: '%{count}… bpointe'
-        other: '%{count} point'
+        many: '%{count} bpointe'
+        other: '%{count} bpointe'
       more: tuilleadh
       trace_details: Amharc ar Shonraí an Loirg
       view_map: Amharc ar an Léarscáil
@@ -1607,7 +2289,7 @@ ga:
       description: Brabhsáil rianta GPS a uaslódáladh le déanaí
       tagged_with: a bhfuil na clibeanna %{tags} acu
       upload_trace: Lorg a uaslódáil
-      my_traces: Mo loirg GPS
+      my_traces: Mo Rianta
     destroy:
       scheduled_for_deletion: Lorg sceidealta le scriosadh
     offline_warning:
@@ -1630,47 +2312,46 @@ ga:
       cookies_needed: Is cosúil go bhfuil fianáin díchumasaithe agat - cumasaigh fianáin
         i do bhrabhsálaí roimh duit leanúint ar aghaidh.
     setup_user_auth:
-      blocked_zero_hour: Tá teachtaireacht phráinneach againn duit ar shuíomh gréasáin
-        OpenStreetMap. Ní mór duit an teachtaireacht a léamh sula mbeidh tú in ann
-        do chuid athruithe a shábháil.
-      blocked: Tá bac curtha ar do rochtain ar an API. Logáil isteach ar an gcomhéadan
-        gréasáin chun tuilleadh eolais a fháil.
-      need_to_see_terms: Cuireadh do rochtain ar an API ar fionraí go sealadach. Logáil
-        isteach ar an gcomhéadan gréasáin le hamharc ar Théarmaí na Rannchuiditheoirí.
-        Ní gá duit aontú, ach ní mór duit amharc orthu.
+      blocked_zero_hour: Tá teachtaireacht phráinneach agat ar shuíomh gréasáin OpenStreetMap.
+        Ní mór duit an teachtaireacht a léamh sula mbeidh tú in ann do chuid eagarthóireachta
+        a shábháil.
+      blocked: Tá bac curtha ar do rochtain ar an API. Logáil isteach sa chomhéadan
+        gréasáin le tuilleadh eolais a fháil.
+      need_to_see_terms: Tá do rochtain ar an API ar fionraí go sealadach. Logáil
+        isteach sa chomhéadan gréasáin le do thoil chun Téarmaí na Rannpháirtí a fheiceáil.
+        Ní gá duit aontú, ach ní mór duit iad a fheiceáil.
     auth_providers:
       google:
         title: Logáil isteach le Google
-        alt: Logáil isteach le OpenID Google
+        alt: Lógó Google
       facebook:
         title: Logáil isteach le Facebook
-        alt: Logáil isteach le Cuntas Facebook
+        alt: Lógó Facebook
       microsoft:
-        title: Logáil isteach le Windows Live
-        alt: Logáil isteach le Cuntas Windows Live
+        title: Logáil isteach le Microsoft
+        alt: Lógó Microsoft
       github:
         title: Logáil isteach le GitHub
-        alt: Logáil isteach le Cuntas GitHub
+        alt: Lógó GitHub
       wikipedia:
         title: Logáil isteach le Vicipéid
-        alt: Logáil isteach le Cuntas Vicipéid
+        alt: Lógó Vicipéid
   oauth:
     permissions:
       missing: Níor thug tú cead don fheidhmchlár rochtain a fháil ar an áis seo
     scopes:
-      write_diary: Iontrálacha dialainne agus nótaí tráchta a chruthú agus cairde
-        a dhéanamh.
+      write_diary: Cruthaigh iontrálacha dialainne agus tráchtanna
   users:
     new:
       title: Clárú
       no_auto_account_create: Ar an drochuair ní féidir linn cuntas a chruthú duit
         go huathoibríoch i láthair na huaire.
       about:
-        header: Saor in aisce agus oscailte don eagarthóireacht
+        header: Saor in aisce agus in-eagarthóireacht.
       display name description: An t-ainm úsáideora atá agat a thaispeántar go poiblí.
         Is féidir leat é seo a athrú níos moille sna sainroghanna.
       continue: Cláraigh
-      use external auth: Nó, bain úsáid as tríú páirtí le logáil isteach
+      use external auth: nó cláraigh le tríú páirtí
     no_such_user:
       title: Níl an t-úsáideoir sin ann
       deleted: scriosta
@@ -1720,7 +2401,10 @@ ga:
     helper:
       block_duration:
         hours:
-          one: uair amháin an chloig
+          one: '%{count} uair an chloig'
+          two: '{count} uair an chloig'
+          few: '%{count} uair an chloig'
+          many: '%{count} uair an chloig'
           other: '%{count} uair an chloig'
     block:
       show: Taispeáin
@@ -1754,8 +2438,8 @@ ga:
     embed:
       report_problem: Tuairiscigh fadhb
     legend:
-      title: Eochair na Léarscáile
-      tooltip: Eochair na Léarscáile
+      title: Finscéal
+      tooltip: Finscéal
     map:
       zoom:
         in: Zúmáil isteach

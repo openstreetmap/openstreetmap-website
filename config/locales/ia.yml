@@ -90,19 +90,6 @@ ia:
       way_node: Nodo de via
       way_tag: Etiquetta de via
     attributes:
-      client_application:
-        name: Nomine (obligatori)
-        url: URL principal del application (obligatori)
-        callback_url: URL de retorno
-        support_url: URl de supporto
-        allow_read_prefs: leger su preferentias de usator
-        allow_write_prefs: modificar su preferentias de usator
-        allow_write_diary: crear entratas de diario e commentos
-        allow_write_api: modificar le carta
-        allow_write_changeset_comments: commentar gruppos de modificationes
-        allow_read_gpx: leger su tracias GPS private
-        allow_write_gpx: incargar tracias GPS
-        allow_write_notes: modificar notas
       diary_comment:
         body: Texto
       diary_entry:
@@ -802,6 +789,9 @@ ia:
       title: File non trovate
       description: Non poteva trovar un file, directorio o operation API con iste
         nomine sur le servitor de OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap incastrate
   follows:
     show:
       follow:
@@ -1666,6 +1656,7 @@ ia:
       download: Discargar itinerario in GeoJSON
       filename: itinerario
       directions_courtesy_html: Itinerario fornite per %{link}
+      check_demo_html: Plus detalios de %{link}
   issues:
     index:
       title: Problemas
@@ -1798,6 +1789,7 @@ ia:
         az: Azerbaijano
         id: Indonesiano
         ms: Malay
+        bcl: Bikol central
         bs: Bosniaco
         br: Breton
         ca: Catalano
@@ -1903,6 +1895,7 @@ ia:
   layouts:
     logo:
       alt_text: Logo de OpenStreetMap
+    layer_info: Information sur le strato
     home: Vader al loco de residentia
     logout: Clauder session
     log_in: Aperir session
@@ -1933,6 +1926,8 @@ ia:
     header:
       select_language: Selige lingua
       loading: Cargamento in curso…
+    meta:
+      openstreetmap_search: Cercar in OpenStreetMap
     select_language_button:
       title: Selige lingua
     offline_flash:
@@ -2274,6 +2269,7 @@ ia:
         image: Imagine
         company: Compania
         location: Loco
+        heatmap: Carta de calor
     descriptions:
       show:
         title: Modificar profilo
@@ -2332,6 +2328,15 @@ ia:
       update:
         success: Loco del profilo actualisate.
         failure: Non poteva actualisar le loco del profilo.
+    heatmaps:
+      show:
+        title: Configurar le carta de calor
+        show_heatmap_in_public: Monstrar le carta de calor sur tu pagina de profilo
+        save: Actualisar le configuration del carta de calor
+        cancel: Cancellar
+      update:
+        success: Carta de calor actualisate.
+        failure: Non poteva actualisar le carta de calor.
   sessions:
     new:
       tab_title: Aperir session
@@ -3226,9 +3231,8 @@ ia:
       signup_to_authorize_html: Crea un conto sur OpenStreetMap pro acceder a %{client_app_name}.
       no_auto_account_create: Infortunatemente in iste momento non es possibile crear
         un conto pro te automaticamente.
-      please_contact_support_html: Per favor contacta le %{support_link} pro arrangiar
-        le creation de un conto. Nos tentara tractar le requesta le plus rapidemente
-        possibile.
+      please_contact_support_html: Per favor contacta le %{support_link}. Nos tentara
+        tractar le requesta le plus rapidemente possibile.
       support: assistentia
       about:
         header: Libere e modificabile.
@@ -3306,7 +3310,9 @@ ia:
       activate_user: Activar iste usator
       confirm_user: Confirmar iste usator
       unconfirm_user: Disconfirmar iste usator
+      suspend_user: Suspender iste usator
       unsuspend_user: Non plus suspender iste usator
+      undelete_user: Restaurar iste usator
       confirm: Confirmar
       report: Signalar iste usator
       edit_profile_details: Modificar le detalios del profilo
@@ -3315,6 +3321,7 @@ ia:
       change_image: Cambiar imagine
       edit_company: Modificar compania
       edit_location: Modificar loco
+      edit_heatmap: Configurar le carta de calor
       contributions:
         one: '%{count} contribution in the le ultime anno'
         other: '%{count} contributiones in le ultime anno'
@@ -3368,6 +3375,7 @@ ia:
           one: '%{count} usator trovate'
           other: '%{count} usatores trovate'
         confirm: Confirmar usatores seligite
+        suspend: Suspender le usatores seligite
         empty: Nulle usator correspondente trovate
       user:
         summary_html: '%{name} create ab %{ip_address} le %{date}'
@@ -3655,11 +3663,14 @@ ia:
       tooltip: Legenda
       tooltip_disabled: Le legenda non es disponibile pro iste strato
     map:
+      popup:
+        close: Clauder
       zoom:
         in: Zoom avante
         out: Zoom retro
       locate:
         title: Monstrar mi position
+        not_available: Position indisponibile
         metersPopup:
           one: Tu es minus de %{count} metro distante de iste puncto
           other: Tu es minus de %{count} metros distante de iste puncto

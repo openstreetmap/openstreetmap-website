@@ -92,19 +92,6 @@ be-Tarask:
       way_node: Вузел лініі
       way_tag: Тэґ лініі
     attributes:
-      client_application:
-        name: Імя (абавязкова)
-        url: Асноўны URL праґрамы (абавязкова)
-        callback_url: URL-адрас зваротнага выкліку
-        support_url: URL-адрас падтрымкі
-        allow_read_prefs: чытаць налады карыстальніка
-        allow_write_prefs: зьмяняць налады карыстальніка
-        allow_write_diary: ствараць допісы і камэнтары ў дзёньніку
-        allow_write_api: зьмяняць мапу
-        allow_write_changeset_comments: камэнтаваць наборы зьменаў
-        allow_read_gpx: чытаць прыватныя GPS-трэкі
-        allow_write_gpx: дасылаць GPS-трэкі
-        allow_write_notes: зьмяняць заўвагі
       diary_comment:
         body: Тэкст
       diary_entry:
@@ -1668,6 +1655,10 @@ be-Tarask:
         ці архівам з GPX-файлам(і) у зразумелым фармаце (.tar.gz, .tar.bz2, .tar,
         .zip, .gpx.gz, .gpx.bz2). Мажліва праблема з фарматам файла? Такая памылка
         імпарту:'
+      more_info: 'Больш інфармацыі пра памылкі GPX імпарту й як іх пазьбегнуць, можна
+        праглядзець тут: %{url}'
+      more_info_html: 'Болей інфармацыі пра памылкі GPX імпарту й як іх пазьбегнуць,
+        можна праглядзець тут: %{url}'
       subject: '[OpenStreetMap] памылка імпарту GPX'
     gpx_success:
       hi: Вітаем, %{to_user},
@@ -1790,7 +1781,7 @@ be-Tarask:
       back_to_inbox: Вярнуцца да ўваходных
     create:
       message_sent: Паведамленьне дасланае
-      limit_exceeded: Вы даслалі шмат паведамленьняў у апошні час. Калі ласка, пачакайце
+      limit_exceeded: Вы даслалі шмат паведамленьняў у вапошні час. Калі ласка, пачакайце
         перад тым як адпраўляць зноў.
     no_such_message:
       title: Няма такога паведамленьня
@@ -2081,7 +2072,7 @@ be-Tarask:
     about:
       heading_html: '%{copyright}OpenStreetMap %{br} удзельнікі'
       used_by_html: '%{name} забясьпечвае зьвесткамі тысячы сайтаў, праґрамаў і прыладаў'
-      lede_text: OpenStreetMap пабудавана супольна людзьмі кшталту вас, што ствараюць
+      lede_text: OpenStreetMap пабудавана супольна людзьмі накшталт вас, што ствараюць
         і падтрымліваюць зьвесткі пра дарогі, маршруты, харчоўні, чыгуначныя станцыі
         ды многае іншае па ўсяму сьвету.
     about_section:
@@ -2101,13 +2092,39 @@ be-Tarask:
       community_driven_community_blogs: блёґі супольнасьці
       community_driven_osm_foundation: OSM Фундацыя
       open_data_title: Адкрытыя зьвесткі
+      open_data_1_html: 'OpenStreetMap — гэта %{open_data}: іх можна спажываць як
+        заўгодна, пры ўмове згадкі OpenStreetMap і ягоных ўдзельнікаў. Пры зьмене
+        ці дадатку зьвестак, іхны распаўсюд мае быць водле той самай ліцэнзіі. Старонка
+        %{copyright_license_link} з падрабязнай інфармацыяй.'
       open_data_open_data: адкрытыя зьвесткі
-      legal_title: Юрыдычная інфармацыя
-      legal_1_1_openstreetmap_foundation: OpenStreetMap Фундацыя
-      legal_1_1_terms_of_use: Умовы ўжываньня
-      legal_1_1_privacy_policy: Палітыкай прыватнасьці
+      open_data_copyright_license: Аўтарскіх правоў і ліцэнзіі
+      legal_title: Юрыдычны бок
+      legal_1_1_html: Гэты сайт і многія іншыя зьвязаныя зь ім сэрвісы афіцыйна кіруюцца
+        %{openstreetmap_foundation_link} (OSMF) ад імя супольнасьці. Спажываньне ўсіх
+        сэрвісаў OSMF падпарадкоўваецца нашым %{terms_of_use_link}, %{aup_link} і
+        %{privacy_policy_link}.
+      legal_1_1_openstreetmap_foundation: Фундацыяй OpenStreetMap
+      legal_1_1_terms_of_use: Умовам ўжываньня
+      legal_1_1_aup: Палітыкам прымальнага спажываньня
+      legal_1_1_privacy_policy: Палітыкам прыватнасьці
+      legal_1_2_html: "Пры намеры ўжыць мапу ці зьвесткі OpenStreetMap, важна абавязкова
+        пазначаць атрыбут OpenStreetMap як аўтара — \nстаронка %{attribution_guidelines_link}
+        з падрабязнай інфармацыяй."
+      legal_attribution_guidelines_title: Правілаў атрыбуцыі
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_1_3_html: 'Датычна ўжываньня скрыншотаў з OpenStreetMap наўпрост у кнізе,
+        публікацыі, кіно ці ў тэлебачаньні: не патрабуецца запыт дазолу да зьвестак
+        OpenStreetMap - яны вольныя для ўжываньня задарма. Старонка %{attribution_guidelines_link}
+        ды існыя прыклады ў  %{attribution_example_film} й %{attribution_example_tv}.'
+      legal_attribution_example_film_title: Кіно
       legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
+      legal_attribution_example_tv_title: Тэлебачаньні
       legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
+      legal_2_1_html: '%{contact_the_osmf_link}, калі ёсьць ліцэнзійныя, аўтарскія
+        або іншыя юрыдычныя пытаньні.'
+      legal_2_1_contact_the_osmf: Кантакты для сувязі з OSMF
+      legal_2_2_html: OpenStreetMap, лягатып з лупай і State of the Map ёсьць %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: зарэґістраванымі ґандлёвымі знакамі OSMF
       partners_title: Партнэры
     copyright:
       title: Аўтарскія правы і ліцэнзія
@@ -2126,7 +2143,7 @@ be-Tarask:
       legal_babble:
         lead_1_html: |-
           OpenStreetMap забясьпечвае зьвесткамі тысячы сайтаў, праґрамаў і прыладаў.
-          OpenStreetMap пабудавана супольна людзьмі кшталту вас, што ствараюць і падтрымліваюць зьвесткі пра дарогі, маршруты, харчоўні, чыгуначныя станцыі ды многае іншае па ўсяму сьвету.
+          OpenStreetMap пабудавана супольна людзьмі накшталт вас, што ствараюць і падтрымліваюць зьвесткі пра дарогі, маршруты, харчоўні, чыгуначныя станцыі ды многае іншае па ўсяму сьвету.
         lead_2_html: |-
           %{learn_more_about_osm_link} і %{get_started_mapping_link}!
           Даведацца больш на %{osm_blog_link} і падпісацца на %{weeklyosm_link}.
@@ -2146,6 +2163,8 @@ be-Tarask:
         licensing_1_open: адкрытыя
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: OpenStreetMap Фундацыі
+        licensing_4_html: Падрабязную інфармацыю пра ўжытак нашых зьвестак можна знайсці
+          на %{osmf_license_page_link}.
         credit_title_html: Як спасылацца на OpenStreetMap
         credit_1_html: 'Ужываючы зьвесткі OpenStreetMap, вы мусіце выканаць дзьве
           ўмовы:'
@@ -2155,6 +2174,9 @@ be-Tarask:
           Open Database.
         infringement_2_1_takedown_procedure: працэдура выдаленьня
         trademarks_title: Ґандлёвыя знакі
+        trademarks_1_1_html: "OpenStreetMap, лягатып з лупай і State of the Map ёсьць
+          зарэґістраванымі ґандлёвымі знакамі фундацыі OpenStreetMap. Калі ёсьць пытаньні
+          пра ўжытак гэтых знакаў, да прагляду нашая \n%{trademark_policy_link}."
         trademarks_1_1_trademark_policy: Палітыка ґандлёвага знаку
         services_title_html: Дадатковыя паслугі
         services_1_html: Нягледзячы на тое, што OpenStreetMap месьціць вольныя зьвесткі,
@@ -2233,8 +2255,8 @@ be-Tarask:
         title: Як дапамагчы
         join_the_community:
           title: Далучыцца да супольнасьці
-          explanation_html: Калі ёсьць праблема зь зьвесткамі мапы, кшталту брака
-            дарогі ці адраса, найлепшае выйсьце - далучыцца да OpenStreetMap супольнасьці
+          explanation_html: Калі ёсьць праблема зь зьвесткамі мапы, накшталт браку
+            дарогі ці адрасу, найлепшае выйсьце - далучыцца да OpenStreetMap супольнасьці
             й самастойна дадаць ці выправіць гэтыя зьвесткі.
       other_concerns:
         title: Іншыя праблемы
@@ -2255,7 +2277,12 @@ be-Tarask:
         title: Кіраўніцтва пачаткоўцы
         description: Падрыхтаванае кіраўніцтва для пачаткоўцы ад супольнасьці.
       community:
+        title: Дапамога & форум супольнасьці
         description: Месца дзе можна адшукаць дапамогу й абмеркаваць OpenStreetMap
+      mailing_lists:
+        title: Сьпіс рассылкі
+        description: Спытаць ці абмяркаваць цікаваныя рэчы ў шырокім коле тэматычных
+          ці рэґіянальных сьпісаў рассылак.
       irc:
         title: IRC
         description: Інтэрактыўны чат на розных мовах, на розныя тэмы.
@@ -2313,9 +2340,9 @@ be-Tarask:
           %{real_and_current} - гэта мільёны будынкаў, дарогаў ды іншых дэталёў пра
           месцы. Можна дадаваць якія заўгодна існыя рысы, што зацікавілі.
         real_and_current: цяпер і зараз
-        off_the_map_html: Тут %{doesnt} памяркоўныя зьвесткі кшталту рэйтынґаў, былых
-          ці гіпатэтычных аб'ектаў, зьвесткі з прыватных крыніц. Ня варта дадаваць
-          сюды зьвесткі з папяровых ці інтэрнэт мапаў, не маючы адпаведнага дазволу.
+        off_the_map_html: Тут %{doesnt} памяркоўныя зьвесткі накшталт рэйтынґаў, былых
+          ці гіпатэтычных аб'ектаў, зьвесткі з прыватных крыніцаў. Ня варта дадаваць
+          сюды зьвесткі з папяровых ці інтэрнэт мапаў, ня маючы адпаведнага дазволу.
         doesnt: не выкладаюць
       basic_terms:
         title: Базавыя правілы стварэньня мапы
@@ -2597,6 +2624,8 @@ be-Tarask:
       cookies_needed: Здаецца, што ў Ва забароненыя закладкі (cookies). Калі ласка,
         дазвольце іх ў Вашым браўзэры перад тым, як працягваць.
     setup_user_auth:
+      blocked_zero_hour: Прыйшло тэрміновае паведамленьне на сайт OpenStreetMap. Трэба
+        прачытаць гэтае паведамленьне, перад тым як захаваць рэдагаваньне.
       blocked: Ваш доступ да API заблякаваны. Каб даведацца болей, калі ласка, увайдзіце
         праз ўэб-інтэрфэйс.
       need_to_see_terms: Ваш доступ да API часова прыпынены. Калі ласка, увайдзіце,
@@ -2734,7 +2763,7 @@ be-Tarask:
       about:
         header: Вольная й дармовая.
         paragraph_1: У параўнаньні зь іншымі мапамі, OpenStreetMap цалкам створана
-          людзьмі кшталту вас, кожны вольны яе выпраўляць, абнаўляць, сьцягваць і
+          людзьмі накшталт вас, кожны вольны яе выпраўляць, абнаўляць, сьцягваць і
           ўжываць.
         paragraph_2: Рэґістрацыя, каб рабіць унёсак.
         welcome: Сардэчна запрашаем у OpenStreetMap
@@ -2836,6 +2865,7 @@ be-Tarask:
         title: Прыбраць усе блякіроўкі ў %{block_on}
         heading_html: Прыбраць усе блякіроўкі ў %{block_on}
         empty: '%{name} не мае актыўных блякіровак.'
+        confirm: Адклікаць %{active_blocks}?
         active_blocks:
           one: '%{count} актыўная блякіроўка'
           other: '%{count} актыўныя блякіроўкі'
@@ -2846,11 +2876,24 @@ be-Tarask:
         title: Карыстальнікі
         heading: Карыстальнікі
         select_status: Абраць статус
+        states:
+          pending: Чакае
+          active: Актыўны
+          confirmed: Пацьверджаны
+          suspended: Прыпынены
+          deleted: Выдалены
+        name_or_email: Імя ці Email
+        ip_address: IP-адрас
+        edits: Рэдагаваньні?
+        has_edits: Ёсьць рэдагаваньні
+        no_edits: Няма рэдагаваньняў
+        search: Пошук
       page:
         found_users:
           one: '%{count} знойдзены карыстальнік'
           other: '%{count} знойдзеных карыстальнікаў'
         confirm: Пацьвердзіць выбраных карыстальнікаў
+        suspend: Прыпыніць выбраных карыстальнікаў
         empty: Адпаведныя карыстальнікі ня знойдзеныя
       user:
         summary_html: '%{name} створаны з %{ip_address}, %{date}'
@@ -2960,10 +3003,26 @@ be-Tarask:
         days:
           one: '%{count} дзень'
           other: '%{count} дзён'
+        weeks:
+          one: '%{count} тыдзень'
+          few: '%{count} тыдні'
+          many: '%{count} тыдняў'
+          other: ""
         months:
           one: '%{count} месяц'
-          other: '%{count} месяцаў'
+          few: '%{count} месяцы'
+          many: '%{count} месяцаў'
+          other: ""
+        years:
+          one: '%{count} год'
+          few: '%{count} гады'
+          many: '%{count} гадоў'
+          other: ""
       short:
+        ended: скончана
+        revoked_html: адклікана %{name}
+        active: актыўная
+        active_until_read: актыўна пакуль не прачытае
         read_html: прачытана ў %{time}
         time_in_future_title: '%{time_absolute}; засталося %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
@@ -2983,10 +3042,14 @@ be-Tarask:
       creator_name: Стваральнік
       reason: Прычына блякаваньня
       start: Пачатак
+      end: Канец
       status: Статус
     navigation:
       all_blocks: Усе блякіроўкі
-      blocks_on_me: Заблякаваныя мной
+      blocks_on_me: Блякіроўкі на мне
+      blocks_on_user_html: Блякіроўкі ў %{user}
+      blocks_by_me: Заблякаваныя мной
+      blocks_by_user_html: Блякіроўкі ад %{user}
       block: 'Блёк #%{id}'
       new_block: Новы блёк
   user_mutes:
@@ -2998,7 +3061,7 @@ be-Tarask:
         few: Сьцішана %{count} карыстальніка
         many: Сьцішана  %{count} карыстальнікаў
         other: ""
-      user_mute_explainer: Паведамленьні сьцішаных карыстальнікаў будуць у асобнай
+      user_mute_explainer: Паведамленьні сьцішаных карыстальнікаў будуць у васобнай
         скрыні, бязь лістоў на электронную пошту.
       user_mute_admins_and_moderators: Можна сьцішыць адміністратараў і мадэратараў,
         але іхныя паведамленьні сьцішаны ня будуць.

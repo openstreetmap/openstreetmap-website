@@ -99,19 +99,6 @@ az:
       way_node: Xəttin Nöqtələri
       way_tag: Xəttin Teqi
     attributes:
-      client_application:
-        name: Ad (Vacib)
-        url: Əsas Tətbiq URL (Tələb olunur)
-        callback_url: Callback URL
-        support_url: Dəstək linki
-        allow_read_prefs: Digər istifadəçilərin fikirlərini oxu
-        allow_write_prefs: istifadəçi seçimlərini dəyişdirmək
-        allow_write_diary: gündəlik qeydləri və şərhlər yaratmaq
-        allow_write_api: Xəritəni dəyişmək
-        allow_write_changeset_comments: dəyişikliklərdə şərh yazmaq
-        allow_read_gpx: onların şəxsi GPS izlərini oxumaq
-        allow_write_gpx: GPS izlərini yükləmək
-        allow_write_notes: qeydləri dəyişdirmək
       diary_comment:
         body: Mətn
       diary_entry:
@@ -198,6 +185,30 @@ az:
         one: demək olar ki, %{count} il əvvəl
         other: demək olar ki, %{count} il əvvəl
       half_a_minute: yarım dəqiqə əvvəl
+      less_than_x_seconds:
+        one: '%{count} saniyədən biraz əvvəl'
+        other: '%{count} saniyədən biraz əvvəl'
+      less_than_x_minutes:
+        one: '%{count} dəqiqədən biraz əvvəl'
+        other: '%{count} dəqiqədən biraz əvvəl'
+      over_x_years:
+        one: təxminən %{count} il əvvəl
+        other: təxminən %{count} il əvvəl
+      x_seconds:
+        one: '%{count} saniyə əvvəl'
+        other: '%{count} saniyə əvvəl'
+      x_minutes:
+        one: '%{count} dəqiqə əvvəl'
+        other: '%{count} dəqiqə əvvəl'
+      x_days:
+        one: '%{count} gün əvvəl'
+        other: '%{count} gün əvvəl'
+      x_months:
+        one: '%{count} ay əvvəl'
+        other: '%{count} ay əvvəl'
+      x_years:
+        one: '%{count} il əvvəl'
+        other: '%{count} il əvvəl'
   editor:
     default: Defolt (hal-hazırda %{name})
     id:
@@ -222,35 +233,175 @@ az:
         commented_at_html: '%{when} yenilənib'
         commented_at_by_html: '%{user} tərəfindən %{when} yenilənib'
         closed_at_html: '%{when} həll edilib'
+        closed_at_by_html: '%{user} tərəfindən %{when} həll edilib'
+        reopened_at_html: '%{when} yenidən aktivləşdirilib'
+        reopened_at_by_html: '%{user} tərəfindən %{when} yenidən aktivləşdirilib'
       rss:
         title: OpenStreetMap haqqında qeydlər
+        description_all: Bildirilən, şərh edilən və ya bağlanan qeydlərin siyahısı
+        description_area: Bölgənizdə bildirilən, şərh edilən və ya bağlanan qeydlərin
+          siyahısı  [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: '%{id} qeydi üçün rss lenti'
+        opened: yeni qeyd (%{place} yaxınlığında)
+        commented: yeni şərh (%{place} yaxınlığında)
+        closed: bağlanmış qeyd (%{place} yaxınlığında)
+        reopened: yenidən aktivləşdirilmiş qeyd (%{place} yaxınlığında)
       entry:
         comment: Şərh
         full: Tam qeydlər
   accounts:
     show:
+      title: Hesabı redaktə et
+      my_account: Hesabım
       current email address: Hazırki E-Poçt Ünvanı
+      external auth: Xarici Doğrulama
+      contributor_terms:
+        heading: Töhfəçi Şərtləri
+        agreed: '%{date} tarixində Töhfəçi Şərtləri ilə razılaşmısınız.'
+        not_agreed: Hələ Töhfəçi Şərtləri ilə razılaşmamısınız.
+        agreed_with_pd: Siz həmçinin redaktələrinizi ictimai varidata buraxdığınızı
+          təsdiqləmisiniz.
+        not_agreed_with_pd: Siz redaktələrinizi ictimai varidata buraxdığınızı təsdiqləməmisiniz.
+        review: Şərtləri nəzərdən keçir
+        review_and_accept: Şərtləri nəzərdən keçir və qəbul et
+        consider_pd: İctimai varidata burax
+      terms_of_use:
+        heading: İstifadə şərtləri
+        agreed: '%{date} tarixində İstifadə Şərtlərini qəbul etmisiniz.'
+        not_agreed: Siz hələ İstifadə Şərtlərini qəbul etməmisiniz.
+        review: Şərtləri nəzərdən keçir
+        review_and_accept: Şərtləri nəzərdən keçir və qəbul et
       save changes button: Dəyişiklikləri yadda saxla
+      delete_account: Hesabı sil...
     go_public:
+      heading: İctimai redaktə
+      currently_not_public: Hazırda redaktələriniz anonimdir və insanlar sizə mesaj
+        göndərə və ya olduğunuz yeri görə bilməzlər. Redaktə etdiyinizi göstərmək
+        və insanların veb sayt vasitəsilə sizinlə əlaqə saxlamasına icazə vermək üçün
+        aşağıdakı düyməni klikləyin.
+      only_public_can_edit: 0.6 API dəyişikliyindən sonra, yalnız ictimai istifadəçilər
+        xəritə məlumatlarını redaktə edə bilərlər.
+      find_out_why: səbəbini öyrən
+      email_not_revealed: E-poçt ünvanınız ictimai şəkildə görünə bilən olmayacaq.
+      not_reversible: Bu əməliyyat geri qaytarıla bilməz və bütün yeni istifadəçilər
+        artıq defolt olaraq ictimaidir.
       make_edits_public_button: Bütün redaktələrimi açıq et
+    update:
+      success_confirm_needed: İstifadəçi məlumatları uğurla yeniləndi. Yeni e-poçt
+        ünvanınızı təsdiqləmək üçün e-poçtunuzu yoxlayın.
+      success: İstifadəçi məlumatları uğurla yeniləndi.
     destroy:
       success: Hesab silindi.
+    deletions:
+      show:
+        title: Hesabımı sil
+        warning: Diqqət! Hesabın silinməsi prosesi ciddidir və geri qaytarıla bilməz.
+        delete_account: Hesabı sil
+        delete_introduction: 'Aşağıdakı düymədən istifadə edərək OpenStreetMap hesabınızı
+          silə bilərsiniz. Zəhmət olmasa, aşağıdakı detallara diqqət yetirin:'
+        delete_profile: Avatarınız, təsviriniz və ev məkanınız daxil olmaqla profil
+          məlumatlarınız silinəcək.
+        delete_display_name: Göstərilən adınız silinəcək və digər hesablar tərəfindən
+          yenidən istifadə edilə bilər.
+        retain_caveats: 'Lakin, hesabınız silindikdən sonra belə, sizin haqqınızda
+          bəzi məlumatlar OpenStreetMap-da saxlanılacaq:'
+        retain_edits: Xəritəyə etdiyiniz düzəlişlər, əgər varsa, saxlanılacaq.
+        retain_traces: Yüklədiyiniz izlər, əgər varsa, saxlanılacaq.
+        retain_diary_entries: Gündəlik qeydləriniz və gündəlik şərhləriniz, əgər varsa,
+          saxlanılacaq, lakin görünməyəcək.
+        retain_notes: Xəritə qeydləriniz və qeyd şərhləriniz, əgər varsa, saxlanılacaq,
+          lakin görünməyəcək.
+        retain_changeset_discussions: Dəyişikliklər dəsti ilə bağlı müzakirələriniz,
+          əgər varsa, saxlanılacaq.
+        retain_email: E-poçt ünvanınız saxlanılacaq.
+        recent_editing_html: Bu yaxınlarda düzəliş etdiyiniz üçün hesabınız hal-hazırda
+          silinə bilməz. Silinmə %{time} ərzində mümkün olacaq.
+        confirm_delete: Əminsiniz?
+        cancel: İmtina
     terms:
       show:
+        title: Şərtlər
+        heading: Şərtlər
+        heading_ct: Töhfəçi şərtləri
+        read and accept with tou: Zəhmət olmasa, töhfəçi müqaviləsini və istifadə
+          şərtlərini oxuyun, tamamlandıqdan sonra hər iki qutunu işarələyin və sonra
+          davam et düyməsini basın.
+        contributor_terms_explain: Bu müqavilə mövcud və gələcək töhfələriniz üçün
+          şərtləri tənzimləyir.
+        read_ct: Yuxarıdakı töhfəçi şərtlərini oxudum və qəbul edirəm
+        tou_explain:
+          html: '%{tou_link} veb saytın və OSMF tərəfindən təmin edilən digər infrastrukturun
+            istifadəsini tənzimləyir. Zəhmət olmasa, linkə klikləyin, mətni oxuyun
+            və təsdiqləyin.'
+          tou: İstifadə şərtləri
+        read_tou: İstifadə Şərtlərini oxudum və razıyam
+        guidance_info_html: 'Bu terminləri başa düşməyə kömək edəcək məlumatlar: %{readable_summary_link}
+          və bəzi %{informal_translations_link}'
+        readable_summary: asanlaşdırılmış xülasə
+        informal_translations: qeyri-rəsmi tərcümələr
+        continue: Davam et
+        cancel: İmtina
+        you need to accept or decline: Davam etmək üçün yeni Töhfəçi Şərtlərini oxuyun
+          və sonra qəbul edin və ya rədd edin.
+        legale_select: Yaşadığınız ölkə
         legale_names:
           france: Fransa
           italy: İtaliya
+          rest_of_world: Dünyanın qalan hissəsi
+      update:
+        terms accepted: Yeni töhfə şərtlərini qəbul etdiyiniz üçün təşəkkür edirik!
+      terms_declined_flash:
+        terms_declined_html: Yeni Töhfəçi Şərtlərini qəbul etməmək qərarına gəldiyiniz
+          üçün təəssüf edirik. Daha ətraflı məlumat üçün %{terms_declined_link} səhifəsinə
+          baxın.
+        terms_declined_link: bu viki səhifəsinə
+    pd_declarations:
+      show:
+        title: İctimai varidata buraxmaq
+        consider_pd: Mən töhfələrimi ictimai varidata buraxıram
+        consider_pd_why: Niyə bunu etmək istəyim?
+        confirm: Təsdiq et
+      create:
+        successfully_declared: Siz redaktələrinizi ictimai varidata buraxdığınızı
+          təsdiqlədiniz.
+        already_declared: Siz artıq redaktələrinizi ictimai varidata buraxdığınızı
+          təsdiqləmisiniz.
+        did_not_confirm: Siz redaktələrinizi ictimai varidata buraxdığınızı təsdiqləməmisiniz.
   browse:
     deleted_ago_by_html: '%{user} tərəfindən %{time_ago} silindi'
+    edited_ago_by_html: '%{user} tərəfindən %{time_ago} tərəfindən redaktə edildi'
     version: Versiya
+    redacted_version: Redaktə edilmiş versiya
     in_changeset: Dəyişikliklər
     anonymous: anonim
     no_comment: (şərhsiz)
     part_of: Hissəsidir
+    part_of_relations:
+      one: '%{count} əlaqə'
+      other: '%{count} əlaqə'
+    part_of_ways:
+      one: '%{count} yol'
+      other: '%{count} yol'
     download_xml: XML endir
+    view_unredacted_history: Redaktə edilməmiş tarixçəyə bax
     location: 'Yerləşməsi:'
+    node:
+      title_html: 'Nöqtə: %{name}'
+    way:
+      title_html: 'Yol: %{name}'
+      nodes: Nöqtələr
+      nodes_count:
+        one: '%{count} nöqtə'
+        other: '%{count} nöqtə'
+      also_part_of_html:
+        one: '%{related_ways} yolunun hissəsi'
+        other: '%{related_ways} yollarının hissəsi'
     relation:
+      title_html: 'Əlaqə: %{name}'
       members: İştirakçılar
+      members_count:
+        one: '%{count} üzv'
+        other: '%{count} üzv'
     relation_member:
       entry_role_html: '%{role} kimi %{type} %{name}'
       type:
@@ -262,6 +413,7 @@ az:
     not_found:
       title: Tapılmadı
     timeout:
+      title: Vaxt bitimi xətası
       sorry: Bağışlayın, %{id} identifikatorlu %{type} üçün məlumatlar çıxarılmaq
         üçün çox uzundurlar.
       type:
