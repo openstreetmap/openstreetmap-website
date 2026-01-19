@@ -15,7 +15,7 @@ $(function () {
     if (marker) {
       marker.setLngLat(coords);
     } else {
-      marker = OSM.MapLibre.getMarker({ draggable: true })
+      marker = new OSM.MapLibre.Marker({ draggable: true })
         .setLngLat(coords)
         .setPopup(new OSM.MapLibre.Popup().setHTML(OSM.i18n.t("diary_entries.edit.marker_text")))
         .addTo(map);

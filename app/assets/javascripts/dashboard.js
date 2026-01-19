@@ -28,7 +28,7 @@ $(function () {
       .map(function () {
         const { lat, lon, color, description } = $(this).data("user");
 
-        const marker = OSM.MapLibre.getMarker({ icon: "dot", color })
+        const marker = new OSM.MapLibre.Marker({ color })
           .setLngLat([lon, lat])
           .setPopup(new OSM.MapLibre.Popup().setHTML(description));
 

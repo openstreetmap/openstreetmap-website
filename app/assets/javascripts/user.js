@@ -1,5 +1,6 @@
 //= require maplibre.map
 //= require maplibre.combinedcontrolgroup
+//= require maplibre/dom_util
 //= require ./home_location_name-endpoint
 
 $(function () {
@@ -68,7 +69,7 @@ $(function () {
     map.touchZoomRotate.disableRotation();
     map.keyboard.disableRotation();
 
-    marker = OSM.MapLibre.getMarker({});
+    marker = new OSM.MapLibre.Marker();
 
     if (OSM.home) {
       marker.setLngLat([OSM.home.lon, OSM.home.lat]);

@@ -36,39 +36,3 @@ OSM.MapLibre.defaultSecondaryMapOptions = {
   center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
   zoom: OSM.home ? OSM.MapLibre.defaultHomeZoom : 0
 };
-
-// Helper function to create Leaflet style (SVG comes from Leaflet) markers for MapLibre
-// new maplibregl.Marker({ color: color }) is simpler, but does not have the exact same gradient
-OSM.MapLibre.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
-  const el = document.createElement("div");
-  el.className = "maplibre-gl-marker";
-  el.style.width = "25px";
-  el.style.height = "40px";
-
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 25 40");
-  svg.setAttribute("width", "25");
-  svg.setAttribute("height", "40");
-  svg.classList.add("pe-none");
-  svg.style.overflow = "visible";
-
-  // Use the marker icons from NoteMarker.svg
-  const use1 = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  use1.setAttribute("href", "#pin-shadow");
-
-  const use2 = document.createElementNS("http://www.w3.org/2000/svg", "use");
-  use2.setAttribute("href", `#pin-${icon}`);
-  use2.setAttribute("color", color);
-  use2.classList.add("pe-auto");
-
-  svg.appendChild(use1);
-  svg.appendChild(use2);
-  el.appendChild(svg);
-
-  return new maplibregl.Marker({
-    element: el,
-    anchor: "bottom",
-    offset: [0, 0],
-    ...options
-  });
-};
