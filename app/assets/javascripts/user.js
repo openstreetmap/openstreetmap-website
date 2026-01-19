@@ -1,5 +1,6 @@
 //= require maplibre.map
 //= require maplibre.combinedcontrolgroup
+//= require maplibre/controls
 //= require maplibre/dom_util
 //= require ./home_location_name-endpoint
 
@@ -58,7 +59,7 @@ $(function () {
     homeLocationNameGeocoder = OSM.HomeLocationNameGeocoder($("#home_lat"), $("#home_lon"), $("#home_location_name"));
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
     const geolocateControl = new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true

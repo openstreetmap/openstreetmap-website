@@ -1,4 +1,5 @@
 //= require maplibre.map
+//= require maplibre/controls
 //= require maplibre/dom_util
 
 $(function () {
@@ -38,7 +39,7 @@ $(function () {
     });
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
     map.addControl(navigationControl, position);
     map.touchZoomRotate.disableRotation();
     map.keyboard.disableRotation();

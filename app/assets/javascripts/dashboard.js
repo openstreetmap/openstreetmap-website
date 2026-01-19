@@ -1,5 +1,6 @@
 //= require maplibre.map
 //= require maplibre.combinedcontrolgroup
+//= require maplibre/controls
 //= require maplibre/dom_util
 
 $(function () {
@@ -9,7 +10,7 @@ $(function () {
     map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
     const geolocateControl = new maplibregl.GeolocateControl({
       positionOptions: {
         enableHighAccuracy: true
