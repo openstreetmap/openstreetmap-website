@@ -10,9 +10,12 @@ class EmbedTest < ApplicationSystemTestCase
 end
 
 class GermanEmbedTest < ApplicationSystemTestCase
-  driven_by :selenium, :using => :headless_firefox, :options => { :name => :selenium_de } do |options|
-    options.add_preference("intl.accept_languages", "de")
-  end
+  driven_by_selenium(
+    "de",
+    :preferences => {
+      "intl.accept_languages" => "de"
+    }
+  )
 
   test "shows localized report link" do
     visit export_embed_path
@@ -21,9 +24,12 @@ class GermanEmbedTest < ApplicationSystemTestCase
 end
 
 class UnknownLanguageEmbedTest < ApplicationSystemTestCase
-  driven_by :selenium, :using => :headless_firefox, :options => { :name => :selenium_unknown_language } do |options|
-    options.add_preference("intl.accept_languages", "unknown-language")
-  end
+  driven_by_selenium(
+    "nolang",
+    :preferences => {
+      "intl.accept_languages" => "unknown-language"
+    }
+  )
 
   test "shows report link in fallback language" do
     visit export_embed_path
