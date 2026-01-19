@@ -1,5 +1,6 @@
 //= require maplibre.map
 //= require maplibre.combinedcontrolgroup
+//= require maplibre/dom_util
 
 $(function () {
   let map;
@@ -29,7 +30,7 @@ $(function () {
 
         const marker = OSM.MapLibre.getMarker({ icon: "dot", color })
           .setLngLat([lon, lat])
-          .setPopup(OSM.MapLibre.getPopup(description));
+          .setPopup(new OSM.MapLibre.Popup().setHTML(description));
 
         return { marker, lat, lon };
       })

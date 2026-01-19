@@ -1,4 +1,5 @@
 //= require maplibre.map
+//= require maplibre/dom_util
 
 $(function () {
   let marker, map;
@@ -16,7 +17,7 @@ $(function () {
     } else {
       marker = OSM.MapLibre.getMarker({ draggable: true })
         .setLngLat(coords)
-        .setPopup(OSM.MapLibre.getPopup(OSM.i18n.t("diary_entries.edit.marker_text")))
+        .setPopup(new OSM.MapLibre.Popup().setHTML(OSM.i18n.t("diary_entries.edit.marker_text")))
         .addTo(map);
       marker.on("dragend", updateFormFieldsFromMarkerPosition);
     }
