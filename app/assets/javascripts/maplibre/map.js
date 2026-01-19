@@ -1,3 +1,9 @@
+//= require maplibre-gl/dist/maplibre-gl
+//= require maplibre.i18n
+//= require maplibre/controls
+//= require maplibre/dom_util
+//= require maplibre/styles
+
 OSM.MapLibre.Map = class extends maplibregl.Map {
   constructor({ allowRotation, ...options } = {}) {
     const rotationOptions = {};

@@ -1,7 +1,4 @@
-//= require maplibre.map
 //= require maplibre/map
-//= require maplibre/controls
-//= require maplibre/dom_util
 
 $(function () {
   let map;

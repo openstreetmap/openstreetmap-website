@@ -1,6 +1,3 @@
-//= require maplibre-gl/dist/maplibre-gl
-//= require maplibre.i18n
-
 OSM.MapLibre.Styles.Mapnik = {
   version: 8,
   sources: {
