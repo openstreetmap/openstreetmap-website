@@ -1,4 +1,5 @@
 //= require maplibre.map
+//= require maplibre/map
 //= require maplibre/controls
 //= require maplibre/dom_util
 
@@ -32,8 +33,7 @@ $(function () {
     $("#usemap").hide();
 
     const params = $("#map").data();
-    map = new maplibregl.Map({
-      ...OSM.MapLibre.defaultSecondaryMapOptions,
+    map = new OSM.MapLibre.SecondaryMap({
       center: [params.lon, params.lat],
       zoom: params.zoom - 1
     });
@@ -41,8 +41,6 @@ $(function () {
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
     const navigationControl = new OSM.MapLibre.NavigationControl();
     map.addControl(navigationControl, position);
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
 
     // Create marker if coordinates exist when map is shown
     if ($("#latitude").val() && $("#longitude").val()) {

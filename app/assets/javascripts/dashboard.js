@@ -1,4 +1,5 @@
 //= require maplibre.map
+//= require maplibre/map
 //= require maplibre/controls
 //= require maplibre/dom_util
 
@@ -6,14 +7,12 @@ $(function () {
   let map;
 
   if ($("#map").length) {
-    map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
+    map = new OSM.MapLibre.SecondaryMap();
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
     const navigationControl = new OSM.MapLibre.NavigationControl();
     const geolocateControl = new OSM.MapLibre.GeolocateControl();
     map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
 
     const markerObjects = $("[data-user]")
       .filter(function () {

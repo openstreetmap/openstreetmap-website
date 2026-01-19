@@ -21,18 +21,3 @@ OSM.MapLibre.Styles.Mapnik = {
     }
   ]
 };
-
-OSM.MapLibre.defaultHomeZoom = 11;
-OSM.MapLibre.defaultSecondaryMapOptions = {
-  container: "map",
-  style: OSM.MapLibre.Styles.Mapnik,
-  attributionControl: false,
-  locale: OSM.MapLibre.Locale,
-  rollEnabled: false,
-  dragRotate: false,
-  pitchWithRotate: false,
-  bearingSnap: 180,
-  maxPitch: 0,
-  center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
-  zoom: OSM.home ? OSM.MapLibre.defaultHomeZoom : 0
-};
