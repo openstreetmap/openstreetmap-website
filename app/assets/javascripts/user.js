@@ -1,5 +1,4 @@
 //= require maplibre.map
-//= require maplibre.combinedcontrolgroup
 //= require maplibre/controls
 //= require maplibre/dom_util
 //= require ./home_location_name-endpoint
