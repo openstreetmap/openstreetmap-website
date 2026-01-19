@@ -1,8 +1,12 @@
 //= require maplibre-gl/dist/maplibre-gl
-//= require maplibre.i18n
 //= require maplibre/controls
 //= require maplibre/dom_util
 //= require maplibre/styles
+
+maplibregl.Map.prototype._getUIString = function (key) {
+  const snakeCaseKey = key.replaceAll(/(?<=\w)[A-Z]/g, "_$&").toLowerCase();
+  return OSM.i18n.t(`javascripts.map.${snakeCaseKey}`);
+};
 
 OSM.MapLibre.Map = class extends maplibregl.Map {
   constructor({ allowRotation, ...options } = {}) {
@@ -34,7 +38,6 @@ OSM.MapLibre.SecondaryMap = class extends OSM.MapLibre.Map {
       container: "map",
       style: OSM.MapLibre.Styles.Mapnik,
       attributionControl: false,
-      locale: OSM.MapLibre.Locale,
       allowRotation: false,
       maxPitch: 0,
       center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
