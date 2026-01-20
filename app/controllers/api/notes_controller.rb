@@ -257,6 +257,14 @@ module Api
       @notes = closed_condition(Note.all)
       @notes = bbox_condition(@notes)
 
+      # Add ids filter
+      if params[:notes]
+        ids = params["notes"].split(",").collect(&:to_i)
+        raise OSM::APIBadUserInput, "No notes were given to search for" if ids.empty?
+
+        @notes = @notes.where(:id => ids)
+      end
+
       # Add any user filter
       user = query_conditions_user_value
       @notes = @notes.joins(:comments).where(:note_comments => { :author_id => user }) if user
