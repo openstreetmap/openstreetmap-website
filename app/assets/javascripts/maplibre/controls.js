@@ -1,4 +1,4 @@
-class CombinedControlGroup {
+OSM.MapLibre.CombinedControlGroup = class CombinedControlGroup {
   constructor(controls) {
     // array of MapLibre controls
     this.controls = controls;
@@ -47,6 +47,26 @@ class CombinedControlGroup {
 
     if (this._container) this._container.remove();
   }
-}
+};
 
-OSM.MapLibre.CombinedControlGroup = CombinedControlGroup;
+OSM.MapLibre.GeolocateControl = class extends maplibregl.GeolocateControl {
+  constructor({ positionOptions = {}, ...options } = {}) {
+    super({
+      positionOptions: {
+        enableHighAccuracy: true,
+        ...positionOptions
+      },
+      trackUserLocation: true,
+      ...options
+    });
+  }
+};
+
+OSM.MapLibre.NavigationControl = class extends maplibregl.NavigationControl {
+  constructor(options = {}) {
+    super({
+      showCompass: false,
+      ...options
+    });
+  }
+};

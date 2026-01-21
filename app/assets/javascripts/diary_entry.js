@@ -1,4 +1,4 @@
-//= require maplibre.map
+//= require maplibre/map
 
 $(function () {
   let marker, map;
@@ -14,9 +14,9 @@ $(function () {
     if (marker) {
       marker.setLngLat(coords);
     } else {
-      marker = OSM.MapLibre.getMarker({ draggable: true })
+      marker = new OSM.MapLibre.Marker({ draggable: true })
         .setLngLat(coords)
-        .setPopup(OSM.MapLibre.getPopup(OSM.i18n.t("diary_entries.edit.marker_text")))
+        .setPopup(new OSM.MapLibre.Popup().setHTML(OSM.i18n.t("diary_entries.edit.marker_text")))
         .addTo(map);
       marker.on("dragend", updateFormFieldsFromMarkerPosition);
     }
@@ -30,17 +30,14 @@ $(function () {
     $("#usemap").hide();
 
     const params = $("#map").data();
-    map = new maplibregl.Map({
-      ...OSM.MapLibre.defaultSecondaryMapOptions,
+    map = new OSM.MapLibre.SecondaryMap({
       center: [params.lon, params.lat],
       zoom: params.zoom - 1
     });
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
     map.addControl(navigationControl, position);
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
 
     // Create marker if coordinates exist when map is shown
     if ($("#latitude").val() && $("#longitude").val()) {
