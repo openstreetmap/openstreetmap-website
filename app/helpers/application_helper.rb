@@ -40,7 +40,7 @@ module ApplicationHelper
   end
 
   def header_nav_link_class(path)
-    ["nav-link", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"]
+    ["nav-link", "px-1", "py-0", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"]
   end
 
   def application_data
