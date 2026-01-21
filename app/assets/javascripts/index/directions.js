@@ -113,39 +113,47 @@ OSM.Directions = function (map) {
     $("#directions_loader").prop("hidden", false);
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
-    map.setSidebarOverlaid(false);
 
-    // Update map size after sidebar animation (approx 300ms) to snap pins to correct location
-    setTimeout(function () {
-      map.invalidateSize();
-      map.eachLayer(l => { if (l._glMap) l._glMap.resize(); });
-    }, 350);
+    const sidebarAnimation = new Promise((resolve) => {
+      const container = map.getContainer();
+
+      const onEnd = (e) => {
+        if (e.target === container && (e.propertyName === "width" || e.propertyName === "size")) {
+          container.removeEventListener("transitionend", onEnd);
+          resolve();
+        }
+      };
+
+      container.addEventListener("transitionend", onEnd);
+
+      // Failsafe for reduced motion or missed events
+      setTimeout(() => {
+        container.removeEventListener("transitionend", onEnd);
+        resolve();
+      }, 400);
+    });
+
+    map.setSidebarOverlaid(false);
 
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(async function (route) {
       await sidebarLoaded();
       $("#directions_route").prop("hidden", false);
 
+      await sidebarAnimation;
       routeOutput.remove();
-
-      // Wait for map stability to prevent route offset glitches
-      setTimeout(function () {
-        // Force Vector Layer (WebGL) resize to sync with Leaflet
-        map.eachLayer(function (layer) {
-          if (layer._glMap) {
-            layer._glMap.resize();
-          }
-        });
-
-        map.invalidateSize({ animate: false });
-
-        routeOutput.write(route);
-
-        if (fitRoute) {
-          routeOutput.fit();
+      map.eachLayer((layer) => {
+        if (layer._glMap) {
+          layer._glMap.resize();
         }
-      }, 500);
+      });
+      map.invalidateSize({ animate: false });
 
+      routeOutput.write(route);
+
+      if (fitRoute) {
+        routeOutput.fit();
+      }
     }).catch(async function (error) {
       if (error.name === "AbortError") return;
 
