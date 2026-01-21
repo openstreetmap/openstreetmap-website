@@ -114,15 +114,38 @@ OSM.Directions = function (map) {
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
+
+    // Update map size after sidebar animation (approx 300ms) to snap pins to correct location
+    setTimeout(function () {
+      map.invalidateSize();
+      map.eachLayer(l => { if (l._glMap) l._glMap.resize(); });
+    }, 350);
+
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(async function (route) {
       await sidebarLoaded();
       $("#directions_route").prop("hidden", false);
-      routeOutput.write(route);
 
-      if (fitRoute) {
-        routeOutput.fit();
-      }
+      routeOutput.remove();
+
+      // Wait for map stability to prevent route offset glitches
+      setTimeout(function () {
+        // Force Vector Layer (WebGL) resize to sync with Leaflet
+        map.eachLayer(function (layer) {
+          if (layer._glMap) {
+            layer._glMap.resize();
+          }
+        });
+
+        map.invalidateSize({ animate: false });
+
+        routeOutput.write(route);
+
+        if (fitRoute) {
+          routeOutput.fit();
+        }
+      }, 500);
+
     }).catch(async function (error) {
       if (error.name === "AbortError") return;
 
