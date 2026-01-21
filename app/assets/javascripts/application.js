@@ -113,10 +113,14 @@ $(function () {
     const windowWidth = $(window).width();
 
     if (windowWidth < breakpointWidth) {
-      $("body").addClass("small-nav");
       expandAllSecondaryMenuItems();
     } else {
-      $("body").removeClass("small-nav");
+      if (secondaryMenuItems.length === 0) {
+        $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
+          secondaryMenuItems.push([this, $(this).width()]);
+        });
+        moreItemWidth = $("#compact-secondary-nav").width();
+      }
       const availableWidth = $expandedSecondaryMenu.width();
       secondaryMenuItems.forEach(function (item) {
         $(item[0]).remove();
@@ -180,11 +184,6 @@ $(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
-      secondaryMenuItems.push([this, $(this).width()]);
-    });
-    moreItemWidth = $("#compact-secondary-nav").width();
-
     updateHeader();
 
     $(window).resize(updateHeader);
