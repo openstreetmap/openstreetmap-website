@@ -126,10 +126,13 @@ VS Code is not the only way to work with devcontainers. Other options include:
 - [DevPod](https://devpod.sh): a CLI tool to work with devcontainers.
 - [VSCodium](https://vscodium.com): a Free/Libre alternative to VS Code.
 - [GitHub Codespaces](https://github.com/codespaces): GitHub's hosted IDE.
+- [Zed](https://zed.dev): a code editor
 
 ## Troubleshooting
 
 ### `‘ruby’: No such file or directory`
+
+Make sure that you are running commands from under the `vscode` user. Use `su vscode` to switch to this user.
 
 In some cases Ruby may not install correctly. If you see this message, run these two commands:
 
