@@ -157,7 +157,7 @@ $(function () {
   function expandSecondaryMenuItem($item) {
     $item.children("a")
       .removeClass("dropdown-item")
-      .addClass("nav-link")
+      .addClass("nav-link px-1 py-0")
       .addClass(function () {
         return $(this).hasClass("active") ? "text-secondary-emphasis" : "text-secondary";
       });
@@ -168,7 +168,7 @@ $(function () {
   function collapseSecondaryMenuItem($item) {
     $item.children("a")
       .addClass("dropdown-item")
-      .removeClass("nav-link text-secondary text-secondary-emphasis");
+      .removeClass("nav-link px-1 py-0 text-secondary text-secondary-emphasis");
     $item.removeClass("nav-item").appendTo($collapsedSecondaryMenu);
     toggleCompactSecondaryNav();
   }
