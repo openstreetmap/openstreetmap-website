@@ -380,22 +380,22 @@ az:
       one: '%{count} əlaqə'
       other: '%{count} əlaqə'
     part_of_ways:
-      one: '%{count} yol'
-      other: '%{count} yol'
+      one: '%{count} xətt'
+      other: '%{count} xətt'
     download_xml: XML endir
     view_unredacted_history: Redaktə edilməmiş tarixçəyə bax
     location: 'Yerləşməsi:'
     node:
       title_html: 'Nöqtə: %{name}'
     way:
-      title_html: 'Yol: %{name}'
+      title_html: 'Xətt: %{name}'
       nodes: Nöqtələr
       nodes_count:
         one: '%{count} nöqtə'
         other: '%{count} nöqtə'
       also_part_of_html:
-        one: '%{related_ways} yolunun hissəsi'
-        other: '%{related_ways} yollarının hissəsi'
+        one: '%{related_ways} xəttinin bir hissəsi'
+        other: '%{related_ways} xətlərinin bir hissəsi'
     relation:
       title_html: 'Əlaqə: %{name}'
       members: İştirakçılar
@@ -431,6 +431,10 @@ az:
         way: xətt
         relation: əlaqə
     start_rjs:
+      feature_warning: '%{num_features} obyekt yüklənir, bu da brauzerinizi yavaşlada
+        və ya cavab verməməsinə səbəb ola bilər. Bu məlumatları göstərmək istədiyinizə
+        əminsiniz?'
+      feature_error: 'Obyektlər yüklənə bilmədi: %{message}'
       load_data: Məlumatları yüklənməsi
       loading: Yüklənir…
     tag_details:
@@ -438,13 +442,127 @@ az:
       wiki_link:
         key: '%{key} teqini təsvir edən viki səhifəsi'
         tag: '%{key}=%{value} teqini təsvir edən viki səhifəsi'
+      wikidata_link: Vikidatada %{page} elementi
+      wikidata_preview:
+        one: Vikidata elementinin önizləməsi
+        other: Vikidata elementlərinin önizləməsi
       wikipedia_link: Vikipediyada %{page} məqaləsi
+      wikimedia_commons_link: Vikianbarda %{page} elementi
+      telephone_link: 'Zəng et: %{phone_number}'
+      colour_preview: '%{colour_value} eənginin önizləməsi'
       email_link: E-poçt %{email}
+    versions_navigation:
+      node: Nöqtə
+      way: Xətt
+      relation: Əlaqə
+      history: Tarixçə
+      version: 'Versiya #%{version}'
+      versions_label: 'Versiyalar:'
+  feature_queries:
+    show:
+      title: Obyektləri sorğula
+      introduction: Yaxınlıqdakı obyektlərə tapmaq üçün xəritəyə kliklə.
+      nearby: Yaxınlıqdakı obyektlər
+      enclosing: Əlavə obyektlər
+  old_elements:
+    index:
+      node:
+        title_html: 'Nöqtə tarixçəsi: %{name}'
+      way:
+        title_html: 'Xətt tarixçəsi: %{name}'
+      relation:
+        title_html: 'Əlaqə tarixçəsi: %{name}'
+      older_versions: Köhnə versiyalar
+      newer_versions: Yeni versiyalar
+    actions:
+      view_redacted_data: Redaktə edilmiş dataya bax
+      view_redaction_message: Redaksiya mesajına bax
+  nodes:
+    not_found_message:
+      sorry: Təəssüf ki, %{id} nömrəli nöqtə tapılmadı.
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli nöqtə üçün məlumatların alınması çox uzun çəkdi.
+  old_nodes:
+    not_found_message:
+      sorry: 'Bağışlayın, %{version} versiyalı nöqtə #%{id} tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli nöqtənin tarixçəsinin bərpası çox uzun çəkdi.
+  ways:
+    not_found_message:
+      sorry: Təəssüf ki, %{id} nömrəli xətt tapılmadı.
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli xətt üçün məlumatların alınması çox uzun çəkdi.
+  old_ways:
+    not_found_message:
+      sorry: 'Bağışlayın, %{version} versiyalı xətt #%{id} tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli xəttin tarixçəsinin əldə olunması çox uzun
+        çəkdi.
+  relations:
+    not_found_message:
+      sorry: 'Təəssüf ki, #%{id} nömrəli əlaqə tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli əlaqə üçün məlumatların alınması çox uzun çəkdi.
+  relation_members:
+    not_found_message:
+      sorry: 'Təəssüf ki, #%{id} nömrəli əlaqə tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli əlaqə üçün məlumatların alınması çox uzun çəkdi.
+  old_relations:
+    not_found_message:
+      sorry: 'Bağışlayın, %{version} versiyalı əlaqə #%{id} tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli əlaqənin tarixçəsinin əldə olunması çox uzun
+        çəkdi.
+  old_relation_members:
+    not_found_message:
+      sorry: 'Bağışlayın, %{version} versiyalı əlaqə #%{id} tapılmadı.'
+    timeout:
+      sorry: Bağışlayın, %{id} nömrəli əlaqənin üzvlərinin əldə olunması çox uzun
+        çəkdi.
+  changeset_comments:
+    feeds:
+      comment:
+        comment: '#%{changeset_id} dəyişikliklər dəstində %{author} tərəfindən yeni
+          şərh'
+        commented_at_by_html: '%{user} tərəfindən %{when} yenilənib'
+      show:
+        title_all: OpenStreetMap dəyişikliklər dəsti müzakirəsi
+        title_particular: 'OpenStreetMap dəyişikliklər dəsti #%{changeset_id} müzakirəsi'
+      timeout:
+        sorry: Üzr istəyirik, sorğuladığınız dəyişikliklər dəsti şərhlərini əldə etmək
+          çox uzun çəkdi.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} şərh'
+        other: '%{count} şərh'
+      changes:
+        one: '%{count} dəyişiklik'
+        other: '%{count} dəyişiklik'
+      n_elements_created:
+        one: '%{count} element yaradıldı'
+        other: '%{count} element yaradıldı'
+      n_elements_modified:
+        one: '%{count} element redaktə olundu'
+        other: '%{count} elements redaktə olundu'
+      n_elements_deleted:
+        one: '%{count} element silindi'
+        other: '%{count} element silindi'
     index:
       title: Dəyişikliklər dəsti
       title_user: '%{user} tərəfindən edilmiş dəyişikliklər dəsti'
+      title_user_link_html: '%{user_link} tərəfindən edilmiş dəyişikliklər dəsti'
+      title_followed: İzlədiyiniz istifadəçilər tərəfindən dəyişikliklər dəsti
       title_nearby: Yaxınlıqdakı istifadəçilər tərəfindən edilmiş dəyişikliklər dəsti
+      empty: Dəyişiklik dəsti tapılmadı.
+      empty_area: Bu ərazidə heç bir dəyişiklik yoxdur.
+      empty_user: Bu istifadəçi tərəfindən heç bir dəyişiklik yoxdur.
+      no_more: Başqa dəyişiklik dəsti tapılmadı.
+      no_more_area: Bu ərazidə başqa dəyişiklik yoxdur.
+      no_more_user: Bu istifadəçi tərəfindən başqa heç bir dəyişiklik yoxdur.
+      older_changesets: Köhnə dəyişikliklər
+      newer_changesets: Yeni dəyişikliklər
       feed:
         title: Dəyişikliklər dəsti  %{id}
         title_comment: Dəyişikliklər dəsti %{id} - %{comment}
@@ -453,22 +571,78 @@ az:
         belongs_to: Müəllif
     show:
       title: 'Dəyişikliklər dəsti: %{id}'
+      created: 'Yaradılıb: %{when}'
+      closed: 'Bağlanıb: %{when}'
+      created_ago_html: '%{time_ago} yaradılıb'
+      closed_ago_html: '%{time_ago} bağlanıb'
+      created_ago_by_html: '%{user} tərəfindən %{time_ago} yaradılıb'
+      closed_ago_by_html: '%{user} tərəfindən %{time_ago} bağlanıb'
+      discussion: Müzakirə
+      join_discussion: Müzakirəyə qoşulmaq üçün daxil ol
+      still_open: Dəyişikliklər dəsti hələ də açıqdır - dəyişikliklər dəsti bağlandıqdan
+        sonra müzakirə açılacaq.
+      subscribe: Abunə ol
+      unsubscribe: Abunəlikdən çıx
+      comment_by_html: '%{user} tərəfindən %{time_ago} edilən şərh'
+      hidden_comment_by_html: '%{user} tərəfindən %{time_ago} edilən gizli şərh'
       hide_comment: gizlət
+      unhide_comment: göstər
+      comment: Şərh
       changesetxml: XML dəyişikliklər dəsti
       osmchangexml: osmChange XML
+    paging_nav:
+      nodes_title: Nöqtələr
+      nodes_paginated: Nöqtələr (%{x}-%{y}/%{count})
+      ways_title: Xətlər
+      ways_paginated: Xətlər (%{x}-%{y}/%{count})
+      relations_title: Əlaqələr
+      relations_paginated: Əlaqələr (%{x}-%{y}/%{count})
+      range: '%{x}-%{y}/%{count}'
+    not_found_message:
+      sorry: Təəssüf ki, %{id} nömrəli dəyişiklik tapılmadı.
     timeout:
       sorry: Üzr istəyirik, sorğu etdiyiniz dəyişikliklərin siyahısını əldə etmək
         çox uzun çəkdi.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        heading: Aşağıdakı dəyişikliklər dəsti müzakirəsinə abunə olunsun?
+        button: Müzakirəyə abunə ol
+      unsubscribe:
+        heading: Aşağıdakı dəyişikliklər dəsti müzakirəsindən çıxmaq istəyirsiniz?
+        button: Müzakirə abunəliyindən çıx
+    heading:
+      title: Dəyişikliklər dəsti %{id}
+      created_by_html: '%{link_user} tərəfindən %{created} yaradılıb.'
+    no_such_entry:
+      heading: '%{id} mövcud deyil'
+      body: Bağışlayın, %{id} identifikatoru ilə heç bir dəyişiklik yoxdur. Zəhmət
+        olmasa, bir daha yoxlayın, kliklədiyiniz link səhv ola bilər.
   dashboards:
     contact:
+      km away: '%{count}km uzaqda'
+      m away: '%{count}m uzaqda'
       latest_edit_html: 'Son redaktə (%{ago}):'
       no_edits: (redaktə yoxdur)
       view_changeset_details: Dəyişikliklər dəstinin ətraflı görüntüsü
     popup:
       your location: Yerləşdiyin yer
+      nearby mapper: Yaxınlıqdakı xəritəçi
+      following: İzlənilir
     show:
+      title: Panelim
+      no_home_location_html: '%{edit_profile_link} və yaxınlıqdakı istifadəçiləri
+        görmək üçün ev ünvanınızı təyin edin.'
       edit_your_profile: Profilinizi redaktə edin
+      followings: İzlədiyiniz istifadəçilər
+      no followings: Hələ heç bir istifadəçini izləməmisiniz.
       nearby users: Yaxınlıqdakı digər istifadəçilər
+      no nearby users: Hələlik yaxınlıqda xəritə çəkdiyini bildirən başqa istifadəçi
+        yoxdur.
+      followed_changesets: dəyişikliklər dəsti
+      followed_diaries: gündəlik yazıları
+      nearby_changesets: yaxınlıqdakı istifadəçilərin dəyişiklikləri
+      nearby_diaries: yaxınlıqdakı istifadəçilərin gündəlik yazıları
   diary_entries:
     new:
       title: Yeni Gündəlik Yazısı
@@ -477,6 +651,7 @@ az:
       use_map_link: Xəritədən istifadə et
     index:
       title: İstifadəçi gündəlikləri
+      title_followed: İzlənən istifadəçilərin gündəlikləri
       title_nearby: Yaxınlıqdakı İstifadəçilərin Gündəlikləri
       user_title: '%{user}''nin gündəliyi'
       in_language_title: '%{language} dilində gündəlik qeydlər'
@@ -489,15 +664,22 @@ az:
     show:
       title: '%{user} istifadəçisinin gündəliyi | %{title}'
       user_title: '%{user} istifadəçisinin gündəliyi'
+      discussion: Müzakirə
+      subscribe: Abunə ol
+      unsubscribe: Abunəlikdən çıx
       leave_a_comment: Şərh yaz
       login_to_leave_a_comment_html: Şərh yazmaq üçün %{login_link}
       login: Daxil ol
     no_such_entry:
       title: Belə bir gündəlik yazısı mövcud deyil
       heading: 'Bu nömrəyə sahib yazı mövcud deyil: %{id}'
+      body: Bağışlayın, %{id} identifikatoru ilə heç bir gündəlik yazısı və ya şərhi
+        yoxdur. Zəhmət olmasa, bir daha yoxlayın, kliklədiyiniz link səhv ola bilər.
     diary_entry:
       posted_by_html: '%{link_user} tərəfindən %{created} tarixində %{language_link}
         dilində paylaşılıb.'
+      updated_at_html: Sonuncu dəfə %{updated} yenilənib.
+      full_entry: Tam yazıya bax
       comment_link: Bu yazıya şərh yaz
       reply_link: Müəllifə mesaj göndər
       comment_count:
@@ -508,9 +690,11 @@ az:
       hide_link: Bu yazını gizlət
       unhide_link: Bu yazını göstər
       confirm: Təsdiq et
+      report: Bu yazını şikayət et
     diary_comment:
       comment_from_html: Şərh %{link_user} tərəfindən %{comment_created_at}
       hide_link: Bu şərhi gizlət
+      unhide_link: Bu şərhi göstər
       confirm: Təsdiq et
       report: Bu şərhi şikayət et
     location:
@@ -518,35 +702,140 @@ az:
     feed:
       user:
         title: '%{user} üçün OpenStreetMap gündəlik yazıları'
-        description: '%{user} üçün axırıncı OpenStreetMap gündəlik yazıları'
+        description: '%{user} istifadəçisinin son OpenStreetMap gündəlik yazıları'
       language:
         title: '%{language_name} dilində OpenStreetMap gündəlik yazıları'
-        description: '%{language_name} dilində OpenStreetMap istifadəçilərinin axırıncı
+        description: '%{language_name} dilində OpenStreetMap istifadəçilərinin son
           gündəlik yazıları'
       all:
-        title: OpenStreetMap gündəlik yazısı
-        description: OpenStreetMap istifadəçilərinin axırıncı gündəlik yazıları
+        title: OpenStreetMap gündəlik yazıları
+        description: OpenStreetMap istifadəçilərinin son gündəlik yazıları
+    subscribe:
+      heading: Aşağıdakı gündəlik yazısı müzakirəsinə abunə olunsun?
+      button: Müzakirəyə abunə ol
+    unsubscribe:
+      heading: Aşağıdakı gündəlik yazısı müzakirəsinin abunəliyindən çıxılsın?
+      button: Müzakirə abunəliyindən çıx
     navigation:
+      in_language: '%{language} dilində gündəlik yazıları'
+      my_diary: Gündəliyim
       new: Yeni Gündəlik Yazısı
       new_title: İstifadəçi gündəliyinizə yeni yazı əlavə etmək
+    profile_diaries:
+      latest_diaries: Son yazılar
+      comments:
+        one: '%{count} şərh'
+        other: '%{count} şərh'
+      title_label: Gündəlik yazısı
+      comments_label: Şərhlər
+      date_label: Tarix
+  diary_comments:
+    new:
+      heading: Aşağıdakı gündəlik yazısı müzakirəsinə şərh əlavə olunsun?
+  doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Avtorizasiya serveri son istifadəçi hesabı seçimini
+          tələb edir
+        consent_required: Avtorizasiya serveri son istifadəçinin razılığını tələb
+          edir
+        interaction_required: Avtorizasiya serveri son istifadəçi qarşılıqlı əlaqəsini
+          tələb edir
+        login_required: Avtorizasiya serveri son istifadəçi identifikasiyası tələb
+          edir
+    flash:
+      applications:
+        create:
+          notice: Tətbiq qeydiyyatdan keçib.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner
+            konfiqurasiyasının olmaması səbəbindən xəta.
+          reauthenticate_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner
+            konfiqurasiyasının olmaması səbəbindən xəta.
+          resource_owner_from_access_token_not_configured: Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token
+            səhvi səbəbindən konfiqurasiya çatışmazlığı yaranıb.
+          select_account_for_resource_owner_not_configured: Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner
+            konfiqurasiyasının olmaması səbəbindən xəta.
+          subject_not_configured: Doorkeeper::OpenidConnect.configure.subject faylında
+            konfiqurasiya çatışmazlığı səbəbindən ID Token generasiyası uğursuz oldu.
+    scopes:
+      address: Fiziki ünvanınıza baxın
+      email: E-poçt ünvanınıza baxın
+      openid: Hesabınızı təsdiqləyin
+      phone: Telefon nömrənizə baxın
+      profile: Profil məlumatlarınıza baxın
   errors:
+    contact:
+      contact_url_title: İzah edilən müxtəlif əlaqə kanalları
+      contact: əlaqə
+      contact_the_community_html: Əgər işləməyən link/səhv tapmısınızsa, OpenStreetMap
+        icması ilə %{contact_link} saxlamaqdan çəkinməyin. Sorğunuzun dəqiq URL-ini
+        qeyd edin.
+    bad_request:
+      title: Səhv sorğu
+      description: OpenStreetMap serverində tələb etdiyiniz əməliyyat etibarlı deyil
+        (HTTP 400)
+    forbidden:
+      title: Qadağandır
+      description: OpenStreetMap serverində tələb etdiyiniz əməliyyat yalnız administratorlar
+        üçün əlçatandır (HTTP 403)
+    internal_server_error:
+      title: Tətbiq xətası
+      description: OpenStreetMap serveri gözlənilməz bir vəziyyətlə qarşılaşdı və
+        bu vəziyyət sorğunu yerinə yetirməsinə mane oldu (HTTP 500)
     not_found:
       title: Fayl tapılmadı
+      description: OpenStreetMap serverində (HTTP 404) həmin adla fayl/qovluq/API
+        əməliyyatı tapa bilmədi.
+  export:
+    show:
+      title: OpenStreetMap Yerləşdirilmiş
+  follows:
+    show:
+      follow:
+        heading: '%{user} istifadəçisini izləmək istəyirsiniz?'
+        button: İstifadəçini izlə
+      unfollow:
+        heading: '%{user} istifadəçisini izləməkdən çıxmaq istəyirsiniz?'
+        button: İzləmədən çıxart
+    create:
+      success: Artıq %{name} istifadəçisini izləyirsiniz!
+      failed: Üzr istəyirik, %{name} istifadəçisini izləmək üçün göndərdiyiniz sorğu
+        uğursuz oldu.
+      already_followed: Siz onsuz da %{name} istifadəçisini izləyirsiniz.
+      limit_exceeded: Siz yaxın vaxtlarda çox istifadəçi izləməyə başlamısınız. Göndərməzdən
+        əvvəl bir az gözləyin.
+    destroy:
+      success: '%{name} istifadəçisini uğurla izləmədən çıxdınız.'
+      not_followed: '%{name} istifadəçisini izləmirsiniz.'
   geocoder:
     search_osm_nominatim:
       prefix:
+        aerialway:
+          cable_car: Kanat
+          chair_lift: Oturacaqlı lift
+          drag_lift: Xizək lifti
+          gondola: Qondol Lifti
+          magic_carpet: Sehrli Xalça Lifti
+          station: Kanat stansiyası
+          t-bar: T-Bar Lifti
         aeroway:
           aerodrome: Aerodrom
-          apron: Perron
-          gate: Enmə zonasına çıxış
+          apron: Hava limanı perronu
+          gate: Hava limanı qapısı
           hangar: Anqar
           helipad: Vertalyot meydançası
           holding_position: Gözləmə yeri
+          navigationaid: Aviasiya Naviqasiya Yardımı
           parking_position: Parkinq yeri
           runway: Uçuş-enmə zolağı
           taxiway: Sürmə yolu
-          terminal: Terminal
+          terminal: Hava limanı terminalı
         amenity:
+          animal_boarding: Heyvanların saxlanması
+          animal_shelter: Heyvan sığınacağı
           arts_centre: İncəsənət mərkəzi
           atm: Bankomat
           bank: Bank
@@ -555,7 +844,10 @@ az:
           bench: Skameyka
           bicycle_parking: Relosiped dayanacağı
           bicycle_rental: Relosiped icarəsi
+          bicycle_repair_station: Velosiped təmiri stansiyası
           biergarten: Açıq havada Pivəxana
+          blood_bank: Qan bankı
+          boat_rental: Qayıq kirayəsi
           brothel: Bardel
           bureau_de_change: Valyuta mübadiləsi
           bus_station: Avtobus Stansiyası
@@ -661,11 +953,11 @@ az:
           phone: Fövqəladə hallar üçün telefon
           water_tank: Fövqəladə hallar üçün su çəni
         highway:
-          abandoned: İstifadəsiz Yol
+          abandoned: İstifadəsiz magistral yol
           bridleway: Atlı yolu
           bus_guideway: Gəzinti Avtobus xətti
           bus_stop: Avtobus dayanacağı
-          construction: Yol təmirdədir
+          construction: Təmirdə olan yol
           corridor: Koridor
           cycleway: Velocığır
           elevator: Lift
@@ -1296,11 +1588,11 @@ az:
       showing_page: Səhifə %{page}
   javascripts:
     map:
-      zoom:
-        in: Yaxınlaşdır
-        out: Uzaqlaşdır
-      locate:
-        title: Yerimi göstər
+      navigation_control:
+        zoom_in: Yaxınlaşdır
+        zoom_out: Uzaqlaşdır
+      geolocate_control:
+        find_my_location: Yerimi göstər
       base:
         standard: Standart
         transport_map: Nəqliyyat Xəritəsi
@@ -1310,7 +1602,7 @@ az:
       edit_tooltip: Xəritəni redaktə et
       edit_disabled_tooltip: Redaktə etmək üçün yaxınlaşdır
       createnote_disabled_tooltip: Xəritəyə qeyd əlavə etmək üçün yaxınlaşdır
-      queryfeature_disabled_tooltip: Xüsusiyyətləri sorğulamaq üçün yaxınlaşdır
+      queryfeature_disabled_tooltip: Obyektləri görmək üçün yaxınlaşdır
     edit_help: Xəritəni açın və redaktə etmək istədiyiniz yerə yaxınlaşdırın, sonra
       bura klikləyin.
   redactions:

@@ -1009,6 +1009,7 @@ ga:
           shed: Seid
           stable: Cobhsaí
           static_caravan: Carbhán
+          sty: Seid muc
           temple: Foirgneamh an Teampaill
           terrace: Foirgneamh Ardáin
           train_station: Foirgneamh Stáisiún Traenach
@@ -1125,6 +1126,7 @@ ga:
           citywalls: Ballaí Cathrach
           fort: Dún/Ráth
           heritage: Láithreán Oidhreachta
+          hollow_way: Bealach log
           house: Teach
           manor: Mainéar
           memorial: Leac cuimhneacháin
@@ -1151,6 +1153,7 @@ ga:
           office: Oifig Turasóireachta
           terminal: Teirminéal Faisnéise
           sign: Comhartha Faisnéise
+          stele: Stéil Faisnéise
         junction:
           "yes": Acomhal
         landuse:
@@ -1683,12 +1686,17 @@ ga:
         open: Oscail
         resolved: Réitithe
     show:
+      title:
+        open: 'Oscail an Fhadhb #%{issue_id}'
+        ignored: 'Neamhaird déanta ar an bhFadhb #%{issue_id}'
+        resolved: 'Fadhb #%{issue_id} Réitithe'
       reports:
         one: '%{count} tuairisc'
         two: '%{count} tuairiscí'
         few: '%{count} tuairiscí'
         many: '%{count} tuairiscí'
         other: '%{count} tuairiscí'
+      no_reports: Gan aon tuairiscí
       report_created_at_html: Tuairiscíodh den chéad uair ag %{datetime}
       last_resolved_at_html: Réitithe den uair dheirineach ag %{datetime}
       last_updated_at_html: Rinne %{displayname} an nuashonrú is déanaí ag %{datetime}
@@ -1707,8 +1715,35 @@ ga:
       ignored: Stádas na faidhbe socraithe go 'Neamhaird'
     reopen:
       reopened: Stádas na faidhbe socraithe go 'Oscailte'
+    comments:
+      comment_from_html: Trácht ó %{user_link} ar %{comment_created_at}
+      reassign_to_moderators: Athshann an Cheist do Mhodhnóirí
+      reassign_to_administrators: Athshann an Fhadhb do Riarthóirí
+    reports:
+      reported_by_html: Tuairiscíodh mar %{category} ag %{user} ar %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, trácht #%{comment_id}'
+        note: 'Nóta #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Trácht Dialainne %{title} cruthaithe ar %{datetime_created},
+          nuashonraithe ar %{datetime_updated}
+        diary_entry_html: Iontráil Dialainne %{title} cruthaithe ar %{datetime_created},
+          nuashonraithe ar %{datetime_updated}
+        note_html: '%{title} cruthaithe ar %{datetime_created}, nuashonraithe ar %{datetime_updated}'
+        user_html: Úsáideoir %{title} cruthaithe ar %{datetime_created}
+    reporters:
+      index:
+        title: 'Fadhb #%{issue_id} Tuairisceoirí'
+      reporters:
+        more_reporters: agus %{count} eile
+  issue_comments:
+    create:
+      comment_created: Cruthaíodh do thrácht go rathúil
+      issue_reassigned: Cruthaíodh do thrácht agus athshannadh an cheist
   reports:
     new:
+      title_html: Gearán %{link}
       disclaimer:
         intro: 'Sula gcuire tú do thuairisc chuig modhnóirí an tsuímh, déan cinnte:'
         not_just_mistake: Go bhfuil tú deimhin de nach díreach botún atá san fhadhb
@@ -1741,9 +1776,124 @@ ga:
     create:
       successful_report: Cláraíodh an tuairisc uait
       provide_details: Tabhair na sonraí is gá le do thoil
+  languages_panes:
+    select_language_list:
+      search_language: Cuardaigh...
+      languages:
+        af: Afracáinis
+        gsw: Alemannach
+        frp: Arpitan
+        ast: Astúiris
+        az: Asarbaiseáinis
+        id: Indinéisis
+        ms: Malaeis
+        bcl: Lárnach Bikol
+        bs: Boisnis
+        br: Briotáinis
+        ca: Catalóinis
+        cs: Seiceach
+        cy: Breatnais
+        da: Danmhairgis
+        de: Gearmáinis
+        dsb: Sorbais Íochtarach
+        et: Eastóinis
+        en: Béarla
+        en-GB: Béarla (RA)
+        es: Spáinnis
+        eo: Esperanto
+        eu: Bascais
+        fr: Fraincis
+        fy: An Fhreaslainnis Thiar
+        fur: Friúilis
+        ga: Gaeilge
+        gd: Gaidhlig
+        gl: Gailíseach
+        aln: Gheg Albanian
+        hsb: Uachtarach-Shórbaí
+        hr: Cróitis
+        ia: Idirtheangach
+        is: Íoslainnis
+        it: Iodáilis
+        gcf: Creole Guadalúip
+        ku-Latn: Cúirdís (Laidin)
+        lv: Laitvis
+        lb: Lucsambuirgise
+        lt: Liotuáinis
+        hu: Ungáiris
+        fit: Tornedalen Fionlainnis
+        nl: Ollainnis
+        nb: Ioruais Bokmål
+        nn: Ioruais Nynorsk
+        oc: Ocsaíneach
+        nds: Íseal-Gearmáinis
+        pl: Polainnis
+        pt-PT: Portaingéilis
+        pt: Portaingéilis (an Bhrasaíl)
+        ksh: Kölnais
+        ro: Rómáinis
+        sc: Sairdínis
+        sco: Albainise
+        sq: Albáinis
+        scn: Sicileach
+        sk: Slóvaicis
+        sl: Slóivéinis
+        sr-Latn: Seirbis (Laidin)
+        sh: Seirbea-Chróitis (Laidin)
+        fi: Fionlainnis
+        sv: Sualainnis
+        tl: Tagálaigis
+        kab: Cabile
+        vi: Vítneamach
+        tr: Tuircis
+        yo: Iarúba
+        diq: Dimli
+        el: Gréigis
+        ba: Baiscíris
+        be: Bealarúisis
+        be-Tarask: Bealarúisis (Tarašk.)
+        bg: Bulgáiris
+        mk: Macadóinis
+        mo: Moldóvach
+        ce: Seisnis
+        ru: Rúisis
+        sr: Seirbis (Coireallach)
+        tt: Tatairis (Coireallach)
+        uk: Úcránach
+        kk-cyrl: Casaicis (Coireallach)
+        yi: Giúdais
+        he: Eabhrais
+        ar: Araibis
+        skr-arab: Saraiki
+        fa: Peirsis
+        arz: Araibis Éigipteach
+        pnb: Punjabi Thiar
+        ps: Paistis
+        nqo: N’Ko
+        ne: Neipeálach
+        mr: Maraitis
+        hi: Hiondúis
+        bn: Beangáilis
+        pa: Puinseáibis
+        gu: Gúisearáitis
+        ta: Tamailis
+        te: Teileagúis
+        kn: Cannadais
+        th: Téalainnis
+        my: Burmais
+        shn: Shan
+        xmf: Mhingréilis
+        ka: Seoirseach
+        km: Ciméireach
+        sat: Santalí
+        zh-CN: Sínis (Simplithe)
+        zh-TW: Sínis (Traidisiúnta)
+        zh-HK: Sínis (Hong Cong)
+        ja: Seapánach
+        ko: Cóiréach
   layouts:
     logo:
       alt_text: Lógó OpenStreetMap
+    layer_info: Eolas Sraithe
     home: Gabh chuig an Suíomh Baile
     logout: Logáil Amach
     log_in: Logáil isteach
@@ -1759,34 +1909,97 @@ ga:
     intro_header: Fáilte go OpenStreetMap!
     intro_text: Is léarscáil den domhan é OpenStreetMap, a chruthaigh daoine cosúil
       leatsa agus atá saor in aisce le húsáid faoi cheadúnas oscailte.
+    hosting_partners_2024_html: Tacaíonn %{fastly}, %{corpmembers}, agus %{partners}
+      eile leis an óstáil.
+    partners_corpmembers: Baill chorparáideacha OSMF
     partners_partners: comhpháirtithe
+    tou: Téarmaí Úsáide
+    nothing_to_preview: Níl aon rud le réamhamharc.
     help: Cabhair
     about: Maidir linn
     copyright: Cóipcheart
+    communities: Pobail
     learn_more: Tuilleadh Eolais
     more: Tuilleadh
+    header:
+      select_language: Roghnaigh Teanga
+      loading: Ag lódáil...
+    meta:
+      openstreetmap_search: Cuardach OpenStreetMap
+    select_language_button:
+      title: Roghnaigh Teanga
+    offline_flash:
+      osm_offline: Tá bunachar sonraí OpenStreetMap as líne faoi láthair agus obair
+        chothabhála riachtanach ar siúl.
+      osm_read_only: Tá bunachar sonraí OpenStreetMap i mód léite amháin faoi láthair
+        agus obair chothabhála riachtanach ar siúl.
+      expected_restore_html: Táthar ag súil go mbeidh na seirbhísí ar ais i gceann
+        %{time}.
+      announcement: Is féidir leat an fógra a léamh anseo.
   user_mailer:
     diary_comment_notification:
+      description: 'Iontráil Dialainne OpenStreetMap #%{id}'
       subject: '[OpenStreetMap] Rinne %{user} nóta tráchta faoi iontráil dialainne'
       hi: A %{to_user}, a chara,
       header: 'Rinne %{from_user} nóta tráchta faoin iontráil dialainne OpenStreetMap
         a bhfuil %{subject} mar ábhar aige:'
+      header_html: 'Tá trácht déanta ag %{from_user} ar an iontráil dialainne OpenStreetMap
+        leis an ábhar %{subject}:'
       footer: Is féidir leat an nóta tráchta a léamh freisin ag %{readurl} agus is
         féidir leat nóta tráchta a dhéanamh ag %{commenturl} nó freagra a thabhairt
         ag %{replyurl}
+      footer_html: Is féidir leat an trácht a léamh ag %{readurl} freisin agus is
+        féidir leat trácht a dhéanamh ag %{commenturl} nó teachtaireacht a sheoladh
+        chuig an údar ag %{replyurl}
+      footer_unsubscribe: Is féidir leat díliostáil ón bplé ag %{unsubscribeurl}
+      footer_unsubscribe_html: Is féidir leat díliostáil ón bplé ag %{unsubscribeurl}
     message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
       hi: A %{to_user}, a chara,
       header: 'Sheol %{from_user} teachtaireacht chugat trí OpenStreetMap leis an
         ábhar %{subject}:'
+      header_html: 'Sheol %{from_user} teachtaireacht chugat trí OpenStreetMap leis
+        an ábhar %{subject}:'
+      footer: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin agus
+        is féidir leat teachtaireacht a sheoladh chuig an údar ag %{replyurl}
       footer_html: Is féidir leat an teachtaireacht a léamh ag %{readurl} freisin
         agus is féidir leat freagra a scríobh ag %{replyurl}
     follow_notification:
       hi: A %{to_user}, a chara,
+      subject: Lean %{user} thú [OpenStreetMap]
+      followed_you: Tá %{user} ag leanúint thú ar OpenStreetMap anois.
       see_their_profile: Is féidir leat a p(h)róifíl a fheiceáil ag %{userurl}.
+      see_their_profile_html: Is féidir leat a bpróifíl a fheiceáil ag %{userurl}.
+      follow_them: Is féidir leat iad a leanúint ag %{followurl} freisin.
+      follow_them_html: Is féidir leat iad a leanúint ag %{followurl} freisin.
+    gpx_details:
+      details: 'Sonraí do chomhaid:'
+      filename: Ainm comhaid
+      url: URL
+      description: Cur síos
+      tags: Clibeanna
+      total_points: Líon iomlán na bpointí
+      imported_points: Líon na bpointí allmhairithe
     gpx_failure:
+      hi: Haigh %{to_user},
       failed_to_import: Is cosúil nár éirigh le d’chomhad a iompórtáil mar rian GPS.
+      verify: 'Deimhnigh le do thoil gur comhad GPX bailí nó cartlann ina bhfuil comhad(í)
+        GPX san fhormáid a dtacaítear léi (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2) atá i do chomhad. An bhféadfadh fadhb formáide nó comhréire a bheith
+        i do chomhad? Seo an earráid allmhairithe:'
+      more_info: Is féidir tuilleadh eolais faoi theipeanna allmhairithe GPX agus
+        conas iad a sheachaint a fháil ag %{url}
+      more_info_html: Is féidir tuilleadh eolais faoi theipeanna allmhairithe GPX
+        agus conas iad a sheachaint a fháil ag %{url}.
       subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
     gpx_success:
+      hi: Haigh %{to_user},
+      imported_successfully: Is cosúil gur iompórtáladh do chomhad go rathúil mar
+        rian GPS.
+      all_your_traces: Is féidir na rianta GPX uile a uaslódáil tú go rathúil a fháil
+        ag %{url}
+      all_your_traces_html: Is féidir na rianta GPX uile a d’uaslódáil tú go rathúil
+        a fháil ag %{url}.
       subject: '[OpenStreetMap] Iompórtáladh an GPX'
     signup_confirm:
       subject: '[OpenStreetMap] Fáilte go OpenStreetMap'
@@ -1813,6 +2026,7 @@ ga:
       click_the_link: Más tusa a bhí ann, cliceáil ar an nasc thíos chun do phasfhocal
         a athshocrú.
     note_comment_notification:
+      description: 'Nóta OpenStreetMap #%{id}'
       anonymous: Úsáideoir gan ainm
       greeting: A chara,
       commented:
@@ -1822,16 +2036,24 @@ ga:
           a bhfuil suim agat ann'
         your_note: D'fhág %{commenter} nóta tráchta ar cheann de na nótaí léarscáile
           atá agat in aice le %{place}.
+        your_note_html: D’fhág %{commenter} trácht ar cheann de do nótaí léarscáile
+          in aice le %{place}.
         commented_note: D'fhág %{commenter} nóta tráchta ar nóta léarscáile ar fhág
           tú nóta tráchta faoi. Tá an nóta gar do %{place}.
+        commented_note_html: D’fhág %{commenter} trácht ar nóta léarscáile ar thug
+          tú trácht air. Tá an nóta gar do %{place}.
       closed:
         subject_own: '[OpenStreetMap] Réitigh %{commenter} ceann de do chuid nótaí'
         subject_other: '[OpenStreetMap] Réitigh %{commenter} nóta a bhfuil suim agat
           ann'
         your_note: 'Réitigh %{commenter} ceann de na nótaí léarscáile atá agat gar
           don áit seo: %{place}.'
+        your_note_html: Tá %{commenter} tar éis ceann de do nótaí léarscáile in aice
+          le %{place} a réiteach.
         commented_note: 'Réitigh %{commenter} nóta léarscáile ar fhág tú nóta tráchta
           faoi. Tá an nóta gar don áit seo: %{place}.'
+        commented_note_html: Tá nóta léarscáile ar thug tú trácht air réitithe ag
+          %{commenter}. Tá an nóta gar do %{place}.
       reopened:
         subject_own: '[OpenStreetMap] D''athoscail %{commenter} ceann de do chuid
           nótaí'
@@ -1839,10 +2061,16 @@ ga:
           agat ann'
         your_note: 'D''athoscail %{commenter} ceann de na nótaí léarscáile atá agat
           gar don áit seo: %{place}.'
+        your_note_html: Tá %{commenter} tar éis ceann de do nótaí léarscáile a athghníomhachtú
+          in aice le %{place}.
         commented_note: 'D''athoscail %{commenter} nóta léarscáile ar fhág tú nóta
           tráchta faoi. Tá an nóta gar don áit seo: %{place}.'
+        commented_note_html: Tá nóta léarscáile ar thug tú trácht air athghníomhachtaithe
+          ag %{commenter}. Tá an nóta gar do %{place}.
       details: Freagair nó faigh tuilleadh eolais faoin nóta ag %{url}.
+      details_html: Freagair nó faigh tuilleadh eolais faoin nóta ag %{url}.
     changeset_comment_notification:
+      description: 'Tacar Athruithe OpenStreetMap #%{id}'
       hi: A %{to_user}, a chara,
       commented:
         subject_own: '[OpenStreetMap] D''fhág %{commenter} nóta tráchta ar cheann
@@ -1851,15 +2079,20 @@ ga:
           athruithe a bhfuil suim agat ann'
         your_changeset: D'fhág %{commenter} nóta tráchta ar thacar athruithe atá agat
           a cruthaíodh ag %{time}
+        your_changeset_html: D’fhág %{commenter} trácht ag %{time} ar cheann de do
+          shraitheanna athruithe
         commented_changeset: D'fhág %{commenter} nóta tráchta ar thacar athruithe
           léarscáile a bhfuil tú ag faire air a chruthaigh %{changeset_author} ag
           %{time}
+        commented_changeset_html: D’fhág %{commenter} trácht ag %{time} ar shraith
+          athruithe atá á faire agat a chruthaigh %{changeset_author}
         partial_changeset_with_comment: a bhfuil an nóta tráchta '%{changeset_comment}'
           ag gabháil leis
         partial_changeset_with_comment_html: a bhfuil an nóta tráchta '%{changeset_comment}'
           ag gabháil leis
         partial_changeset_without_comment: nach bhfuil nóta tráchta ag gabháil leis
       details: Freagair nó faigh tuilleadh eolais faoin tacar athruithe ag %{url}.
+      details_html: Freagair nó faigh tuilleadh eolais faoin tacar athruithe ag %{url}.
       unsubscribe: Is féidir leat díliostáil ó nuashonruithe ar an tacar athruithe
         seo ag %{url}.
       unsubscribe_html: Is féidir leat díliostáil ó nuashonruithe ar an tacar athruithe
@@ -1870,17 +2103,33 @@ ga:
       introduction_1: Tá ríomhphost chun é a dheimhniú seolta chugat againn.
       introduction_2: Deimhnigh do chuntas trí chliceáil ar an nasc sa ríomhphost
         agus beidh tú in ann tosú ar léirscáiliú a dhéanamh.
+      press confirm button: Brúigh an cnaipe deimhnithe thíos chun do chuntas a ghníomhachtú.
       button: Deimhnigh
       success: Deimhníodh do chuntas, go raibh maith agat as clárú!
       already active: Deimhníodh an cuntas seo cheana féin.
       unknown token: Tá an cód deimhniúcháin seo imithe in éag, é sin nó níl sé ann.
+      if_need_resend: Más gá duit an ríomhphost deimhnithe a athsheoladh, cliceáil
+        an cnaipe thíos.
+      resend_button: Seol an ríomhphost deimhnithe arís
     confirm_resend:
       failure: Níor aimsíodh an t-úsáideoir %{name}.
     confirm_email:
+      heading: Deimhnigh athrú seolta ríomhphoist
+      press confirm button: Brúigh an cnaipe deimhnithe thíos chun do sheoladh ríomhphoist
+        nua a dheimhniú.
       button: Deimhnigh
       success: Deimhníodh an t-athrú ar an seoladh ríomhphoist!
+      failure: Tá seoladh ríomhphoist deimhnithe leis an gcomhartha seo cheana féin.
+      unknown_token: Tá an cód deimhnithe sin imithe in éag nó níl sé ann.
+    resend_success_flash:
+      confirmation_sent: Tá nóta deimhnithe nua seolta againn chuig %{email} agus
+        a luaithe a dheimhneoidh tú do chuntas beidh tú in ann mapáil a fháil.
+      whitelist: Má úsáideann tú córas frith-spam a sheolann iarratais deimhnithe,
+        déan cinnte go gcuireann tú %{sender} ar an liosta bán mar ní féidir linn
+        freagra a thabhairt ar aon iarratais deimhnithe.
     gravatar:
       disabled: Díchumasaíodh Gravatar.
+      enabled: Tá taispeáint do Gravatar cumasaithe.
   messages:
     new:
       title: Seol teachtaireacht
@@ -1910,18 +2159,25 @@ ga:
         notice: Teachtaireacht marcáilte mar léite
       destroy:
         notice: Teachtaireacht marcáilte mar neamhléite
+    mutes:
+      destroy:
+        notice: Tá an teachtaireacht bogtha chuig an mBosca Isteach
+        error: Níorbh fhéidir an teachtaireacht a bhogadh chuig an mBosca Isteach.
     mailboxes:
       heading:
         my_inbox: Mo Bhosca Isteach
+        my_outbox: Mo Bhosca Amach
       messages_table:
         from: Ó
         to: Chuig
         subject: Ábhar
         date: Dáta
+        actions: Gníomhartha
       message:
         unread_button: Marcáil neamhléite
         read_button: Marcáil léite
         destroy_button: Scrios
+        unmute_button: Bog go dtí an Bosca Isteach
     inboxes:
       show:
         title: Bosca isteach
@@ -1963,6 +2219,10 @@ ga:
       new password button: Athshocraigh an focal faire
       help_text: Iontráil an seoladh ríomhphoist a d'úsáid tú le clárú, agus seolfaimid
         nasc chugat a bheidh tú in ann a úsáid chun do phasfhocal a athshocrú.
+    create:
+      send_paranoid_instructions: Má tá do sheoladh ríomhphoist inár mbunachar sonraí,
+        gheobhaidh tú nasc aisghabhála pasfhocail chuig do sheoladh ríomhphoist i
+        gceann cúpla nóiméad.
     edit:
       title: Focal faire a athshocrú
       heading: Focal Faire le haghaidh %{user} a Athshocrú
@@ -1971,22 +2231,127 @@ ga:
         URL cruinn?
     update:
       flash changed: Athraíodh d'fhocal faire.
+      flash token bad: Ní bhfuair mé an comhartha sin, b'fhéidir go mbeadh suim agat
+        san URL?
+  preferences:
+    preferences:
+      update:
+        failure: Níorbh fhéidir na roghanna a nuashonrú.
+      update_success_flash:
+        message: Nuashonraíodh na roghanna.
+      navigation:
+        preferences: Roghanna
+        advanced_preferences: Roghanna Ardleibhéil
+    basic_preferences:
+      show:
+        title: Mo Roghanna
+        preferred_language: Teanga is Fearr
+        preferred_site_color_scheme: Scéim Dathanna Gréasáin is Fearr
+        site_color_schemes:
+          auto: Uath
+          light: Solas
+          dark: Dorcha
+        preferred_map_color_scheme: Scéim Dathanna Léarscáile is Fearr
+        map_color_schemes:
+          auto: Mar an gcéanna leis an suíomh Gréasáin
+          light: Solas
+          dark: Dorcha
+        preferred_editor_color_scheme: Scéim Dathanna an Eagarthóra is Fearr
+        editor_color_schemes:
+          auto: Mar an gcéanna leis an suíomh Gréasáin
+          light: Solas
+          dark: Dorcha
+        save: Nuashonraigh Roghanna
+    advanced_preferences:
+      show:
+        title: Mo Roghanna Ardleibhéil
+        save: Nuashonraigh Roghanna
   profiles:
     profile_sections:
       navigation:
+        description: Cur síos
+        links: Naisc
         image: Íomhá
+        company: Comhlacht
+        location: Suíomh
+        heatmap: Léarscáil Teasa
+    descriptions:
+      show:
+        title: Cuir Próifíl in Eagar
+        save: Nuashonraigh Próifíl
+        cancel: Cealaigh
+      update:
+        success: Cur síos próifíle nuashonraithe.
+        failure: Níorbh fhéidir cur síos an phróifíle a nuashonrú.
+    links:
+      show:
+        title: Cuir Próifíl in Eagar
+        save: Nuashonraigh Próifíl
+        cancel: Cealaigh
+        social_links:
+          title: Naisc Phróifíle Sóisialta
+          remove: Bain
+          add: Cuir Nasc Sóisialta leis
+      update:
+        success: Naisc phróifíle nuashonraithe.
+        failure: Níorbh fhéidir naisc phróifíle a nuashonrú.
     images:
       show:
+        title: Cuir Próifíl in Eagar
+        save: Nuashonraigh Próifíl
+        cancel: Cealaigh
         gravatar:
           gravatar: Úsáid Gravatar
+          what_is_gravatar: Cad é Gravatar?
         new image: Cuir íomhá leis
         keep image: Coinnigh an íomhá reatha
         delete image: Bain an íomhá reatha
         replace image: Ionadaigh an íomhá reatha
         image size hint: (íomhá chearnógach atá 100x100 ar a laghad is fearr)
+      update:
+        success: Íomhá próifíle nuashonraithe.
+        failure: Níorbh fhéidir an íomhá próifíle a nuashonrú.
+    companies:
+      show:
+        title: Cuir Próifíl in Eagar
+        save: Nuashonraigh Próifíl
+        cancel: Cealaigh
+      update:
+        success: Próifíl na comhlacht nuashonraithe.
+        failure: Níorbh fhéidir próifíl na comhlacht a nuashonrú.
+    locations:
+      show:
+        title: Cuir Próifíl in Eagar
+        save: Nuashonraigh Próifíl
+        cancel: Cealaigh
+        no home location: Níor chuir tú isteach do shuíomh baile.
+        update home location on click: An suíomh baile a nuashonrú nuair a chliceálann
+          mé ar an léarscáil?
+        show: Taispeáin
+        delete: Scrios
+        undelete: Cealaigh scriosadh
+      update:
+        success: Suíomh an phróifíle nuashonraithe.
+        failure: Níorbh fhéidir suíomh an phróifíle a nuashonrú.
+    heatmaps:
+      show:
+        title: Cumraigh Léarscáil Teasa
+        show_heatmap_in_public: Taispeáin an léarscáil teasa ar do leathanach próifíle
+        save: Nuashonraigh Cumraíocht Léarscáil Teasa
+        cancel: Cealaigh
+      update:
+        success: Léarscáil teasa nuashonraithe.
+        failure: Níorbh fhéidir an léarscáil teasa a nuashonrú.
   sessions:
     new:
       tab_title: Logáil Isteach
+      login_to_authorize_html: Logáil isteach in OpenStreetMap chun rochtain a fháil
+        ar %{client_app_name}.
+      already_logged_in_html: Tá tú logáilte isteach cheana féin mar %{user}. Athróidh
+        logáil isteach arís do chuntas reatha.
+      access_another_page: 'Tháinig tú anseo agus tú ag iarraidh rochtain a fháil
+        ar leathanach eile. Más mian leat rochtain a fháil ar an leathanach sin trí
+        úsáid a bhaint as do chuntas reatha, cliceáil an cnaipe thíos:'
       email or username: Seoladh Ríomhphoist nó Ainm Úsáideora
       password: Pasfhocal
       remember: Cuimhnigh orm
@@ -2441,11 +2806,11 @@ ga:
       title: Finscéal
       tooltip: Finscéal
     map:
-      zoom:
-        in: Zúmáil isteach
-        out: Zúmáil amach
-      locate:
-        title: Taispeáin mo shuíomh
+      navigation_control:
+        zoom_in: Zúmáil isteach
+        zoom_out: Zúmáil amach
+      geolocate_control:
+        find_my_location: Taispeáin mo shuíomh
       base:
         standard: Caighdeánach
         cycle_map: Léarscáil Rothaíochta
