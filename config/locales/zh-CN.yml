@@ -95,13 +95,17 @@
 zh-CN:
   date:
     formats:
+      brief: '%{year}'
       brief_bce: 公元前%{year}
       brief_ce: 公元%{year}
       heatmap: '%-m月%-d日'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%Y年%B%e日 %H:%M'
       blog: '%Y年%B%e日'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: 选择文件
@@ -133,6 +137,9 @@ zh-CN:
         display_name_is_user_n: 不能为“user_n”，除非“n”是您的用户ID
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: 已忽视
         social_link:
           attributes:
@@ -239,6 +246,7 @@ zh-CN:
         company: 公司
         home_lat: 纬度
         home_lon: 经度
+        home_location_name: 家庭位置名称
         languages: 首选语言
         preferred_editor: 首选编辑器
         pass_crypt: 密码
@@ -292,7 +300,9 @@ zh-CN:
         other: '%{count}个月前'
       x_years: '%{count}年前'
   printable_name:
+    version: 版本 %{version}
     with_name_html: '%{name} (%{id})'
+    with_date_html: '%{name} [%{dates}]'
     current_and_old_links_html: '%{current_link}，%{old_link}'
   editor:
     default: 默认（目前为 %{name}）
@@ -307,10 +317,12 @@ zh-CN:
       none: 无
       openid: 开放式身份验证(OpenID)
       google: 谷歌
+      apple: Apple
       facebook: 脸书
       microsoft: 微软
       github: GitHub
       wikipedia: 维基百科
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -366,6 +378,7 @@ zh-CN:
       only_public_can_edit: 自0.6 API上线以来，只有公共用户可以编辑地图数据。
       find_out_why_html: (%{link})。
       find_out_why: 找出为什么
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: 您的电子邮件地址不会公开泄露。
       not_reversible: 此操作无法撤消，所有新用户现在默认都是公开的。
       make_edits_public_button: 公开我所有的编辑
