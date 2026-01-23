@@ -517,6 +517,12 @@ legend {
   @include button-outline-variant($secondary, $color-hover: $white, $active-color: $white);
 }
 
+@each $variant, $color in (bluesky: #1185fe, email: #0971BD, facebook: #3B5998, linkedin: #0077B5, mastodon: #2b90d9, telegram: #54a9eb, x: #000000) {
+  .btn-#{$variant} {
+    @include button-variant($color, $color, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+  }
+}
+
 /* Rules for the search and direction forms */
 
 .directions_form {
