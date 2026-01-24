@@ -1,9 +1,11 @@
 <% content_for :heading do %>
   <h1><%= t ".heading", :user => @user.display_name %></h1>
-  <p><%= t ".subheading_html",
-           :user => link_to(@user.display_name, @user),
-           :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
-           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
+  <p class="lh-lg"><%= t ".legend_html",
+                         :user => link_to(@user.display_name, @user),
+                         :created => tag.span(t(".legend_created"), :class => "px-2 py-1 bg-danger bg-opacity-25"),
+                         :created_and_resolved => tag.span(t(".legend_created_and_resolved"), :class => "px-2 py-1 bg-warning bg-opacity-25"),
+                         :resolved => tag.span(t(".legend_resolved"), :class => "px-2 py-1 bg-success bg-opacity-25"),
+                         :interacted => tag.span(t(".legend_interacted"), :class => "px-2 py-1 bg-body") %></p>
 <% end %>
 
 <%= form_with :url => user_notes_path(@user), :method => :get, :data => { :turbo => true } do %>
@@ -40,7 +42,7 @@
       </tr>
     </thead>
   <% @notes.each do |note| -%>
-    <tr<% if note.author == @user %> class="table-primary"<% end %>>
+    <%= tag.tr :class => note_list_row_class(note, @user) do %>
       <td>
         <% if !note.visible?
              alt_text_key = ".hidden"
@@ -61,7 +63,7 @@
       <td><%= note_description(note.author, note.description, current_user&.moderator? ? note.comments.unscope(:where => :visible).first : note.comments.first).to_html %></td>
       <td><%= friendly_date_ago(note.created_at) %></td>
       <td><%= friendly_date_ago(note.updated_at) %></td>
-    </tr>
+    <% end %>
   <% end -%>
   </table>
 

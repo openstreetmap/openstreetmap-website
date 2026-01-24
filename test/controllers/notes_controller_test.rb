@@ -69,6 +69,17 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_index_interaction_created_and_resolved
+    user = create(:user)
+    note = create(:note)
+    create(:note_comment, :note => note, :author => user)
+    create(:note_comment, :note => note, :author => user, :event => "closed")
+
+    get user_notes_path(user)
+    assert_response :success
+    assert_dom "table.note_list tbody tr:not(.table-danger).table-warning:not(.table-success)", :count => 1
+  end
+
   def test_index_paged
     user = create(:user)
 
