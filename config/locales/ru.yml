@@ -41,6 +41,7 @@
 # Author: Ezhick
 # Author: Facenapalm
 # Author: Firapinch
+# Author: FobosD
 # Author: Fontan 030
 # Author: FreeExec
 # Author: G0rn
@@ -125,9 +126,18 @@
 # Author: Сrower
 ---
 ru:
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: '%{year} до н.э.'
+      brief_ce: '%{year} н. э.'
+      heatmap: '%B %-d'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Выберите файл
@@ -160,7 +170,14 @@ ru:
           пользователя
       models:
         user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
           is_already_muted: уже заглушён
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL должен начинаться с http:// ли https://
     models:
       acl: Список контроля доступа
       changeset: Пакет правок
@@ -174,7 +191,7 @@ ru:
       message: Сообщение
       node: Точка
       node_tag: Тег точки
-      note: заметка
+      note: Примечание
       old_node: Старая точка
       old_node_tag: Старый тег точки
       old_relation: Старое отношение
@@ -205,8 +222,7 @@ ru:
         support_url: URL пользовательской поддержки
         allow_read_prefs: читать пользовательские настройки
         allow_write_prefs: изменять пользовательские настройки
-        allow_write_diary: создавать записи в дневнике, комментировать и заводить
-          друзей
+        allow_write_diary: создавать записи в дневнике и комментарии
         allow_write_api: редактировать карту
         allow_read_gpx: читать частные GPS-треки
         allow_write_gpx: загружать GPS-треки
@@ -394,7 +410,7 @@ ru:
       external auth: 'Внешняя аутентификация:'
       contributor_terms:
         heading: Условия участия
-        agreed: Вы согласились с новыми Условиями участия.
+        agreed: Вы согласились с условиями участия %{date}.
         agreed_with_pd: Вы также заявили, что вы считаете свои правки находящимися
           в общественном достоянии.
         link: https://openstreetmap.org/wiki/RU:Open_Database_License/Contributor_Terms?uselang=ru
@@ -511,8 +527,10 @@ ru:
         many: '%{count} точек'
         other: ""
       also_part_of_html:
-        one: содержится в линии %{related_ways}
-        other: содержится в линиях %{related_ways}
+        one: часть пути%{related_ways}
+        few: части пути%{related_ways}
+        many: частей пути%{related_ways}
+        other: частей пути%{related_ways}
     relation:
       title_html: 'Отношение: %{name}'
       members: Участники
@@ -528,7 +546,7 @@ ru:
         way: Линия
         relation: Отношение
     containing_relation:
-      entry_role_html: Отношение %{relation_name} (в роли %{relation_role})
+      entry_role_html: '%{relation_name} (в роли %{relation_role})'
     not_found:
       title: Не найдено
     timeout:
@@ -1584,14 +1602,14 @@ ru:
           weir: Плотина
           "yes": Водный маршрут
       admin_levels:
-        level2: Граница страны
-        level3: Граница региона
-        level4: Граница штата, субъекта
-        level5: Граница региона
-        level6: Граница района
-        level7: Граница муниципалитета
-        level8: Граница города
-        level9: Граница села, деревни
+        level2: Международная граница
+        level3: Административная граница (уровень 3)
+        level4: Административная граница (уровень 4)
+        level5: Административная граница (уровень 5)
+        level6: Административная граница (уровень 6)
+        level7: Административная граница (уровень 7)
+        level8: Административная граница (уровень 8)
+        level9: Административная граница (уровень 9)
         level10: Административная граница (уровень 10)
         level11: Административная граница (уровень 11)
   searches:
