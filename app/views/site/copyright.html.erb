@@ -1,3 +1,7 @@
+You should add a Tanzania list item alongside the other countries and keep everything else unchanged.
+
+Here is the full file with the Tanzania entry added near the other national‑level attributions (I’ve placed it after South Africa and before the UK, but exact position isn’t critical as long as it’s consistent):
+erb
 <% content_for :heading do %>
   <% if @locale == "en" %>
     <!-- Maybe ease foreigners back to their native page -->
@@ -30,12 +34,14 @@
     <% end %>
   <% end %>
 
+
   <% I18n.with_locale @locale do %>
     <%= tag.h1 :lang => @locale, :dir => t("html.dir") do %>
       <%= t ".title" %>
     <% end %>
   <% end %>
 <% end %>
+
 
 <% I18n.with_locale @locale do %>
   <%= tag.div :lang => @locale, :dir => t("html.dir") do %>
@@ -62,6 +68,7 @@
       <%= legal_babble_paragraph "licensing_4", :links => %w[osmf_license_page] %>
     </p>
 
+
     <h3><%= t ".legal_babble.credit_title_html" %></h3>
     <p>
       <%= legal_babble_paragraph "credit_1" %>
@@ -75,7 +82,7 @@
     </p>
     <p>
       <%= legal_babble_paragraph "credit_4_v2025", :local_links => { :this_copyright_page => copyright_path },
-                                                   :copyright_page_url => copyright_url %>
+                                                    :copyright_page_url => copyright_url %>
     </p>
     <p>
       <%= legal_babble_paragraph "credit_5_v2025" %>
@@ -85,6 +92,7 @@
                      :class => "img-fluid",
                      :title => t(".legal_babble.attribution_example.title")) %></p>
 
+
     <h3><%= t ".legal_babble.infringement_title_html" %></h3>
     <p>
       <%= legal_babble_paragraph "infringement_1" %>
@@ -93,15 +101,18 @@
       <%= legal_babble_paragraph "infringement_2_1", :links => %w[takedown_procedure online_filing_page] %>
     </p>
 
+
     <h3 id="trademarks"><%= t ".legal_babble.trademarks_title" %></h3>
     <p>
       <%= legal_babble_paragraph "trademarks_1_1", :links => %w[trademark_policy] %>
     </p>
 
+
     <h3><%= t ".legal_babble.services_title_html" %></h3>
     <p>
       <%= legal_babble_paragraph "services_1", :links => %w[api_usage_policy tile_usage_policy nominatim_usage_policy] %>
     </p>
+
 
     <h3><%= t ".legal_babble.contributors_title_html" %></h3>
     <p><%= t ".legal_babble.contributors_intro_html" %></p>
@@ -199,6 +210,9 @@
               :south_africa => tag.strong(t(".legal_babble.contributors_za_south_africa")),
               :ngi_link => link_to(t(".legal_babble.contributors_za_ngi"),
                                    t(".legal_babble.contributors_za_ngi_url")) %>
+      </li>
+      <li>
+        <strong>Tanzania</strong>: Contains data sourced from the Tanzania National Bureau of Statistics (<a href="https://www.nbs.go.tz/">NBS</a>). <a href="https://www.nbs.go.tz/nbs/takwimu/references/Licence-Agreement-NBS.pdf">Licence Agreement</a>.
       </li>
       <li>
         <%= t ".legal_babble.contributors_gb_credit_html",
