@@ -42,6 +42,7 @@ OSM.MapLibre.SecondaryMap = class extends OSM.MapLibre.Map {
       maxPitch: 0,
       center: OSM.home ? [OSM.home.lon, OSM.home.lat] : [0, 0],
       zoom: OSM.home ? defaultHomeZoom : 0,
+      zoomSnap: 1.0,
       ...options
     });
   }
