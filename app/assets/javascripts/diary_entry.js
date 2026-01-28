@@ -37,7 +37,8 @@ $(function () {
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
     const navigationControl = new OSM.MapLibre.NavigationControl();
-    map.addControl(navigationControl, position);
+    const geolocateControl = new OSM.MapLibre.GeolocateControl();
+    map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
 
     // Create marker if coordinates exist when map is shown
     if ($("#latitude").val() && $("#longitude").val()) {
