@@ -4,54 +4,60 @@
 
 @import "parameters";
 
-.maplibregl-ctrl {
-  margin-right: 0 !important;
-}
+.maplibregl-map .maplibregl-control-container {
+  .maplibregl-ctrl {
+    margin-right: 0;
 
-.maplibregl-control-container .maplibregl-ctrl button {
-  display: grid;
-  height: 40px;
-  width: 40px;
-  color: white;
-  place-content: center;
-  background-color: rgba(0, 0, 0, 0.6);
+    button {
+      display: grid;
+      height: 40px;
+      width: 40px;
+      color: white;
+      place-content: center;
+      background-color: rgba(0, 0, 0, 0.6);
 
-  &:hover, &:focus {
-    background-color: black !important;
+      &:hover,
+      &:focus {
+        background-color: black;
+      }
+
+      &:first-child,
+      &:first-child:focus {
+        border-radius: 4px 0 0 0;
+      }
+
+      &:last-child,
+      &:last-child:focus {
+        border-radius: 0 0 0 4px;
+      }
+
+      .maplibregl-ctrl-icon {
+        background-image: none;
+      }
+
+      &.maplibregl-ctrl-geolocate-active {
+        background-color: $vibrant-green;
+      }
+    }
   }
 
-  &:first-child,
-  &:first-child:focus {
-    border-radius: 4px 0 0 0;
-  }
+  .maplibregl-ctrl-group {
+    background-color: transparent;
 
-  &:last-child,
-  &:last-child:focus {
-    border-radius: 0 0 0 4px;
+    button + button {
+      border-top: 0;
+    }
   }
 }
 
-.maplibregl-ctrl-group {
-  background-color: transparent !important;
-}
+.maplibregl-map .maplibregl-canvas-container {
+  .maplibregl-user-location-accuracy-circle {
+    background-color: $green;
+    opacity: 0.2 !important;
+  }
 
-.maplibregl-ctrl-group button+button {
-  border-top: 0;
-}
-
-.maplibregl-user-location-accuracy-circle {
-  background-color: $green !important;
-  opacity: 0.2 !important;
-}
-
-.maplibregl-user-location-dot, .maplibregl-user-location-dot:before {
-  background-color: $vibrant-green !important;
-}
-
-.maplibregl-ctrl button .maplibregl-ctrl-icon {
-  background-image: none !important;
-}
-
-.maplibregl-ctrl button.maplibregl-ctrl-geolocate.maplibregl-ctrl-geolocate-active .maplibregl-ctrl-icon {
-  background-color: $vibrant-green;
+  .maplibregl-user-location-dot,
+  .maplibregl-user-location-dot:before {
+    background-color: $vibrant-green;
+  }
 }
