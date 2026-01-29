@@ -25,6 +25,20 @@ else
   auto_label.set(pr_number, "inappropriate-translations", "B60205")
 end
 
+# Get list of vendored files which are modified
+modified_vendor_files = git.modified_files.select do |file|
+  file.start_with?("vendor")
+end
+
+# Report if some vendored file is modified
+if modified_vendor_files.empty?
+  auto_label.remove("vendor-changes")
+else
+  modified_files_str = modified_vendor_files.map { |file| "`#{file}`" }.join(", ")
+  warn("The following vendored files have been modified: #{modified_files_str}. Vendored files should be updated upstream.")
+  auto_label.set(pr_number, "vendor-changes", "B60205")
+end
+
 # Report if there are merge-commits in PR
 if git.commits.any? { |c| c.parents.count > 1 }
   warn("Merge commits are found in PR. Please rebase to get rid of the merge commits in this PR, see CONTRIBUTING.md.")
