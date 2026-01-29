@@ -129,7 +129,7 @@ module RichText
               shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
                 path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
               end
-      end
+            end
       Array.wrap(Settings.linkify&.display_rules)
            .select { |rule| rule.pattern && rule.replacement }
            .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }

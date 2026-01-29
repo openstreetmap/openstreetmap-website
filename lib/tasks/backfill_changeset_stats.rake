@@ -114,7 +114,7 @@ namespace :db do
                ]
                rows_affected = ActiveRecord::Base.connection.exec_update(sql, "UpdateStats", binds)
                puts " #{rows_affected} changesets updated."
-    end
+             end
 
     puts "\nDone."
   end

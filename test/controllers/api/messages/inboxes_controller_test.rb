@@ -115,7 +115,7 @@ module Api
             assert_operator(jsm[i]["id"], :<, jsm[i + 1]["id"]) unless i == jsm.count - 1
             msgs_read[jsm[i]["id"]] = jsm[i]
           end
-          params[:from_id] = jsm[jsm.count - 1]["id"]
+          params[:from_id] = jsm[-1]["id"]
         end
         assert_equal 100, msgs_read.count
       end
@@ -153,7 +153,7 @@ module Api
             assert_operator(jsm[i]["id"], :>, jsm[i + 1]["id"]) unless i == jsm.count - 1
             msgs_read[jsm[i]["id"]] = jsm[i]
           end
-          params[:from_id] = jsm[jsm.count - 1]["id"]
+          params[:from_id] = jsm[-1]["id"]
         end
         assert_equal 100, msgs_read.count
         assert_not_equal(-1, real_max_id)

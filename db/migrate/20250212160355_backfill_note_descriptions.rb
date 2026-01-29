@@ -10,7 +10,7 @@ class BackfillNoteDescriptions < ActiveRecord::Migration[7.2]
     Note.in_batches(:of => 1000) do |notes|
       note_ids = notes.pluck(:id)
 
-      sql_query = <<-SQL.squish
+      sql_query = <<~SQL.squish
         WITH first_comment AS(
           SELECT DISTINCT ON (note_id) *
           FROM note_comments
