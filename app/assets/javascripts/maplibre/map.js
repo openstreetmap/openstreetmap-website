@@ -20,6 +20,9 @@ OSM.MapLibre.Map = class extends maplibregl.Map {
       });
     }
     const map = super({
+      // Style validation only affects debug output.
+      // Style errors are usually reported to authors, who should validate the style in CI for better error messages.
+      validateStyle: false,
       ...rotationOptions,
       ...options
     });
