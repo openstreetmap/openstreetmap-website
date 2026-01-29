@@ -7,12 +7,14 @@
 //= require osm
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
+//= require maplibre-gl/dist/maplibre-gl
+//= require leaflet.maplibre
 //= require leaflet.shortbread
+//= require i18n
 //= require leaflet.maptiler
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
-//= require i18n
 //= require matomo
 //= require richtext
 //= require language_selector

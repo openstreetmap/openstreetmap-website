@@ -1,4 +1,3 @@
-//= require maplibre-gl/dist/maplibre-gl
 //= require maplibre/controls
 //= require maplibre/dom_util
 //= require maplibre/styles
@@ -36,7 +35,7 @@ OSM.MapLibre.SecondaryMap = class extends OSM.MapLibre.Map {
     const defaultHomeZoom = 11;
     super({
       container: "map",
-      style: OSM.MapLibre.Styles.Mapnik,
+      style: OSM.MapLibre.Styles.Mapnik(),
       attributionControl: false,
       allowRotation: false,
       maxPitch: 0,
