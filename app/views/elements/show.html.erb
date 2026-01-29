@@ -7,6 +7,10 @@
 <% if @feature.visible? %>
   <div class='secondary-actions mb-3'>
     <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
+    <% if current_user %>
+      &middot;
+      <%= tag.a t("browse.edit_object_tags"), :href => "", :class => "edit_object_tags p-0 border-0 bg-transparent shadow-none" %>
+    <% end %>
     <% if current_user&.moderator? %>
       &middot;
       <%= link_to t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
