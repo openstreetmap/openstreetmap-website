@@ -1,6 +1,5 @@
 //= require @maptiler/maplibre-gl-omt-language
 //= require maplibre/map
-//= require maplibre/styles
 //= require maplibre/i18n
 
 L.OSM.layers = function (options) {
@@ -21,19 +20,16 @@ L.OSM.layers = function (options) {
       input.checked = map.hasLayer(layer);
 
       map.whenReady(function () {
-        const styleId = layer.options.leafletOsmId;
-        const style = OSM.MapLibre.Styles[styleId](layer.options);
-        const layerDefinition = OSM.LAYER_DEFINITIONS.find(l => l.leafletOsmId === styleId || l.leafletOsmDarkId === styleId);
         const miniMap = new OSM.MapLibre.Map({
           container,
-          style,
+          style: layer.options.style,
           interactive: false,
           attributionControl: false,
           fadeDuration: 0,
-          zoomSnap: layerDefinition.isVectorStyle ? 0 : 1
+          zoomSnap: layer.options.isVectorStyle ? 0 : 1
         });
 
-        if (styleId === "OpenMapTiles") {
+        if (layer.options.layerId === "openmaptiles_osm") {
           OSM.MapLibre.setOMTMapLanguage(miniMap);
         }
 
