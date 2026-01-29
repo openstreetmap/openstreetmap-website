@@ -84,17 +84,17 @@ If you want to add in the full history later on, perhaps to run `git blame` or `
 
 Start by opening the project with VS Code. Within it, you will need to install the extension _Dev Containers_, which can be done from the _Extensions_ section, reachable via the sidebar icons. Or VS Code may show a popup recommending this extension, with a button to install it directly.
 
-![VS Code: panel to install extensions](./docs/assets/vscode-devcontainers-extension.png)
+![VS Code: panel to install extensions](./assets/vscode-devcontainers-extension.png)
 
 ## Open the project in a container
 
 If everything is correct, this should make a few new commands available to you within VS Code. Find and run the command "Dev Containers: Reopen in Container".
 
-![VS Code: command to open in a devcontainer](./docs/assets/vscode-dev-reopen.png)
+![VS Code: command to open in a devcontainer](./assets/vscode-dev-reopen.png)
 
 The first time you do this, it will go into a bit of a process. It will create the devcontainer, pull the Docker images, install the dependencies, etc. Go drink some water while this runs.
 
-![VS Code: notification that VS Code is connecting to the Dev Container](./docs/assets/vscode-connecting-to-devcontainer.png)
+![VS Code: notification that VS Code is connecting to the Dev Container](./assets/vscode-connecting-to-devcontainer.png)
 
 Eventually this will present you with a development environment ready to go. In subsequent occasions this should be much faster.
 
@@ -102,21 +102,30 @@ Eventually this will present you with a development environment ready to go. In 
 
 If everything went well, you are done! For example, now you can open a shell in this environment using the VS Studio command "Create New Terminal (With Profile)":
 
-![VS Code: command to open a terminal](./docs/assets/vscode-create-terminal.png)
+![VS Code: command to open a terminal](./assets/vscode-create-terminal.png)
 
 From this terminal, you can run the test suite with `bundle exec rails test:all`:
 
-![Running the test suite in the terminal](./docs/assets/vscode-rails-test-all.png)
+![Running the test suite in the terminal](./assets/vscode-rails-test-all.png)
 
 Hopefully it should be all green? 🤞 You can also start a development server with `bundle exec rails s`:
 
-![Running the dev server in the terminal](./docs/assets/vscode-rails-server.png)
+![Running the dev server in the terminal](./assets/vscode-rails-server.png)
 
 It will take a moment to start, after which you will be able to take a browser to http://localhost:3000 and visit your own local version of the site.
 
-## Other useful configuration
+> [!NOTE]
+> The OSM map tiles you see aren't created from your local database - they are the production map tiles, served from a separate service over the Internet.
 
-See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and enable OAuth for iD, JOSM etc.
+## What's next?
+
+🎉 **Congratulations!** You have successfully installed the OpenStreetMap website.
+
+**Next steps:**
+* **Configuration:** See [CONFIGURE.md](CONFIGURE.md) for populating the database with data, creating users, setting up OAuth, and other configuration tasks.
+* **Contributing:** Check out [CONTRIBUTING.md](../CONTRIBUTING.md) for coding style guidelines, testing procedures, and how to submit your contributions.
+
+Any terminal commands must be run like above, in the terminal provided by VS Code to run within the devcontainer.
 
 ## Other tools
 

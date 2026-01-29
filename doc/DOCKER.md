@@ -79,105 +79,65 @@ This will launch one Docker container for each 'service' specified in `docker-co
 - You can tail logs of a running container with a command like this: `docker compose logs -f web` or `docker compose logs -f db`.
 - Instead of running the containers in the background with the `-d` flag, you can launch the containers in the foreground with `docker compose up`. The downside of this is that the logs of all the 'services' defined in `docker-compose.yml` will be intermingled. If you don't want this you can mix and match - for example, you can run the database in background with `docker compose up -d db` and then run the Rails app in the foreground via `docker compose up web`.
 
-### Migrations
+## Running commands
 
-Run the Rails database migrations:
+At this point, the Docker container can be used although there are a couple of steps missing to complete the install.
 
-```bash
-docker compose run --rm web bundle exec rails db:migrate
-```
-
-### Tests
-
-Prepare the test database:
-
-```bash
-docker compose run --rm web bundle exec rails db:test:prepare
-```
-
-Run the test suite:
-
-```bash
-docker compose run --rm web bundle exec rails test:all
-```
-
-> [!TIP]
-> If you encounter errors about missing assets, ensure your asset pipeline is correctly configured for your environment.
->
-> In production, assets must be precompiled for better performance:
->
-> ```bash
-> docker compose run --rm web bundle exec rake assets:precompile
-> ```
->
->In development, missing assets usually indicate a configuration or dependency issue.
-> Precompiling assets in *development* will disable dynamic compilation and make debugging harder due to fingerprinted assets.
-> To clean the assets you can run:
->
-> ```bash
-> docker compose run --rm web bundle exec rake assets:clobber
-> ```
-
-### Loading an OSM extract
-
-This installation comes with no geographic data loaded. You can either create new data using one of the editors (Potlatch 2, iD, JOSM etc) or by loading an OSM extract. Here an example for loading an OSM extract into your Docker-based OSM instance.
-
-For example, let's download the District of Columbia from Geofabrik or [any other region](https://download.geofabrik.de):
-
-```bash
-wget https://download.geofabrik.de/north-america/us/district-of-columbia-latest.osm.pbf
-```
-
-You can now use Docker to load this extract into your local Docker-based OSM instance:
-
-```bash
-docker compose run --rm web osmosis \
-    -verbose    \
-    --read-pbf district-of-columbia-latest.osm.pbf \
-    --log-progress \
-    --write-apidb \
-        host="db" \
-        database="openstreetmap" \
-        user="openstreetmap" \
-        validateSchemaVersion="no"
-```
-
-**Windows users:** Powershell uses `` ` `` and CMD uses `^` at the end of each line, e.g.:
-
-```powershell
-docker compose run --rm web osmosis `
-    -verbose    `
-    --read-pbf district-of-columbia-latest.osm.pbf `
-    --log-progress `
-    --write-apidb `
-        host="db" `
-        database="openstreetmap" `
-        user="openstreetmap" `
-        validateSchemaVersion="no"
-```
-
-Once you have data loaded for Washington, DC you should be able to navigate to [`http://localhost:3000/#map=12/38.8938/-77.0146`](http://localhost:3000/#map=12/38.8938/-77.0146) to begin working with your local instance.
-
-### Additional Configuration
-
-See [`CONFIGURE.md`](CONFIGURE.md) for information on how to manage users and enable OAuth for iD, JOSM etc.
-
-### Bash
-
-If you want to get into a web container and run specific commands you can fire up a throwaway container to run bash in via:
+From now on, any commands should be run within the container. To do this, first you need to open a shell within it:
 
 ```bash
 docker compose run --rm web bash
 ```
 
-Alternatively, if you want to use the already-running `web` container then you can `exec` into it via:
+This will open a shell where you can enter commands. These commands will run within the context of the container, without affecting your own machine outside your working directory.
+
+> [!IMPORTANT]
+> Unless otherwise stated, make sure that you are in this shell when following any other instructions.
+
+### Create the databases
+
+To create all databases and set up all databases, run:
 
 ```bash
-docker compose exec web bash
+bundle exec rails db:create
 ```
 
-Similarly, if you want to `exec` in the db container use:
+## Validate Your Installation
+
+Hopefully that's it? Let's check that things are working properly.
+
+### Run the tests
+
+Run the test suite:
 
 ```bash
-docker compose exec db bash
+bundle exec rails test:all
 ```
+
+This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation was successful. On occasion some tests may fail randomly and will pass if run again. We are working towards avoiding this, but it can still happen.
+
+> [!NOTE]
+> The unit tests may output parser errors related to "Attribute lat redefined." These can be ignored.
+
+### Start the development server
+
+Rails comes with a built-in webserver, so that you can test on your own machine without needing a server. Run:
+
+```bash
+bundle exec rails server
+```
+
+You can now view the site in your favourite web browser at [http://localhost:3000/](http://localhost:3000/)
+
+> [!NOTE]
+> The OSM map tiles you see aren't created from your local database - they are the production map tiles, served from a separate service over the Internet.
+
+## What's next?
+
+🎉 **Congratulations!** You have successfully installed the OpenStreetMap website.
+
+**Next steps:**
+* **Configuration:** See [CONFIGURE.md](CONFIGURE.md) for populating the database with data, creating users, setting up OAuth, and other configuration tasks.
+* **Contributing:** Check out [CONTRIBUTING.md](../CONTRIBUTING.md) for coding style guidelines, testing procedures, and how to submit your contributions.
+
+Don't forget to **run any commands in a shell within the container**, as instructed above under "Running commands".
