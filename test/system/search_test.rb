@@ -37,25 +37,6 @@ class SearchTest < ApplicationSystemTestCase
       BODY
   end
 
-  test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
-    visit "/#map=15/51.76320/-0.00760"
-
-    assert_field "Search", :with => ""
-    click_on "Where is this?"
-
-    assert_field "Search", :with => "51.76320, -0.00760"
-    assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
-  end
-
-  test "'Show address' from context menu makes reverse geocoding request with zoom" do
-    visit "/#map=15/51.76320/-0.00760"
-
-    find_by_id("map").right_click
-    click_on "Show address"
-
-    assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
-  end
-
   test "query search link sets search input value" do
     visit search_path(:query => "2.341, 7.896")
 
@@ -68,25 +49,48 @@ class SearchTest < ApplicationSystemTestCase
     assert_field "Search", :with => "4.321, 9.876"
   end
 
-  test "search adds viewbox param to Nominatim link" do
-    visit "/"
+  class JsTest < SearchTest
+    driven_by_selenium
 
-    fill_in "query", :with => "paris"
-    click_on "Go"
+    test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
+      visit "/#map=15/51.76320/-0.00760"
 
-    within_sidebar do
-      assert_link "Nominatim", :href => /&viewbox=/
+      assert_field "Search", :with => ""
+      click_on "Where is this?"
+
+      assert_field "Search", :with => "51.76320, -0.00760"
+      assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
     end
-  end
 
-  test "search adds zoom param to reverse Nominatim link" do
-    visit "/#map=7/1.234/6.789"
+    test "'Show address' from context menu makes reverse geocoding request with zoom" do
+      visit "/#map=15/51.76320/-0.00760"
 
-    fill_in "query", :with => "60 30"
-    click_on "Go"
+      find_by_id("map").right_click
+      click_on "Show address"
 
-    within_sidebar do
-      assert_link "Nominatim", :href => /&zoom=7/
+      assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
+    end
+
+    test "search adds viewbox param to Nominatim link" do
+      visit "/"
+
+      fill_in "query", :with => "paris"
+      click_on "Go"
+
+      within_sidebar do
+        assert_link "Nominatim", :href => /&viewbox=/
+      end
+    end
+
+    test "search adds zoom param to reverse Nominatim link" do
+      visit "/#map=7/1.234/6.789"
+
+      fill_in "query", :with => "60 30"
+      click_on "Go"
+
+      within_sidebar do
+        assert_link "Nominatim", :href => /&zoom=7/
+      end
     end
   end
 end

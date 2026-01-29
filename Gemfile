@@ -168,7 +168,6 @@ end
 
 # Gems needed for running tests
 group :test do
-  gem "rack-test"
   gem "brakeman"
   gem "capybara", ">= 2.15"
   gem "erb_lint", :require => false
@@ -177,6 +176,7 @@ group :test do
   gem "minitest-focus", :require => false
   gem "minitest-mock"
   gem "puma", "~> 7.1"
+  gem "rack-test"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
