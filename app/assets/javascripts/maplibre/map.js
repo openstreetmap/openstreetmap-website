@@ -1,4 +1,3 @@
-//= require maplibre-gl/dist/maplibre-gl
 //= require maplibre/controls
 //= require maplibre/dom_util
 //= require maplibre/styles

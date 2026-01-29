@@ -1,4 +1,3 @@
-//= require leaflet.maplibre
 //= require maplibre/i18n
 //= require @maptiler/maplibre-gl-omt-language
 

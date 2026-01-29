@@ -7,6 +7,8 @@
 //= require osm
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
+//= require maplibre-gl/dist/maplibre-gl
+//= require leaflet.maplibre
 //= require leaflet.shortbread
 //= require i18n
 //= require leaflet.maptiler
