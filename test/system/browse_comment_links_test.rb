@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class BrowseCommentLinksTest < ApplicationSystemTestCase
+  driven_by_selenium
+
   test "visiting changeset comment link should pan to changeset" do
     changeset = create(:changeset, :bbox => [30, 60, 30, 60])
     comment = create(:changeset_comment, :changeset => changeset, :body => "Linked changeset comment")

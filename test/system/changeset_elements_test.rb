@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class ChangesetElementsTest < ApplicationSystemTestCase
+  driven_by_selenium
+
   test "can navigate between element subpages without losing comment input" do
     element_page_size = 20
     changeset = create(:changeset, :closed, :num_changes => 2 * (element_page_size + 1))

@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class SelectLanguageTest < ApplicationSystemTestCase
+  driven_by_selenium
+
   test "can select language when logged out" do
     visit help_path
 
