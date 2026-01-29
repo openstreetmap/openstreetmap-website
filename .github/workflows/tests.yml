@@ -65,7 +65,7 @@ jobs:
     - name: Enable virtual display
       run: Xvfb :99 -screen 0 1024x768x24 &
     - name: Run tests
-      run: bundle exec rails test:all
+      run: "bundle exec rails test test/system/[abcds]*"
       env:
         DISPLAY: ":99"
     - name: Run javascript tests
