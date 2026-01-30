@@ -135,7 +135,7 @@
         "turn slight right": "slight-right",
         "turn right": "right",
         "turn sharp right": "sharp-right",
-        "turn uturn": "u-turn-left",
+        "turn uturn": "u-turn",
         "turn slight left": "slight-left",
         "turn left": "left",
         "turn sharp left": "sharp-left",
