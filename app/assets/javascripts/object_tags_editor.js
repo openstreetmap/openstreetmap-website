@@ -8,23 +8,23 @@
         continue;
       }
       const eqPos = line.indexOf("=");
-      if (eqPos <= 0 || eqPos === line.length - 1) {
-        throw new Error(`= not found on ${i + 1} line`);
+      if (eqPos === -1) {
+        throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.equals_not_found", { line: i + 1 }));
       }
       const k = line.substring(0, eqPos).trim();
       if (k === "") {
-        throw new Error(`empty key on ${i + 1} line`);
+        throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.empty_key", { line: i + 1 }));
       }
       const v = line.substring(eqPos + 1).trim();
       if (v === "") {
-        throw new Error(`empty value on ${i + 1} line`);
+        throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.empty_value", { line: i + 1 }));
       }
       tags.set(k, v.replaceAll("\\\\", "\n"));
     }
     return tags;
   }
 
-  function makeChangesSummary(objectType, objectId, prevTags, newTags) {
+  function validateChanges(prevTags, newTags) {
     const addedTags = new Map();
     const changedTags = new Map();
     const removedTags = new Map();
@@ -37,83 +37,13 @@
     });
     newTags.entries().forEach(([k, v]) => {
       if (!prevTags.has(k)) {
+        if (!k.match(/^[0-9a-zA-Z:_]+$/)) {
+          throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.added_invalid_key", { key: k }));
+        }
         addedTags.set(k, v);
       }
     });
-    if (addedTags.size + changedTags.size + removedTags.size === 0) {
-      return;
-    }
-
-    function makeDetailedPrefix() {
-      let res = "";
-      if (addedTags.size) {
-        res += "Add " + addedTags.entries().map(([k, v]) => `${k}=${v}`).toArray().join(", ") + "; ";
-      }
-      if (changedTags.size) {
-        res += "Changed " + changedTags.entries().map(([k, v]) => `${k}=${v}\u200b→\u200b${newTags.get(k)}`).toArray().join(", ") + "; ";
-      }
-      if (removedTags.size) {
-        res += "Removed " + removedTags.entries().map(([k, v]) => `${k}=${v}`).toArray().join(", ");
-      }
-      return res;
-    }
-
-    function makeOnlyKeysPrefix() {
-      let text = "";
-      if (addedTags.size) {
-        text += "Add " + addedTags.map(([k]) => k).join(", ") + "; ";
-      }
-      if (changedTags.size) {
-        text += "Changed " + changedTags.map(([k]) => k).join(", ") + "; ";
-      }
-      if (removedTags.size) {
-        text += "Removed " + removedTags.map(([k]) => k).join(", ");
-      }
-      return text;
-    }
-
-    function makeUniversalSummary() {
-      return `Update tags of ${objectType}/${objectId}`;
-    }
-
-    function makeMainTagsHint() {
-      const mainTags = new Set([
-        "shop", "building", "amenity", "man_made", "highway", "natural",
-        "aeroway", "historic", "railway", "tourism", "landuse", "leisure"
-      ]);
-      let mainTagsHint = "";
-
-      for (const [k, v] of prevTags.entries()) {
-        if (mainTags.has(k) && !removedTags.has(k) && !changedTags.has(k)) {
-          mainTagsHint += ` ${k}=${v}`;
-          break;
-        }
-      }
-      for (const [k, v] of prevTags.entries()) {
-        if (k === "name" && !removedTags.has("name") && !changedTags.has("name")) {
-          mainTagsHint += ` ${k}=${v}`;
-          break;
-        }
-      }
-      return mainTagsHint;
-    }
-
-    let summary = makeDetailedPrefix();
-    const mainTagsHint = makeMainTagsHint();
-    if (summary.length > 200 || changedTags.size > 1) {
-      summary = makeOnlyKeysPrefix();
-    }
-    summary = summary.replace(/; $/, "");
-    if (mainTagsHint === "") {
-      summary += ` for ${objectType}/${objectId}`;
-    } else if (removedTags.size) {
-      summary += " from" + mainTagsHint;
-    } else if (changedTags.size) {
-      summary += " of" + mainTagsHint;
-    } else if (addedTags.size) {
-      summary += " to" + mainTagsHint;
-    }
-    return summary && summary.length < 255 ? summary : makeUniversalSummary();
+    return addedTags.size + changedTags.size + removedTags.size !== 0;
   }
 
   function makeAuthHeaders() {
@@ -141,7 +71,7 @@
       body: new XMLSerializer().serializeToString(changesetPayload)
     });
     if (!res.ok) {
-      throw new Error("Failed changeset creation");
+      throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.failed_changeset_creation"));
     }
     return await res.text();
   }
@@ -156,7 +86,7 @@
         body: objectInfoStr
       });
       if (!res.ok) {
-        throw new Error(`Error when uploading changes: HTTP ${res.status}`);
+        throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.upload_failed", { status: res.status }));
       }
     } finally {
       await fetch(`/api/0.6/changeset/${changesetId}/close`, {
@@ -208,6 +138,13 @@
 
     const $errorBox = $("<p>");
 
+    const $commentInput = $("<input>")
+      .prop({
+        type: "text",
+        placeholder: OSM.i18n.t("javascripts.object_tags_editor.changeset_comment_placeholder")
+      })
+      .addClass("form-control mb-2");
+
     const $editorTextarea = $("<textarea>")
       .addClass("form-control font-monospace mb-3")
       .prop({
@@ -225,11 +162,10 @@
 
     async function submitTags() {
       const newTags = parseTags($editorTextarea.val());
-      const summary = makeChangesSummary(type, id, currentTags, newTags);
-      if (!summary) {
-        throw OSM.i18n.t("javascripts.object_tags_editor.no_changes");
+      if (!validateChanges(currentTags, newTags)) {
+        throw new Error(OSM.i18n.t("javascripts.object_tags_editor.errors.no_changes"));
       }
-      const changesetId = await openOsmChangeset(summary);
+      const changesetId = await openOsmChangeset($commentInput.val().trim());
       applyNewTags(objectInfo, newTags);
       await uploadNewVersion(type, id, objectInfo, changesetId);
     }
@@ -242,7 +178,7 @@
           await submitTags();
           location.reload();
         } catch (e) {
-          $errorBox.text(e);
+          $errorBox.text(e.message ?? String(e));
         }
       });
 
@@ -250,9 +186,12 @@
       .prop({
         type: "submit",
         name: "save",
-        value: OSM.i18n.t("javascripts.object_tags_editor.save")
+        value: OSM.i18n.t("javascripts.object_tags_editor.save"),
+        disabled: true
       })
       .addClass("btn btn-primary");
+
+    $commentInput.on("input", () => $saveButton.prop("disabled", $commentInput.val().trim() === ""));
 
     const $cancelButton = $("<input>")
       .prop({
@@ -271,7 +210,7 @@
 
     $buttonsWrapper.append($saveButton, $cancelButton);
 
-    $editorWrapper.append($editorTextarea, $errorBox, $buttonsWrapper);
+    $editorWrapper.append($editorTextarea, $commentInput, $errorBox, $buttonsWrapper);
     $browseSection.replaceWith($editorWrapper);
     $editorTextarea.focus();
   });
