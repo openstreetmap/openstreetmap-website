@@ -206,7 +206,6 @@ class ApplicationController < ActionController::Base
 
     I18n.locale = Locale.available.preferred(preferred_languages)
 
-    response.headers["Vary"] = "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
   end
 
