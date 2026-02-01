@@ -1,5 +1,6 @@
 OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, changeCallback) {
   const endpoint = {};
+  const datalist = $("#" + input.attr("list"));
 
   endpoint.marker = L.marker([0, 0], {
     icon: OSM.getMarker(marker),
@@ -37,19 +38,33 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
   }
 
   function inputChangeListener(e) {
-    // make text the same in both text boxes
     const value = e.target.value;
-    endpoint.setValue(value);
+    const selectedOption = datalist
+      .find("option")
+      .get()
+      .find(option => option.value === value);
+
+    if (selectedOption) {
+      const lat = selectedOption.getAttribute("data-lat");
+      const lon = selectedOption.getAttribute("data-lon");
+      endpoint.setValue(value, { lat, lon });
+    } else {
+      endpoint.setValue(value);
+    }
   }
 
-  endpoint.setValue = function (value) {
+  endpoint.setValue = function (value, latlngObj) {
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
     input.removeClass("is-invalid");
 
-    const coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
-    const latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
-
+    let latlng;
+    if (latlngObj) {
+      latlng = L.latLng(latlngObj.lat, latlngObj.lon);
+    } else {
+      const coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
+      latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
+    }
     if (latlng && endpoint.cachedReverseGeocode && endpoint.cachedReverseGeocode.latlng.equals(latlng)) {
       setLatLng(latlng);
       if (endpoint.cachedReverseGeocode.notFound) {
@@ -97,7 +112,7 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
 
   function getGeocode() {
     const viewbox = map.getBounds().toBBoxString(), // <sw lon>,<sw lat>,<ne lon>,<ne lat>
-          geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox, limit: 1 });
+          geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox, limit: 5 });
 
     endpoint.geocodeRequest = new AbortController();
     fetch(geocodeUrl, { signal: endpoint.geocodeRequest.signal })
@@ -114,13 +129,20 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
         return;
       }
 
-      setLatLng(L.latLng(json[0]));
-
-      endpoint.value = json[0].display_name;
-      input.val(json[0].display_name);
-
-      changeCallback();
+      populateDatalist(json);
     }
+  }
+
+  function populateDatalist(results) {
+    datalist.empty();
+    results.forEach(result => {
+      const option = $("<option></option>")
+        .val(result.display_name)
+        .attr("data-lat", result.lat)
+        .attr("data-lon", result.lon);
+
+      datalist.append(option);
+    });
   }
 
   function getReverseGeocode() {
