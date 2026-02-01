@@ -3,8 +3,9 @@
 # The NodeController is the RESTful interface to Node objects
 
 module Api
-  class NodesController < ApiController
+  class NodesController < ElementsController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :setup_user_auth, :only => :index
     before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
@@ -13,21 +14,9 @@ module Api
     before_action :set_request_formats, :except => [:create, :update, :destroy]
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
-    # Dump the details on many nodes whose ids are given in the "nodes" parameter.
+    # Dump the details on many nodes whose ids and optionally versions are given in the "nodes" parameter.
     def index
-      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params["nodes"]
-
-      ids = params["nodes"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
-
-      @nodes = Node.includes(:element_tags).find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
+      index_for_models Node.includes(:element_tags), OldNode
     end
 
     # Dump the details on a node given in params[:id]

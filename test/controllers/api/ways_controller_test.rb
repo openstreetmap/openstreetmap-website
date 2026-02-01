@@ -53,36 +53,47 @@ module Api
       )
     end
 
-    ##
-    # test fetching multiple ways
+    def test_index_no_param
+      get api_ways_path
+
+      assert_response :bad_request
+      assert_match "parameter ways is required", @response.body
+    end
+
+    def test_index_empty_param
+      get api_ways_path(:ways => "")
+
+      assert_response :bad_request
+      assert_match "No ways were given", @response.body
+    end
+
     def test_index
       way1 = create(:way)
       way2 = create(:way, :deleted)
       way3 = create(:way)
       way4 = create(:way)
 
-      # check error when no parameter provided
-      get api_ways_path
-      assert_response :bad_request
-
-      # check error when no parameter value provided
-      get api_ways_path(:ways => "")
-      assert_response :bad_request
-
-      # test a working call
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}")
-      assert_response :success
-      assert_select "osm" do
-        assert_select "way", :count => 4
-        assert_select "way[id='#{way1.id}'][visible='true']", :count => 1
-        assert_select "way[id='#{way2.id}'][visible='false']", :count => 1
-        assert_select "way[id='#{way3.id}'][visible='true']", :count => 1
-        assert_select "way[id='#{way4.id}'][visible='true']", :count => 1
-      end
 
-      # test a working call with json format
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 4
+        assert_dom "way[id='#{way1.id}'][visible='true']", :count => 1
+        assert_dom "way[id='#{way2.id}'][visible='false']", :count => 1
+        assert_dom "way[id='#{way3.id}'][visible='true']", :count => 1
+        assert_dom "way[id='#{way4.id}'][visible='true']", :count => 1
+      end
+    end
+
+    def test_index_json
+      way1 = create(:way)
+      way2 = create(:way, :deleted)
+      way3 = create(:way)
+      way4 = create(:way)
+
       get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id}", :format => "json")
 
+      assert_response :success
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_equal 4, js["elements"].count
@@ -91,10 +102,218 @@ module Api
       assert_equal(1, js["elements"].count { |a| a["id"] == way2.id && a["visible"] == false })
       assert_equal(1, js["elements"].count { |a| a["id"] == way3.id && a["visible"].nil? })
       assert_equal(1, js["elements"].count { |a| a["id"] == way4.id && a["visible"].nil? })
+    end
 
-      # check error when a non-existent way is included
-      get api_ways_path(:ways => "#{way1.id},#{way2.id},#{way3.id},#{way4.id},0")
+    def test_index_nonexisting_element
+      get api_ways_path(:ways => "0")
+
       assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_element
+      way = create(:way)
+
+      get api_ways_path(:ways => "#{way.id},0")
+
+      assert_response :not_found
+    end
+
+    def test_index_versions
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "new")
+      create(:way_tag, :way => way, :k => "name", :v => "new")
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonversion_and_versions
+      way1 = create(:way, :with_history)
+      way2 = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way1.old_ways.find_by(:version => 1), :k => "name", :v => "one")
+      create(:way_tag, :way => way1, :k => "name", :v => "one")
+      create(:old_way_tag, :old_way => way2.old_ways.find_by(:version => 1), :k => "name", :v => "old")
+      create(:old_way_tag, :old_way => way2.old_ways.find_by(:version => 2), :k => "name", :v => "new")
+      create(:way_tag, :way => way2, :k => "name", :v => "new")
+
+      get api_ways_path(:ways => "#{way1.id},#{way2.id}v1,#{way2.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 3
+        assert_dom "way[id='#{way1.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "one"
+          end
+        end
+        assert_dom "way[id='#{way2.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "old"
+          end
+        end
+        assert_dom "way[id='#{way2.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "new"
+          end
+        end
+      end
+    end
+
+    def test_index_nonexistent_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_existing_and_nonexisting_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id}v2,#{way.id}v3")
+
+      assert_response :not_found
+    end
+
+    def test_index_when_specified_version_coincides_with_top_version
+      way = create(:way, :with_history, :version => 2)
+
+      get api_ways_path(:ways => "#{way.id},#{way.id}v1,#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1
+      end
+    end
+
+    def test_index_redacted_version
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_and_visible_version
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2")
+
+      assert_response :not_found
+    end
+
+    def test_index_visible_version_of_element_with_redacted_version
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v2")
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 1
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_version_with_show_redactions_when_unauthorized
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true")
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_regular_user
+      way = create(:way, :with_history, :version => 2)
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :not_found
+    end
+
+    def test_index_redacted_version_with_show_redactions_for_moderator
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_ways_path(:ways => "#{way.id}v1", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 1
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+      end
+    end
+
+    def test_index_redacted_and_visible_version_with_show_redactions_for_moderator
+      way = create(:way, :with_history, :version => 2)
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 1), :k => "name", :v => "secret")
+      create(:old_way_tag, :old_way => way.old_ways.find_by(:version => 2), :k => "name", :v => "public")
+      create(:way_tag, :way => way, :k => "name", :v => "public")
+      way.old_ways.find_by(:version => 1).redact!(create(:redaction))
+      auth_header = bearer_authorization_header create(:moderator_user)
+
+      get api_ways_path(:ways => "#{way.id}v1,#{way.id}v2", :show_redactions => "true"), :headers => auth_header
+
+      assert_response :success
+      assert_dom "osm" do
+        assert_dom "way", :count => 2
+        assert_dom "way[id='#{way.id}'][version='1']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "secret"
+          end
+        end
+        assert_dom "way[id='#{way.id}'][version='2']", :count => 1 do
+          assert_dom "tag", :count => 1
+          assert_dom "tag[k='name']", :count => 1 do
+            assert_dom "> @v", "public"
+          end
+        end
+      end
     end
 
     # -------------------------------------

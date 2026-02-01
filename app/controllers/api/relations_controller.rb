@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module Api
-  class RelationsController < ApiController
+  class RelationsController < ElementsController
     before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :setup_user_auth, :only => :index
     before_action :authorize, :only => [:create, :update, :destroy]
 
     authorize_resource
@@ -12,19 +13,7 @@ module Api
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
-      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
-
-      ids = params["relations"].split(",").collect(&:to_i)
-
-      raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
-
-      @relations = Relation.includes(:relation_members, :element_tags).find(ids)
-
-      # Render the result
-      respond_to do |format|
-        format.xml
-        format.json
-      end
+      index_for_models Relation.includes(:relation_members, :element_tags), OldRelation
     end
 
     def show
