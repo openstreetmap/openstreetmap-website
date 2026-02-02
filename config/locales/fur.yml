@@ -10,6 +10,11 @@
 # Author: Tocaibon
 ---
 fur:
+  date:
+    formats:
+      brief_bce: '%{year} pdC'
+      brief_ce: '%{year} ddC'
+      heatmap: '%-d %B'
   time:
     formats:
       friendly: '%e di %B %Y a lis %H:%M'
@@ -49,7 +54,7 @@ fur:
       message: Messaç
       node: Grop
       node_tag: Etichete dal grop
-      note: note
+      note: Note
       old_node: Vecjo grop
       old_node_tag: Vecje etichete dal grop
       old_relation: Viere relazion
@@ -76,7 +81,7 @@ fur:
       client_application:
         allow_read_prefs: lei lis sôs preferencis dal utent
         allow_write_prefs: modificâ lis sôs preferencis dal utent
-        allow_write_diary: creâ vôs dal diari, comentâ e zontâ amîs
+        allow_write_diary: creâ vôs dal diari e coments
         allow_write_api: modificâ la mape
         allow_read_gpx: lei i siei percors GPS privâts
         allow_write_gpx: cjamâ percors GPS
@@ -106,7 +111,7 @@ fur:
         longitude: Longjitudin
         public: Public
         description: Descrizion
-        gpx_file: Cjame file GPX
+        gpx_file: Sielç file di trace GPX
         visibility: Visibilitât
         tagstring: Etichetis
       message:
@@ -220,11 +225,12 @@ fur:
   accounts:
     show:
       title: Modifiche profîl
+      my_account: Il gno profîl
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
       contributor_terms:
         heading: Tiermins par contribuî
-        agreed: Tu âs acetât i gnûfs tiermins di contribuzion.
+        agreed: Tu âs acetât i tiermins di contribuzion ai %{date}.
         agreed_with_pd: Tu âs ancje declarât di considerâ i tiei cambiaments intal
           Public Domini.
         link text: ce isal chest?
@@ -261,6 +267,9 @@ fur:
           rest_of_world: Rest dal mont
       update:
         terms accepted: Graziis par vê acetât i gnûfs tiermins par contribuî!
+    pd_declarations:
+      show:
+        confirm: Conferme
   browse:
     deleted_ago_by_html: Eliminât di %{user} %{time_ago}
     edited_ago_by_html: Modificât di %{user} %{time_ago}
@@ -301,7 +310,7 @@ fur:
         way: Vie
         relation: Relazion
     containing_relation:
-      entry_role_html: Relazion %{relation_name} (come %{relation_role})
+      entry_role_html: '%{relation_name} (come %{relation_role})'
     not_found:
       title: No cjatât
     timeout:
@@ -329,6 +338,13 @@ fur:
       wikidata_link: L'element %{page} su Wikidata
       wikipedia_link: La vôs su %{page} te Vichipedie
       telephone_link: Clame %{phone_number}
+    versions_navigation:
+      node: Grop
+      way: Vie
+      relation: Relazion
+      history: Storic
+      version: 'Version #%{version}'
+      versions_label: 'Versions:'
   feature_queries:
     show:
       title: Ce ch'al è intun lûc
@@ -343,6 +359,8 @@ fur:
         title_html: 'Storic de vie: %{name}'
       relation:
         title_html: 'Storic de relazion: %{name}'
+      older_versions: Versions plui vecjis
+      newer_versions: Versions plui gnovis
   changeset_comments:
     feeds:
       comment:
@@ -382,12 +400,27 @@ fur:
       changesetxml: Grup di cambiaments XML
       osmchangexml: XML in formât osmChange
     paging_nav:
+      nodes_title: Grops
       nodes_paginated: Grops (%{x}-%{y} su %{count})
+      ways_title: Viis
       ways_paginated: Viis (%{x}-%{y} su %{count})
+      relations_title: Relazions
       relations_paginated: Relazions (%{x}-%{y} su %{count})
+      range: '%{x}-%{y} di %{count}'
+    not_found_message:
+      sorry: 'Nus displâs, nol è stât pussibil cjatâ il grup di cambiaments cun id
+        #%{id}.'
     timeout:
       sorry: Nus displâs, la liste dai grups di cambiaments che tu âs domandât e je
         stade masse timp a cjamâsi.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        button: Notiti ae discussion
+      unsubscribe:
+        button: Disnotiti de discussion
+    heading:
+      title: Grup di cambiaments %{id}
   dashboards:
     contact:
       km away: '%{count}km di distance'
@@ -406,6 +439,8 @@ fur:
       nearby users: Altris utents dongje
       no nearby users: Nol è ancjemò nissun utent che al declare di mapâ dongje di
         te.
+      followed_changesets: grups di cambiaments
+      followed_diaries: vôs tal diari
       nearby_changesets: grups di cambiaments dai utents dongje
       nearby_diaries: vôs di diari dai utents dongje
   diary_entries:
@@ -428,6 +463,9 @@ fur:
     show:
       title: Diari di %{user} | %{title}
       user_title: Diari di %{user}
+      discussion: Discussion
+      subscribe: Notiti
+      unsubscribe: Disnotiti
       leave_a_comment: Lasse un coment
       login_to_leave_a_comment_html: '%{login_link} par lassâ un coment'
       login: Jentre
@@ -439,6 +477,7 @@ fur:
     diary_entry:
       posted_by_html: Publicât di %{link_user} ai %{created} par %{language_link}.
       updated_at_html: Ultim inzornament ai %{updated}.
+      full_entry: Viôt dute la vôs
       comment_link: Scrîf un coment su cheste vôs
       reply_link: Mande un messaç al autôr
       comment_count:
@@ -473,6 +512,12 @@ fur:
       new: Gnove vôs dal diari
       new_title: Scrîf une gnove vôs tal mê diari
     profile_diaries:
+      latest_diaries: Ultins diaris
+      comments:
+        one: '%{count} coment'
+        other: '%{count} coments'
+      title_label: Vôs dal diari
+      comments_label: Coments
       date_label: Date
   doorkeeper:
     flash:
@@ -845,14 +890,14 @@ fur:
           ditch: Fuesse
           river: Flum
       admin_levels:
-        level2: Confin di paîs
-        level3: Confin di regjon
-        level4: Confin di stât
-        level5: Confin di regjon
-        level6: Confin di contee
-        level7: Confine municipâl
-        level8: Confin di citât
-        level9: Confin di vilaç
+        level2: Confin internazionâl
+        level3: Confin aministratîf (nivel 3)
+        level4: Confin aministratîf (nivel 4)
+        level5: Confin aministratîf (nivel 5)
+        level6: Confin aministratîf (nivel 6)
+        level7: Confin aministratîf (nivel 7)
+        level8: Confin aministratîf (nivel 8)
+        level9: Confin aministratîf (nivel 9)
   searches:
     queries:
       create:
@@ -913,7 +958,7 @@ fur:
     intro_text: OpenHistoricalMap e je une mape dal mont, creade di int come te e
       di ûs libar sot di une licence vierte.
     intro_2_create_account: Cree il to profîl utent
-    partners_title: associâts
+    partners_title: Associâts
     tou: Cundizions pal ûs
     help: Jutori
     about: Informazions
@@ -921,6 +966,11 @@ fur:
     communities: Comunitâts
     learn_more: Par savênt di plui
     more: Plui
+    header:
+      ok: Va ben
+      select_language: Sielç une lenghe
+    select_language_button:
+      title: Sielç une lenghe
   user_mailer:
     diary_comment_notification:
       subject: '[OpenHistoricalMap] %{user} al à zontât un coment ae tô vôs dal diari'
@@ -1088,8 +1138,8 @@ fur:
   sessions:
     new:
       tab_title: Jentre
-      email or username: 'Direzion di pueste eletroniche o non utent:'
-      password: 'Password:'
+      email or username: Direzion di pueste eletroniche o non utent
+      password: Password
       remember: Visiti di me
       lost password link: Password pierdude?
       login_button: Jentre
@@ -1127,7 +1177,7 @@ fur:
       legal_title: Legâl
       partners_title: Associâts
     copyright:
-      title: Copyright e licence
+      title: Copyright e ricognossiments
       foreign:
         title: Informazions su cheste traduzion
       native:
@@ -1237,12 +1287,12 @@ fur:
         subway: Metropolitane
         ferry: Traghet
         light_rail: Metropolitana leggera
-        tram: tram
+        tram: Tram
         runway: Piste dal aeropuart
         admin: Confin aministratîf
         forest: Bosc
         grass: Prât
-        meadow: prâts
+        meadow: Prâts
         sand: Savalon
         golf: Troi di golf
         park: Parc
@@ -1257,7 +1307,7 @@ fur:
         reserve: Riserve naturâl
         military: Zone militâr
         school: Scuele
-        university: universitât
+        university: Universitât
         hospital: Ospedâl
         station: stazion de ferade
         tunnel: Rie a trats = galarie
@@ -1432,6 +1482,7 @@ fur:
       my notes: Lis mês notis
       my messages: I miei messaçs
       my profile: Il gno profîl
+      my_account: Il gno profîl
       my comments: I mei coments
       my_preferences: Preferencis
       my_dashboard: La mê pagjine iniziâl
@@ -1488,7 +1539,7 @@ fur:
         summary_no_ip_html: '%{name} creât ai %{date}'
     changeset_comments:
       page:
-        changeset: 'Non dal file:'
+        changeset: Grup di cambiaments
         when: Cuant
         comment: Coment
     diary_comments:
@@ -1496,6 +1547,8 @@ fur:
         title: Coments ai diaris zontâts di %{user}
       page:
         post: Messaç
+        when: Cuant
+        comment: Coment
     suspended:
       support: assistence
     auth_failure:
@@ -1580,6 +1633,8 @@ fur:
       report: segnale cheste note
       anonymous_warning: Cheste note e inclût coments di utents anonims che a varessin
         di jessi verificâts in mût indipendent.
+      subscribe: Notiti
+      unsubscribe: Disnotiti
       hide: Plate
       resolve: Risolf
       reactivate: Torne a ativâ
@@ -1594,6 +1649,8 @@ fur:
         par cui no sta zontâ informazions personâls o di mapis cuviertis dal copyright
         o listis.
       add: Zonte une note
+    new_readonly:
+      title: Gnove note
     notes_paging_nav:
       showing_page: Pagjine %{page}
       next: Prossim
