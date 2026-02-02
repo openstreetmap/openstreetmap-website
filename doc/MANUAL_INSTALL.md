@@ -21,7 +21,7 @@ sudo apt-get update
 sudo apt-get install ruby ruby-dev ruby-bundler \
                      libvips-dev libxml2-dev libxslt1-dev \
                      nodejs build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev \
+                     postgresql postgresql-contrib postgis libpq-dev \
                      libsasl2-dev libffi-dev libgd-dev \
                      libarchive-dev libyaml-dev libbz2-dev npm
 sudo npm install --global yarn
@@ -40,7 +40,7 @@ sudo npm install --global yarn
 sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler \
                  rubygems libxml2-devel nodejs gcc gcc-c++ git \
                  postgresql postgresql-server \
-                 postgresql-contrib libpq-devel \
+                 postgresql-contrib postgis libpq-devel \
                  perl-podlators libffi-devel gd-devel \
                  libarchive-devel libyaml-devel bzip2-devel \
                  nodejs-yarn vips-devel
