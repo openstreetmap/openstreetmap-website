@@ -48,6 +48,15 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     end
   end
 
+  def self.js_test(name, &)
+    js_test_class = subclasses.detect { |c| c.name.demodulize == "JsTest" }
+    js_test_class ||=
+      Class.new(self)
+           .tap { |klass| superclass.const_set("#{superclass.name.sub(/Test$/, '')}JsTest", klass) }
+           .tap(&:driven_by_selenium)
+    js_test_class.test(name, &)
+  end
+
   driven_by :rack_test
 
   def before_setup
