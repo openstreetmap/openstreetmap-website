@@ -1,4 +1,4 @@
-<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
+<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3 browse-container",
                        { "text-body-secondary" => node.redacted? && params[:show_redactions] }] do %>
   <% if node.redacted? && !params[:show_redactions] %>
     <%= t "browse.redacted.message_html",
@@ -7,9 +7,12 @@
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => node.redaction.id), node.redaction) %>
   <% else %>
-    <%= render :partial => "browse/common_details", :object => node %>
+    <div class="sticky-nav-wrapper">
+      <%= render :partial => "browse/common_details", :object => node %>
+    </div>
 
     <% unless node.ways.empty? and node.containing_relation_members.empty? %>
+      <hr />
       <h4><%= t "browse.part_of" %></h4>
       <% unless node.ways.empty? %>
         <details <%= "open" if node.ways.count < 10 %>>

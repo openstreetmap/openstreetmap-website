@@ -1,4 +1,4 @@
-<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
+<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3 browse-container",
                        { "text-body-secondary" => way.redacted? && params[:show_redactions] }] do %>
   <% if way.redacted? && !params[:show_redactions] %>
     <%= t "browse.redacted.message_html",
@@ -7,9 +7,12 @@
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => way.redaction.id), way.redaction) %>
   <% else %>
-    <%= render :partial => "browse/common_details", :object => way %>
+    <div class="sticky-nav-wrapper">
+      <%= render :partial => "browse/common_details", :object => way %>
+    </div>
 
     <% unless way.containing_relation_members.empty? %>
+      <hr />
       <h4><%= t "browse.part_of" %></h4>
       <details <%= "open" if way.containing_relation_members.count < 10 %>>
         <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.uniq.count %></summary>
@@ -31,8 +34,8 @@
               <% icon_connector = " " %>
               <% if related_ways.size > 0 then %>
                 (<%= t ".also_part_of_html",
-                       :count => related_ways.size,
-                       :related_ways => to_sentence(related_ways.map { |w| element_icon("way", w) + icon_connector + element_single_current_link("way", w) }) %>)
+                        :count => related_ways.size,
+                        :related_ways => to_sentence(related_ways.map { |w| element_icon("way", w) + icon_connector + element_single_current_link("way", w) }) %>)
               <% end %>
             <% end %>
           <% end %>

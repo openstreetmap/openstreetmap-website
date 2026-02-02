@@ -1,4 +1,4 @@
-<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
+<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3 browse-container",
                        { "text-body-secondary" => relation.redacted? && params[:show_redactions] }] do %>
   <% if relation.redacted? && !params[:show_redactions] %>
     <%= t "browse.redacted.message_html",
@@ -7,9 +7,12 @@
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => relation.redaction.id), relation.redaction) %>
   <% else %>
-    <%= render :partial => "browse/common_details", :object => relation %>
+    <div class="sticky-nav-wrapper">
+      <%= render :partial => "browse/common_details", :object => relation %>
+    </div>
 
     <% unless relation.containing_relation_members.empty? %>
+      <hr />
       <h4><%= t "browse.part_of" %></h4>
       <details <%= "open" if relation.containing_relation_members.count < 10 %>>
         <summary><%= t "browse.part_of_relations", :count => relation.containing_relation_members.uniq.count %></summary>
