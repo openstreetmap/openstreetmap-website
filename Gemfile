@@ -176,6 +176,7 @@ group :test do
   gem "minitest-focus", :require => false
   gem "minitest-mock"
   gem "puma", "~> 7.1"
+  gem "rack-test"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"

@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class DirectionsSystemTest < ApplicationSystemTestCase
+  driven_by_selenium
+
   test "updates route output on mode change" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
