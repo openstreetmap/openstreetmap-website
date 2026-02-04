@@ -72,7 +72,7 @@ jobs:
       uses: actions/upload-artifact@v6
       if: failure()
       with:
-        name: screenshots
+        name: screenshots-${{ GITHUB_RUN_ATTEMPT }}
         path: tmp/screenshots
         if-no-files-found: ignore
     - name: Report completion to Coveralls
