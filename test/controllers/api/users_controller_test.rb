@@ -414,8 +414,9 @@ module Api
             assert_select "[agreed='false']", :count => 1
           end
 
+          # OHM variant: account creation requires edits be in the Public Domain
           if include_private
-            assert_select "[pd='false']", :count => 1
+            assert_select "[pd='false']", :count => 0
           else
             assert_select "[pd]", :count => 0
           end
@@ -487,8 +488,9 @@ module Api
       assert_equal user.description, js["user"]["description"]
       assert_operator js["user"]["contributor_terms"], :[], "agreed"
 
+      # OHM variant: account creation requires edits be in the Public Domain
       if include_private
-        assert_not js["user"]["contributor_terms"]["pd"]
+        assert_equal true, js["user"]["contributor_terms"]["pd"]
       else
         assert_nil js["user"]["contributor_terms"]["pd"]
       end

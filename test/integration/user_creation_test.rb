@@ -152,7 +152,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     register_email = ActionMailer::Base.deliveries.first
     assert_equal register_email.to.first, new_email
-    found_confirmation_url = register_email.parts.first.parts.first.to_s =~ %r{\shttp://test.host(/\S+)\s}
+    found_confirmation_url = register_email.parts.first.parts.first.to_s =~ %r{\shttps://test.host(/\S+)\s}
     assert found_confirmation_url
     confirmation_url = Regexp.last_match(1)
 

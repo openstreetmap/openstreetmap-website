@@ -39,6 +39,7 @@ module Accounts
     end
 
     def test_create_unconfirmed
+      # OHM variant: account creation requires edits be in the Public Domain
       user = create(:user)
       session_for(user)
 
@@ -46,20 +47,21 @@ module Accounts
 
       assert_redirected_to account_path
       assert_nil flash[:notice]
-      assert_equal "You didn't confirm that you consider your edits to be in the Public Domain.", flash[:warning]
+      assert_equal "You have already declared that you consider your edits to be in the Public Domain.", flash[:warning]
 
       user.reload
-      assert_not_predicate user, :consider_pd
+      assert_predicate user, :consider_pd
     end
 
     def test_create_confirmed
+      # OHM variant: account creation requires edits be in the Public Domain
       user = create(:user)
       session_for(user)
 
       post account_pd_declaration_path, :params => { :consider_pd => true }
 
-      assert_equal "You have successfully declared that you consider your edits to be in the Public Domain.", flash[:notice]
-      assert_nil flash[:warning]
+      assert_nil flash[:notice]
+      assert_equal "You have already declared that you consider your edits to be in the Public Domain.", flash[:warning]
 
       user.reload
       assert_predicate user, :consider_pd
