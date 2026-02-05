@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-return unless Rails.env.development?
-
 def create_user(display_name:, password:, email:, admin: false)
   user = User.find_or_create_by!(:display_name => display_name) do |record|
     record.email = email
@@ -39,6 +37,8 @@ end
 namespace "dev" do
   desc "Populate the development database with some fake data"
   task "populate" => :environment do
+    raise "This task can only be run in development mode" unless Rails.env.development?
+
     require "active_support/testing/time_helpers"
 
     include ActiveSupport::Testing::TimeHelpers
