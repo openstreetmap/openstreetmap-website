@@ -13,11 +13,17 @@ def create_user(display_name:, password:, email:, admin: false)
     record.email_valid = true
     record.data_public = true
   end
-  user.activate!
-  user.confirm!
-  user.save!
 
-  user.roles.create!(:role => "admin", :granter_id => user.id) if admin
+  unless user.confirmed?
+    user.activate!
+    user.confirm!
+  end
+
+  if admin
+    user.roles.find_or_create_by!(:role => "administrator") do |record|
+      record.granter_id = user.id
+    end
+  end
 
   initial_line = admin ? "Created admin user" : "Created user"
   puts(
@@ -33,12 +39,23 @@ end
 namespace "dev" do
   desc "Populate the development database with some fake data"
   task "populate" => :environment do
+    require "active_support/testing/time_helpers"
+
+    include ActiveSupport::Testing::TimeHelpers
+
     # Ensure that all dates (e.g. terms_agreed) are consistent
-    Timecop.freeze(Time.utc(2015, 10, 21, 12, 0, 0)) do
+    travel_to(Time.utc(2015, 10, 21, 12, 0, 0)) do
       create_user(:display_name => "admin", :password => "password", :email => "admin@example.com", :admin => true)
       create_user(:display_name => "mapper", :password => "password", :email => "mapper@example.com")
     end
 
-    Oauth::Util.register_apps("admin")
+    begin
+      # Empty line to separate the output of this
+      # from that of the above
+      puts
+      Oauth::Util.register_apps("admin")
+    rescue Oauth::Util::ExistingSettingsError
+      # Error here is no big deal
+    end
   end
 end
