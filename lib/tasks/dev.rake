@@ -1,38 +1,50 @@
 # frozen_string_literal: true
 
+require "active_support/testing/time_helpers"
+
+def create_user(display_name:, password:, email:, admin: false)
+  user = User.find_or_create_by!(:display_name => display_name) do |record|
+    record.email = email
+    record.pass_crypt = password
+    record.pass_crypt_confirmation = password
+    record.tou_agreed = Time.now.utc
+    record.terms_seen = true
+    record.terms_agreed = Time.now.utc
+    record.email_valid = true
+    record.data_public = true
+    record.activate
+  end
+
+  if admin
+    user.roles.find_or_create_by!(:role => "administrator") do |record|
+      record.granter_id = user.id
+    end
+  end
+
+  initial_line = admin ? "Created admin user" : "Created user"
+  puts(
+    <<~MESSAGE
+      #{initial_line}:
+        - Display name: #{display_name}
+        - Email: #{email}
+        - Password: #{password}
+    MESSAGE
+  )
+end
+
 namespace :dev do
   desc "Populate the development database with some fake data"
   task :populate => :environment do
     raise "This task can only be run in development mode" unless Rails.env.development?
 
-    display_name = "admin"
-    password = "openstreetmap"
-    email = "admin_#{SecureRandom.uuid}@example.com"
-    role = "administrator"
+    include ActiveSupport::Testing::TimeHelpers
 
-    admin = User.find_or_create_by!(:display_name => display_name) do |user|
-      user.email = email
-      user.pass_crypt = password
-      user.pass_crypt_confirmation = password
-      user.tou_agreed = Time.now.utc
-      user.terms_seen = true
-      user.terms_agreed = Time.now.utc
-      user.email_valid = true
-      user.data_public = true
-      user.activate
+    # Ensure that all dates (e.g. terms_agreed) are consistent
+    travel_to(Time.utc(2015, 10, 21, 12, 0, 0)) do
+      create_user(:display_name => "admin", :password => "password", :email => "admin@example.com", :admin => true)
+      create_user(:display_name => "mapper", :password => "password", :email => "mapper@example.com")
     end
 
-    admin.roles.create!(:role => role, :granter_id => admin.id)
-
-    puts(
-      <<~MESSAGE
-        Created user:
-          - Display name: #{display_name}
-          - Email: #{email}
-          - Password: #{password}
-          - Role: #{role}
-      MESSAGE
-    )
-    Oauth::Util.register_apps(display_name)
+    Oauth::Util.register_apps("admin")
   end
 end
