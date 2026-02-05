@@ -4,6 +4,8 @@ module Oauth
   module Util
     OAUTH_SETTINGS_KEYS = [:id_application, :oauth_application, :oauth_key].freeze
 
+    class ExistingSettingsError < StandardError; end
+
     def self.register_apps(display_name, generated_by: name, output: $stdout)
       settings_path = Rails.root.join("config/settings.local.yml")
 
@@ -60,10 +62,9 @@ module Oauth
         output.puts "- #{key}"
       end
 
-      output.puts ""
-      output.puts "Delete or comment them out to proceed."
+      output.puts "Delete or comment them out to regenerate."
 
-      raise "App settings already defined"
+      raise ExistingSettingsError
     end
   end
 end

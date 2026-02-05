@@ -45,6 +45,13 @@ namespace :dev do
       create_user(:display_name => "mapper", :password => "password", :email => "mapper@example.com")
     end
 
-    Oauth::Util.register_apps("admin")
+    begin
+      # Empty line to separate the output of this
+      # from that of the above
+      puts
+      Oauth::Util.register_apps("admin")
+    rescue Oauth::Util::ExistingSettingsError
+      # Error here is no big deal
+    end
   end
 end
