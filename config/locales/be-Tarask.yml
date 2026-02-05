@@ -74,15 +74,15 @@ be-Tarask:
       note: Камэнтар
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
-      old_relation: Старая сувязь
-      old_relation_member: Стары ўдзельнік сувязі
-      old_relation_tag: Стары тэг сувязі
+      old_relation: Стары зьвязак
+      old_relation_member: Стары аб'ект зьвязку
+      old_relation_tag: Стары тэґ зьвязку
       old_way: Старая дарога
       old_way_node: Вузел старой дарогі
       old_way_tag: Тэг старой дарогі
-      relation: Сувязь
-      relation_member: Удзельнік сувязі
-      relation_tag: Тэг сувязі
+      relation: Зьвязак
+      relation_member: Удзельнік зьвязку
+      relation_tag: Тэґ зьвязку
       report: Справаздача
       session: Сэсыя
       trace: Трэк
@@ -268,6 +268,7 @@ be-Tarask:
         agreed_with_pd: Вы таксама заяўляеце, што перадаеце Вашыя рэдагаваньні ў грамадзкі
           набытак.
         link text: што гэта?
+        consider_pd: Уважаць Народным Здабыткам
       save changes button: Захаваць зьмены
       delete_account: Выдаліць рахунак…
     go_public:
@@ -297,6 +298,9 @@ be-Tarask:
           rest_of_world: Астатні сьвет
       update:
         terms accepted: Дзякуй за тое, што прынялі новыя ўмовы супрацоўніцтва!
+    pd_declarations:
+      show:
+        consider_pd: Я ўважаю мой унёсак Народным Здабыткам
   browse:
     version: Вэрсія
     in_changeset: Набор зьменаў
@@ -304,10 +308,10 @@ be-Tarask:
     no_comment: (без камэнтароў)
     part_of: Частка
     part_of_relations:
-      one: '%{count} сувязь'
-      few: '%{count} сувязі'
-      many: '%{count} сувязяў'
-      other: '%{count} сувязяў'
+      one: '%{count} зьвязак'
+      few: '%{count} зьвязку'
+      many: '%{count} зьвязкаў'
+      other: '%{count} зьвязкаў'
     part_of_ways:
       one: '%{count} лінія'
       few: '%{count} лініі'
@@ -323,18 +327,19 @@ be-Tarask:
         many: '%{count} вузлоў'
         other: '%{count} вузлоў'
     relation:
+      title_html: 'Зьвязак: %{name}'
       members: Удзельнікі
       members_count:
-        one: '%{count} удзельнік'
-        few: '%{count} удзельнікі'
-        many: '%{count} удзельнікаў'
-        other: '%{count} удзельнікаў'
+        one: '%{count} аб''ект'
+        few: '%{count} аб''екты'
+        many: '%{count} аб''ектаў'
+        other: '%{count} аб''ектаў'
     relation_member:
       entry_role_html: '%{type} %{name} як %{role}'
       type:
         node: Вузел
         way: Шлях
-        relation: Адносіны
+        relation: Зьвязак
     containing_relation:
       entry_role_html: '%{relation_name} (як %{relation_role})'
     not_found:
@@ -346,7 +351,7 @@ be-Tarask:
       type:
         node: вузел
         way: дарога
-        relation: адносіны
+        relation: зьвязак
         changeset: набор зьменаў
         note: заўвага
     redacted:
@@ -356,7 +361,7 @@ be-Tarask:
       type:
         node: вузел
         way: дарога
-        relation: адносіны
+        relation: зьвязак
     start_rjs:
       load_data: Загрузіць зьвесткі
       loading: Загрузка…
@@ -366,10 +371,40 @@ be-Tarask:
         key: Старонка вікі, якая апісвае тэг %{key}
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
+    versions_navigation:
+      relation: Зьвязак
   feature_queries:
     show:
       nearby: Аб’екты паблізу
       enclosing: Навакольныя аб’екты
+  old_elements:
+    index:
+      relation:
+        title_html: 'Гісторыя зьвязкаў: %{name}'
+  relations:
+    not_found_message:
+      sorry: 'На жаль, зьвязак #%{id} ня знойдзены.'
+    timeout:
+      sorry: На жаль, зьвесткі зьвязка з ідэнтыфікатарам %{id} занадта вялікія для
+        атрыманьня.
+  relation_members:
+    not_found_message:
+      sorry: 'На жаль, зьвязак #%{id} ня знойдзены.'
+    timeout:
+      sorry: На жаль, зьвесткі зьвязка з ідэнтыфікатарам %{id} занадта вялікія для
+        атрыманьня.
+  old_relations:
+    not_found_message:
+      sorry: 'На жаль, зьвязак #%{id} вэрсіі %{version} ня знойдзены.'
+    timeout:
+      sorry: На жаль, гісторыя зьвязка з ідэнтыфікатарам %{id} занадта вялікая для
+        атрыманьня.
+  old_relation_members:
+    not_found_message:
+      sorry: 'На жаль, зьвязак #%{id} вэрсіі %{version} ня знойдзены.'
+    timeout:
+      sorry: На жаль, сьпіс аб'ектаў зьвязку з ідэнтыфікатарам %{id} занадта вялікі
+        для атрыманьня.
   changesets:
     index:
       title: Наборы зьменаў
@@ -1275,6 +1310,9 @@ be-Tarask:
       need_to_see_terms: Ваш доступ да API часова прыпынены. Калі ласка, увайдзіце
         ў ўэб-інтэрфэйс, каб каб паглядзець умовы супрацоўніцтва. Вам не абавязкова
         пагаджацца зь імі, але неабходна зь імі азнаёміцца.
+  oauth2_authorized_applications:
+    index:
+      application: Аплікацыя
   users:
     new:
       title: Зарэгістравацца
@@ -1446,6 +1484,8 @@ be-Tarask:
     site:
       edit_tooltip: Рэдагаваць мапу
       edit_disabled_tooltip: Павялічыць маштаб мапы для рэдагаваньня
+    query:
+      relation: Зьвязак
     context:
       show_address: Паказаць адрас
 ...
