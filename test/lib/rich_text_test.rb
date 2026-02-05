@@ -193,7 +193,6 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_markdown_table_alignment
-    # Ensure that kramdown table alignment styles are converted to bootstrap classes
     markdown_table = <<~MARKDOWN
       | foo  | bar |
       |:----:|----:|
@@ -225,6 +224,14 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_linkify_username_with_space
+    with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
+      text = 'Hello @"Open Mapper"'
+      html = RichText.new("markdown", text).to_html
+      assert_match %r{<a href="/user/Open%20Mapper" #{RichText::LINK_ATTRIBUTES}>&#64;[“”]Open Mapper[“”]</a>}o, html
+    end
+  end
+
   def test_text_to_html_linkify_replace
     with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"], :host_replacement => "repl.example.com" }] }) do
       r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
@@ -235,6 +242,18 @@ class RichTextTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  def test_linkify_username_with_quotes
+    text = "Hello @'\"Yo\"'"
+    html = RichText.new("markdown", text).to_html
+    assert_match %r{<a href="/user/%22Yo%22" #{RichText::LINK_ATTRIBUTES}>&#64;[‘'’]“Yo”[‘'’]</a>}o, html
+  end
+
+  def test_linkify_short_username
+    text = "Hello @Yo"
+    html = RichText.new("markdown", text).to_html
+    assert_match %r{<a href="/user/Yo" #{RichText::LINK_ATTRIBUTES}>&#64;Yo</a>}o, html
   end
 
   def test_text_to_html_linkify_recognize
@@ -351,8 +370,10 @@ class RichTextTest < ActiveSupport::TestCase
     with_settings(:linkify => { :detection_rules => [{ :patterns => ["@(?<username>\\w+)"], :path_template => "user/\\k<username>" }] }) do
       r = RichText.new("text", "foo @example bar")
       assert_html r do
-        assert_dom "a", :count => 1, :text => "http://test.host/user/example" do
-          assert_dom "> @href", "http://test.host/user/example"
+        # We now expect the visible text to be "@example", not the full URL
+        assert_dom "a", :count => 1, :text => "@example" do
+          # We now expect a standard relative URL
+          assert_dom "> @href", "/user/example"
           assert_dom "> @rel", "nofollow noopener noreferrer"
         end
       end
