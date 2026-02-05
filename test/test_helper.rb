@@ -34,7 +34,7 @@ ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
-require "minitest/focus" unless ENV["CI"]
+require "minitest/focus"
 
 WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium-default selenium-de selenium-nolang rails-app])
 
