@@ -365,6 +365,10 @@ module ActiveSupport
     def with_settings(settings)
       saved_settings = Settings.to_hash.slice(*settings.keys)
 
+      settings.each_key do |key|
+        saved_settings[key] = nil unless saved_settings.key?(key)
+      end
+
       Settings.merge!(settings)
 
       yield
