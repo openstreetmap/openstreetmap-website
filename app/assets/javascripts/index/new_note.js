@@ -139,7 +139,7 @@ OSM.NewNote = function (map) {
 
     content.find("input[type=submit]").on("click", function (e) {
       const location = newNoteMarker.getLatLng().wrap();
-      const text = content.find("textarea").val();
+      const text = content.find("textarea").val() + (OSM.oauth ? "" : "\n\nvia OSM website");
 
       e.preventDefault();
       $(this).prop("disabled", true);
