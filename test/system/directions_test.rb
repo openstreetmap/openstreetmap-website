@@ -65,6 +65,28 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       assert_no_content "Start popup text"
     end
   end
+  test "selects from datalist and shows route" do
+    visit directions_path
+    stub_nominatim_search
+    stub_straight_routing(:start_instruction => "Head north")
+
+    find_by_id("route_from").set("Berlin").send_keys :enter
+
+    find_by_id("route_from").set("Berlin, Germany").send_keys :enter
+
+    assert_equal "52.52", find_by_id("route_from")["data-lat"]
+    assert_equal "13.405", find_by_id("route_from")["data-lon"]
+
+    find_by_id("route_to").set("Venice").send_keys :enter
+    find_by_id("route_to").set("Venice, Veneto, Italy").send_keys :enter
+
+    assert_equal "45.4408", find_by_id("route_to")["data-lat"]
+    assert_equal "12.3155", find_by_id("route_to")["data-lon"]
+
+    within "#sidebar" do
+      assert_content "Head north"
+    end
+  end
 
   private
 
@@ -95,4 +117,29 @@ class DirectionsSystemTest < ApplicationSystemTestCase
       });
     SCRIPT
   end
+end
+
+def stub_nominatim_search
+  execute_script <<~SCRIPT
+    {
+      const originalFetch = fetch;
+      window.fetch = (...args) => {
+        const [resource, options] = args;
+
+        if (!resource.includes(OSM.NOMINATIM_URL + "search")) {
+          return originalFetch(...args);
+        }
+
+        const results = [
+          { "display_name": "Berlin, Germany", "lat": "52.5200", "lon": "13.4050" },
+          { "display_name": "Venice, Veneto, Italy", "lat": "45.4408", "lon": "12.3155" }
+        ];
+
+        return Promise.resolve({
+          ok: true,
+          json: () => Promise.resolve(results)
+        });
+      }
+    }
+  SCRIPT
 end
