@@ -193,6 +193,7 @@ OpenStreetMap::Application.routes.draw do
   get "/welcome" => "site#welcome"
   get "/fixthemap" => "site#fixthemap"
   get "/help" => "site#help"
+  get "/donate" => "site#donate"
   get "/about/:about_locale" => "site#about"
   get "/about" => "site#about"
   get "/communities" => "site#communities"
