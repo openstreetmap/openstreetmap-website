@@ -808,6 +808,15 @@ module Api
         end
         assert_dom "> @comments_count", changeset.comments.length.to_s
         assert_dom "> @changes_count", changeset.num_changes.to_s
+        assert_dom "> @num_created_nodes", changeset.num_created_nodes.to_s
+        assert_dom "> @num_modified_nodes", changeset.num_modified_nodes.to_s
+        assert_dom "> @num_deleted_nodes", changeset.num_deleted_nodes.to_s
+        assert_dom "> @num_created_ways", changeset.num_created_ways.to_s
+        assert_dom "> @num_modified_ways", changeset.num_modified_ways.to_s
+        assert_dom "> @num_deleted_ways", changeset.num_deleted_ways.to_s
+        assert_dom "> @num_created_relations", changeset.num_created_relations.to_s
+        assert_dom "> @num_modified_relations", changeset.num_modified_relations.to_s
+        assert_dom "> @num_deleted_relations", changeset.num_deleted_relations.to_s
         yield if block_given?
       end
     end
@@ -824,6 +833,15 @@ module Api
       end
       assert_equal changeset.comments.length, js["changeset"]["comments_count"]
       assert_equal changeset.num_changes, js["changeset"]["changes_count"]
+      assert_equal changeset.num_created_nodes, js["changeset"]["num_created_nodes"]
+      assert_equal changeset.num_modified_nodes, js["changeset"]["num_modified_nodes"]
+      assert_equal changeset.num_deleted_nodes, js["changeset"]["num_deleted_nodes"]
+      assert_equal changeset.num_created_ways, js["changeset"]["num_created_ways"]
+      assert_equal changeset.num_modified_ways, js["changeset"]["num_modified_ways"]
+      assert_equal changeset.num_deleted_ways, js["changeset"]["num_deleted_ways"]
+      assert_equal changeset.num_created_relations, js["changeset"]["num_created_relations"]
+      assert_equal changeset.num_modified_relations, js["changeset"]["num_modified_relations"]
+      assert_equal changeset.num_deleted_relations, js["changeset"]["num_deleted_relations"]
     end
 
     ##

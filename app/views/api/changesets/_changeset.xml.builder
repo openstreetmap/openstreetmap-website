@@ -7,7 +7,16 @@ attrs = {
   "created_at" => changeset.created_at.xmlschema,
   "open" => changeset.open?,
   "comments_count" => changeset.comments.length,
-  "changes_count" => changeset.num_changes
+  "changes_count" => changeset.num_changes,
+  "num_created_nodes" => changeset.num_created_nodes,
+  "num_modified_nodes" => changeset.num_modified_nodes,
+  "num_deleted_nodes" => changeset.num_deleted_nodes,
+  "num_created_ways" => changeset.num_created_ways,
+  "num_modified_ways" => changeset.num_modified_ways,
+  "num_deleted_ways" => changeset.num_deleted_ways,
+  "num_created_relations" => changeset.num_created_relations,
+  "num_modified_relations" => changeset.num_modified_relations,
+  "num_deleted_relations" => changeset.num_deleted_relations
 }
 attrs["closed_at"] = changeset.closed_at.xmlschema unless changeset.open?
 changeset.bbox.to_unscaled.add_bounds_to(attrs, "_") if changeset.bbox.complete?
