@@ -1,0 +1,18 @@
+<div class="maplibre-error w-100 h-100 d-flex flex-column align-items-center justify-content-center text-center p-3 fs-5 lh-base bg-info-subtle text-info-emphasis" data-bs-theme="light">
+  <p class="maplibre-error-compact d-none position-absolute bottom-0 start-0 end-0 py-1 px-2 m-0 fw-bold">
+    <%= t("javascripts.map.webgl_error.compact_message") %>
+  </p>
+  <p class="d-none d-md-block">
+    <%= t("javascripts.map.webgl_error.description",
+          :your_browser_does_not_support_webgl => content_tag(:b, t("javascripts.map.webgl_error.your_browser_does_not_support_webgl"))).html_safe %>
+  </p>
+  <p>
+    <%= link_to t("javascripts.map.webgl_error.read_more_about_webgl_url"),
+                :target => "_blank",
+                :rel => "noopener",
+                :class => "btn btn-link text-info-emphasis fw-bold" do %>
+      <b><%= t("javascripts.map.webgl_error.webgl_is_required_for_this_map") %></b><br>
+      <small><i class="bi bi-info-circle-fill"></i> <%= t("javascripts.map.webgl_error.read_more_about_webgl") %></small>
+    <% end %>
+  </p>
+</div>

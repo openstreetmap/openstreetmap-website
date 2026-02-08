@@ -212,6 +212,7 @@ OpenStreetMap::Application.routes.draw do
   resource :layers_pane, :path => "/panes/layers", :only => :show
   resource :legend_pane, :path => "/panes/legend", :only => :show
   resource :share_pane, :path => "/panes/share", :only => :show
+  resource :maplibre_pane, :path => "/panes/maplibre/webgl_error", :only => :show
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
