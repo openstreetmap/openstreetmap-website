@@ -17,9 +17,9 @@
     <%= f.text_field :home_lat, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lat" %>
     <%= f.text_field :home_lon, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "home_lon" %>
     <div class="col-sm-4 pt-2 align-self-end">
-      <button type="button" id="home_show" class="btn btn-outline-primary"<% unless current_user.home_location? %> hidden<% end %> disabled><%= t ".show" %></button>
-      <button type="button" id="home_delete" class="btn btn-outline-primary"<% unless current_user.home_location? %> hidden<% end %>><%= t ".delete" %></button>
-      <button type="button" id="home_undelete" class="btn btn-outline-primary" hidden><%= t ".undelete" %></button>
+      <%= button_tag t(".show"), :type => "button", :id => "home_show", :class => "btn btn-outline-primary", :hidden => !current_user.home_location?, :disabled => true %>
+      <%= button_tag t(".delete"), :type => "button", :id => "home_delete", :class => "btn btn-outline-primary", :hidden => !current_user.home_location? %>
+      <%= button_tag t(".undelete"), :type => "button", :id => "home_undelete", :class => "btn btn-outline-primary", :hidden => true %>
     </div>
   </div>
   <%= f.text_field :home_location_name, :wrapper_class => "my-2 col-sm-4 pe-3", :class => "mt-auto", :id => "home_location_name" %>
