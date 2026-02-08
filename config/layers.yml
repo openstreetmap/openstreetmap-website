@@ -6,7 +6,7 @@
   canEmbed: true
   canDownloadImage: true
   maxZoom: 19
-  tileUrl: "https://tile.openstreetmap.org/{zoom}/{x}/{y}.png"
+  tileUrl: "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
   credit:
     id: "make_a_donation"
     href: "https://supporting.openstreetmap.org"
@@ -19,7 +19,8 @@
   wiki: "https://wiki.openstreetmap.org/wiki/CyclOSM"
   canEmbed: true
   maxZoom: 20
-  tileUrl: "https://{switch:a,b,c}.tile-cyclosm.openstreetmap.fr/cyclosm/{zoom}/{x}/{y}.png"
+  tileUrl: "https://{s}.tile-cyclosm.openstreetmap.fr/cyclosm/{z}/{x}/{y}.png"
+  subdomains: [a, b, c]
   credit:
     id: "cyclosm_credit"
     children:
@@ -39,7 +40,8 @@
   canEmbed: true
   canDownloadImage: true
   maxZoom: 21
-  tileUrl: "https://{switch:a,b,c}.tile.thunderforest.com/cycle/{zoom}/{x}/{y}.png?apikey={apikey}"
+  tileUrl: "https://{s}.tile.thunderforest.com/cycle/{z}/{x}/{y}{ratio}.png?apikey={apikey}"
+  subdomains: [a, b, c]
   credit:
     id: "thunderforest_credit"
     children:
@@ -57,8 +59,9 @@
   canEmbed: true
   canDownloadImage: true
   maxZoom: 21
-  tileUrl: "https://{switch:a,b,c}.tile.thunderforest.com/transport/{zoom}/{x}/{y}.png?apikey={apikey}"
-  tileUrlDark: "https://{switch:a,b,c}.tile.thunderforest.com/transport-dark/{zoom}/{x}/{y}.png?apikey={apikey}"
+  tileUrl: "https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}{ratio}.png?apikey={apikey}"
+  tileUrlDark: "https://{s}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}{ratio}.png?apikey={apikey}"
+  subdomains: [a, b, c]
   credit:
     id: "thunderforest_credit"
     children:
@@ -73,7 +76,7 @@
   wiki: "https://wiki.openstreetmap.org/wiki/Tracestrack"
   apiKeyId: "tracestrack_key"
   maxZoom: 19
-  tileUrl: "https://tile.tracestrack.com/topo__/{zoom}/{x}/{y}.webp?key={apikey}"
+  tileUrl: "https://tile.tracestrack.com/topo__/{z}/{x}/{y}.webp?key={apikey}"
   credit:
     id: "tracestrack_credit"
     children:
@@ -88,7 +91,8 @@
   wiki: "https://wiki.openstreetmap.org/wiki/Humanitarian"
   canEmbed: true
   maxZoom: 20
-  tileUrl: "https://tile-{switch:a,b,c}.openstreetmap.fr/hot/{zoom}/{x}/{y}.png"
+  tileUrl: "https://tile-{s}.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+  subdomains: [a, b, c]
   credit:
     id: "hotosm_credit"
     children:

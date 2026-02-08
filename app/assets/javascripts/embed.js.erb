@@ -34,8 +34,9 @@ window.onload = function () {
   const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
   const layerId = (args.get("layer") || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
-  const layer = (isDarkTheme && layerConfig.leafletOsmDarkId) || layerConfig.leafletOsmId;
-  new L.OSM[layer]({ apikey: layerConfig.apikey, ...options[layerId] }).addTo(map);
+  let url = (isDarkTheme && layerConfig.urlDark) || layerConfig.url;
+  url = url.replace("{ratio}", "{r}");
+  new L.OSM.TileLayer({ ...layerConfig, ...options[layerId], url }).addTo(map);
 
   if (args.has("marker")) {
     L.marker(args.get("marker").split(","), { icon: L.divIcon({

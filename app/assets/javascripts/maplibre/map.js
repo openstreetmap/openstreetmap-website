@@ -1,6 +1,5 @@
 //= require maplibre/controls
 //= require maplibre/dom_util
-//= require maplibre/styles
 
 maplibregl.Map.prototype._getUIString = function (key) {
   const snakeCaseKey = key.replaceAll(/(?<=\w)[A-Z]/g, "_$&").toLowerCase();
@@ -38,7 +37,7 @@ OSM.MapLibre.SecondaryMap = class extends OSM.MapLibre.Map {
     const defaultHomeZoom = 11;
     super({
       container: "map",
-      style: OSM.MapLibre.Styles.Mapnik(),
+      style: OSM.LAYER_DEFINITIONS[0].style,
       attributionControl: false,
       allowRotation: false,
       maxPitch: 0,
