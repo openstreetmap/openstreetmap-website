@@ -6,6 +6,9 @@ json.created_at changeset.created_at.xmlschema
 json.open changeset.open?
 json.comments_count changeset.comments.length
 json.changes_count changeset.num_changes
+json.created_count changeset.num_created_elements
+json.modified_count changeset.num_modified_elements
+json.deleted_count changeset.num_deleted_elements
 
 json.closed_at changeset.closed_at.xmlschema unless changeset.open?
 if changeset.bbox.complete?
