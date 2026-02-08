@@ -24,7 +24,7 @@
        } %>
 
     <% types.filter { |type| markers[type] }.each do |type| %>
-      <%= tag.path :id => "#{type}-path", :attributes => markers[type] %>
+      <%= tag.path :id => "#{type}-path", **markers[type] %>
       <g id="pin-<%= type %>" clip-path="url(#pin-clip)">
         <use href="#pin-path" fill="currentColor" />
         <use href="#pin-path" fill="url(#fill)" />
