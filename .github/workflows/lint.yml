@@ -27,7 +27,7 @@ jobs:
       run: bundle exec rubocop --format fuubar
   erblint:
     name: ERB Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
@@ -42,7 +42,7 @@ jobs:
       run: bundle exec erb_lint .
   eslint:
     name: ESLint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
@@ -65,7 +65,7 @@ jobs:
       run: bundle exec rails eslint
   brakeman:
     name: Brakeman
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
@@ -82,7 +82,7 @@ jobs:
     env:
       RAILS_ENV: test
     name: Rails Annotate Models
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
