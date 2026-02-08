@@ -24,17 +24,22 @@ L.OSM.layers = function (options) {
         const styleId = layer.options.leafletOsmId;
         const style = OSM.MapLibre.Styles[styleId](layer.options);
         const layerDefinition = OSM.LAYER_DEFINITIONS.find(l => l.leafletOsmId === styleId || l.leafletOsmDarkId === styleId);
-        const miniMap = new OSM.MapLibre.Map({
-          container,
-          style,
-          interactive: false,
-          attributionControl: false,
-          fadeDuration: 0,
-          zoomSnap: layerDefinition.isVectorStyle ? 0 : 1
-        });
+        try {
+          const miniMap = new OSM.MapLibre.Map({
+            container,
+            style,
+            interactive: false,
+            attributionControl: false,
+            fadeDuration: 0,
+            zoomSnap: layerDefinition.isVectorStyle ? 0 : 1
+          });
 
-        if (styleId === "OpenMapTiles") {
-          OSM.MapLibre.setOMTMapLanguage(miniMap);
+          if (styleId === "OpenMapTiles") {
+            OSM.MapLibre.setOMTMapLanguage(miniMap);
+          }
+        }
+        catch (error) {
+          console.error(error);
         }
 
         $ui
