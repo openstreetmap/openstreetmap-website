@@ -11,17 +11,17 @@
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
-      <details <%= "open" if way.containing_relation_members.count < 10 %>>
+      <%= tag.details :open => way.containing_relation_members.count < 10 do %>
         <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.uniq.count %></summary>
         <ul class="list-unstyled browse-element-list">
           <%= render :partial => "browse/containing_relation", :collection => way.containing_relation_members.uniq %>
         </ul>
-      </details>
+      <% end %>
     <% end %>
 
     <% unless way.way_nodes.empty? %>
       <h4><%= t ".nodes" %></h4>
-      <details <%= "open" if way.way_nodes.count < 10 %>>
+      <%= tag.details :open => way.way_nodes.count < 10 do %>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled browse-element-list">
           <% way.way_nodes.each do |wn| %>
@@ -37,7 +37,7 @@
             <% end %>
           <% end %>
         </ul>
-      </details>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>
