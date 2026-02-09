@@ -9,7 +9,7 @@ class MapLayersTest < ActiveSupport::TestCase
     assert_kind_of Array, layers, "Expected full_definitions to return an array"
     assert_operator layers.count, :>, 0, "Expected some layers available"
 
-    layer_properties = %w[layerId nameId code credit]
+    layer_properties = %w[layerId nameId code style credit]
 
     layers.each do |layer|
       assert_kind_of Hash, layer, "Expected each layer to be a hash"
