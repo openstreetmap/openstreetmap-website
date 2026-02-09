@@ -36,7 +36,9 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgis/postgis:15-3.5
+    build:
+      context: .
+      dockerfile: ./Dockerfile.postgres
     restart: unless-stopped
     networks:
     - default
