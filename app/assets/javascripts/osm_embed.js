@@ -1,0 +1,3 @@
+OSM = {
+  MapLibre: {}
+};
