@@ -34,7 +34,7 @@ module MapLayers
   def self.embed_definitions(layers_filename)
     full_definitions(layers_filename)
       .select { |entry| entry["canEmbed"] }
-      .to_h { |entry| [entry["layerId"], entry.slice("url", "urlDark", "subdomains").compact] }
+      .to_h { |entry| [entry["layerId"], entry.slice("style", "styleDark", "isVectorStyle", "credit").compact] }
   end
 
   def self.insert_api_key(layer, key)
