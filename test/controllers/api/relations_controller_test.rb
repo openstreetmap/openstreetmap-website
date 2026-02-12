@@ -213,7 +213,7 @@ module Api
     # -------------------------------------
 
     def test_create_without_members_by_private_user
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <relation changeset='#{changeset.id}'>
@@ -231,7 +231,7 @@ module Api
     def test_create_with_node_member_with_role_by_private_user
       node = create(:node)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <relation changeset='#{changeset.id}'>
@@ -250,7 +250,7 @@ module Api
     def test_create_with_node_member_without_role_by_private_user
       node = create(:node)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <relation changeset='#{changeset.id}'>
@@ -270,7 +270,7 @@ module Api
       node = create(:node)
       way = create(:way_with_nodes, :nodes_count => 2)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <relation changeset='#{changeset.id}'>
@@ -594,7 +594,7 @@ module Api
 
     def test_destroy_without_payload_by_private_user
       with_unchanging(:relation) do |relation|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           delete api_relation_path(relation), :headers => headers
 
           assert_response :forbidden
@@ -604,7 +604,7 @@ module Api
 
     def test_destroy_without_changeset_id_by_private_user
       with_unchanging(:relation) do |relation|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           osm = "<osm><relation id='#{relation.id}' version='#{relation.version}'/></osm>"
 
           delete api_relation_path(relation), :params => osm, :headers => headers
@@ -616,7 +616,7 @@ module Api
 
     def test_destroy_in_closed_changeset_by_private_user
       with_unchanging(:relation) do |relation|
-        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }], [:closed]) do |headers, changeset|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -629,7 +629,7 @@ module Api
 
     def test_destroy_in_missing_changeset_by_private_user
       with_unchanging(:relation) do |relation|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, 0
 
@@ -644,7 +644,7 @@ module Api
       with_unchanging(:relation) do |relation|
         create(:relation_member, :member => relation)
 
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -657,7 +657,7 @@ module Api
 
     def test_destroy_by_private_user
       with_unchanging(:relation) do |relation|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -670,7 +670,7 @@ module Api
 
     def test_destroy_deleted_relation_by_private_user
       with_unchanging(:relation, :deleted) do |relation|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -682,7 +682,7 @@ module Api
     end
 
     def test_destroy_missing_relation_by_private_user
-      with_unchanging_request([:data_public => false]) do |headers|
+      with_unchanging_request([{ :data_public => false }]) do |headers|
         delete api_relation_path(0), :headers => headers
 
         assert_response :forbidden
@@ -742,7 +742,7 @@ module Api
       with_unchanging(:relation) do |relation|
         other_user = create(:user)
 
-        with_unchanging_request([], [:user => other_user]) do |headers, changeset|
+        with_unchanging_request([], [{ :user => other_user }]) do |headers, changeset|
           osm_xml = xml_for_relation relation
           osm_xml = update_changeset osm_xml, changeset.id
 
