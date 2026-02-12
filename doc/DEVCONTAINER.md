@@ -148,3 +148,29 @@ bundle install
 ```
 
 This has been observed particularly when using RubyMine.
+
+### Issues connecting to the database
+
+For example:
+
+```
+ActiveRecord::DatabaseConnectionError: There is an issue connecting with your hostname: postgres. (ActiveRecord::DatabaseConnectionError)
+```
+
+This can be caused by incompatible versions of Postgres software and data, such as when the version of Postgres changes but the data is not upgraded to the new version's format.
+
+If this is the case, the simplest fix is to reset the Postgres data volume. Run these commands from the host environment (not within the container environment):
+
+1. The volume will be called `open_street_map_postgres-data` or similar.
+2. Find the container associated to it with `docker ps -a --filter volume=open_street_map_postgres-data`
+3. Delete the container by id with `docker rm $CONTAINER_ID`.
+4. Delete the volume with `docker volume rm open_street_map_postgres-data`.
+5. Try now and see if things work.
+
+Or for a one-liner (requires the tool `jq` to be installed):
+
+```
+$ docker ps -a --filter volume=open_street_map_postgres-data --format json | jq -r '.ID' | xargs docker rm && docker volume rm open_street_map_postgres-data
+```
+
+Note that this will delete all data in the database! If you want to keep it, you will need to use Postgres's own tools to perform the data upgrade. That process is not described in this guide.
