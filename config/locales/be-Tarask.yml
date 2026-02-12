@@ -61,7 +61,7 @@ be-Tarask:
     models:
       acl: Сьпіс абмежаваньня доступу
       changeset: Набор зьменаў
-      changeset_tag: Тэг набору зьменаў
+      changeset_tag: Тэґ набору зьменаў
       country: Краіна
       diary_comment: Камэнтар у дзёньніку
       diary_entry: Запіс у дзёньніку
@@ -70,7 +70,7 @@ be-Tarask:
       language: Мова
       message: Паведамленьне
       node: Вузел
-      node_tag: Тэг вузла
+      node_tag: Тэґ вузлу
       note: Камэнтар
       old_node: Стары вузел
       old_node_tag: Стары тэг вузла
@@ -87,13 +87,13 @@ be-Tarask:
       session: Сэсыя
       trace: Трэк
       tracepoint: Пункт трэку
-      tracetag: Тэг трэку
+      tracetag: Тэґ трэку
       user: Карыстальнік
       user_preference: Налады карыстальніка
       user_token: Код пацьверджаньня карыстальніка
       way: Шлях
       way_node: Вузел дарогі
-      way_tag: Тэг дарогі
+      way_tag: Тэґ лініі
     attributes:
       client_application:
         name: Імя (абавязкова)
@@ -104,6 +104,7 @@ be-Tarask:
         allow_write_prefs: зьмяняць іх налады ўдзельніка
         allow_write_diary: ствараць запісы ў дзёньніку і камэнтары
         allow_write_api: зьмяняць мапу
+        allow_write_changeset_comments: камэнтаваць наборы зьменаў
         allow_read_gpx: чытаць іх прыватныя GPS-трэкі
         allow_write_gpx: загружаць GPS-трэкі
         allow_write_notes: зьмяняць нататкі
@@ -119,7 +120,7 @@ be-Tarask:
       doorkeeper/application:
         name: Назва
         redirect_uri: URI перанакіраваньняў
-        confidential: Канфідэнцыйная праграма?
+        confidential: Канфідэнцыйная праґрама?
         scopes: Дазволы
       friend:
         user: Удзельнік
@@ -155,8 +156,10 @@ be-Tarask:
         active: Актыўны
         display_name: Бачнае імя
         description: Апісаньне профілю
+        company: Кампанія
         home_lat: Шырата
         home_lon: Даўгата
+        home_location_name: Назва хатняй лякацыі
         languages: Пажаданыя мовы
         preferred_editor: Пажаданы рэдактар
         pass_crypt: Пароль
@@ -261,10 +264,12 @@ be-Tarask:
   accounts:
     show:
       title: Рэдагаваньне рахунку
+      my_account: Мой рахунак
       current email address: Цяперашні адрас электроннай пошты
       contributor_terms:
         heading: Умовы супрацоўніцтва
-        agreed: Вы пагадзіліся з новымі ўмовамі супрацоўніцтва.
+        agreed: Вы згадзіліся з ўмовамі ўдзельніцтва %{date}.
+        not_agreed: Вы яшчэ не згадзіліся з умовамі ўдзельніцтва.
         agreed_with_pd: Вы таксама заяўляеце, што перадаеце Вашыя рэдагаваньні ў грамадзкі
           набытак.
         link text: што гэта?
@@ -273,22 +278,32 @@ be-Tarask:
       delete_account: Выдаліць рахунак…
     go_public:
       heading: Публічнае рэдагаваньне
+      find_out_why: знайсьці чаму
       make_edits_public_button: Зрабіць усе мае рэдагаваньні публічнымі
     update:
       success_confirm_needed: Інфармацыя карыстальніка была абноўленая пасьпяхова.
         Праверце Вашую электронную пошту каб пацьвердзіць Ваш новы адрас электроннай
         пошты.
       success: Зьвесткі пра карыстальніка пасьпяхова абноўленыя.
+    destroy:
+      success: Рахунак выдалены.
     deletions:
       show:
         title: Выдаліць мой рахунак
         warning: Увага! Працэс выдаленьня рахунку канчатковы і незваротны.
         delete_account: Выдаліць рахунак
+        delete_profile: Інфармацыя гэтага профілю, аватар, апісаньне й хатняя лякацыя
+          будуць выдалены.
         confirm_delete: Вы ўпэўненыя?
+        cancel: Скасаваць
     terms:
       show:
         title: Умовы
         heading: Умовы
+        heading_ct: Умовы ўдзельніцтва
+        tou_explain:
+          tou: Умовы ўжываньня
+        cancel: Скасаваць
         you need to accept or decline: Калі ласка, прачытайце, а потым згадзіцеся
           ці адхіліце новыя ўмовы супрацоўніцтва для працягу.
         legale_select: 'Калі ласка, выберыце сваю краіну пражываньня:'
@@ -364,7 +379,7 @@ be-Tarask:
         relation: зьвязак
     start_rjs:
       load_data: Загрузіць зьвесткі
-      loading: Загрузка…
+      loading: Ладаваньне…
     tag_details:
       tags: Меткі
       wiki_link:
@@ -372,9 +387,15 @@ be-Tarask:
         tag: Старонка вікі, якая апісвае тэг %{key}=%{value}
       wikipedia_link: Артыкул %{page} у Вікіпэдыі
     versions_navigation:
+      node: Вузел
+      way: Лінія
       relation: Зьвязак
+      history: Гісторыя
+      version: 'Вэрсія #%{version}'
+      versions_label: 'Вэрсіі:'
   feature_queries:
     show:
+      title: Шукаць аб'екты
       nearby: Аб’екты паблізу
       enclosing: Навакольныя аб’екты
   old_elements:
@@ -642,8 +663,8 @@ be-Tarask:
           raceway: Гоначная траса
           residential: Жылая вуліца
           road: Дарога
-          secondary: Другасная дарога
-          secondary_link: Другасная дарога
+          secondary: Другарадная дарога
+          secondary_link: Другарадная дарога
           service: Службовая дарога
           services: Прыдарожны сэрвіс
           steps: Прыступкі
@@ -1154,7 +1175,7 @@ be-Tarask:
         Вы можаце зрабіць Вашыя рэдагаваньні публічнымі на Вашай %{user_page}.
       user_page_link: старонцы карыстальніка
       anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
-      anon_edits_link_text: Даведацца ў чым справа.
+      anon_edits_link_text: Даведацца ў чым рэч.
     export:
       manually_select: Выбраць іншы абшар
       licence: Ліцэнзія
@@ -1177,13 +1198,16 @@ be-Tarask:
       where_am_i_title: Апішыце цяперашняе месцазнаходжаньне з дапамогай інструмэнту
         пошуку
       submit_text: Перайсьці
+    welcome:
+      basic_terms:
+        tag: тэґ
   legend_panes:
     show:
       entries:
         motorway: Аўтастрада
         trunk: Шаша
         primary: Галоўная дарога
-        secondary: Другасная дарога
+        secondary: Другарадная дарога
         unclassified: Дарога раённага значэньня
         track: Грунтовая дарога
         bridleway: Дарога для коней
@@ -1465,6 +1489,11 @@ be-Tarask:
       creator_name: Стваральнік
       reason: Прычына блякаваньня
       status: Статус
+  user_mutes:
+    index:
+      table:
+        tbody:
+          unmute: Скасаваць сьцішанасьць
   notes:
     show:
       title: 'Нататка: %{id}'
