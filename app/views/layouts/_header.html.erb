@@ -9,7 +9,7 @@
       <%= inline_svg_tag "menu-icon.svg", :size => "30px" %>
     </a>
   </h1>
-  <nav class='primary'>
+  <nav class="primary">
     <%= content_for :header %>
     <div id="edit_tab" class="btn-group w-100">
       <%= link_to t("layouts.edit"),
@@ -17,8 +17,8 @@
                   :class => ["btn btn-outline-primary geolink editlink", { "active" => current_page?(edit_path) }],
                   :id => "editanchor",
                   :data => { :editor => preferred_editor } %>
-      <button class='btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0' type='button' data-bs-toggle='dropdown'></button>
-      <ul class='dropdown-menu'>
+      <button class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0" type="button" data-bs-toggle="dropdown"></button>
+      <ul class="dropdown-menu">
         <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
           <li>
             <%= link_to t("layouts.edit_with", :editor => t("editor.#{editor}.description")),
@@ -30,8 +30,8 @@
       </ul>
     </div>
   </nav>
-  <nav class='secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center'>
-    <ul id='secondary-nav-menu' class='nav flex-grow-1 justify-content-center justify-content-md-start' data-turbo-permanent>
+  <nav class="secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center">
+    <ul id="secondary-nav-menu" class="nav flex-grow-1 justify-content-center justify-content-md-start" data-turbo-permanent>
       <% if Settings.status != "database_offline" && can?(:index, Issue) %>
         <li class="nav-item">
           <%= link_to issues_path(:status => "open"), :class => header_nav_link_class(issues_path) do %>
@@ -76,21 +76,21 @@
 
     <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block", { "border-secondary-subtle" => current_user&.id }] %>
     <% if current_user && current_user.id %>
-      <div class='d-inline-flex dropdown user-menu logged-in'>
-        <button class='d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100' type='button' data-bs-toggle='dropdown'>
+      <div class="d-inline-flex dropdown user-menu logged-in">
+        <button class="d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100" type="button" data-bs-toggle="dropdown">
           <%= user_thumbnail_tiny(current_user, :class => "user_thumbnail_tiny rounded-1 bg-body") %>
           <% if current_user.new_messages.size > 0 %>
             <span class="badge count-number position-static m-1"><%= current_user.new_messages.size %></span>
           <% end %>
-          <span class='username align-middle text-truncate' dir='auto'>
+          <span class="username align-middle text-truncate" dir="auto">
             <%= current_user.display_name_was %>
           </span>
         </button>
-        <div class='dropdown-menu dropdown-menu-end'>
+        <div class="dropdown-menu dropdown-menu-end">
           <%= link_to t("users.show.my_dashboard"), dashboard_path, :class => "dropdown-item" %>
           <%= link_to messages_inbox_path, :class => "dropdown-item" do %>
             <%= t("users.show.my messages") %>
-            <span class='badge count-number'><%= number_with_delimiter(current_user.new_messages.size) %></span>
+            <span class="badge count-number"><%= number_with_delimiter(current_user.new_messages.size) %></span>
           <% end %>
           <%= link_to t("users.show.my profile"), current_user, :class => "dropdown-item" %>
           <%= link_to t("users.show.my_account"), account_path, :class => "dropdown-item" %>
