@@ -115,7 +115,7 @@ gem "rotp"
 
 # Load memcache client in case we are using it
 gem "connection_pool", "< 3.0.0"
-gem "dalli"
+gem "dalli", "< 5.0.0"
 
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rails-8-1"
