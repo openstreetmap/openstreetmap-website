@@ -14,7 +14,6 @@
 #  home_lat             :float
 #  home_lon             :float
 #  home_zoom            :integer          default(3)
-#  home_location_name   :string
 #  pass_salt            :string
 #  email_valid          :boolean          default(FALSE), not null
 #  new_email            :string
@@ -36,6 +35,7 @@
 #  diary_comments_count :integer          default(0)
 #  note_comments_count  :integer          default(0)
 #  creation_address     :inet
+#  home_location_name   :string
 #  company              :string
 #  public_heatmap       :boolean          default(TRUE), not null
 #
