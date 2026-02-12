@@ -30,9 +30,9 @@ OSM.MapLibre.CombinedControlGroup = class CombinedControlGroup {
           const icon = iconMap[type];
 
           if (icon) {
-            $(button)
-              .empty()
-              .append($("<i>").addClass(`maplibregl-ctrl-icon fs-5 bi bi-${icon}`));
+            const iconElement = document.createElement("i");
+            iconElement.className = `maplibregl-ctrl-icon fs-5 bi bi-${icon}`;
+            button.replaceChildren(iconElement);
           }
         }
         this._container.appendChild(button);
