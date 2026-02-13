@@ -2,6 +2,15 @@
 
 /* globals iD */
 
+(() => {
+  const originalReplaceState = window.history.replaceState;
+  window.history.replaceState = function (...args) {
+    const result = originalReplaceState.apply(this, args);
+    window.dispatchEvent(new CustomEvent("replaceHistoryState", { detail: args }));
+    return result;
+  };
+})();
+
 document.addEventListener("DOMContentLoaded", function () {
   const container = document.getElementById("id-container");
 
@@ -35,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     let hashChangedAutomatically = false;
-    id.map().on("move.embed", parent.$.throttle(250, function () {
+    window.addEventListener("replaceHistoryState", function () {
       if (id.inIntro()) return;
       const zoom = ~~id.map().zoom(),
             center = id.map().center(),
@@ -50,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
         hashChangedAutomatically = true;
         parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
       }
-    }));
+    });
 
     function goToLocation(data) {
       // 0ms timeout to avoid iframe JS context weirdness.
