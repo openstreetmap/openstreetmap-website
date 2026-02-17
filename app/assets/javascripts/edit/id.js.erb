@@ -41,4 +41,38 @@ $(function () {
       location.reload();
     }
   });
+
+  let hashChangedAutomatically = false;
+  window.addEventListener("message", function (event) {
+    if (event.source !== id[0].contentWindow || event.origin !== location.origin) return;
+    const msg = event.data;
+    if (!msg || msg.type !== "hashchange") return;
+    const data = msg.data;
+
+    updateLinks(data, data.zoom);
+
+    // Manually resolve URL to avoid iframe JS context weirdness.
+    // https://gist.github.com/jfirebaugh/5439412
+    const hash = OSM.formatHash(data);
+    if (hash === location.hash) return;
+
+    hashChangedAutomatically = true;
+    location.replace(location.href.replace(/(#.*|$)/, hash));
+  });
+
+  $("body").on("click", "a.set_position", function (e) {
+    e.preventDefault();
+    const data = $(this).data();
+    id[0].contentWindow.postMessage({ type: "hashchange", data }, location.origin);
+  });
+
+  addEventListener("hashchange", function (e) {
+    if (hashChangedAutomatically) {
+      hashChangedAutomatically = false;
+      return;
+    }
+    e.preventDefault();
+    const data = OSM.mapParams();
+    id[0].contentWindow.postMessage({ type: "hashchange", data }, location.origin);
+  });
 });

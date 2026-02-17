@@ -43,25 +43,20 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    let hashChangedAutomatically = false;
     window.addEventListener("replaceHistoryState", function () {
       if (id.inIntro()) return;
       const zoom = ~~id.map().zoom(),
             center = id.map().center(),
             llz = { lon: center[0], lat: center[1], zoom: zoom };
 
-      parent.updateLinks(llz, zoom);
-
-      // Manually resolve URL to avoid iframe JS context weirdness.
-      // https://gist.github.com/jfirebaugh/5439412
-      const hash = parent.OSM.formatHash(llz);
-      if (hash !== parent.location.hash) {
-        hashChangedAutomatically = true;
-        parent.location.replace(parent.location.href.replace(/(#.*|$)/, hash));
-      }
+      parent.postMessage({ type: "hashchange", data: llz }, location.origin);
     });
 
-    function goToLocation(data) {
+    window.addEventListener("message", function (event) {
+      if (event.source !== parent || event.origin !== location.origin) return;
+      const msg = event.data;
+      if (!msg || msg.type !== "hashchange") return;
+      const data = msg.data;
       // 0ms timeout to avoid iframe JS context weirdness.
       // https://gist.github.com/jfirebaugh/5439412
       setTimeout(function () {
@@ -69,22 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
           [data.lon, data.lat],
           Math.max(data.zoom || 15, 13));
       }, 0);
-    }
-
-    parent.$("body").on("click", "a.set_position", function (e) {
-      e.preventDefault();
-      const data = parent.$(this).data();
-      goToLocation(data);
-    });
-
-    parent.addEventListener("hashchange", function (e) {
-      if (hashChangedAutomatically) {
-        hashChangedAutomatically = false;
-        return;
-      }
-      e.preventDefault();
-      const data = parent.OSM.mapParams();
-      goToLocation(data);
     });
 
     const projectTitle = parent.document.title;
