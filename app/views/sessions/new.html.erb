@@ -46,21 +46,21 @@
 <%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
   <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
 
-  <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :tabindex => 1, :value => params[:username] %>
+  <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :value => params[:username] %>
 
   <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
     <%= f.label :password, t(".password") %>
     <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
   </div>
 
-  <%= f.password_field :password, :autocomplete => "on", :tabindex => 2, :value => "", :skip_label => true %>
+  <%= f.password_field :password, :autocomplete => "on", :value => "", :skip_label => true %>
 
   <%= f.form_group do %>
-    <%= f.check_box :remember_me, { :label => t(".remember"), :tabindex => 3, :checked => (params[:remember_me] == "true") }, "yes" %>
+    <%= f.check_box :remember_me, { :label => t(".remember"), :checked => (params[:remember_me] == "true") }, "yes" %>
   <% end %>
 
   <div class="mb-3">
-    <%= f.primary t(".login_button"), :tabindex => 4 %>
+    <%= f.primary t(".login_button") %>
   </div>
 <% end %>
 
