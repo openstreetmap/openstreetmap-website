@@ -10,53 +10,55 @@
   <% end %>
 <% end %>
 
-<table class="table table-borderless table-sm">
-  <tr>
-    <th><%= t ".filename" %></th>
-    <td><%= @trace.name %> (<%= link_to t(".download"), trace_data_path(@trace) %>)</td>
-  </tr>
-  <tr>
-    <th><%= t ".uploaded" %></th>
-    <td><%= l @trace.timestamp, :format => :friendly %></td>
-  </tr>
-  <% if @trace.inserted? %>
-  <tr>
-    <th><%= t ".points" %></th>
-    <td><%= number_with_delimiter(@trace.size) %></td></tr>
-  <tr>
-    <th><%= t ".start_coordinates" %></th>
-    <td>
-      <div class="d-inline">
-        <%= t ".coordinates_html",
-              :latitude => tag.span(number_with_delimiter(@trace.latitude), :class => "latitude"),
-              :longitude => tag.span(number_with_delimiter(@trace.longitude), :class => "longitude") %>
-      </div>
-      (<%= link_to t(".map"), root_path(:mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %> / <%= link_to t(".edit"), edit_path(:gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %>)</td>
-  </tr>
-  <% end %>
-  <tr>
-    <th><%= t ".owner" %></th>
-    <td><%= link_to @trace.user.display_name, @trace.user %></td>
-  </tr>
-  <tr>
-    <th><%= t ".description" %></th>
-    <td><%= @trace.description %></td>
-  </tr>
-  <tr>
-    <th><%= t ".tags" %></th>
-    <td>
-    <% unless @trace.tags.empty? %>
-      <%= safe_join(@trace.tags.collect { |tag| link_to tag.tag, :controller => "traces", :action => "index", :tag => tag.tag, :id => nil }, ", ") %>
-    <% else %>
-      <i><%= t ".none" %></i>
+<div class="table-responsive">
+  <table class="table table-borderless table-sm">
+    <tr>
+      <th><%= t ".filename" %></th>
+      <td><%= @trace.name %> (<%= link_to t(".download"), trace_data_path(@trace) %>)</td>
+    </tr>
+    <tr>
+      <th><%= t ".uploaded" %></th>
+      <td><%= l @trace.timestamp, :format => :friendly %></td>
+    </tr>
+    <% if @trace.inserted? %>
+    <tr>
+      <th><%= t ".points" %></th>
+      <td><%= number_with_delimiter(@trace.size) %></td></tr>
+    <tr>
+      <th><%= t ".start_coordinates" %></th>
+      <td>
+        <div class="d-inline">
+          <%= t ".coordinates_html",
+                :latitude => tag.span(number_with_delimiter(@trace.latitude), :class => "latitude"),
+                :longitude => tag.span(number_with_delimiter(@trace.longitude), :class => "longitude") %>
+        </div>
+        (<%= link_to t(".map"), root_path(:mlat => @trace.latitude, :mlon => @trace.longitude, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %> / <%= link_to t(".edit"), edit_path(:gpx => @trace.id, :anchor => "map=14/#{@trace.latitude}/#{@trace.longitude}") %>)</td>
+    </tr>
     <% end %>
-    </td>
-  </tr>
-  <tr>
-    <th><%= t ".visibility" %></th>
-    <td><%= t "traces.visibility.#{@trace.visibility}" %></td>
-  </tr>
-</table>
+    <tr>
+      <th><%= t ".owner" %></th>
+      <td><%= link_to @trace.user.display_name, @trace.user %></td>
+    </tr>
+    <tr>
+      <th><%= t ".description" %></th>
+      <td><%= @trace.description %></td>
+    </tr>
+    <tr>
+      <th><%= t ".tags" %></th>
+      <td>
+      <% unless @trace.tags.empty? %>
+        <%= safe_join(@trace.tags.collect { |tag| link_to tag.tag, :controller => "traces", :action => "index", :tag => tag.tag, :id => nil }, ", ") %>
+      <% else %>
+        <i><%= t ".none" %></i>
+      <% end %>
+      </td>
+    </tr>
+    <tr>
+      <th><%= t ".visibility" %></th>
+      <td><%= t "traces.visibility.#{@trace.visibility}" %></td>
+    </tr>
+  </table>
+</div>
 
 <% if current_user && (current_user==@trace.user || current_user.administrator? || current_user.moderator?) %>
   <div>
