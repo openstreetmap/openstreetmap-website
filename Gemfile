@@ -193,6 +193,7 @@ end
 
 group :development, :test do
   gem "annotaterb"
+  gem "database_consistency"
   gem "factory_bot_rails"
   gem "rackup"
   gem "teaspoon"

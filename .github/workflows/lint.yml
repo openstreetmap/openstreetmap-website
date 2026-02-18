@@ -138,3 +138,36 @@ jobs:
       run: bundle exec annotaterb models
     - name: Fail if model annotations are out of date
       run: git diff --exit-code
+  database_consistency:
+    env:
+      RAILS_ENV: test
+    name: Database Consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Setup ruby
+      uses: ruby/setup-ruby@09a7688d3b55cf0e976497ff046b70949eeaccfd # v1.288.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        rubygems: 3.4.10
+        bundler-cache: true
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
+    - name: Cache node modules
+      uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bundle exec bin/yarn install
+    - name: Setup database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        bundle exec rails db:schema:load
+    - name: Run Database Consistency
+      run: bundle exec database_consistency

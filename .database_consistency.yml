@@ -1,0 +1,497 @@
+---
+# These checkers throw errors with our db, so they need
+# to be completely disabled.
+DatabaseConsistencyCheckers:
+  # https://github.com/djezzzl/database_consistency/issues/274
+  MissingDependentDestroyChecker:
+    enabled: false
+  # https://github.com/djezzzl/database_consistency/issues/217
+  ForeignKeyCascadeChecker:
+    enabled: false
+# The following is a TODO list
+Changeset:
+  changeset_tags:
+    MissingIndexChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  nodes:
+    MissingIndexChecker:
+      enabled: false
+  relations:
+    MissingIndexChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+  ways:
+    MissingIndexChecker:
+      enabled: false
+ChangesetComment:
+  author:
+    MissingDependentDestroyChecker:
+      enabled: false
+  body:
+    NullConstraintChecker:
+      enabled: false
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+    PrimaryKeyTypeChecker:
+      enabled: false
+ChangesetSubscription:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  index_changesets_subscribers_on_subscriber_id_and_changeset_id:
+    UniqueIndexChecker:
+      enabled: false
+  subscriber:
+    MissingDependentDestroyChecker:
+      enabled: false
+ChangesetTag:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+DiaryComment:
+  diary_comments_entry_id_idx:
+    UniqueIndexChecker:
+      enabled: false
+  diary_entry:
+    MissingDependentDestroyChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+DiaryEntry:
+  language:
+    MissingDependentDestroyChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+DiaryEntrySubscription:
+  diary_entry:
+    MissingDependentDestroyChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Follow:
+  follower:
+    MissingDependentDestroyChecker:
+      enabled: false
+  following:
+    MissingDependentDestroyChecker:
+      enabled: false
+Issue:
+  assigned_role:
+    EnumValueChecker:
+      enabled: false
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  reportable_id+reportable_type:
+    MissingUniqueIndexChecker:
+      enabled: false
+  reported_user:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingDependentDestroyChecker:
+      enabled: false
+  user_resolved:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingDependentDestroyChecker:
+      enabled: false
+  user_updated:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingDependentDestroyChecker:
+      enabled: false
+IssueComment:
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  user:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingDependentDestroyChecker:
+      enabled: false
+Language:
+  code:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  diary_entries:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingIndexChecker:
+      enabled: false
+  english_name:
+    NullConstraintChecker:
+      enabled: false
+Message:
+  recipient:
+    MissingDependentDestroyChecker:
+      enabled: false
+  sender:
+    MissingDependentDestroyChecker:
+      enabled: false
+Node:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  element_tags:
+    MissingIndexChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  old_nodes:
+    MissingIndexChecker:
+      enabled: false
+  tile:
+    NullConstraintChecker:
+      enabled: false
+NodeTag:
+  node:
+    MissingDependentDestroyChecker:
+      enabled: false
+Note:
+  author:
+    MissingDependentDestroyChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  tile:
+    NullConstraintChecker:
+      enabled: false
+NoteComment:
+  author:
+    MissingDependentDestroyChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  note:
+    MissingDependentDestroyChecker:
+      enabled: false
+NoteSubscription:
+  note:
+    MissingDependentDestroyChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Oauth2Application:
+  redirect_uri:
+    NullConstraintChecker:
+      enabled: false
+  secret:
+    ColumnPresenceChecker:
+      enabled: false
+OldNode:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  current_node:
+    ForeignKeyChecker:
+      enabled: false
+  old_tags:
+    MissingIndexChecker:
+      enabled: false
+  redaction:
+    MissingDependentDestroyChecker:
+      enabled: false
+  tile:
+    NullConstraintChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+OldNodeTag:
+  node_id:
+    NullConstraintChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+OldRelation:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  current_relation:
+    ForeignKeyChecker:
+      enabled: false
+  old_members:
+    MissingIndexChecker:
+      enabled: false
+  old_tags:
+    MissingIndexChecker:
+      enabled: false
+  redaction:
+    MissingDependentDestroyChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+OldRelationMember:
+  member_role:
+    NullConstraintChecker:
+      enabled: false
+  relation_id:
+    NullConstraintChecker:
+      enabled: false
+OldRelationTag:
+  relation_id:
+    NullConstraintChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+OldWay:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  current_way:
+    ForeignKeyChecker:
+      enabled: false
+  old_nodes:
+    MissingIndexChecker:
+      enabled: false
+  old_tags:
+    MissingIndexChecker:
+      enabled: false
+  redaction:
+    MissingDependentDestroyChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+OldWayNode:
+  node:
+    ForeignKeyChecker:
+      enabled: false
+  sequence_id:
+    NullConstraintChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+  way:
+    ForeignKeyChecker:
+      enabled: false
+OldWayTag:
+  k:
+    NullConstraintChecker:
+      enabled: false
+  v:
+    NullConstraintChecker:
+      enabled: false
+  version:
+    NullConstraintChecker:
+      enabled: false
+  way_id:
+    NullConstraintChecker:
+      enabled: false
+Redaction:
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  old_nodes:
+    MissingIndexChecker:
+      enabled: false
+  old_relations:
+    MissingIndexChecker:
+      enabled: false
+  old_ways:
+    MissingIndexChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Relation:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  element_tags:
+    MissingIndexChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  old_relations:
+    MissingIndexChecker:
+      enabled: false
+  relation_members:
+    MissingIndexChecker:
+      enabled: false
+RelationMember:
+  member_role:
+    NullConstraintChecker:
+      enabled: false
+  relation:
+    MissingDependentDestroyChecker:
+      enabled: false
+RelationTag:
+  relation:
+    MissingDependentDestroyChecker:
+      enabled: false
+Report:
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  user:
+    ForeignKeyTypeChecker:
+      enabled: false
+    MissingDependentDestroyChecker:
+      enabled: false
+SocialLink:
+  url:
+    NullConstraintChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Trace:
+  description:
+    ColumnPresenceChecker:
+      enabled: false
+  gpx_files_user_id_idx:
+    RedundantIndexChecker:
+      enabled: false
+  inserted:
+    NullConstraintChecker:
+      enabled: false
+  tags:
+    ForeignKeyCascadeChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Tracepoint:
+  timestamp:
+    ColumnPresenceChecker:
+      enabled: false
+Tracetag:
+  tag:
+    NullConstraintChecker:
+      enabled: false
+User:
+  blocks_revoked:
+    MissingIndexChecker:
+      enabled: false
+  creation_time:
+    NullConstraintChecker:
+      enabled: false
+  diary_entry_subscriptions:
+    MissingIndexChecker:
+      enabled: false
+  issue_comments:
+    ForeignKeyTypeChecker:
+      enabled: false
+  issues:
+    ForeignKeyTypeChecker:
+      enabled: false
+  lower(email):
+    MissingUniqueIndexChecker:
+      enabled: false
+  note_subscriptions:
+    MissingIndexChecker:
+      enabled: false
+  pass_crypt:
+    NullConstraintChecker:
+      enabled: false
+  preferences:
+    MissingIndexChecker:
+      enabled: false
+  reports:
+    ForeignKeyTypeChecker:
+      enabled: false
+  users_display_name_idx:
+    UniqueIndexChecker:
+      enabled: false
+  users_email_idx:
+    UniqueIndexChecker:
+      enabled: false
+UserBlock:
+  creator:
+    MissingDependentDestroyChecker:
+      enabled: false
+  ends_at:
+    NullConstraintChecker:
+      enabled: false
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  reason:
+    NullConstraintChecker:
+      enabled: false
+  revoker:
+    MissingDependentDestroyChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+UserMute:
+  owner:
+    MissingDependentDestroyChecker:
+      enabled: false
+  subject:
+    MissingDependentDestroyChecker:
+      enabled: false
+UserPreference:
+  k:
+    NullConstraintChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+  v:
+    NullConstraintChecker:
+      enabled: false
+UserRole:
+  granter:
+    MissingDependentDestroyChecker:
+      enabled: false
+  id:
+    PrimaryKeyTypeChecker:
+      enabled: false
+  user:
+    MissingDependentDestroyChecker:
+      enabled: false
+Way:
+  changeset:
+    MissingDependentDestroyChecker:
+      enabled: false
+  element_tags:
+    MissingIndexChecker:
+      enabled: false
+  id:
+    ColumnPresenceChecker:
+      enabled: false
+  old_ways:
+    MissingIndexChecker:
+      enabled: false
+  way_nodes:
+    MissingIndexChecker:
+      enabled: false
+WayNode:
+  node:
+    MissingDependentDestroyChecker:
+      enabled: false
+  sequence_id:
+    NullConstraintChecker:
+      enabled: false
+  way:
+    MissingDependentDestroyChecker:
+      enabled: false
+WayTag:
+  way:
+    MissingDependentDestroyChecker:
+      enabled: false
