@@ -30,9 +30,10 @@
 
 class UserBlock < ApplicationRecord
   validate :moderator_permissions
-  validates :reason, :characters => true, :length => { :maximum => 10000 }
+  validates :reason, :characters => true, :length => { :maximum => 10000 }, :presence => true
   validates :deactivates_at, :comparison => { :greater_than_or_equal_to => :ends_at }, :unless => -> { needs_view }
   validates :deactivates_at, :absence => true, :if => -> { needs_view }
+  validates :ends_at, :presence => true
 
   belongs_to :user, :class_name => "User"
   belongs_to :creator, :class_name => "User"

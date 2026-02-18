@@ -35,7 +35,7 @@ class ChangesetComment < ApplicationRecord
   validates :changeset, :associated => true
   validates :author, :associated => true
   validates :visible, :inclusion => [true, false]
-  validates :body, :characters => true
+  validates :body, :characters => true, :presence => true
 
   # Return the comment text
   def body
