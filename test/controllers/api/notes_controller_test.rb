@@ -204,6 +204,18 @@ module Api
       assert_response :bad_request
     end
 
+    def test_create_anonymous_in_moderation_zone
+      point = coordinates_inside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+      assert_no_difference "Note.count" do
+        assert_no_difference "NoteComment.count" do
+          post api_notes_path(:lat => point.lat, :lon => point.lon, :text => "Down with this sort of thing")
+        end
+      end
+      assert_response :forbidden
+      assert_equal "You don't have permissions to make changes in this zone, as it is currently protected by moderators", response.headers["Error"]
+    end
+
     def test_create_success
       user = create(:user)
       auth_header = bearer_authorization_header user
@@ -230,6 +242,21 @@ module Api
       subscription = NoteSubscription.last
       assert_equal user, subscription.user
       assert_equal note, subscription.note
+    end
+
+    def test_create_success_in_moderation_zone
+      point = coordinates_inside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+      assert_difference "Note.count", 1 do
+        assert_difference "NoteComment.count", 1 do
+          assert_difference "NoteSubscription.count", 1 do
+            post api_notes_path(:lat => point.lat, :lon => point.lon, :text => "This is a comment", :format => "json"), :headers => auth_header
+          end
+        end
+      end
+      assert_response :success
     end
 
     def test_create_no_scope_fail
@@ -1253,6 +1280,10 @@ module Api
       notes.each_with_index do |note, index|
         assert_select "osm>note:nth-child(#{index + 1})>id", :text => note.id.to_s, :count => 1
       end
+    end
+
+    def coordinates_inside_seville_cathedral
+      Struct.new(:lat, :lon).new(37.385972, -5.993149)
     end
   end
 end

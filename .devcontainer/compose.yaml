@@ -36,7 +36,9 @@ services:
     restart: unless-stopped
 
   postgres:
-    image: postgres:15
+    build:
+      context: .
+      dockerfile: ./Dockerfile.postgres
     restart: unless-stopped
     networks:
     - default

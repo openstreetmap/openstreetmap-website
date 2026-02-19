@@ -19,8 +19,18 @@ module OSM
 
   # Raised when access is denied.
   class APIAccessDenied < APIError
-    def initialize
-      super("Access denied")
+    def initialize(message = "Access denied")
+      super
+    end
+
+    def status
+      :forbidden
+    end
+  end
+
+  class APIModerationZoneError < APIAccessDenied
+    def initialize(message = "You don't have permissions to make changes in this zone, as it is currently protected by moderators")
+      super
     end
 
     def status
