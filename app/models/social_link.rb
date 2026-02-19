@@ -22,7 +22,7 @@
 class SocialLink < ApplicationRecord
   belongs_to :user
 
-  validates :url, :format => { :with => %r{\A(https?://.+|@([a-zA-Z0-9_]+)@([\w\-.]+))\z}, :message => :http_parse_error }
+  validates :url, :format => { :with => %r{\A(https?://.+|@([a-zA-Z0-9_]+)@([\w\-.]+))\z}, :message => :http_parse_error }, :presence => true
 
   URL_PATTERNS = {
     :bluesky => %r{\Ahttps?://(?:www\.)?bsky\.app/profile/([a-zA-Z0-9._-]+)},

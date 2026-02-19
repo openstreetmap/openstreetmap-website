@@ -2443,13 +2443,6 @@ CREATE INDEX gpx_files_timestamp_idx ON public.gpx_files USING btree ("timestamp
 
 
 --
--- Name: gpx_files_user_id_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX gpx_files_user_id_idx ON public.gpx_files USING btree (user_id);
-
-
---
 -- Name: gpx_files_visible_visibility_idx; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -3570,6 +3563,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20260218183352'),
 ('20251218105716'),
 ('20251121134648'),
 ('20250704143751'),
