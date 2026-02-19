@@ -39,8 +39,27 @@ module ApplicationHelper
     end
   end
 
-  def header_nav_link_class(path)
-    ["nav-link", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"]
+  def secondary_nav_items
+    items = [
+      [history_path, t("layouts.history")],
+      [export_path, t("layouts.export")],
+      [traces_path, t("layouts.gps_traces")],
+      [diary_entries_path, t("layouts.user_diaries")],
+      [communities_path, t("layouts.communities")],
+      [copyright_path, t("layouts.copyright")],
+      [help_path, t("layouts.help")],
+      [Settings.donation_url, t("layouts.donate_link"), { :target => :new }],
+      [about_path, t("layouts.about")]
+    ]
+
+    if Settings.status != "database_offline" && can?(:index, Issue)
+      items.prepend([
+                      issues_path(:status => "open"),
+                      safe_join([t("layouts.issues"), open_issues_count], " ")
+                    ])
+    end
+
+    items
   end
 
   def application_data
