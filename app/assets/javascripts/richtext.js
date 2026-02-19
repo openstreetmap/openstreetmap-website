@@ -13,6 +13,42 @@
   });
 
   /*
+   * Block arrow keys on richtext tabs to prevent Bootstrap's buggy keyboard navigation.
+   * Uses capture phase to intercept before Bootstrap handles the event.
+   */
+  document.addEventListener("keydown", function (e) {
+    if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(e.key)) return;
+    if (!e.target.matches?.(".richtext_container button[data-bs-toggle='tab']")) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+  }, {capture: true});
+
+  /*
+   * Ensure all visible tabs are in the Tab order.
+   * Bootstrap sets tabindex="-1" on inactive tabs, but we want Tab/Shift+Tab
+   * to move between all tabs.
+   */
+  function ensureAllTabsFocusable() {
+    $(".richtext_container button[data-bs-toggle='tab']:visible").attr("tabindex", "0");
+  }
+
+  // Run after page load and after a short delay to catch Bootstrap initialization
+  $(function () {
+    ensureAllTabsFocusable();
+    setTimeout(ensureAllTabsFocusable, 100);
+  });
+
+  $(document).on("turbo:load", function () {
+    ensureAllTabsFocusable();
+    setTimeout(ensureAllTabsFocusable, 100);
+  });
+
+  // Run after tab changes since Bootstrap resets tabindex
+  $(document).on("shown.bs.tab", ".richtext_container button[data-bs-toggle='tab']", ensureAllTabsFocusable);
+
+  /*
    * Install a handler to set the minimum preview pane height
    * when switching away from an edit pane
    */
