@@ -64,6 +64,7 @@ module Api
 
         respond_to do |format|
           format.xml
+          format.json
         end
       end
 
