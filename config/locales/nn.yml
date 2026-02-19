@@ -370,6 +370,7 @@ nn:
       colour_preview: Førehandsvising av farga %{colour_value}
     versions_navigation:
       history: Historikk
+      versions_label: 'Versjonar:'
   feature_queries:
     show:
       title: Finn objekt
@@ -384,6 +385,7 @@ nn:
         title_html: 'Strekningshistorikk: %{name}'
       relation:
         title_html: 'Samhøvehistorikk: %{name}'
+      older_versions: Eldre versjonar
   changeset_comments:
     feeds:
       comment:
@@ -447,6 +449,7 @@ nn:
     popup:
       your location: Posisjonen din
       nearby mapper: Brukarar i nærleiken
+      following: Følgjer
     show:
       title: Kontrollpanelet mitt
       no_home_location_html: '%{edit_profile_link} og set heimestaden din for å sjå
@@ -477,6 +480,7 @@ nn:
     show:
       title: '%{user} si dagbok | %{title}'
       user_title: '%{user} si dagbok'
+      discussion: Ordskifte
       leave_a_comment: Legg igjen ein kommentar
       login_to_leave_a_comment_html: '%{login_link} for å legge igjen ein kommentar'
       login: Logg inn
@@ -523,11 +527,16 @@ nn:
       new_title: Skriv ei ny oppføring i dagboka di
     profile_diaries:
       comments_label: Kommentarar
+      date_label: Dato
   errors:
     contact:
       contact: kontakt
     not_found:
       title: Fann ikkje fila
+  follows:
+    show:
+      follow:
+        button: Følg brukar
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1415,21 +1424,57 @@ nn:
       search_language: Søk…
       languages:
         ca: Katalansk
+        cs: Tsjekkisk
+        cy: Walisisk
         da: Dansk
         de: Tysk
         et: Estisk
+        en: Engelsk
         en-GB: Engelsk (UK)
         es: Spansk
         eo: Esperanto
         eu: Baskisk
         fr: Fransk
         ga: Irsk
+        hr: kroatisk
         it: Italiensk
+        lt: Litauisk
+        hu: Ungarsk
+        nl: Nederlandsk
         nb: Norsk (bokmål)
         nn: Norsk (nynorsk)
+        pl: Polsk
+        pt-PT: Portugisisk
+        pt: Portugisisk (Brazil)
+        ro: Rumensk
+        sc: Sardisk
+        sq: Albansk
+        scn: Siciliansk
+        sk: Slovakisk
+        sr-Latn: Serbisk (latin)
+        sh: Serbisk-kroatisk (latin)
+        fi: Finsk
+        sv: Svensk
+        tl: Tagalog
+        vi: Vietnamesisk
+        tr: Tyrkisk
+        bg: Bulgarsk
+        ru: Russisk
+        uk: Ukrainsk
+        he: Hebraisk
+        ar: Arabisk
+        fa: Persisk
+        hi: Hindi
+        ka: Georgisk
+        zh-CN: Kinesisk (forenkla)
+        zh-TW: Kinesisk (tradisjonell)
+        zh-HK: Kinesisk (Hong Kong)
+        ja: Japansk
+        ko: Koreansk
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
+    layer_info: Laginfo
     home: Gå til heimstaden din
     logout: Logg ut
     log_in: Logg inn
@@ -1455,6 +1500,7 @@ nn:
     more: Meir
     header:
       select_language: Vel språk
+      loading: Lastar …
     select_language_button:
       title: Vel språk
   user_mailer:
@@ -1649,6 +1695,7 @@ nn:
       heading:
         my_inbox: Mottekne
         my_outbox: Sende
+        muted_messages: Dempa meldinger
       messages_table:
         from: Frå
         to: Til
@@ -1659,6 +1706,7 @@ nn:
         unread_button: Marker som ulese
         read_button: Marker som lese
         destroy_button: Slett
+        unmute_button: Flytt til Innboks
     inboxes:
       show:
         title: Mottekne
@@ -1672,6 +1720,9 @@ nn:
         no_messages_yet_html: Du har ingen meldingar endå. Kanskje du kan prøve å
           kome i kontakt med %{people_mapping_nearby_link}?
         people_mapping_nearby: folk i nærleiken som lagar kart
+    muted_inboxes:
+      show:
+        title: Dempa meldingar
     outboxes:
       show:
         title: Sende
@@ -1946,6 +1997,7 @@ nn:
           Resources Canada) og StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_czechia: Tsjekkia
         contributors_fi_credit_html: '%{finland}: Inneheld data frå  Lantmäteriverket
           sin topografisk database og andre datasett, under %{nlsfi_license_link}.'
         contributors_fi_finland: Finland
@@ -2301,6 +2353,8 @@ nn:
     share:
       share:
         title: Del
+      mastodon:
+        title: Del på Mastodon
       telegram:
         title: Del på Telegram
         alt: Telegram-ikon
@@ -2411,6 +2465,9 @@ nn:
       user:
         summary_html: '%{name} oppretta frå %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} oppretta %{date}'
+    comments:
+      index:
+        no_comments: Ingen kommentarar
     changeset_comments:
       page:
         when: Når
@@ -2484,6 +2541,8 @@ nn:
         hours:
           one: 1 time
           other: '%{count} timar'
+      short:
+        active: aktiv
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading_html: '%{block_on} blokkert av %{block_by}'
@@ -2509,9 +2568,12 @@ nn:
     index:
       table:
         thead:
+          muted_user: Dempa brukar
           actions: Handlingar
         tbody:
           send_message: Send melding
+    create:
+      notice: Du dempa %{name}.
   notes:
     index:
       heading: '%{user} sine merknadar'
@@ -2523,6 +2585,7 @@ nn:
       last_changed: Sist endra
       apply: Bruk
       all: Alle
+      status: Status
     show:
       title: 'Merknad: %{id}'
       description: Skildring
@@ -2622,6 +2685,17 @@ nn:
         end_oneway_without_exit: Slutt på einvegskøyring på %{name}
         roundabout_with_exit: Ved rundkøyringa, ta avkøyrselen %{exit} mot %{name}
         unnamed: namnlaus veg
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
     query:
       node: Node
       way: Veg
