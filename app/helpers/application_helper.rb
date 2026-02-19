@@ -41,21 +41,21 @@ module ApplicationHelper
 
   def secondary_nav_items
     items = [
-      [history_path, t("layouts.history")],
-      [export_path, t("layouts.export")],
-      [traces_path, t("layouts.gps_traces")],
-      [diary_entries_path, t("layouts.user_diaries")],
-      [communities_path, t("layouts.communities")],
-      [copyright_path, t("layouts.copyright")],
-      [help_path, t("layouts.help")],
-      [Settings.donation_url, t("layouts.donate_link"), { :target => :new }],
-      [about_path, t("layouts.about")]
+      [history_path, t("layouts.header.history")],
+      [export_path, t("layouts.header.export")],
+      [traces_path, t("layouts.header.gps_traces")],
+      [diary_entries_path, t("layouts.header.user_diaries")],
+      [communities_path, t("layouts.header.communities")],
+      [copyright_path, t("layouts.header.copyright")],
+      [help_path, t("layouts.header.help")],
+      [Settings.donation_url, t("layouts.header.donate"), { :target => :new }],
+      [about_path, t("layouts.header.about")]
     ]
 
     if Settings.status != "database_offline" && can?(:index, Issue)
       items.prepend([
                       issues_path(:status => "open"),
-                      safe_join([t("layouts.issues"), open_issues_count], " ")
+                      safe_join([t("layouts.header.issues"), open_issues_count], " ")
                     ])
     end
 
