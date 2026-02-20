@@ -113,11 +113,42 @@ OSM.Directions = function (map) {
     $("#directions_loader").prop("hidden", false);
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
+
+    const sidebarAnimation = new Promise((resolve) => {
+      const container = map.getContainer();
+
+      const onEnd = (e) => {
+        if (e.target === container && (e.propertyName === "width" || e.propertyName === "size")) {
+          container.removeEventListener("transitionend", onEnd);
+          resolve();
+        }
+      };
+
+      container.addEventListener("transitionend", onEnd);
+
+      // Failsafe for reduced motion or missed events
+      setTimeout(() => {
+        container.removeEventListener("transitionend", onEnd);
+        resolve();
+      }, 400);
+    });
+
     map.setSidebarOverlaid(false);
+
     controller = new AbortController();
     chosenEngine.getRoute(points, controller.signal).then(async function (route) {
       await sidebarLoaded();
       $("#directions_route").prop("hidden", false);
+
+      await sidebarAnimation;
+      routeOutput.remove();
+      map.eachLayer((layer) => {
+        if (layer._glMap) {
+          layer._glMap.resize();
+        }
+      });
+      map.invalidateSize({ animate: false });
+
       routeOutput.write(route);
 
       if (fitRoute) {
