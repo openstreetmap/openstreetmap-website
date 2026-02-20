@@ -60,11 +60,12 @@ class ConfirmationsController < ApplicationController
     if user.nil? || user.id != session[:pending_user]
       flash[:error] = t ".failure", :name => params[:display_name]
     else
-      UserMailer.signup_confirm(user, user.generate_token_for(:new_user)).deliver_later
+      referer = session[:referer]
+      UserMailer.signup_confirm(user, user.generate_token_for(:new_user), referer).deliver_later
       flash[:notice] = { :partial => "confirmations/resend_success_flash", :locals => { :email => user.email, :sender => Settings.email_from } }
     end
 
-    redirect_to login_path
+    redirect_to login_path(:referer => session[:referer])
   end
 
   def confirm_email
