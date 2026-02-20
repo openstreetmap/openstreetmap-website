@@ -61,7 +61,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-add-note",
-      icon: "bi-chat-text",
+      icon: "bi-chat-square-text",
       text: OSM.i18n.t("javascripts.context.add_note"),
       callback: () => routeWithLatLon("/note/new")
     },
@@ -76,7 +76,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-query-features",
-      icon: "bi-question",
+      icon: "bi-question-lg",
       text: OSM.i18n.t("javascripts.context.query_features"),
       callback: () => routeWithLatLon("/query")
     },

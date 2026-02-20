@@ -264,4 +264,4 @@ If you need additional assistance:
 
 ## Contributing
 
-For information on contributing changes to the code, see [CONTRIBUTING.md](CONTRIBUTING.md)
+For information on contributing changes to the code, see [CONTRIBUTING.md](../CONTRIBUTING.md)

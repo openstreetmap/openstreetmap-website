@@ -115,7 +115,7 @@ gem "rotp"
 
 # Load memcache client in case we are using it
 gem "connection_pool", "< 3.0.0"
-gem "dalli"
+gem "dalli", "< 5.0.0"
 
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rails-8-1"
@@ -160,6 +160,7 @@ group :development do
   gem "danger"
   gem "danger-auto_label"
   gem "debug_inspector"
+  gem "herb"
   gem "i18n-tasks"
   gem "listen"
   gem "overcommit"
@@ -192,6 +193,7 @@ end
 
 group :development, :test do
   gem "annotaterb"
+  gem "database_consistency"
   gem "factory_bot_rails"
   gem "rackup"
   gem "teaspoon"

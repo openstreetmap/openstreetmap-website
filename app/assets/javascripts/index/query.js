@@ -171,7 +171,12 @@ OSM.Query = function (map) {
       credentials: OSM.OVERPASS_CREDENTIALS ? "include" : "same-origin",
       signal: $section.data("ajax").signal
     })
-      .then(response => response.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText || response.status);
+      })
       .then(function (results) {
         let elements = results.elements;
 

@@ -62,7 +62,7 @@ zh-TW:
       heatmap: '%-m月%-d日'
   time:
     formats:
-      friendly: '%Y年%m月%e日 %H時%M分'
+      friendly: '%Y年%-m月%-d日 %-H時%M分'
       blog: '%Y年%B%e日'
   helpers:
     file:
@@ -137,19 +137,6 @@ zh-TW:
       way_node: 路徑節點
       way_tag: 路徑標籤
     attributes:
-      client_application:
-        name: 名稱 (必填)
-        url: 主要應用程式 URL (必填)
-        callback_url: 回呼(Callback)URL
-        support_url: 支援 URL
-        allow_read_prefs: 讀取使用者偏好設定
-        allow_write_prefs: 修改使用者偏好設定
-        allow_write_diary: 建立日記的項目和評論
-        allow_write_api: 修改地圖
-        allow_write_changeset_comments: 在變更集上留言
-        allow_read_gpx: 讀取個人 GPS 軌跡
-        allow_write_gpx: 上傳 GPS 軌跡
-        allow_write_notes: 修改註記
       diary_comment:
         body: 內文
       diary_entry:
@@ -314,7 +301,7 @@ zh-TW:
     go_public:
       heading: 公開編輯
       currently_not_public: 目前你的編輯都是暱名的，其他人無法寄給你訊息或是知道你的位置。要讓別人知道你編輯什麼，以及透過網站聯繫你，請你點以下的按鈕。
-      only_public_can_edit: 自從 API 0.6 版本上線，只有公共帳號的使用者可以編輯地圖資料。
+      only_public_can_edit: 自從 API 0.6 版本上線，只有公開帳號的使用者才能編輯地圖資料。
       find_out_why_html: (%{link})。
       find_out_why: 找出原因
       email_not_revealed: 你的電子郵件地址不會公開洩漏。
@@ -405,9 +392,7 @@ zh-TW:
     way:
       title_html: 路徑：%{name}
       nodes: 節點
-      nodes_count:
-        one: '%{count} 個節點'
-        other: '%{count}  個節點'
+      nodes_count: '%{count} 個節點'
       also_part_of_html:
         one: 此路徑 %{related_ways} 的一部份
         other: 此些路徑 %{related_ways} 的一部份
@@ -809,7 +794,7 @@ zh-TW:
           t-bar: T 型桿拖拉式索道
           "yes": 空中索道
         aeroway:
-          aerodrome: 機場
+          aerodrome: 飛行場
           airstrip: 簡易跑道
           apron: 停機坪
           gate: 登機口
@@ -1203,7 +1188,7 @@ zh-TW:
           sports_centre: 運動中心
           stadium: 體育館
           swimming_pool: 游泳池
-          track: 跑道
+          track: 賽道（非賽車運動）
           water_park: 水上樂園
           "yes": 休閒娛樂
         lock:
@@ -1641,6 +1626,7 @@ zh-TW:
       download: 以 GeoJSON 格式下載路線
       filename: 路線
       directions_courtesy_html: 由 %{link} 提供路線指引
+      check_demo_html: 更多來自%{link}的詳細資訊
   issues:
     index:
       title: 問題
@@ -1899,6 +1885,7 @@ zh-TW:
     about: 關於
     copyright: 著作權
     communities: 社群
+    donate_link: 捐款
     learn_more: 瞭解更多
     more: 更多
     header:
@@ -2018,12 +2005,12 @@ zh-TW:
         partial_changeset_with_comment_html: 評論 "%{changeset_comment}"
         partial_changeset_without_comment: 沒有評論
       details: 在 %{url} 回覆或瞭解更多有關於變更集的資訊。
-      details_html: 在 %{url} 回覆或瞭解更多有關變更集的資訊。
+      details_html: 在 %{url} 回覆或瞭解更多有關於變更集的資訊。
       unsubscribe: 你可以在 %{url} 取消訂閱此變更集的更新內容。
       unsubscribe_html: 你可以在 %{url} 取消訂閱此變更集的更新內容。
   confirmations:
     confirm:
-      heading: 檢查你的電子郵件！
+      heading: 請檢查你的電子郵件！
       introduction_1: 我們已經寄給你一封確認電子郵件。
       introduction_2: 按電子郵件中的連結以確認你的帳號，然後你就可以開始繪製地圖。
       press confirm button: 按下確認按鈕以開啟你的帳號。
@@ -2170,7 +2157,7 @@ zh-TW:
           auto: 與網站相同
           light: 淺色
           dark: 深色
-        save: 更新偏好
+        save: 更新偏好設定
     advanced_preferences:
       show:
         title: 我的進階偏好設定
@@ -3028,7 +3015,7 @@ zh-TW:
         tou: 使用條款
         privacy_policy: 隱私權政策
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
-        contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: 貢獻者條款
       continue: 註冊
       email_help:
@@ -3041,7 +3028,7 @@ zh-TW:
       title: 沒有這個使用者
       heading: 使用者 %{user} 不存在
       body: 抱歉，沒有名為 %{user} 的使用者。請檢查你的拼字，或者可能是你按到錯誤的連結。
-      deleted: 已刪除賬號
+      deleted: 已刪除的帳號
     show:
       my diary: 我的日記
       my edits: 我的編輯
@@ -3262,7 +3249,7 @@ zh-TW:
       short:
         ended: 已結束
         revoked_html: 已被 %{name} 撤銷
-        active: 活躍的
+        active: 作用中
         active_until_read: 直到讀取後才活躍
         read_html: 已讀於 %{time}
         time_in_future_title: '%{time_absolute}；於 %{time_relative}'
@@ -3408,12 +3395,12 @@ zh-TW:
     map:
       popup:
         close: 關閉
-      zoom:
-        in: 放大
-        out: 縮小
-      locate:
-        title: 顯示我的位置
-        not_available: 位置不可用
+      navigation_control:
+        zoom_in: 放大
+        zoom_out: 縮小
+      geolocate_control:
+        find_my_location: 顯示我的位置
+        location_not_available: 位置不可用
         metersPopup:
           one: 你距離此地點不到 %{count} 公尺
           other: 你距離此地點不到 %{count} 公尺

@@ -90,10 +90,6 @@ nn:
       way_node: Vegnode
       way_tag: Vegmerkelapp
     attributes:
-      client_application:
-        name: Namn (Påkravd)
-        callback_url: 'URL for tilbakekall:'
-        support_url: Støytte-URL
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -104,6 +100,7 @@ nn:
         language_code: Språk
       doorkeeper/application:
         name: Namn
+        scopes: Løyve
       friend:
         user: Brukar
         friend: Ven
@@ -125,6 +122,7 @@ nn:
         body: Brødtekst
         recipient: Mottakar
       redaction:
+        title: Tittel
         description: Skildring
       user:
         email: E-post
@@ -197,6 +195,7 @@ nn:
     providers:
       none: Ingen
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -221,6 +220,7 @@ nn:
   accounts:
     show:
       title: Rediger konto
+      my_account: Kontoen min
       current email address: Noverande e-postadresse
       external auth: Ekstern autentisering
       contributor_terms:
@@ -228,6 +228,8 @@ nn:
         agreed: Du har godkjent dei nye bidragsytervilkåra
         agreed_with_pd: Du har òg opplyst at du ansar redigeringane dine for å vere
           offentleg eigedom (Public Domain).
+      terms_of_use:
+        heading: Bruksvilkår
       save changes button: Lagre endringar
       delete_account: Slett konto...
     go_public:
@@ -277,6 +279,8 @@ nn:
       show:
         title: Bidragsytervilkår
         heading: Bidragsytervilkåra
+        continue: Hald fram
+        cancel: Avbryt
         you need to accept or decline: Les og deretter anten godta eller avslå dei
           nye bidragsytervilkåra for å halde fram.
         legale_select: 'Vel ditt bostedsland:'
@@ -286,6 +290,9 @@ nn:
           rest_of_world: Resten av verda
       update:
         terms accepted: Takk for at du godtok dei nye bidragsytervilkårene!
+    pd_declarations:
+      show:
+        confirm: Stadfest
   browse:
     deleted_ago_by_html: Sletta %{time_ago} av %{user}
     edited_ago_by_html: Redigert %{time_ago} av %{user}
@@ -361,6 +368,9 @@ nn:
       wikimedia_commons_link: Sida %{page} på Wikimedia Commons
       telephone_link: Ring %{phone_number}
       colour_preview: Førehandsvising av farga %{colour_value}
+    versions_navigation:
+      history: Historikk
+      versions_label: 'Versjonar:'
   feature_queries:
     show:
       title: Finn objekt
@@ -375,6 +385,7 @@ nn:
         title_html: 'Strekningshistorikk: %{name}'
       relation:
         title_html: 'Samhøvehistorikk: %{name}'
+      older_versions: Eldre versjonar
   changeset_comments:
     feeds:
       comment:
@@ -438,6 +449,7 @@ nn:
     popup:
       your location: Posisjonen din
       nearby mapper: Brukarar i nærleiken
+      following: Følgjer
     show:
       title: Kontrollpanelet mitt
       no_home_location_html: '%{edit_profile_link} og set heimestaden din for å sjå
@@ -468,6 +480,7 @@ nn:
     show:
       title: '%{user} si dagbok | %{title}'
       user_title: '%{user} si dagbok'
+      discussion: Ordskifte
       leave_a_comment: Legg igjen ein kommentar
       login_to_leave_a_comment_html: '%{login_link} for å legge igjen ein kommentar'
       login: Logg inn
@@ -512,6 +525,18 @@ nn:
       my_diary: Dagboka mi
       new: Ny dagbokoppføring
       new_title: Skriv ei ny oppføring i dagboka di
+    profile_diaries:
+      comments_label: Kommentarar
+      date_label: Dato
+  errors:
+    contact:
+      contact: kontakt
+    not_found:
+      title: Fann ikkje fila
+  follows:
+    show:
+      follow:
+        button: Følg brukar
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -841,6 +866,8 @@ nn:
           wayside_shrine: Vegkant alter
           wreck: Vrak
           "yes": Historisk stad
+        information:
+          map: Kart
         junction:
           "yes": Kryss
         landuse:
@@ -1252,6 +1279,8 @@ nn:
           building_passage: Bygnadspassasje
           culvert: Stikkrenne
           "yes": Tunnel
+        water:
+          lake: Innsjø
         waterway:
           artificial: Kunstig vassdrag
           boatyard: Båtverft
@@ -1320,6 +1349,8 @@ nn:
         one: '%{count} melding'
         other: '%{count} meldingar'
       reported_item: Meld objekt
+      states:
+        open: Opna
     show:
       reports:
         one: '%{count} melding'
@@ -1388,9 +1419,62 @@ nn:
     create:
       successful_report: Meldinga di har vorte registrert
       provide_details: Du må oppgje dei påkravde opplysingane
+  languages_panes:
+    select_language_list:
+      search_language: Søk…
+      languages:
+        ca: Katalansk
+        cs: Tsjekkisk
+        cy: Walisisk
+        da: Dansk
+        de: Tysk
+        et: Estisk
+        en: Engelsk
+        en-GB: Engelsk (UK)
+        es: Spansk
+        eo: Esperanto
+        eu: Baskisk
+        fr: Fransk
+        ga: Irsk
+        hr: kroatisk
+        it: Italiensk
+        lt: Litauisk
+        hu: Ungarsk
+        nl: Nederlandsk
+        nb: Norsk (bokmål)
+        nn: Norsk (nynorsk)
+        pl: Polsk
+        pt-PT: Portugisisk
+        pt: Portugisisk (Brazil)
+        ro: Rumensk
+        sc: Sardisk
+        sq: Albansk
+        scn: Siciliansk
+        sk: Slovakisk
+        sr-Latn: Serbisk (latin)
+        sh: Serbisk-kroatisk (latin)
+        fi: Finsk
+        sv: Svensk
+        tl: Tagalog
+        vi: Vietnamesisk
+        tr: Tyrkisk
+        bg: Bulgarsk
+        ru: Russisk
+        uk: Ukrainsk
+        he: Hebraisk
+        ar: Arabisk
+        fa: Persisk
+        hi: Hindi
+        ka: Georgisk
+        zh-CN: Kinesisk (forenkla)
+        zh-TW: Kinesisk (tradisjonell)
+        zh-HK: Kinesisk (Hong Kong)
+        ja: Japansk
+        ko: Koreansk
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
+    layer_info: Laginfo
     home: Gå til heimstaden din
     logout: Logg ut
     log_in: Logg inn
@@ -1414,6 +1498,11 @@ nn:
     communities: Fellesskap
     learn_more: Les meir
     more: Meir
+    header:
+      select_language: Vel språk
+      loading: Lastar …
+    select_language_button:
+      title: Vel språk
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} kommenterte på ein oppføring i dagboka di'
@@ -1441,6 +1530,11 @@ nn:
       hi: Hei %{to_user},
       see_their_profile: Du kan sjå profilen deira på %{userurl}.
       see_their_profile_html: Du kan sjå profilen hens på %{userurl}.
+    gpx_details:
+      filename: Filnamn
+      url: URL
+      description: Skildring
+      tags: Merkelappar
     gpx_failure:
       hi: Hei, %{to_user}
       failed_to_import: 'klarte ikkje importere. Her er feilen:'
@@ -1601,15 +1695,18 @@ nn:
       heading:
         my_inbox: Mottekne
         my_outbox: Sende
+        muted_messages: Dempa meldinger
       messages_table:
         from: Frå
         to: Til
         subject: Emne
         date: Dato
+        actions: Handlingar
       message:
         unread_button: Marker som ulese
         read_button: Marker som lese
         destroy_button: Slett
+        unmute_button: Flytt til Innboks
     inboxes:
       show:
         title: Mottekne
@@ -1623,6 +1720,9 @@ nn:
         no_messages_yet_html: Du har ingen meldingar endå. Kanskje du kan prøve å
           kome i kontakt med %{people_mapping_nearby_link}?
         people_mapping_nearby: folk i nærleiken som lagar kart
+    muted_inboxes:
+      show:
+        title: Dempa meldingar
     outboxes:
       show:
         title: Sende
@@ -1659,21 +1759,46 @@ nn:
         failure: Kunne ikkje oppdatera innstillingane.
       update_success_flash:
         message: Innstillingane vart oppdaterte.
+      navigation:
+        preferences: Innstillingar
     basic_preferences:
       show:
         title: Innstillingar
+        preferred_language: Føretrekt språk
+        site_color_schemes:
+          auto: Auto
+          light: Lyst
+          dark: Mørkt
+        map_color_schemes:
+          auto: Same som nettstad
+          light: Lyst
+          dark: Mørkt
+        editor_color_schemes:
+          light: Lyst
+          dark: Mørkt
         save: Oppdater innstillingane
   profiles:
     profile_sections:
       navigation:
+        description: Skildring
         image: Bilete
+        location: Plassering
     descriptions:
       show:
         title: Endra profil.
         save: Oppdater profil
         cancel: Avbryt
+    links:
+      show:
+        title: Endra profil
+        save: Oppdater profil
+        cancel: Avbryt
+        social_links:
+          remove: Fjern
     images:
       show:
+        save: Oppdater profil
+        cancel: Avbryt
         gravatar:
           gravatar: Bruk Gravatar
           what_is_gravatar: Kva er Gravatar?
@@ -1682,14 +1807,23 @@ nn:
         delete image: Fjern gjeldande bilete
         replace image: Erstatt gjeldande bilete
         image size hint: (kvadratiske bilete som er minst 100x100 fungerer best)
+    companies:
+      show:
+        save: Oppdater profil
+        cancel: Avbryt
     locations:
       show:
+        save: Oppdater profil
+        cancel: Avbryt
         no home location: Du har ikkje skrive inn din heimelokasjon.
         update home location on click: Oppdatere heimeplassering når eg klikkar på
           kartet?
         show: Vis
         delete: Sletta
         undelete: Angra sletting
+    heatmaps:
+      show:
+        cancel: Avbryt
   sessions:
     new:
       tab_title: Logg inn
@@ -1699,6 +1833,7 @@ nn:
       lost password link: Mista passordet ditt?
       login_button: Logg inn
       with external: 'Alternativt kan du bruke ein tredjepart til å logge inn:'
+      or: eller
       auth failure: Beklagar, kunne ikkje logge inn med den informasjonen
     destroy:
       title: Logg ut
@@ -1727,13 +1862,23 @@ nn:
     richtext_field:
       edit: Endra
       preview: Førehandsvising
+      help: Hjelp
     pagination:
+      changeset_comments:
+        older: Eldre kommentarar
+        newer: Nyare kommentarar
+        oldest: Eldste kommentarar
+        newest: Nyaste kommentarar
       diary_comments:
         older: Eldre kommentarar
         newer: Nyare kommentarar
+        oldest: Eldste kommentarar
+        newest: Nyaste kommentarar
       diary_entries:
         older: Eldre oppføringar
         newer: Nyare oppføringar
+        oldest: Eldste oppføringar
+        newest: Nyaste oppføringar
       traces:
         older: Eldre spor
         newer: Nyare spor
@@ -1774,6 +1919,8 @@ nn:
       legal_1_1_terms_of_use: bruksvilkåra
       legal_1_1_aup: vilkåra for akseptabel bruk
       legal_1_1_privacy_policy: personvernspolitikken
+      legal_attribution_example_film_title: Film
+      legal_attribution_example_tv_title: TV
       legal_2_1_html: Kontakt %{contact_the_osmf_link} om du har spørsmål knytte til
         lisens, opphavsrett eller andre juridiske emne.
       legal_2_1_contact_the_osmf: tak kontakt med OSMF
@@ -1850,6 +1997,7 @@ nn:
           Resources Canada) og StatCan (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Canada
+        contributors_cz_czechia: Tsjekkia
         contributors_fi_credit_html: '%{finland}: Inneheld data frå  Lantmäteriverket
           sin topografisk database og andre datasett, under %{nlsfi_license_link}.'
         contributors_fi_finland: Finland
@@ -1857,6 +2005,7 @@ nn:
         contributors_fr_credit_html: '%{france}: Inneheld data frå Direction Générale
           des Impôts.'
         contributors_fr_france: Frankrike
+        contributors_hr_croatia: Kroatia
         contributors_nl_credit_html: '%{netherlands}: Inneheld &copy; AND data, 2007
           (%{and_link})'
         contributors_nl_netherlands: Nederland
@@ -1932,6 +2081,10 @@ nn:
           title: Andre kjelder
           description: Yttarlegare kjelder hjå OpenStreetMap sin wiki
       export_button: Eksporter
+      export_download: Lastar ned...
+      confirmation:
+        cancel: Avbryt
+        download: Last ned
     fixthemap:
       title: Rapporter eit problem/Korriger kartet
       how_to_help:
@@ -2002,6 +2155,7 @@ nn:
       start_mapping: Start kartlegging
     add_a_note:
       title: Ikkje tid til å kartleggje sjølv? Legg inn ein merknad.
+      the_map: kartet
   layers_panes:
     show:
       map_notes_zoom_in_tooltip: Zoom inn for å sjå kartmerknadar
@@ -2023,15 +2177,27 @@ nn:
         local_bike_route: Lokal sykkelsti
         footway: Gangveg
         rail: Jernbane
+        train: Tog
         subway: Undergrunnsbane
+        ferry: Ferje
+        tram: Trikk
+        trolleybus: Trolleybuss
+        bus: Buss
         cable_car: Kabelvogn
         chair_lift: stolheis
         runway: Flystripe
         taxiway: taksebane
         apron: terminal
         admin: Administrativ grense
+        capital: Hovudstad
+        city: By
+        orchard: Frukthage
+        vineyard: Vingard
         forest: Skog
         wood: Ved
+        farmland: Jordbruksland
+        meadow: Eng
+        sand: Sand
         golf: Golfbane
         park: Park
         common: Vanleg
@@ -2042,18 +2208,22 @@ nn:
         heathland: Heilandskap
         lake: Innsjø
         reservoir: reservoar
+        glacier: Isbre
         farm: Gard
         brownfield: Tidlegare industriområde
         cemetery: Gravplass
         allotments: Kolonihagar
         pitch: Sportsarena
         centre: Sportssenter
+        beach: Strand
         reserve: Naturreservat
         military: Militært område
         school: Skule
         university: universitet
+        hospital: Sjukehus
         building: Viktig bygning
         station: Jernbanestasjon
+        tram_stop: Trikkestopp
         summit: Topp
         peak: fjelltopp
         tunnel: Streka kant = tunnel
@@ -2061,7 +2231,9 @@ nn:
         private: Privat tilgjenge
         destination: Destinasjonstilgang
         construction: Vegar under konstruksjon
+        bus_stop: Busstopp
         bicycle_shop: Sykkelbutikk
+        bicycle_rental: Sykkelutleige
         bicycle_parking: Sykkelparkering
         toilets: Toalett
   share_panes:
@@ -2078,6 +2250,7 @@ nn:
       scale: 'Skala:'
       custom_dimensions: Still inn eigendefinerte dimensjonar
       download: Last ned
+      downloading: Lastar ned...
   traces:
     visibility:
       private: Privat (berre delt som anononyme, usorterte punkt)
@@ -2177,19 +2350,50 @@ nn:
       wikipedia:
         title: Logg inn med Wikipedia
         alt: Logg inn med ein Wikipedia-konto
+    share:
+      share:
+        title: Del
+      mastodon:
+        title: Del på Mastodon
+      telegram:
+        title: Del på Telegram
+        alt: Telegram-ikon
+      x:
+        title: Del på X
+        alt: X-ikon
   oauth2_applications:
+    index:
+      name: Namn
+      permissions: Løyve
+    application:
+      delete: Slett
+      confirm_delete: Slette denne applikasjonen?
     new:
       title: Registrer ein ny applikasjon
+    edit:
+      title: Rediger applikasjonen din
+    show:
+      delete: Slett
+      confirm_delete: Slette denne applikasjonen?
+  oauth2_authorized_applications:
+    index:
+      permissions: Løyve
   users:
     new:
       title: Registrer deg
+      tab_title: Registrer deg
       no_auto_account_create: Beklagelegvis kan me for augneblunken ikkje opprette
         ein konto for deg automatisk.
+      support: brukarstøtte
       about:
         header: Fri og redigerbar
+        welcome: Velkomen til OpenStreetMap
       display name description: Ditt offentleg framviste brukernavn. Du kan endre
         dette seinare i innstellingane.
+      by_signing_up:
+        tou: Bruksvilkår
       continue: Registrer deg
+      or: eller
     no_such_user:
       title: Ingen brukar funnet
       heading: Brukaren %{user} finst ikkje
@@ -2203,7 +2407,10 @@ nn:
       my notes: Mine merknadar
       my messages: Mine meldingar
       my profile: Min profil
+      my_account: Kontoen min
       my comments: Mine kommentarar
+      my_preferences: Innstillingar
+      my_dashboard: Kontrollpanelet mitt
       blocks on me: Mine blokeringar
       blocks by me: blokkeringar utført av meg
       send message: Send melding
@@ -2227,6 +2434,7 @@ nn:
       confirm_user: Stadfest denne brukaren
       confirm: Stadfest
       report: Rapporter denne brukaren
+      edit_location: Rediger plassering
     go_public:
       flash success: Alle redigeringane dine er no offentleg, og du har lov til å
         redigere.
@@ -2244,12 +2452,22 @@ nn:
       show:
         title: Brukarar
         heading: Brukarar
+        states:
+          active: Aktiv
+          confirmed: Stadfesta
+          suspended: Suspendert
+          deleted: Sletta
+        name_or_email: Namn eller e-post
+        search: Søk
       page:
         confirm: Stadfest valde brukarar
         empty: Ingen samsvarande brukarar funne
       user:
         summary_html: '%{name} oppretta frå %{ip_address} den %{date}'
         summary_no_ip_html: '%{name} oppretta %{date}'
+    comments:
+      index:
+        no_comments: Ingen kommentarar
     changeset_comments:
       page:
         when: Når
@@ -2259,6 +2477,7 @@ nn:
         title: Kommentarar i dagboka frå %{user}
       page:
         post: Oppføring
+        when: Når
     suspended:
       title: Konto stengt
       heading: Konto stengt
@@ -2322,10 +2541,13 @@ nn:
         hours:
           one: 1 time
           other: '%{count} timar'
+      short:
+        active: aktiv
     show:
       title: '%{block_on} blokkert av %{block_by}'
       heading_html: '%{block_on} blokkert av %{block_by}'
       created: Oppretta
+      duration: 'Varigheit:'
       status: Status
       edit: Rediger
       reason: 'Årsak for blokkering:'
@@ -2337,7 +2559,21 @@ nn:
       display_name: Blokkert brukar
       creator_name: Oppretta av
       reason: Årsak for blokkering
+      start: Start
+      end: Slutt
       status: Status
+    navigation:
+      all_blocks: Alle blokker
+  user_mutes:
+    index:
+      table:
+        thead:
+          muted_user: Dempa brukar
+          actions: Handlingar
+        tbody:
+          send_message: Send melding
+    create:
+      notice: Du dempa %{name}.
   notes:
     index:
       heading: '%{user} sine merknadar'
@@ -2347,15 +2583,21 @@ nn:
       description: Skildring
       created_at: Oppretta den
       last_changed: Sist endra
+      apply: Bruk
+      all: Alle
+      status: Status
     show:
       title: 'Merknad: %{id}'
       description: Skildring
       open_title: 'Uavklart merknad #%{note_name}'
       closed_title: 'Avklart merknad: #%{note_name}'
       hidden_title: 'Gøymd merknad #%{note_name}'
+      description_when_author_is_deleted: sletta
+      description_when_there_is_no_opening_comment: ukjend
       report: Rapporter denne merknaden
       anonymous_warning: Denne merknaden har kommentarar frå anonyme brukarar og bør
         stadfestast.
+      subscribe: Abonner
       hide: Gøym
       resolve: Løys
       reactivate: Reaktiver
@@ -2363,14 +2605,18 @@ nn:
       comment: Kommenter
     new:
       title: Ny merknad
+      anonymous_warning_log_in: logg inn
+      anonymous_warning_sign_up: registrer deg
       add: Legg til merknad
     notes_paging_nav:
       showing_page: Side %{page}
+      next: Neste
   javascripts:
     close: Lat att
     share:
       title: Del
       view_larger_map: Vis større kart
+      filename: kart
     embed:
       report_problem: Rapporter eit problem
     legend:
@@ -2378,11 +2624,13 @@ nn:
       tooltip: Kartsymbol
       tooltip_disabled: Kartnøkkel ikkje tilgjengeleg for dette laget
     map:
-      zoom:
-        in: Vis større
-        out: Vis mindre
-      locate:
-        title: Vis plassering
+      popup:
+        close: Lat att
+      navigation_control:
+        zoom_in: Vis større
+        zoom_out: Vis mindre
+      geolocate_control:
+        find_my_location: Vis plassering
       base:
         standard: Standard
         cycle_map: Sykkelkart
@@ -2437,6 +2685,17 @@ nn:
         end_oneway_without_exit: Slutt på einvegskøyring på %{name}
         roundabout_with_exit: Ved rundkøyringa, ta avkøyrselen %{exit} mot %{name}
         unnamed: namnlaus veg
+        exit_counts:
+          first: "1."
+          second: "2."
+          third: "3."
+          fourth: "4."
+          fifth: "5."
+          sixth: "6."
+          seventh: "7."
+          eighth: "8."
+          ninth: "9."
+          tenth: "10."
     query:
       node: Node
       way: Veg
@@ -2444,6 +2703,8 @@ nn:
       nothing_found: Ingen treff
       error: 'Problem med å kontakte %{server}: %{error}'
       timeout: Tidsavbrot ved kontakt med %{server}
+    element:
+      wikipedia: Wikipedia
     context:
       directions_from: Vegskildring herifrå
       directions_to: Vegskildring hit

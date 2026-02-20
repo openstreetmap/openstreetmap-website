@@ -8,7 +8,7 @@
     <%= render :partial => "layouts/header" %>
     <%= render :partial => "layouts/content" %>
     <% if defined?(Settings.matomo) -%>
-    <noscript><p><img src="<%= request.protocol %><%= Settings.matomo["location"] %>/matomo.php?idsite=<%= Settings.matomo["site"] %>" class="matomo" alt="" /></p></noscript>
+    <noscript><p><%= image_tag "#{request.protocol}#{Settings.matomo['location']}/matomo.php?idsite=#{Settings.matomo['site']}", :class => "matomo", :alt => "" %></p></noscript>
     <% end -%>
   <% end %>
 <% end %>

@@ -26,7 +26,7 @@ a copy of which can be found in the [LICENSE](LICENSE) file.
 # Installation
 
 `openstreetmap-website` is a Ruby on Rails application that uses PostgreSQL as its database, and has a large
-number of dependencies for installation. For full details please see [INSTALL.md](INSTALL.md).
+number of dependencies for installation. For full details please see [INSTALL.md](doc/INSTALL.md).
 
 # Development
 
@@ -45,3 +45,4 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
 * Anton Khorev [@AntonKhorev](https://github.com/AntonKhorev/)
+* Marwin Hochfelsner [@hlfan](https://github.com/hlfan/)

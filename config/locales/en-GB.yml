@@ -16,6 +16,7 @@
 # Author: E THP
 # Author: EdLoach
 # Author: Eduard Popov
+# Author: Flynn
 # Author: Gravitystorm
 # Author: Hufkratzer
 # Author: IknowJoseph
@@ -40,6 +41,9 @@
 # Author: ديفيد
 ---
 en-GB:
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
@@ -47,6 +51,8 @@ en-GB:
     file:
       prompt: Choose file
     submit:
+      diary_comment:
+        create: Kampolla
       diary_entry:
         create: Publish
         update: Update
@@ -54,6 +60,9 @@ en-GB:
         create: Add Comment
       message:
         create: Send
+      oauth2_application:
+        create: Kovskrifa
+        update: Nowedhi
       redaction:
         create: Create redaction
         update: Save redaction
@@ -64,6 +73,12 @@ en-GB:
         create: Create block
         update: Update block
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ny yllir bos user_n marnas n yw dha id usyer
+      models:
+        user_mute:
+          is_already_muted: yw tawhys seulabrys
     models:
       acl: Access Control List
       changeset: Changeset
@@ -100,17 +115,6 @@ en-GB:
       way_node: Way Node
       way_tag: Way Tag
     attributes:
-      client_application:
-        name: Name (Required)
-        url: Main Application URL (Required)
-        support_url: Support URL
-        allow_read_prefs: read their user preferences
-        allow_write_prefs: modify their user preferences
-        allow_write_diary: create diary entries and comments
-        allow_write_api: modify the map
-        allow_read_gpx: read their private GPS traces
-        allow_write_gpx: upload GPS traces
-        allow_write_notes: modify notes
       diary_comment:
         body: Body
       diary_entry:
@@ -139,6 +143,7 @@ en-GB:
         body: Body
         recipient: Recipient
       redaction:
+        title: Titel
         description: Description
       report:
         details: Please provide some more details about the problem (required).
@@ -1801,11 +1806,11 @@ en-GB:
     embed:
       report_problem: Report a problem
     map:
-      zoom:
-        in: Zoom In
-        out: Zoom Out
-      locate:
-        title: Show My Location
+      navigation_control:
+        zoom_in: Zoom In
+        zoom_out: Zoom Out
+      geolocate_control:
+        find_my_location: Show My Location
       base:
         standard: Standard
         cycle_map: Cycle Map

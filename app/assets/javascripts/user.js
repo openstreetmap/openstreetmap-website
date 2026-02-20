@@ -1,5 +1,4 @@
-//= require maplibre.map
-//= require maplibre.combinedcontrolgroup
+//= require maplibre/map
 //= require ./home_location_name-endpoint
 
 $(function () {
@@ -50,25 +49,18 @@ $(function () {
   }
 
   if ($("#map").length) {
-    map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
+    map = new OSM.MapLibre.SecondaryMap();
 
     savedLat = $("#home_lat").val();
     savedLon = $("#home_lon").val();
     homeLocationNameGeocoder = OSM.HomeLocationNameGeocoder($("#home_lat"), $("#home_lon"), $("#home_location_name"));
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
-    const geolocateControl = new maplibregl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
+    const geolocateControl = new OSM.MapLibre.GeolocateControl();
     map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
 
-    marker = OSM.MapLibre.getMarker({});
+    marker = new OSM.MapLibre.Marker();
 
     if (OSM.home) {
       marker.setLngLat([OSM.home.lon, OSM.home.lat]);

@@ -7,13 +7,14 @@
 //= require osm
 //= require leaflet/dist/leaflet-src
 //= require leaflet.osm
+//= require maplibre-gl/dist/maplibre-gl
+//= require leaflet.maplibre
 //= require leaflet.shortbread
+//= require i18n
 //= require leaflet.maptiler
 //= require leaflet.map
 //= require leaflet.zoom
 //= require leaflet.locationfilter
-//= require i18n
-//= require make-plural/cardinals
 //= require matomo
 //= require richtext
 //= require language_selector
@@ -25,11 +26,13 @@
   OSM.i18n.defaultLocale = OSM.DEFAULT_LOCALE;
   OSM.i18n.locale = application_data.locale;
 
-  // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
-  const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
-  if (pluralizer) {
-    OSM.i18n.pluralization.register(locale, (_, count) => [pluralizer(count), "other"]);
-  }
+  import(OSM.MAKE_PLURAL_CARDINALS).then((plurals) => {
+    // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
+    const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
+    if (pluralizer) {
+      OSM.i18n.pluralization.register(locale, (_, count) => [pluralizer(count), "other"]);
+    }
+  });
 
   OSM.preferred_editor = application_data.preferredEditor;
   OSM.preferred_languages = application_data.preferredLanguages;
@@ -112,10 +115,14 @@ $(function () {
     const windowWidth = $(window).width();
 
     if (windowWidth < breakpointWidth) {
-      $("body").addClass("small-nav");
       expandAllSecondaryMenuItems();
     } else {
-      $("body").removeClass("small-nav");
+      if (secondaryMenuItems.length === 0) {
+        $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
+          secondaryMenuItems.push([this, $(this).width()]);
+        });
+        moreItemWidth = $("#compact-secondary-nav").width();
+      }
       const availableWidth = $expandedSecondaryMenu.width();
       secondaryMenuItems.forEach(function (item) {
         $(item[0]).remove();
@@ -179,11 +186,6 @@ $(function () {
    * to defer the measurement slightly as a workaround.
    */
   setTimeout(function () {
-    $expandedSecondaryMenu.find("li:not(#compact-secondary-nav)").each(function () {
-      secondaryMenuItems.push([this, $(this).width()]);
-    });
-    moreItemWidth = $("#compact-secondary-nav").width();
-
     updateHeader();
 
     $(window).resize(updateHeader);

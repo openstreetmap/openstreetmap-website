@@ -87,18 +87,33 @@ module RichText
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
     end
 
-    def linkify(text, mode = :urls)
-      ERB::Util.html_escape(text)
-               .then { |html| expand_link_shorthands(html) }
-               .then { |html| expand_host_shorthands(html) }
-               .then { |html| auto_link(html, mode) }
-               .html_safe
+    def linkify(text, mode = :urls, hosts: true, paths: true)
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      html = ERB::Util.html_escape(text)
+
+      html = expand_link_shorthands(html) if paths
+      html = expand_host_shorthands(html) if hosts
+
+      Rinku.auto_link(html, mode, link_attr) do |url|
+        url = shorten_hosts(url) if hosts
+        url = shorten_link(url) if paths
+
+        url
+      end.html_safe
     end
 
     private
 
     def gsub_pairs_for_linkify_detection
-      []
+      Array
+        .wrap(Settings.linkify&.detection_rules)
+        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
+        .flat_map do |rule|
+          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+          rule.patterns
+              .select { |pattern| pattern.is_a?(String) }
+              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE, :timeout => 0.05), expanded_path] }
+        end
     end
 
     def expand_link_shorthands(text)
@@ -117,31 +132,25 @@ module RichText
         end
     end
 
-    def auto_link(text, mode)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(text, mode, link_attr) { |url| format_link_text(url) }
+    def shorten_hosts(url)
+      Array
+        .wrap(Settings.linkify&.normalisation_rules)
+        .reduce(url) { |url, rule| shorten_host(url, rule) }
     end
 
-    def format_link_text(url)
-      url = Array
-            .wrap(Settings.linkify&.normalisation_rules)
-            .reduce(url) do |normalised_url, rule|
-              shorten_host(normalised_url, rule.hosts, rule.host_replacement) do |path|
-                path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
-              end
-      end
+    def shorten_link(url)
       Array.wrap(Settings.linkify&.display_rules)
            .select { |rule| rule.pattern && rule.replacement }
            .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
     end
 
-    def shorten_host(url, hosts, hosts_replacement)
+    def shorten_host(url, rule)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|
         scheme_host, host, path = m.captures
-        if hosts&.include?(host)
-          path = yield(path) if block_given?
-          if hosts_replacement
-            "#{hosts_replacement}#{path}"
+        if rule.hosts&.include?(host)
+          path = path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
+          if rule.host_replacement
+            "#{rule.host_replacement}#{path}"
           else
             "#{scheme_host}#{path}"
           end
@@ -152,7 +161,7 @@ module RichText
 
   class HTML < Base
     def to_html
-      linkify(simple_format(self))
+      linkify(simple_format(self), :paths => false)
     end
 
     def to_text
@@ -162,7 +171,7 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(document.to_html), :all)
+      linkify(sanitize(document.to_html), :all, :paths => false)
     end
 
     def to_text
@@ -271,20 +280,6 @@ module RichText
 
     def to_text
       to_s
-    end
-
-    private
-
-    def gsub_pairs_for_linkify_detection
-      Array
-        .wrap(Settings.linkify&.detection_rules)
-        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
-        .flat_map do |rule|
-          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
-          rule.patterns
-              .select { |pattern| pattern.is_a?(String) }
-              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
-        end
     end
   end
 end

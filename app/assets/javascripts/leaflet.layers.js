@@ -1,3 +1,7 @@
+//= require @maptiler/maplibre-gl-omt-language
+//= require maplibre/map
+//= require maplibre/i18n
+
 L.OSM.layers = function (options) {
   const control = L.OSM.sidebarPane(options, "layers", "javascripts.map.layers.title", "javascripts.map.layers.header");
 
@@ -16,34 +20,44 @@ L.OSM.layers = function (options) {
       input.checked = map.hasLayer(layer);
 
       map.whenReady(function () {
-        const miniMap = L.map(container, { attributionControl: false, zoomControl: false, keyboard: false })
-          .addLayer(new layer.constructor(layer.options));
-
-        miniMap.dragging.disable();
-        miniMap.touchZoom.disable();
-        miniMap.doubleClickZoom.disable();
-        miniMap.scrollWheelZoom.disable();
-
+        let miniMap;
         $ui
           .on("show", shown)
           .on("hide", hide);
 
         function shown() {
-          miniMap.invalidateSize();
-          setView({ animate: false });
+          const center = map.getCenter();
+          miniMap = new OSM.MapLibre.Map({
+            container,
+            style: layer.options.style,
+            interactive: false,
+            attributionControl: false,
+            fadeDuration: 0,
+            zoomSnap: layer.options.isVectorStyle ? 0 : 1,
+            center: [center.lng, center.lat],
+            zoom: getZoomForMiniMap()
+          });
+
+          if (layer.options.layerId === "openmaptiles_osm") {
+            OSM.MapLibre.setOMTMapLanguage(miniMap);
+          }
+
           map.on("moveend", moved);
         }
 
         function hide() {
           map.off("moveend", moved);
+          miniMap.remove();
         }
 
         function moved() {
-          setView();
+          const center = map.getCenter();
+          const zoom = getZoomForMiniMap();
+          miniMap.easeTo({ center: [center.lng, center.lat], zoom });
         }
 
-        function setView(options) {
-          miniMap.setView(map.getCenter(), Math.max(map.getZoom() - 2, 0), options);
+        function getZoomForMiniMap() {
+          return Math.max(Math.floor(map.getZoom() - 3), -1);
         }
       });
 

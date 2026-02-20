@@ -152,19 +152,6 @@ nl:
       way_node: Wegknooppunt
       way_tag: Weglabel
     attributes:
-      client_application:
-        name: Naam (verplicht)
-        url: Hoofd-URL van toepassing (verplicht)
-        callback_url: Callback-URL
-        support_url: Ondersteunings-URL
-        allow_read_prefs: gebruikersvoorkeuren lezen
-        allow_write_prefs: gebruikersvoorkeuren wijzigen
-        allow_write_diary: dagboekberichten schrijven en reacties toevoegen
-        allow_write_api: de kaart wijzigen
-        allow_write_changeset_comments: reacties over wijzigingensets plaatsen
-        allow_read_gpx: privé-gps-trajecten lezen
-        allow_write_gpx: gps-trajecten uploaden
-        allow_write_notes: opmerkingen wijzigen
       diary_comment:
         body: Tekst
       diary_entry:
@@ -843,8 +830,8 @@ nl:
       contact_url_title: Diverse contactkanalen toegelicht
       contact: contact
       contact_the_community_html: Aarzel niet om %{contact_link} op te nemen met de
-        OpenStreetMap-community als u een niet werkende link of een bug hebt gevonden.
-        Noteer de exacte URL van uw verzoek.
+        OpenStreetMap-community als u een niet werkende koppeling of een bug hebt
+        gevonden. Noteer de exacte URL van uw verzoek.
     bad_request:
       title: Onjuiste aanvraag
       description: De bewerking die u op de OpenStreetMap-server hebt aangevraagd
@@ -861,6 +848,9 @@ nl:
       title: Bestand niet gevonden
       description: Kon een bestand/directory/API-bewerking met die naam niet vinden
         op de OpenStreetMap-server (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap-integratie
   follows:
     show:
       follow:
@@ -1725,6 +1715,7 @@ nl:
       download: Download route als GeoJSON
       filename: route
       directions_courtesy_html: Routebeschrijving met dank aan %{link}
+      check_demo_html: Meer details van %{link}
   issues:
     index:
       title: Problemen
@@ -1963,6 +1954,7 @@ nl:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    layer_info: Laaginformatie
     home: Naar thuislocatie gaan
     logout: Afmelden
     log_in: Aanmelden
@@ -1988,11 +1980,14 @@ nl:
     about: Over
     copyright: Auteursrechten
     communities: Gemeenschappen
+    donate_link: Doneren
     learn_more: Meer lezen
     more: Meer
     header:
       select_language: Taal selecteren
       loading: Aan het laden…
+    meta:
+      openstreetmap_search: OpenStreetMap Zoeken
     select_language_button:
       title: Taal selecteren
     offline_flash:
@@ -2336,6 +2331,7 @@ nl:
         image: Afbeelding
         company: Bedrijf
         location: Locatie
+        heatmap: Heatmap
     descriptions:
       show:
         title: Profiel wijzigen
@@ -2395,6 +2391,15 @@ nl:
       update:
         success: Locatie-informatie op profiel bijgewerkt.
         failure: Locatie-informatie op profiel kon niet bijgewerkt worden.
+    heatmaps:
+      show:
+        title: Heatmap instellingen
+        show_heatmap_in_public: Heatmap weergeven op uw profielpagina.
+        save: Instellingen voor Heatmap bijwerken
+        cancel: Annuleren
+      update:
+        success: Heatmap bijgewerkt.
+        failure: De heatmap kon niet worden bijgewerkt.
   sessions:
     new:
       tab_title: Aanmelden
@@ -2432,7 +2437,7 @@ nl:
       ordered: Geordende lijst
       first: Eerste item
       second: Tweede item
-      link: Link
+      link: Koppeling
       text: Tekst
       image: Afbeelding
       alt: Alternatieve tekst
@@ -2930,7 +2935,7 @@ nl:
         title: Lokale Afdelingen
         about_text: |-
           Lokale Afdelingen zijn groepen op land- of regioniveau die de formele stap hebben gezet om juridische entiteiten zonder winstoogmerk op te richten. Ze vertegenwoordigen de kaart en kaartmakers van het gebied bij het omgaan met de lokale overheid, het bedrijfsleven en de media. Ze hebben ook een affiliatie
-          met de OpenStreetMap Foundation (OSMF), waardoor ze een link hebben met de wettelijke en auteursrechtelijke overheidsinstantie.
+          met de OpenStreetMap Foundation (OSMF), waardoor ze een relatie hebben met de wettelijke en auteursrechtelijke overheidsinstantie.
         list_text: 'De volgende gemeenschappen zijn formeel opgericht als Lokale Afdelingen:'
       other_groups:
         title: Andere Groepen
@@ -3301,8 +3306,8 @@ nl:
         tot %{client_app_name}.
       no_auto_account_create: Helaas is het momenteel niet mogelijk om automatisch
         een account voor u aan te maken.
-      please_contact_support_html: Neem contact op met de %{support_link} om een account
-        aan te maken - we zullen proberen het verzoek zo snel mogelijk af te handelen.
+      please_contact_support_html: Neem contact op met de %{support_link} voor assistentie
+        - we proberen het verzoek zo snel mogelijk af te handelen.
       support: ondersteuning
       about:
         header: Vrij van rechten en vrij te bewerken.
@@ -3380,7 +3385,7 @@ nl:
       unconfirm_user: Bevestigen van deze gebruiker ongedaan maken
       suspend_user: Schors deze gebruiker
       unsuspend_user: Gebruiker opschorten ongedaan maken
-      undelete_user: Deze gebruiker verwijderen ongedaan maken
+      undelete_user: Deze gebruiker terugzetten
       confirm: Bevestigen
       report: Rapporteer deze Gebruiker
       edit_profile_details: Profiel bewerken
@@ -3389,6 +3394,7 @@ nl:
       change_image: Afbeelding wijzigen
       edit_company: Bedrijf bewerken
       edit_location: Locatie bewerken
+      edit_heatmap: Heatmap instellingen
       contributions:
         one: '%{count} bijdrage in het afgelopen jaar'
         other: '%{count} bijdragen in het afgelopen jaar'
@@ -3739,12 +3745,12 @@ nl:
     map:
       popup:
         close: Sluiten
-      zoom:
-        in: Inzoomen
-        out: Uitzoomen
-      locate:
-        title: Uw locatie weergeven
-        not_available: Locatie niet beschikbaar
+      navigation_control:
+        zoom_in: Inzoomen
+        zoom_out: Uitzoomen
+      geolocate_control:
+        find_my_location: Uw locatie weergeven
+        location_not_available: Locatie niet beschikbaar
         metersPopup:
           one: U bevindt zich binnen %{count} meter van dit punt
           other: U bevindt zich binnen %{count} meter van dit punt

@@ -7,7 +7,10 @@ attrs = {
   "created_at" => changeset.created_at.xmlschema,
   "open" => changeset.open?,
   "comments_count" => changeset.comments.length,
-  "changes_count" => changeset.num_changes
+  "changes_count" => changeset.num_changes,
+  "created_count" => changeset.num_created_elements,
+  "modified_count" => changeset.num_modified_elements,
+  "deleted_count" => changeset.num_deleted_elements
 }
 attrs["closed_at"] = changeset.closed_at.xmlschema unless changeset.open?
 changeset.bbox.to_unscaled.add_bounds_to(attrs, "_") if changeset.bbox.complete?

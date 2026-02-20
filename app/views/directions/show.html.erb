@@ -4,13 +4,13 @@
   <% Rails.root.glob("app/assets/images/routing/*.svg")
           .map { |path| File.basename(path, ".svg") }
           .each do |icon| %>
-    <%= inline_svg_tag "routing/#{icon}.svg", :id => "routing-sprite-#{icon}", :to_symbol => true %>
-    <% if icon.end_with?("right") %>
-      <symbol id="routing-sprite-<%= icon.sub("right", "left") %>">
-        <use href="#routing-sprite-<%= icon %>" transform="matrix(-1 0 0 1 20 0)" />
-      </symbol>
-    <% end
-  end %>
+            <%= inline_svg_tag "routing/#{icon}.svg", :id => "routing-sprite-#{icon}", :to_symbol => true %>
+            <% if icon.end_with?("right") %>
+              <symbol id="routing-sprite-<%= icon.sub("right", "left") %>">
+                <use href="#routing-sprite-<%= icon %>" transform="matrix(-1 0 0 1 20 0)" />
+              </symbol>
+            <% end %>
+          <% end %>
 </svg>
 
 <%= render "sidebar_header", :title => t(".title") %>
@@ -40,7 +40,7 @@
   </div>
 
   <div class="mx-n3">
-    <table class='table table-hover table-sm mb-3'>
+    <table class="table table-hover table-sm mb-3">
       <thead>
         <td colspan="2" class="ps-3">
           <span>

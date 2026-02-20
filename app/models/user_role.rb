@@ -6,9 +6,9 @@
 #
 #  id         :integer          not null, primary key
 #  user_id    :bigint           not null
+#  role       :enum             not null
 #  created_at :datetime
 #  updated_at :datetime
-#  role       :enum             not null
 #  granter_id :bigint           not null
 #
 # Indexes

@@ -1,23 +1,15 @@
-//= require maplibre.map
-//= require maplibre.combinedcontrolgroup
+//= require maplibre/map
 
 $(function () {
   let map;
 
   if ($("#map").length) {
-    map = new maplibregl.Map(OSM.MapLibre.defaultSecondaryMapOptions);
+    map = new OSM.MapLibre.SecondaryMap();
 
     const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
-    const navigationControl = new maplibregl.NavigationControl({ showCompass: false });
-    const geolocateControl = new maplibregl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true
-      },
-      trackUserLocation: true
-    });
+    const navigationControl = new OSM.MapLibre.NavigationControl();
+    const geolocateControl = new OSM.MapLibre.GeolocateControl();
     map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
-    map.touchZoomRotate.disableRotation();
-    map.keyboard.disableRotation();
 
     const markerObjects = $("[data-user]")
       .filter(function () {
@@ -27,9 +19,9 @@ $(function () {
       .map(function () {
         const { lat, lon, color, description } = $(this).data("user");
 
-        const marker = OSM.MapLibre.getMarker({ icon: "dot", color })
+        const marker = new OSM.MapLibre.Marker({ color })
           .setLngLat([lon, lat])
-          .setPopup(OSM.MapLibre.getPopup(description));
+          .setPopup(new OSM.MapLibre.Popup().setHTML(description));
 
         return { marker, lat, lon };
       })

@@ -11,19 +11,26 @@ L.OSM.Map = L.Map.extend({
     L.Map.prototype.initialize.call(this, id, options);
 
     this.baseLayers = OSM.LAYER_DEFINITIONS.map((
-      { credit, nameId, leafletOsmId, leafletOsmDarkId, ...layerOptions }
+      { credit, nameId, leafletOsmId, leafletOsmDarkId, style, styleDark, ...layerOptions }
     ) => {
       if (credit) layerOptions.attribution = makeAttribution(credit);
       if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
-      const layerConstructor =
-        (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) ||
-        L.OSM[leafletOsmId] ||
-        L.OSM.TileLayer;
+
+      let layerConstructor;
+      if (OSM.isDarkMap()) {
+        layerConstructor = L.OSM[leafletOsmDarkId] ?? L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+        layerOptions.url = layerOptions.urlDark ?? layerOptions.url;
+      } else {
+        layerConstructor = L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+      }
+
+      layerOptions.url = layerOptions.url?.replace("{ratio}", "{r}");
 
       const layer = new layerConstructor(layerOptions);
       layer.on("add", () => {
         this.fire("baselayerchange", { layer: layer });
       });
+      layer.options.style = (OSM.isDarkMap() && styleDark) || style;
       return layer;
     });
 

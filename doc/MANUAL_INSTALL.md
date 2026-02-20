@@ -1,27 +1,8 @@
-# Installation
-
-These instructions are designed for setting up `openstreetmap-website` development environment. If you want to deploy the software for your own project, then see the [Production Deployment Notes](#production-deployment-notes).
-
-## Installation Options
-
-There is more than one way to set up a development environment.
-
-### Containerized Installation
-
-We offer a containerized environment with Docker which may avoid installation difficulties. See [DOCKER.md](DOCKER.md) for complete instructions.
-
-### Manual Installation
-
-Install dependencies directly on your machine (traditional approach, covered in this guide). This gives you the most control and is often preferred by experienced developers on Linux systems.
-
-> [!WARNING]
-> **Windows Note:** We don't recommend using this approach on Windows, as some Ruby gems may not be supported. If you are using Windows, we recommend containerized setup using [Docker](DOCKER.md).
-
-## Manual Installation Guide
+# Manual Installation Guide
 
 These instructions are based on Ubuntu 24.04 LTS, though the OSMF servers are currently running Debian 12. The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and macOS.
 
-### Prerequisites
+## Prerequisites
 
 Many of the dependencies are managed through the standard Ruby on Rails mechanisms - i.e. Ruby gems specified in the Gemfile and installed using Bundler. Some system packages are also required before you can get the various gems installed.
 
@@ -31,9 +12,9 @@ Many of the dependencies are managed through the standard Ruby on Rails mechanis
 * Bundler (see note below about [developer Ruby setup](#ruby-version-manager-optional))
 * JavaScript Runtime
 
-### Step 1: Install System Dependencies
+## Step 1: Install System Dependencies
 
-#### Ubuntu 24.04 LTS
+### Ubuntu 24.04 LTS
 
 ```bash
 sudo apt-get update
@@ -53,7 +34,7 @@ sudo npm install --global yarn
 > sudo systemctl start postgresql.service
 > ```
 
-#### Fedora
+### Fedora
 
 ```bash
 sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler \
@@ -78,7 +59,7 @@ Optionally set PostgreSQL to start on boot:
 sudo systemctl enable postgresql.service
 ```
 
-#### macOS
+### macOS
 
 For macOS, you will need [Xcode Command Line Tools](https://mac.install.guide/commandlinetools/); macOS 14 (Sonoma) or later; and some familiarity with Unix development via the Terminal.
 
@@ -126,7 +107,7 @@ brew install geckodriver
 > [!NOTE]
 > OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
 
-### Step 2: Clone the Repository
+## Step 2: Clone the Repository
 
 The repository is reasonably large (~560MB) and it's unlikely that you'll need the full history. Therefore you can probably do with a shallow clone (~100MB):
 ```bash
@@ -141,9 +122,9 @@ If you want to add in the full history later on, perhaps to run `git blame` or `
 > git clone https://github.com/openstreetmap/openstreetmap-website.git
 > ```
 
-### Step 3: Install Application Dependencies
+## Step 3: Install Application Dependencies
 
-#### Ruby gems
+### Ruby gems
 
 We use [Bundler](https://bundler.io/) to manage the rubygems required for the project.
 
@@ -152,7 +133,7 @@ cd openstreetmap-website
 bundle install
 ```
 
-#### Node.js modules
+### Node.js modules
 
 We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
@@ -160,9 +141,9 @@ We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for t
 bundle exec bin/yarn install
 ```
 
-### Step 4: Prepare Configuration Files
+## Step 4: Prepare Configuration Files
 
-#### Local settings file
+### Local settings file
 
 > [!NOTE]
 > This is a workaround. [See issues/2185 for details](https://github.com/openstreetmap/openstreetmap-website/issues/2185#issuecomment-508676026).
@@ -171,7 +152,7 @@ bundle exec bin/yarn install
 touch config/settings.local.yml
 ```
 
-#### Storage setup
+### Storage setup
 
 `openstreetmap-website` needs to be configured with an object storage facility - for development and testing purposes you can use the example configuration:
 
@@ -179,7 +160,7 @@ touch config/settings.local.yml
 cp config/example.storage.yml config/storage.yml
 ```
 
-### Step 5: Database Setup
+## Step 5: Database Setup
 
 `openstreetmap-website` uses three databases - one for development, one for testing, and one for production. The database-specific configuration options are stored in `config/database.yml`, which we need to create from the example template.
 
@@ -190,7 +171,7 @@ cp config/example.database.yml config/database.yml
 > [!IMPORTANT]
 > PostgreSQL is configured to, by default, accept local connections without requiring a username or password. This is fine for development. If you wish to set up your database differently, then you should change the values found in the `config/database.yml` file, and amend the instructions below as appropriate.
 
-#### PostgreSQL account setup
+### PostgreSQL account setup
 
 We need to create a PostgreSQL role (i.e. user account) for your current user, and it needs to be a superuser so that we can create more databases.
 
@@ -200,7 +181,7 @@ createuser -s <username>
 exit
 ```
 
-#### Create the databases
+### Create the databases
 
 To create the three databases - for development, testing and production - run:
 
@@ -208,7 +189,7 @@ To create the three databases - for development, testing and production - run:
 bundle exec rails db:create
 ```
 
-#### Database structure
+### Database structure
 
 To create all the tables, indexes and constraints, run:
 
@@ -250,7 +231,7 @@ You can now view the site in your favourite web-browser at [http://localhost:300
 
 **Next steps:**
 * **Configuration:** See [CONFIGURE.md](CONFIGURE.md) for populating the database with data, creating users, setting up OAuth, and other configuration tasks.
-* **Contributing:** Check out [CONTRIBUTING.md](CONTRIBUTING.md) for coding style guidelines, testing procedures, and how to submit your contributions.
+* **Contributing:** Check out [CONTRIBUTING.md](../CONTRIBUTING.md) for coding style guidelines, testing procedures, and how to submit your contributions.
 
 ## Ruby Version Manager (Optional)
 
@@ -280,21 +261,3 @@ gem install bundler
 ```
 
 You should now be able to proceed with the rest of the installation. If you're on macOS, make sure you set up the [config override for the libxml2 location](#macos-click-to-expand) _after_ installing bundler.
-
-## Production Deployment Notes
-
-> [!WARNING]
-> Production deployment requires careful configuration and is significantly different from development setup.
-
-If you want to deploy `openstreetmap-website` for production use, you'll need to make a few changes:
-
-> [!IMPORTANT]
-> It's not recommended to use `rails server` in production. Our recommended approach is to use [Phusion Passenger](https://www.phusionpassenger.com/). Instructions are available for [setting it up with most web servers](https://www.phusionpassenger.com/documentation_and_support#documentation).
-
-* Passenger will, by design, use the Production environment and therefore the production database - make sure it contains the appropriate data and user accounts.
-
-> [!TIP]
-> The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
-
-* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production bundle exec i18n export; bundle exec rails assets:precompile`
-* Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.
