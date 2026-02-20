@@ -34,4 +34,4 @@
   <% end %>
 </div>
 
-<%= render :partial => "browse/tag_details", :object => common_details.tags %>
+<%= render :partial => "browse/tag_details", :object => common_details.tags, :locals => { :current_version => common_details.version, :all_versions => @old_features&.sort_by(&:version) } %>
