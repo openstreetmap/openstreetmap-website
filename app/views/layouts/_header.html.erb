@@ -33,12 +33,12 @@
   <nav class="secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center">
     <ul id="secondary-nav-menu" class="nav flex-grow-1 justify-content-center justify-content-md-start" data-turbo-permanent>
       <% secondary_nav_items.each do |path, label, options| %>
-        <li class="nav-item">
-          <%= link_to label, path, :class => ["nav-link", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"], **(options || {}) %>
+        <li class="nav-item pb-2 pb-md-0">
+          <%= link_to label, path, :class => ["nav-link", "px-1", "py-0", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"], **(options || {}) %>
         </li>
       <% end %>
-      <li id="compact-secondary-nav" class="dropdown nav-item ms-auto">
-        <button class="dropdown-toggle nav-link btn btn-outline-secondary border-0 bg-body text-secondary" type="button" data-bs-toggle="dropdown"><%= t ".more" %></button>
+      <li id="compact-secondary-nav" class="dropdown nav-item ms-auto pb-2 pb-md-0">
+        <button class="dropdown-toggle nav-link btn btn-outline-secondary px-1 py-0 border-0 bg-body text-secondary" type="button" data-bs-toggle="dropdown"><%= t ".more" %></button>
         <ul class="dropdown-menu">
         </ul>
       </li>
