@@ -22,8 +22,8 @@ class TagParserTest < ActiveSupport::TestCase
       link = TagParser.wiki_link("key", "highway")
       assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
 
-      link = TagParser.wiki_link("tag", "highway=primary")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
+      link = TagParser.wiki_link("tag", "highway=path")
+      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=path?uselang=tr", link
     end
   end
 

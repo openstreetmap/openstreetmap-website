@@ -3,12 +3,12 @@
 module BrowseTagChangesHelper
   include BrowseTagsHelper
 
-  def wrap_tags_with_version_changes(tags_to_values, current_version = nil, all_versions = [])
-    # Find the previous usable version by looking backwards through all versions
+  def wrap_tags_with_version_changes(tags_to_values, _current_version = nil, all_versions = [])
+    # Find the previous usable version by looking backwards from the end
     previous_version = all_versions
-                       .find_index { |v| v.version == current_version }
-                       &.then { |index| index.positive? ? all_versions[0...index].reverse : nil }
-                       &.find { |v| !v.redacted? || params[:show_redactions] }
+                       .reverse
+                       .drop(1)
+                       .find { |v| !v.redacted? || params[:show_redactions] }
 
     previous_tags = previous_version&.tags || {}
 
@@ -22,8 +22,8 @@ module BrowseTagChangesHelper
       tags_modified = tags_to_values
                       .filter { |name, value| previous_tags.key?(name) && previous_tags[name] != value }
                       .each_with_object({}) do |(name, value), memo|
-        memo[name] = { :type => :modified, :current => value, :previous => previous_tags[name] }
-      end
+                        memo[name] = { :type => :modified, :current => value, :previous => previous_tags[name] }
+                      end
 
       tags_unmodified = tags_to_values
                         .filter { |name, value| previous_tags[name] == value }
@@ -64,10 +64,10 @@ module BrowseTagChangesHelper
         tag.ins(format_value(key, change_info[:current], :skip_wikidata_preview => true))
       ]
     when :removed
-      tag.del(format_value(key, change_info[:previous] || "", :skip_wikidata_preview => true))
+      tag.del(format_value(key, change_info[:previous], :skip_wikidata_preview => true))
     when nil
       # For unknown versioning show the current value with the wikidata preview
-      format_value(key, change_info[:current] || "", :skip_wikidata_preview => false)
+      format_value(key, change_info[:current], :skip_wikidata_preview => false)
     end
   end
 
@@ -117,16 +117,13 @@ module BrowseTagChangesHelper
       ]
     else
       # Generate single row for other change types
-      cells = [tag.th(format_key(key), :class => "py-1 border-secondary-subtle table-secondary fw-normal")]
-
-      # Only add diff indicator cell if we're in a history/diff context
-      cells << tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type])) if change_info[:type]
-
-      cells << tag.td(format_tag_value_with_change(key, change_info), :class => "py-1")
-
       [
         tag.tr(:class => tag_change_class(change_info[:type])) do
-          safe_join(cells)
+          safe_join([
+            tag.th(format_key(key), :class => "py-1 border-secondary-subtle table-secondary fw-normal"),
+            (tag.td(get_change_indicator_text(change_info[:type]), :class => get_indicator_cell_class(change_info[:type])) if change_info[:type]),
+            tag.td(format_tag_value_with_change(key, change_info), :class => "py-1")
+          ].compact)
         end
       ]
     end
