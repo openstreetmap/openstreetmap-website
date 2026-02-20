@@ -191,6 +191,44 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_create_turnstile_success
+    user = build(:user, :pending)
+
+    stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify")
+      .with(:body => { "remoteip" => "127.0.0.1", "response" => "turnstile_response", "secret" => "turnstile_secret" })
+      .to_return(:body => JSON.generate(:success => true))
+
+    with_settings(:turnstile_site_key => "turnstile_site",
+                  :turnstile_secret_key => "turnstile_secret") do
+      assert_difference "User.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 1 do
+          perform_enqueued_jobs do
+            post users_path, :params => { :user => user.attributes, "cf-turnstile-response" => "turnstile_response" }
+          end
+        end
+      end
+    end
+  end
+
+  def test_create_turnstile_failure
+    user = build(:user, :pending)
+
+    stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify")
+      .with(:body => { "remoteip" => "127.0.0.1", "response" => "turnstile_response", "secret" => "turnstile_secret" })
+      .to_return(:body => JSON.generate(:success => false))
+
+    with_settings(:turnstile_site_key => "turnstile_site",
+                  :turnstile_secret_key => "turnstile_secret") do
+      assert_no_difference "User.count" do
+        assert_no_difference "ActionMailer::Base.deliveries.size" do
+          perform_enqueued_jobs do
+            post users_path, :params => { :user => user.attributes, "cf-turnstile-response" => "turnstile_response" }
+          end
+        end
+      end
+    end
+  end
+
   def test_go_public
     user = create(:user, :data_public => false)
     session_for(user)
