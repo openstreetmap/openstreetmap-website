@@ -6,6 +6,18 @@ maplibregl.Map.prototype._getUIString = function (key) {
   return OSM.i18n.t(`javascripts.map.${snakeCaseKey}`);
 };
 
+OSM.MapLibre.showWebGLError = function (container) {
+  const containerElement =
+    typeof container === "string" ? document.getElementById(container) : container;
+
+  if (containerElement) {
+    fetch("/panes/maplibre/webgl_error")
+      .then(response => response.text())
+      .then(html => containerElement.innerHTML = html)
+      .catch(() => containerElement.innerHTML = OSM.i18n.t("javascripts.map.webgl_error.webgl_is_required_for_this_map"));
+  }
+};
+
 OSM.MapLibre.Map = class extends maplibregl.Map {
   constructor({ allowRotation, ...options } = {}) {
     const rotationOptions = {};
@@ -17,13 +29,24 @@ OSM.MapLibre.Map = class extends maplibregl.Map {
         bearingSnap: 180
       });
     }
-    const map = super({
-      // Style validation only affects debug output.
-      // Style errors are usually reported to authors, who should validate the style in CI for better error messages.
-      validateStyle: false,
-      ...rotationOptions,
-      ...options
-    });
+
+    let map;
+    try {
+      map = super({
+        // Style validation only affects debug output.
+        // Style errors are usually reported to authors, who should validate the style in CI for better error messages.
+        validateStyle: false,
+        ...rotationOptions,
+        ...options
+      });
+    } catch (error) {
+      const structuredError = JSON.parse(error.message);
+      if (structuredError.type === "webglcontextcreationerror") {
+        OSM.MapLibre.showWebGLError(options.container);
+      }
+      // the constructor panicked => we need to re-throw
+      throw error;
+    }
     if (allowRotation === false) {
       map.touchZoomRotate.disableRotation();
       map.keyboard.disableRotation();

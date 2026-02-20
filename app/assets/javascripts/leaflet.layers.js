@@ -27,16 +27,20 @@ L.OSM.layers = function (options) {
 
         function shown() {
           const center = map.getCenter();
-          miniMap = new OSM.MapLibre.Map({
-            container,
-            style: layer.options.style,
-            interactive: false,
-            attributionControl: false,
-            fadeDuration: 0,
-            zoomSnap: layer.options.isVectorStyle ? 0 : 1,
-            center: [center.lng, center.lat],
-            zoom: getZoomForMiniMap()
-          });
+          try {
+            miniMap = new OSM.MapLibre.Map({
+              container,
+              style: layer.options.style,
+              interactive: false,
+              attributionControl: false,
+              fadeDuration: 0,
+              zoomSnap: layer.options.isVectorStyle ? 0 : 1,
+              center: [center.lng, center.lat],
+              zoom: getZoomForMiniMap()
+            });
+          } catch (error) {
+            return;
+          }
 
           if (layer.options.layerId === "openmaptiles_osm") {
             OSM.MapLibre.setOMTMapLanguage(miniMap);

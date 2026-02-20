@@ -61,3 +61,29 @@
     background-color: $vibrant-green;
   }
 }
+
+.maplibre-error {
+  container-type: size;
+
+  p {
+    max-width: 600px;
+  }
+
+  .maplibre-error-compact {
+    font-size: 0.75rem;
+  }
+
+  /*
+   Show compact message for small-height containers.
+   For width-based container there is bootstrap
+   */
+  @container (max-height: 60px) {
+    p:not(.maplibre-error-compact) {
+      display: none !important;
+    }
+
+    .maplibre-error-compact {
+      display: block !important;
+    }
+  }
+}
