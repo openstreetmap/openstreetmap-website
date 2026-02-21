@@ -77,11 +77,10 @@ time[title] {
 }
 
 header {
-  height: $headerHeight;
-  position: relative;
   font-size: 14px;
 
-  > * {
+  > .d-flex,
+  #edit_tab {
     padding: $lineheight * 0.5;
   }
 
@@ -95,8 +94,9 @@ header {
     font-size: 14px;
   }
 
-  .username {
-    max-width: 12em;
+  &.closed nav {
+    @extend .d-none;
+    @extend .d-md-flex;
   }
 }
 
@@ -133,8 +133,8 @@ nav.secondary {
     padding: 0 0.3rem;
   }
 
-  > ul {
-    height: 1.5em;
+  .user-menu, .login-menu {
+    @extend .w-100;
   }
 }
 
@@ -147,50 +147,18 @@ nav.primary, nav.secondary {
   }
 }
 
-#compact-secondary-nav {
-  display: none;
-}
-
-@include media-breakpoint-down(md) {
-  header {
-    height: auto;
-    min-height: $headerHeight;
-
-    &.closed nav {
-      display: none !important;
-    }
-
-    .username {
-      max-width: unset;
-    }
-  }
-
-  nav.primary {
-    padding: 0;
-
-    #edit_tab {
-      padding: 10px;
-    }
+@include media-breakpoint-up(md) {
+  header .username {
+    max-width: 12em;
   }
 
   nav.secondary {
     > ul {
-      height: auto;
+      height: 1.5em;
     }
 
     .user-menu, .login-menu {
-      width: 100%;
-    }
-  }
-
-  #compact-secondary-nav {
-    display: none;
-  }
-
-  .overlay-sidebar #sidebar {
-    .welcome,
-    #banner {
-      display: none;
+      @extend .w-auto;
     }
   }
 }
@@ -292,11 +260,6 @@ nav.primary, nav.secondary {
     height: auto;
     overflow: hidden;
 
-    .welcome,
-    #banner {
-      display: block;
-    }
-
     .sidebar-close-controls,
     #sidebar_loader,
     #sidebar_content {
@@ -304,13 +267,7 @@ nav.primary, nav.secondary {
     }
   }
 
-  .welcome,
-  #banner {
-    display: none;
-  }
-
   #banner img {
-    display: block;
     width: $sidebarWidth;
   }
 
