@@ -177,11 +177,11 @@ $(function () {
   });
 
   if (OSM.cookies.get("_osm_welcome") !== "hide") {
-    $(".welcome").removeAttr("hidden");
+    $(".welcome").addClass("d-md-block");
   }
 
   $(".welcome .btn-close").on("click", function () {
-    $(".welcome").hide();
+    $(".welcome").removeClass("d-md-block");
     OSM.cookies.set("_osm_welcome", "hide", { expires });
   });
 
