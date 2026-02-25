@@ -12,5 +12,8 @@ class NoteCommentNotifier < ApplicationNotifier
     config.mailer = "UserMailer"
     config.method = "note_comment_notification"
     config.args = -> { [record, recipient] }
+
+    # Example of notification settings in action
+    # config.if = -> { recipient.receives_notifications?(:for => :note_comment, :via => email) }
   end
 end
