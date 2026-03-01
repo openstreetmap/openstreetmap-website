@@ -30,11 +30,9 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
     options.sidebar.addPane($ui);
 
     this.loadContent = () =>
-      fetch("/panes/" + uiClass)
-        .then(r => r.text())
-        .then(html => { $(html).appendTo($ui); })
-        .then(this.onContentLoaded);
+      $ui.append(`<turbo-frame id="${uiClass}-pane" src="/panes/${uiClass}"></turbo-frame>`);
 
+    $ui.on("turbo:frame-load", `#${uiClass}-pane`, () => this.onContentLoaded());
     this.onAddPane(map, button, $ui, toggle);
 
     function toggle(e) {
