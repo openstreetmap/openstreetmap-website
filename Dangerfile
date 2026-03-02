@@ -17,7 +17,7 @@ end
 # Report if some translation file (except en.yml) is modified
 if modified_yml_files.empty? or branch_for_head == 'translatewiki'
   auto_label.remove("inappropriate-translations")
-elseq
+else
   modified_files_str = modified_yml_files.map { |file| "`#{file}`" }.join(", ")
   warn("The following YAML files other than `en.yml` have been modified: #{modified_files_str}. Only `en.yml` is allowed to be changed. Translations are updated via Translatewiki, see CONTRIBUTING.md.")
   auto_label.set(pr_number, "inappropriate-translations", "B60205")
