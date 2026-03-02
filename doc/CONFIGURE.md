@@ -50,10 +50,15 @@ osmosis --read-pbf greater-london-latest.osm.pbf \
 
 ## User Management
 
-After creating a user through the web interface at [http://localhost:3000/user/new](http://localhost:3000/user/new), you may need to perform additional user management tasks.
+Many features of the website require a user. The following script can get you started:
 
-> [!TIP]
-> If you don't want to set up your development box to send emails, you can manually confirm users and grant permissions through the Rails console.
+```bash
+$ bundle exec rails dev:populate
+```
+
+This will create two users: `admin` (with administrator privileges) and `mapper` (with normal privileges). For either of them, the password is `password` (feel free to change it).
+
+Alternatively, you can create users manually using the web interface at [http://localhost:3000/user/new](http://localhost:3000/user/new). If you go this route, you may need to perform additional user management tasks. At the very least, new users need to be activated in order to sign in. You can do this via the Rails console as follows.
 
 ### Managing Users via Rails Console
 
@@ -100,7 +105,9 @@ There are two built-in applications which communicate via the API, and therefore
 * **iD** - the web-based editor
 * **The website itself** - for the Notes functionality
 
-You need to register these applications with *one* of the users you created. After that iD and Notes functionality becomes available to every user of the website.
+If you used the `dev:populate` script to create your initial users, this step should not be necessary.
+
+Otherwise, you need to register these applications with *one* of the users you created. After that iD and Notes functionality becomes available to every user of the website.
 
 ### Automated OAuth Setup (Recommended)
 
