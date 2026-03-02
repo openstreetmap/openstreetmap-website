@@ -20,6 +20,8 @@ drive.  This is a great way to reach a lot of people!
      * `link` - URL for your event page (e.g. `https://supporting.openstreetmap.org/`)
      * `img` - the filename for the banner image (e.g. `banners/donate-2017.jpg`)
      * `enddate` - the final date that the banner will be shown (e.g. `2017-oct-31`)
+     * `locales` - (optional) a list of locale codes to restrict the banner to. Codes must match the app's available locales in `config/locales/` (e.g. `it`, `en-GB`, `zh-TW`). If omitted, the banner is shown for all languages.
+     * `countries` - (optional) a list of ISO 3166 country codes to restrict the banner to. If omitted, the banner is shown in all countries.
    * (optional) Feel free to cleanup the old images from the `app/assets/images/banners/` folder and old entries in the `config/banners.yml` file.
 4. The pull request must indicate when the banner should start being shown, which must be at least 7 days after the pull request was created.
 
