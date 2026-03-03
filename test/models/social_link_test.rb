@@ -40,8 +40,8 @@ class SocialLinkTest < ActiveSupport::TestCase
     assert_equal "github", social_link.parsed[:platform]
     assert_equal "test", social_link.parsed[:name]
   end
-  
-    def test_parsed_platform_codeberg
+
+  def test_parsed_platform_codeberg
     social_link = create(:social_link, :url => "https://codeberg.org/testuser")
 
     assert_equal "codeberg", social_link.parsed[:platform]
