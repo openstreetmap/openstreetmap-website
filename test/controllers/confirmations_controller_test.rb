@@ -171,13 +171,31 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/already been confirmed/, flash[:error])
   end
 
-  def test_confirm_deleted
+  def test_confirm_soft_destroyed
     user = build(:user, :pending)
     stub_gravatar_request(user.email)
     post users_path, :params => { :user => user.attributes }
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
-    User.find_by(:display_name => user.display_name).mark_deleted!
+    User.find_by(:display_name => user.display_name).soft_destroy!
+
+    # Get the confirmation page
+    get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    assert_redirected_to root_path
+
+    # Confirm the user
+    post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
+    assert_response :not_found
+    assert_template :no_such_user
+  end
+
+  def test_confirm_suspended
+    user = build(:user, :pending)
+    stub_gravatar_request(user.email)
+    post users_path, :params => { :user => user.attributes }
+    confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
+
+    User.find_by(:display_name => user.display_name).suspend!
 
     # Get the confirmation page
     get user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -208,11 +226,27 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal user.email, email.to.first
   end
 
-  def test_confirm_resend_deleted
+  def test_confirm_resend_soft_destroyed
     user = build(:user, :pending)
     post users_path, :params => { :user => user.attributes }
 
-    User.find_by(:display_name => user.display_name).mark_deleted!
+    User.find_by(:display_name => user.display_name).soft_destroy!
+
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      perform_enqueued_jobs do
+        post user_confirm_resend_path(user)
+      end
+    end
+
+    assert_redirected_to login_path
+    assert_match "User #{user.display_name} not found.", flash[:error]
+  end
+
+  def test_confirm_resend_suspended
+    user = build(:user, :pending)
+    post users_path, :params => { :user => user.attributes }
+
+    User.find_by(:display_name => user.display_name).suspend!
 
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       perform_enqueued_jobs do
