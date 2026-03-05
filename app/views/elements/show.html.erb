@@ -2,19 +2,7 @@
 
 <%= render "sidebar_header", :title => t("browse.#{@type}.title_html", :name => printable_element_name(@feature)) %>
 
-<%= render :partial => "browse/#{@type}", :object => @feature %>
-
-<% if @feature.visible? %>
-  <div class="secondary-actions mb-3">
-    <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
-    <% if current_user&.moderator? %>
-      &middot;
-      <%= link_to t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
-    <% end %>
-  </div>
-<% end %>
-
-<nav>
+<nav class="sticky-top bg-body border-bottom pb-2 z-1">
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item active" aria-current="page">
       <%= tag.span t(@type, :scope => "browse.versions_navigation"), :class => "py-1 px-2 rounded bg-body-secondary" %>
@@ -34,3 +22,17 @@
           :title => t("browse.versions_navigation.version", :version => v) }
       end %>
 </nav>
+
+<%= render :partial => "browse/#{@type}", :object => @feature %>
+
+<% if @feature.visible? %>
+  <div class="secondary-actions mb-3">
+    <%= link_to(t("browse.download_xml"), :controller => "api/#{@type.pluralize}", :action => :show) %>
+    <% if current_user&.moderator? %>
+      &middot;
+      <%= link_to t("browse.view_unredacted_history"), :controller => "old_#{@type.pluralize}", :params => { :show_redactions => true } %>
+    <% end %>
+  </div>
+<% end %>
+
+
