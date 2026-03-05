@@ -122,9 +122,7 @@ class Relation < ApplicationRecord
 
   # FIXME: is this really needed?
   def members
-    @members ||= relation_members.map do |member|
-      [member.member_type, member.member_id, member.member_role]
-    end
+    @members ||= relation_members.pluck(:member_type, :member_id, :member_role)
   end
 
   def tags
