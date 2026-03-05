@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module I18n
-  module Backend
+module OpenStreetMap
+  module I18n
     module PluralizationFallback
       def pluralize(locale, entry, count)
         super
@@ -11,11 +11,7 @@ module I18n
         e.entry[:other]
       end
     end
-  end
-end
 
-module OpenStreetMap
-  module I18n
     module NormaliseLocales
       def store_translations(locale, data, options = {})
         locale = ::I18n::Locale::Tag::Rfc4646.tag(locale).to_s
@@ -28,7 +24,7 @@ end
 
 I18n::Backend::Simple.prepend(OpenStreetMap::I18n::NormaliseLocales)
 
-I18n::Backend::Simple.include(I18n::Backend::PluralizationFallback)
+I18n::Backend::Simple.include(OpenStreetMap::I18n::PluralizationFallback)
 I18n::Backend::Simple.include(I18n::Backend::Fallbacks)
 
 I18n.enforce_available_locales = false
