@@ -2,22 +2,22 @@
 
 require "test_helper"
 
-class LeadingWhitespaceValidatable
-  include ActiveModel::Validations
-
-  validates :string, :whitespace => { :leading => false }
-  attr_accessor :string
-end
-
-class TrailingWhitespaceValidatable
-  include ActiveModel::Validations
-
-  validates :string, :whitespace => { :trailing => false }
-  attr_accessor :string
-end
-
 class WhitespaceValidatorTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
+
+  class LeadingWhitespaceValidatable
+    include ActiveModel::Validations
+
+    validates :string, :whitespace => { :leading => false }
+    attr_accessor :string
+  end
+
+  class TrailingWhitespaceValidatable
+    include ActiveModel::Validations
+
+    validates :string, :whitespace => { :trailing => false }
+    attr_accessor :string
+  end
 
   def test_with_leading_whitespace
     validator = LeadingWhitespaceValidatable.new
