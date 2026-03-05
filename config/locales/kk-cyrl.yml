@@ -5,11 +5,21 @@
 # Author: Erictheise
 # Author: Fontan 030
 # Author: Minh Nguyen
+# Author: Moonborn
 ---
 kk-cyrl:
+  date:
+    formats:
+      brief: '%{year}'
+      brief_bce: б.з.д. %{year}
+      brief_ce: б.з. %{year}
+      heatmap: '%B %-d'
+      range: '%{start} – %{end}'
   time:
     formats:
       friendly: '%e %B %Y сағат %H:%M'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Файлды таңдаңыз
@@ -36,6 +46,20 @@ kk-cyrl:
         create: Бұғаттауды жасау
         update: Бұғаттауды жаңарту
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: n сіздің қатысушы идентификаторыңыз болмаса, user_n
+          бола алмайды
+      models:
+        user_mute:
+          attributes:
+            subject:
+              format: '%{message}'
+          is_already_muted: бұрыннан үнсіздендірілген
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url http:// немесе https:// деп басталуы керек
     models:
       acl: Қолжетімділікті бақылау тізімі
       changeset: Өңдеме дестесі
@@ -80,7 +104,7 @@ kk-cyrl:
         support_url: Қолдау URL
         allow_read_prefs: қолданушы теңшеулерін оқу
         allow_write_prefs: қолданушы теңшеулерін өзгерту
-        allow_write_diary: күнделік жазбалары мен пікір жазу, достасу
+        allow_write_diary: күнделік жазбаларын және комментарий қалдыру
         allow_write_api: картаны өзгерту
         allow_read_gpx: жеке GPS бағдарларын оқу
         allow_write_gpx: GPS бағдар жүктеп салу
@@ -90,6 +114,7 @@ kk-cyrl:
       diary_entry:
         user: Қолданушы
         title: Тақырып
+        body: Мәтіні
         latitude: Ендік
         longitude: Бойлық
         language_code: Тіл
@@ -132,15 +157,29 @@ kk-cyrl:
         active: Белсенді
         display_name: Көрсетілетін ат
         description: Бейін сипаттамасы
+        company: Компания
         home_lat: Ендік
         home_lon: Бойлық
+        home_location_name: Үй мекенжайының атауы
         languages: Қолайлы тілдер
         preferred_editor: Қолайлы редактор
         pass_crypt: Құпиясөз
         pass_crypt_confirmation: Құпиясөзді растау
     help:
+      doorkeeper/application:
+        confidential: Қолданба client secret конфиденциалды түрде сақталатын ортада
+          қолданылады (нативті мобильді қолданбалар және бір беттік қолданбалар конфиденциалды
+          емес)
+        redirect_uri: Әр URI-ға бір жол қолданыңыз
       trace:
         tagstring: үтірмен бөлінген
+      user_block:
+        reason: Қатысушының бұғатталу себебі. Хабарлама көпшілікке жария көрінетінін
+          ескеріп, мүмкіндігінше сабырлы әрі байыпты түрде жазыңыз, жағдай туралы
+          барынша толық мәлімет беруге тырысыңыз. Барлық қатысушылар қауымдастықтағы
+          арнайы терминдерді түсіне бермейтінін ұмытпаңыз, сондықтан мүмкіндігінше
+          қарапайым әрі түсінікті тіл қолданыңыз.
+        needs_view: Бұл бұғаттау кетпестен бұрын, қатысушы жүйеге кіруі керек пе?
       user:
         new_email: (еш жерде жарияланбайды)
   datetime:
@@ -158,6 +197,15 @@ kk-cyrl:
         one: '%{count} жыл бұрын дерлік'
         other: '%{count} жыл бұрын дерлік'
       half_a_minute: жарты минут бұрын
+      less_than_x_seconds:
+        one: '%{count}  секундтан аз уақыт бұрын'
+        other: '%{count}  секундтан аз уақыт бұрын'
+      less_than_x_minutes:
+        one: '%{count} минуттан аз уақыт бұрын'
+        other: '%{count} минуттан аз уақыт бұрын'
+      over_x_years:
+        one: '%{count} жылдан астам уақыт бұрын'
+        other: '%{count} жылдан астам уақыт бұрын'
       x_seconds:
         one: '%{count} секунд бұрын'
         other: '%{count} секунд бұрын'
@@ -186,9 +234,12 @@ kk-cyrl:
       none: Жоқ
       openid: OpenID
       google: Google
+      apple: Apple
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Уикипедия
+      openstreetmap: OpenStreetMap
   api:
     notes:
       comment:
@@ -196,41 +247,97 @@ kk-cyrl:
         opened_at_by_html: '%{when} %{user} жасаған'
         commented_at_html: '%{when} жаңартылған'
         commented_at_by_html: '%{when} %{user} жаңартқан'
+        closed_at_html: '%{when} шешілді'
+        closed_at_by_html: '%{when} %{user} қатысушысымен шешілді'
+        reopened_at_html: '%{when} қайта активацияланды'
+        reopened_at_by_html: '%{when} %{user} қатысушысымен қайта активацияланды'
       rss:
         title: OpenHistoricalMap ескертпелері
+        description_all: Хабарланған, пікірленген немесе жабылған жазбалар тізімі
+        description_area: '[(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})] осы
+          сіздің аумағыңыздағы хабарланған, пікірленген немесе жабылған жазбалар тізімі'
+        description_item: '%{id} жазбаларына RSS-таспа'
+        opened: (%{place} қасында) жаңа жазба
+        commented: (%{place} қасында) жаңа комментарий
+        closed: (%{place} қасында) жабылған жазба
+        reopened: (%{place} қасында) қайта активацияланған жазба
       entry:
         comment: Пікір
+        full: Толық жазба
   accounts:
     show:
+      title: Аккаунтты өңдеу
+      my_account: Менің аккаунтым
       current email address: Ағымдағы е-пошта мекенжайы
+      external auth: Сыртқы аутентификация
       contributor_terms:
         heading: Жобаға қатысу шарттары
+        agreed: Сіз қатысушы шарттарымен %{date} күні келістіңіз.
+        not_agreed: Сіз әлі Қатысушы шарттарымен келіспедіңіз.
+        agreed_with_pd: Сондай-ақ, түзетулеріңіз Қоғамдық доменге жататынын жариялағансыз.
+        link: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         link text: бұл не?
+        not_agreed_with_pd: Сіз өз түзетулеріңізді Қоғамдық доменге жататынын жарияламағансыз.
+        review: Шарттарды қарап шығу
+        review_and_accept: Шарттарды қарап шығып, қабылдау
+        consider_pd: Қоғамдық доменді қарастыру
+      terms_of_use:
+        heading: Қолдану шарттары
+        agreed: Сіз қолдану шарттарымен %{date} күні келістіңіз.
+        not_agreed: Сіз әлі қолдану шарттарымен келіспедіңіз.
+        review: Шарттарды қарап шығу
+        review_and_accept: Шарттарды қарап шығып, қабылдау
       save changes button: Өзгерістерді сақтау
       delete_account: Тіркелгіні жою...
     go_public:
+      heading: Жария өңдеу
+      currently_not_public: Әзірше сіздің түзетулеріңіз анонимді, басқалар сізге хабарлама
+        жібере алмайды, локацияңызды көрмейді. Сіз не түзеткеніңізді көрсету үшін,
+        басқаларға сізбен вебсайт арқылы байланысуға рұқсат беру үшін төмендегі батырманы
+        басыңыз
       only_public_can_edit: API 0.6 нұсқасына жаңарғаннан бері, жария қолданушылар
         ғана карта дерегін өзгерте алады.
       find_out_why: неге екенін білу
       email_not_revealed: Тіркелгіңіз жария боп кеткеннен кейін, басқалар бұрынғыша
         эл. поштаңызды көре алмайды.
       not_reversible: Бұл қайтымсыз әрекет. Барлық жаңа қолданушы жария болып тіркеледі.
+      make_edits_public_button: Барлық өңдемелерімді жария қылу
     destroy:
       success: Тіркелгі жойылды.
     deletions:
       show:
         title: Тіркелгімді жою
+        warning: Ескерту! Есептік жазбаны жою түпкілікті болып табылады және кері
+          қайтарылмайды.
         delete_account: Тіркелгіні жою
+        delete_introduction: 'Сіз OpenStreetMap-тағы есептік жазбаңызды төмендегі
+          батырма арқылы өшіре аласыз. Келесі мәліметтерді ескеріңіз:'
+        delete_profile: Профиліңіздің ақпараты, аватар, сипаттама және үй мекенжайыңызбен
+          қоса өшіріледі.
+        delete_display_name: Сіздің көрсетілетін атыңыз өшіріледі және басқа есептік
+          жазбаларда қайта қолданылуы мүмкін.
+        retain_caveats: 'Алайда, OpenStreetMap сайтында сіздің есептік жазбаңыз өшірілгеннен
+          кейін де кейбір ақпараттарыңыз сақталады:'
         confirm_delete: Сенімдісіз бе?
         cancel: Болдырмау
     terms:
       show:
+        heading_ct: Жобаға қатысу шарттары
+        tou_explain:
+          tou: Қолдану шарттары
+        continue: Жалғастыру
         cancel: Болдырмау
+        legale_select: 'Тұрғылықты жеріңіз:'
         legale_names:
           france: Франция
           italy: Италия
           rest_of_world: Қалған әлем
+    pd_declarations:
+      show:
+        confirm: Құптау
   browse:
+    deleted_ago_by_html: '%{time_ago} %{user} қатысушысымен өшірілді'
+    edited_ago_by_html: '%{time_ago} %{user} өзгертті'
     version: Нұсқа
     in_changeset: Өңдеме дестесі
     anonymous: аноним
@@ -288,6 +395,11 @@ kk-cyrl:
       telephone_link: '%{phone_number} қоңырау шалу'
       colour_preview: '%{colour_value} түсін көру'
       email_link: '%{email} хат жіберу'
+    versions_navigation:
+      node: Нүкте
+      way: Сызық
+      relation: Қатынас
+      history: Тарихы
   feature_queries:
     show:
       title: Маңайдағы нысандар
@@ -305,11 +417,28 @@ kk-cyrl:
       title: Өңдеме дестелері
       title_user: '%{user} жасаған өңдемелер дестелері'
       title_user_link_html: '%{user_link} жасаған өңдеме дестелері'
+      feed:
+        created: Құрылды
+        closed: Жабылды
+        belongs_to: Авторы
     show:
+      title: 'Өңдеме дестесі: %{id}'
+      created: '%{when} құрылды'
+      closed: '%{when} жабылды'
+      created_ago_html: '%{time_ago} құрылды'
+      closed_ago_html: '%{time_ago} жабылды'
+      created_ago_by_html: '%{time_ago} %{user} қатысушысымен құрылды'
+      closed_ago_by_html: '%{time_ago} %{user} қатысушысымен жабылды'
       discussion: Талқылау
+      join_discussion: Пікірталасқа қосылу үшін жүйеге кіріңіз
       subscribe: Жазылу
+      unsubscribe: Жазылудан бас тарту
       hide_comment: жасыру
+      comment: Комментарий
+      changesetxml: Өңдеме дестесінің XML-і
       osmchangexml: osmChange XML
+    paging_nav:
+      nodes_title: Нүктелер
   changeset_subscriptions:
     heading:
       title: Өңдеме дестесі %{id}
@@ -819,12 +948,24 @@ kk-cyrl:
           river: Өзен
           waterfall: Сарқырама
           weir: Бөгет
+          "yes": Су жолы
       admin_levels:
-        level2: Мемлекет шекарасы
-        level5: Өңір шекарасы
-        level6: Аудан шекарасы
-        level8: Қала шекарасы
-        level9: Ауыл шекарасы
+        level2: Халықаралық шекара
+        level3: Әкімшілік-аумақтық шекара (3-деңгей)
+        level4: Әкімшілік-аумақтық шекара (4-деңгей)
+        level5: Әкімшілік-аумақтық шекара (5-деңгей)
+        level6: Әкімшілік-аумақтық шекара (6-деңгей)
+        level7: Әкімшілік-аумақтық шекара (7-деңгей)
+        level8: Әкімшілік-аумақтық шекара (8-деңгей)
+        level9: Әкімшілік-аумақтық шекара (9-деңгей)
+        level10: Әкімшілік-аумақтық шекара (10-деңгей)
+        level11: Әкімшілік-аумақтық шекара (11-деңгей)
+      border_types:
+        archdiocese: Архиепархия шекарасы
+        city: Қала шекарасы
+        county: Аймақ шекарасы
+        emirate: Әмірлік шекара
+        oblast: Облыс шекарасы
   searches:
     queries:
       create:
