@@ -78,6 +78,8 @@ class ApplicationController < ActionController::Base
 
   def require_user
     unless current_user
+      response.headers["Cache-Control"] = "private, no-store"
+
       if request.get?
         redirect_to login_path(:referer => request.fullpath)
       else
