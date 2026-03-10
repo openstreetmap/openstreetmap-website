@@ -56,7 +56,7 @@ Doorkeeper.configure do
   # By default this option is disabled.
   #
   # Make sure you properly setup you database and have all the required columns (run
-  # `bundle exec rails generate doorkeeper:enable_polymorphic_resource_owner` and execute Rails
+  # `bin/rails generate doorkeeper:enable_polymorphic_resource_owner` and execute Rails
   # migrations).
   #
   # If this option enabled, Doorkeeper will store not only Resource Owner primary key

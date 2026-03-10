@@ -24,7 +24,7 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Run rubocop
-      run: bundle exec rubocop --format fuubar
+      run: bin/rubocop --format fuubar
   erblint:
     name: ERB Lint
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Run erblint
-      run: bundle exec erb_lint .
+      run: bin/erb_lint .
   herb:
     name: Herb
     runs-on: ubuntu-latest
@@ -54,17 +54,17 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Run herb parser
-      run: bundle exec herb analyze app/ --no-log-file --non-interactive
+      run: bin/herb analyze app/ --no-log-file --non-interactive
     - name: Cache node modules
       uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run herb linter
-      run: bundle exec bin/yarn run herb-lint
+      run: bin/yarn run herb-lint
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
@@ -83,11 +83,11 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run eslint
-      run: bundle exec rails eslint
+      run: bin/rails eslint
   brakeman:
     name: Brakeman
     runs-on: ubuntu-latest
@@ -102,7 +102,7 @@ jobs:
         rubygems: 3.4.10
         bundler-cache: true
     - name: Run brakeman
-      run: bundle exec brakeman -q
+      run: bin/brakeman -q
   annotate_models:
     env:
       RAILS_ENV: test
@@ -127,15 +127,15 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Setup database
       run: |
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
-        bundle exec rails db:schema:load
+        bin/rails db:schema:load
     - name: Run Annotate Models
-      run: bundle exec annotaterb models
+      run: bin/annotaterb models
     - name: Fail if model annotations are out of date
       run: git diff --exit-code
   database_consistency:
@@ -162,12 +162,12 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Setup database
       run: |
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
-        bundle exec rails db:schema:load
+        bin/rails db:schema:load
     - name: Run Database Consistency
-      run: bundle exec database_consistency
+      run: bin/database_consistency

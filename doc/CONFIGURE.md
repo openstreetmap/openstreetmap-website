@@ -53,7 +53,7 @@ osmosis --read-pbf greater-london-latest.osm.pbf \
 Many features of the website require a user. The following script can get you started:
 
 ```bash
-$ bundle exec rails dev:populate
+$ bin/rails dev:populate
 ```
 
 This will create two users: `admin` (with administrator privileges) and `mapper` (with normal privileges). For either of them, the password is `password` (feel free to change it).
@@ -64,7 +64,7 @@ Alternatively, you can create users manually using the web interface at [http://
 
 1. **Enter the Rails console:**
    ```bash
-   $ bundle exec rails console
+   $ bin/rails console
    ```
 
 2. **Find the user:**
@@ -115,7 +115,7 @@ Otherwise, you need to register these applications with *one* of the users you c
 > You can register both applications automatically by running the following rake task:
 >
 > ```bash
-> bundle exec rails oauth:register_apps["My New User Name"]
+> bin/rails oauth:register_apps["My New User Name"]
 > ```
 >
 > This task registers the applications with the "My New User Name" user as the owner and saves their keys to `config/settings.local.yml`. When logged in, the owner should be able to see the apps on the OAuth 2 applications page.
@@ -212,12 +212,12 @@ We use [ActionMailer Previews](https://guides.rubyonrails.org/action_mailer_basi
 >
 > - **Update Node.js modules:** If Node.js modules have been updated, run:
 >   ```bash
->   bundle exec bin/yarn install
+>   bin/yarn install
 >   ```
 >
 > - **Run database migrations:** The OSM database schema is changed periodically. To keep up with improvements:
 >   ```bash
->   bundle exec rails db:migrate
+>   bin/rails db:migrate
 >   ```
 
 ## Production Deployment
@@ -241,8 +241,8 @@ If you want to deploy `openstreetmap-website` for production use, you'll need to
 
 - **Generate i18n files and precompile assets:**
   ```bash
-  RAILS_ENV=production bundle exec i18n export
-  bundle exec rails assets:precompile
+  RAILS_ENV=production bin/i18n export
+  bin/rails assets:precompile
   ```
 
 ### File Permissions
