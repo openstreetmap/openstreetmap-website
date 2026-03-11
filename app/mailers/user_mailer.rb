@@ -130,7 +130,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def follow_notification(follow)
+  def follow_notification
+    follow = params.fetch(:follow)
+
     with_recipient_locale follow.following do
       @follow = follow
       @viewurl = user_url(@follow.follower)

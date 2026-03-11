@@ -69,7 +69,7 @@ class UserMailerPreview < ActionMailer::Preview
   def follow_notification
     following = create(:user, :languages => [I18n.locale])
     follow = create(:follow, :following => following)
-    UserMailer.follow_notification(follow)
+    UserMailer.with(:follow => follow).follow_notification
   end
 
   def note_comment_notification
