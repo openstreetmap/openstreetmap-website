@@ -27,7 +27,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_email_confirm
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    email = UserMailer.email_confirm(user, token)
+    email = UserMailer.with(:user => user, :token => token).email_confirm
 
     confirmation_url = url_helpers.url_for(
       :controller => "confirmations",

@@ -27,7 +27,7 @@ class UserMailerPreview < ActionMailer::Preview
   def email_confirm
     user = create(:user, :languages => [I18n.locale], :new_email => "newemail@example.com")
     token = "token-123456"
-    UserMailer.email_confirm(user, token)
+    UserMailer.with(:user => user, :token => token).email_confirm
   end
 
   def lost_password

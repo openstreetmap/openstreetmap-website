@@ -27,7 +27,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def email_confirm(user, token)
+  def email_confirm
+    user, token = params.fetch_values(:user, :token)
+
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",
