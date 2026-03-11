@@ -282,7 +282,7 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     end
   end
 
-  test "relation member nodes should be visible on the map when viewing relations" do
+  js_test "relation member nodes should be visible on the map when viewing relations" do
     relation = create(:relation)
     node = create(:node)
     create(:relation_member, :relation => relation, :member => node)
@@ -292,7 +292,7 @@ class ElementCurrentVersionTest < ApplicationSystemTestCase
     assert_selector "#map .leaflet-overlay-pane path"
   end
 
-  test "map should center on a viewed node" do
+  js_test "map should center on a viewed node" do
     node = create(:node, :lat => 59.55555, :lon => 29.55555)
 
     visit node_path(node)

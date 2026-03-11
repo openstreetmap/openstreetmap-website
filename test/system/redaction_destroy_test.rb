@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class RedactionDestroyTest < ApplicationSystemTestCase
-  test "fails to delete nonempty redaction" do
+  js_test "fails to delete nonempty redaction" do
     redaction = create(:redaction, :title => "Some-unwanted-data-redaction")
     create(:old_node, :redaction => redaction)
 
@@ -18,7 +18,7 @@ class RedactionDestroyTest < ApplicationSystemTestCase
     assert_text "Some-unwanted-data-redaction"
   end
 
-  test "deletes empty redaction" do
+  js_test "deletes empty redaction" do
     redaction = create(:redaction, :title => "No-unwanted-data-redaction")
 
     sign_in_as create(:moderator_user)

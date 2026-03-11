@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class ResolveNoteTest < ApplicationSystemTestCase
-  test "can resolve an open note" do
+  js_test "can resolve an open note" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -20,7 +20,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can resolve an open note with a comment" do
+  js_test "can resolve an open note with a comment" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -42,7 +42,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can reactivate a closed note" do
+  js_test "can reactivate a closed note" do
     note = create(:note_with_comments, :closed)
     user = create(:user)
     sign_in_as(user)
@@ -60,7 +60,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can hide an open note as moderator" do
+  js_test "can hide an open note as moderator" do
     note = create(:note_with_comments)
     user = create(:moderator_user)
     sign_in_as(user)
@@ -75,7 +75,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can hide a closed note as moderator" do
+  js_test "can hide a closed note as moderator" do
     note = create(:note_with_comments, :closed)
     user = create(:moderator_user)
     sign_in_as(user)
@@ -92,7 +92,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can't resolve a note when blocked" do
+  js_test "can't resolve a note when blocked" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -116,7 +116,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can't reactivate a note when blocked" do
+  js_test "can't reactivate a note when blocked" do
     note = create(:note_with_comments, :closed)
     user = create(:user)
     sign_in_as(user)

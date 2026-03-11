@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class ElementHistoryTest < ApplicationSystemTestCase
-  test "shows history of a node" do
+  js_test "shows history of a node" do
     node = create(:node, :with_history, :version => 2, :lat => 60, :lon => 30)
     node_v1 = node.old_nodes.find_by(:version => 1)
     node_v2 = node.old_nodes.find_by(:version => 2)
@@ -28,7 +28,7 @@ class ElementHistoryTest < ApplicationSystemTestCase
     end
   end
 
-  test "shows history of a way" do
+  js_test "shows history of a way" do
     way = create(:way, :with_history, :version => 2)
     way_v1 = way.old_ways.find_by(:version => 1)
     way_v2 = way.old_ways.find_by(:version => 2)
@@ -50,7 +50,7 @@ class ElementHistoryTest < ApplicationSystemTestCase
     end
   end
 
-  test "shows history of a relation" do
+  js_test "shows history of a relation" do
     relation = create(:relation, :with_history, :version => 2)
     relation_v1 = relation.old_relations.find_by(:version => 1)
     relation_v2 = relation.old_relations.find_by(:version => 2)

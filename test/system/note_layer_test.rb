@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class NoteLayerTest < ApplicationSystemTestCase
-  test "note marker should have description as a title" do
+  js_test "note marker should have description as a title" do
     position = (1.1 * GeoRecord::SCALE).to_i
     create(:note, :latitude => position, :longitude => position) do |note|
       create(:note_comment, :note => note, :body => "Note description", :event => "opened")
@@ -15,7 +15,7 @@ class NoteLayerTest < ApplicationSystemTestCase
     end
   end
 
-  test "note marker should not have a title if the note has no visible description" do
+  js_test "note marker should not have a title if the note has no visible description" do
     position = (1.1 * GeoRecord::SCALE).to_i
     create(:note, :latitude => position, :longitude => position) do |note|
       create(:note_comment, :note => note, :body => "Note description is hidden", :event => "opened", :visible => false)
@@ -28,7 +28,7 @@ class NoteLayerTest < ApplicationSystemTestCase
     end
   end
 
-  test "note marker should not have a title if the note has no visible description and comments" do
+  js_test "note marker should not have a title if the note has no visible description and comments" do
     position = (1.1 * GeoRecord::SCALE).to_i
     create(:note, :latitude => position, :longitude => position) do |note|
       create(:note_comment, :note => note, :body => "Note description is hidden", :event => "opened", :visible => false)

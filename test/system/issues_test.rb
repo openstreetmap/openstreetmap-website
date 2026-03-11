@@ -46,7 +46,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert_selector "strong", :text => "with kramdown"
   end
 
-  def test_view_issue_rich_text_container
+  js_test "view issue rich text container" do
     sign_in_as(create(:moderator_user))
     issue = create(:issue, :assigned_role => "moderator")
     issue.reports << create(:report, :details => "paragraph one\n\n---\n\nparagraph two")
@@ -185,7 +185,7 @@ class IssuesTest < ApplicationSystemTestCase
     assert_link I18n.t("issues.page.reports_count", :count => issue2.reports_count), :href => issue_path(issue2)
   end
 
-  def test_issues_pagination
+  js_test "issues pagination" do
     1.upto(8).each do |n|
       user = create(:user, :display_name => "extra_#{n}")
       create(:issue, :reportable => user, :reported_user => user, :assigned_role => "administrator")

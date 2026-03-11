@@ -3,12 +3,8 @@
 require "application_system_test_case"
 
 class UsersTest < ApplicationSystemTestCase
-  def setup
-    admin = create(:administrator_user)
-    sign_in_as(admin)
-  end
-
-  test "all users can be selected" do
+  js_test "all users can be selected" do
+    sign_in_as(create(:administrator_user))
     create_list(:user, 100)
 
     visit users_list_path

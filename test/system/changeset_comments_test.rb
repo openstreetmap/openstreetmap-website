@@ -25,7 +25,7 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add a comment to a changeset" do
+  js_test "can add a comment to a changeset" do
     changeset = create(:changeset, :closed)
     user = create(:user)
     sign_in_as(user)
@@ -59,7 +59,7 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "moderators can hide comments" do
+  js_test "moderators can hide comments" do
     changeset = create(:changeset, :closed)
     create(:changeset_comment, :changeset => changeset, :body => "Unwanted comment")
 
@@ -92,7 +92,7 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "moderators can unhide comments" do
+  js_test "moderators can unhide comments" do
     changeset = create(:changeset, :closed)
     create(:changeset_comment, :changeset => changeset, :body => "Wanted comment", :visible => false)
 
@@ -125,7 +125,7 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can subscribe" do
+  js_test "can subscribe" do
     changeset = create(:changeset, :closed)
     user = create(:user)
     sign_in_as(user)
@@ -142,7 +142,7 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can't subscribe when blocked" do
+  js_test "can't subscribe when blocked" do
     changeset = create(:changeset, :closed)
     user = create(:user)
     sign_in_as(user)

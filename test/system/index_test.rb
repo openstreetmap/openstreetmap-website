@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class IndexTest < ApplicationSystemTestCase
-  test "should remove and add an overlay on share button click" do
+  js_test "should remove and add an overlay on share button click" do
     node = create(:node)
 
     visit node_path(node)
@@ -23,7 +23,7 @@ class IndexTest < ApplicationSystemTestCase
     assert_selector "#content.overlay-right-sidebar"
   end
 
-  test "should add an overlay on close" do
+  js_test "should add an overlay on close" do
     node = create(:node)
 
     visit node_path(node)
@@ -41,7 +41,7 @@ class IndexTest < ApplicationSystemTestCase
     assert_selector "#content.overlay-right-sidebar"
   end
 
-  test "should not add overlay when not closing right menu popup" do
+  js_test "should not add overlay when not closing right menu popup" do
     node = create(:node)
 
     visit node_path(node)
@@ -72,7 +72,7 @@ class IndexTest < ApplicationSystemTestCase
     assert_selector "#content.overlay-right-sidebar"
   end
 
-  test "node included in edit link" do
+  js_test "node included in edit link" do
     node = create(:node)
     visit node_path(node)
     assert_selector "#editanchor[href*='?node=#{node.id}#']"
@@ -81,7 +81,7 @@ class IndexTest < ApplicationSystemTestCase
     assert_no_selector "#editanchor[href*='?node=#{node.id}#']"
   end
 
-  test "note included in edit link" do
+  js_test "note included in edit link" do
     note = create(:note_with_comments)
     visit note_path(note)
     assert_selector "#editanchor[href*='?note=#{note.id}#']"
@@ -90,7 +90,7 @@ class IndexTest < ApplicationSystemTestCase
     assert_no_selector "#editanchor[href*='?note=#{note.id}#']"
   end
 
-  test "can navigate from hidden note to visible note" do
+  js_test "can navigate from hidden note to visible note" do
     sign_in_as(create(:moderator_user))
     hidden_note = create(:note, :status => "hidden", :description => "Hidden Note Description")
     create(:note_comment, :note => hidden_note, :body => "this-is-a-hidden-note", :event => "opened")

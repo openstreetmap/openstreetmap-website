@@ -3,13 +3,13 @@
 require "application_system_test_case"
 
 class SiteTest < ApplicationSystemTestCase
-  test "visiting the index" do
+  js_test "visiting the index" do
     visit "/"
 
     assert_selector "h1", :text => "OpenStreetMap"
   end
 
-  test "tooltip shows for Layers button" do
+  js_test "tooltip shows for Layers button" do
     visit "/"
 
     assert_no_selector ".tooltip"
@@ -18,7 +18,7 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Layers"
   end
 
-  test "tooltip shows for Legend button on Standard layer" do
+  js_test "tooltip shows for Legend button on Standard layer" do
     visit "/"
 
     assert_no_selector ".tooltip"
@@ -29,7 +29,7 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_no_text "not available"
   end
 
-  test "tooltip shows for Legend button on a layer without a legend provided" do
+  js_test "tooltip shows for Legend button on a layer without a legend provided" do
     visit "/#layers=H" # assumes that HOT layer has no legend
 
     assert_no_selector ".tooltip"
@@ -40,7 +40,7 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_text "not available"
   end
 
-  test "tooltip shows for query button when zoomed in" do
+  js_test "tooltip shows for query button when zoomed in" do
     visit "/#map=14/0/0"
 
     assert_no_selector ".tooltip"
@@ -51,27 +51,27 @@ class SiteTest < ApplicationSystemTestCase
     tooltip.assert_no_text "Zoom in"
   end
 
-  test "tooltips on low zoom levels for disabled control 'Edit'" do
+  js_test "tooltips on low zoom levels for disabled control 'Edit'" do
     check_control_tooltips_on_low_zoom "Edit"
   end
-  test "tooltips on low zoom levels for disabled control 'Add a note to the map'" do
+  js_test "tooltips on low zoom levels for disabled control 'Add a note to the map'" do
     check_control_tooltips_on_low_zoom "Add a note to the map"
   end
-  test "tooltips on low zoom levels for disabled control 'Query features'" do
+  js_test "tooltips on low zoom levels for disabled control 'Query features'" do
     check_control_tooltips_on_low_zoom "Query features"
   end
 
-  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Edit'" do
+  js_test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Edit'" do
     check_control_tooltips_on_high_zoom "Edit"
   end
-  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Add a note to the map'" do
+  js_test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Add a note to the map'" do
     check_control_tooltips_on_high_zoom "Add a note to the map"
   end
-  test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Query features'" do
+  js_test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Query features'" do
     check_control_tooltips_on_high_zoom "Query features"
   end
 
-  test "notes layer tooltip appears on zoom out" do
+  js_test "notes layer tooltip appears on zoom out" do
     visit "/#map=10/40/-4" # depends on zoom levels where notes are allowed
 
     within "#map" do

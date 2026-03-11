@@ -11,7 +11,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     assert_text "You have not followed any user yet."
   end
 
-  test "show users if have friends" do
+  js_test "show users if have friends" do
     user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
     friend_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
     create(:follow, :follower => user, :following => friend_user)
@@ -27,7 +27,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     assert_link friend_user.display_name, :below => friends_heading, :above => others_heading
   end
 
-  test "show nearby users with ability to follow" do
+  js_test "show nearby users with ability to follow" do
     user = create(:user, :home_lon => 1.1, :home_lat => 1.1)
     nearby_user = create(:user, :home_lon => 1.2, :home_lat => 1.2)
     sign_in_as(user)
@@ -52,7 +52,7 @@ class DashboardSystemTest < ApplicationSystemTestCase
     end
   end
 
-  test "show map with home marker if home location is set" do
+  js_test "show map with home marker if home location is set" do
     user = create(:user, :display_name => "Fred Tester", :home_lon => 1.1, :home_lat => 1.1)
     sign_in_as(user)
 

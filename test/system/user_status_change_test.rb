@@ -3,12 +3,8 @@
 require "application_system_test_case"
 
 class UserStatusChangeTest < ApplicationSystemTestCase
-  def setup
-    admin = create(:administrator_user)
-    sign_in_as(admin)
-  end
-
-  test "Admin can unsuspend a user" do
+  js_test "Admin can unsuspend a user" do
+    sign_in_as(create(:administrator_user))
     user = create(:user, :suspended)
     visit user_path(user)
     accept_confirm do
@@ -20,7 +16,8 @@ class UserStatusChangeTest < ApplicationSystemTestCase
     assert_equal "active", user.status
   end
 
-  test "Admin can suspend a user" do
+  js_test "Admin can suspend a user" do
+    sign_in_as(create(:administrator_user))
     # There's another instance of "Suspend" in the page.
     # This test uses a more specific text, putting it in
     # a variable to avoid a misspelling when doing
@@ -38,7 +35,8 @@ class UserStatusChangeTest < ApplicationSystemTestCase
     assert_equal "suspended", user.status
   end
 
-  test "Admin can confirm a user" do
+  js_test "Admin can confirm a user" do
+    sign_in_as(create(:administrator_user))
     user = create(:user, :suspended)
     visit user_path(user)
     accept_confirm do

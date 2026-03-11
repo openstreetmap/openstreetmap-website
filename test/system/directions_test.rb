@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class DirectionsSystemTest < ApplicationSystemTestCase
-  test "updates route output on mode change" do
+  js_test "updates route output on mode change" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
 
@@ -21,7 +21,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
-  test "swaps route endpoints on reverse button click" do
+  js_test "swaps route endpoints on reverse button click" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
 
@@ -39,7 +39,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     assert_equal start_location, find_by_id("route_to").value
   end
 
-  test "removes popup on sidebar close" do
+  js_test "removes popup on sidebar close" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
 

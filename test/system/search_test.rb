@@ -37,7 +37,7 @@ class SearchTest < ApplicationSystemTestCase
       BODY
   end
 
-  test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
+  js_test "click on 'where is this' sets search input value and makes reverse geocoding request with zoom" do
     visit "/#map=15/51.76320/-0.00760"
 
     assert_field "Search", :with => ""
@@ -47,7 +47,7 @@ class SearchTest < ApplicationSystemTestCase
     assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
   end
 
-  test "'Show address' from context menu makes reverse geocoding request with zoom" do
+  js_test "'Show address' from context menu makes reverse geocoding request with zoom" do
     visit "/#map=15/51.76320/-0.00760"
 
     find_by_id("map").right_click
@@ -68,7 +68,7 @@ class SearchTest < ApplicationSystemTestCase
     assert_field "Search", :with => "4.321, 9.876"
   end
 
-  test "search adds viewbox param to Nominatim link" do
+  js_test "search adds viewbox param to Nominatim link" do
     visit "/"
 
     fill_in "query", :with => "paris"
@@ -79,7 +79,7 @@ class SearchTest < ApplicationSystemTestCase
     end
   end
 
-  test "search adds zoom param to reverse Nominatim link" do
+  js_test "search adds zoom param to reverse Nominatim link" do
     visit "/#map=7/1.234/6.789"
 
     fill_in "query", :with => "60 30"
