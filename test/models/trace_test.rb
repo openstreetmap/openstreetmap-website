@@ -142,6 +142,8 @@ class TraceTest < ActiveSupport::TestCase
     check_mime_type("g", "application/x-tar")
     check_mime_type("h", "application/x-tar+gzip")
     check_mime_type("i", "application/x-tar+x-bzip2")
+    check_mime_type("k", "application/vnd.google-earth.kml+xml", "kml")
+    check_mime_type("l", "application/vnd.google-earth.kml+xml", "kml")
   end
 
   def test_extension_name
@@ -154,6 +156,8 @@ class TraceTest < ActiveSupport::TestCase
     check_extension_name("g", ".tar")
     check_extension_name("h", ".tar.gz")
     check_extension_name("i", ".tar.bz2")
+    check_extension_name("k", ".kml", "kml")
+    check_extension_name("l", ".kml", "kml")
   end
 
   def test_xml_file
@@ -291,6 +295,51 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal 2, trace.size
   end
 
+  def test_import_handles_kml_linestring
+    trace = create(:trace, :inserted => false, :fixture => "k", :fixture_ext => "kml")
+
+    trace.import
+
+    # The fixture has 2 coordinate tuples in a LineString
+    assert_equal 2, trace.size
+  end
+
+  def test_import_handles_kml_gx_track
+    trace = create(:trace, :inserted => false, :fixture => "l", :fixture_ext => "kml")
+
+    trace.import
+
+    # The fixture has 2 <when>/<gx:coord> pairs in a gx:Track
+    assert_equal 2, trace.size
+  end
+
+  def test_import_kml_linestring_assigns_synthetic_timestamps
+    trace = create(:trace, :inserted => false, :fixture => "k", :fixture_ext => "kml")
+
+    trace.import
+    trace.reload
+
+    points = Tracepoint.where(:trace => trace).order(:timestamp)
+    assert_equal 2, points.count
+
+    # Consecutive points should be exactly 1 second apart (synthetic timestamps)
+    assert_equal 1, (points.last.timestamp - points.first.timestamp).to_i
+  end
+
+  def test_import_kml_gx_track_uses_real_timestamps
+    trace = create(:trace, :inserted => false, :fixture => "l", :fixture_ext => "kml")
+
+    trace.import
+    trace.reload
+
+    points = Tracepoint.where(:trace => trace).order(:timestamp)
+    assert_equal 2, points.count
+
+    # The fixture has explicit timestamps 1 second apart
+    assert_equal 1, (points.last.timestamp - points.first.timestamp).to_i
+    assert_equal Time.parse("2008-10-01T10:10:10Z").utc, points.first.timestamp
+  end
+
   def test_import_enforces_limit
     trace = create(:trace, :inserted => false, :fixture => "f")
 
@@ -310,12 +359,16 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal traces, query.order(:id).ids
   end
 
-  def check_mime_type(id, mime_type)
-    assert_equal mime_type, create(:trace, :fixture => id).mime_type
+  def check_mime_type(id, mime_type, ext = nil)
+    opts = { :fixture => id }
+    opts[:fixture_ext] = ext if ext
+    assert_equal mime_type, create(:trace, **opts).mime_type
   end
 
-  def check_extension_name(id, extension_name)
-    assert_equal extension_name, create(:trace, :fixture => id).extension_name
+  def check_extension_name(id, extension_name, ext = nil)
+    opts = { :fixture => id }
+    opts[:fixture_ext] = ext if ext
+    assert_equal extension_name, create(:trace, **opts).extension_name
   end
 
   def check_xml_file(id, md5sum)

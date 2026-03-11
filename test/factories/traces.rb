@@ -17,11 +17,13 @@ FactoryBot.define do
 
     transient do
       fixture { nil }
+      fixture_ext { nil }
     end
 
     after(:build) do |user, evaluator|
       if evaluator.fixture
-        user.file.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gpx")))
+        ext = evaluator.fixture_ext || "gpx"
+        user.file.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.#{ext}")))
 
         if evaluator.inserted
           user.image.attach(Rack::Test::UploadedFile.new(Rails.root.join("test", "gpx", "fixtures", "#{evaluator.fixture}.gif")))

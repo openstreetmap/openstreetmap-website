@@ -40,6 +40,78 @@ module GPX
       end
     end
 
+    # Parse a KML file, handling two track formats:
+    #
+    # 1. <Placemark><LineString><coordinates> (e.g. Traccar exports)
+    #    Coordinates are space-separated "lon,lat,alt" tuples with no per-point
+    #    timestamps.  We assign synthetic 1-second-apart timestamps starting
+    #    from a base time extracted from the Placemark <name> when possible, or
+    #    falling back to Unix epoch.
+    #
+    # 2. Google Earth extended-data <gx:Track> elements that pair a <when>
+    #    timestamp with a <gx:coord> "lon lat alt" value.
+    #
+    # Both formats can coexist in the same KML document.
+    def parse_kml_file(reader, &block) # rubocop:disable Metrics/MethodLength
+      in_linestring   = false
+      in_gx_track     = false
+      in_placemark    = false
+      placemark_name  = nil
+      gx_whens        = []
+      gx_coords       = []
+
+      while reader.read
+        case reader.node_type
+        when XML::Reader::TYPE_ELEMENT
+          case reader.name
+          when "Placemark"
+            in_placemark   = true
+            placemark_name = nil
+          when "name"
+            if in_placemark && !in_linestring && !in_gx_track
+              placemark_name = reader.read_string
+            end
+          when "LineString"
+            in_linestring = true
+          when "coordinates"
+            if in_linestring
+              raw = reader.read_string
+              base_time = parse_kml_placemark_time(placemark_name)
+              emit_linestring_coords(raw, base_time, &block)
+              in_linestring = false
+            end
+          when "gx:Track"
+            in_gx_track = true
+            gx_whens    = []
+            gx_coords   = []
+          when "when"
+            if in_gx_track
+              gx_whens << reader.read_string
+            end
+          when "gx:coord"
+            if in_gx_track
+              gx_coords << reader.read_string
+            end
+          end
+
+        when XML::Reader::TYPE_END_ELEMENT
+          case reader.name
+          when "Placemark"
+            in_placemark  = false
+            placemark_name = nil
+          when "LineString"
+            in_linestring = false
+          when "gx:Track"
+            emit_gx_track_coords(gx_whens, gx_coords, &block)
+            @tracksegs += 1
+            in_gx_track = false
+            gx_whens    = []
+            gx_coords   = []
+          end
+        end
+      end
+    end
+
     def points(&block)
       return enum_for(:points) unless block
 
@@ -51,7 +123,13 @@ module GPX
 
       begin
         Archive::Reader.open_filename(@file).each_entry_with_data do |entry, data|
-          parse_file(XML::Reader.string(data), &block) if entry.regular?
+          if entry.regular?
+            if kml_data?(data)
+              parse_kml_file(XML::Reader.string(data), &block)
+            else
+              parse_file(XML::Reader.string(data), &block)
+            end
+          end
         end
       rescue Archive::Error
         io = ::File.open(@file)
@@ -61,7 +139,11 @@ module GPX
         when "application/x-bzip2" then io = Bzip2::FFI::Reader.open(@file)
         end
 
-        parse_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
+        if kml_file?(@file)
+          parse_kml_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
+        else
+          parse_file(XML::Reader.io(io, :options => XML::Parser::Options::NOERROR), &block)
+        end
       end
     end
 
@@ -168,6 +250,116 @@ module GPX
       end
 
       StringIO.new(image.gif)
+    end
+
+    private
+
+    # Returns true when the raw string content of a file looks like KML.
+    def kml_data?(data)
+      head = data.byteslice(0, 1024) || ""
+      head.include?("http://www.opengis.net/kml") ||
+        head.include?("<kml") ||
+        head.include?("<KML")
+    end
+
+    # Returns true when the file at +path+ looks like KML by peeking at its
+    # first 1 KB (works for plain, gz, and bz2 files because we only look at
+    # the already-decompressed io that the caller opened).
+    def kml_file?(path)
+      head = ::File.read(path, 1024) || ""
+      head.include?("http://www.opengis.net/kml") ||
+        head.include?("<kml") ||
+        head.include?("<KML")
+    rescue StandardError
+      false
+    end
+
+    # Try to extract a UTC base time from a KML Placemark name such as:
+    #   "2026-03-09 22:00 - 2026-03-10 21:59"
+    # Returns nil when the name cannot be parsed.
+    def parse_kml_placemark_time(name)
+      return nil if name.nil?
+
+      # Match the first ISO-8601-ish date/time in the string
+      if (m = name.match(/(\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}(?::\d{2})?)/))
+        Time.parse(m[1]).utc
+      end
+    rescue ArgumentError, TypeError
+      nil
+    end
+
+    # Yield TrkPt objects for every valid "lon,lat[,alt]" tuple found in the
+    # space-separated +raw+ coordinate string (KML LineString format).
+    # When no per-point timestamp is available we assign synthetic ones that
+    # are 1 second apart starting from +base_time+ (or Unix epoch).
+    def emit_linestring_coords(raw, base_time)
+      base_time ||= Time.utc(1970, 1, 1)
+      offset = 0
+
+      raw.split(/\s+/).each do |tuple|
+        next if tuple.strip.empty?
+
+        parts = tuple.split(",")
+        next unless parts.length >= 2
+
+        lon = parts[0].to_f
+        lat = parts[1].to_f
+        alt = parts[2]&.to_f || 0.0
+
+        point = TrkPt.new(@tracksegs, lat, lon)
+        point.altitude  = alt
+        point.timestamp = base_time + offset
+
+        @possible_points += 1
+        raise FileTooBigError if @possible_points > @maximum_points
+
+        if point.valid?
+          yield point
+          @actual_points += 1
+          @lats << point.latitude
+          @lons << point.longitude
+          offset += 1
+        end
+      end
+
+      # Treat the whole LineString as one track segment
+      @tracksegs += 1
+    end
+
+    # Yield TrkPt objects from a <gx:Track> block given parallel arrays of
+    # ISO-8601 timestamp strings (+whens+) and "lon lat [alt]" coord strings
+    # (+coords+).  Unpaired or un-parseable entries are skipped.
+    def emit_gx_track_coords(whens, coords)
+      whens.zip(coords).each do |when_str, coord_str|
+        next if when_str.nil? || coord_str.nil?
+
+        parts = coord_str.strip.split(/\s+/)
+        next unless parts.length >= 2
+
+        lon = parts[0].to_f
+        lat = parts[1].to_f
+        alt = parts[2]&.to_f || 0.0
+
+        timestamp = begin
+          Time.parse(when_str).utc
+        rescue ArgumentError, TypeError
+          next
+        end
+
+        point = TrkPt.new(@tracksegs, lat, lon)
+        point.altitude  = alt
+        point.timestamp = timestamp
+
+        @possible_points += 1
+        raise FileTooBigError if @possible_points > @maximum_points
+
+        if point.valid?
+          yield point
+          @actual_points += 1
+          @lats << point.latitude
+          @lons << point.longitude
+        end
+      end
     end
   end
 

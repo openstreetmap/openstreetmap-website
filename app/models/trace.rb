@@ -117,6 +117,7 @@ class Trace < ApplicationRecord
     when "application/zip" then ".zip"
     when "application/gzip" then ".gpx.gz"
     when "application/x-bzip2" then ".gpx.bz2"
+    when "application/vnd.google-earth.kml+xml" then ".kml"
     else ".gpx"
     end
   end
@@ -291,8 +292,18 @@ class Trace < ApplicationRecord
     when /\bZip archive\b/ then "application/zip"
     when /\bXML\b.*\bgzip\b/ then "application/gzip"
     when /\bXML\b.*\bbzip2\b/ then "application/x-bzip2"
+    when /\bXML\b/ then kml_file?(file) ? "application/vnd.google-earth.kml+xml" : "application/gpx+xml"
     else "application/gpx+xml"
     end
+  end
+
+  def kml_file?(path)
+    head = ::File.read(path, 1024) || ""
+    head.include?("http://www.opengis.net/kml") ||
+      head.include?("<kml") ||
+      head.include?("<KML")
+  rescue StandardError
+    false
   end
 
   def set_filename
