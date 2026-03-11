@@ -40,7 +40,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def lost_password(user, token)
+  def lost_password
+    user, token = params.fetch_values(:user, :token)
+
     with_recipient_locale user do
       @url = user_reset_password_url(:token => token)
 

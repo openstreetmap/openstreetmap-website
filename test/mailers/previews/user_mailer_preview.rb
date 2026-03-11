@@ -33,7 +33,7 @@ class UserMailerPreview < ActionMailer::Preview
   def lost_password
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    UserMailer.lost_password(user, token)
+    UserMailer.with(:user => user, :token => token).lost_password
   end
 
   def gpx_success

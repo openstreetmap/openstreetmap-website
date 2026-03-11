@@ -43,7 +43,7 @@ class PasswordsController < ApplicationController
 
     if user
       token = user.generate_token_for(:password_reset)
-      UserMailer.lost_password(user, token).deliver_later
+      UserMailer.with(:user => user, :token => token).lost_password.deliver_later
     end
 
     flash[:notice] = t ".send_paranoid_instructions"

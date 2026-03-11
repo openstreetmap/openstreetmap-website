@@ -41,7 +41,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_lost_password
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    email = UserMailer.lost_password(user, token)
+    email = UserMailer.with(:user => user, :token => token).lost_password
 
     recovery_url = url_helpers.user_reset_password_url(:token => token)
     assert_match(ERB::Util.html_escape_once(recovery_url), email.html_part.body.to_s)
