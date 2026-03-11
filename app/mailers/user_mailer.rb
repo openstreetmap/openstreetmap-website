@@ -98,7 +98,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def diary_comment_notification(comment, recipient)
+  def diary_comment_notification
+    comment, recipient = params.fetch_values(:comment, :recipient)
+
     with_recipient_locale recipient do
       @to_user = recipient.display_name
       @from_user = comment.user.display_name
