@@ -36,8 +36,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.gpx_success(trace, 100)
     url = url_helpers.show_trace_url(trace.user, trace)
 
-    assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
-                  "a[href='#{url}']", :text => trace.name
+    assert_select parse_html_body(email), "a[href='#{url}']", :text => trace.name
     assert_includes email.text_part.body, url
   end
 
@@ -46,8 +45,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.gpx_failure(trace, "some error")
     url = url_helpers.show_trace_url(trace.user, trace)
 
-    assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
-                  "a[href='#{url}']", :count => 0
+    assert_select parse_html_body(email), "a[href='#{url}']", :count => 0
     assert_not_includes email.text_part.body, url
   end
 
@@ -67,7 +65,7 @@ class UserMailerTest < ActionMailer::TestCase
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
     email = UserMailer.diary_comment_notification(diary_comment, other_user)
-    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+    body = parse_html_body(email)
 
     url = url_helpers.diary_entry_url(user, diary_entry)
     unsubscribe_url = url_helpers.diary_entry_unsubscribe_url(user, diary_entry)
@@ -82,7 +80,7 @@ class UserMailerTest < ActionMailer::TestCase
     changeset = create(:changeset, :user => user)
     changeset_comment = create(:changeset_comment, :changeset => changeset)
     email = UserMailer.changeset_comment_notification(changeset_comment, other_user)
-    body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+    body = parse_html_body(email)
 
     url = url_helpers.changeset_url(changeset)
     unsubscribe_url = url_helpers.changeset_subscription_url(changeset)
@@ -91,6 +89,10 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   private
+
+  def parse_html_body(email)
+    Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+  end
 
   def url_helpers
     UrlHelpers.new
