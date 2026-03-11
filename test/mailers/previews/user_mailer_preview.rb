@@ -19,7 +19,9 @@ class UserMailerPreview < ActionMailer::Preview
   def signup_confirm
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    UserMailer.signup_confirm(user, token)
+    referer = "the-referer"
+
+    UserMailer.with(:user => user, :token => token, :referer => referer).signup_confirm
   end
 
   def email_confirm

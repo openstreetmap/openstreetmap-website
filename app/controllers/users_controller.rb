@@ -89,7 +89,11 @@ class UsersController < ApplicationController
             successful_login(current_user, referer)
           else
             session[:pending_user] = current_user.id
-            UserMailer.signup_confirm(current_user, current_user.generate_token_for(:new_user), referer).deliver_later
+            UserMailer.with(
+              :user => current_user,
+              :token => current_user.generate_token_for(:new_user),
+              :referer => referer
+            ).signup_confirm.deliver_later
             redirect_to :controller => :confirmations, :action => :confirm, :display_name => current_user.display_name
           end
         else

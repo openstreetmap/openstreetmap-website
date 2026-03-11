@@ -7,7 +7,11 @@ class UserMailerTest < ActionMailer::TestCase
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
     referer = "the-referer"
-    email = UserMailer.signup_confirm(user, token, referer)
+    email = UserMailer.with(
+      :user => user,
+      :token => token,
+      :referer => referer
+    ).signup_confirm
 
     confirmation_url = url_helpers.url_for(
       :controller => "confirmations",
