@@ -9,6 +9,23 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/<html lang=/, email.html_part.body.to_s)
   end
 
+  def test_signup_confirm
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    referer = "the-referer"
+    email = UserMailer.signup_confirm(user, token, referer)
+
+    confirmation_url = url_helpers.url_for(
+      :controller => "confirmations",
+      :action => "confirm",
+      :display_name => user.display_name,
+      :confirm_string => token,
+      :referer => referer
+    )
+    assert_match(ERB::Util.html_escape_once(confirmation_url), email.html_part.body.to_s)
+    assert_match(confirmation_url, email.text_part.body.to_s)
+  end
+
   def test_gpx_description_tags
     trace = create(:trace) do |t|
       create(:tracetag, :trace => t, :tag => "one")
