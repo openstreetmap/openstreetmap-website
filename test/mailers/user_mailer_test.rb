@@ -24,7 +24,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_gpx_success_all_traces_link
     trace = create(:trace)
     email = UserMailer.gpx_success(trace, 100)
-    url = Rails.application.routes.url_helpers.url_for(:controller => "traces", :action => "mine", :host => Settings.server_url, :protocol => Settings.server_protocol)
+    url = url_helpers.url_for(:controller => "traces", :action => "mine")
 
     assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
                   "a[href='#{url}']"
@@ -34,7 +34,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_gpx_success_trace_link
     trace = create(:trace)
     email = UserMailer.gpx_success(trace, 100)
-    url = Rails.application.routes.url_helpers.show_trace_url(trace.user, trace, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
                   "a[href='#{url}']", :text => trace.name
@@ -44,7 +44,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_gpx_failure_no_trace_link
     trace = create(:trace)
     email = UserMailer.gpx_failure(trace, "some error")
-    url = Rails.application.routes.url_helpers.show_trace_url(trace.user, trace, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
                   "a[href='#{url}']", :count => 0
@@ -69,8 +69,8 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.diary_comment_notification(diary_comment, other_user)
     body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
 
-    url = Rails.application.routes.url_helpers.diary_entry_url(user, diary_entry, :host => Settings.server_url, :protocol => Settings.server_protocol)
-    unsubscribe_url = Rails.application.routes.url_helpers.diary_entry_unsubscribe_url(user, diary_entry, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    url = url_helpers.diary_entry_url(user, diary_entry)
+    unsubscribe_url = url_helpers.diary_entry_unsubscribe_url(user, diary_entry)
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end
@@ -84,9 +84,33 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.changeset_comment_notification(changeset_comment, other_user)
     body = Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
 
-    url = Rails.application.routes.url_helpers.changeset_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
-    unsubscribe_url = Rails.application.routes.url_helpers.changeset_subscription_url(changeset, :host => Settings.server_url, :protocol => Settings.server_protocol)
+    url = url_helpers.changeset_url(changeset)
+    unsubscribe_url = url_helpers.changeset_subscription_url(changeset)
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
+  end
+
+  private
+
+  def url_helpers
+    UrlHelpers.new
+  end
+
+  class UrlHelpers
+    def method_missing(method, *args)
+      opts = args.extract_options!
+      opts.reverse_merge!(:host => Settings.server_url, :protocol => Settings.server_protocol)
+      url_helpers.send(method, *args, opts)
+    end
+
+    def respond_to_missing?(method, include_all)
+      url_helpers.respond_to?(method, include_all)
+    end
+
+    private
+
+    def url_helpers
+      Rails.application.routes.url_helpers
+    end
   end
 end
