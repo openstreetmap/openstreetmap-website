@@ -3,12 +3,6 @@
 require "test_helper"
 
 class UserMailerTest < ActionMailer::TestCase
-  def test_html_layout_is_used
-    email = UserMailer.message_notification(create(:message))
-
-    assert_match(/<html lang=/, email.html_part.body.to_s)
-  end
-
   def test_signup_confirm
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
@@ -50,7 +44,7 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(recovery_url, email.text_part.body.to_s)
   end
 
-  def test_gpx_description_tags
+  def test_gpx_success_description_tags
     trace = create(:trace) do |t|
       create(:tracetag, :trace => t, :tag => "one")
       create(:tracetag, :trace => t, :tag => "two&three")
@@ -90,13 +84,14 @@ class UserMailerTest < ActionMailer::TestCase
     assert_not_includes email.text_part.body, url
   end
 
-  def test_html_encoding
+  def test_message_notification
     user = create(:user, :display_name => "Jack & Jill <br>")
     message = create(:message, :sender => user)
     email = UserMailer.message_notification(message)
 
     assert_match("Jack & Jill <br>", email.text_part.body.to_s)
     assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)
+    assert_match(/<html lang=/, email.html_part.body.to_s)
   end
 
   def test_diary_comment_notification
