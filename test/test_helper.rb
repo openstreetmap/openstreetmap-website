@@ -415,5 +415,9 @@ module ActiveSupport
       assert_template template
       assert_template :layout => "xhr"
     end
+
+    def parse_html(html)
+      Rails::Dom::Testing.html_document_fragment.parse(html)
+    end
   end
 end
