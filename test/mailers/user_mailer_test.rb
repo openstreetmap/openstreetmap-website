@@ -121,6 +121,22 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(follow_follower_url, email.text_part.body.to_s)
   end
 
+  def test_note_comment_notification
+    recipient = create(:user, :languages => [I18n.locale])
+    commenter = create(:user)
+    note = create(:note, :lat => 51.7632, :lon => -0.0076)
+    comment = create(:note_comment, :author => commenter, :note => note)
+    email = UserMailer.note_comment_notification(comment, recipient)
+    html_body =
+      Nominatim.stub :describe_location, "The End of the Rainbow" do
+        parse_html_body(email)
+      end
+
+    url = url_helpers.note_url(note)
+    assert_select html_body, "a[href^='#{url}']"
+    assert_match url, email.text_part.body.to_s
+  end
+
   def test_changeset_comment_notification
     create(:language, :code => "en")
     user = create(:user)
