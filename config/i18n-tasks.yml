@@ -18,7 +18,7 @@ data:
     ## Default:
     - config/locales/en.yml
     ## More files:
-    # - config/locales/**/*.%{locale}.yml
+    - config/locales/%{locale}.yml
 
   # Locale files to write new keys to, based on a list of key pattern => file rules. Matched from top to bottom:
   # `i18n-tasks normalize -p` will force move the keys according to these rules
@@ -114,7 +114,8 @@ search:
 #   deepl_options:
 #     formality: prefer_less
 ## Do not consider these keys missing:
-# ignore_missing:
+ignore_missing:
+  - 'site.about.*_*' # wrapped and stored in about_section
 # - 'errors.messages.{accepted,blank,invalid,too_short,too_long}'
 # - '{devise,simple_form}.*'
 
@@ -136,6 +137,9 @@ ignore_unused:
   - 'time.formats.friendly' # used for formatting dates / times in a friendly way
   - 'activerecord.errors.models.user_mute.attributes.subject.format' # used for formatting error message during validation in user_mute.rb
   - 'activerecord.errors.models.user_mute.is_already_muted' # used as part of error message during validation in user_mute.rb
+  - 'site.copyright.legal_babble.*'
+  - 'site.about_section.*'
+  - 'profiles.*.update.*'
 # - '{devise,kaminari,will_paginate}.*'
 # - 'simple_form.{yes,no}'
 # - 'simple_form.{placeholders,hints,labels}.*'
