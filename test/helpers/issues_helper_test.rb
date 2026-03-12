@@ -12,7 +12,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     heading = reportable_heading diary_comment
 
-    dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
+    dom_heading = parse_html "<p>#{heading}</p>"
     assert_dom dom_heading, ":root", "Diary Comment A Discussion, comment ##{diary_comment.id} created on 15 March 2020 at 00:00, updated on 17 May 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", diary_entry_url(diary_entry.user, diary_entry, :anchor => "comment#{diary_comment.id}")
@@ -25,7 +25,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     heading = reportable_heading diary_entry
 
-    dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
+    dom_heading = parse_html "<p>#{heading}</p>"
     assert_dom dom_heading, ":root", "Diary Entry Important Subject created on 24 March 2020 at 00:00, updated on 26 May 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", diary_entry_url(diary_entry.user, diary_entry)
@@ -37,7 +37,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     heading = reportable_heading note
 
-    dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
+    dom_heading = parse_html "<p>#{heading}</p>"
     assert_dom dom_heading, ":root", "Note ##{note.id} created on 14 March 2020 at 00:00, updated on 16 May 2021 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", note_url(note)
@@ -49,7 +49,7 @@ class IssuesHelperTest < ActionView::TestCase
 
     heading = reportable_heading user
 
-    dom_heading = Rails::Dom::Testing.html_document_fragment.parse "<p>#{heading}</p>"
+    dom_heading = parse_html "<p>#{heading}</p>"
     assert_dom dom_heading, ":root", "User Someone created on 18 July 2020 at 00:00"
     assert_dom dom_heading, "a", 1 do
       assert_dom "> @href", user_url(user)

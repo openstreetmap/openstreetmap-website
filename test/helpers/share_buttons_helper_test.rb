@@ -7,7 +7,7 @@ class ShareButtonsHelperTest < ActionView::TestCase
 
   def test_share_buttons
     buttons = share_buttons(:title => "Diary Entry Title", :url => "https://osm.example.com/some/diary/entry")
-    buttons_dom = Rails::Dom::Testing.html_document_fragment.parse(buttons)
+    buttons_dom = parse_html(buttons)
 
     SHARE_BUTTONS_CONFIG.each do |icon|
       assert_dom buttons_dom, "div:has(a i.bi.bi-#{icon[:icon] || icon[:site]})", :count => 1 do

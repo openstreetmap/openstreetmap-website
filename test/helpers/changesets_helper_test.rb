@@ -5,7 +5,7 @@ require "test_helper"
 class ChangesetsHelperTest < ActionView::TestCase
   def test_changeset_user_link
     changeset = create(:changeset)
-    changeset_user_link_dom = Rails::Dom::Testing.html_document_fragment.parse changeset_user_link(changeset)
+    changeset_user_link_dom = parse_html changeset_user_link(changeset)
     assert_dom changeset_user_link_dom, "a:root", :text => changeset.user.display_name do
       assert_dom "> @href", "/user/#{ERB::Util.u(changeset.user.display_name)}"
     end
@@ -21,7 +21,7 @@ class ChangesetsHelperTest < ActionView::TestCase
     changeset = create(:changeset, :created_at => Time.utc(2007, 1, 1, 0, 0, 0), :user => create(:user, :data_public => false))
     # We need to explicitly reset the closed_at to some point in the future, and avoid the before_save callback
     changeset.update_column(:closed_at, Time.now.utc + 1.day) # rubocop:disable Rails/SkipsModelValidations
-    changeset_details_dom = Rails::Dom::Testing.html_document_fragment.parse "<div>#{changeset_details(changeset)}</div>"
+    changeset_details_dom = parse_html "<div>#{changeset_details(changeset)}</div>"
     assert_dom changeset_details_dom, ":root", :text => /^Created .* by anonymous$/ do
       assert_dom "> time", :count => 1 do
         assert_dom "> @title", "Mon, 01 Jan 2007 00:00:00 +0000"
@@ -31,7 +31,7 @@ class ChangesetsHelperTest < ActionView::TestCase
     end
 
     changeset = create(:changeset, :created_at => Time.utc(2007, 1, 1, 0, 0, 0), :closed_at => Time.utc(2007, 1, 2, 0, 0, 0))
-    changeset_details_dom = Rails::Dom::Testing.html_document_fragment.parse "<div>#{changeset_details(changeset)}</div>"
+    changeset_details_dom = parse_html "<div>#{changeset_details(changeset)}</div>"
     assert_dom changeset_details_dom, ":root", :text => /^Closed .* by #{changeset.user.display_name}$/ do
       assert_dom "> time", :count => 1 do
         assert_dom "> @title", :html => "Created: Mon, 01 Jan 2007 00:00:00 +0000\nClosed: Tue, 02 Jan 2007 00:00:00 +0000"

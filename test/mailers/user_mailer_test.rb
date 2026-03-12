@@ -154,7 +154,7 @@ class UserMailerTest < ActionMailer::TestCase
   private
 
   def parse_html_body(email)
-    Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body)
+    parse_html(email.html_part.body)
   end
 
   def url_helpers
