@@ -84,7 +84,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def message_notification(message)
+  def message_notification
+    message = params.fetch(:message)
+
     with_recipient_locale message.recipient do
       @to_user = message.recipient.display_name
       @from_user = message.sender.display_name

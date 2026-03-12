@@ -91,7 +91,7 @@ class UserMailerTest < ActionMailer::TestCase
   def test_message_notification
     user = create(:user, :display_name => "Jack & Jill <br>")
     message = create(:message, :sender => user)
-    email = UserMailer.message_notification(message)
+    email = UserMailer.with(:message => message).message_notification
 
     assert_match("Jack & Jill <br>", email.text_part.body.to_s)
     assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)

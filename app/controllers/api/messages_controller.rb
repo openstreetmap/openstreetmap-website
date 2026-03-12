@@ -52,7 +52,7 @@ module Api
                              :body_format => "markdown")
       @message.save!
 
-      UserMailer.message_notification(@message).deliver_later if @message.notify_recipient?
+      UserMailer.with(:message => @message).message_notification.deliver_later if @message.notify_recipient?
 
       # Return a copy of the new message
       respond_to do |format|
