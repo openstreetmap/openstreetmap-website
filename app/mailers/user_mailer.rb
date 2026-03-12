@@ -151,7 +151,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def note_comment_notification(comment, recipient)
+  def note_comment_notification
+    comment, recipient = params.fetch_values(:comment, :recipient)
+
     with_recipient_locale recipient do
       @noteurl = note_url(comment.note)
       @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
