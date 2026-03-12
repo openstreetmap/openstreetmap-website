@@ -61,8 +61,7 @@ class UserMailerTest < ActionMailer::TestCase
     email = UserMailer.gpx_success(trace, 100)
     url = url_helpers.url_for(:controller => "traces", :action => "mine")
 
-    assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
-                  "a[href='#{url}']"
+    assert_select parse_html_body(email), "a[href='#{url}']"
     assert_includes email.text_part.body, url
   end
 
