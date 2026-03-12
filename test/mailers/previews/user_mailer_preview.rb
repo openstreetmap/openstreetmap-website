@@ -82,6 +82,6 @@ class UserMailerPreview < ActionMailer::Preview
   def changeset_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     comment = create(:changeset_comment)
-    UserMailer.changeset_comment_notification(comment, recipient)
+    UserMailer.with(:comment => comment, :recipient => recipient).changeset_comment_notification
   end
 end
