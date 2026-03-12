@@ -109,6 +109,18 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end
 
+  def test_follow_notification
+    follow = create(:follow)
+    email = UserMailer.follow_notification(follow)
+
+    follower_profile_url = url_helpers.user_url(follow.follower)
+    follow_follower_url = url_helpers.follow_url(follow.follower)
+    assert_match(ERB::Util.html_escape_once(follower_profile_url), email.html_part.body.to_s)
+    assert_match(ERB::Util.html_escape_once(follow_follower_url), email.html_part.body.to_s)
+    assert_match(follower_profile_url, email.text_part.body.to_s)
+    assert_match(follow_follower_url, email.text_part.body.to_s)
+  end
+
   def test_changeset_comment_notification
     create(:language, :code => "en")
     user = create(:user)
