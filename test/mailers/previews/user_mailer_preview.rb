@@ -50,7 +50,7 @@ class UserMailerPreview < ActionMailer::Preview
     rescue LibXML::XML::Error => e
       e.message
     end
-    UserMailer.gpx_failure(trace, error)
+    UserMailer.with(:trace => trace, :error => error).gpx_failure
   end
 
   def message_notification

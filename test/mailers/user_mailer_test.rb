@@ -81,7 +81,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_failure_no_trace_link
     trace = create(:trace)
-    email = UserMailer.gpx_failure(trace, "some error")
+    email = UserMailer.with(:trace => trace, :error => "some error").gpx_failure
     url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select parse_html_body(email), "a[href='#{url}']", :count => 0
