@@ -39,7 +39,7 @@ class UserMailerPreview < ActionMailer::Preview
   def gpx_success
     user = create(:user, :languages => [I18n.locale])
     trace = create(:trace, :user => user)
-    UserMailer.gpx_success(trace, trace.size + 2)
+    UserMailer.with(:trace => trace, :possible_points => trace.size + 2).gpx_success
   end
 
   def gpx_failure

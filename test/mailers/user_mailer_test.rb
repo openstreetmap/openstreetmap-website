@@ -54,7 +54,7 @@ class UserMailerTest < ActionMailer::TestCase
       create(:tracetag, :trace => t, :tag => "two&three")
       create(:tracetag, :trace => t, :tag => "four<five")
     end
-    email = UserMailer.gpx_success(trace, 100)
+    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
 
     assert_match("one, two&amp;three, four&lt;five", email.html_part.body.to_s)
     assert_match("one, two&three, four<five", email.text_part.body.to_s)
@@ -62,7 +62,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_all_traces_link
     trace = create(:trace)
-    email = UserMailer.gpx_success(trace, 100)
+    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
     url = url_helpers.url_for(:controller => "traces", :action => "mine")
 
     assert_select Rails::Dom::Testing.html_document_fragment.parse(email.html_part.body),
@@ -72,7 +72,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_trace_link
     trace = create(:trace)
-    email = UserMailer.gpx_success(trace, 100)
+    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
     url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select parse_html_body(email), "a[href='#{url}']", :text => trace.name
