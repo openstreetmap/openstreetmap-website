@@ -3,13 +3,48 @@
 require "test_helper"
 
 class UserMailerTest < ActionMailer::TestCase
-  def test_html_layout_is_used
-    email = UserMailer.message_notification(create(:message))
+  def test_signup_confirm
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    referer = "the-referer"
+    email = UserMailer.signup_confirm(user, token, referer)
 
-    assert_match(/<html lang=/, email.html_part.body.to_s)
+    confirmation_url = url_helpers.url_for(
+      :controller => "confirmations",
+      :action => "confirm",
+      :display_name => user.display_name,
+      :confirm_string => token,
+      :referer => referer
+    )
+    assert_match(ERB::Util.html_escape_once(confirmation_url), email.html_part.body.to_s)
+    assert_match(confirmation_url, email.text_part.body.to_s)
   end
 
-  def test_gpx_description_tags
+  def test_email_confirm
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    email = UserMailer.email_confirm(user, token)
+
+    confirmation_url = url_helpers.url_for(
+      :controller => "confirmations",
+      :action => "confirm_email",
+      :confirm_string => token
+    )
+    assert_match(ERB::Util.html_escape_once(confirmation_url), email.html_part.body.to_s)
+    assert_match(confirmation_url, email.text_part.body.to_s)
+  end
+
+  def test_lost_password
+    user = create(:user, :languages => [I18n.locale])
+    token = "token-123456"
+    email = UserMailer.lost_password(user, token)
+
+    recovery_url = url_helpers.user_reset_password_url(:token => token)
+    assert_match(ERB::Util.html_escape_once(recovery_url), email.html_part.body.to_s)
+    assert_match(recovery_url, email.text_part.body.to_s)
+  end
+
+  def test_gpx_success_description_tags
     trace = create(:trace) do |t|
       create(:tracetag, :trace => t, :tag => "one")
       create(:tracetag, :trace => t, :tag => "two&three")
@@ -49,13 +84,14 @@ class UserMailerTest < ActionMailer::TestCase
     assert_not_includes email.text_part.body, url
   end
 
-  def test_html_encoding
+  def test_message_notification
     user = create(:user, :display_name => "Jack & Jill <br>")
     message = create(:message, :sender => user)
     email = UserMailer.message_notification(message)
 
     assert_match("Jack & Jill <br>", email.text_part.body.to_s)
     assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)
+    assert_match(/<html lang=/, email.html_part.body.to_s)
   end
 
   def test_diary_comment_notification
@@ -71,6 +107,34 @@ class UserMailerTest < ActionMailer::TestCase
     unsubscribe_url = url_helpers.diary_entry_unsubscribe_url(user, diary_entry)
     assert_select body, "a[href^='#{url}']"
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
+  end
+
+  def test_follow_notification
+    follow = create(:follow)
+    email = UserMailer.follow_notification(follow)
+
+    follower_profile_url = url_helpers.user_url(follow.follower)
+    follow_follower_url = url_helpers.follow_url(follow.follower)
+    assert_match(ERB::Util.html_escape_once(follower_profile_url), email.html_part.body.to_s)
+    assert_match(ERB::Util.html_escape_once(follow_follower_url), email.html_part.body.to_s)
+    assert_match(follower_profile_url, email.text_part.body.to_s)
+    assert_match(follow_follower_url, email.text_part.body.to_s)
+  end
+
+  def test_note_comment_notification
+    recipient = create(:user, :languages => [I18n.locale])
+    commenter = create(:user)
+    note = create(:note, :lat => 51.7632, :lon => -0.0076)
+    comment = create(:note_comment, :author => commenter, :note => note)
+    email = UserMailer.note_comment_notification(comment, recipient)
+    html_body =
+      Nominatim.stub :describe_location, "The End of the Rainbow" do
+        parse_html_body(email)
+      end
+
+    url = url_helpers.note_url(note)
+    assert_select html_body, "a[href^='#{url}']"
+    assert_match url, email.text_part.body.to_s
   end
 
   def test_changeset_comment_notification
