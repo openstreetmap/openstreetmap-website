@@ -7,19 +7,19 @@ class TraceImporterJob < ApplicationJob
     gpx = trace.import
 
     if gpx.actual_points.positive?
-      UserMailer.gpx_success(trace, gpx.actual_points).deliver
+      UserMailer.with(:trace => trace, :possible_points => gpx.actual_points).gpx_success.deliver
     else
-      UserMailer.gpx_failure(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").deliver
+      UserMailer.with(:trace => trace, :error => "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").gpx_failure.deliver
       trace.destroy
     end
   rescue LibXML::XML::Error => e
     logger.info e.to_s
-    UserMailer.gpx_failure(trace, e).deliver
+    UserMailer.with(:trace => trace, :error => e).gpx_failure.deliver
     trace.destroy
   rescue StandardError => e
     logger.info e.to_s
     e.backtrace.each { |l| logger.info l }
-    UserMailer.gpx_failure(trace, "#{e}\n#{e.backtrace.join("\n")}").deliver
+    UserMailer.with(:trace => trace, :error => "#{e}\n#{e.backtrace.join("\n")}").gpx_failure.deliver
     trace.destroy
   end
 end

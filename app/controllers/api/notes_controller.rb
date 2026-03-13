@@ -378,7 +378,7 @@ module Api
 
       if notify
         note.subscribers.visible.each do |user|
-          UserMailer.note_comment_notification(comment, user).deliver_later if current_user != user
+          UserMailer.with(:comment => comment, :recipient => user).note_comment_notification.deliver_later if current_user != user
         end
       end
 

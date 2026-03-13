@@ -22,7 +22,7 @@ class DiaryCommentsController < ApplicationController
 
       # Notify current subscribers of the new comment
       @diary_entry.subscribers.visible.each do |user|
-        UserMailer.diary_comment_notification(@diary_comment, user).deliver_later if current_user != user
+        UserMailer.with(:comment => @diary_comment, :recipient => user).diary_comment_notification.deliver_later if current_user != user
       end
 
       # Add the commenter to the subscribers if necessary

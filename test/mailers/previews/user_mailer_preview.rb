@@ -19,25 +19,27 @@ class UserMailerPreview < ActionMailer::Preview
   def signup_confirm
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    UserMailer.signup_confirm(user, token)
+    referer = "the-referer"
+
+    UserMailer.with(:user => user, :token => token, :referer => referer).signup_confirm
   end
 
   def email_confirm
     user = create(:user, :languages => [I18n.locale], :new_email => "newemail@example.com")
     token = "token-123456"
-    UserMailer.email_confirm(user, token)
+    UserMailer.with(:user => user, :token => token).email_confirm
   end
 
   def lost_password
     user = create(:user, :languages => [I18n.locale])
     token = "token-123456"
-    UserMailer.lost_password(user, token)
+    UserMailer.with(:user => user, :token => token).lost_password
   end
 
   def gpx_success
     user = create(:user, :languages => [I18n.locale])
     trace = create(:trace, :user => user)
-    UserMailer.gpx_success(trace, trace.size + 2)
+    UserMailer.with(:trace => trace, :possible_points => trace.size + 2).gpx_success
   end
 
   def gpx_failure
@@ -48,38 +50,38 @@ class UserMailerPreview < ActionMailer::Preview
     rescue LibXML::XML::Error => e
       e.message
     end
-    UserMailer.gpx_failure(trace, error)
+    UserMailer.with(:trace => trace, :error => error).gpx_failure
   end
 
   def message_notification
     recipient = create(:user, :languages => [I18n.locale])
     message = create(:message, :recipient => recipient)
-    UserMailer.message_notification(message)
+    UserMailer.with(:message => message).message_notification
   end
 
   def diary_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     diary_entry = create(:diary_entry)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
-    UserMailer.diary_comment_notification(diary_comment, recipient)
+    UserMailer.with(:comment => diary_comment, :recipient => recipient).diary_comment_notification
   end
 
   def follow_notification
     following = create(:user, :languages => [I18n.locale])
     follow = create(:follow, :following => following)
-    UserMailer.follow_notification(follow)
+    UserMailer.with(:follow => follow).follow_notification
   end
 
   def note_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     commenter = create(:user)
     comment = create(:note_comment, :author => commenter)
-    UserMailer.note_comment_notification(comment, recipient)
+    UserMailer.with(:comment => comment, :recipient => recipient).note_comment_notification
   end
 
   def changeset_comment_notification
     recipient = create(:user, :languages => [I18n.locale])
     comment = create(:changeset_comment)
-    UserMailer.changeset_comment_notification(comment, recipient)
+    UserMailer.with(:comment => comment, :recipient => recipient).changeset_comment_notification
   end
 end

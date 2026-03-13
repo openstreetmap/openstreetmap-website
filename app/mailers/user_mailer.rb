@@ -12,7 +12,10 @@ class UserMailer < ApplicationMailer
   before_action :set_shared_template_vars
   before_action :attach_project_logo
 
-  def signup_confirm(user, token, referer = nil)
+  def signup_confirm
+    user, token = params.fetch_values(:user, :token)
+    referer = params[:referer]
+
     with_recipient_locale user do
       @url = url_for(:controller => "confirmations", :action => "confirm",
                      :display_name => user.display_name,
@@ -24,7 +27,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def email_confirm(user, token)
+  def email_confirm
+    user, token = params.fetch_values(:user, :token)
+
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",
@@ -35,7 +40,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def lost_password(user, token)
+  def lost_password
+    user, token = params.fetch_values(:user, :token)
+
     with_recipient_locale user do
       @url = user_reset_password_url(:token => token)
 
@@ -44,7 +51,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def gpx_success(trace, possible_points)
+  def gpx_success
+    trace, possible_points = params.fetch_values(:trace, :possible_points)
+
     with_recipient_locale trace.user do
       @to_user = trace.user.display_name
       @trace_url = show_trace_url(trace.user, trace)
@@ -60,7 +69,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def gpx_failure(trace, error)
+  def gpx_failure
+    trace, error = params.fetch_values(:trace, :error)
+
     with_recipient_locale trace.user do
       @to_user = trace.user.display_name
       @trace_name = trace.name
@@ -73,7 +84,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def message_notification(message)
+  def message_notification
+    message = params.fetch(:message)
+
     with_recipient_locale message.recipient do
       @to_user = message.recipient.display_name
       @from_user = message.sender.display_name
@@ -91,7 +104,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def diary_comment_notification(comment, recipient)
+  def diary_comment_notification
+    comment, recipient = params.fetch_values(:comment, :recipient)
+
     with_recipient_locale recipient do
       @to_user = recipient.display_name
       @from_user = comment.user.display_name
@@ -121,7 +136,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def follow_notification(follow)
+  def follow_notification
+    follow = params.fetch(:follow)
+
     with_recipient_locale follow.following do
       @follow = follow
       @viewurl = user_url(@follow.follower)
@@ -134,7 +151,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def note_comment_notification(comment, recipient)
+  def note_comment_notification
+    comment, recipient = params.fetch_values(:comment, :recipient)
+
     with_recipient_locale recipient do
       @noteurl = note_url(comment.note)
       @place = Nominatim.describe_location(comment.note.lat, comment.note.lon, 14, I18n.locale)
@@ -169,7 +188,9 @@ class UserMailer < ApplicationMailer
     end
   end
 
-  def changeset_comment_notification(comment, recipient)
+  def changeset_comment_notification
+    comment, recipient = params.fetch_values(:comment, :recipient)
+
     with_recipient_locale recipient do
       @to_user = recipient.display_name
       @changeset_url = changeset_url(comment.changeset)

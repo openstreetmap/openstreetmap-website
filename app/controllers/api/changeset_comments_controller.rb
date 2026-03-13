@@ -45,7 +45,7 @@ module Api
 
       # Notify current subscribers of the new comment
       changeset.subscribers.visible.each do |user|
-        UserMailer.changeset_comment_notification(comment, user).deliver_later if current_user != user
+        UserMailer.with(:comment => comment, :recipient => user).changeset_comment_notification.deliver_later if current_user != user
       end
 
       # Add the commenter to the subscribers if necessary
