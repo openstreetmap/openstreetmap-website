@@ -1,16 +1,4 @@
-<div class="secondary-actions mb-3">
-  <% if !@feature.redacted? %>
-    <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
-  <% elsif current_user&.moderator? %>
-    <% if !params[:show_redactions] %>
-      <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
-    <% else %>
-      <%= link_to t(".view_redaction_message") %>
-    <% end %>
-  <% end %>
-</div>
-
-<nav>
+<nav class="sticky-top bg-body border-bottom pb-2 z-1">
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item">
       <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
@@ -30,3 +18,15 @@
           :title => t("browse.versions_navigation.version", :version => v) }
       end %>
 </nav>
+
+<div class="secondary-actions mb-3">
+  <% if !@feature.redacted? %>
+    <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
+  <% elsif current_user&.moderator? %>
+    <% if !params[:show_redactions] %>
+      <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
+    <% else %>
+      <%= link_to t(".view_redaction_message") %>
+    <% end %>
+  <% end %>
+</div>
