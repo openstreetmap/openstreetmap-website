@@ -96,7 +96,7 @@ OSM.DirectionsRouteOutput = function (map) {
         row.append("<td class='ps-3'>");
       }
 
-      row.append(`<td><b>${i + 1}.</b> ${instruction}`);
+      row.append(`<td class="text-break"><b>${i + 1}.</b> ${instruction}`);
       row.append("<td class='pe-3 distance text-body-secondary text-end'>" + formatStepDistance(...translateDistanceUnits(dist)));
 
       row.on("click", function () {
