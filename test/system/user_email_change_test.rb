@@ -9,7 +9,7 @@ class UserEmailChangeTest < ApplicationSystemTestCase
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
 
-  test "User can change their email address" do
+  js_test "User can change their email address" do
     user = create(:user)
     sign_in_as(user)
 

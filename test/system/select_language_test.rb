@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class SelectLanguageTest < ApplicationSystemTestCase
-  test "can select language when logged out" do
+  js_test "can select language when logged out" do
     visit help_path
 
     within_content_heading do
@@ -25,7 +25,7 @@ class SelectLanguageTest < ApplicationSystemTestCase
     end
   end
 
-  test "can select language when logged in" do
+  js_test "can select language when logged in" do
     user = create(:user, :display_name => "LanguageTestUser")
     sign_in_as(user)
 

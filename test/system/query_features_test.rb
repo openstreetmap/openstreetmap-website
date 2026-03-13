@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class QueryFeaturesSystemTest < ApplicationSystemTestCase
-  test "sorts enclosing features correctly" do
+  js_test "sorts enclosing features correctly" do
     visit "/#map=15/54.18315/7.88473"
 
     within "#map" do
@@ -76,7 +76,7 @@ class QueryFeaturesSystemTest < ApplicationSystemTestCase
     end
   end
 
-  test "sorts enclosing features correctly across antimeridian" do
+  js_test "sorts enclosing features correctly across antimeridian" do
     visit "/#map=15/60/30"
 
     within "#map" do
@@ -130,7 +130,7 @@ class QueryFeaturesSystemTest < ApplicationSystemTestCase
     end
   end
 
-  test "sorts enclosing features correctly with multiple bboxes across antimeridian" do
+  js_test "sorts enclosing features correctly with multiple bboxes across antimeridian" do
     visit "/#map=15/-16.155/179.995"
 
     within "#map" do

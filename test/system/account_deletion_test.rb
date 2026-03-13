@@ -8,7 +8,8 @@ class AccountDeletionTest < ApplicationSystemTestCase
     sign_in_as(@user)
   end
 
-  test "the status is deleted and the personal data removed" do
+  js_test "the status is deleted and the personal data removed" do
+    sign_in_as(@user)
     visit account_path
 
     click_on "Delete Account..."
@@ -22,7 +23,8 @@ class AccountDeletionTest < ApplicationSystemTestCase
     assert_equal "user_#{@user.id}", @user.display_name
   end
 
-  test "the user is signed out after deletion" do
+  js_test "the user is signed out after deletion" do
+    sign_in_as(@user)
     visit account_path
 
     click_on "Delete Account..."
@@ -33,7 +35,8 @@ class AccountDeletionTest < ApplicationSystemTestCase
     assert_content "Log In"
   end
 
-  test "the user is shown a confirmation flash message" do
+  js_test "the user is shown a confirmation flash message" do
+    sign_in_as(@user)
     visit account_path
 
     click_on "Delete Account..."

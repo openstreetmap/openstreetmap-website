@@ -27,7 +27,7 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add and remove social link without submitting" do
+  js_test "can add and remove social link without submitting" do
     user = create(:user)
 
     sign_in_as(user)
@@ -49,7 +49,7 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add and remove social links" do
+  js_test "can add and remove social links" do
     user = create(:user)
 
     sign_in_as(user)
@@ -79,7 +79,7 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can control social links using keyboard without submitting" do
+  js_test "can control social links using keyboard without submitting" do
     user = create(:user)
 
     sign_in_as(user)
@@ -98,7 +98,7 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can control social links using keyboard" do
+  js_test "can control social links using keyboard" do
     user = create(:user)
 
     sign_in_as(user)
@@ -126,7 +126,7 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add and remove multiple links" do
+  js_test "can add and remove multiple links" do
     user = create(:user)
 
     sign_in_as(user)

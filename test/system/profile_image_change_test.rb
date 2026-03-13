@@ -35,7 +35,7 @@ class ProfileImageChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add and remove image" do
+  js_test "can add and remove image" do
     user = create(:user)
 
     sign_in_as(user)
@@ -82,7 +82,7 @@ class ProfileImageChangeTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add image by clicking the placeholder image" do
+  js_test "can add image by clicking the placeholder image" do
     user = create(:user)
 
     sign_in_as(user)

@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class AccountHomeTest < ApplicationSystemTestCase
-  test "Go to Home Location works on map layout pages" do
+  js_test "Go to Home Location works on map layout pages" do
     user = create(:user, :display_name => "test user", :home_lat => 60, :home_lon => 30)
     sign_in_as(user)
 
@@ -20,7 +20,7 @@ class AccountHomeTest < ApplicationSystemTestCase
     assert_no_selector ".leaflet-marker-icon"
   end
 
-  test "Go to Home Location works on non-map layout pages" do
+  js_test "Go to Home Location works on non-map layout pages" do
     user = create(:user, :display_name => "test user", :home_lat => 60, :home_lon => 30)
     sign_in_as(user)
 
@@ -37,7 +37,7 @@ class AccountHomeTest < ApplicationSystemTestCase
     assert_no_selector ".leaflet-marker-icon"
   end
 
-  test "Go to Home Location is not available for users without home location" do
+  js_test "Go to Home Location is not available for users without home location" do
     user = create(:user, :display_name => "test user")
     sign_in_as(user)
 
@@ -48,7 +48,7 @@ class AccountHomeTest < ApplicationSystemTestCase
     assert_no_link "Go to Home Location"
   end
 
-  test "account home page shows a warning when visited by users without home location" do
+  js_test "account home page shows a warning when visited by users without home location" do
     user = create(:user, :display_name => "test user")
     sign_in_as(user)
 

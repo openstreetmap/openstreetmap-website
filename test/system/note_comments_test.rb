@@ -24,7 +24,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can add comment" do
+  js_test "can add comment" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -48,7 +48,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can't add a comment when blocked" do
+  js_test "can't add a comment when blocked" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -92,7 +92,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can subscribe" do
+  js_test "can subscribe" do
     note = create(:note_with_comments)
     user = create(:user)
     sign_in_as(user)
@@ -109,7 +109,7 @@ class NoteCommentsTest < ApplicationSystemTestCase
     end
   end
 
-  test "can unsubscribe" do
+  js_test "can unsubscribe" do
     note = create(:note_with_comments)
     user = create(:user)
     create(:note_subscription, :note => note, :user => user)

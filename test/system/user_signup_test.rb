@@ -9,7 +9,7 @@ class UserSignupTest < ApplicationSystemTestCase
     stub_request(:get, /.*gravatar.com.*d=404/).to_return(:status => 404)
   end
 
-  test "Sign up with confirmation email" do
+  js_test "Sign up with confirmation email" do
     visit root_path
 
     click_on "Sign Up"
@@ -40,7 +40,7 @@ class UserSignupTest < ApplicationSystemTestCase
     assert_content "Welcome!"
   end
 
-  test "Sign up with confirmation email resending" do
+  js_test "Sign up with confirmation email resending" do
     visit root_path
 
     click_on "Sign Up"

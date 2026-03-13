@@ -23,7 +23,7 @@ class UserLoginTest < ApplicationSystemTestCase
     assert_button "Second User"
   end
 
-  test "Warn on login page when already logged in with referer link" do
+  js_test "Warn on login page when already logged in with referer link" do
     user1 = create(:user, :display_name => "First User")
     sign_in_as(user1)
 

@@ -3,7 +3,7 @@
 require "application_system_test_case"
 
 class Oauth2Test < ApplicationSystemTestCase
-  def test_authorized_applications
+  js_test "authorized applications" do
     sign_in_as(create(:user))
     visit oauth_authorized_applications_path
 

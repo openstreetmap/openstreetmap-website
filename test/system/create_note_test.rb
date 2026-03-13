@@ -16,7 +16,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     OmniAuth.config.test_mode = false
   end
 
-  test "can create note" do
+  js_test "can create note" do
     visit new_note_path(:anchor => "map=18/0/0")
 
     within_sidebar do
@@ -30,7 +30,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "cannot create new note when zoomed out" do
+  js_test "cannot create new note when zoomed out" do
     visit new_note_path(:anchor => "map=12/0/0")
 
     within_sidebar do
@@ -67,7 +67,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "can open new note page when zoomed out" do
+  js_test "can open new note page when zoomed out" do
     visit new_note_path(:anchor => "map=11/0/0")
 
     within_sidebar do
@@ -90,7 +90,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "cannot create note when api is readonly" do
+  js_test "cannot create note when api is readonly" do
     with_settings(:status => "api_readonly") do
       visit new_note_path(:anchor => "map=18/0/0")
 
@@ -100,7 +100,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     end
   end
 
-  test "encouragement to contribute appears after 5 created notes and disappears after login" do
+  js_test "encouragement to contribute appears after 5 created notes and disappears after login" do
     check_encouragement_while_creating_notes(5)
 
     sign_in_as(create(:user))
@@ -108,7 +108,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     check_no_encouragement_while_logging_out
   end
 
-  test "encouragement to contribute appears after 5 created notes and disappears after email signup" do
+  js_test "encouragement to contribute appears after 5 created notes and disappears after email signup" do
     check_encouragement_while_creating_notes(5)
 
     sign_up_with_email
@@ -116,7 +116,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     check_no_encouragement_while_logging_out
   end
 
-  test "encouragement to contribute appears after 5 created notes and disappears after google signup" do
+  js_test "encouragement to contribute appears after 5 created notes and disappears after google signup" do
     check_encouragement_while_creating_notes(5)
 
     sign_up_with_google
@@ -124,7 +124,7 @@ class CreateNoteTest < ApplicationSystemTestCase
     check_no_encouragement_while_logging_out
   end
 
-  test "strict encouragement to contribute appears after 10 created notes and disappears after login" do
+  js_test "strict encouragement to contribute appears after 10 created notes and disappears after login" do
     check_strict_encouragement_while_creating_notes(5, 10)
 
     sign_in_as(create(:user))
