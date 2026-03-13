@@ -1,10 +1,14 @@
 //= depend_on settings.yml
 //= depend_on settings.local.yml
 //= depend_on layers.yml
-//= require leaflet/dist/leaflet-src
-//= require leaflet.osm
+//= require osm_embed
+//= require maplibre-gl/dist/maplibre-gl
 //= require i18n
 //= require i18n/embed
+//= require maplibre/attribution
+//= require maplibre/map
+//= require maplibre/dom_util
+//= require maplibre/controls
 
 if (navigator.languages) {
   OSM.i18n.locale = navigator.languages[0];
@@ -18,61 +22,41 @@ OSM.i18n.enableFallback = true;
 window.onload = function () {
   const args = new URLSearchParams(location.search);
 
-  const options = {
-    mapnik: {
-<% if Settings.key?(:tile_cdn_url) %>
-      url: <%= Settings.tile_cdn_url.to_json %>
-<% end %>
-    }
-  };
-
-  const map = L.map("map");
-  map.attributionControl.setPrefix("");
-  map.removeControl(map.attributionControl);
-
   const isDarkTheme = args.get("theme") === "dark" || (args.get("theme") !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
+  <% if Settings.key?(:tile_cdn_url) %>
+  layers.mapnik.style.sources["raster-tiles-mapnik"].tiles = [<%= Settings.tile_cdn_url.to_json %>];
+  <% end %>
   const layerId = (args.get("layer") || "").replaceAll(" ", "");
   const layerConfig = layers[layerId] || layers.mapnik;
-  let url = (isDarkTheme && layerConfig.urlDark) || layerConfig.url;
-  url = url.replace("{ratio}", "{r}");
-  new L.OSM.TileLayer({ ...layerConfig, ...options[layerId], url }).addTo(map);
 
-  if (args.has("marker")) {
-    L.marker(args.get("marker").split(","), { icon: L.divIcon({
-      html: "<svg viewBox='0 0 25 40' overflow='visible'><use href='#pin-shadow' /><use href='#pin-dot' color='#0b8ef1' /></svg>",
-      iconSize: [25, 40],
-      iconAnchor: [12.5, 40]
-    }) }).addTo(map);
-  }
+  const style = isDarkTheme && layerConfig.styleDark ? layerConfig.styleDark : layerConfig.style;
+
+  const map = new OSM.MapLibre.Map({
+    container: "map",
+    style,
+    attributionControl: false,
+    allowRotation: layerConfig.isVectorStyle,
+    zoomSnap: layerConfig.isVectorStyle ? 0 : 1
+  });
 
   const bbox = (args.get("bbox") || "-180,-90,180,90").split(",");
-  map.fitBounds([[bbox[1], bbox[0]], [bbox[3], bbox[2]]]);
+  map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { animate: false });
 
-  map.addControl(new L.Control.OSMReportAProblem());
-};
+  const attribution = new OSM.MapLibre.AttributionControl({
+    credit: layerConfig.credit,
+    includeReportLink: true
+  });
+  map.addControl(attribution, "bottom-right");
 
-L.Control.OSMReportAProblem = L.Control.Attribution.extend({
-  options: {
-    position: "bottomright",
-    prefix: `<a href="/fixthemap?lat={x}&lon={y}&zoom={z}" target="_blank">${OSM.i18n.t("javascripts.embed.report_problem")}</a>`
-  },
+  const position = document.documentElement.dir === "rtl" ? "top-left" : "top-right";
+  const navigationControl = new OSM.MapLibre.NavigationControl();
+  map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl]), position);
 
-  onAdd: function (map) {
-    const container = L.Control.Attribution.prototype.onAdd.call(this, map);
-
-    map.on("moveend", this._update, this);
-
-    return container;
-  },
-
-  _update: function () {
-    L.Control.Attribution.prototype._update.call(this);
-
-    this._container.innerHTML =
-      this._container.innerHTML
-        .replace("{x}", this._map.getCenter().lat)
-        .replace("{y}", this._map.getCenter().lng)
-        .replace("{z}", this._map.getZoom());
+  if (args.has("marker")) {
+    const markerCoords = args.get("marker").split(",");
+    new OSM.MapLibre.Marker({ color: "var(--marker-blue)" })
+      .setLngLat([parseFloat(markerCoords[1]), parseFloat(markerCoords[0])])
+      .addTo(map);
   }
-});
+};
