@@ -33,7 +33,7 @@ class ApplicationHelperTest < ActionView::TestCase
 
   def test_rss_link_to
     link = rss_link_to(:controller => :diary_entries, :action => :rss)
-    assert_dom_equal "<a href=\"/diary/rss\"><i class=\"bi bi-rss-fill fs-6\" aria-hidden=\"true\"></i></a>", link
+    assert_dom_equal "<a href=\"/diary/rss\"><i class=\"bi bi-rss-fill fs-6 role-administrator\" aria-hidden=\"true\"></i></a>", link
   end
 
   def test_dir
