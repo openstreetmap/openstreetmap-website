@@ -138,7 +138,7 @@ bundle install
 We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
 ```bash
-bundle exec bin/yarn install
+bin/yarn install
 ```
 
 ## Step 4: Prepare Configuration Files
@@ -186,7 +186,7 @@ exit
 To create the three databases - for development, testing and production - run:
 
 ```bash
-bundle exec rails db:create
+bin/rails db:create
 ```
 
 ### Database structure
@@ -194,7 +194,7 @@ bundle exec rails db:create
 To create all the tables, indexes and constraints, run:
 
 ```bash
-bundle exec rails db:migrate
+bin/rails db:migrate
 ```
 
 ## Validate Your Installation
@@ -204,7 +204,7 @@ bundle exec rails db:migrate
 To ensure that everything is set up properly, you should now run:
 
 ```bash
-bundle exec rails test:all
+bin/rails test:all
 ```
 
 This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation is successful.
@@ -217,7 +217,7 @@ This test will take a few minutes, reporting tests run, assertions, and any erro
 Rails comes with a built-in webserver, so that you can test on your own machine without needing a server. Run
 
 ```bash
-bundle exec rails server
+bin/rails server
 ```
 
 You can now view the site in your favourite web-browser at [http://localhost:3000/](http://localhost:3000/)

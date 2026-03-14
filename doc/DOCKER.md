@@ -99,7 +99,7 @@ This will open a shell where you can enter commands. These commands will run wit
 To create all databases and set up all databases, run:
 
 ```bash
-bundle exec rails db:create
+bin/rails db:create
 ```
 
 ## Validate Your Installation
@@ -111,7 +111,7 @@ Hopefully that's it? Let's check that things are working properly.
 Run the test suite:
 
 ```bash
-bundle exec rails test:all
+bin/rails test:all
 ```
 
 This test will take a few minutes, reporting tests run, assertions, and any errors. If you receive no errors, then your installation was successful. On occasion some tests may fail randomly and will pass if run again. We are working towards avoiding this, but it can still happen.
@@ -124,7 +124,7 @@ This test will take a few minutes, reporting tests run, assertions, and any erro
 Rails comes with a built-in webserver, so that you can test on your own machine without needing a server. Run:
 
 ```bash
-bundle exec rails server
+bin/rails server
 ```
 
 You can now view the site in your favourite web browser at [http://localhost:3000/](http://localhost:3000/)

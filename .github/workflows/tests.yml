@@ -47,29 +47,29 @@ jobs:
         cp config/example.storage.yml config/storage.yml
         touch config/settings.local.yml
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Populate database
       run: |
         sed -f script/normalise-structure db/structure.sql > db/structure.expected
         rm -f db/structure.sql
-        bundle exec rails db:migrate
+        bin/rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
         diff -uw db/structure.expected db/structure.actual
     - name: Export javascript strings
-      run: bundle exec i18n export
+      run: bin/i18n export
     - name: Compile assets
-      run: bundle exec rails assets:precompile
+      run: bin/rails assets:precompile
       timeout-minutes: 10
     - name: Create tmp/pids directory
       run: mkdir -p tmp/pids
     - name: Enable virtual display
       run: Xvfb :99 -screen 0 1024x768x24 &
     - name: Run tests
-      run: bundle exec rails test:all
+      run: bin/rails test:all
       env:
         DISPLAY: ":99"
     - name: Run javascript tests
-      run: bundle exec teaspoon
+      run: bin/teaspoon
       env:
         DISPLAY: ":99"
     - name: Upload screenshots
