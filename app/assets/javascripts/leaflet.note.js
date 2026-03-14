@@ -13,6 +13,7 @@ L.OSM.note = function (options) {
       .appendTo($container);
 
     map.on("zoomend", update);
+    map.on("overlayadd overlayremove", updateVisibility);
 
     function update() {
       const wasDisabled = link.hasClass("disabled"),
@@ -26,7 +27,12 @@ L.OSM.note = function (options) {
       link.trigger(isDisabled ? "disabled" : "enabled");
     }
 
+    function updateVisibility() {
+      $container.toggle(map.hasLayer(map.noteLayer));
+    }
+
     update();
+    updateVisibility();
 
     return $container[0];
   };
