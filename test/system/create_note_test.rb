@@ -17,7 +17,7 @@ class CreateNoteTest < ApplicationSystemTestCase
   end
 
   test "can create note" do
-    visit new_note_path(:anchor => "map=18/0/0")
+    visit new_note_path(:anchor => "map=18/0/0&layers=N")
 
     within_sidebar do
       assert_button "Add Note", :disabled => true
@@ -31,7 +31,7 @@ class CreateNoteTest < ApplicationSystemTestCase
   end
 
   test "cannot create new note when zoomed out" do
-    visit new_note_path(:anchor => "map=12/0/0")
+    visit new_note_path(:anchor => "map=12/0/0&layers=N")
 
     within_sidebar do
       assert_no_content "Zoom in to add a note"
@@ -68,7 +68,7 @@ class CreateNoteTest < ApplicationSystemTestCase
   end
 
   test "can open new note page when zoomed out" do
-    visit new_note_path(:anchor => "map=11/0/0")
+    visit new_note_path(:anchor => "map=11/0/0&layers=N")
 
     within_sidebar do
       assert_content "Zoom in to add a note"
@@ -92,7 +92,7 @@ class CreateNoteTest < ApplicationSystemTestCase
 
   test "cannot create note when api is readonly" do
     with_settings(:status => "api_readonly") do
-      visit new_note_path(:anchor => "map=18/0/0")
+      visit new_note_path(:anchor => "map=18/0/0&layers=N")
 
       within_sidebar do
         assert_no_button "Add Note", :disabled => true
@@ -136,7 +136,7 @@ class CreateNoteTest < ApplicationSystemTestCase
 
   def check_encouragement_while_creating_notes(encouragement_threshold)
     encouragement_threshold.times do |n|
-      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}")
+      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}&layers=N")
 
       within_sidebar do
         assert_no_content(/already posted at least \d+ anonymous note/)
@@ -148,7 +148,7 @@ class CreateNoteTest < ApplicationSystemTestCase
       end
     end
 
-    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}")
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * encouragement_threshold}&layers=N")
 
     within_sidebar do
       assert_content(/already posted at least #{encouragement_threshold} anonymous note/)
@@ -157,7 +157,7 @@ class CreateNoteTest < ApplicationSystemTestCase
 
   def check_strict_encouragement_while_creating_notes(encouragement_threshold, strict_encouragement_threshold)
     strict_encouragement_threshold.times do |n|
-      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}")
+      visit new_note_path(:anchor => "map=16/0/#{0.001 * n}&layers=N")
 
       within_sidebar do
         if n < encouragement_threshold
@@ -173,7 +173,7 @@ class CreateNoteTest < ApplicationSystemTestCase
       end
     end
 
-    visit new_note_path(:anchor => "map=16/0/#{0.001 * strict_encouragement_threshold}")
+    visit new_note_path(:anchor => "map=16/0/#{0.001 * strict_encouragement_threshold}&layers=N")
 
     within_sidebar do
       assert_content(/already posted at least #{strict_encouragement_threshold} anonymous note/)
@@ -182,14 +182,14 @@ class CreateNoteTest < ApplicationSystemTestCase
   end
 
   def check_no_encouragement_while_logging_out
-    visit new_note_path(:anchor => "map=16/0/0")
+    visit new_note_path(:anchor => "map=16/0/0&layers=N")
 
     within_sidebar do
       assert_no_content(/already posted at least \d+ anonymous note/)
     end
 
     sign_out
-    visit new_note_path(:anchor => "map=16/0/0")
+    visit new_note_path(:anchor => "map=16/0/0&layers=N")
 
     within_sidebar do
       assert_no_content(/already posted at least \d+ anonymous note/)
