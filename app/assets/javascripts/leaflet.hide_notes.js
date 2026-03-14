@@ -9,8 +9,8 @@ L.OSM.hideNotes = function (options) {
       .attr("class", "control-button")
       .attr("href", "#")
       .attr("title", OSM.i18n.t("javascripts.site.hidenotes_tooltip"))
-      .append($("<i>").addClass("fs-5 bi bi-chat-square-text").css({ position: 'absolute', bottom: '25%', left: '20%' }))
-      .append($("<i>").addClass("fs-6 bi bi-eye-slash-fill").css({ position: 'absolute', top: '0%', right: '5%' }))
+      .append($("<i>").addClass("fs-5 bi bi-chat-square-text").css({ position: "absolute", bottom: "25%", left: "20%" }))
+      .append($("<i>").addClass("fs-6 bi bi-eye-slash-fill").css({ position: "absolute", top: "0%", right: "5%" }))
       .appendTo($container);
 
     link.on("click", function (e) {
