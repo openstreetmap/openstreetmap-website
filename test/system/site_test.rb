@@ -55,7 +55,8 @@ class SiteTest < ApplicationSystemTestCase
     check_control_tooltips_on_low_zoom "Edit"
   end
   test "tooltips on low zoom levels for disabled control 'Add a note to the map'" do
-    check_control_tooltips_on_low_zoom "Add a note to the map"
+    check_no_control_tooltips_on_low_zoom "Add a note to the map"
+    check_control_tooltips_on_low_zoom "Add a note to the map", :note_layer_on => true
   end
   test "tooltips on low zoom levels for disabled control 'Query features'" do
     check_control_tooltips_on_low_zoom "Query features"
@@ -65,7 +66,8 @@ class SiteTest < ApplicationSystemTestCase
     check_control_tooltips_on_high_zoom "Edit"
   end
   test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Add a note to the map'" do
-    check_control_tooltips_on_high_zoom "Add a note to the map"
+    check_no_control_tooltips_on_high_zoom "Add a note to the map"
+    check_control_tooltips_on_high_zoom "Add a note to the map", :note_layer_on => true
   end
   test "no zoom-in tooltips on high zoom levels, then tooltips appear after zoom out for control 'Query features'" do
     check_control_tooltips_on_high_zoom "Query features"
@@ -95,27 +97,52 @@ class SiteTest < ApplicationSystemTestCase
 
   private
 
-  def check_control_tooltips_on_low_zoom(locator)
-    visit "/#map=10/0/0"
+  def check_control_tooltips_on_low_zoom(locator, note_layer_on: false)
+    if note_layer_on
+      visit "/#map=10/0/0&layers=N"
+    else
+      visit "/#map=10/0/0"
+    end
 
     assert_no_selector ".tooltip"
     find_link(locator).hover
     assert_selector ".tooltip", :text => "Zoom in to"
   end
 
-  def check_control_tooltips_on_high_zoom(locator)
-    visit "/#map=14/0/0"
+  def check_no_control_tooltips_on_low_zoom(locator)
+    visit "/#map=10/0/0"
+
+    assert_no_selector ".tooltip"
+    refute_link(locator)
+  end
+
+  def check_control_tooltips_on_high_zoom(locator, note_layer_on: false)
+    if note_layer_on
+      visit "/#map=14/0/0&layers=N"
+    else
+      visit "/#map=14/0/0"
+    end
 
     assert_no_selector ".tooltip"
     find_link(locator).hover
     assert_no_selector ".tooltip", :text => "Zoom in to"
-    find("h1").hover # un-hover original element
 
-    visit "#map=10/0/0"
+    if note_layer_on
+      visit "#map=10/0/0&layers=N"
+    else
+      visit "#map=10/0/0"
+    end
     find_link(locator, :class => "disabled") # Ensure that capybara has waited for JS to finish processing
 
     assert_no_selector ".tooltip"
     find_link(locator).hover
-    assert_selector ".tooltip", :text => "Zoom in to"
+    assert_no_selector ".tooltip", :text => "Zoom in to"
+  end
+
+  def check_no_control_tooltips_on_high_zoom(locator)
+    visit "/#map=14/0/0"
+
+    assert_no_selector ".tooltip"
+    refute_link(locator)
   end
 end
