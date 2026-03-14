@@ -6,6 +6,7 @@
 //= require leaflet.layers
 //= require leaflet.legend
 //= require leaflet.note
+//= require leaflet.hide_notes
 //= require leaflet.share
 //= require leaflet.polyline
 //= require leaflet.query
@@ -133,6 +134,10 @@ $(function () {
 
   addControlGroup([
     L.OSM.note({ position, sidebar })
+  ]);
+
+  addControlGroup([
+    L.OSM.hideNotes({ position, sidebar })
   ]);
 
   addControlGroup([
