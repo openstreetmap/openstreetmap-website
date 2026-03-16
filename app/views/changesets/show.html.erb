@@ -50,7 +50,9 @@
                          :data => { :method => comment.visible ? "DELETE" : "POST",
                                     :url => api_changeset_comment_visibility_path(comment) } %>
         <% end %>
-        <%= link_to tag.i(:class => "align-bottom bi bi-link-45deg fs-6 lh-1", :aria => { :hidden => true }), "#c#{comment.id}" %>
+        <%= link_to tag.i(:class => "align-bottom bi bi-link-45deg fs-6 lh-1", :aria => { :hidden => true }),
+                        "#c#{comment.id}",
+                        :data => { :bs_toggle => "tooltip", :bs_title => t(".link_to_comment") } %>
       </small>
       <div class="mx-2">
         <%= comment.body.to_html %>
