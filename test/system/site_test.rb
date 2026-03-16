@@ -93,6 +93,42 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Zoom in to see"
   end
 
+  test "notes layer hide tooltip appears when layer active" do
+    visit "/#map=14/0/0"
+
+    begin
+      find_link("Hide notes layer").hover
+      raise "Tooltip should not be present when notes layer is active"
+    rescue Capybara::ElementNotFound
+      # The layer notes is not active, so the "Hide notes layer" link is not present
+    end
+
+    within "#map" do
+      click_on "Layers"
+    end
+    within "#map-ui" do
+      assert_field "Map Notes"
+      find_field("Map Notes").hover
+      find_field("Map Notes").check
+    end
+
+    find_link("Hide notes layer").hover
+    assert_selector ".tooltip", :text => "Hide notes layer"
+
+    within "#map-ui" do
+      assert_field "Map Notes"
+      find_field("Map Notes").hover
+      find_field("Map Notes").uncheck
+    end
+
+    begin
+      find_link("Hide notes layer").hover
+      raise "Tooltip should not be present when notes layer is active"
+    rescue Capybara::ElementNotFound
+      # The layer notes is not active, so the "Hide notes layer" link is not present
+    end
+  end
+
   private
 
   def check_control_tooltips_on_low_zoom(locator)
