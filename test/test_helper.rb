@@ -48,7 +48,7 @@ module ActiveSupport
       # Running in the devcontainer. Can't figure out how
       # to run things in parallel at the moment, so for now
       # we are not doing it.
-    else
+    elsif Settings.enable_parallel_tests
       # Run tests in parallel with specified workers
       parallelize(:workers => :number_of_processors)
 
