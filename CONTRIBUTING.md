@@ -96,27 +96,27 @@ Here's the typical contribution workflow:
 We use [Rubocop](https://github.com/rubocop-hq/rubocop) (for ruby files), [ESLint](https://eslint.org/) (for javascript files), and [ERB Lint](https://github.com/Shopify/erb-lint) (for erb templates) to help maintain consistency in our code. You can run these utilities during development to check that your code matches our guidelines:
 
 ```bash
-bundle exec rubocop
-bundle exec rails eslint
-bundle exec erb_lint .
+bin/rubocop
+bin/rails eslint
+bin/erb_lint .
 ```
 
 You can automatically fix many linting issues with:
 
 ```bash
-bundle exec rubocop -a
-bundle exec rails eslint:fix
-bundle exec erb_lint . --autocorrect
+bin/rubocop -a
+bin/rails eslint:fix
+bin/erb_lint . --autocorrect
 ```
 
 > [!NOTE]
-> Use `bundle exec rails eslint:fix` instead of the standard `eslint --fix` option, which is silently ignored in this Rails project.
+> Use `bin/rails eslint:fix` instead of the standard `eslint --fix` option, which is silently ignored in this Rails project.
 
 > [!TIP]
 > You can also install hooks to have git run checks automatically when you commit using [overcommit](https://github.com/sds/overcommit) with:
 >
 > ```bash
-> bundle exec overcommit --install
+> bin/overcommit --install
 > ```
 
 ### Testing
@@ -135,13 +135,13 @@ When contributing, you should:
 You can run the existing test suite with:
 
 ```bash
-bundle exec rails test:all
+bin/rails test:all
 ```
 
 You can run javascript tests with:
 
 ```bash
-RAILS_ENV=test bundle exec teaspoon
+RAILS_ENV=test bin/teaspoon
 ```
 
 You can view test coverage statistics by browsing the `coverage` directory.
@@ -160,7 +160,7 @@ The tests are automatically run on Pull Requests and other commits via github ac
 We also perform static analysis of our code. You can run the analysis yourself with:
 
 ```bash
-bundle exec brakeman -q
+bin/brakeman -q
 ```
 
 ### Comments

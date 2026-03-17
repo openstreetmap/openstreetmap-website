@@ -37,5 +37,5 @@ If you want to deploy `openstreetmap-website` for production use, you'll need to
 > [!TIP]
 > The included version of the map call is quite slow and eats a lot of memory. You should consider using [CGIMap](https://github.com/zerebubuth/openstreetmap-cgimap) instead.
 
-* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production bundle exec i18n export; bundle exec rails assets:precompile`
+* Make sure you generate the i18n files and precompile the production assets: `RAILS_ENV=production bin/i18n export; bin/rails assets:precompile`
 * Make sure the web server user as well as the rails user can read, write and create directories in `tmp/`.

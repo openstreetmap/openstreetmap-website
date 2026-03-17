@@ -104,11 +104,11 @@ If everything went well, you are done! For example, now you can open a shell in 
 
 ![VS Code: command to open a terminal](./assets/vscode-create-terminal.png)
 
-From this terminal, you can run the test suite with `bundle exec rails test:all`:
+From this terminal, you can run the test suite with `bin/rails test:all`:
 
 ![Running the test suite in the terminal](./assets/vscode-rails-test-all.png)
 
-Hopefully it should be all green? 🤞 You can also start a development server with `bundle exec rails s`:
+Hopefully it should be all green? 🤞 You can also start a development server with `bin/rails s`:
 
 ![Running the dev server in the terminal](./assets/vscode-rails-server.png)
 
