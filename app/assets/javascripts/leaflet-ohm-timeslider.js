@@ -2,7 +2,7 @@ L.Control.OHMTimeSlider = L.Control.extend({
     options: {
         position: 'bottomright',
         vectorLayer: null, // the L.MapboxGL that this will filter; required
-        vectorSourceName: 'osm', // within that vectorLayer, layers with this source will be managed/filtered
+        vectorSourceName: 'ohm', // within that vectorLayer, layers with this source will be managed/filtered
         range: null, // the [date, date] range corresponding to the slider's sliding range; default provided in initialize()
         date: null, // the date currently selected by the slider, interpolating over the range; default provided in initialize()
         stepInterval: 5, // when autoplaying, how many seconds between ticks
