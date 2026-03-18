@@ -36,15 +36,14 @@
 </div>
 
 <div>
+  <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
   <% if current_user %>
-    <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
-
     <%= bootstrap_form_for @diary_entry.comments.new, :url => comment_diary_entry_path(@diary_entry.user, @diary_entry) do |f| %>
       <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
       <%= f.primary %>
     <% end %>
   <% else %>
-    <h3 id="newcomment"><%= t(".login_to_leave_a_comment_html", :login_link => link_to(t(".login"), login_path(:referer => request.fullpath))) %></h3>
+    <p><%= t(".login_to_leave_a_comment_html", :login_link => link_to(t(".login"), login_path(:referer => request.fullpath))) %></p>
   <% end %>
 </div>
 
