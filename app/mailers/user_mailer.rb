@@ -52,10 +52,10 @@ class UserMailer < ApplicationMailer
   end
 
   def gpx_success
-    trace, possible_points = params.fetch_values(:trace, :possible_points)
+    trace, possible_points, recipient = params.fetch_values(:record, :possible_points, :recipient)
 
-    with_recipient_locale trace.user do
-      @to_user = trace.user.display_name
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @trace_url = show_trace_url(trace.user, trace)
       @trace_name = trace.name
       @trace_points = trace.size
@@ -64,7 +64,7 @@ class UserMailer < ApplicationMailer
       @possible_points = possible_points
       @my_traces_url = url_for(:controller => "traces", :action => "mine")
 
-      mail :to => trace.user.email,
+      mail :to => recipient.email,
            :subject => t(".subject")
     end
   end

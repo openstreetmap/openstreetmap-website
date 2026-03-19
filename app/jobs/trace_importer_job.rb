@@ -7,7 +7,7 @@ class TraceImporterJob < ApplicationJob
     gpx = trace.import
 
     if gpx.actual_points.positive?
-      UserMailer.with(:trace => trace, :possible_points => gpx.actual_points).gpx_success.deliver
+      GpxImportSuccessNotifier.with(:record => trace, :possible_points => gpx.actual_points).deliver_later
     else
       UserMailer.with(:trace => trace, :error => "0 points parsed ok. Do they all have lat,lng,alt,timestamp?").gpx_failure.deliver
       trace.destroy

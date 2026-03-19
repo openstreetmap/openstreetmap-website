@@ -14,7 +14,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
