@@ -146,7 +146,7 @@ class UserMailerTest < ActionMailer::TestCase
     other_user = create(:user)
     changeset = create(:changeset, :user => user)
     changeset_comment = create(:changeset_comment, :changeset => changeset)
-    email = UserMailer.with(:comment => changeset_comment, :recipient => other_user).changeset_comment_notification
+    email = UserMailer.with(:record => changeset_comment, :recipient => other_user).changeset_comment_notification
     body = parse_html_body(email)
 
     url = url_helpers.changeset_url(changeset)

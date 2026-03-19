@@ -153,6 +153,9 @@ gem "open3"
 # Cryptographic tools
 gem "digest"
 
+# Notifications
+gem "noticed", "~> 3.0.0"
+
 # Gems useful for development
 group :development do
   gem "better_errors"
