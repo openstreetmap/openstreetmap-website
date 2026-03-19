@@ -1,9 +1,6 @@
-<% linked_name = link_to printable_element_name(relation_member.member), relation_member.member, { :rel => link_follow(relation_member.member), :data => { :turbo_prefetch => false } }
-   type_str = t ".type.#{relation_member.member_type.downcase}" %>
 <%= element_list_item_with_strikethrough relation_member.member_type.downcase, relation_member.member do %>
-  <%= if relation_member.member_role.blank?
-        t ".entry_html", :type => type_str, :name => linked_name
-      else
-        t ".entry_role_html", :type => type_str, :name => linked_name, :role => relation_member.member_role
-      end %>
+  <%= t ".entry_#{'role_' if relation_member.member_role.present?}html",
+        :type => t(".type.#{relation_member.member_type.downcase}"),
+        :name => link_to(printable_element_name(relation_member.member), relation_member.member, { :rel => link_follow(relation_member.member), :data => { :turbo_prefetch => false } }),
+        :role => relation_member.member_role %>
 <% end %>

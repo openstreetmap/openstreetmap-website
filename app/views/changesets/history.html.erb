@@ -4,14 +4,14 @@
   <% end -%>
 <% end -%>
 
-<% set_title(changeset_index_title(params, current_user))
-   @heading = if params[:display_name]
-                t("changesets.index.title_user_link_html", :user_link => link_to(params[:display_name], user_path(params[:display_name])))
-              else
-                @title
-              end %>
+<% set_title(changeset_index_title(params, current_user)) %>
 
-<%= render "sidebar_header", :title => @heading %>
+<%= render "sidebar_header",
+           :title => if params[:display_name]
+                       t("changesets.index.title_user_link_html", :user_link => link_to(params[:display_name], user_path(params[:display_name])))
+                     else
+                       @title
+                     end %>
 
 <div class="changesets mx-n3">
   <div class="text-center loader">
