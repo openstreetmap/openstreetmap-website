@@ -327,6 +327,7 @@ hsb:
         title: Wuměnjenja
         heading: Wuměnjenja
         heading_ct: Wuměnjenja za sobuskutkowarjow
+        read_ct: Sym wuměnjenja za sobuskutkowarjow horjeka přečitał a do nich zwolił.
         tou_explain:
           tou: Wužiwanske wuměnjenja
         read_tou: Sym wužiwanske wuměnjenja přečitał a sym z nimi přezjedny|přezjedna
@@ -649,6 +650,7 @@ hsb:
       use_map_link: Kartu wužiwać
     index:
       title: Wužiwarske dźeniki
+      title_followed: Dźeniki wužiwarjow, kotrymž slěduješ
       title_nearby: Dźeniki wužiwarjow w bliskosći
       user_title: dźenik wužiwarja %{user}
       in_language_title: Dźenikowe zapiski w rěči %{language}
@@ -733,10 +735,33 @@ hsb:
     new:
       heading: Slědowacej diskusiji wo dźenikowym zapisku komentar přidać?
   doorkeeper:
+    errors:
+      messages:
+        account_selection_required: Awtorizaciski serwer sej wuběr konta kónčneho
+          wužiwarja wužaduje
+        consent_required: Awtorizaciski serwer sej přizwolenje kónčneho wužiwarja
+          wužaduje
+        interaction_required: Awtorizaciski serwer sej interakciju kónčneho wužiwarja
+          wužaduje
+        login_required: Awtorizaciski serwer sej awtentifikaciju kónčneho wužiwarja
+          wužaduje
     flash:
       applications:
         create:
           notice: Nałoženje je zregistrowane.
+    openid_connect:
+      errors:
+        messages:
+          auth_time_from_resource_owner_not_configured: Zmylk dla falowaceje konfiguracije
+            Doorkeeper::OpenidConnect.configure.auth_time_from_resource_owner.
+          reauthenticate_resource_owner_not_configured: Zmylk dla falowaceje konfiguracije
+            Doorkeeper::OpenidConnect.configure.reauthenticate_resource_owner.
+          resource_owner_from_access_token_not_configured: Zmylk dla falowaceje konfiguracije
+            Doorkeeper::OpenidConnect.configure.resource_owner_from_access_token.
+          select_account_for_resource_owner_not_configured: Zmylk dla falowaceje konfiguracije
+            Doorkeeper::OpenidConnect.configure.select_account_for_resource_owner.
+          subject_not_configured: Generowanje tokena ID njeje so dla falowaceje konfiguracije
+            Doorkeeper::OpenidConnect.configure.subject poradźiło.
     scopes:
       address: Twoju fyzisku adresu pokazać
       email: Wašu e-mejlowu adresu pokazać
@@ -745,11 +770,16 @@ hsb:
       profile: Waše profilowe informacije pokazać
   errors:
     contact:
+      contact_url_title: Rozjasnjenje wšelakich kontaktnych kanalow
       contact: kontakt
     bad_request:
       title: Špatne naprašowanje
+      description: Operacija, wo kotruž sy na serwerje OpenStreetMap prosył, płaćiwa
+        njeje (HTTP 400)
     forbidden:
       title: Zakazany
+      description: Operacija, wo kotruž sy na serwerje OpenStreetMap prosył, je jenož
+        za administratorow k dispoziciji (HTTP 403)
     internal_server_error:
       title: Nałoženski zmylk
     not_found:
@@ -767,8 +797,12 @@ hsb:
         button: Wužiwarjej hižo njeslědować
     create:
       success: Nětko slěduješ wužiwarjej %{name}!
+      failed: Bohužel njeje so waše požadanje poradźiło, %{name} slědować.
       already_followed: Slěduješ hižo wužiwarjej %{name}.
+      limit_exceeded: Sy njedawno wjele wužiwarjam slědował. Prošu čakajće wokomik,
+        prjedy hač pospytuješ dalšim slědować.
     destroy:
+      success: Hižo njeslěduješ wuspěšnje %{name}.
       not_followed: Njeslěduješ wužiwarjej %{name}.
   geocoder:
     search_osm_nominatim:
@@ -1793,6 +1827,7 @@ hsb:
       so swobodnje pod wotewrjenej licencu wužiwać.
     partners_partners: partnerow
     tou: Wužiwanske wuměnjenja
+    nothing_to_preview: Za přehlad ničo njeje.
     learn_more: Wjace zhonić
     header:
       about: Wo projekće
@@ -1823,6 +1858,8 @@ hsb:
         hladanske dźěła přewjedu.
       osm_read_only: Datowa banka OpenStreetMap je tuchwilu jenož čitajomna, dokelž
         so wažne hladanske dźěła přewjedu.
+      expected_restore_html: Wočakujemy, zo so słužby za %{time} wobnowjeja.
+      announcement: Móžeš připowědź tu čitać.
   user_mailer:
     diary_comment_notification:
       description: 'Dźenikowy zapisk OpenStreetMap #%{id}'
@@ -1836,6 +1873,8 @@ hsb:
         abo na %{replyurl} wotmołwić
       footer_html: Móžeš komentar tež na %{readurl} čitać a na %{commenturl} komentować
         abo awtorej na %{replyurl} powěsć pósłać
+      footer_unsubscribe: Móžeš diskusiju na %{unsubscribeurl} wotskazać.
+      footer_unsubscribe_html: Móžeš diskusiju na %{unsubscribeurl} wotskazać.
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: Witaj %{to_user},
@@ -1847,6 +1886,7 @@ hsb:
       footer_html: Móžeš powěsć tež pod %{readurl} čitać a pod %{replyurl} wotmołwić
     follow_notification:
       hi: Witaj %{to_user},
+      subject: '[OpenStreetMap] %{user} je ći slědował'
       followed_you: '%{user} ći nětko na OpenStreetMap slěduje.'
       see_their_profile: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
       see_their_profile_html: Móžeš sej jeho abo jeje profil na %{userurl} wobhladać.
@@ -1866,6 +1906,10 @@ hsb:
       subject: '[OpenStreetMap] Zmylk při imporće GPX'
     gpx_success:
       hi: Witaj %{to_user},
+      imported_successfully: Zda so, zo je so waša dataja wuspěšnje jako GPS-čara
+        importowała.
+      all_your_traces: Wšě waše wuspěšnje nahrate GPX-čary móžeš na %{url} namakać
+      all_your_traces_html: Wšě waše wuspěšnje nahrate GPX-čary móžeš na %{url} namakać.
       subject: '[OpenStreetMap] GPX-import wuspěšny'
     signup_confirm:
       subject: '[OpenStreetMap] Witaj k OpenStreetMap'
@@ -1965,6 +2009,8 @@ hsb:
       success: Twoje konto bu wobkrućene, dźakujemy so za registrowanje!
       already active: Tute konto bu hižo wobkrućene.
       unknown token: Wobkrućenski kod je spadnjeny abo njeeksistuje.
+      if_need_resend: Jeli dyrbiš wobkrućensku mejlku znowa słać, klikń na slědowace
+        tłóčatko.
       resend_button: Wobkrućensku mejlku znowa pósłać
     confirm_resend:
       failure: Wužiwar %{name} njenamakany.
@@ -2084,6 +2130,10 @@ hsb:
       new password button: Hesło wróćo stajić
       help_text: Zapódaj mejlowu adresu, kotruž sy za registrowanje wužił, pósćelemy
         wotkaz na nju, kotryž móžeš za wróćostajenje hesła wužić.
+    create:
+      send_paranoid_instructions: Jeli twoja e-mejlowa adresa w našej datowej bance
+        eksistuje, dóstanješ wotkaz za wobnowjenje hesła na twoju e-mejlowu adresu
+        za mało mjeńšin.
     edit:
       title: Hesło wróćo stajić
       heading: Hesło za wužiwarja %{user} wróćo stajić
@@ -2091,6 +2141,7 @@ hsb:
       flash token bad: Njemóžachmy tutón kod namakać, prošu přepruwuj URL.
     update:
       flash changed: Twoje hesło je so změniło.
+      flash token bad: Njejsy tón token namakał, snano přepruwuješ URL?
   preferences:
     preferences:
       update:
@@ -2104,14 +2155,17 @@ hsb:
       show:
         title: Moje preferency
         preferred_language: Preferowana rěč
+        preferred_site_color_scheme: Preferowana barbna šema za websydło
         site_color_schemes:
           auto: Awtomatisce
           light: Swětły
           dark: Ćmowy
+        preferred_map_color_scheme: Preferowana barbna šema za karty
         map_color_schemes:
           auto: Runje tak kaž websydło
           light: Swětły
           dark: Ćmowy
+        preferred_editor_color_scheme: Preferowana barbna šema za editor
         editor_color_schemes:
           auto: Runje tak kaž websydło
           light: Swětły
@@ -2200,6 +2254,8 @@ hsb:
   sessions:
     new:
       tab_title: Přizjewić
+      already_logged_in_html: Sy hižo jako %{user} přizjewjeny. Hdyž znowa přizjewješ,
+        so twoje aktualne konto změni.
       email or username: E-mejlowa adresa abo wužiwarske mjeno
       password: Hesło
       remember: Spomjatkować sej
@@ -2216,6 +2272,7 @@ hsb:
       support: pomoc
   shared:
     markdown_help:
+      heading_html: Z %{kramdown_link} parsowany
       headings: Nadpisy
       heading: Nadpis
       subheading: Podnapis
@@ -2271,6 +2328,7 @@ hsb:
         newest: Najnowši wužiwarjo
   site:
     about:
+      heading_html: '%{copyright}sobuskutkowarjo %{br} OpenStreetMap'
       used_by_html: '%{name} kartowe daty za tysacy websydłow, mobilnych nałoženjow
         a gratwo k dispoziciji staja'
       lede_text: OpenStreetMap twori so wot zhromadźenstwa kartěrowarjow, kiž přinošuja
@@ -2297,6 +2355,7 @@ hsb:
       legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
       legal_attribution_example_tv_title: Telewizija
       legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
+      legal_2_1_contact_the_osmf: OSMF skontaktować
       partners_title: Partnerojo
     copyright:
       title: Awtorske prawo a licenca
@@ -2317,6 +2376,7 @@ hsb:
         lead_2_osm_blog: Blog OpenStreetMap
         lead_2_osm_community: Zhromadźenstwo OSM
         lead_2_osm_foundation: Załožba OSM
+        licensing_title: Licencowanje OpenStreetMap
         licensing_1_open: wočinjene
         licensing_1_odc_odbl: Licenca Open Data Commons Open Database
         licensing_1_osm_foundation: Załožba OpenStreetMap
@@ -2324,14 +2384,19 @@ hsb:
           dołhož OpenStreetMap a jeho sobuskutkowacych naspominaš. Jeli naše daty
           změniš abo so na nje zepěraš, móžeš wuslědk jenož pod samsnej licencu rozdźělić.
           Dospołny %{legal_code_link} twoje prawa a winowatosće wujasnja.
+        licensing_3_html: Naša dokumentacija je pod %{creative_commons_license_link}
+          (CC BY-SA 2.0) licencowana.
         licensing_3_creative_commons_license: Licenca Creative Commons Attribution-ShareAlike
           2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Čitajće na %{osmf_license_page_link} wjace wo wužiwanju
+          našich datow .
         licensing_4_osmf_license_page: Licencna strona OSMF
         credit_title_html: Kak ma so na awtorstwo OpenStreetMap pokazać
         credit_1_html: 'Hdyž daty OpenStreetMap wužiwaš, dyrbiš slědowacej dwě wěcy
           činić:'
         credit_3_v2025_licensing_requirements: licencne žadanja
+        credit_4_v2025_this_copyright_page: tuta strona wo awtorskich prawach
         attribution_example:
           alt: Přikład, kak so na webstronje na OpenStreetMap pokazuje
           title: Přikład za mjenowanje na webstronje z elektroniskej kartu
@@ -2432,6 +2497,7 @@ hsb:
             zhromadźenstwu OpenStreetMap přiidružić a sam daty přidać abo korigować.
       other_concerns:
         title: Druhe naležnosće
+        copyright: strona wo awtorskich prawach
         working_group: Dźěłowa skupina OSMF
     help:
       title: Wo pomoc prosyć
@@ -2469,8 +2535,14 @@ hsb:
       wiki:
         title: Wiki OpenStreetMap
         description: Přepytaj wiki za nadrobnej dokumentaciju OpenStreetMap
+    potlatch:
+      desktop_application_html: Móžeš Potlatch přez %{download_link} dale wužiwać.
+      download: sćehnjenje desktopoweho nałoženja za Mac a Windows
+      change_preferences: Změń tu swoje nastajenja
     any_questions:
       title: Maš hišće prašenja?
+      get_help_here: Dóstań tu pomoc
+      welcome_mat: Wobhladaj sej powitansku paket
     sidebar:
       search_results: Pytanske wuslědki
     search:
@@ -2625,6 +2697,10 @@ hsb:
       image_dimensions_html: Wobraz runinu %{layer} pola %{width} x %{height} pokaza
       download: Sćahnyć
       downloading: Sćahuje so…
+  webgl_error_panes:
+    show:
+      read_more_about_webgl: Wjace čitać
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Priwatna (jenož jako anonymna, njezrjadowane dypki )
@@ -2697,10 +2773,12 @@ hsb:
       trackable: SĆĚHUJOMNY
     index:
       public_traces: Zjawne GPS-ćěrje
+      my_gps_traces: Moje GPS-čary
       public_traces_from: Zjawne GPS-ćěrje wot %{user}
       description: Najnowše nahraća GPS-čarow přepytać
       tagged_with: Markěrowane přez %{tags}
       empty_title: Hišće ničo njeje
+      upload_new: Nowu čaru nahrać
       wiki_page: wikistrona
       upload_trace: Ćěr nahrać
       all_traces: Wšě ćěrje
@@ -2725,6 +2803,7 @@ hsb:
           other: GPX-dataja z %{count} dypkami wot %{user}
         description_without_count: GPX-dataja wot %{user}
   application:
+    permission_denied: Nimaš prawo za přistup k tej akciji
     require_cookies:
       cookies_needed: Zda so, zo maš placki znjemóžnjene - prošu zmóžń placki w swojim
         wobhladowaku, prjedy hač pokročuješ.
@@ -2784,10 +2863,18 @@ hsb:
       openid: Přizjew so z OpenStreetMap
       read_prefs: Wužiwarske nastajenja čitać
       write_prefs: Wužiwarske nastajenja změnić
+      write_diary: Dźenikowe zapiski a komentary wutworić
       write_api: Kartu změnić
+      write_changeset_comments: Sadźby změnow komentować
       read_gpx: Priwatne GPS-ćěrje čitać
       write_gpx: GPS-ćěrje nahrać
       write_notes: Noticy změnić
+      read_email: Wužiwarsku e-mejlowu adresu čitać
+      consume_messages: Čitać, status aktualizować a wužiwarske powěsće zhašeć
+      send_messages: Druhim wužiwarjam priwatne powěsće słać
+      skip_authorization: Nałoženje awtomatisce schwalić
+    for_roles:
+      moderator: Tute prawo je jenož za akcije, kotrež su za moderatorow k dispoziciji
   oauth2_applications:
     index:
       title: Moje klientowe aplikacije
@@ -2829,6 +2916,7 @@ hsb:
       title: Moje awtorizowane nałoženja
       application: Nałoženje
       permissions: Prawa
+      last_authorized: Posledni raz awtorizowany
     application:
       revoke: Přistup zebrać
       confirm_revoke: Přistup za tute nałoženje zebrać?
