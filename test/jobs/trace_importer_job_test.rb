@@ -36,7 +36,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -50,7 +52,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     # Check that the user gets a failure notification when something goes badly wrong
     trace = create(:trace)
     trace.stub(:import, -> { raise "Test Exception" }) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -65,7 +69,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
   def test_parse_error_notification
     trace = create(:trace, :inserted => false, :fixture => "jpg")
     Rails.logger.silence do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -80,7 +86,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
   def test_gz_parse_error_notification
     trace = create(:trace, :inserted => false, :fixture => "jpg.gz")
     Rails.logger.silence do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last

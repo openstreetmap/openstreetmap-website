@@ -70,16 +70,26 @@ class UserMailer < ApplicationMailer
   end
 
   def gpx_failure
-    trace, error = params.fetch_values(:trace, :error)
+    trace_name,
+    trace_description,
+    trace_tags,
+    error,
+    recipient = params.fetch_values(
+      :trace_name,
+      :trace_description,
+      :trace_tags,
+      :error,
+      :recipient
+    )
 
-    with_recipient_locale trace.user do
-      @to_user = trace.user.display_name
-      @trace_name = trace.name
-      @trace_description = trace.description
-      @trace_tags = trace.tags
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
+      @trace_name = trace_name
+      @trace_description = trace_description
+      @trace_tags = trace_tags
       @error = error
 
-      mail :to => trace.user.email,
+      mail :to => recipient.email,
            :subject => t(".subject")
     end
   end
