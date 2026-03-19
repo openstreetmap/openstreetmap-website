@@ -17,10 +17,10 @@
         <%= @user.display_name %>
         <%= render "role_icons" %>
       </h1>
-      <% if current_user and @user.id == current_user.id %>
-        <!-- Displaying user's own profile page -->
-        <nav class="secondary-actions">
-          <ul>
+      <nav class="secondary-actions">
+        <ul>
+          <% if current_user and @user.id == current_user.id %>
+            <!-- Displaying user's own profile page -->
             <li>
               <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
               <span class="badge count-number"><%= number_with_delimiter(current_user.changesets.size) %></span>
@@ -58,15 +58,8 @@
                 <span class="badge count-number"><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
               </li>
             <% end %>
-
-          </ul>
-        </nav>
-
-        <% else %>
-        <!-- Displaying user profile page to the public -->
-        <nav class="secondary-actions">
-          <ul>
-
+          <% else %>
+            <!-- Displaying user profile page to the public -->
             <li>
               <%= link_to t(".edits"), :controller => "changesets", :action => "index", :display_name => @user.display_name %>
               <span class="badge count-number"><%= number_with_delimiter(@user.changesets.size) %></span>
@@ -144,9 +137,9 @@
               <%= link_to t(".create_mute"), user_mute_path(@user), :method => :post, :title => t("user_mutes.index.user_mute_explainer") %>
               </li>
             <% end %>
-          </ul>
-        </nav>
-      <% end %>
+          <% end %>
+        </ul>
+      </nav>
 
       <div class="text-body-secondary">
         <small>
