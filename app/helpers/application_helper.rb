@@ -85,7 +85,7 @@ module ApplicationHelper
   # This allows us to render html into a flash message in a safe manner.
   def render_flash(flash)
     if flash.is_a?(Hash)
-      render flash.with_indifferent_access
+      render flash.deep_symbolize_keys
     else
       flash
     end
