@@ -23,11 +23,8 @@
       <% end %>
 
       <li class="list-inline-item">
-        <% badge_class = case trace.visibility
-                         when "public", "identifiable" then "success"
-                         else "danger"
-                         end %>
-        <span class="badge text-bg-<%= badge_class %>"><%= t(".#{trace.visibility}") %></span>
+        <%= tag.span t(".#{trace.visibility}"),
+                     :class => "badge text-bg-#{%w[public identifiable].include?(trace.visibility) ? 'success' : 'danger'}" %>
       </li>
     </ul>
     <p class="text-body-secondary mb-0">
