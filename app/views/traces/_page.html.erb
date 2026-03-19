@@ -1,19 +1,15 @@
 <%# locals: () %>
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
-  <%= render "shared/pagination",
-             :newer_id => @newer_traces_id,
-             :older_id => @older_traces_id %>
+  <%= render "shared/pagination", :paginator => @traces %>
 
   <div class="table-responsive">
     <table id="trace_list" class="table table-borderless table-striped">
       <tbody>
-        <%= render @traces %>
+        <%= render @traces.items %>
       </tbody>
     </table>
   </div>
 
-  <%= render "shared/pagination",
-             :newer_id => @newer_traces_id,
-             :older_id => @older_traces_id %>
+  <%= render "shared/pagination", :paginator => @traces %>
 </turbo-frame>

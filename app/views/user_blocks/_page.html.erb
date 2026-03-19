@@ -3,8 +3,7 @@
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <%= render "shared/pagination",
              :translation_scope => "shared.pagination.user_blocks",
-             :newer_id => @newer_user_blocks_id,
-             :older_id => @older_user_blocks_id %>
+             :paginator => @user_blocks %>
 
   <table id="block_list" class="table table-borderless table-striped table-sm">
     <thead>
@@ -23,11 +22,10 @@
         <th></th>
       </tr>
     </thead>
-    <%= render :partial => "user_blocks/block", :collection => @user_blocks %>
+    <%= render :partial => "user_blocks/block", :collection => @user_blocks.items %>
   </table>
 
   <%= render "shared/pagination",
              :translation_scope => "shared.pagination.user_blocks",
-             :newer_id => @newer_user_blocks_id,
-             :older_id => @older_user_blocks_id %>
+             :paginator => @user_blocks %>
 </turbo-frame>

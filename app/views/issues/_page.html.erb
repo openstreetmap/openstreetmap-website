@@ -1,7 +1,7 @@
 <%# locals: () %>
 
 <turbo-frame id="pagination" target="_top">
-  <% if @issues.length == 0 %>
+  <% if @issues.items.length == 0 %>
     <p>
       <% if params[:search_by_user].present? && !@find_user %>
         <%= t ".user_not_found" %>
@@ -10,9 +10,7 @@
       <% end %>
     </p>
   <% else %>
-    <%= render "shared/pagination",
-               :newer_id => @newer_issues_id,
-               :older_id => @older_issues_id %>
+    <%= render "shared/pagination", :paginator => @issues %>
 
     <table class="table table-sm">
       <thead>
@@ -27,7 +25,7 @@
         </tr>
       </thead>
       <tbody>
-        <% @issues.each do |issue| %>
+        <% @issues.items.each do |issue| %>
           <tr>
             <td><%= t ".states.#{issue.status}" %></td>
             <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
@@ -47,8 +45,6 @@
       </tbody>
     </table>
 
-    <%= render "shared/pagination",
-               :newer_id => @newer_issues_id,
-               :older_id => @older_issues_id %>
+    <%= render "shared/pagination", :paginator => @issues %>
   <% end %>
 </turbo-frame>
