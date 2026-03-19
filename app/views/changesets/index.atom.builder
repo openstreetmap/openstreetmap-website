@@ -7,7 +7,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
           "xmlns:georss" => "http://www.georss.org/georss") do |feed|
   feed.title changeset_index_title(params, current_user)
 
-  feed.updated @changesets.map { |e| [e.created_at, e.closed_at].max }.max
+  feed.updated @changesets.items.map { |e| [e.created_at, e.closed_at].max }.max
   feed.icon image_url("favicon.ico")
   feed.logo image_url("mag_map-rss2.0.png")
 
@@ -15,7 +15,7 @@ atom_feed(:language => I18n.locale, :schema_date => 2009,
     xhtml.a "Open Data Commons Open Database License", :href => "https://opendatacommons.org/licenses/odbl/"
   end
 
-  @changesets.each do |changeset|
+  @changesets.items.each do |changeset|
     feed.entry(changeset, :updated => changeset.closed_at, :id => changeset_url(changeset.id, :only_path => false)) do |entry|
       entry.link :rel => "alternate",
                  :href => api_changeset_url(changeset, :only_path => false),
