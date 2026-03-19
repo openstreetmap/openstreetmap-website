@@ -2,11 +2,13 @@
 
 <dl>
   <dt><%= t ".filename" %></dt>
-  <% if @trace_url %>
-    <dd><%= link_to(@trace_name, @trace_url) %></dd>
-  <% else %>
-    <dd><%= @trace_name %></dd>
-  <% end %>
+  <dd>
+    <% if @trace_url %>
+      <%= link_to(@trace_name, @trace_url) %>
+    <% else %>
+      <%= @trace_name %>
+    <% end %>
+  </dd>
   <dt><%= t ".description" %></dt>
   <dd><%= @trace_description %></dd>
   <% if @trace_tags.length > 0 %>

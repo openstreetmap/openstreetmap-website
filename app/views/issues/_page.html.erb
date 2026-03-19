@@ -1,10 +1,12 @@
 <turbo-frame id="pagination" target="_top">
   <% if @issues.length == 0 %>
-    <% if params[:search_by_user].present? && !@find_user %>
-      <p><%= t ".user_not_found" %></p>
-    <% else %>
-      <p><%= t ".issues_not_found" %></p>
-    <% end %>
+    <p>
+      <% if params[:search_by_user].present? && !@find_user %>
+        <%= t ".user_not_found" %>
+      <% else %>
+        <%= t ".issues_not_found" %>
+      <% end %>
+    </p>
   <% else %>
     <%= render "shared/pagination",
                :newer_id => @newer_issues_id,
