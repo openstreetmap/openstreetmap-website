@@ -3,11 +3,11 @@
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
   <h1><%= t(".heading") %></h1>
-  <%= render :partial => "navigation" %>
+  <%= render "navigation", :user => @user %>
 <% end %>
 
 <% unless @user_blocks.items.empty? %>
-<%= render :partial => "page" %>
+<%= render "page", :user_blocks => @user_blocks, :show_user_name => @show_user_name, :show_creator_name => @show_creator_name, :params => @params %>
 <% else %>
 <p><%= t ".empty" %></p>
 <% end %>

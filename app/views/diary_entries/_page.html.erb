@@ -1,11 +1,11 @@
-<%# locals: () %>
+<%# locals: (entries:, user:, params:) %>
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <h4><%= t ".recent_entries" %></h4>
 
-  <%= render "shared/pagination", :paginator => @entries %>
+  <%= render "shared/pagination", :paginator => entries, :params => params %>
 
-  <%= render @entries.items, :truncated => true %>
+  <%= render entries.items, :user => user, :truncated => true %>
 
-  <%= render "shared/pagination", :paginator => @entries %>
+  <%= render "shared/pagination", :paginator => entries, :params => params %>
 </turbo-frame>

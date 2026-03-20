@@ -1,6 +1,6 @@
-<%# locals: () %>
+<%# locals: (preferred_auth_provider: nil) %>
 
-<% prefered_auth_button_available = Auth.providers.include?(@preferred_auth_provider) %>
+<% prefered_auth_button_available = Auth.providers.include?(preferred_auth_provider) %>
 
 <div>
   <%= tag.div :id => "login_auth_buttons",
@@ -8,13 +8,13 @@
 
     <% if prefered_auth_button_available %>
       <div class="col justify-content-center d-flex align-items-center flex-wrap">
-        <%= render "auth_button", :provider => @preferred_auth_provider, :preferred => true %>
+        <%= render "auth_button", :provider => preferred_auth_provider, :preferred => true %>
       </div>
     <% end %>
 
     <div class="col justify-content-center d-flex align-items-center flex-wrap gap-2">
       <% Auth.providers.each do |provider| %>
-        <% if provider != @preferred_auth_provider %>
+        <% if provider != preferred_auth_provider %>
           <%= render "auth_button", :provider => provider %>
         <% end %>
       <% end -%>

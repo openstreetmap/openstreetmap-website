@@ -1,29 +1,29 @@
-<%# locals: (paginator:, translation_scope: nil) %>
+<%# locals: (paginator:, params:, translation_scope: nil) %>
 
 <% if paginator.older_items_cursor || paginator.newer_items_cursor %>
 
 <% translation_scope ||= "shared.pagination.#{controller.controller_name}" %>
 <nav class="d-flex justify-content-between gap-2">
   <ul class="pagination">
-    <%= pagination_item(paginator.newer_items_cursor && @params.merge(:before => nil, :after => nil),
+    <%= pagination_item(paginator.newer_items_cursor && params.merge(:before => nil, :after => nil),
                         t(:newest, :scope => translation_scope)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
     <% end %>
   </ul>
   <ul class="pagination">
-    <%= pagination_item(paginator.newer_items_cursor && @params.merge(:before => nil, :after => paginator.newer_items_cursor),
+    <%= pagination_item(paginator.newer_items_cursor && params.merge(:before => nil, :after => paginator.newer_items_cursor),
                         t(:newer, :scope => translation_scope)) do %>
       <%= previous_page_svg_tag :class => "flex-shrink-0" %>
       <span class="d-none d-sm-block"><%= t :newer, :scope => translation_scope %></span>
     <% end %>
-    <%= pagination_item(paginator.older_items_cursor && @params.merge(:before => paginator.older_items_cursor, :after => nil),
+    <%= pagination_item(paginator.older_items_cursor && params.merge(:before => paginator.older_items_cursor, :after => nil),
                         t(:older, :scope => translation_scope)) do %>
       <span class="d-none d-sm-block"><%= t :older, :scope => translation_scope %></span>
       <%= next_page_svg_tag :class => "flex-shrink-0" %>
     <% end %>
   </ul>
   <ul class="pagination">
-    <%= pagination_item(paginator.older_items_cursor && @params.merge(:before => nil, :after => 0),
+    <%= pagination_item(paginator.older_items_cursor && params.merge(:before => nil, :after => 0),
                         t(:oldest, :scope => translation_scope)) do %>
       <%= next_page_svg_tag :class => "flex-shrink-0", :count => 2 %>
     <% end %>

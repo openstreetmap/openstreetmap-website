@@ -2,6 +2,12 @@
 
 <%= t ".imported_successfully" %>
 
-<%= render :partial => "gpx_details" %>
+<%= render "gpx_details",
+           :trace_url => @trace_url,
+           :trace_name => @trace_name,
+           :trace_points => @trace_size,
+           :trace_description => @trace_description,
+           :trace_tags => @trace_tags,
+           :possible_points => @possible_points %>
 
 <%= t ".all_your_traces", :url => @my_traces_url %>
