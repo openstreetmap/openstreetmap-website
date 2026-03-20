@@ -8,6 +8,7 @@ class DiaryEntriesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :update_totp, :only => [:new, :edit]
   before_action :check_database_readable
 
   authorize_resource
