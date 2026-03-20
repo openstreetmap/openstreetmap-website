@@ -36,6 +36,7 @@ gem "rtlcss"
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
+gem "image_optim", :github => "tomhughes/image_optim", :ref => "svgo-config"
 gem "image_optim_rails"
 
 # Use argon2 for password hashing
