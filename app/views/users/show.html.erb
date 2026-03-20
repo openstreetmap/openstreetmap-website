@@ -252,10 +252,12 @@
 <% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
-      <%= render "sidebar_section", :edit_title => t(".change_image"),
+      <%= render "sidebar_section", :user => @user,
+                                    :edit_title => t(".change_image"),
                                     :edit_path => profile_image_path %>
 
-      <%= render "sidebar_section", :present => @user.home_location_name&.strip.present?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.home_location_name&.strip.present?,
                                     :edit_title => t(".edit_location"),
                                     :edit_path => profile_location_path do %>
         <div class="icon-link mw-100">
@@ -267,7 +269,8 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => @user.company&.strip.present?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.company&.strip.present?,
                                     :edit_title => t(".edit_company"),
                                     :edit_path => profile_company_path do %>
         <div class="icon-link mw-100">
@@ -279,7 +282,8 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => !@user.social_links.empty?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => !@user.social_links.empty?,
                                     :edit_title => t(".edit_links"),
                                     :edit_path => profile_links_path do %>
         <%= render "social_links/show", :social_links => @user.social_links %>
@@ -315,4 +319,4 @@
   </div>
 <% end %>
 
-<%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
+<%= render "diary_entries/profile_diaries", :user => @user, :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) %>

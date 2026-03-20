@@ -67,7 +67,7 @@
 <% end %>
 
 <% if @traces.items.size > 0 %>
-  <%= render :partial => "page" %>
+  <%= render "page", :traces => @traces, :params => @params %>
 <% else %>
   <h2><%= t ".empty_title" %></h2>
   <p><%= t ".empty_upload_html", :upload_link => link_to(t(".upload_new"), new_trace_path),

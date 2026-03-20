@@ -1,4 +1,4 @@
-<%# locals: () %>
+<%# locals: (user:, languages: nil) %>
 
 <nav class="secondary-actions">
   <ul>
@@ -6,15 +6,15 @@
       <li><%= rss_link_to :action => "rss", :language => params[:language] %></li>
     <% end -%>
 
-    <% @languages&.each do |language| %>
+    <% languages&.each do |language| %>
       <li><%= link_to t(".in_language", :language => language.name), :action => "index", :language => language.code %></li>
     <% end %>
 
-    <% if !@user && current_user %>
+    <% if !user && current_user %>
       <li><%= link_to t(".my_diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %></li>
     <% end %>
 
-    <% if @user && @user == current_user || !@user && current_user %>
+    <% if user && user == current_user || !user && current_user %>
       <li>
         <%= link_to new_diary_entry_path, :class => "icon-link", :title => t(".new_title") do %>
           <i class="align-self-baseline bi bi-plus-square-fill fs-6" aria-hidden="true"></i>

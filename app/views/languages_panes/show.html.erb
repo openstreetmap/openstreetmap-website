@@ -3,9 +3,9 @@
     <%= form_tag basic_preferences_path, :method => "PUT", :id => "select_language_form", "data-turbo" => false do %>
       <%= hidden_field_tag "referer", @source_page %>
       <%= hidden_field_tag "language", I18n.locale %>
-      <%= render "select_language_list" %>
+      <%= render "select_language_list", :source_page => @source_page %>
     <% end %>
   <% else %>
-    <%= render "select_language_list" %>
+    <%= render "select_language_list", :source_page => @source_page %>
   <% end %>
 <% end %>

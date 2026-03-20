@@ -9,7 +9,7 @@
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => way.redaction.id), way.redaction) %>
   <% else %>
-    <%= render :partial => "browse/common_details", :object => way %>
+    <%= render :partial => "browse/common_details", :object => way, :locals => { :type => "way" } %>
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>

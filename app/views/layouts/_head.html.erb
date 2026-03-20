@@ -1,7 +1,7 @@
-<%# locals: () %>
+<%# locals: (title:, opengraph_properties:) %>
 
 <%= tag.head :data => application_data do %>
-  <%= render :partial => "layouts/meta" %>
+  <%= render "layouts/meta", :title => title, :opengraph_properties => opengraph_properties %>
   <%= javascript_include_tag "turbo", :type => "module" %>
   <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "i18n/#{I18n.locale}" %>
@@ -17,5 +17,5 @@
   <%= yield :auto_discovery_link_tag %>
   <%= csrf_meta_tag %>
   <%= csp_meta_tag %>
-  <title><%= "#{@title} | " if @title %><%= t "layouts.project_name.title" %></title>
+  <title><%= "#{title} | " if title %><%= t "layouts.project_name.title" %></title>
 <% end %>

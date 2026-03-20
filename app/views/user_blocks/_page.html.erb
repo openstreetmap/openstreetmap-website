@@ -1,17 +1,17 @@
-<%# locals: () %>
+<%# locals: (user_blocks:, show_user_name:, show_creator_name:, params:) %>
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <%= render "shared/pagination",
              :translation_scope => "shared.pagination.user_blocks",
-             :paginator => @user_blocks %>
+             :paginator => user_blocks, :params => params %>
 
   <table id="block_list" class="table table-borderless table-striped table-sm">
     <thead>
       <tr>
-        <% if @show_user_name %>
+        <% if show_user_name %>
         <th><%= t ".display_name" %></th>
         <% end %>
-        <% if @show_creator_name %>
+        <% if show_creator_name %>
         <th><%= t ".creator_name" %></th>
         <% end %>
         <th><%= t ".reason" %></th>
@@ -22,10 +22,12 @@
         <th></th>
       </tr>
     </thead>
-    <%= render :partial => "user_blocks/block", :collection => @user_blocks.items %>
+    <%= render :partial => "user_blocks/block",
+               :collection => user_blocks.items,
+               :locals => { :show_user_name => show_user_name, :show_creator_name => show_creator_name } %>
   </table>
 
   <%= render "shared/pagination",
              :translation_scope => "shared.pagination.user_blocks",
-             :paginator => @user_blocks %>
+             :paginator => user_blocks, :params => params %>
 </turbo-frame>

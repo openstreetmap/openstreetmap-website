@@ -9,12 +9,12 @@
     </div>
     <div class="col">
       <h1><%= link_to t(".user_title", :user => @diary_entry.user.display_name), :action => :index %></h1>
-      <%= render :partial => "navigation" %>
+      <%= render "navigation", :user => @user %>
     </div>
   </div>
 <% end %>
 
-<%= render @diary_entry, :truncated => false %>
+<%= render @diary_entry, :user => @user, :truncated => false %>
 <%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
 
 <div id="comments" class="comments mb-3 overflow-hidden">

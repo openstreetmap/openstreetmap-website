@@ -3,7 +3,7 @@
 <p><%= t ".#{@event}.#{@owner ? 'your' : 'commented'}_note_html", :commenter => link_to_user(@commenter), :place => @place %></p>
 
 <% unless @comment.empty? %>
-  <%= message_body do %>
+  <%= message_body :author => @author, :avatar => @avatar do %>
     <%= @comment.to_html %>
   <% end %>
 <% end %>
