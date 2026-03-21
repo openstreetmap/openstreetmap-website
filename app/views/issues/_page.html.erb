@@ -1,18 +1,16 @@
-<%# locals: () %>
+<%# locals: (issues:, find_user:, unique_reporters:, unique_reporters_limit:, params:) %>
 
 <turbo-frame id="pagination" target="_top">
-  <% if @issues.length == 0 %>
+  <% if issues.items.length == 0 %>
     <p>
-      <% if params[:search_by_user].present? && !@find_user %>
+      <% if params[:search_by_user].present? && !find_user %>
         <%= t ".user_not_found" %>
       <% else %>
         <%= t ".issues_not_found" %>
       <% end %>
     </p>
   <% else %>
-    <%= render "shared/pagination",
-               :newer_id => @newer_issues_id,
-               :older_id => @older_issues_id %>
+    <%= render "shared/pagination", :paginator => issues, :params => params %>
 
     <table class="table table-sm">
       <thead>
@@ -27,14 +25,17 @@
         </tr>
       </thead>
       <tbody>
-        <% @issues.each do |issue| %>
+        <% issues.items.each do |issue| %>
           <tr>
             <td><%= t ".states.#{issue.status}" %></td>
             <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
             <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
             <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
             <td class="reporting_users text-truncate">
-              <%= render :partial => "issues/reporters/reporters", :locals => { :issue => issue } %>
+              <%= render "issues/reporters/reporters",
+                         :issue => issue,
+                         :unique_reporters => unique_reporters,
+                         :unique_reporters_limit => unique_reporters_limit %>
             </td>
             <td>
               <%= friendly_date_ago(issue.updated_at) %>
@@ -47,8 +48,6 @@
       </tbody>
     </table>
 
-    <%= render "shared/pagination",
-               :newer_id => @newer_issues_id,
-               :older_id => @older_issues_id %>
+    <%= render "shared/pagination", :paginator => issues, :params => params %>
   <% end %>
 </turbo-frame>

@@ -24,7 +24,7 @@
   <h4><%= t ".no_notes" %></h4>
 
 <% else %>
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
 
   <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick minus] } %>
 
@@ -62,6 +62,6 @@
   <% end -%>
   </table>
 
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
 
 <% end -%>

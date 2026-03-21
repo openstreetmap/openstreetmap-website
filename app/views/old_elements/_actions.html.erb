@@ -1,8 +1,8 @@
-<%# locals: () %>
+<%# locals: (type:, current_feature:, feature:) %>
 
 <div class="secondary-actions mb-3">
-  <% if !@feature.redacted? %>
-    <%= link_to t("browse.download_xml"), send(:"api_#{@type}_version_path", *@feature.id) %>
+  <% if !feature.redacted? %>
+    <%= link_to t("browse.download_xml"), send(:"api_#{type}_version_path", *feature.id) %>
   <% elsif current_user&.moderator? %>
     <% if !params[:show_redactions] %>
       <%= link_to t(".view_redacted_data"), :params => { :show_redactions => true } %>
@@ -15,19 +15,19 @@
 <nav>
   <ol class="breadcrumb mb-1">
     <li class="breadcrumb-item">
-      <%= link_to t(@type, :scope => "browse.versions_navigation"), @current_feature %>
+      <%= link_to t(type, :scope => "browse.versions_navigation"), current_feature %>
     </li>
     <li class="breadcrumb-item">
       <%= link_to t("browse.versions_navigation.history"), :action => :index %>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
       <a href="#versions-navigation-active-page-item" class="numbered_pagination_link py-1 px-2 rounded bg-body-secondary link-body-emphasis">
-        <%= t "browse.versions_navigation.version", :version => @feature.version %>
+        <%= t "browse.versions_navigation.version", :version => feature.version %>
       </a>
     </li>
   </ol>
 
-  <%= numbered_pagination(@current_feature.version, "versions-navigation-active-page-item", :active_page => @feature.version) do |v|
+  <%= numbered_pagination(current_feature.version, "versions-navigation-active-page-item", :active_page => feature.version) do |v|
         { :href => { :version => v },
           :title => t("browse.versions_navigation.version", :version => v) }
       end %>
