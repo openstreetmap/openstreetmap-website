@@ -109,6 +109,22 @@ class BrowseHelperTest < ActionView::TestCase
     end
   end
 
+  def test_lang_attribute_for_localized_name_tags
+    tag = ["name:pt", "Nó teste"]
+
+    html = browse_tag_value_cell(tag)
+
+    assert_match(/lang="pt"/, html)
+  end
+
+  def test_non_language_name_tags_do_not_get_lang_attribute
+    tag = ["name:etymology", "Origin"]
+
+    html = browse_tag_value_cell(tag)
+
+    assert_no_match(/lang="/, html)
+  end
+
   private
 
   def add_old_tags_selection(old_node)
