@@ -34,11 +34,7 @@
             <% src_path = relation_members_path(relation) %>
           <% end %>
           <turbo-frame id="member_relation_<%= relation.id %>" src="<%= src_path %>">
-            <div class="text-center my-2">
-              <div class="spinner-border spinner-border-sm text-primary" role="status">
-                <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
-              </div>
-            </div>
+            <div class="text-center my-2"><%= render "shared/loader" %></div>
           </turbo-frame>
         <% else %>
           <ul class="list-unstyled browse-element-list">
