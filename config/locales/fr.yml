@@ -105,6 +105,7 @@
 # Author: Ruila
 # Author: Rémi Bovard
 # Author: Seb35
+# Author: Serieminou
 # Author: Sherbrooke
 # Author: SleaY
 # Author: Spixi
@@ -936,6 +937,9 @@ fr:
       title: Fichier introuvable
       description: Impossible de trouver un fichier, un répertoire ou une opération
         de l’API portant ce nom sur le serveur OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap intégré
   follows:
     show:
       follow:
@@ -1801,6 +1805,7 @@ fr:
       download: Télécharger l’itinéraire en GeoJSON
       filename: itinéraire
       directions_courtesy_html: Itinéraire fourni par %{link}
+      check_demo_html: Plus de détails sur %{link}
   issues:
     index:
       title: Problèmes
@@ -2039,6 +2044,7 @@ fr:
       title: OpenStreetMap
     logo:
       alt_text: Logo d’OpenStreetMap
+    layer_info: Informations sur la couche
     start_mapping: Commencer à cartographier
     intro_header: Bienvenue dans OpenStreetMap !
     intro_text: OpenStreetMap est une carte du monde, créée par des gens comme vous
@@ -2054,6 +2060,7 @@ fr:
       about: À propos
       communities: Communautés
       copyright: Droits d’auteur
+      donate: Faire un don
       edit: Modifier
       edit_with: Modifier avec %{editor}
       export: Exporter
@@ -2069,6 +2076,8 @@ fr:
       select_language: Sélectionnez la langue
       sign_up: S’inscrire
       user_diaries: Journaux des utilisateurs
+    meta:
+      openstreetmap_search: Recherche OpenStreetMap
     select_language_button:
       title: Sélectionner la langue
     offline_flash:
@@ -2397,7 +2406,9 @@ fr:
           auto: Identique au site web
           light: Clair
           dark: Sombre
+        preferred_editor_color_scheme: Système de couleurs préféré de l'éditeur
         editor_color_schemes:
+          auto: Identique au site web
           light: Clair
           dark: Sombre
         save: Mettre à jour les préférences
@@ -2413,6 +2424,7 @@ fr:
         image: Image
         company: Entreprise
         location: Emplacement
+        heatmap: carte thermique
     descriptions:
       show:
         title: Modifier le profil
@@ -2475,7 +2487,13 @@ fr:
         failure: Impossible de mettre à jour l’emplacement du profil.
     heatmaps:
       show:
+        title: Configurer la carte thermique
+        show_heatmap_in_public: Afficher la carte thermique sur votre page de profil
+        save: Mettre à jour de la configuration de la carte thermique
         cancel: Annuler
+      update:
+        success: Carte thermique mise à jour.
+        failure: La carte thermique n'a pas pu être mise à jour.
   sessions:
     new:
       tab_title: Se connecter
@@ -2602,6 +2620,8 @@ fr:
       legal_1_1_terms_of_use: Conditions d’utilisation
       legal_1_1_aup: Politique des usages acceptés
       legal_1_1_privacy_policy: Politique de confidentialité
+      legal_attribution_guidelines_title: Indications pour l’Attribution
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_attribution_example_film_title: Film
       legal_2_1_html: |-
         Veuillez %{contact_the_osmf_link}
@@ -2770,10 +2790,7 @@ fr:
         contributors_hr_dgu: Administration géodésique de l'État de Croatie
         contributors_hr_open_data_portal: Portail national des données ouvertes
         contributors_hr_open_data_portal_url: https://data.gov.hr/en/
-        contributors_nl_credit_html: '%{netherlands} : contient des données © AND,
-          2007 (%{and_link}).'
         contributors_nl_netherlands: Pays-Bas
-        contributors_nl_and_url: https://www.and.com/
         contributors_nz_credit_html: |-
           %{new_zealand} : contient des données provenant du %{linz_data_service_link}
           et réutilisables sous licence %{cc_by_link}.
@@ -3160,6 +3177,15 @@ fr:
       image_dimensions_html: L’image affichera la mise en forme %{layer} de %{width} × %{height}
       download: Télécharger
       downloading: Téléchargement...
+  webgl_error_panes:
+    show:
+      compact_message: WebGL est requis pour cette carte.
+      description_html: Nous sommes désolés, mais il semble que %{your_browser_does_not_support_webgl},
+        une technologie permettant de rendre des graphismes 3D sur le web.
+      your_browser_does_not_support_webgl: Votre navigateur ne prend pas en charge
+        WebGL.
+      webgl_is_required_for_this_map: WebGL est nécessaire pour afficher cette carte.
+      read_more_about_webgl: Lire la suite
   traces:
     visibility:
       private: Privé (partagé uniquement de façon anonyme, points non ordonnés)
@@ -3206,13 +3232,13 @@ fr:
       points: 'Points :'
       start_coordinates: 'Coordonnées de départ :'
       coordinates_html: '%{latitude} ; %{longitude}'
-      map: carte
-      edit: modifier
+      map: Afficher l'emplacement sur la carte
+      edit: Ouvrir dans l'éditeur
       owner: 'Propriétaire :'
       description: 'Description :'
       tags: 'Mots-clés :'
       none: Aucun
-      edit_trace: Modifier cette trace
+      edit_trace: Modifier les détails de la trace
       delete_trace: Supprimer cette trace
       trace_not_found: Trace non trouvée !
       visibility: 'Visibilité :'
@@ -3224,8 +3250,8 @@ fr:
         other: '%{count} points'
       more: plus
       trace_details: Voir les détails de la trace
-      view_map: Voir la carte
-      edit_map: Modifier la carte
+      view_map: Afficher l'emplacement sur la carte
+      edit_map: Ouvrir dans l'éditeur
       public: PUBLIQUE
       identifiable: IDENTIFIABLE
       private: PRIVÉE
@@ -3406,9 +3432,8 @@ fr:
       signup_to_authorize_html: Se connecter à OpenStreetMap pour accéder à %{client_app_name}.
       no_auto_account_create: Malheureusement, nous ne sommes actuellement pas en
         mesure de vous créer un compte automatiquement.
-      please_contact_support_html: Veuillez contacter l’%{support_link} pour organiser
-        la création d’un compte — nous essaierons de traiter la demande le plus rapidement
-        possible.
+      please_contact_support_html: Veuillez contacter %{support_link} pour de l'assistance — nous
+        essaierons de traiter la demande le plus rapidement possible.
       support: assistance
       about:
         header: Libre et modifiable.
@@ -3440,6 +3465,10 @@ fr:
           pour plus d’informations.
       or: ou
       use external auth: ou vous pouvez vous connecter avec un service tiers.
+      verify_human: Vérifiez que vous êtes un humain
+    create:
+      not_human: Malheureusement, nous ne pouvons pas confirmer que vous êtes un humain.
+        Cette information est nécessaire pour créer un compte.
     no_such_user:
       title: Utilisateur inexistant
       heading: L’utilisateur ou l’utilisatrice « %{user} » n’existe pas
@@ -3489,6 +3518,7 @@ fr:
       unconfirm_user: Ne plus confirmer cet utilisateur ou cette utilisatrice
       suspend_user: Suspendre cet utilisateur
       unsuspend_user: Ne plus suspendre cet utilisateur ou cette utilisatrice
+      undelete_user: Annuler la suppression de cet utilisateur
       confirm: Confirmer
       report: Signaler cet utilisateur ou cette utilisatrice
       edit_profile_details: Modifier les détails du profil
@@ -3497,6 +3527,7 @@ fr:
       change_image: Changer l’image
       edit_company: Modifier l’entreprise
       edit_location: Modifier l’emplacement
+      edit_heatmap: Configurer la carte thermique
       contributions:
         one: Une contribution au cours de la dernière année
         other: '%{count} contributions au cours de la dernière année'
@@ -3854,6 +3885,7 @@ fr:
         zoom_out: Vue éloignée
       geolocate_control:
         find_my_location: Afficher mon emplacement
+        location_not_available: Localisation non disponible
         metersPopup:
           one: Vous êtes à moins de %{count} mètre de ce point
           other: Vous êtes à moins de %{count} mètres de ce point
