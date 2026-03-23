@@ -84,7 +84,7 @@ class TraceImporterJobTest < ActiveJob::TestCase
     email = ActionMailer::Base.deliveries.last
     assert_equal trace.user.email, email.to[0]
     assert_match(/failure/, email.subject)
-    assert_match(/Start tag expected/, email.text_part.body.to_s, "should include parser error")
+    assert_match(/Fatal error:/, email.text_part.body.to_s, "should include parser error")
     assert_no_match(%r{jobs/trace_importer_job\.rb}, email.text_part.body.to_s, "should not include stack backtrace")
 
     ActionMailer::Base.deliveries.clear
