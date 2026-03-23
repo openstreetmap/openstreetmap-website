@@ -5,8 +5,9 @@ class ChangesetCommentNotifier < ApplicationNotifier
 
   validates :record, :presence => true
 
-  deliver_by :email do |config|
-    config.mailer = "UserMailer"
-    config.method = "changeset_comment_notification"
+  notification_methods do
+    def mailer_method
+      "changeset_comment_notification"
+    end
   end
 end
