@@ -6,4 +6,10 @@ class ApplicationNotifier < Noticed::Event
     config.mailer = "UserMailer"
     config.method = -> { mailer_method }
   end
+
+  notification_methods do
+    def mailer_method
+      raise NotImplementedError, "Remember to implement `mailer_method` under `notification_methods` in `#{event.class.name}`"
+    end
+  end
 end
