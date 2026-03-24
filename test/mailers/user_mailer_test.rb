@@ -103,7 +103,7 @@ class UserMailerTest < ActionMailer::TestCase
     other_user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
-    email = UserMailer.with(:comment => diary_comment, :recipient => other_user).diary_comment_notification
+    email = UserMailer.with(:record => diary_comment, :recipient => other_user).diary_comment_notification
     body = parse_html_body(email)
 
     url = url_helpers.diary_entry_url(user, diary_entry)
