@@ -66,13 +66,13 @@ $(document).on("turbo:frame-load", function () {
   }
 
   function getTooltipText(date, value) {
-    const localizedDate = OSM.i18n.l("date.formats.heatmap", date);
+    const localizedDate = OSM.i18n.l("date.formats.contribution_calendar", date);
 
     if (value > 0) {
-      return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
+      return OSM.i18n.t("javascripts.contribution_calendar.tooltip.contributions", { count: value, date: localizedDate });
     }
 
-    return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
+    return OSM.i18n.t("javascripts.contribution_calendar.tooltip.no_contributions", { date: localizedDate });
   }
 
   function getWeekInfo() {
