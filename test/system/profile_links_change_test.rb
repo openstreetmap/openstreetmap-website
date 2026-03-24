@@ -79,6 +79,30 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
+  test "can submit after removing a blank social link" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
+    within_content_body do
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
+
+      click_on "Add Social Link"
+      fill_in "Social Profile Link 1", :with => "https://example.com/user/fred"
+      click_on "Add Social Link"
+
+      assert_field "Social Profile Link 2", :with => ""
+
+      click_on "Remove Social Profile Link 2"
+      click_on "Update Profile"
+
+      assert_link "example.com/user/fred"
+      assert_no_field "Social Profile Link 2"
+    end
+  end
+
   test "can control social links using keyboard without submitting" do
     user = create(:user)
 
