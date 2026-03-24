@@ -14,7 +14,7 @@ These instructions are designed for setting up `openstreetmap-website` for devel
 ### Mac
 
 - Use Docker Desktop via [docker.com Download](https://www.docker.com/products/docker-desktop/).
-- Or [Homebrew](https://formulae.brew.sh/cask/docker).
+- Or [Homebrew](https://formulae.brew.sh/cask/docker-desktop).
 
 ### Linux
 
