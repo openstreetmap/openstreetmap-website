@@ -20,6 +20,9 @@ $(function () {
 
       if (destroyCheckbox) {
         destroyCheckbox.checked = true;
+        row.find("input, select, textarea").each(function () {
+          if (this !== destroyCheckbox) this.disabled = true;
+        });
         row.addClass("d-none");
       } else {
         row.remove();
@@ -29,6 +32,10 @@ $(function () {
     });
 
     $(".social_link_destroy input[type='checkbox']:checked").each(function () {
+      const destroyCheckbox = this;
+      $(this).closest(".row").find("input, select, textarea").each(function () {
+        if (this !== destroyCheckbox) this.disabled = true;
+      });
       $(this).closest(".row").addClass("d-none");
     });
 
