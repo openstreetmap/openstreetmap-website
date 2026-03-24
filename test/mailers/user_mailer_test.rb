@@ -129,7 +129,7 @@ class UserMailerTest < ActionMailer::TestCase
     commenter = create(:user)
     note = create(:note, :lat => 51.7632, :lon => -0.0076)
     comment = create(:note_comment, :author => commenter, :note => note)
-    email = UserMailer.with(:comment => comment, :recipient => recipient).note_comment_notification
+    email = UserMailer.with(:record => comment, :recipient => recipient).note_comment_notification
     html_body =
       Nominatim.stub :describe_location, "The End of the Rainbow" do
         parse_html_body(email)
