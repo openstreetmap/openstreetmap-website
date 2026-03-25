@@ -126,6 +126,59 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
     end
   end
 
+  test "can remove invalid link after validation error and resubmit" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
+    within_content_body do
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
+
+      click_on "Add Social Link"
+      fill_in "Social Profile Link 1", :with => "https://example.com/user/valid"
+      click_on "Add Social Link"
+
+      # Submit with second link empty to trigger validation error
+      click_on "Update Profile"
+
+      # Remove the invalid (empty) second link
+      click_on "Remove Social Profile Link 2"
+
+      # Resubmit - this should succeed
+      click_on "Update Profile"
+
+      assert_link "example.com/user/valid"
+    end
+  end
+
+  test "can remove persisted link after validation error and resubmit" do
+    user = create(:user)
+    create(:social_link, :user => user, :url => "https://example.com/user/first")
+
+    sign_in_as(user)
+    visit user_path(user)
+
+    within_content_body do
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
+
+      click_on "Add Social Link"
+
+      # Submit with second link empty to trigger validation error
+      click_on "Update Profile"
+
+      # Remove the invalid (empty) second link
+      click_on "Remove Social Profile Link 2"
+
+      # Resubmit - this should succeed with the first link preserved
+      click_on "Update Profile"
+
+      assert_link "example.com/user/first"
+    end
+  end
+
   test "can add and remove multiple links" do
     user = create(:user)
 
