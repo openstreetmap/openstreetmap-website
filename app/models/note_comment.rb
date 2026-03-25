@@ -42,4 +42,8 @@ class NoteComment < ApplicationRecord
   def body
     RichText.new("text", self[:body])
   end
+
+  def notifiable_subscribers
+    note.visible_subscribers.where.not(:id => author_id)
+  end
 end

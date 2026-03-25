@@ -51,6 +51,18 @@ class DiaryEntryTest < ActiveSupport::TestCase
     assert_equal 2, diary.comments.count
   end
 
+  def test_visible_subscribers
+    commenter1 = create(:user)
+    commenter2 = create(:user, :suspended)
+    commenter3 = create(:user)
+    diary_entry = create(:diary_entry)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter1)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter2)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter3)
+
+    assert_equal diary_entry.visible_subscribers.sort, [commenter1, commenter3].sort
+  end
+
   private
 
   def diary_entry_valid(attrs, valid: true)

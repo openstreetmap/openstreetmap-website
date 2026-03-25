@@ -48,6 +48,10 @@ class DiaryComment < ApplicationRecord
     Base64.urlsafe_encode64(sha256.digest)[0, 8]
   end
 
+  def notifiable_subscribers
+    diary_entry.visible_subscribers.where.not(:id => user_id)
+  end
+
   private
 
   def spam_check

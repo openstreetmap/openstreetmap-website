@@ -63,7 +63,7 @@ class UserMailerPreview < ActionMailer::Preview
     recipient = create(:user, :languages => [I18n.locale])
     diary_entry = create(:diary_entry)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
-    UserMailer.with(:comment => diary_comment, :recipient => recipient).diary_comment_notification
+    UserMailer.with(:record => diary_comment, :recipient => recipient).diary_comment_notification
   end
 
   def follow_notification
@@ -76,7 +76,7 @@ class UserMailerPreview < ActionMailer::Preview
     recipient = create(:user, :languages => [I18n.locale])
     commenter = create(:user)
     comment = create(:note_comment, :author => commenter)
-    UserMailer.with(:comment => comment, :recipient => recipient).note_comment_notification
+    UserMailer.with(:record => comment, :recipient => recipient).note_comment_notification
   end
 
   def changeset_comment_notification

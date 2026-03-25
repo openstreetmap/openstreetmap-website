@@ -105,7 +105,7 @@ class UserMailer < ApplicationMailer
   end
 
   def diary_comment_notification
-    comment, recipient = params.fetch_values(:comment, :recipient)
+    comment, recipient = params.fetch_values(:record, :recipient)
 
     with_recipient_locale recipient do
       @to_user = recipient.display_name
@@ -152,7 +152,7 @@ class UserMailer < ApplicationMailer
   end
 
   def note_comment_notification
-    comment, recipient = params.fetch_values(:comment, :recipient)
+    comment, recipient = params.fetch_values(:record, :recipient)
 
     with_recipient_locale recipient do
       @noteurl = note_url(comment.note)
