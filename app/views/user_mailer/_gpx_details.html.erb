@@ -1,28 +1,28 @@
-<%# locals: () %>
+<%# locals: (trace_url: nil, trace_name:, trace_points: nil, trace_description:, trace_tags:, possible_points: nil) %>
 
 <p><%= t ".details" %></p>
 
 <dl>
   <dt><%= t ".filename" %></dt>
   <dd>
-    <% if @trace_url %>
-      <%= link_to(@trace_name, @trace_url) %>
+    <% if trace_url %>
+      <%= link_to(trace_name, trace_url) %>
     <% else %>
-      <%= @trace_name %>
+      <%= trace_name %>
     <% end %>
   </dd>
   <dt><%= t ".description" %></dt>
-  <dd><%= @trace_description %></dd>
-  <% if @trace_tags.length > 0 %>
+  <dd><%= trace_description %></dd>
+  <% if trace_tags.length > 0 %>
     <dt><%= t ".tags" %></dt>
-    <dd><%= @trace_tags.map(&:tag).join(", ") %></dd>
+    <dd><%= trace_tags.map(&:tag).join(", ") %></dd>
   <% end %>
-  <% if @possible_points %>
+  <% if possible_points %>
     <dt><%= t ".total_points" %></dt>
-    <dd><%= @possible_points %></dd>
+    <dd><%= possible_points %></dd>
   <% end %>
-  <% if @trace_points %>
+  <% if trace_points %>
     <dt><%= t ".imported_points" %></dt>
-    <dd><%= @trace_points %></dd>
+    <dd><%= trace_points %></dd>
   <% end %>
 </dl>

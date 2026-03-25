@@ -54,7 +54,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
+    @entries = get_page_items(entries, :includes => [:user, :language])
   end
 
   def show

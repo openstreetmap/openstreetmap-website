@@ -2,4 +2,6 @@
   <h1><%= t ".title", :issue_id => @issue.id %></h1>
 <% end %>
 
-<%= render :partial => "reporters", :locals => { :issue => @issue } %>
+<%= render "reporters",
+           :issue => @issue,
+           :unique_reporters => @unique_reporters %>

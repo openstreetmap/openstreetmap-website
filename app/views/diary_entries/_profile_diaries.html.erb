@@ -1,4 +1,4 @@
-<%# locals: (diary_entries:) %>
+<%# locals: (user:, diary_entries:) %>
 
 <% if diary_entries.present? %>
   <h2 class="text-body-secondary fs-5 mt-4"><%= t(".latest_diaries") %></h2>
@@ -10,7 +10,7 @@
             <p class="card-title d-flex gap-2">
               <i class="bi bi-journal-text fs-2 my-n2 flex-shrink-0" aria-hidden="true"></i>
               <span class="visually-hidden"><%= t ".title_label" %></span>
-              <%= link_to entry.title, diary_entry_path(@user, entry), :class => "align-self-center lh-sm" %>
+              <%= link_to entry.title, diary_entry_path(user, entry), :class => "align-self-center lh-sm" %>
             </p>
             <p class="card-text flex-grow-1"><%= truncate(strip_tags(entry.body.to_html), :length => 150) %></p>
 
@@ -18,7 +18,7 @@
               <small class="text-body-secondary d-flex gap-1 align-items-center">
                 <i class="bi bi-chat fs-5 my-n1" aria-hidden="true"></i>
                 <span class="visually-hidden"><%= t ".comments_label" %></span>
-                <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(@user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
+                <%= link_to t(".comments", :count => entry.comments.size), diary_entry_path(user, entry, :anchor => "comments"), :class => "text-body-secondary" %>
               </small>
               <small class="text-body-secondary d-flex gap-1 align-items-center">
                 <i class="bi bi-calendar fs-5 my-n1" aria-hidden="true"></i>

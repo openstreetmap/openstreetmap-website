@@ -1,4 +1,4 @@
-<%# locals: () %>
+<%# locals: (user:, user_block: nil) %>
 
 <ul class="nav nav-tabs">
   <li class="nav-item">
@@ -10,10 +10,10 @@
     <li class="nav-item">
       <%= link_to t(".blocks_on_me"),
                   user_received_blocks_path(current_user),
-                  :class => ["nav-link", { :active => controller_name == "received_blocks" && current_user == @user }] %>
+                  :class => ["nav-link", { :active => controller_name == "received_blocks" && current_user == user }] %>
     </li>
   <% end %>
-  <% on_user = @user || @user_block&.user %>
+  <% on_user = user || user_block&.user %>
   <% if on_user != current_user && on_user&.blocks&.exists? %>
     <li class="nav-item">
       <%= link_to t(".blocks_on_user_html", :user => tag.span(on_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
@@ -25,10 +25,10 @@
     <li class="nav-item">
       <%= link_to t(".blocks_by_me"),
                   user_issued_blocks_path(current_user),
-                  :class => ["nav-link", { :active => controller_name == "issued_blocks" && current_user == @user }] %>
+                  :class => ["nav-link", { :active => controller_name == "issued_blocks" && current_user == user }] %>
     </li>
   <% end %>
-  <% by_user = @user || @user_block&.creator %>
+  <% by_user = user || user_block&.creator %>
   <% if by_user != current_user && by_user&.blocks_created&.exists? %>
     <li class="nav-item">
       <%= link_to t(".blocks_by_user_html", :user => tag.span(by_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
@@ -36,13 +36,13 @@
                   :class => ["nav-link", { :active => controller_name == "issued_blocks" }] %>
     </li>
   <% end %>
-  <% if @user_block&.persisted? %>
+  <% if user_block&.persisted? %>
     <li class="nav-item">
-      <%= link_to t(".block", :id => @user_block.id),
-                  user_block_path(@user_block),
+      <%= link_to t(".block", :id => user_block.id),
+                  user_block_path(user_block),
                   :class => "nav-link active" %>
     </li>
-  <% elsif @user_block&.new_record? %>
+  <% elsif user_block&.new_record? %>
     <li class="nav-item">
       <%= link_to t(".new_block"),
                   new_user_block_path,
