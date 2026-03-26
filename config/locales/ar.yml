@@ -60,6 +60,9 @@
 ar:
   html:
     dir: rtl
+  date:
+    formats:
+      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y في %H:%M'
@@ -90,6 +93,9 @@ ar:
         update: تحديث المنع
   activerecord:
     errors:
+      messages:
+        display_name_is_user_n: لا يمكن أن يكون user_n إلا إذا كان n هو معرف المستخدم
+          الخاص بك
       models:
         user_mute:
           is_already_muted: تمت كتم الصوت بالفعل
@@ -483,6 +489,12 @@ ar:
       telephone_link: اتصل بـ%{phone_number}
       colour_preview: معاينة اللون %{colour_value}
       email_link: إرسال بريد إلكتروني %{email}
+    versions_navigation:
+      way: طريق
+      relation: العلاقة
+      history: تاريخ
+      version: 'النسخة #%{version}'
+      versions_label: 'الإصدارات:'
   feature_queries:
     show:
       title: ميزات الاستفهام
@@ -497,6 +509,10 @@ ar:
         title_html: 'تاريخ الطريق: %{name}'
       relation:
         title_html: 'تاريخ الصلة: %{name}'
+      older_versions: الإصدارات الأقدم
+      newer_versions: الإصدارات الأحدث
+    actions:
+      view_redacted_data: عرض البيانات المحجوبة
   changeset_comments:
     feeds:
       comment:
@@ -1488,14 +1504,13 @@ ar:
       other_issues_against_this_user: مشاكل أخرى ضد هذا المستخدم
       no_other_issues: لا مشاكل أخرى ضد هذا المستخدم.
       comments_on_this_issue: التعليقات على هذه المشكلة
+      comment_from_html: التعليق من %{user_link} في %{comment_created_at}
     resolve:
       resolved: تم تعيين حالة المشكلة إلى 'محلولة'
     ignore:
       ignored: تم تعيين حالة المشكلة إلى 'تم تجاهلها'
     reopen:
       reopened: تم تعيين حالة المشكلة إلى 'مفتوحة'
-    comments:
-      comment_from_html: التعليق من %{user_link} في %{comment_created_at}
     reports:
       reported_by_html: تم الإبلاغ عنه ك%{category} بواسطة %{user} في %{updated_at}
     helper:
@@ -2387,6 +2402,7 @@ ar:
         في التفضيلات في وقت لاحق.
       continue: أنشئ حسابًا
       use external auth: أو قم بالتسجيل مع طرف ثالث
+      verify_human: تأكد من أنك إنسان
     no_such_user:
       title: لا يوجد مستخدم كهذا
       heading: المستخدم %{user} غير موجود
@@ -2424,6 +2440,17 @@ ar:
       confirm_user: تأكيد هذا المستخدم
       confirm: تأكيد
       report: أبلغ عن هذا المستخدم
+      title:
+        administrator: هذا المستخدم إداري
+        moderator: هذا المستخدم مشرف
+      grant:
+        administrator: منح وصول إداري
+        moderator: منح وصول مشرف
+        are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
+      revoke:
+        administrator: إبطال وصول إداري
+        moderator: إبطال وصول مشرف
+        are_you_sure: هل أنت متأكد أنك تريد إلغاء الدور '%{role}' من المستخدم '%{name}'؟
     go_public:
       flash success: جميع تعديلاتك الآن عامة، ومسموح لك بالتعديل الآن.
     issued_blocks:
@@ -2473,18 +2500,6 @@ ar:
         إذا كان لديك حساب بالفعل، فيمكنك تسجيل الدخول إلى حسابك
          باستخدام اسم المستخدم وكلمة المرور، ثم ربط الحساب
          بمعرفك في إعدادات المستخدم الخاصة بك.
-    role_icons:
-      title:
-        administrator: هذا المستخدم إداري
-        moderator: هذا المستخدم مشرف
-      grant:
-        administrator: منح وصول إداري
-        moderator: منح وصول مشرف
-        are_you_sure: هل أنت متأكد أنك تريد منح الدور '%{role}' للمستخدم '%{name}'؟
-      revoke:
-        administrator: إبطال وصول إداري
-        moderator: إبطال وصول مشرف
-        are_you_sure: هل أنت متأكد أنك تريد إلغاء الدور '%{role}' من المستخدم '%{name}'؟
   user_role:
     filter:
       not_a_role: السلسلة '%{role}' ليست دورًا صالحًا.
