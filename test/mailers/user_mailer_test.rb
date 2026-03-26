@@ -54,7 +54,7 @@ class UserMailerTest < ActionMailer::TestCase
       create(:tracetag, :trace => t, :tag => "two&three")
       create(:tracetag, :trace => t, :tag => "four<five")
     end
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
 
     assert_match("one, two&amp;three, four&lt;five", email.html_part.body.to_s)
     assert_match("one, two&three, four<five", email.text_part.body.to_s)
@@ -62,7 +62,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_all_traces_link
     trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
     url = url_helpers.url_for(:controller => "traces", :action => "mine")
 
     assert_select parse_html_body(email), "a[href='#{url}']"
@@ -71,20 +71,36 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_trace_link
     trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
     url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select parse_html_body(email), "a[href='#{url}']", :text => trace.name
     assert_includes email.text_part.body, url
   end
 
-  def test_gpx_failure_no_trace_link
-    trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :error => "some error").gpx_failure
-    url = url_helpers.show_trace_url(trace.user, trace)
+  def test_gpx_failure
+    trace = build(:trace, :tags => build_list(:tracetag, 2))
+    email = UserMailer.with(
+      :trace_name => trace.name,
+      :trace_description => trace.description,
+      :trace_tags => trace.tags,
+      :error => "some error",
+      :recipient => trace.user
+    ).gpx_failure
 
-    assert_select parse_html_body(email), "a[href='#{url}']", :count => 0
-    assert_not_includes email.text_part.body, url
+    tags = trace.tags.map(&:tag)
+    assert_match trace.name, email.html_part.body.to_s
+    assert_match trace.description, email.html_part.body.to_s
+    assert_match tags[0], email.html_part.body.to_s
+    assert_match tags[1], email.html_part.body.to_s
+    assert_match "some error", email.html_part.body.to_s
+
+    tags = trace.tags.map(&:tag)
+    assert_match trace.name, email.text_part.body.to_s
+    assert_match trace.description, email.text_part.body.to_s
+    assert_match tags[0], email.text_part.body.to_s
+    assert_match tags[1], email.text_part.body.to_s
+    assert_match "some error", email.text_part.body.to_s
   end
 
   def test_message_notification

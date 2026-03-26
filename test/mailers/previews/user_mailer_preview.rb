@@ -39,7 +39,7 @@ class UserMailerPreview < ActionMailer::Preview
   def gpx_success
     user = create(:user, :languages => [I18n.locale])
     trace = create(:trace, :user => user)
-    UserMailer.with(:trace => trace, :possible_points => trace.size + 2).gpx_success
+    UserMailer.with(:record => trace, :possible_points => trace.size + 2, :recipient => trace.user).gpx_success
   end
 
   def gpx_failure
@@ -50,7 +50,13 @@ class UserMailerPreview < ActionMailer::Preview
     rescue LibXML::XML::Error => e
       e.message
     end
-    UserMailer.with(:trace => trace, :error => error).gpx_failure
+    UserMailer.with(
+      :trace_name => trace.name,
+      :trace_description => trace.description,
+      :trace_tags => trace.tags,
+      :error => error,
+      :recipient => trace.user
+    ).gpx_failure
   end
 
   def message_notification
