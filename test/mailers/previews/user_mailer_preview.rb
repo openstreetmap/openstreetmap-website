@@ -56,7 +56,7 @@ class UserMailerPreview < ActionMailer::Preview
   def message_notification
     recipient = create(:user, :languages => [I18n.locale])
     message = create(:message, :recipient => recipient)
-    UserMailer.with(:message => message).message_notification
+    UserMailer.with(:record => message, :recipient => recipient).message_notification
   end
 
   def diary_comment_notification

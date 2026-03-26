@@ -50,7 +50,7 @@ class MessagesController < ApplicationController
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      UserMailer.with(:message => @message).message_notification.deliver_later if @message.notify_recipient?
+      DirectMessageNotifier.with(:record => @message).deliver_later if @message.notify_recipient?
       redirect_to messages_outbox_path
     else
       @title = t "messages.new.title"
