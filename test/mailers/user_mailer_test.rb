@@ -114,7 +114,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_follow_notification
     follow = create(:follow)
-    email = UserMailer.with(:follow => follow).follow_notification
+    email = UserMailer.with(:record => follow, :recipient => follow.following).follow_notification
 
     follower_profile_url = url_helpers.user_url(follow.follower)
     follow_follower_url = url_helpers.follow_url(follow.follower)
