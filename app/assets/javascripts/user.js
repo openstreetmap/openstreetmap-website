@@ -21,6 +21,7 @@ $(function () {
       if (destroyCheckbox) {
         destroyCheckbox.checked = true;
         row.addClass("d-none");
+        row.find("input[type='text']").removeAttr("required");
       } else {
         row.remove();
       }
