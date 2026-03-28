@@ -1,18 +1,14 @@
 <% content_for :heading_class, "pb-0" %>
 <% content_for :heading do %>
-  <h1><%= @title %></h1>
-  <nav class="secondary-actions mb-3">
-    <ul>
-      <li>
-        <%= t(".description") %>
-      </li>
-      <% if params[:tag] %>
-        <li>
-          <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :tag => nil } %>
-        </li>
-      <% end %>
-    </ul>
-  </nav>
+  <h1>
+    <%= @untagged_title %>
+    <% if params[:tag] %>
+      <span class="badge border border-secondary-subtle py-1 ps-2 pe-1 align-middle fs-6 fw-normal bg-body text-body icon-link">
+        <%= tag.span params[:tag], :title => t(".tagged_with", :tags => params[:tag]) %>
+        <%= link_to "", { :controller => "traces", :action => "index", :tag => nil }, :class => "btn-close", :title => t(".remove_tag_filter") %>
+      </span>
+    <% end %>
+  </h1>
 
   <div class="d-flex flex-column flex-md-row-reverse align-items-md-end">
     <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
