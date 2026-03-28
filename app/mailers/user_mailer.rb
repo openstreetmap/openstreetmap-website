@@ -85,10 +85,10 @@ class UserMailer < ApplicationMailer
   end
 
   def message_notification
-    message = params.fetch(:message)
+    message, recipient = params.fetch_values(:record, :recipient)
 
-    with_recipient_locale message.recipient do
-      @to_user = message.recipient.display_name
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @from_user = message.sender.display_name
       @text = message.body
       @title = message.title
@@ -99,7 +99,7 @@ class UserMailer < ApplicationMailer
       attach_user_avatar(message.sender)
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.notification_token),
-           :to => message.recipient.email,
+           :to => recipient.email,
            :subject => t(".subject", :message_title => message.title)
     end
   end
@@ -137,16 +137,16 @@ class UserMailer < ApplicationMailer
   end
 
   def follow_notification
-    follow = params.fetch(:follow)
+    follow, recipient = params.fetch_values(:record, :recipient)
 
-    with_recipient_locale follow.following do
+    with_recipient_locale recipient do
       @follow = follow
       @viewurl = user_url(@follow.follower)
       @followurl = follow_url(@follow.follower)
       @author = @follow.follower.display_name
 
       attach_user_avatar(@follow.follower)
-      mail :to => follow.following.email,
+      mail :to => recipient.email,
            :subject => t(".subject", :user => follow.follower.display_name)
     end
   end
