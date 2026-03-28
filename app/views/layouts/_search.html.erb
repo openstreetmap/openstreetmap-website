@@ -15,11 +15,11 @@
           <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 m-1 btn btn-outline-primary border-0 p-1 text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
         </div>
         <%= button_tag :class => "btn btn-primary p-1", :title => t("site.search.submit_text") do %>
-          <%= inline_svg_tag "search/magnifying_glass.svg" %>
+          <%= inline_svg_tag "magnifying_glass.svg" %>
         <% end %>
       </div>
       <%= link_to directions_path, :class => "btn btn-primary p-1 switch_link", :title => t("site.search.get_directions_title") do %>
-        <%= inline_svg_tag "search/directions.svg", :class => "align-bottom" %>
+        <%= inline_svg_tag "directions.svg", :class => "align-bottom" %>
       <% end %>
     </div>
   </form>
@@ -68,9 +68,9 @@
             <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
           </div>
         </div>
-        <%= button_tag inline_svg_tag("search/reverse_directions.svg", :class => "d-block"),
+        <%= button_tag tag.i(:class => "bi bi-arrow-down-up d-flex fs-5", :aria => { :hidden => "true" }),
                        :type => "button",
-                       :class => "reverse_directions btn btn-outline-secondary border-0 p-1",
+                       :class => "reverse_directions btn btn-outline-secondary p-1",
                        :title => t("site.search.reverse_directions_text") %>
       </div>
     </div>
