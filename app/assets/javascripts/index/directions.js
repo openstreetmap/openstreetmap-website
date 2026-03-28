@@ -238,6 +238,8 @@ OSM.Directions = function (map) {
 
     endpoints[0].enableListeners();
     endpoints[1].enableListeners();
+
+    endpoints[0].focusInput();
   }
 
   const page = {};
