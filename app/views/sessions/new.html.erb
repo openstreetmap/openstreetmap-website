@@ -59,9 +59,13 @@
     <%= f.check_box :remember_me, { :label => t(".remember"), :checked => (params[:remember_me] == "true") }, "yes" %>
   <% end %>
 
-  <div class="mb-3">
+  <div class="d-flex justify-content-between align-items-center mt-3">
     <%= f.primary t(".login_button") %>
-  </div>
+
+    <small class="ms-auto">
+      <%= link_to(t(".lost password link"), user_forgot_password_path) %>
+    </small>
+  </div>s
 <% end %>
 
 <% unless @preferred_auth_provider or Auth.providers.empty? %>
