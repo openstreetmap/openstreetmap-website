@@ -49,7 +49,7 @@ module Profiles
       follow_redirect!
       assert_response :success
       assert_template :show
-      assert_dom ".alert-success", :text => "Heatmap updated."
+      assert_dom ".alert-success", :text => "Contribution calendar updated."
 
       assert_not_predicate user.reload, :public_heatmap?
       refute_select heatmap_selector
@@ -60,7 +60,7 @@ module Profiles
       follow_redirect!
       assert_response :success
       assert_template :show
-      assert_dom ".alert-success", :text => "Heatmap updated."
+      assert_dom ".alert-success", :text => "Contribution calendar updated."
 
       assert_predicate user.reload, :public_heatmap?
       assert_select heatmap_selector
