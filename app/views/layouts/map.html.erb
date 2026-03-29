@@ -31,10 +31,14 @@
         <button type="button" class="btn-close position-absolute end-0 top-0 m-2 rounded-5 p-2" aria-label="<%= t("javascripts.close") %>"></button>
         <h2 class="me-4 text-break"><%= t "layouts.intro_header" %></h2>
         <p class="fs-6 fw-light"><%= t "layouts.intro_text" %></p>
-        <p class="fs-6 fw-light"><%= t "layouts.hosting_partners_2024_html",
+        <p class="fs-7 fw-light"><%= t "layouts.hosting_partners_2024_html",
                                        :fastly => link_to(t("layouts.partners_fastly"), "https://www.fastly.com/"),
                                        :corpmembers => link_to(t("layouts.partners_corpmembers"), "https://osmfoundation.org/wiki/Corporate_Members"),
                                        :partners => link_to(t("layouts.partners_partners"), "https://hardware.openstreetmap.org/thanks/") %>
+        </p>
+        <p class="fs-7 fw-light">
+          <%= t "layouts.welcome_tou_notice_html",
+                :terms_link => link_to(t("layouts.terms_of_use"), t("site.about_section.legal_1_1_terms_of_use_url")) %>
         </p>
         <div class="d-flex gap-2">
           <a class="btn btn-primary w-100 d-flex align-items-center justify-content-center" href="<%= about_path %>"><%= t("layouts.learn_more") %></a>
