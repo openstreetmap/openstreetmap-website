@@ -30,9 +30,7 @@ $(function () {
     });
 
     $(".social_link_destroy input[type='checkbox']:checked").each(function () {
-      const row = $(this).closest(".row");
-      row.addClass("d-none");
-      row.find("input[type='text']").removeAttr("required");
+      $(this).closest(".row").addClass("d-none").find("input[type='text']").removeAttr("required");
     });
 
     renumberSocialLinks();
