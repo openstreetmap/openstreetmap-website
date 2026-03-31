@@ -50,15 +50,15 @@ module SessionMethods
     # - If they were referred to the login, send them back there.
     # - Otherwise, send them to the home page.
     if !user.terms_seen
-      redirect_to account_terms_path(:referer => target)
+    	redirect_to account_terms_path(:referer => target)
     elsif user.blocked_on_view
-      redirect_to user.blocked_on_view, :referer => target
+    	redirect_to user.blocked_on_view, :referer => target
     else
-      redirect_to target
+    	flash[:warning] = t("sessions.tou_notice_html", :terms_link => view_context.link_to(t("layouts.terms_of_use"), "https://osmfoundation.org/wiki/Terms_of_Use")).html_safe if user.tou_agreed.nil?
+    	redirect_to target
     end
-
     session.delete(:remember_me)
-  end
+    end
 
   ##
   # process a failed login
