@@ -141,7 +141,7 @@ OSM.Directions = function (map) {
     e.stopPropagation();
     routeOutput.remove();
     sidebarReadyPromise = null;
-    map.setSidebarOverlaid(true);
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);s
   }
 
   setEngine("fossgis_osrm_car");
