@@ -233,9 +233,14 @@ OpenStreetMap::Application.routes.draw do
   get "/forgot-password.html", :to => redirect(:path => "/user/forgot-password")
 
   # omniauth
-  get "/auth/failure" => "users#auth_failure"
-  match "/auth/:provider/callback" => "users#auth_success", :via => [:get, :post], :as => :auth_success
-  match "/auth/:provider" => "users#auth", :via => [:post, :patch], :as => :auth
+  scope "/auth", :as => :auth do
+    get "/failure" => "users#auth_failure"
+
+    scope ":provider" do
+      match "/callback" => "users#auth_success", :via => [:get, :post], :as => :success
+      match "" => "users#auth", :via => [:post, :patch]
+    end
+  end
 
   # permalink
   get "/go/:code" => "site#permalink", :code => /[a-zA-Z0-9_@~]+[=-]*/, :as => :permalink
