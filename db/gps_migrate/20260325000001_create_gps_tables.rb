@@ -2,6 +2,8 @@
 
 class CreateGpsTables < ActiveRecord::Migration[8.1]
   def change
+    create_enum :gpx_visibility_enum, %w[private public trackable identifiable]
+
     create_table :gpx_files, id: :bigint do |t|
       t.bigint :user_id, null: false
       t.boolean :visible, default: true, null: false
@@ -12,7 +14,7 @@ class CreateGpsTables < ActiveRecord::Migration[8.1]
       t.datetime :timestamp, null: false
       t.string :description, default: "", null: false
       t.boolean :inserted, null: false
-      t.column :visibility, :string, default: "public", null: false
+      t.column :visibility, :gpx_visibility_enum, default: "public", null: false
     end
 
     add_index :gpx_files, :timestamp, name: "gpx_files_timestamp_idx"
