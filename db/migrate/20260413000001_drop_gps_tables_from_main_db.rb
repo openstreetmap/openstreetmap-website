@@ -10,8 +10,6 @@ class DropGpsTablesFromMainDb < ActiveRecord::Migration[8.1]
     drop_table :gps_points
     drop_table :gpx_file_tags
     drop_table :gpx_files
-
-    # Drop the enum type from 039_add_more_controls_to_gpx_files.rb
-    execute "DROP TYPE IF EXISTS gpx_visibility_enum"
+    safety_assured { execute "DROP TYPE IF EXISTS gpx_visibility_enum" }
   end
 end
