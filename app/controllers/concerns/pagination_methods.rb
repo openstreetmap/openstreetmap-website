@@ -21,7 +21,7 @@ module PaginationMethods
                  end
 
     page_items = page_items.limit(limit)
-    page_items = page_items.includes(includes)
+    page_items = page_items.preload(includes)
     page_items = page_items.sort.reverse
 
     newer_items_cursor = page_items.first&.send cursor_column
