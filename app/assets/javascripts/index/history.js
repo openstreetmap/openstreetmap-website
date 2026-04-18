@@ -32,6 +32,83 @@ OSM.History = function (map) {
 
   let changesetIntersectionObserver;
 
+  function safeHistoryT(key, options) {
+    try {
+      return OSM.i18n.t(key, options);
+    } catch (e) {
+      return key;
+    }
+  }
+
+  function buildFetchErrorMessage(response) {
+    const status = response?.status;
+    const statusText = response?.statusText;
+    const parts = [];
+    if (status) parts.push(status);
+    if (statusText) parts.push(statusText);
+    return parts.join(" ") || safeHistoryT("javascripts.history.load_failed_unknown");
+  }
+
+  function fetchHtmlOrThrow(url) {
+    return fetch(url).then(response => {
+      if (response.ok) return response.text();
+      throw new Error(buildFetchErrorMessage(response));
+    });
+  }
+
+  function removeHistoryLoadError() {
+    $("#sidebar_content .history-load-error").remove();
+  }
+
+  function showHistoryLoadError(options) {
+    const { message, retry } = options;
+    const detail = String(message ?? "");
+    // Always resolve targets from the live DOM (Turbo may replace sidebar HTML after fetch starts).
+    const $changesets = $("#sidebar_content .changesets");
+    const $target = $changesets.length ? $changesets : $("#sidebar_content");
+
+    removeHistoryLoadError();
+
+    try {
+      const $alert = $("<div class='history-load-error alert alert-warning p-3 mb-3'>")
+        .attr("role", "alert")
+        .append(
+          $("<div class='d-flex align-items-start gap-2'>").append(
+            $("<div class='flex-grow-1'>").append(
+              $("<div class='fw-semibold mb-1'>").text(safeHistoryT("javascripts.history.load_failed_title")),
+              $("<div class='text-break'>").text(safeHistoryT("javascripts.history.load_failed_body", { message: detail }))
+            ),
+            $("<button type='button' class='btn-close'>")
+              .attr("aria-label", safeHistoryT("javascripts.close"))
+              .on("click", function () {
+                $alert.remove();
+              })
+          ),
+          $("<div class='mt-3 d-flex flex-wrap gap-2'>").append(
+            $("<button type='button' class='btn btn-primary btn-sm'>")
+              .text(safeHistoryT("javascripts.history.try_again"))
+              .on("click", function () {
+                $alert.remove();
+                retry?.();
+              }),
+            $("<button type='button' class='btn btn-outline-secondary btn-sm'>")
+              .text(safeHistoryT("javascripts.history.reload_page"))
+              .on("click", function () {
+                location.reload();
+              })
+          )
+        );
+
+      $target.prepend($alert);
+    } catch (e) {
+      $target.prepend(
+        $("<div class='history-load-error alert alert-warning p-3 mb-3'>")
+          .attr("role", "alert")
+          .text(detail || safeHistoryT("javascripts.history.load_failed_unknown"))
+      );
+    }
+  }
+
   function disableChangesetIntersectionObserver() {
     if (changesetIntersectionObserver) {
       changesetIntersectionObserver.disconnect();
@@ -166,6 +243,24 @@ OSM.History = function (map) {
     });
   }
 
+  function applyFirstChangesetsHtml(html, data, isHistory) {
+    displayFirstChangesets(html);
+    enableChangesetIntersectionObserver();
+
+    if (data.has("before")) {
+      const [firstItem] = $("#sidebar_content .changesets ol").children().first();
+      firstItem?.scrollIntoView();
+    } else if (data.has("after")) {
+      const [lastItem] = $("#sidebar_content .changesets ol").children().last();
+      lastItem?.scrollIntoView(false);
+    } else {
+      const [sidebar] = $("#sidebar");
+      sidebar.scrollTop = 0;
+    }
+
+    updateMap(isHistory);
+  }
+
   function loadFirstChangesets() {
     const data = new URLSearchParams();
     const isHistory = location.pathname === "/history";
@@ -181,24 +276,19 @@ OSM.History = function (map) {
 
     setListFetchData(data, location);
 
-    fetch(location.pathname + "?" + data)
-      .then(response => response.text())
+    const url = location.pathname + "?" + data;
+
+    fetchHtmlOrThrow(url)
       .then(function (html) {
-        displayFirstChangesets(html);
-        enableChangesetIntersectionObserver();
-
-        if (data.has("before")) {
-          const [firstItem] = $("#sidebar_content .changesets ol").children().first();
-          firstItem?.scrollIntoView();
-        } else if (data.has("after")) {
-          const [lastItem] = $("#sidebar_content .changesets ol").children().last();
-          lastItem?.scrollIntoView(false);
-        } else {
-          const [sidebar] = $("#sidebar");
-          sidebar.scrollTop = 0;
-        }
-
-        updateMap(isHistory);
+        removeHistoryLoadError();
+        applyFirstChangesetsHtml(html, data, isHistory);
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
+        showHistoryLoadError({
+          message: String(error?.message || error || ""),
+          retry: loadFirstChangesets
+        });
       });
   }
 
@@ -221,13 +311,28 @@ OSM.History = function (map) {
     const url = new URL($(this).attr("href"), location);
     setListFetchData(data, url);
 
-    fetch(url.pathname + "?" + data)
-      .then(response => response.text())
+    const fetchUrl = url.pathname + "?" + data;
+
+    fetchHtmlOrThrow(fetchUrl)
       .then(function (html) {
+        removeHistoryLoadError();
         displayMoreChangesets(div, html);
         enableChangesetIntersectionObserver();
 
         updateMap(isHistory);
+      })
+      .catch(function (error) {
+        if (error.name === "AbortError") return;
+
+        div.find(".pagination").removeClass("invisible");
+        div.find("[hidden]").prop("hidden", true);
+
+        showHistoryLoadError({
+          message: String(error?.message || error || ""),
+          retry: function () {
+            div.find("a.page-link").first().trigger("click");
+          }
+        });
       });
   }
 
