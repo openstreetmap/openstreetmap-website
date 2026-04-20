@@ -1,0 +1,33 @@
+<%# locals: (notification:) %>
+
+<article class="user-notification">
+  <div class="row align-items-center">
+    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold"><%= t(".headline") %></h2>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+  </div>
+
+  <div class="row">
+    <div class="col-1 text-center">
+      <%= link_to(
+            user_image(notification.follower, :width => 50, :height => 50, :class => "img-fluid"),
+            user_url(notification.follower),
+            :target => "_blank", :rel => "noopener"
+          ) %>
+    </div>
+    <div class="col-11">
+      <p class="text-body-secondary mb-1">
+        <%= t(
+              ".description_html",
+              :follower_name_with_link => link_to(
+                notification.follower.display_name,
+                notification.follower
+              ),
+              :cta_with_link => link_to(
+                t(".cta"),
+                follow_url(notification.follower)
+              )
+            ) %>
+      </p>
+    </div>
+  </div>
+</article>
