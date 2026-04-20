@@ -50,6 +50,28 @@ class UserNotifications
     end
   end
 
+  class DiaryCommentNotification < Notification
+    delegate :body, :to => :record
+    delegate :diary_entry, :to => :record
+    delegate :title, :to => :diary_entry, :prefix => true
+
+    def commenter
+      record.user
+    end
+
+    def comment_id
+      record.id
+    end
+
+    def comment_body
+      record.body
+    end
+
+    def diary_author
+      diary_entry.user
+    end
+  end
+
   class NoteCommentNotification < Notification
     delegate :note, :to => :record
     delegate :id, :to => :note, :prefix => true
@@ -75,6 +97,7 @@ class UserNotifications
 
   LISTABLE_NOTIFICATIONS = %w[
     ChangesetCommentNotifier::Notification
+    DiaryCommentNotifier::Notification
     NoteCommentNotifier::Notification
   ].freeze
 
