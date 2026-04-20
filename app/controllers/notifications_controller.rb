@@ -9,4 +9,8 @@ class NotificationsController < ApplicationController
   authorize_resource :class => false
 
   before_action :check_database_readable
+
+  def index
+    @notifications = UserNotifications.new(current_user)
+  end
 end
