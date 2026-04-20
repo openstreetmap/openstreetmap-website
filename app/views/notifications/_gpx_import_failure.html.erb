@@ -1,0 +1,23 @@
+<%# locals: (notification:) %>
+
+<article class="user-notification">
+  <div class="row align-items-center">
+    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
+      <%= t(".headline") %>
+    </h2>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+  </div>
+
+  <div class="row">
+    <div class="col-1 text-center">
+      <span class="text-danger"></span>
+    </div>
+    <div class="col-4">
+      <%= render "notifications/gpx_details", :notification => notification %>
+    </div>
+    <dl class="col-7">
+      <dt><%= t(".error_message") %></dt>
+      <dd><pre><%= notification.error %></pre></dd>
+    </dl>
+  </div>
+</article>
