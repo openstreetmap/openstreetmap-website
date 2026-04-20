@@ -72,6 +72,62 @@ class UserNotifications
     end
   end
 
+  class GpxImportFailureNotification < Notification
+    def timestamp
+      @notification.created_at
+    end
+
+    def trace_filename
+      @notification.params[:trace_name]
+    end
+
+    def trace_description
+      @notification.params[:trace_description]
+    end
+
+    def trace_tags
+      @notification.params[:trace_tags]
+    end
+
+    def trace_possible_points
+      nil
+    end
+
+    def trace_points
+      nil
+    end
+
+    def error
+      @notification.params[:error]
+    end
+  end
+
+  class GpxImportSuccessNotification < Notification
+    delegate :timestamp, :to => :record
+
+    def trace_filename
+      record.name
+    end
+
+    def trace_description
+      record.description
+    end
+
+    def trace_tags
+      record.tags.map(&:tag)
+    end
+
+    def trace_possible_points
+      @notification.params[:possible_points]
+    end
+
+    def trace_points
+      record.size
+    end
+
+    delegate :user, :to => :record
+  end
+
   class NewFollowerNotification < Notification
     delegate :follower, :to => :record
   end
@@ -103,6 +159,8 @@ class UserNotifications
   LISTABLE_NOTIFICATIONS = %w[
     ChangesetCommentNotifier::Notification
     DiaryCommentNotifier::Notification
+    GpxImportFailureNotifier::Notification
+    GpxImportSuccessNotifier::Notification
     NewFollowerNotifier::Notification
     NoteCommentNotifier::Notification
   ].freeze
