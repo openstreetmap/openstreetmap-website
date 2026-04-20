@@ -1,0 +1,44 @@
+<%# locals: (notification:) %>
+
+<article class="user-notification">
+  <div class="row align-items-center">
+    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
+      <%= link_to(
+            t(".headline.#{notification.event}"),
+            note_path(
+              notification.note,
+              :anchor => "c#{notification.comment_id}"
+            )
+          ) %>
+    </h2>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+  </div>
+
+  <div class="row">
+    <div class="col-1 text-center">
+      <%= link_to(
+            user_thumbnail(notification.commenter, :class => "img-fluid"),
+            user_url(notification.commenter),
+            :target => "_blank", :rel => "noopener"
+          ) %>
+    </div>
+    <div class="col-11">
+      <p class="text-body-secondary mb-1">
+      <%= t(
+            ".description.#{notification.event}_html",
+            :commenter_name_with_link => link_to(
+              notification.commenter.display_name,
+              notification.commenter
+            ),
+            :note_id_with_link => link_to("##{notification.note_id}", notification.note),
+            :note_text => notification.note_text
+          ) %>
+      </p>
+      <% if notification.comment_body.present? %>
+        <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
+          <%= notification.comment_body.to_html %>
+        </blockquote>
+      <% end %>
+    </div>
+  </div>
+</article>
