@@ -72,6 +72,10 @@ class UserNotifications
     end
   end
 
+  class NewFollowerNotification < Notification
+    delegate :follower, :to => :record
+  end
+
   class NoteCommentNotification < Notification
     delegate :note, :to => :record
     delegate :id, :to => :note, :prefix => true
@@ -98,6 +102,7 @@ class UserNotifications
   LISTABLE_NOTIFICATIONS = %w[
     ChangesetCommentNotifier::Notification
     DiaryCommentNotifier::Notification
+    NewFollowerNotifier::Notification
     NoteCommentNotifier::Notification
   ].freeze
 
