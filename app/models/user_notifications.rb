@@ -29,9 +29,32 @@ class UserNotifications
     end
   end
 
+  class ChangesetCommentNotification < Notification
+    delegate :changeset, :to => :record
+    delegate :id, :to => :changeset, :prefix => true
+
+    def changeset_summary
+      changeset.comment
+    end
+
+    def commenter
+      record.author
+    end
+
+    def comment_id
+      record.id
+    end
+
+    def comment_body
+      record.body
+    end
+  end
+
   include Enumerable
 
-  LISTABLE_NOTIFICATIONS = [].freeze
+  LISTABLE_NOTIFICATIONS = %w[
+    ChangesetCommentNotifier::Notification
+  ].freeze
 
   def initialize(user)
     @user = user
