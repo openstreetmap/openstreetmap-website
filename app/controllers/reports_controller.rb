@@ -12,12 +12,11 @@ class ReportsController < ApplicationController
   before_action :check_database_writable, :only => [:new, :create]
 
   def new
-    if required_new_report_params_present?
-      @report = Report.new
-      @report.issue = Issue.find_or_initialize_by(create_new_report_params)
-    else
-      head :bad_request
-    end
+    return head :bad_request unless required_new_report_params_present?
+    return redirect_to root_url, :warning => t(".invalid_report_params") unless new_report_params_valid?
+
+    @report = Report.new
+    @report.issue = Issue.find_or_initialize_by(create_new_report_params)
   end
 
   def create
@@ -44,6 +43,16 @@ class ReportsController < ApplicationController
 
   def required_new_report_params_present?
     create_new_report_params["reportable_id"].present? && create_new_report_params["reportable_type"].present?
+  end
+
+  def new_report_params_valid?
+    id = create_new_report_params["reportable_id"]
+    type = create_new_report_params["reportable_type"]
+
+    (type == "DiaryComment" && DiaryComment.exists?(id)) ||
+      (type == "DiaryEntry" && DiaryEntry.exists?(id)) ||
+      (type == "Note" && Note.exists?(id)) ||
+      (type == "User" && User.exists?(id))
   end
 
   def create_new_report_params
