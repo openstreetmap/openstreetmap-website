@@ -17,6 +17,15 @@
 <%= render @diary_entry, :user => @user, :truncated => false %>
 <%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
 
+<nav class="d-flex justify-content-between mb-3">
+  <div>
+      <button class="btn btn-outline-secondary">Previous Entry</button>
+  </div>
+  <div>
+      <button class="btn btn-outline-secondary">Next Entry</button>
+  </div>
+</nav>
+
 <div id="comments" class="comments mb-3 overflow-hidden">
   <div class="row border-bottom border-secondary-subtle">
     <h2 class="col"><%= t(".discussion") %></h2>
