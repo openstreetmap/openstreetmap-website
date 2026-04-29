@@ -71,6 +71,10 @@ class DiaryEntriesController < ApplicationController
         "article:published_time" => @diary_entry.created_at.xmlschema
       }
       @comments = can?(:unhide, DiaryComment) ? @diary_entry.comments : @diary_entry.visible_comments
+
+      # find the previous and next entries for the user, if they exist
+      @prev_entry = entries.where(DiaryEntry.arel_table[:id].lt(@diary_entry.id)).order(:id => :desc).first
+      @next_entry = entries.where(DiaryEntry.arel_table[:id].gt(@diary_entry.id)).order(:id => :asc).first
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
       render :action => "no_such_entry", :status => :not_found

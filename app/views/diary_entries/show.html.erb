@@ -19,10 +19,18 @@
 
 <nav class="d-flex justify-content-between mb-3">
   <div>
-      <button class="btn btn-outline-secondary">Previous Entry</button>
+    <% if @prev_entry %>
+      <%= link_to diary_entry_path(@user, @prev_entry), :class => "btn btn-outline-secondary" do %>
+      &laquo; <%= t(".previous_entry") %>
+      <% end %>
+    <% end %>
   </div>
   <div>
-      <button class="btn btn-outline-secondary">Next Entry</button>
+    <% if @next_entry %>
+      <%= link_to diary_entry_path(@user, @next_entry), :class => "btn btn-outline-secondary" do %>
+      <%= t(".next_entry") %> &raquo;
+      <% end %>
+    <% end %>
   </div>
 </nav>
 
