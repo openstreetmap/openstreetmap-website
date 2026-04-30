@@ -22,6 +22,7 @@
 # Author: Jlrb+
 # Author: Jmaspons
 # Author: Jmontane
+# Author: Jordi MF
 # Author: L'Arpetani
 # Author: Leptictidium
 # Author: Macofe
@@ -56,7 +57,7 @@
 ca:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y a les %H.%M'
@@ -133,19 +134,6 @@ ca:
       way_node: Node de la via
       way_tag: Etiqueta de la via
     attributes:
-      client_application:
-        name: Nom (Requerit)
-        url: URL de l'aplicació principal (Requerit)
-        callback_url: URL de crida de retorn
-        support_url: URL de suport
-        allow_read_prefs: llegir les vostres preferències d'usuari
-        allow_write_prefs: modificar les vostres preferències d'usuari.
-        allow_write_diary: Escriviu entrades de diari i comentaris
-        allow_write_api: Modifica el mapa
-        allow_write_changeset_comments: comentar els conjunts de canvis
-        allow_read_gpx: Llegeix les seves traces GPS privades
-        allow_write_gpx: Carrega traces GPS
-        allow_write_notes: Modifica notes
       diary_comment:
         body: Cos
       diary_entry:
@@ -172,7 +160,7 @@ ca:
         longitude: Longitud
         public: Públic
         description: Descripció
-        gpx_file: Triar traces de GPS
+        gpx_file: Trieu un fitxer de traça GPS
         visibility: Visibilitat
         tagstring: Etiquetes
       message:
@@ -777,8 +765,6 @@ ca:
         one: '%{count} comentari'
         other: '%{count} comentaris'
       title_label: Entrada al diari
-      comments_label: Comentaris
-      date_label: Data
   diary_comments:
     new:
       heading: Voleu afegir un comentari a la següent entrada del debat?
@@ -839,6 +825,9 @@ ca:
       title: No s'ha trobat el fitxer
       description: No s'ha pogut trobar cap operació de fitxer/directori/API amb aquest
         nom al servidor d'OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap incrustat
   follows:
     show:
       follow:
@@ -1265,7 +1254,7 @@ ca:
           sports_centre: Centre esportiu
           stadium: Estadi
           swimming_pool: Piscina
-          track: Pista d'atletisme
+          track: Circuit de curses (no automobilístic)
           water_park: Parc aquàtic
           "yes": Oci
         lock:
@@ -1703,6 +1692,7 @@ ca:
       download: Baixa la ruta com a GeoJSON
       filename: ruta
       directions_courtesy_html: Direccions cortesia de %{link}
+      check_demo_html: Més detalls en %{link}
   issues:
     index:
       title: Incidències
@@ -1755,16 +1745,15 @@ ca:
       other_issues_against_this_user: Altres incidències contra aquest usuari
       no_other_issues: No hi ha cap altra incidència contra aquest usuari
       comments_on_this_issue: Comentaris sobre aquesta incidència
+      comment_from_html: Comentari de %{user_link} a %{comment_created_at}
+      reassign_to_moderators: Reassignar el problema als moderadors
+      reassign_to_administrators: Reassignar el problema als administradors
     resolve:
       resolved: L'estat de la incidència ha passat a "Resolta"
     ignore:
       ignored: L'estat de la incidència ha passat a "Ignorada"
     reopen:
       reopened: L'estat de la incidència ha passat a "Oberta"
-    comments:
-      comment_from_html: Comentari de %{user_link} a %{comment_created_at}
-      reassign_to_moderators: Reassignar el problema als moderadors
-      reassign_to_administrators: Reassignar el problema als administradors
     reports:
       reported_by_html: Denunciat com a %{category} per %{user} a %{updated_at}
     helper:
@@ -1833,6 +1822,7 @@ ca:
         az: Àzeri
         id: Indonesi
         ms: Malai
+        bcl: Bikol central
         bs: Bosnià
         br: Bretó
         ca: Català
@@ -1938,18 +1928,8 @@ ca:
   layouts:
     logo:
       alt_text: Logotip de l'OpenStreetMap
-    home: Ves a la ubicació d'inici
-    logout: Surt
-    log_in: Inicia la sessió
-    sign_up: Registreu-vos-hi
+    layer_info: Informació de la capa
     start_mapping: Comença a cartografiar
-    edit: Edita
-    history: Historial
-    export: Exporta
-    issues: Incidències
-    gps_traces: Traces de GPS
-    user_diaries: Diaris d'usuari
-    edit_with: Edita amb %{editor}
     intro_header: OpenStreetMap us dona la benvinguda
     intro_text: L'OpenStreetMap és un mapa del món creat per persones com tu i d'ús
       lliure sota una llicència oberta.
@@ -1959,15 +1939,26 @@ ca:
     partners_partners: socis
     tou: Condicions d’ús
     nothing_to_preview: Res per previsualitzar.
-    help: Ajuda
-    about: Informació
-    copyright: Drets d'autor
-    communities: Comunitats
     learn_more: Aprèn-ne més
-    more: Més
     header:
+      about: Informació
+      communities: Comunitats
+      copyright: Drets d'autor
+      donate: Feu un donatiu
+      edit: Edita
+      edit_with: Edita amb %{editor}
+      export: Exporta
+      gps_traces: Traces de GPS
+      help: Ajuda
+      history: Historial
+      home: Ves a la ubicació d'inici
+      issues: Incidències
+      log_out: Surt
+      log_in: Inicia la sessió
+      more: Més
       select_language: Seleccionar una llengua
-      loading: S'està carregant...
+      sign_up: Registreu-vos-hi
+      user_diaries: Diaris d'usuari
     meta:
       openstreetmap_search: OpenStreetMap Recerca
     select_language_button:
@@ -2308,7 +2299,6 @@ ca:
         image: Imatge
         company: Empresa
         location: Ubicació
-        heatmap: Mapa de calor
     descriptions:
       show:
         title: Edita el perfil
@@ -2370,7 +2360,6 @@ ca:
     heatmaps:
       show:
         title: Configura el mapa de calor
-        show_heatmap_in_public: Mostra el mapa de calor a la vostra pàgina de perfil
         save: Actualitza la configuració del mapa de calor
         cancel: Cancel·la
       update:
@@ -2654,7 +2643,6 @@ ca:
         contributors_hr_croatia: Croàcia
         contributors_hr_dgu: Administració Geodèsica Estatal de Croàcia
         contributors_hr_open_data_portal: Portal Nacional de Dades Obertes
-        contributors_nl_credit_html: '%{netherlands}: Conté dades © AND, 2007 (%{and_link})'
         contributors_nl_netherlands: Països Baixos
         contributors_nz_credit_html: '%{new_zealand}: Conté dades del %{linz_data_service_link}
           i amb llicència per a la seva reutilització sota %{cc_by_link}.'
@@ -3020,6 +3008,16 @@ ca:
         x %{height}
       download: Baixa
       downloading: S'està baixant...
+  webgl_error_panes:
+    show:
+      compact_message: WebGL és necessari per a aquest mapa.
+      description_html: Ho sentim, però sembla que %{your_browser_does_not_support_webgl},
+        una tecnologia per renderitzar gràfics en 3D a la web.
+      your_browser_does_not_support_webgl: El vostre navegador no és compatible amb
+        WebGL
+      webgl_is_required_for_this_map: WebGL és necessari per a mostrar aquest mapa.
+      read_more_about_webgl: Llegiu-ne més
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privat (només compartit com a punts anònims no ordenats)
@@ -3263,9 +3261,8 @@ ca:
       tab_title: Registreu-vos
       signup_to_authorize_html: Registreu-vos amb OpenStreetMap per accedir a %{client_app_name}.
       no_auto_account_create: No us podem crear un compte automàticament.
-      please_contact_support_html: Contacteu amb l'%{support_link} per gestionar la
-        creació d'un compte - intentarem tractar la sol·licitud tan aviat com sigui
-        possible.
+      please_contact_support_html: Contacteu amb l'%{support_link} per obtenir ajuda
+        - intentarem tractar la sol·licitud tan aviat com sigui possible.
       support: assistència
       about:
         header: Lliure i editable.
@@ -3354,10 +3351,24 @@ ca:
       change_image: Canviar la imatge
       edit_company: Editar l'empresa
       edit_location: Editar la ubicació
-      edit_heatmap: Configura el mapa de calor
       contributions:
         one: '%{count} contribució en l''últim any'
         other: '%{count} contribucions en l''últim any'
+      title:
+        administrator: Aquest usuari és administrador
+        moderator: Aquest usuari és moderador
+        importer: Aquest usuari és un importador
+      grant:
+        administrator: Concedeix accés d'administrador
+        moderator: Concedeix accés de moderador
+        importer: Concedir accés a l'importador
+        are_you_sure: Esteu segur que voleu concedir el paper «%{role}» a l'usuari
+          «%{name}»?
+      revoke:
+        administrator: Revoca l'accés d'administrador
+        moderator: Revocar l'accés de moderador
+        importer: Revocar l'accés a l'importador
+        are_you_sure: Esteu segur que voleu revocar el rol «%{role}» de l'usuari «%{name}»?
     sidebar_section:
       home_location: La vostra ubicació
       company: Empresa
@@ -3456,22 +3467,6 @@ ca:
       option_2: |-
         Si ja teniu un compte, podeu iniciar sessió al vostre compte
         utilitzant el vostre nom d'usuari i contrasenya i, a continuació associar el compte amb l'ID a la configuració d'usuari.
-    role_icons:
-      title:
-        administrator: Aquest usuari és administrador
-        moderator: Aquest usuari és moderador
-        importer: Aquest usuari és un importador
-      grant:
-        administrator: Concedeix accés d'administrador
-        moderator: Concedeix accés de moderador
-        importer: Concedir accés a l'importador
-        are_you_sure: Esteu segur que voleu concedir el paper «%{role}» a l'usuari
-          «%{name}»?
-      revoke:
-        administrator: Revoca l'accés d'administrador
-        moderator: Revocar l'accés de moderador
-        importer: Revocar l'accés a l'importador
-        are_you_sure: Esteu segur que voleu revocar el rol «%{role}» de l'usuari «%{name}»?
   user_role:
     filter:
       not_a_role: La cadena «%{role}» no és un rol vàlid.
@@ -3697,12 +3692,12 @@ ca:
     map:
       popup:
         close: Tanca
-      zoom:
-        in: Amplia
-        out: Allunya
-      locate:
-        title: Mostra la meva ubicació
-        not_available: Ubicació no disponible
+      navigation_control:
+        zoom_in: Amplia
+        zoom_out: Allunya
+      geolocate_control:
+        find_my_location: Mostra la meva ubicació
+        location_not_available: Ubicació no disponible
         metersPopup:
           one: Sou a menys d'un metre del punt
           other: Sou a menys de %{count} metres del punt
@@ -3857,7 +3852,7 @@ ca:
     home:
       marker_title: La vostra ubicació
       not_set: La vostra ubicació no està definida per al vostre compte.
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Cap contribució el dia %{date}
         contributions:

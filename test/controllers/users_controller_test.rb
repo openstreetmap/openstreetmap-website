@@ -185,8 +185,46 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         post users_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
         assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
-                             :args => proc { |args| args[3][:args][2] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
+                             :args => proc { |args| args[3][:params][:referer] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
         perform_enqueued_jobs
+      end
+    end
+  end
+
+  def test_create_turnstile_success
+    user = build(:user, :pending)
+
+    stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify")
+      .with(:body => { "remoteip" => "127.0.0.1", "response" => "turnstile_response", "secret" => "turnstile_secret" })
+      .to_return(:body => JSON.generate(:success => true))
+
+    with_settings(:turnstile_site_key => "turnstile_site",
+                  :turnstile_secret_key => "turnstile_secret") do
+      assert_difference "User.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 1 do
+          perform_enqueued_jobs do
+            post users_path, :params => { :user => user.attributes, "cf-turnstile-response" => "turnstile_response" }
+          end
+        end
+      end
+    end
+  end
+
+  def test_create_turnstile_failure
+    user = build(:user, :pending)
+
+    stub_request(:post, "https://challenges.cloudflare.com/turnstile/v0/siteverify")
+      .with(:body => { "remoteip" => "127.0.0.1", "response" => "turnstile_response", "secret" => "turnstile_secret" })
+      .to_return(:body => JSON.generate(:success => false))
+
+    with_settings(:turnstile_site_key => "turnstile_site",
+                  :turnstile_secret_key => "turnstile_secret") do
+      assert_no_difference "User.count" do
+        assert_no_difference "ActionMailer::Base.deliveries.size" do
+          perform_enqueued_jobs do
+            post users_path, :params => { :user => user.attributes, "cf-turnstile-response" => "turnstile_response" }
+          end
+        end
       end
     end
   end
@@ -334,7 +372,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_profile_diaries
     user = create(:user)
-    create(:language, :code => "en")
     create(:diary_entry, :user => user, :title => "First Entry", :body => "First body")
     create(:diary_entry, :user => user, :title => "Second Entry", :body => "Second body")
     create(:diary_entry, :user => user, :title => "Third Entry", :body => "Third body")
@@ -355,7 +392,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_profile_diaries_with_comments
     user = create(:user)
-    create(:language, :code => "en")
     entry = create(:diary_entry, :user => user, :title => "Entry with Comments")
     create(:diary_comment, :diary_entry => entry)
     create(:diary_comment, :diary_entry => entry)

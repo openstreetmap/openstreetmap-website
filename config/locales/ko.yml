@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: 22258
 # Author: A Retired User
+# Author: Aaei924
 # Author: Adreamy
 # Author: Alatta
 # Author: Alattalatta
@@ -61,10 +62,10 @@
 ko:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
-      friendly: '%Y년 %B월 %e일 %H:%M'
+      friendly: '%Y년 %B %e일 %H:%M'
       blog: '%Y년 %B월 %e일'
   helpers:
     file:
@@ -139,19 +140,6 @@ ko:
       way_node: 길 교점
       way_tag: 길 태그
     attributes:
-      client_application:
-        name: 이름 (필수)
-        url: 주 애플리케이션 URL (필수)
-        callback_url: 연락 URL
-        support_url: 지원 URL
-        allow_read_prefs: 사용자 환경 설정을 읽습니다
-        allow_write_prefs: 사용자 환경 설정을 수정합니다
-        allow_write_diary: 일기 항목 및 댓글 작성
-        allow_write_api: 지도를 수정합니다
-        allow_write_changeset_comments: 바뀜집합 댓글
-        allow_read_gpx: 비공개 GPS 궤적을 읽습니다
-        allow_write_gpx: GPS 궤적을 업로드합니다
-        allow_write_notes: 참고를 수정합니다
       diary_comment:
         body: 본문
       diary_entry:
@@ -720,8 +708,6 @@ ko:
       comments:
         other: 댓글 %{count}개
       title_label: 일기 항목
-      comments_label: 의견
-      date_label: 날짜
   diary_comments:
     new:
       heading: 댓글을 추가하는 동시에 다음 일기의 토론을 구독하시겠습니까?
@@ -773,6 +759,9 @@ ko:
     not_found:
       title: 파일을 찾을 수 없습니다
       description: 오픈스트리트맵 서버에서 해당 이름으로 파일/디렉토리/API 작업을 찾을 수 없습니다 (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap 임베디드
   follows:
     show:
       follow:
@@ -1198,7 +1187,7 @@ ko:
           sports_centre: 스포츠 센터
           stadium: 경기장
           swimming_pool: 수영장
-          track: 육상 트랙
+          track: 경주 트랙 (모터스포츠 제외)
           water_park: 워터 파크
           "yes": 여가
         lock:
@@ -1586,16 +1575,38 @@ ko:
         level10: 행정 구역 경계 (10수준)
         level11: 행정 구역 경계 (11수준)
       border_types:
+        arrondissement: 아롱디스망 경계
+        borough: 자치구 경계
+        cercle: 세르클 (군) 경계
         city: 시 경계
+        comarca: 코마르카 경계
         county: 군 경계
+        departement: 데파르트망 경계
+        department: 데파르트망 경계
+        district: 구 경계
+        distrito: 구 경계
+        freguesia: 프레게지아 (민사교구) 경계
+        local_authority: 지방자치단체 경계
+        municipality: 지자체 경계
+        municipi: 지자체 경계
+        município: 지자체 경계
         nation: 국제 경계
         national: 국제 경계
+        neighbourhood: 동네 경계
+        parish: 교구 경계
+        province: 프로빈스 경계
+        região: 지역 경계
+        region: 지역 경계
         state: 주 경계
+        town: 마을 경계
+        township: 타운십 경계
         village: 마을 경계
   searches:
     show:
       title:
         latlon: 내부
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: 결과가 없습니다
@@ -1614,6 +1625,7 @@ ko:
       download: GeoJSON으로 경로 다운로드
       filename: 경로
       directions_courtesy_html: '%{link}의 가는 방향'
+      check_demo_html: 더 많은 자세한 내용은 %{link}
   issues:
     index:
       title: 이슈
@@ -1635,6 +1647,7 @@ ko:
       reports: 보고서
       last_updated: 최근 업데이트
       last_managed: 마지막으로 관리됨
+      reporting_users: 사용자 신고
       reports_count:
         other: 신고 %{count}건
       reported_item: 항목 신고함
@@ -1643,6 +1656,10 @@ ko:
         open: 열림
         resolved: 해결됨
     show:
+      title:
+        open: '미해결 문제 #%{issue_id}'
+        ignored: '무시된 문제 #%{issue_id}'
+        resolved: '해결된 문제 #%{issue_id}'
       reports:
         other: 신고 %{count}건
       no_reports: 보고서 없음
@@ -1658,21 +1675,31 @@ ko:
       other_issues_against_this_user: 이 사용자에 대한 다른 문제
       no_other_issues: 이 사용자에 대한 다른 이슈가 없습니다.
       comments_on_this_issue: 해당 이슈에 대한 의견
+      comment_from_html: '%{comment_created_at}에 %{user_link}님의 댓글'
+      reassign_to_moderators: 문제를 중재자에게 다시 할당
+      reassign_to_administrators: 문제를 관리자에게 다시 할당
     resolve:
       resolved: 이슈 상태가 '해결됨'으로 설정되었습니다
     ignore:
       ignored: 이슈 상태가 '무시됨'으로 설정되었습니다
     reopen:
       reopened: 이슈 상태가 '열림'으로 설정되었습니다
-    comments:
-      comment_from_html: '%{comment_created_at}에 %{user_link}님의 댓글'
     reports:
       reported_by_html: '%{updated_at}에 %{user}님이 %{category} 분류로 보고함'
     helper:
       reportable_title:
         diary_comment: '%{entry_title}, 의견 #%{comment_id}'
         note: '참고 #%{note_id}'
+      reportable_heading:
+        diary_comment_html: '%{datetime_created}에 생성, %{datetime_updated}에 업데이트된 일기
+          댓글 %{title}'
+        diary_entry_html: '%{datetime_created}에 생성, %{datetime_updated}에 업데이트된 일기
+          항목 %{title}'
+        note_html: '%{datetime_created}에 생성, %{datetime_updated}에 업데이트된 %{title}'
+        user_html: '%{title}님이 %{datetime_created}에 생성'
     reporters:
+      index:
+        title: '문제 #%{issue_id} 제보자'
       reporters:
         more_reporters: 그리고 %{count}개 더
   issue_comments:
@@ -1723,6 +1750,7 @@ ko:
         az: 아제르바이잔어
         id: 인도네시아어
         ms: 말레이어
+        bcl: 중부 비콜어
         bs: 보스니아어
         br: 브르타뉴어
         ca: 카탈루냐어
@@ -1753,6 +1781,7 @@ ko:
         ku-Latn: 쿠르드어(라틴어)
         lv: 라트비아어
         lb: 룩셈부르크어
+        lkt: 라코타어
         lt: 리투아니아어
         hu: 헝가리어
         fit: 토르네달렌 핀란드어
@@ -1830,34 +1859,38 @@ ko:
       title: 오픈스트리트맵
     logo:
       alt_text: 오픈스트리트맵 로고
-    home: 현재 위치로 가기
-    logout: 로그아웃
-    log_in: 로그인
-    sign_up: 가입하기
+    layer_info: 레이어 정보
     start_mapping: 매핑 시작
-    edit: 편집
-    history: 역사
-    export: 내보내기
-    issues: 이슈
-    gps_traces: GPS 궤적
-    user_diaries: 사용자 일기
-    edit_with: '%{editor} 계정으로 편집'
     intro_header: 오픈스트리트맵에 오신 것을 환영합니다!
     intro_text: 오픈스트리트맵은 여러분과 같은 사람들이 만들어, 개방형 라이선스에 따라 자유롭게 사용할 수 있는 세계 지도입니다.
     hosting_partners_2024_html: 호스팅은 %{fastly}, %{corpmembers}, 기타 %{partners}에서 지원합니다.
     partners_corpmembers: OSMF 기업 회원
     partners_partners: 협력단체
+    welcome_tou_notice_html: 이 웹사이트 또는 오픈스트리트맵 재단에서 제공하는 기타 인프라를 사용함으로써 귀하는 %{terms_link}에
+      동의하는 것입니다.
+    terms_of_use: 이용 약관
     tou: 이용 약관
     nothing_to_preview: 미리 볼 항목이 없습니다.
-    help: 도움말
-    about: 소개
-    copyright: 저작권
-    communities: 커뮤니티
     learn_more: 더 알아보기
-    more: 더 보기
     header:
+      about: 소개
+      communities: 커뮤니티
+      copyright: 저작권
+      donate: 기부
+      edit: 편집
+      edit_with: '%{editor} 계정으로 편집'
+      export: 내보내기
+      gps_traces: GPS 궤적
+      help: 도움말
+      history: 역사
+      home: 현재 위치로 가기
+      issues: 이슈
+      log_out: 로그아웃
+      log_in: 로그인
+      more: 더 보기
       select_language: 언어 선택
-      loading: 불러오는 중...
+      sign_up: 가입하기
+      user_diaries: 사용자 일기
     meta:
       openstreetmap_search: 오픈스트리트맵 검색
     select_language_button:
@@ -1878,6 +1911,8 @@ ko:
         저자에게 메시지를 보낼 수 있습니다.'
       footer_html: '%{readurl}에서 댓글을 읽을 수가 있으며, %{commenturl}에서 댓글을 남기거나 %{replyurl}에서
         저자에게 메시지를 보낼 수 있습니다.'
+      footer_unsubscribe: '%{unsubscribeurl}에서 토론 알림을 취소할 수 있습니다.'
+      footer_unsubscribe_html: '%{unsubscribeurl}에서 토론 알림을 취소할 수 있습니다.'
     message_notification:
       subject: '[OpenStreetMap] %{message_title}'
       hi: 안녕하세요 %{to_user}님,
@@ -1891,12 +1926,16 @@ ko:
       followed_you: '%{user}님이 이제 오픈스트리트맵에서 당신을 팔로우하고 있습니다.'
       see_their_profile: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
       see_their_profile_html: '%{userurl}에서 그들의 프로필을 볼 수 있습니다.'
+      follow_them: '%{followurl}에서 맞팔로우하실 수 있습니다.'
+      follow_them_html: '%{followurl}에서 맞팔로우하실 수 있습니다.'
     gpx_details:
       details: '파일 세부 정보:'
       filename: 파일 이름
       url: URL
       description: 설명
       tags: 태그
+      total_points: 총점
+      imported_points: 가져온 포인트 수
     gpx_failure:
       hi: 안녕하세요 %{to_user}님,
       failed_to_import: GPS 트레이스로 파일을 가져오지 못한 것 같습니다.
@@ -1908,6 +1947,7 @@ ko:
       subject: '[OpenStreetMap] GPX 가져오기 실패'
     gpx_success:
       hi: 안녕하세요 %{to_user}님,
+      imported_successfully: 파일을 GPS 추적 데이터로 불러오기에 성공하였습니다.
       all_your_traces: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다
       all_your_traces_html: 성공적으로 업로드한 모든 GPX 트레이스는 %{url}에서 볼 수 있습니다.
       subject: '[OpenStreetMap] GPX 가져오기 성공'
@@ -2130,7 +2170,9 @@ ko:
           auto: 웹사이트와 동일
           light: 밝음
           dark: 어두움
+        preferred_editor_color_scheme: 선호하는 편집기 색상 구성표
         editor_color_schemes:
+          auto: 웹사이트와 동일
           light: 밝음
           dark: 어두움
         save: 환경 설정 업데이트
@@ -2146,6 +2188,7 @@ ko:
         image: 이미지
         company: 기업
         location: 위치
+        contribution_calendar: 기여 달력
     descriptions:
       show:
         title: 프로필 수정
@@ -2203,6 +2246,15 @@ ko:
       update:
         success: 프로필 위치가 업데이트되었습니다.
         failure: 프로필 위치를 업데이트할 수 없습니다.
+    heatmaps:
+      show:
+        title: 기여 달력 구성
+        show_contribution_calendar_in_public: 프로필 문서에 기여 달력 표시
+        save: 기여 달력 구성 업데이트
+        cancel: 취소
+      update:
+        success: 기여 달력이 업데이트되었습니다.
+        failure: 기여 달력을 업데이트하지 못했습니다.
   sessions:
     new:
       tab_title: 로그인
@@ -2318,11 +2370,12 @@ ko:
       legal_1_1_terms_of_use: 이용 약관
       legal_1_1_aup: 사용 범위 정책
       legal_1_1_privacy_policy: 개인정보처리방침
+      legal_attribution_guidelines_title: 기여 지침
       legal_attribution_example_film_title: 영화
       legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
       legal_attribution_example_tv_title: TV
       legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
-      legal_2_1_html: 라이선스, 저작권 또는 기타 법무 관련 문의는 %{contact_the_osmf_link}.
+      legal_2_1_html: 다른 라이선스, 저작권 또는 기타 법무 관련 문의는 %{contact_the_osmf_link}.
       legal_2_1_contact_the_osmf: OSMF로 연락해 주세요
       legal_2_2_html: 오픈스트리트맵, 돋보기 로고, State of the Map은 %{registered_trademarks_link}입니다.
       legal_2_2_registered_trademarks: OSMF의 등록 상표
@@ -2399,6 +2452,9 @@ ko:
           %{trademark_policy_link}을(를) 참조하세요.
         trademarks_1_1_trademark_policy: 상표 정책
         services_title_html: 추가 서비스
+        services_1_html: |-
+          OpenStreetMap은 공개 데이터이지만 제3자에게 지도 API를 무료로 제공할 수 없습니다.
+          %{api_usage_policy_link}, %{tile_usage_policy_link}, %{nominatim_usage_policy_link}를 참조하세요.
         services_1_api_usage_policy: API 사용 정책
         services_1_tile_usage_policy: 타일 사용 정책
         services_1_nominatim_usage_policy: 지명 사용 정책
@@ -2440,8 +2496,7 @@ ko:
         contributors_hr_croatia: 크로아티아
         contributors_hr_dgu: 크로아티아 측량국
         contributors_hr_open_data_portal: 국가 공개 데이터 포털
-        contributors_nl_credit_html: '%{netherlands}: 2007년 &copy; AND 데이터 (%{and_link})를
-          포함합니다.'
+        contributors_nl_credit_new_html: '%{netherlands}: 2007년 &copy; AND 데이터를 포함합니다.'
         contributors_nl_netherlands: 네덜란드
         contributors_nz_credit_html: |-
           %{new_zealand}: %{linz_data_service_link}
@@ -2674,6 +2729,7 @@ ko:
         track: 농·임도
         bridleway: 승마로
         cycleway: 자전거 도로
+        international_bike_route: 국제 자전거 도로
         national_bike_route: 국립 자전거 도로
         regional_bike_route: 지역별 자전거 도로
         local_bike_route: 일반 자전거 도로
@@ -2769,6 +2825,13 @@ ko:
       image_dimensions_html: 이미지가 %{width} x %{height}로 %{layer} 레이어를 표시합니다
       download: 다운로드
       downloading: 다운로드 중...
+  webgl_error_panes:
+    show:
+      compact_message: 이 맵을 사용하려면 WebGL이 필요합니다.
+      your_browser_does_not_support_webgl: 사용하는 브라우저는 WebGL을 지원하지 않습니다
+      webgl_is_required_for_this_map: 이 맵을 표시하려면 WebGL이 필요합니다.
+      read_more_about_webgl: 더 읽어보기
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: 비공개(익명으로 공유됨, 정렬되지 않은 점)
@@ -2807,13 +2870,13 @@ ko:
       points: '점:'
       start_coordinates: '시작 좌표:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: 지도
-      edit: 편집
+      map: 지도에서 위치 보기
+      edit: 편집기에서 열기
       owner: '소유자:'
       description: '설명:'
       tags: '태그:'
       none: 없음
-      edit_trace: 이 궤적 편집
+      edit_trace: 궤적 세부 정보 편집
       delete_trace: 이 궤적 삭제
       trace_not_found: 궤적을 찾을 수 없습니다!
       visibility: '공개 여부:'
@@ -2824,8 +2887,8 @@ ko:
         other: 점 %{count}개
       more: 더 보기
       trace_details: 궤적 상세보기
-      view_map: 지도 보기
-      edit_map: 지도 편집
+      view_map: 지도에서 위치 보기
+      edit_map: 편집기에서 열기
       public: 공개
       identifiable: 식별 가능
       private: 비공개
@@ -2994,8 +3057,8 @@ ko:
       tab_title: 가입하기
       signup_to_authorize_html: '%{client_app_name}에 접근하려면 오픈스트리트맵에 로그인하세요.'
       no_auto_account_create: 불행하게도 현재로서는 자동으로 계정을 만들 수 없습니다.
-      please_contact_support_html: 계정 생성 준비를 위해 %{support_link}(으)로 문의해 주세요. 요청 처리가
-        최대한 빨리 이뤄질 수 있도록 노력하겠습니다.
+      please_contact_support_html: 지원을 위해 %{support_link}(으)로 문의해 주세요. 요청 처리가 최대한
+        빨리 이뤄질 수 있도록 노력하겠습니다.
       support: 지원
       about:
         header: 자유롭게 편집할 수 있습니다.
@@ -3003,6 +3066,8 @@ ko:
           다운로드하고, 사용할 수 있습니다.
         paragraph_2: 회원으로 가입해서 기여를 시작하세요.
         welcome: 오픈스트리트맵에 오신 것을 환영합니다
+      duplicate_social_email: 이미 오픈스트리트맵 계정을 가지고 있고 다른 서비스의 ID를 연동하시려면, 비밀번호를 사용하여
+        로그인한 뒤 계정 설정을 변경하시기 바랍니다.
       display name description: 공개적으로 표시되는 사용자 이름입니다. 나중에 환경 설정에서 바꿀 수 있습니다.
       by_signing_up:
         html: 가입하시면 저희의 %{tou_link}, %{privacy_policy_link}, %{contributor_terms_link}에
@@ -3018,6 +3083,7 @@ ko:
         html: 당신의 주소는 공개적으로 노출되지 않습니다. 자세한 내용은 %{privacy_policy_link}를 참조하세요.
       or: 혹은
       use external auth: 다른 제3자 로그인 방식 사용하기
+      verify_human: 사람인지 확인하기
     no_such_user:
       title: 이러한 사용자는 없습니다
       heading: '%{user} 사용자는 존재하지 않습니다'
@@ -3064,7 +3130,9 @@ ko:
       activate_user: 이 사용자 활성화
       confirm_user: 이 사용자 확인
       unconfirm_user: 이 사용자 확인 취소
+      suspend_user: 이 사용자 정지
       unsuspend_user: 이 사용자 정지 해제
+      undelete_user: 선택한 사용자 삭제 취소
       confirm: 확인
       report: 신고
       edit_profile_details: 프로필 세부 정보 편집
@@ -3073,9 +3141,27 @@ ko:
       change_image: 이미지 변경
       edit_company: 회사 편집
       edit_location: 위치 편집
+      edit_contribution_calendar: 기여 달력 구성
+      contributions:
+        other: '%{count} 작년 기부금'
+      title:
+        administrator: 이 사용자는 관리자입니다
+        moderator: 이 사용자는 운영자입니다
+        importer: 이 사용자는 임포터입니다
+      grant:
+        administrator: 관리자 권한 부여
+        moderator: 운영자 권한 부여
+        importer: 임포터 접근 권한 부여
+        are_you_sure: '''%{name}'' 사용자에게 ''%{role}'' 역할을 부여하시겠습니까?'
+      revoke:
+        administrator: 관리자 권한 해제
+        moderator: 운영자 권한 해제
+        importer: 임포터 접근 권한 취소
+        are_you_sure: '''%{name}'' 사용자로부터 ''%{role}'' 역할을 해제하시겠습니까?'
     sidebar_section:
       home_location: 집 위치
       company: 회사
+      company_tooltip: 해당 회사와의 제휴 관계는 자체 보고된 것이며 검증되지 않았습니다.
     go_public:
       flash success: 지금 모든 편집을 공개하고, 편집을 허용하지 않습니다.
     issued_blocks:
@@ -3092,6 +3178,9 @@ ko:
         title: '%{block_on}에서 모든 차단 해제하기'
         heading_html: '%{block_on}에서 모든 차단 해제하기'
         empty: '%{name}님은 현재 차단되어 있지 않습니다.'
+        confirm: '%{active_blocks}을 해제하겠습니까?'
+        active_blocks:
+          other: '%{count}개의 활성화된 차단'
         revoke: 해제!
       destroy:
         flash: 모든 차단 내역이 비활성화되었습니다.
@@ -3102,6 +3191,7 @@ ko:
         select_status: 상태 선택
         states:
           pending: 보류 중
+          active: 활성
           confirmed: 확인됨
           suspended: 정지됨
           deleted: 삭제됨
@@ -3115,6 +3205,7 @@ ko:
         found_users:
           other: 사용자 %{count}명 찾음
         confirm: 선택한 사용자 확인
+        suspend: 선택한 사용자 정지
         empty: 일치하는 사용자를 찾을 수 없습니다
       user:
         summary_html: '%{name}님이 %{date}에 %{ip_address}에서 만들어짐'
@@ -3157,21 +3248,6 @@ ko:
       option_1: 만약 당신이 오픈스트리트맵에 처음이시면, 아래 양식을 사용해 새 계정을 만들어 주세요.
       option_2: 만약 당신이 이미 계정을 가지고 있다면, 당신은 당신의 사용자 이름과 비밀번호를 사용해 로그인할 수 있고 당신의 아이디를
         사용자 설정에서 등록할 수 있습니다.
-    role_icons:
-      title:
-        administrator: 이 사용자는 관리자입니다
-        moderator: 이 사용자는 운영자입니다
-        importer: 이 사용자는 임포터입니다
-      grant:
-        administrator: 관리자 권한 부여
-        moderator: 운영자 권한 부여
-        importer: 임포터 접근 권한 부여
-        are_you_sure: '''%{name}'' 사용자에게 ''%{role}'' 역할을 부여하시겠습니까?'
-      revoke:
-        administrator: 관리자 권한 해제
-        moderator: 운영자 권한 해제
-        importer: 임포터 접근 권한 취소
-        are_you_sure: '''%{name}'' 사용자로부터 ''%{role}'' 역할을 해제하시겠습니까?'
   user_role:
     filter:
       not_a_role: '''%{role}'' 문자열은 올바른 역할이 아닙니다.'
@@ -3200,6 +3276,8 @@ ko:
       flash: '%{name} 사용자를 차단했습니다.'
     update:
       only_creator_can_edit: 이 차단을 한 운영자만 편집할 수 있습니다.
+      only_creator_can_edit_without_revoking: 이 차단을 한 운영자만 해제 없이 수정할 수 있습니다.
+      only_creator_or_revoker_can_edit: 이 차단을 했거나 해제한 운영자만 수정할 수 있습니다.
       inactive_block_cannot_be_reactivated: 이 차단은 비활성화되어 있으므로 다시 활성화할 수 없습니다.
       success: 차단이 업데이트되었습니다.
     index:
@@ -3223,8 +3301,13 @@ ko:
         years:
           other: '%{count}년'
       short:
+        ended: 종료
         revoked_html: '%{name}님에 의해 취소됨'
+        active: 활동적인 사용자
+        active_until_read: 읽을 때까지 활성
         read_html: '%{time}에 읽음'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on}님이 %{block_by}님에 의해 차단됨'
       heading_html: '%{block_on} 님이 %{block_by} 님에 의해 차단됨'
@@ -3258,6 +3341,7 @@ ko:
       my_muted_users: 나의 알림에서 제외된 사용자
       you_have_muted_n_users:
         other: 사용자 %{count}명에게서 오는 알림을 표시하지 않도록 했습니다
+      user_mute_explainer: 알림이 차단된 사용자의 메시지는 별도의 받은편지함으로 이동되며 이메일 알림을 받지 못합니다.
       user_mute_admins_and_moderators: 관리자와 중재자의 알림은 받지 않도록 할 수 있지만, 해당 사용자의 메시지의
         알림은 받지 않도록 할 수 없습니다.
       table:
@@ -3332,6 +3416,12 @@ ko:
         받고 매퍼가 문제를 해결할 수 있도록 도와주세요.
       anonymous_warning_log_in: 로그인
       anonymous_warning_sign_up: 가입하기
+      x_anonymous_notes:
+        other: '%{count} 익명 참고'
+      counter_warning_guide_link:
+        text: 직접 기여하기
+      counter_warning_forum_link:
+        text: 커뮤니티가 당신을 도울 수 있습니다
       advice: 노트는 공개되어 지도 업데이트에 쓰일 수 있으므로 개인정보 또는 저작권이 있는 지도나 디렉터리 리스팅의 정보를 입력하지 마십시오.
       add: 참고 추가
     new_readonly:
@@ -3341,11 +3431,14 @@ ko:
       showing_page: '%{page}쪽'
       next: 다음
       previous: 이전
+    not_found_message:
+      sorry: 죄송합니다. 참고 %{id}을(를) 찾을 수 없습니다.
   javascripts:
     close: 닫기
     share:
       title: 공유
       view_larger_map: 큰 지도 보기
+      export_failed_title: 지도 내보내기 실패
       filename: 지도
     embed:
       report_problem: 문제점 보고
@@ -3354,11 +3447,18 @@ ko:
       tooltip: 범례
       tooltip_disabled: 이 레이어에 범례를 사용할 수 없습니다
     map:
-      zoom:
-        in: 확대
-        out: 축소
-      locate:
-        title: 내 위치 보기
+      map:
+        title: 지도
+        marker:
+          title: 지도 마커
+      popup:
+        close: 닫기
+      navigation_control:
+        zoom_in: 확대
+        zoom_out: 축소
+      geolocate_control:
+        find_my_location: 내 위치 보기
+        location_not_available: 위치 정보를 사용할 수 없습니다
         metersPopup:
           other: 이 지점까지 %{count}미터 이내
         feetPopup:
@@ -3388,6 +3488,7 @@ ko:
       tracestrack_credit: '%{tracestrack_link} 제공 타일'
       hotosm_credit: '%{osm_france_link}에서 호스팅하는 %{hotosm_link}의 타일 스타일'
       hotosm_name: 인도주의 오픈스트리트맵 팀
+      openmaptiles_credit: '%{maptiler_link}에서 호스팅하는 %{openmaptiles_link}의 벡터 타일'
     site:
       edit_tooltip: 지도 편집
       edit_disabled_tooltip: 지도를 편집하려면 확대
@@ -3500,12 +3601,13 @@ ko:
     home:
       marker_title: 내 집 위치
       not_set: 이 계정에서는 내 집 위치가 설정되지 않았습니다.
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: '%{date}에느 기여가 없습니다'
     remote_edit:
       failed:
         title: 편집 실패
+        body: JOSM 또는 Merkaartor가 설치되어 있고 원격 제어 옵션이 활성화되어 있는지 확인하십시오.
     edit:
       id_not_configured:
         title: iD가 설정되지 않았습니다
@@ -3518,6 +3620,7 @@ ko:
       empty: 보여줄 교정이 없습니다.
       heading: 교정 목록
       title: 교정 목록
+      new: 새 교정
     new:
       heading: 새 교정에 대한 정보 입력
       title: 새 교정 만들기

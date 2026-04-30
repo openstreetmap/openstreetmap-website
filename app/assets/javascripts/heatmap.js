@@ -3,6 +3,7 @@ $(document).on("turbo:frame-load", function () {
   const weekInfo = getWeekInfo();
   const maxPerDay = heatmap.data("max-per-day");
   const weekdayLabels = heatmap.find("[data-weekday]");
+  const monthLabelStartIndex = Math.min(...heatmap.find("[data-month]").get().map(l => l.dataset.month));
   let weekColumn = 1;
   let previousMonth = null;
 
@@ -24,7 +25,7 @@ $(document).on("turbo:frame-load", function () {
       weekColumn++;
       const currentMonth = getMonthOfThisWeek(date);
       if (previousMonth === null) {
-        previousMonth = currentMonth;
+        previousMonth = currentMonth + (Math.round((monthLabelStartIndex - currentMonth) / 12) * 12);
         heatmap.find(`[data-month]:has( ~ [data-month="${previousMonth}"])`).remove();
         heatmap.find("[data-month]").first().css("grid-column-start", 2);
       }
@@ -65,13 +66,13 @@ $(document).on("turbo:frame-load", function () {
   }
 
   function getTooltipText(date, value) {
-    const localizedDate = OSM.i18n.l("date.formats.heatmap", date);
+    const localizedDate = OSM.i18n.l("date.formats.contribution_calendar", date);
 
     if (value > 0) {
-      return OSM.i18n.t("javascripts.heatmap.tooltip.contributions", { count: value, date: localizedDate });
+      return OSM.i18n.t("javascripts.contribution_calendar.tooltip.contributions", { count: value, date: localizedDate });
     }
 
-    return OSM.i18n.t("javascripts.heatmap.tooltip.no_contributions", { date: localizedDate });
+    return OSM.i18n.t("javascripts.contribution_calendar.tooltip.no_contributions", { date: localizedDate });
   }
 
   function getWeekInfo() {

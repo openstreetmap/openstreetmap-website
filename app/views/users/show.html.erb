@@ -15,31 +15,47 @@
     <div class="col">
       <h1>
         <%= @user.display_name %>
-        <%= render "role_icons" %>
+        <% UserRole::ALL_ROLES.each do |role| %>
+          <% if current_user&.administrator? %>
+            <% if @user.role?(role) %>
+              <%= link_to role_icon(:classes => "bi-star-fill role-#{role}", :title => t(".revoke.#{role}")),
+                          user_role_path(@user, role),
+                          :method => :delete,
+                          :data => { :confirm => t(".revoke.are_you_sure", :name => @user.display_name, :role => role) } %>
+            <% else %>
+              <%= link_to role_icon(:classes => "bi-star role-#{role}", :title => t(".grant.#{role}")),
+                          user_role_path(@user, role),
+                          :method => :post,
+                          :data => { :confirm => t(".grant.are_you_sure", :name => @user.display_name, :role => role) } %>
+            <% end %>
+          <% elsif @user.role?(role) %>
+            <%= role_icon(:classes => "bi-star-fill role-#{role}", :title => t(".title.#{role}")) %>
+          <% end %>
+        <% end %>
       </h1>
-      <% if current_user and @user.id == current_user.id %>
-        <!-- Displaying user's own profile page -->
-        <nav class='secondary-actions'>
-          <ul>
+      <nav class="secondary-actions">
+        <ul>
+          <% if current_user and @user.id == current_user.id %>
+            <!-- Displaying user's own profile page -->
             <li>
               <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
-              <span class='badge count-number'><%= number_with_delimiter(current_user.changesets.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.changesets.size) %></span>
             </li>
             <li>
               <%= link_to t(".my notes"), user_notes_path(current_user) %>
-              <span class='badge count-number'><%= number_with_delimiter(current_user.note_comments.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
-              <span class='badge count-number'><%= number_with_delimiter(current_user.traces.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.traces.size) %></span>
             </li>
             <li>
               <%= link_to t(".my diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %>
-              <span class='badge count-number'><%= number_with_delimiter(current_user.diary_entries.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.diary_entries.size) %></span>
             </li>
             <li>
               <%= link_to t(".my comments"), user_diary_comments_path(current_user) %>
-              <span class='badge count-number'><%= number_with_delimiter(current_user.diary_comments.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.diary_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".my_account"), account_path %>
@@ -48,36 +64,29 @@
             <% if current_user.blocks.exists? %>
               <li>
                 <%= link_to t(".blocks on me"), user_received_blocks_path(current_user) %>
-                <span class='badge count-number'><%= number_with_delimiter(current_user.blocks.active.size) %></span>
+                <span class="badge count-number"><%= number_with_delimiter(current_user.blocks.active.size) %></span>
               </li>
             <% end %>
 
             <% if can?(:create, UserBlock) and current_user.blocks_created.exists? %>
               <li>
                 <%= link_to t(".blocks by me"), user_issued_blocks_path(current_user) %>
-                <span class='badge count-number'><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
+                <span class="badge count-number"><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
               </li>
             <% end %>
-
-          </ul>
-        </nav>
-
-        <% else %>
-        <!-- Displaying user profile page to the public -->
-        <nav class='secondary-actions'>
-          <ul>
-
+          <% else %>
+            <!-- Displaying user profile page to the public -->
             <li>
               <%= link_to t(".edits"), :controller => "changesets", :action => "index", :display_name => @user.display_name %>
-              <span class='badge count-number'><%= number_with_delimiter(@user.changesets.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(@user.changesets.size) %></span>
             </li>
             <li>
               <%= link_to t(".notes"), user_notes_path(@user) %>
-              <span class='badge count-number'><%= number_with_delimiter(@user.note_comments.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(@user.note_comments.size) %></span>
             </li>
             <li>
               <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
-              <span class='badge count-number'><%= number_with_delimiter(@user.traces.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(@user.traces.size) %></span>
             </li>
 
             <!-- Displaying another user's profile page -->
@@ -87,11 +96,11 @@
             </li>
             <li>
               <%= link_to t(".diary"), :controller => "diary_entries", :action => "index", :display_name => @user.display_name %>
-              <span class='badge count-number'><%= number_with_delimiter(@user.diary_entries.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(@user.diary_entries.size) %></span>
             </li>
             <li>
               <%= link_to t(".comments"), user_diary_comments_path(@user) %>
-              <span class='badge count-number'><%= number_with_delimiter(@user.diary_comments.size) %></span>
+              <span class="badge count-number"><%= number_with_delimiter(@user.diary_comments.size) %></span>
             </li>
             <% if current_user %>
               <li>
@@ -106,14 +115,14 @@
             <% if @user.blocks.exists? %>
               <li>
                 <%= link_to t(".block_history"), user_received_blocks_path(@user) %>
-                <span class='badge count-number'><%= number_with_delimiter(@user.blocks.active.size) %></span>
+                <span class="badge count-number"><%= number_with_delimiter(@user.blocks.active.size) %></span>
               </li>
             <% end %>
 
             <% if @user.moderator? and @user.blocks_created.exists? %>
               <li>
                 <%= link_to t(".moderator_history"), user_issued_blocks_path(@user) %>
-                <span class='badge count-number'><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+                <span class="badge count-number"><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
               </li>
             <% end %>
 
@@ -144,11 +153,11 @@
               <%= link_to t(".create_mute"), user_mute_path(@user), :method => :post, :title => t("user_mutes.index.user_mute_explainer") %>
               </li>
             <% end %>
-          </ul>
-        </nav>
-      <% end %>
+          <% end %>
+        </ul>
+      </nav>
 
-      <div class='text-body-secondary'>
+      <div class="text-body-secondary">
         <small>
           <dl class="list-inline">
             <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
@@ -174,7 +183,7 @@
       </div>
 
       <% if can?(:update, :user_status) %>
-        <nav class='secondary-actions'>
+        <nav class="secondary-actions">
           <ul>
             <% if @user.may_activate? %>
               <li>
@@ -216,7 +225,7 @@
       <% end %>
 
       <% if current_user and current_user.administrator? -%>
-        <div class='text-body-secondary'>
+        <div class="text-body-secondary">
           <small>
             <dl class="list-inline">
               <dt class="list-inline-item m-0"><%= t ".email address" %></dt>
@@ -240,11 +249,12 @@
 <% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
   <div class="row">
     <div class="col-sm-3">
-      <%= render "sidebar_section", :edit_title => t(".change_image"),
-                                    :edit_path => profile_image_path do %>
-      <% end %>
+      <%= render "sidebar_section", :user => @user,
+                                    :edit_title => t(".change_image"),
+                                    :edit_path => profile_image_path %>
 
-      <%= render "sidebar_section", :present => @user.home_location_name&.strip.present?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.home_location_name&.strip.present?,
                                     :edit_title => t(".edit_location"),
                                     :edit_path => profile_location_path do %>
         <div class="icon-link mw-100">
@@ -256,7 +266,8 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => @user.company&.strip.present?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.company&.strip.present?,
                                     :edit_title => t(".edit_company"),
                                     :edit_path => profile_company_path do %>
         <div class="icon-link mw-100">
@@ -268,7 +279,8 @@
         </div>
       <% end %>
 
-      <%= render "sidebar_section", :present => !@user.social_links.empty?,
+      <%= render "sidebar_section", :user => @user,
+                                    :present => !@user.social_links.empty?,
                                     :edit_title => t(".edit_links"),
                                     :edit_path => profile_links_path do %>
         <%= render "social_links/show", :social_links => @user.social_links %>
@@ -300,8 +312,8 @@
 <% end %>
 <% if owned %>
   <div class="mt-2">
-    <%= link_to t(".edit_heatmap"), profile_heatmap_path, :class => "btn btn-sm w-100 btn-outline-primary edit_heatmap_button" %>
+    <%= link_to t(".edit_contribution_calendar"), profile_heatmap_path, :class => "btn btn-sm w-100 btn-outline-primary edit_heatmap_button" %>
   </div>
 <% end %>
 
-<%= render :partial => "diary_entries/profile_diaries", :locals => { :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) } %>
+<%= render "diary_entries/profile_diaries", :user => @user, :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) %>

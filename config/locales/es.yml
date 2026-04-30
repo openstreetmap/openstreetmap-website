@@ -74,6 +74,7 @@
 # Author: Luzcaru
 # Author: Macofe
 # Author: MarcoAurelio
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: McDutchie
 # Author: Minh Nguyen
@@ -119,7 +120,7 @@ es:
     dir: ltr
   date:
     formats:
-      heatmap: '%-d de %B'
+      contribution_calendar: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y a las %H:%M'
@@ -143,7 +144,7 @@ es:
         create: Registrar
         update: Actualizar
       redaction:
-        create: Crear redacción
+        create: Crear censura
         update: Guardar censura
       trace:
         create: Subir
@@ -187,7 +188,7 @@ es:
       relation: Relación
       relation_member: Miembro de la relación
       relation_tag: Etiqueta de la relación
-      report: Denunciar
+      report: Denuncia
       session: Sesión
       trace: Traza
       tracepoint: Punto de la traza
@@ -199,19 +200,6 @@ es:
       way_node: Nodo de la vía
       way_tag: Etiqueta de la vía
     attributes:
-      client_application:
-        name: Nombre (obligatorio)
-        url: URL de la aplicación principal (obligatorio)
-        callback_url: URL de devolución de llamada
-        support_url: URL de asistencia
-        allow_read_prefs: leer sus preferencias de usuario
-        allow_write_prefs: modificar sus preferencias de usuario
-        allow_write_diary: crear entradas de diario y comentarios
-        allow_write_api: modificar el mapa
-        allow_write_changeset_comments: comentar sobre los conjuntos de cambios
-        allow_read_gpx: leer sus trazas de GPS privadas
-        allow_write_gpx: cargar trazas de GPS
-        allow_write_notes: modificar notas
       diary_comment:
         body: Cuerpo
       diary_entry:
@@ -863,8 +851,6 @@ es:
         one: '%{count} comentario'
         other: '%{count} comentarios'
       title_label: Entrada de diario
-      comments_label: Comentarios
-      date_label: Fecha
   diary_comments:
     new:
       heading: ¿Añadir un comentario a la siguiente discusión de entrada en el diario?
@@ -1356,7 +1342,7 @@ es:
           sports_centre: Centro deportivo
           stadium: Estadio
           swimming_pool: Piscina
-          track: Pista de carreras
+          track: Pista de carreras (vehículos no motorizados)
           water_park: Parque acuático
           "yes": Ocio
         lock:
@@ -1664,7 +1650,7 @@ es:
           tattoo: Estudio de tatuajes
           tea: Tienda de té
           ticket: Tienda de Tickets
-          tobacco: Tienda de conveniencia
+          tobacco: Tienda de tabaco
           toys: Juguetería
           travel_agency: Agencia de viajes
           tyres: Tienda de neumáticos
@@ -1794,6 +1780,7 @@ es:
       download: Descargar ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicaciones cortesía de %{link}
+      check_demo_html: Más detalles en %{link}
   issues:
     index:
       title: Incidencias
@@ -1846,16 +1833,15 @@ es:
       other_issues_against_this_user: Otras incidencias en contra de este usuario
       no_other_issues: No hay otras incidencias en contra de este usuario.
       comments_on_this_issue: Comentarios sobre esta incidencia
+      comment_from_html: Comentario de %{user_link} en %{comment_created_at}
+      reassign_to_moderators: Reasignar incidencia a los moderadores
+      reassign_to_administrators: Reasignar incidencia a los administradores
     resolve:
       resolved: El estado de la incidencia se ha establecido a 'Resuelto'
     ignore:
       ignored: El estado de la incidencia se ha establecido a 'Ignorado'
     reopen:
       reopened: El estado de la incidencia se ha establecido a 'Abierto'.
-    comments:
-      comment_from_html: Comentario de %{user_link} en %{comment_created_at}
-      reassign_to_moderators: Reasignar incidencia a los moderadores
-      reassign_to_administrators: Reasignar incidencia a los administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} en %{updated_at}
     helper:
@@ -1956,6 +1942,7 @@ es:
         ku-Latn: kurdo (latín)
         lv: letón
         lb: luxemburgués
+        lkt: Lakota
         lt: lituano
         hu: húngaro
         fit: finés tornedaliano
@@ -2009,7 +1996,7 @@ es:
         nqo: N'Ko
         ne: nepalí
         mr: marati
-        hi: hindi
+        hi: Hindi
         bn: bengalí
         pa: punyabí
         gu: guyaratí
@@ -2023,28 +2010,18 @@ es:
         ka: georgiano
         km: jemer
         sat: santalí
-        zh-CN: chino (simplificado)
-        zh-TW: chino (tradicional)
+        zh-CN: Chino (simplificado)
+        zh-TW: Chino (tradicional)
         zh-HK: chino (Hong Kong)
-        ja: japonés
-        ko: coreano
+        ja: Japonés
+        ko: Coreano
   layouts:
     project_name:
       title: OpenStreetMap
     logo:
       alt_text: Logo de OpenStreetMap
-    home: Ir a mi ubicación de casa
-    logout: Cerrar sesión
-    log_in: Iniciar sesión
-    sign_up: Registrarse
+    layer_info: Información de la capa
     start_mapping: Comenzar a mapear
-    edit: Editar
-    history: Historial
-    export: Exportar
-    issues: Incidencias
-    gps_traces: Trazas GPS
-    user_diaries: Diarios de usuario
-    edit_with: Editar con %{editor}
     intro_header: ¡Bienvenido a OpenStreetMap!
     intro_text: OpenStreetMap es un mapa del mundo, creado por gente como tú y de
       uso libre bajo una licencia abierta.
@@ -2053,17 +2030,31 @@ es:
     partners_fastly: Fastly
     partners_corpmembers: Miembros corporativos de OSMF
     partners_partners: socios
+    welcome_tou_notice_html: Al utilizar este sitio web u otra infraestructura proporcionada
+      por la Fundación OpenStreetMap, aceptas los %{terms_link}.
+    terms_of_use: Términos de uso
     tou: Términos de Uso
     nothing_to_preview: Nada que previsualizar.
-    help: Ayuda
-    about: Acerca de
-    copyright: Derechos de autor
-    communities: Comunidades
     learn_more: Más información
-    more: Más
     header:
+      about: Acerca de
+      communities: Comunidades
+      copyright: Derechos de autor
+      donate: Donar
+      edit: Editar
+      edit_with: Editar con %{editor}
+      export: Exportar
+      gps_traces: Trazas GPS
+      help: Ayuda
+      history: Historial
+      home: Ir a mi ubicación de casa
+      issues: Incidencias
+      log_out: Cerrar sesión
+      log_in: Iniciar sesión
+      more: Más
       select_language: Seleccionar idioma
-      loading: Cargando...
+      sign_up: Registrarse
+      user_diaries: Diarios de usuario
     meta:
       openstreetmap_search: Búsqueda en OpenStreetMap
     select_language_button:
@@ -2407,10 +2398,10 @@ es:
         image: Imagen
         company: Empresa
         location: Ubicación
-        heatmap: Mapa de calor
+        contribution_calendar: Calendario de contribuciones
     descriptions:
       show:
-        title: Editar Perfil
+        title: Editar perfil
         save: Actualizar perfil
         cancel: Cancelar
       update:
@@ -2423,7 +2414,7 @@ es:
         cancel: Cancelar
         social_links:
           title: Enlaces de perfiles de redes sociales
-          remove: Quitar
+          remove: Eliminar
           add: Añadir enlace de redes sociales
       update:
         success: Enlaces del perfil actualizados.
@@ -2469,13 +2460,14 @@ es:
         failure: No se ha podido actualizar la ubicación del perfil.
     heatmaps:
       show:
-        title: Configurar Mapa de Calor
-        show_heatmap_in_public: Mostrar el mapa de calor en tu página de perfil
-        save: Actualizar la configuración del mapa de calor
+        title: Configurar calendario de contribuciones
+        show_contribution_calendar_in_public: Mostrar el calendario de contribuciones
+          en tu página de perfil
+        save: Actualizar la configuración del calendario de contribuciones
         cancel: Cancelar
       update:
-        success: Mapa de Calor actualizado.
-        failure: No se pudo actualizar el Mapa de Calor.
+        success: Calendario de contribuciones actualizado.
+        failure: No se pudo actualizar el calendario de contribuciones.
   sessions:
     new:
       tab_title: Iniciar sesión
@@ -2583,9 +2575,10 @@ es:
         mira el %{osm_blog_link}, \n%{user_diaries_link}, %{community_blogs_link}
         y el sitio web de %{osm_foundation_link}."
       community_driven_osm_blog: Blog de OpenStreetMap
+      community_driven_osm_blog_url: https://blog.openstreetmap.org/?lang=es
       community_driven_user_diaries: diarios de usuario
       community_driven_community_blogs: blogs comunitarios
-      community_driven_osm_foundation: OSM Foundation
+      community_driven_osm_foundation: Fundación OSM
       open_data_title: Datos abiertos
       open_data_1_html: 'OpenStreetMap es %{open_data}: puedes usarlo libremente para
         cualquier propósito siempre que des crédito a OpenStreetMap y a sus colaboradores.
@@ -2620,7 +2613,7 @@ es:
       legal_2_1_html: Si tienes alguna pregunta sobre licencias, derechos de autor
         u otras cuestiones legales, por favor %{contact_the_osmf_link}.
       legal_2_1_contact_the_osmf: contacta la OSMF
-      legal_2_2_html: OpenStreetMap, el logotipo de la lupa y el estado del mapa son
+      legal_2_2_html: OpenStreetMap, el logotipo de la lupa y State of the Map son
         %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: marcas registradas de la OSMF
       partners_title: Socios
@@ -2783,11 +2776,9 @@ es:
         contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: Portal Nacional de Datos Abiertos
         contributors_hr_open_data_portal_url: https://data.gov.hr/
-        contributors_nl_credit_html: '%{netherlands}: Contiene &copy; y datos, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Contiene datos &copy; AND,
+          2007'
         contributors_nl_netherlands: Países Bajos
-        contributors_nl_and: www.and.com
-        contributors_nl_and_url: https://www.and.com
         contributors_nz_credit_html: "%{new_zealand}: Contiene datos del %{linz_data_service_link}
           \ny licenciados para su reutilización bajo %{cc_by_link}."
         contributors_nz_new_zealand: Nueva Zelanda
@@ -3048,9 +3039,9 @@ es:
         También pueden ser formales o informales.
       local_chapters:
         title: Capítulos Locales
-        about_text: Las delegaciones locales son grupos nacionales o regionales que
-          han dado el paso formal de constituirse como entidades jurídicas sin ánimo
-          de lucro. Representan al mapa y a los mapeadores de la zona ante la administración
+        about_text: Los Capítulos Locales son grupos nacionales o regionales que han
+          dado el paso formal de constituirse como entidades jurídicas sin ánimo de
+          lucro. Representan al mapa y a los mapeadores de la zona ante el gobierno
           local, las empresas y los medios de comunicación. También se han afiliado
           a la Fundación OpenStreetMap (OSMF), lo que les proporciona un vínculo con
           el órgano de gobierno legal y de derechos de autor.
@@ -3182,6 +3173,15 @@ es:
       image_dimensions_html: La imagen mostrará la capa %{layer} en %{width} x %{height}
       download: Descargar
       downloading: Descargando...
+  webgl_error_panes:
+    show:
+      compact_message: Se requiere WebGL para este mapa.
+      description_html: Lo sentimos, pero parece que %{your_browser_does_not_support_webgl},
+        una tecnología para renderizar gráficos 3D en la web.
+      your_browser_does_not_support_webgl: Tu navegador no admite WebGL.
+      webgl_is_required_for_this_map: Se requiere WebGL para mostrar este mapa.
+      read_more_about_webgl: Leer más
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privado (solo compartido como anónimo, puntos no ordenados)
@@ -3226,13 +3226,13 @@ es:
       points: 'Puntos:'
       start_coordinates: 'Coordenadas de inicio:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: editar
+      map: ver ubicación en el mapa
+      edit: abrir en el editor
       owner: 'Propietario:'
       description: 'Descripción:'
       tags: 'Etiquetas:'
       none: Ninguna
-      edit_trace: Editar esta traza
+      edit_trace: Editar detalles de la traza
       delete_trace: Eliminar esta traza
       trace_not_found: ¡No se ha encontrado la traza!
       visibility: 'Visibilidad:'
@@ -3244,8 +3244,8 @@ es:
         other: '%{count} puntos'
       more: más
       trace_details: Ver detalles de la traza
-      view_map: Ver mapa
-      edit_map: Editar mapa
+      view_map: Vea la ubicación en el mapa
+      edit_map: Abrir en el editor
       public: PÚBLICO
       identifiable: IDENTIFICABLE
       private: PRIVADA
@@ -3427,8 +3427,8 @@ es:
       tab_title: Regístrate
       signup_to_authorize_html: Regístrate con OpenStreetMap para acceder al %{client_app_name}.
       no_auto_account_create: Lamentablemente, ahora no podemos crear tu cuenta automáticamente.
-      please_contact_support_html: 'Pónte en contacto con %{support_link} para organizar
-        la creación de una cuenta: intentaremos atender la solicitud lo antes posible.'
+      please_contact_support_html: Comunícate con %{support_link} para obtener ayuda
+        - intentaremos procesar la solicitud lo antes posible.
       support: asistencia
       about:
         header: Libre y editable
@@ -3461,6 +3461,10 @@ es:
           nuestra %{privacy_policy_link} para obtener más información.
       or: o
       use external auth: o registrarse con un tercero
+      verify_human: Verifica que eres humano
+    create:
+      not_human: Lamentablemente, no podemos confirmar que seas humano. Esto es necesario
+        para crear nuevas cuentas.
     no_such_user:
       title: Este usuario no existe
       heading: El usuario %{user} no existe
@@ -3519,10 +3523,26 @@ es:
       change_image: Cambiar imagen
       edit_company: Editar compañía
       edit_location: Editar ubicación
-      edit_heatmap: Configurar Mapa de Calor
+      edit_contribution_calendar: Configurar el calendario de contribuciones
       contributions:
         one: '%{count} contribución en el último año'
         other: '%{count} contribuciones en el último año'
+      title:
+        administrator: Este usuario es un administrador
+        moderator: Este usuario es un moderador
+        importer: Este usuario es un importador
+      grant:
+        administrator: Otorgar acceso de administrador
+        moderator: Otorgar acceso de moderador
+        importer: Otorgar acceso importador
+        are_you_sure: ¿Estás seguro de que deseas otorgar el rol '%{role}' al usuario
+          '%{name}'?
+      revoke:
+        administrator: Revocar acceso de administrador
+        moderator: Revocar acceso de moderador
+        importer: Revocar el acceso importador
+        are_you_sure: ¿Estás seguro de que quieres revocar el rol '%{role}' del usuario
+          '%{name}'?
     sidebar_section:
       home_location: Ubicación de Casa
       company: Compañía
@@ -3622,23 +3642,6 @@ es:
         Si ya tienes una cuenta, puedes iniciar sesión con tu cuenta
         usando tu nombre de usuario y contraseña y luego asociar la cuenta
         con tu identificador en tus configuraciones de usuario.
-    role_icons:
-      title:
-        administrator: Este usuario es un administrador
-        moderator: Este usuario es un moderador
-        importer: Este usuario es un importador
-      grant:
-        administrator: Otorgar acceso de administrador
-        moderator: Adjudicar acceso de moderador
-        importer: Otorgar acceso importador
-        are_you_sure: ¿Estás seguro de que deseas otorgar el rol '%{role}' al usuario
-          '%{name}'?
-      revoke:
-        administrator: Revocar acceso de administrador
-        moderator: Revocar acceso de moderador
-        importer: Revocar el acceso importador
-        are_you_sure: ¿Estás seguro de que quieres revocar el papel '%{role}' del
-          usuario '%{name}'?
   user_role:
     filter:
       not_a_role: La cadena '%{role}' no es un rol válido.
@@ -3781,7 +3784,7 @@ es:
       all: Todas
       open: No resueltas
       closed: Resueltas
-      hidden: Oculto
+      hidden: Ocultas
       status: Estado
     show:
       title: 'Nota: %{id}'
@@ -3868,20 +3871,26 @@ es:
       tooltip: Leyenda del mapa
       tooltip_disabled: Leyenda del mapa no disponible en esta capa
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcadores de mapas
       popup:
         close: Cerrar
-      zoom:
-        in: Acercar
-        out: Alejar
-      locate:
-        title: Mostrar Mi Ubicación
-        not_available: Ubicación no disponible
+      navigation_control:
+        zoom_in: Acercar
+        zoom_out: Alejar
+      geolocate_control:
+        find_my_location: Mostrar Mi Ubicación
+        location_not_available: Ubicación no disponible
         metersPopup:
           one: Estás a %{count} metro de este punto
           other: Estás a %{count} metros de este punto
         feetPopup:
           one: Estás a %{count} pie desde este punto
           other: Estás a %{count} pies desde este punto
+      attribution_control:
+        toggle_attribution: Alternar atribución
       base:
         standard: Estándar
         cyclosm: CyclOSM
@@ -3911,8 +3920,8 @@ es:
       tracestrack: Tracestrack
       hotosm_credit: Estilo de teselas por %{hotosm_link} alojados por %{osm_france_link}
       hotosm_name: Equipo humanitario de OpenStreetMap
-      openmaptiles_credit: Cuadrículas vectoriales de %{openmaptiles_link} alojadas
-        por %{maptiler_link}
+      openmaptiles_credit: Teselas vectoriales de %{openmaptiles_link} alojadas por
+        %{maptiler_link}
     site:
       edit_tooltip: Editar el mapa
       edit_disabled_tooltip: Acercar para editar el mapa
@@ -4034,7 +4043,7 @@ es:
     home:
       marker_title: Mi Ubicación de Casa
       not_set: La Ubicación de Casa no está configurada para tu cuenta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: No hay contribuciones el %{date}
         contributions:
@@ -4042,13 +4051,13 @@ es:
           other: '%{count} contribuciones el %{date}'
     remote_edit:
       failed:
-        title: Fallo en la editación
-        body: Asegurese de que JOSM o Merkaator esten cargados y la opción de control
+        title: Fallo en la edición
+        body: Asegúrate que JOSM o Merkaator estén cargados y la opción de control
           remoto habilitada
     edit:
       id_not_configured:
         title: iD no ha sido configurado
-        body: Por favor, vea CONFIGURE.md para más información
+        body: Por favor, mira CONFIGURE.md para más información
   redactions:
     edit:
       heading: Editar censura

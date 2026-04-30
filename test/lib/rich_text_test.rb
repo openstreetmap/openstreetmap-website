@@ -214,7 +214,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify
-    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"], :host_replacement => "repl.example.com" }] }) do
       r = RichText.new("text", "foo http://example.com/ bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "http://example.com/" do
@@ -226,7 +226,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_replace
-    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"], :host_replacement => "repl.example.com" }] }) do
       r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
@@ -238,7 +238,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_recognize
-    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"], :host_replacement => "repl.example.com" }] }) do
       r = RichText.new("text", "foo repl.example.com/some/path?query=te<st&limit=20>10#result12 bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "repl.example.com/some/path?query=te<st&limit=20>10#result12" do
@@ -250,7 +250,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_replace_other_scheme
-    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => "repl.example.com") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"], :host_replacement => "repl.example.com" }] }) do
       r = RichText.new("text", "foo ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "ftp://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
@@ -262,7 +262,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_replace_undefined
-    with_settings(:linkify_hosts => ["replace-me.example.com"], :linkify_hosts_replacement => nil) do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me.example.com"] }] }) do
       r = RichText.new("text", "foo https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12 bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "https://replace-me.example.com/some/path?query=te<st&limit=20>10#result12" do
@@ -274,8 +274,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_wiki_replace_prefix
-    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
-                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me-wiki.example.com"], :host_replacement => "wiki.example.com", :optional_path_prefix => "^/wiki(?=/[A-Z])" }] }) do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
@@ -287,8 +286,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_wiki_replace_prefix_undefined
-    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
-                  :linkify_wiki_optional_path_prefix => nil) do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me-wiki.example.com"], :host_replacement => "wiki.example.com" }] }) do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "wiki.example.com/wiki/Tag:surface%3Dmetal" do
@@ -300,8 +298,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_wiki_replace_undefined_prefix
-    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => nil,
-                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me-wiki.example.com"], :optional_path_prefix => "^/wiki(?=/[A-Z])" }] }) do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "https://replace-me-wiki.example.com/Tag:surface%3Dmetal" do
@@ -313,8 +310,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_wiki_replace_prefix_no_match
-    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
-                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me-wiki.example.com"], :host_replacement => "wiki.example.com", :optional_path_prefix => "^/wiki(?=/[A-Z])" }] }) do
       r = RichText.new("text", "foo https://replace-me-wiki.example.com/wiki/w bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "wiki.example.com/wiki/w" do
@@ -326,8 +322,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_recognize_wiki
-    with_settings(:linkify_wiki_hosts => ["replace-me-wiki.example.com"], :linkify_wiki_hosts_replacement => "wiki.example.com",
-                  :linkify_wiki_optional_path_prefix => "^/wiki(?=/[A-Z])") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["replace-me-wiki.example.com"], :host_replacement => "wiki.example.com", :optional_path_prefix => "^/wiki(?=/[A-Z])" }] }) do
       r = RichText.new("text", "foo wiki.example.com/Tag:surface%3Dmetal bar")
       assert_html r do
         assert_dom "a", :count => 1, :text => "wiki.example.com/Tag:surface%3Dmetal" do
@@ -339,7 +334,7 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_idempotent
-    with_settings(:linkify_hosts => ["test.host"], :linkify_hosts_replacement => "test.host") do
+    with_settings(:linkify => { :normalisation_rules => [{ :hosts => ["test.host"], :host_replacement => "test.host" }] }) do
       t0 = "foo https://test.host/way/123456789 bar"
 
       r1 = RichText.new("text", t0)
@@ -433,6 +428,9 @@ class RichTextTest < ActiveSupport::TestCase
         "boundary=place" =>
           ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
 
+        "@aharvey" =>
+          ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
+
         "node/12639964186" =>
           ["node/12639964186", "https://www.openstreetmap.org/node/12639964186"],
 
@@ -476,9 +474,7 @@ class RichTextTest < ActiveSupport::TestCase
       cases.each do |input, (expected_text, expected_href)|
         r = RichText.new("text", input)
         assert_html r do
-          assert_dom "a", :count => 1, :text => expected_text do
-            assert_dom "> @href", expected_href
-          end
+          assert_dom "a[href='#{expected_href}']", :count => 1, :text => expected_text
         end
       end
     end
@@ -488,6 +484,42 @@ class RichTextTest < ActiveSupport::TestCase
     r = RichText.new("text", "We thought there was no way 2020 could be worse than 2019. We were wrong. Please note 2025 is the first square year since OSM started. In that year, some osmlab repos switched from node 22 to bun 1.3.")
     assert_html r do
       assert_select "a", 0
+    end
+  end
+
+  def test_deactivated_linkify_expansion_in_markdown
+    t0 = "foo `surface=metal` bar"
+
+    r1 = RichText.new("markdown", t0)
+    t1 = Nokogiri::HTML.fragment(r1.to_html).text
+
+    assert_equal t0.delete("`"), t1.strip
+  end
+
+  def test_text_to_html_linkify_trims_punctuation
+    r = RichText.new("text", "foo `surface=metal) bar inscription=🙂 baz")
+    assert_html r do
+      assert_dom "a", :count => 1
+      assert_dom "a[href$='Tag:surface=metal']", :text => "surface=metal"
+    end
+  end
+
+  def test_text_to_html_linkify_recognizes_non_standard_wiki_pages
+    r_paren = RichText.new("text", "foo source=Isle_of_Man_Government_1:25000_map_(2007) bar")
+    assert_html r_paren do
+      assert_dom "a[href*='Tag:source']", :text => "source=Isle_of_Man_Government_1:25000_map_(2007)"
+    end
+    r_latin_ext = RichText.new("text", "foo cuisine=açaí bar")
+    assert_html r_latin_ext do
+      assert_dom "a[href*='Tag:cuisine']", :text => "cuisine=açaí"
+    end
+    r_cyrillic = RichText.new("text", "foo name=Продукты bar")
+    assert_html r_cyrillic do
+      assert_dom "a[href*='Tag:name']", :text => "name=Продукты"
+    end
+    r_cjk = RichText.new("text", "foo shop=園芸店 bar")
+    assert_html r_cjk do
+      assert_dom "a[href*='Tag:shop']", :text => "shop=園芸店"
     end
   end
 

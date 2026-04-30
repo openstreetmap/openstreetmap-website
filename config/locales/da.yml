@@ -42,7 +42,7 @@
 da:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -119,19 +119,6 @@ da:
       way_node: Linjepunkt
       way_tag: Linjetag
     attributes:
-      client_application:
-        name: Navn (Påkrævet)
-        url: Hovedapplikations-URL (påkrævet)
-        callback_url: Callback URL
-        support_url: Support URL
-        allow_read_prefs: læse deres brugerpræferencer
-        allow_write_prefs: ændre deres brugeralternativer
-        allow_write_diary: oprette blogindlæg og kommentarer
-        allow_write_api: ændre kortet
-        allow_write_changeset_comments: kommenter på ændringssæt
-        allow_read_gpx: læse deres private GPS-spor
-        allow_write_gpx: overføre GPS-spor
-        allow_write_notes: ændre bemærkninger
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -617,7 +604,7 @@ da:
       closed_ago_by_html: Lukket for %{time_ago} af %{user}
       discussion: Diskussion
       join_discussion: Log på for at deltage i diskussionen
-      still_open: Ændringssæt er stadig åben - diskussion vil åbne når ændringssættet
+      still_open: Ændringssættet er stadig åbent - diskussionen åbnes, når ændringssættet
         lukkes.
       subscribe: Abonnér
       unsubscribe: Afmeld
@@ -763,8 +750,6 @@ da:
         one: '%{count} kommentar'
         other: '%{count} kommentarer'
       title_label: Blogindlæg
-      comments_label: Kommentarer
-      date_label: Dato
   diary_comments:
     new:
       heading: Vil du tilføje en kommentar til følgende blogindlægsdiskussion?
@@ -937,7 +922,7 @@ da:
           nursing_home: Plejehjem
           parking: Parkering
           parking_entrance: Parkeringsindkørsel
-          parking_space: Parkeringsplads
+          parking_space: Parkeringsbås
           payment_terminal: Betalingsterminal
           pharmacy: Apotek
           place_of_worship: Sted for gudstjenester
@@ -1250,7 +1235,7 @@ da:
           sports_centre: Sportscenter
           stadium: Stadion
           swimming_pool: Svømmebasin
-          track: Løbebane
+          track: Løbsbane (ikke motorsport)
           water_park: Vandland
           "yes": Fritid
         lock:
@@ -1686,6 +1671,7 @@ da:
       download: Download rute som GeoJSON
       filename: rute
       directions_courtesy_html: Anvisninger venligst leveret af %{link}
+      check_demo_html: Flere detaljer fra %{link}
   issues:
     index:
       title: Sager
@@ -1738,16 +1724,15 @@ da:
       other_issues_against_this_user: Andre sager omhandlende denne bruger
       no_other_issues: Ingen andre sager omhandlende denne bruger.
       comments_on_this_issue: Kommentarer på denne sag
+      comment_from_html: Kommentar fra %{user_link} skrevet %{comment_created_at}
+      reassign_to_moderators: Overgiv problem til moderatorer
+      reassign_to_administrators: Overgiv problem til administratorer
     resolve:
       resolved: Sagens status er sat til 'Løst'.
     ignore:
       ignored: Sagens status er blevet sat til 'Ignoreret'
     reopen:
       reopened: Sagens status er blevet sat til 'Åben'
-    comments:
-      comment_from_html: Kommentar fra %{user_link} skrevet %{comment_created_at}
-      reassign_to_moderators: Overgiv problem til moderatorer
-      reassign_to_administrators: Overgiv problem til administratorer
     reports:
       reported_by_html: Rapporteret som %{category} af %{user} den %{updated_at}
     helper:
@@ -1816,6 +1801,7 @@ da:
         az: Aserbajdsjansk
         id: Indonesisk
         ms: Malayisk
+        bcl: Central Bikol
         bs: Bosnisk
         br: Bretonsk
         ca: Catalansk
@@ -1846,6 +1832,7 @@ da:
         ku-Latn: Kurdisk (latin)
         lv: lettisk
         lb: Luxembourgsk
+        lkt: Lakota
         lt: litauisk
         hu: ungarsk
         fit: tornedalsfinsk
@@ -1921,18 +1908,8 @@ da:
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
-    home: Gå til hjemmeposition
-    logout: Log af
-    log_in: Log på
-    sign_up: Opret konto
+    layer_info: Laginfo
     start_mapping: Begynd kortlægningen
-    edit: Redigér
-    history: Historik
-    export: Eksportér
-    issues: Sager
-    gps_traces: GPS-spor
-    user_diaries: Brugerblogs
-    edit_with: Redigér med %{editor}
     intro_header: Velkommen til OpenStreetMap!
     intro_text: OpenStreetMap er et kort over verden, skabt af folk som dig og gratis
       at bruge under en åben licens.
@@ -1940,17 +1917,31 @@ da:
       %{partners}.
     partners_corpmembers: OSMF virksomhedsmedlemmer
     partners_partners: partnere
+    welcome_tou_notice_html: Ved at bruge dette websted eller anden infrastruktur
+      leveret af OpenStreetMap Foundation accepterer du %{terms_link}.
+    terms_of_use: vilkårene for anvendelse
     tou: Vilkår for anvendelse
     nothing_to_preview: Intet at forhåndsvise
-    help: Hjælp
-    about: Om
-    copyright: Ophavsret
-    communities: Fællesskaber
     learn_more: Lær mere
-    more: Mere
     header:
+      about: Om
+      communities: Fællesskaber
+      copyright: Ophavsret
+      donate: Donér
+      edit: Redigér
+      edit_with: Redigér med %{editor}
+      export: Eksportér
+      gps_traces: GPS-spor
+      help: Hjælp
+      history: Historik
+      home: Gå til hjemmeposition
+      issues: Sager
+      log_out: Log af
+      log_in: Log på
+      more: Mere
       select_language: Vælg sprog
-      loading: Indlæser...
+      sign_up: Opret konto
+      user_diaries: Brugerblogs
     meta:
       openstreetmap_search: OpenStreetMap-søgning
     select_language_button:
@@ -2289,7 +2280,7 @@ da:
         image: Billede
         company: Virksomhed
         location: Placering
-        heatmap: Varmekort
+        contribution_calendar: Bidragskalender
     descriptions:
       show:
         title: Rediger profil
@@ -2349,13 +2340,13 @@ da:
         failure: Kunne ikke opdatere profilplacering.
     heatmaps:
       show:
-        title: Konfigurer varmekort
-        show_heatmap_in_public: Vis varmekortet på din profilside
-        save: Opdater konfiguration af varmekort
+        title: Konfigurer bidragskalender
+        show_contribution_calendar_in_public: Vis bidragskalenderen på din profilside
+        save: Opdater konfiguration af bidragskalender
         cancel: Annuller
       update:
-        success: Varmekort opdateret.
-        failure: Kunne ikke opdatere varmekortet.
+        success: Bidragskalender opdateret.
+        failure: Bidragskalenderen kunne ikke opdateres.
   sessions:
     new:
       tab_title: Log ind
@@ -2637,8 +2628,8 @@ da:
         contributors_hr_croatia: Kroatien
         contributors_hr_dgu: Kroatiens statsgeodætiske administration
         contributors_hr_open_data_portal: Den nationale portal for åbne data
-        contributors_nl_credit_html: '%{netherlands}: Indeholder &copy; AND data,
-          2007 (%{and_link}).'
+        contributors_nl_credit_new_html: '%{netherlands}: Indeholder &copy; AND-data,
+          2007'
         contributors_nl_netherlands: Holland
         contributors_nz_credit_html: '%{new_zealand}: Indeholder data fra %{linz_data_service_link}
           som er licenseret til anvendelse under %{cc_by_link}.'
@@ -2999,6 +2990,14 @@ da:
       image_dimensions_html: Billedet vil vise laget %{layer} i %{width} x %{height}
       download: Hent
       downloading: Downloader...
+  webgl_error_panes:
+    show:
+      compact_message: WebGL er påkrævet til dette kort.
+      description_html: Vi beklager, men det ser ud til, at %{your_browser_does_not_support_webgl},
+        en teknologi til gengivelse af 3D-grafik på nettet.
+      your_browser_does_not_support_webgl: din browser ikke understøtter WebGL
+      webgl_is_required_for_this_map: WebGL er påkrævet for at vise dette kort.
+      read_more_about_webgl: Læs mere
   traces:
     visibility:
       private: Privat (kun delt som anonyme punkter uden rækkefølge og tidsstempler)
@@ -3042,13 +3041,13 @@ da:
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: kort
-      edit: redigér
+      map: se placering på kort
+      edit: åbn i editor
       owner: 'Ejer:'
       description: 'Beskrivelse:'
       tags: 'Egenskaber:'
       none: Ingen
-      edit_trace: Redigér dette spor
+      edit_trace: Rediger spordetaljer
       delete_trace: Slet dette spor
       trace_not_found: Spor ikke fundet!
       visibility: 'Synlighed:'
@@ -3060,8 +3059,8 @@ da:
         other: '%{count} punkter'
       more: detaljer
       trace_details: Vis spordetaljer
-      view_map: Vis kort
-      edit_map: Redigér kort
+      view_map: Se placering på kort
+      edit_map: Åbn i editor
       public: OFFENTLIG
       identifiable: IDENTIFICERBAR
       private: PRIVAT
@@ -3241,8 +3240,8 @@ da:
       signup_to_authorize_html: Tilmeld dig OpenStreetMap for at få adgang til %{client_app_name}.
       no_auto_account_create: Vi kan desværre ikke oprette en konto automatisk for
         dig pt.
-      please_contact_support_html: Kontakt venligst %{support_link} for at få oprettet
-        en konto - vi vil forsøge at håndtere forespørgslen så hurtigt som muligt.
+      please_contact_support_html: Kontakt %{support_link} for at få hjælp - vi vil
+        forsøge at behandle anmodningen så hurtigt som muligt.
       support: supporten
       about:
         header: Fri og redigerbar
@@ -3270,6 +3269,10 @@ da:
           flere oplysninger.
       or: eller
       use external auth: eller tilmeld dig med en tredjepart
+      verify_human: Bekræft, at du er et menneske
+    create:
+      not_human: Vi kan desværre ikke bekræfte, at du er et menneske. Dette er påkrævet
+        for at oprette nye konti.
     no_such_user:
       title: Ingen sådan bruger
       heading: Brugeren %{user} findes ikke
@@ -3328,10 +3331,26 @@ da:
       change_image: Skift billede
       edit_company: Rediger virksomhed
       edit_location: Rediger placering
-      edit_heatmap: Konfigurer varmekort
+      edit_contribution_calendar: Konfigurer bidragskalender
       contributions:
         one: '%{count} bidrag i det seneste år'
         other: '%{count} bidrag i det seneste år'
+      title:
+        administrator: Denne bruger er en administrator
+        moderator: Denne bruger er en moderator
+        importer: Denne bruger er en importør
+      grant:
+        administrator: Giv administrator-adgang
+        moderator: Giv moderator-adgang
+        importer: Tildel adgang til at importere
+        are_you_sure: Er du sikker på, du vil tildele rollen '%{role}' til brugeren
+          '%{name}'?
+      revoke:
+        administrator: Fjern administrator-adgang
+        moderator: Fjern moderator-adgang
+        importer: Tilbagetræk adgang til at importere
+        are_you_sure: Er du sikker på, du vil fratage rollen "%{role}" fra brugeren
+          "%{name}"?
     sidebar_section:
       home_location: Hjemmeposition
       company: Virksomhed
@@ -3404,7 +3423,7 @@ da:
       index:
         title: Kommentarer til blogindlæg tilføjet af %{user}
       page:
-        post: Indsend
+        post: Indlæg
         when: Hvornår
         comment: Kommentar
     suspended:
@@ -3432,23 +3451,6 @@ da:
         Hvis du allerede har en konto, kan du logge på din konto
         ved hjælp af dit brugernavn og adgangskode og derefter knytte den konto
         med dit ID i dine brugerindstillinger.
-    role_icons:
-      title:
-        administrator: Denne bruger er en administrator
-        moderator: Denne bruger er en moderator
-        importer: Denne bruger er en importør
-      grant:
-        administrator: Giv administrator-adgang
-        moderator: Giv moderator-adgang
-        importer: Tildel adgang til at importere
-        are_you_sure: Er du sikker på, du vil tildele rollen '%{role}' til brugeren
-          '%{name}'?
-      revoke:
-        administrator: Fjern administrator-adgang
-        moderator: Fjern moderator-adgang
-        importer: Tilbagetræk adgang til at importere
-        are_you_sure: Er du sikker på, du vil fratage rollen "%{role}" fra brugeren
-          "%{name}"?
   user_role:
     filter:
       not_a_role: Strengen "%{role}" er ikke en gyldig rolle.
@@ -3678,20 +3680,26 @@ da:
       tooltip: Kortforklaring
       tooltip_disabled: Kortforklaring findes ikke til dette lag
     map:
+      map:
+        title: Kort
+        marker:
+          title: Kortmarkør
       popup:
         close: Luk
-      zoom:
-        in: Zoom ind
-        out: Zoom ud
-      locate:
-        title: Vis min placering
-        not_available: Placering ikke tilgængelig
+      navigation_control:
+        zoom_in: Zoom ind
+        zoom_out: Zoom ud
+      geolocate_control:
+        find_my_location: Vis min placering
+        location_not_available: Placering ikke tilgængelig
         metersPopup:
           one: Du er indenfor %{count} meter fra dette punkt
           other: Du er indenfor %{count} meter fra dette punkt
         feetPopup:
           one: Du er indenfor %{count} fod fra dette punkt
           other: Du er indenfor %{count} fod fra dette punkt
+      attribution_control:
+        toggle_attribution: Slå tilskrivning til/fra
       base:
         standard: Standard
         cycle_map: Cykelkort
@@ -3791,16 +3799,17 @@ da:
         slight_left_without_exit: Svagt til venstre ind på %{name}
         via_point_without_exit: (via punkt)
         follow_without_exit: Følg %{name}
-        roundabout_without_exit: Ved rundkørslen, tag afkørsel mod %{name}
+        roundabout_without_exit: Ved rundkørslen, tag afkørslen ind på %{name}
         leave_roundabout_without_exit: Forlad rundkørslen - %{name}
         stay_roundabout_without_exit: Bliv i rundkørslen - %{name}
         start_without_exit: Start på %{name}
         destination_without_exit: Nå målet
         against_oneway_without_exit: Kør mod ensretningen på %{name}
         end_oneway_without_exit: Slutningen af ensretningen på %{name}
-        roundabout_with_exit: Ved rundkørslen, tag afkørsel %{exit} mod %{name}
-        roundabout_with_exit_ordinal: Ved rundkørslen, tag afkørsel %{exit} mod %{name}
-        exit_roundabout: Forlad rundkørsel mod %{name}
+        roundabout_with_exit: Ved rundkørslen, tag afkørsel %{exit} ind på %{name}
+        roundabout_with_exit_ordinal: Ved rundkørslen, tag %{exit} afkørsel ind på
+          %{name}
+        exit_roundabout: Forlad rundkørslen ind på %{name}
         ferry_without_exit: Tag færgen %{name}
         unnamed: unavngiven vej
         exit_counts:
@@ -3832,7 +3841,7 @@ da:
     home:
       marker_title: Mit hjemsted
       not_set: Hjemsted er ikke angivet for din konto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Ingen bidrag %{date}
         contributions:

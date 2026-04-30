@@ -70,12 +70,13 @@
 # Author: Tjcool007
 # Author: Trijnstel
 # Author: Vistaus
+# Author: Wouterko
 # Author: Xbaked potatox
 ---
 nl:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
@@ -152,19 +153,6 @@ nl:
       way_node: Wegknooppunt
       way_tag: Weglabel
     attributes:
-      client_application:
-        name: Naam (verplicht)
-        url: Hoofd-URL van toepassing (verplicht)
-        callback_url: Callback-URL
-        support_url: Ondersteunings-URL
-        allow_read_prefs: gebruikersvoorkeuren lezen
-        allow_write_prefs: gebruikersvoorkeuren wijzigen
-        allow_write_diary: dagboekberichten schrijven en reacties toevoegen
-        allow_write_api: de kaart wijzigen
-        allow_write_changeset_comments: reacties over wijzigingensets plaatsen
-        allow_read_gpx: privé-gps-trajecten lezen
-        allow_write_gpx: gps-trajecten uploaden
-        allow_write_notes: opmerkingen wijzigen
       diary_comment:
         body: Tekst
       diary_entry:
@@ -801,8 +789,6 @@ nl:
         one: '%{count} reactie'
         other: '%{count} reacties'
       title_label: Dagboekbericht
-      comments_label: Reacties
-      date_label: Datum
   diary_comments:
     new:
       heading: Een reactie toevoegen aan de volgende dagboekaantekening?
@@ -843,8 +829,8 @@ nl:
       contact_url_title: Diverse contactkanalen toegelicht
       contact: contact
       contact_the_community_html: Aarzel niet om %{contact_link} op te nemen met de
-        OpenStreetMap-community als u een niet werkende link of een bug hebt gevonden.
-        Noteer de exacte URL van uw verzoek.
+        OpenStreetMap-community als u een niet werkende koppeling of een bug hebt
+        gevonden. Noteer de exacte URL van uw verzoek.
     bad_request:
       title: Onjuiste aanvraag
       description: De bewerking die u op de OpenStreetMap-server hebt aangevraagd
@@ -861,6 +847,9 @@ nl:
       title: Bestand niet gevonden
       description: Kon een bestand/directory/API-bewerking met die naam niet vinden
         op de OpenStreetMap-server (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap-integratie
   follows:
     show:
       follow:
@@ -1287,7 +1276,7 @@ nl:
           sports_centre: Sportcentrum
           stadium: Stadion
           swimming_pool: Zwembad
-          track: Renbaan
+          track: Renbaan (niet voor motorsport)
           water_park: Waterspeelpark
           "yes": Recreatie
         lock:
@@ -1725,6 +1714,7 @@ nl:
       download: Download route als GeoJSON
       filename: route
       directions_courtesy_html: Routebeschrijving met dank aan %{link}
+      check_demo_html: Meer details van %{link}
   issues:
     index:
       title: Problemen
@@ -1777,16 +1767,15 @@ nl:
       other_issues_against_this_user: Andere problemen met deze gebruiker
       no_other_issues: Geen andere problemen tegen deze gebruiker.
       comments_on_this_issue: Reacties op deze kwestie
+      comment_from_html: Reactie van %{user_link} op %{comment_created_at}
+      reassign_to_moderators: Probleem opnieuw toewijzen aan moderators
+      reassign_to_administrators: Probleem opnieuw toewijzen aan beheerders
     resolve:
       resolved: De status van het probleem is ingesteld op 'Opgelost'
     ignore:
       ignored: De status van het probleem is ingesteld op 'Genegeerd'
     reopen:
       reopened: De status van het probleem is ingesteld op 'Open'
-    comments:
-      comment_from_html: Reactie van %{user_link} op %{comment_created_at}
-      reassign_to_moderators: Probleem opnieuw toewijzen aan moderators
-      reassign_to_administrators: Probleem opnieuw toewijzen aan beheerders
     reports:
       reported_by_html: Als %{category} gemeld door %{user} op %{updated_at}
     helper:
@@ -1888,6 +1877,7 @@ nl:
         ku-Latn: Koerdisch (Latijns)
         lv: Lets
         lb: Luxemburgs
+        lkt: Lakota
         lt: Litouws
         hu: Hongaars
         fit: Tornedal-Fins
@@ -1963,18 +1953,9 @@ nl:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Naar thuislocatie gaan
-    logout: Afmelden
-    log_in: Aanmelden
-    sign_up: Registreren
+    main_navigation: Startpagina
+    layer_info: Laaginformatie
     start_mapping: Begin met mappen
-    edit: Bewerken
-    history: Geschiedenis
-    export: Exporteren
-    issues: Problemen
-    gps_traces: Gps-trajecten
-    user_diaries: Gebruikersdagboeken
-    edit_with: Bewerken met %{editor}
     intro_header: Welkom bij OpenStreetMap!
     intro_text: OpenStreetMap is een kaart van de wereld, gemaakt door mensen zoals
       u en vrij te gebruiken onder een open licentie.
@@ -1982,17 +1963,34 @@ nl:
       en andere %{partners}.
     partners_corpmembers: OSMF-bedrijfsleden
     partners_partners: partners
+    welcome_tou_notice_html: Door gebruik te maken van deze website of andere infrastructuur
+      die door de OpenStreetMap Foundation wordt aangeboden, gaat u akkoord met de
+      %{terms_link}.
+    terms_of_use: Gebruiksvoorwaarden
     tou: Gebruiksvoorwaarden
     nothing_to_preview: Er is geen voorvertoning.
-    help: Hulp
-    about: Over
-    copyright: Auteursrechten
-    communities: Gemeenschappen
     learn_more: Meer lezen
-    more: Meer
     header:
+      about: Over
+      communities: Gemeenschappen
+      copyright: Auteursrechten
+      donate: Doneren
+      edit: Bewerken
+      edit_with: Bewerken met %{editor}
+      export: Exporteren
+      gps_traces: Gps-trajecten
+      help: Hulp
+      history: Geschiedenis
+      home: Naar thuislocatie gaan
+      issues: Problemen
+      log_out: Afmelden
+      log_in: Aanmelden
+      more: Meer
       select_language: Taal selecteren
-      loading: Aan het laden…
+      sign_up: Registreren
+      user_diaries: Gebruikersdagboeken
+    meta:
+      openstreetmap_search: OpenStreetMap Zoeken
     select_language_button:
       title: Taal selecteren
     offline_flash:
@@ -2336,6 +2334,7 @@ nl:
         image: Afbeelding
         company: Bedrijf
         location: Locatie
+        contribution_calendar: Bijdragekalender
     descriptions:
       show:
         title: Profiel wijzigen
@@ -2395,6 +2394,15 @@ nl:
       update:
         success: Locatie-informatie op profiel bijgewerkt.
         failure: Locatie-informatie op profiel kon niet bijgewerkt worden.
+    heatmaps:
+      show:
+        title: Bijdragekalender instellen
+        show_contribution_calendar_in_public: Bijdragekalender weergeven op uw profielpagina
+        save: Instellingen voor Bijdragekalender bijwerken
+        cancel: Annuleren
+      update:
+        success: Bijdragekalender bijgewerkt.
+        failure: De bijdragekalender kon niet worden bijgewerkt.
   sessions:
     new:
       tab_title: Aanmelden
@@ -2432,7 +2440,7 @@ nl:
       ordered: Geordende lijst
       first: Eerste item
       second: Tweede item
-      link: Link
+      link: Koppeling
       text: Tekst
       image: Afbeelding
       alt: Alternatieve tekst
@@ -2523,7 +2531,7 @@ nl:
         er dan voor dat u OpenStreetMap als bron vermeldt. Raadpleeg %{attribution_guidelines_link}
         voor meer informatie.
       legal_attribution_guidelines_title: Richtlijnen voor naamsvermelding
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: U geen toestemming te vragen voor het opnemen van een schermafbeelding
         van OpenStreetMap in uw boek, publicatie, film of tv-programma, aangezien
         OpenStreetMap-gegevens voor iedereen vrij te gebruiken zijn. Raadpleeg wel
@@ -2687,8 +2695,8 @@ nl:
         contributors_hr_croatia: Kroatië
         contributors_hr_dgu: Staatsgeodesisch bestuur van Kroatië
         contributors_hr_open_data_portal: Nationaal Open Data Portaal
-        contributors_nl_credit_html: '%{netherlands}: Bevat gegevens &copy; AND, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: bevat &copy; EN gegevens,
+          2007'
         contributors_nl_netherlands: Nederland
         contributors_nz_credit_html: |-
           %{new_zealand}: Bevat gegevens uit de %{linz_data_service_link}
@@ -2930,7 +2938,7 @@ nl:
         title: Lokale Afdelingen
         about_text: |-
           Lokale Afdelingen zijn groepen op land- of regioniveau die de formele stap hebben gezet om juridische entiteiten zonder winstoogmerk op te richten. Ze vertegenwoordigen de kaart en kaartmakers van het gebied bij het omgaan met de lokale overheid, het bedrijfsleven en de media. Ze hebben ook een affiliatie
-          met de OpenStreetMap Foundation (OSMF), waardoor ze een link hebben met de wettelijke en auteursrechtelijke overheidsinstantie.
+          met de OpenStreetMap Foundation (OSMF), waardoor ze een relatie hebben met de wettelijke en auteursrechtelijke overheidsinstantie.
         list_text: 'De volgende gemeenschappen zijn formeel opgericht als Lokale Afdelingen:'
       other_groups:
         title: Andere Groepen
@@ -3057,6 +3065,15 @@ nl:
       image_dimensions_html: Afbeelding geeft laag %{layer} weer op %{width} x %{height}
       download: Downloaden
       downloading: Aan het downloaden…
+  webgl_error_panes:
+    show:
+      compact_message: Voor deze kaart is WebGL vereist.
+      description_html: Het lijkt erop dat %{your_browser_does_not_support_webgl},
+        een technologie voor het weergeven van 3D-afbeeldingen op het web.
+      your_browser_does_not_support_webgl: uw browser WebGL niet ondersteunt
+      webgl_is_required_for_this_map: WebGL is vereist om deze kaart weer te geven.
+      read_more_about_webgl: Meer lezen
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Persoonlijk (alleen gedeeld als anoniem; ongeordende punten)
@@ -3102,13 +3119,13 @@ nl:
       points: 'Punten:'
       start_coordinates: 'Startcoördinaat:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: kaart
-      edit: bewerken
+      map: locatie op de kaart bekijken
+      edit: in editor openen
       owner: 'Eigenaar:'
       description: 'Beschrijving:'
       tags: 'Labels:'
       none: Geen
-      edit_trace: Dit traject bewerken
+      edit_trace: Trajectdetails bewerken
       delete_trace: Dit traject verwijderen
       trace_not_found: Traject is niet gevonden!
       visibility: 'Zichtbaarheid:'
@@ -3120,8 +3137,8 @@ nl:
         other: '%{count} punten'
       more: meer
       trace_details: Trajectdetails weergeven
-      view_map: Kaart weergeven
-      edit_map: Kaart bewerken
+      view_map: Locatie op de kaart bekijken
+      edit_map: In editor openen
       public: OPENBAAR
       identifiable: IDENTIFICEERBAAR
       private: PERSOONLIJK
@@ -3301,8 +3318,8 @@ nl:
         tot %{client_app_name}.
       no_auto_account_create: Helaas is het momenteel niet mogelijk om automatisch
         een account voor u aan te maken.
-      please_contact_support_html: Neem contact op met de %{support_link} om een account
-        aan te maken - we zullen proberen het verzoek zo snel mogelijk af te handelen.
+      please_contact_support_html: Neem contact op met de %{support_link} voor assistentie
+        - we proberen het verzoek zo snel mogelijk af te handelen.
       support: ondersteuning
       about:
         header: Vrij van rechten en vrij te bewerken.
@@ -3331,6 +3348,10 @@ nl:
           voor meer informatie.
       or: of
       use external auth: of schrijf u in via een derde partij
+      verify_human: Bevestig dat u een mens bent.
+    create:
+      not_human: Helaas kunnen we niet bevestigen dat u een mens bent. Dit is vereist
+        om nieuwe accounts aan te maken.
     no_such_user:
       title: Deze gebruiker bestaat niet
       heading: De gebruiker %{user} bestaat niet
@@ -3380,7 +3401,7 @@ nl:
       unconfirm_user: Bevestigen van deze gebruiker ongedaan maken
       suspend_user: Schors deze gebruiker
       unsuspend_user: Gebruiker opschorten ongedaan maken
-      undelete_user: Deze gebruiker verwijderen ongedaan maken
+      undelete_user: Deze gebruiker terugzetten
       confirm: Bevestigen
       report: Rapporteer deze Gebruiker
       edit_profile_details: Profiel bewerken
@@ -3389,9 +3410,26 @@ nl:
       change_image: Afbeelding wijzigen
       edit_company: Bedrijf bewerken
       edit_location: Locatie bewerken
+      edit_contribution_calendar: Bijdragekalender instellen
       contributions:
         one: '%{count} bijdrage in het afgelopen jaar'
         other: '%{count} bijdragen in het afgelopen jaar'
+      title:
+        administrator: Deze gebruiker is beheerder
+        moderator: Deze gebruiker is moderator
+        importer: Deze gebruiker is een importeur
+      grant:
+        administrator: Beheerdersrechten toekennen
+        moderator: Moderatorrechten toekennen
+        importer: Importeurstoegang verlenen
+        are_you_sure: Weet u zeker dat u de rol "%{role}" aan gebruiker "%{name}"
+          wilt toekennen?
+      revoke:
+        administrator: Beheerdersrechten intrekken
+        moderator: Moderatorrechten intrekken
+        importer: Importeurstoegang intrekken
+        are_you_sure: Weet u zeker dat u de rol "%{role}" van gebruiker "%{name}"
+          wilt intrekken?
     sidebar_section:
       home_location: Thuislocatie
       company: Bedrijf
@@ -3489,23 +3527,6 @@ nl:
         formulier een account aanmaken.
       option_2: Als u al een account hebt, kunt u hieronder met uw gebruikersnaam
         en wachtwoord aanmelden en daarna uw ID aan uw account koppelen in uw instellingen.
-    role_icons:
-      title:
-        administrator: Deze gebruiker is beheerder
-        moderator: Deze gebruiker is moderator
-        importer: Deze gebruiker is een importeur
-      grant:
-        administrator: Beheerdersrechten toekennen
-        moderator: Moderatorrechten toekennen
-        importer: Importeurstoegang verlenen
-        are_you_sure: Weet u zeker dat u de rol "%{role}" aan gebruiker "%{name}"
-          wilt toekennen?
-      revoke:
-        administrator: Beheerdersrechten intrekken
-        moderator: Moderatorrechten intrekken
-        importer: Importeurstoegang intrekken
-        are_you_sure: Weet u zeker dat u de rol "%{role}" van gebruiker "%{name}"
-          wilt intrekken?
   user_role:
     filter:
       not_a_role: '"%{role}" is geen geldige rol.'
@@ -3737,20 +3758,26 @@ nl:
       tooltip: Legenda
       tooltip_disabled: Er is geen legenda beschikbaar voor deze laag
     map:
+      map:
+        title: Kaart
+        marker:
+          title: Kaartmarkering
       popup:
         close: Sluiten
-      zoom:
-        in: Inzoomen
-        out: Uitzoomen
-      locate:
-        title: Uw locatie weergeven
-        not_available: Locatie niet beschikbaar
+      navigation_control:
+        zoom_in: Inzoomen
+        zoom_out: Uitzoomen
+      geolocate_control:
+        find_my_location: Uw locatie weergeven
+        location_not_available: Locatie niet beschikbaar
         metersPopup:
           one: U bevindt zich binnen %{count} meter van dit punt
           other: U bevindt zich binnen %{count} meter van dit punt
         feetPopup:
           one: U bevindt zich binnen %{count} voet van dit punt
           other: U bevindt zich binnen %{count} voet van dit punt
+      attribution_control:
+        toggle_attribution: Attributie weergeven of verbergen
       base:
         standard: Standaard
         cycle_map: Fietskaart
@@ -3894,7 +3921,7 @@ nl:
     home:
       marker_title: Mijn thuislocatie
       not_set: De thuislocatie is niet ingesteld voor uw account
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Geen bijdragen op %{date}
         contributions:

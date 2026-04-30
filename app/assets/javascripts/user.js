@@ -1,8 +1,7 @@
-//= require leaflet.locate
+//= require maplibre/map
 //= require ./home_location_name-endpoint
 
 $(function () {
-  const defaultHomeZoom = 12;
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#social_links").length) {
@@ -50,56 +49,42 @@ $(function () {
   }
 
   if ($("#map").length) {
-    map = L.map("map", {
-      attributionControl: false,
-      zoomControl: false
-    }).addLayer(new L.OSM.Mapnik());
+    map = new OSM.MapLibre.SecondaryMap();
 
     savedLat = $("#home_lat").val();
     savedLon = $("#home_lon").val();
     homeLocationNameGeocoder = OSM.HomeLocationNameGeocoder($("#home_lat"), $("#home_lon"), $("#home_location_name"));
 
-    const position = $("html").attr("dir") === "rtl" ? "topleft" : "topright";
+    const position = $("html").attr("dir") === "rtl" ? "top-left" : "top-right";
+    const navigationControl = new OSM.MapLibre.NavigationControl();
+    const geolocateControl = new OSM.MapLibre.GeolocateControl();
+    map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl, geolocateControl]), position);
 
-    L.OSM.zoom({ position }).addTo(map);
-
-    L.OSM.locate({ position }).addTo(map);
-
-    if (OSM.home) {
-      map.setView([OSM.home.lat, OSM.home.lon], defaultHomeZoom);
-    } else {
-      map.setView([0, 0], 0);
-    }
-
-    marker = L.marker([0, 0], {
-      icon: OSM.getMarker({}),
-      keyboard: false,
-      interactive: false
-    });
+    marker = new OSM.MapLibre.Marker();
 
     if (OSM.home) {
-      marker.setLatLng([OSM.home.lat, OSM.home.lon]);
+      marker.setLngLat([OSM.home.lon, OSM.home.lat]);
       marker.addTo(map);
     }
 
     map.on("click", function (e) {
       if (!$("#updatehome").is(":checked")) return;
 
-      const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
-
+      const { lat, lng } = OSM.cropLocation(L.latLng(e.lngLat.lat, e.lngLat.lng), map.getZoom() + 1);
       $("#home_lat").val(lat);
-      $("#home_lon").val(lon);
+      $("#home_lon").val(lng);
 
       clearDeletedText();
       respondToHomeLatLonUpdate();
-    }).on("moveend", function () {
+    });
+    map.on("moveend", function () {
       const lat = $("#home_lat").val().trim(),
             lon = $("#home_lon").val().trim();
       let location;
 
       try {
         if (lat && lon) {
-          location = L.latLng(lat, lon);
+          location = new maplibregl.LngLat(lon, lat);
         }
       } catch (error) {
         // keep location undefined
@@ -124,7 +109,7 @@ $(function () {
       const lat = $("#home_lat").val(),
             lon = $("#home_lon").val();
 
-      map.setView([lat, lon], defaultHomeZoom);
+      map.flyTo({ center: [lon, lat], zoom: OSM.MapLibre.defaultHomeZoom });
     });
 
     $("#home_delete").click(function () {
@@ -160,7 +145,7 @@ $(function () {
 
     try {
       if (lat && lon) {
-        location = L.latLng(lat, lon);
+        location = new maplibregl.LngLat(lon, lat);
         if (updateLocationName) {
           if (savedLat && savedLon && $("#home_location_name").val().trim()) {
             homeLocationNameGeocoder.updateHomeLocationName(false, savedLat, savedLon, () => {
@@ -187,19 +172,19 @@ $(function () {
       ((deleted_lat && deleted_lon) || deleted_home_name)
     ));
     if (location) {
-      marker.setLatLng([lat, lon]);
+      marker.setLngLat([lon, lat]);
       marker.addTo(map);
-      map.panTo([lat, lon]);
+      map.panTo([lon, lat]);
     } else {
-      marker.removeFrom(map);
+      marker.remove();
     }
   }
 
   function isCloseEnoughToMapCenter(location) {
-    const inputPt = map.latLngToContainerPoint(location),
-          centerPt = map.latLngToContainerPoint(map.getCenter());
+    const inputPt = map.project(location);
+    const centerPt = map.project(map.getCenter());
 
-    return centerPt.distanceTo(inputPt) < 10;
+    return centerPt.dist(inputPt) < 10;
   }
 
   function clearDeletedText() {

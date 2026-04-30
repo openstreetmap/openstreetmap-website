@@ -2,7 +2,7 @@
 
 [![Lint](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/lint.yml?query=branch%3Amaster+event%3Apush)
 [![Tests](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml/badge.svg?branch=master&event=push)](https://github.com/openstreetmap/openstreetmap-website/actions/workflows/tests.yml?query=branch%3Amaster+event%3Apush)
-[![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/r/openstreetmap/openstreetmap-website?branch=master)
+[![Coverage Status](https://coveralls.io/repos/openstreetmap/openstreetmap-website/badge.svg?branch=master)](https://coveralls.io/github/openstreetmap/openstreetmap-website?branch=master)
 
 This is `openstreetmap-website`, the [Ruby on Rails](https://rubyonrails.org/)
 application that powers the [OpenStreetMap](https://www.openstreetmap.org) website and API.
@@ -26,7 +26,7 @@ a copy of which can be found in the [LICENSE](LICENSE) file.
 # Installation
 
 `openstreetmap-website` is a Ruby on Rails application that uses PostgreSQL as its database, and has a large
-number of dependencies for installation. For full details please see [INSTALL.md](INSTALL.md).
+number of dependencies for installation. For full details please see [INSTALL.md](doc/INSTALL.md).
 
 # Development
 
@@ -45,3 +45,4 @@ More details on contributing to the code are in the [CONTRIBUTING.md](CONTRIBUTI
 * Tom Hughes [@tomhughes](https://github.com/tomhughes/)
 * Andy Allan [@gravitystorm](https://github.com/gravitystorm/)
 * Anton Khorev [@AntonKhorev](https://github.com/AntonKhorev/)
+* Marwin Hochfelsner [@hlfan](https://github.com/hlfan/)

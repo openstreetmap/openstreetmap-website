@@ -12,3 +12,7 @@ $(document).on("click", "#select_language_dialog [data-language-code]", function
     location.reload();
   }
 });
+
+$(document).on("submit", "#select_language_form", function (e) {
+  e.preventDefault();
+});

@@ -28,6 +28,8 @@
 class Oauth2Application < Doorkeeper::Application
   belongs_to :owner, :polymorphic => true
 
+  validates :redirect_uri, :presence => true
+
   validate :allowed_scopes
 
   def authorized_scopes_for(user)

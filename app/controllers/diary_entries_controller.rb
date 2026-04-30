@@ -8,6 +8,7 @@ class DiaryEntriesController < ApplicationController
 
   before_action :authorize_web
   before_action :set_locale
+  before_action :update_totp, :only => [:new, :edit]
   before_action :check_database_readable
 
   authorize_resource
@@ -53,7 +54,7 @@ class DiaryEntriesController < ApplicationController
 
     @params = params.permit(:display_name, :friends, :nearby, :language)
 
-    @entries, @newer_entries_id, @older_entries_id = get_page_items(entries, :includes => [:user, :language])
+    @entries = get_page_items(entries, :includes => [:user, :language])
   end
 
   def show

@@ -13,6 +13,7 @@
 # Author: MAGHOI
 # Author: Macofe
 # Author: Maria zaos
+# Author: Marwin H.H.
 # Author: McDutchie
 # Author: Mgl.branco
 # Author: Nemo bis
@@ -22,7 +23,7 @@
 gl:
   date:
     formats:
-      heatmap: '%-d de %B'
+      contribution_calendar: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y ás %H:%M'
@@ -103,19 +104,6 @@ gl:
       way_node: Nó da vía
       way_tag: Etiqueta da vía
     attributes:
-      client_application:
-        name: Nome (Obrigatorio)
-        url: URL da aplicación principal (obrigatorio)
-        callback_url: URL de retorno de chamada
-        support_url: URL de apoio
-        allow_read_prefs: ler as súas preferencias de usuario
-        allow_write_prefs: modificar as súas preferencias de usuario
-        allow_write_diary: crear entradas de diario e comentarios
-        allow_write_api: modificar o mapa
-        allow_write_changeset_comments: comentar os conxuntos de cambios
-        allow_read_gpx: ler as súas pistas GPS privadas
-        allow_write_gpx: subir pistas GPS
-        allow_write_notes: modificar notas
       diary_comment:
         body: Corpo
       diary_entry:
@@ -754,8 +742,6 @@ gl:
         one: '%{count} comentario'
         other: '%{count} comentarios'
       title_label: Entrada no diario
-      comments_label: Comentarios
-      date_label: Data
   diary_comments:
     new:
       heading: Queres engadir un comentario á seguinte conversa sobre a entrada no
@@ -1246,7 +1232,7 @@ gl:
           sports_centre: Centro deportivo
           stadium: Estadio
           swimming_pool: Piscina
-          track: Pista de carreiras
+          track: Pista de carreiras (non de deportes de motor)
           water_park: Parque acuático
           "yes": Lecer
         lock:
@@ -1684,6 +1670,7 @@ gl:
       download: Descargar a ruta como GeoJSON
       filename: ruta
       directions_courtesy_html: Indicacións cortesía de %{link}
+      check_demo_html: Máis detalles de %{link}
   issues:
     index:
       title: Problemas
@@ -1736,16 +1723,15 @@ gl:
       other_issues_against_this_user: Outro informe deste usuario
       no_other_issues: Non hai máis informes deste usuario.
       comments_on_this_issue: Comentarios neste informe
+      comment_from_html: Comentario de %{user_link} no %{comment_created_at}
+      reassign_to_moderators: Reasignar a incidencia aos moderadores
+      reassign_to_administrators: Reasignar a incidencia aos administradores
     resolve:
       resolved: O estado da incidencia mudou a "Resolta"
     ignore:
       ignored: O estado da incidencia mudou a "Ignorada"
     reopen:
       reopened: O estado da incidencia mudou a "Aberta"
-    comments:
-      comment_from_html: Comentario de %{user_link} no %{comment_created_at}
-      reassign_to_moderators: Reasignar a incidencia aos moderadores
-      reassign_to_administrators: Reasignar a incidencia aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} o %{updated_at}
     helper:
@@ -1844,6 +1830,7 @@ gl:
         ku-Latn: kurdo (latino)
         lv: letón
         lb: luxemburgués
+        lkt: lakota
         lt: lituano
         hu: húngaro
         fit: meänkieli
@@ -1902,7 +1889,7 @@ gl:
         pa: panxabí
         gu: gujarati
         ta: támil
-        te: telugú
+        te: telugu
         kn: kanarés
         th: tailandés
         my: birmano
@@ -1919,18 +1906,9 @@ gl:
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
-    home: Ir á localización da túa casa
-    logout: Pechar a sesión
-    log_in: Iniciar a sesión
-    sign_up: Rexistrarse
+    main_navigation: Principal
+    layer_info: Información da capa
     start_mapping: Comezar a cartografar
-    edit: Editar
-    history: Historial
-    export: Exportar
-    issues: Problemas
-    gps_traces: Pistas GPS
-    user_diaries: Diarios de usuario
-    edit_with: Editar co %{editor}
     intro_header: Dámosche a benvida ó OpenStreetMap!
     intro_text: O OpenStreetMap é un mapa do mundo, creado por xente coma ti e de
       libre uso baixo unha licenza aberta.
@@ -1938,17 +1916,31 @@ gl:
       e outros %{partners}.
     partners_corpmembers: membros corporativos da OSMF
     partners_partners: socios
+    welcome_tou_notice_html: Ao utilizares este sitio web ou outra infraestrutura
+      proporcionada pola Fundación OpenStreetMap, aceptas os %{terms_link}.
+    terms_of_use: termos de uso
     tou: termos de uso
     nothing_to_preview: Non hai nada que previsualizar.
-    help: Axuda
-    about: Acerca de
-    copyright: Dereitos de autoría
-    communities: Comunidades
     learn_more: Máis información
-    more: Máis
     header:
+      about: Acerca de
+      communities: Comunidades
+      copyright: Dereitos de autoría
+      donate: Doazóns
+      edit: Editar
+      edit_with: Editar co %{editor}
+      export: Exportar
+      gps_traces: Pistas GPS
+      help: Axuda
+      history: Historial
+      home: Ir á localización da túa casa
+      issues: Problemas
+      log_out: Pechar a sesión
+      log_in: Iniciar a sesión
+      more: Máis
       select_language: Seleccionar unha lingua
-      loading: Cargando...
+      sign_up: Rexistrarse
+      user_diaries: Diarios de usuario
     meta:
       openstreetmap_search: Procura no OpenStreetMap
     select_language_button:
@@ -2292,7 +2284,7 @@ gl:
         image: Imaxe
         company: Empresa
         location: Localización
-        heatmap: Mapa de calor
+        contribution_calendar: Calendario de contribucións
     descriptions:
       show:
         title: Editar o perfil
@@ -2354,13 +2346,14 @@ gl:
         failure: Non se puido actualizar a localización do perfil.
     heatmaps:
       show:
-        title: Configurar o mapa de calor
-        show_heatmap_in_public: Mostrar o mapa de calor no teu perfil
-        save: Actualizar a configuración do mapa de calor
+        title: Configurar o calendario de contribucións
+        show_contribution_calendar_in_public: Mostrar o calendario de contribucións
+          na túa páxina de perfil
+        save: Actualizar a configuración do calendario de contribucións
         cancel: Cancelar
       update:
-        success: Actualizouse o mapa de calor.
-        failure: Non se puido actualizar o mapa de calor.
+        success: Actualizouse o calendario de contribucións.
+        failure: Non se puido actualizar o calendario de contribucións.
   sessions:
     new:
       tab_title: Iniciar a sesión
@@ -2493,8 +2486,8 @@ gl:
       legal_1_2_html: Se queres utilizar mapas ou datos do OpenStreetMap, asegúrate
         de atribuír ao OpenStreetMap; consulta as %{attribution_guidelines_link} para
         obter máis información.
-      legal_attribution_guidelines_title: directrices de atribución
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_title: directrices de recoñecemento
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: Para empregar especificamente unha captura de pantalla do OpenStreetMap
         directamente no teu libro, publicación, película ou programa de televisión,
         non necesitas pedir permiso, xa que os datos do OpenStreetMap son abertos
@@ -2668,8 +2661,8 @@ gl:
         contributors_hr_croatia: Croacia
         contributors_hr_dgu: administración xeodésica estatal de Croacia
         contributors_hr_open_data_portal: portal nacional de datos libres
-        contributors_nl_credit_html: '%{netherlands}: Contén datos &copy; AND, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Contén datos de AND &copy;,
+          2007'
         contributors_nl_netherlands: Países Baixos
         contributors_nz_credit_html: |-
           %{new_zealand}: Contén datos procedentes do %{linz_data_service_link}
@@ -3041,6 +3034,15 @@ gl:
       image_dimensions_html: A imaxe amosará a capa %{layer} con %{width} x %{height}
       download: Baixar
       downloading: Descargando...
+  webgl_error_panes:
+    show:
+      compact_message: Cómpre WebGL para ver este mapa.
+      description_html: Sentímolo, pero semella que %{your_browser_does_not_support_webgl},
+        unha tecnoloxía para renderizar gráficos 3D na web.
+      your_browser_does_not_support_webgl: o teu navegador non é compatible con WebGL
+      webgl_is_required_for_this_map: Cómpre WebGL para mostrar este mapa.
+      read_more_about_webgl: Ler máis
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privado (só compartido como anónimo; puntos desordenados)
@@ -3083,13 +3085,13 @@ gl:
       points: 'Puntos:'
       start_coordinates: 'Coordenada do inicio:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: editar
+      map: ver a localización no mapa
+      edit: abrir no editor
       owner: 'Dono:'
       description: 'Descrición:'
       tags: 'Etiquetas:'
       none: Ningún
-      edit_trace: Editar esta pista
+      edit_trace: Editar os detalles da pista
       delete_trace: Eliminar esta pista
       trace_not_found: Non se atopou a pista!
       visibility: 'Visibilidade:'
@@ -3101,8 +3103,8 @@ gl:
         other: '%{count} puntos'
       more: máis
       trace_details: Ollar os detalles da pista
-      view_map: Ollar o mapa
-      edit_map: Editar o mapa
+      view_map: Ver a localización no mapa
+      edit_map: Abrir no editor
       public: PÚBLICO
       identifiable: IDENTIFICÁBEL
       private: PRIVADO
@@ -3281,8 +3283,8 @@ gl:
       signup_to_authorize_html: Rexístrate co OpenStreetMap para acceder a %{client_app_name}.
       no_auto_account_create: Por desgraza, arestora non podemos crear unha conta
         de xeito automático para ti.
-      please_contact_support_html: Ponte en contacto co %{support_link} para que cree
-        unha conta por ti; tentaremos xestionar a solicitude o máis axiña que poidamos.
+      please_contact_support_html: Ponte en contacto co %{support_link} para recibires
+        axuda; tentaremos xestionar a solicitude o máis axiña que poidamos.
       support: soporte
       about:
         header: Libre e editábel.
@@ -3313,6 +3315,10 @@ gl:
           para obter máis información.
       or: ou
       use external auth: ou rexístrate cun servizo de terceiros
+      verify_human: Verifica que es unha persoa
+    create:
+      not_human: Desafortunadamente, non puidemos confirmar que es unha persoa. Isto
+        é necesario para crear contas novas.
     no_such_user:
       title: Non existe tal usuario
       heading: O usuario "%{user}" non existe
@@ -3371,10 +3377,24 @@ gl:
       change_image: Cambiar a imaxe
       edit_company: Editar a empresa
       edit_location: Editar a localización
-      edit_heatmap: Configurar o mapa de calor
+      edit_contribution_calendar: Configurar o calendario de contribucións
       contributions:
         one: '%{count} contribución no último ano'
         other: '%{count} contribucións no último ano'
+      title:
+        administrator: Este usuario é administrador
+        moderator: Este usuario é moderador
+        importer: Este usuario é importador
+      grant:
+        administrator: Conceder o acceso de administrador
+        moderator: Conceder o acceso de moderador
+        importer: Conceder o acceso de importador
+        are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
+      revoke:
+        administrator: Revogar o acceso de administrador
+        moderator: Revogar o acceso de moderador
+        importer: Revogar o acceso de importador
+        are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
     sidebar_section:
       home_location: Localización da túa casa
       company: Empresa
@@ -3472,21 +3492,6 @@ gl:
       option_2: Se xa tes unha conta, podes conectarte á túa conta empregando o teu
         nome de usuario e contrasinal, e despois asociar a conta co teu identificador
         nas túas preferencias de usuario.
-    role_icons:
-      title:
-        administrator: Este usuario é administrador
-        moderator: Este usuario é moderador
-        importer: Este usuario é importador
-      grant:
-        administrator: Conceder o acceso de administrador
-        moderator: Conceder o acceso de moderador
-        importer: Conceder o acceso de importador
-        are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
-      revoke:
-        administrator: Revogar o acceso de administrador
-        moderator: Revogar o acceso de moderador
-        importer: Revogar o acceso de importador
-        are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
   user_role:
     filter:
       not_a_role: A cadea "%{role}" non é un rol correcto.
@@ -3712,20 +3717,26 @@ gl:
       tooltip: Lenda
       tooltip_disabled: Non está dispoñíbel a lenda para esta capa
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcador de mapa
       popup:
         close: Pechar
-      zoom:
-        in: Achegar
-        out: Afastar
-      locate:
-        title: Amosar a miña localización
-        not_available: A localización non está dispoñible
+      navigation_control:
+        zoom_in: Achegar
+        zoom_out: Afastar
+      geolocate_control:
+        find_my_location: Amosar a miña localización
+        location_not_available: A localización non está dispoñible
         metersPopup:
           one: Estás a menos de %{count} metro deste punto
           other: Estás a menos de %{count} metros deste punto
         feetPopup:
           one: Estás a menos de %{count} pé deste punto
           other: Estás a menos de %{count} pés deste punto
+      attribution_control:
+        toggle_attribution: Activar/Desactivar o recoñecemento
       base:
         standard: Estándar
         cyclosm: CyclOSM
@@ -3873,7 +3884,7 @@ gl:
     home:
       marker_title: Localización da miña casa
       not_set: A localización da túa casa non está configurada para a túa conta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Non hai contribucións o %{date}
         contributions:

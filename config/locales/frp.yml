@@ -3,12 +3,13 @@
 # Export driver: phpyaml
 # Author: Eihel
 # Author: L'Arpetani
+# Author: Marwin H.H.
 # Author: Sampi│ϡ
 ---
 frp:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y a %H:%M'
@@ -87,19 +88,6 @@ frp:
       way_node: Nuod du chemin
       way_tag: Atribut du chemin
     attributes:
-      client_application:
-        name: Nom (requis)
-        url: URL de l'aplicacion prencipâla (requis)
-        callback_url: URL de rapèl
-        support_url: URL de l'assistance
-        allow_read_prefs: liére les prèferences de l'usanciér(e)
-        allow_write_prefs: changiér les prèferences de l'usanciér(e)
-        allow_write_diary: crèar d'entrâyes du jornâl et de comentèros
-        allow_write_api: changiér la mapa
-        allow_write_changeset_comments: comentar les bendes de changements
-        allow_read_gpx: liére ses traces GPS privâyes
-        allow_write_gpx: tèlèvèrsar de traces GPS
-        allow_write_notes: changiér les notes
       diary_comment:
         body: Côrp
       diary_entry:
@@ -742,8 +730,6 @@ frp:
         one: '%{count} comentèro'
         other: '%{count} comentèros'
       title_label: Entrâye du jornâl
-      comments_label: Comentèros
-      date_label: Dâta
   diary_comments:
     new:
       heading: Apondre un comentèro a ceta discussion d'entrâye de jornâl ?
@@ -805,6 +791,9 @@ frp:
       title: Valor pas trovâye
       description: S'at pas pu trovar un fichiér, un repèrtouèro ou una opèracion
         de l'API avouéc cél nom sur lo sèrvor OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap entègrâ
   follows:
     show:
       follow:
@@ -1231,7 +1220,7 @@ frp:
           sports_centre: Centro sportif
           stadium: Stado
           swimming_pool: Piscena
-          track: Pista de corsa
+          track: Pista de corsa (nan motorisâye)
           water_park: Parc d'égoua
           "yes": Lèsirs
         lock:
@@ -1669,6 +1658,7 @@ frp:
       download: Tèlèchargiér la rota en GeoJSON
       filename: rota
       directions_courtesy_html: Rota fornia per %{link}
+      check_demo_html: Més de dètalys dês %{link}
   issues:
     index:
       title: Problèmos
@@ -1721,16 +1711,15 @@ frp:
       other_issues_against_this_user: Ôtros problèmos que regârdont cét(a) usanciér(e)
       no_other_issues: Gins d'ôtro problèmo avouéc cét(a) usanciér(e).
       comments_on_this_issue: Comentèros sur cét problèmo
+      comment_from_html: Comentèro de %{user_link} sur %{comment_created_at}
+      reassign_to_moderators: Tornar afèctar lo problèmo ux modèrators
+      reassign_to_administrators: Tornar afèctar lo problèmo ux administrators
     resolve:
       resolved: L'ètat du problèmo at étâ metu a « Rèsolu »
     ignore:
       ignored: L'ètat du problèmo at étâ metu a « Ignorâ »
     reopen:
       reopened: L'ètat du problèmo at étâ metu a « Uvèrt »
-    comments:
-      comment_from_html: Comentèro de %{user_link} sur %{comment_created_at}
-      reassign_to_moderators: Tornar afèctar lo problèmo ux modèrators
-      reassign_to_administrators: Tornar afèctar lo problèmo ux administrators
     reports:
       reported_by_html: Signalâ coment %{category} per %{user} lo %{updated_at}
     helper:
@@ -1801,6 +1790,7 @@ frp:
         az: Azèri
         id: Endonèsien
         ms: Malês
+        bcl: Bikol centrâl
         bs: Bosnien
         br: Breton
         ca: Catalan
@@ -1831,6 +1821,7 @@ frp:
         ku-Latn: Kurdo (latin)
         lv: Lèton
         lb: Luxemborgês
+        lkt: Lakota
         lt: Lituanien
         hu: Hongrouès
         fit: Meänkieli
@@ -1906,18 +1897,8 @@ frp:
   layouts:
     logo:
       alt_text: Simbolo d'OpenStreetMap
-    home: Alar u luè de voutron domicilo
-    logout: Sè dèbranchiér
-    log_in: Sè branchiér
-    sign_up: S'encartar
+    layer_info: Enformacions de la cuche
     start_mapping: Comenciér a mapar
-    edit: Changiér
-    history: Historico
-    export: Èxportar
-    issues: Problèmos
-    gps_traces: Traces GPS
-    user_diaries: Jornâls de l'usanciér(e)
-    edit_with: Changiér avouéc %{editor}
     intro_header: Benvenua dens OpenStreetMap !
     intro_text: OpenStreetMap est una mapa du mondo, fâte per des gens come vos, et
       libra d'usâjo sot licence libra.
@@ -1925,17 +1906,31 @@ frp:
       et d'ôtros %{partners}.
     partners_corpmembers: de membros de l'entreprêsa OSMF
     partners_partners: partenèros
+    welcome_tou_notice_html: En utilisant ceti sito de malyâjo ou ben una ôtra enfrastructura
+      fornia per la Fondacion OpenStreetMap, vos accèptâd les %{terms_link}
+    terms_of_use: Condicions d’usâjo
     tou: Condicions d’usâjo
     nothing_to_preview: É y at ren a prè-vêre.
-    help: Éde
-    about: A propôs
-    copyright: Drêts d'ôtor
-    communities: Comunôtâts
     learn_more: Nen savêr més
-    more: Més
     header:
+      about: A propôs
+      communities: Comunôtâts
+      copyright: Drêts d'ôtor
+      donate: Balyér
+      edit: Changiér
+      edit_with: Changiér avouéc %{editor}
+      export: Èxportar
+      gps_traces: Traces GPS
+      help: Éde
+      history: Historico
+      home: Alar u luè de voutron domicilo
+      issues: Problèmos
+      log_out: Sè dèbranchiér
+      log_in: Sè branchiér
+      more: Més
       select_language: Chouèsir la lengoua
-      loading: Chargement...
+      sign_up: S'encartar
+      user_diaries: Jornâls de l'usanciér(e)
     meta:
       openstreetmap_search: OpenStreetMap Rechèrche
     select_language_button:
@@ -2275,7 +2270,7 @@ frp:
         image: Émâge
         company: Entreprêsa
         location: Emplacement
-        heatmap: Mapa de chalor
+        contribution_calendar: Calendriér de contribucions
     descriptions:
       show:
         title: Changiér lo profil
@@ -2337,13 +2332,14 @@ frp:
         failure: Lo luè du profil at pas povu étre betâ a jorn.
     heatmaps:
       show:
-        title: Configurar la mapa de chalor
-        show_heatmap_in_public: Montrar la mapa de chalor sur voutra pâge d'usanciér
-        save: Betar a jorn la configuracion de la mapa de chalor
+        title: Configurar lo calendriér de contribucions
+        show_contribution_calendar_in_public: Montrar lo calendriér de contribucions
+          dens voutra pâge de profil
+        save: Betar a jorn la configuracion du calendriér de contribucions
         cancel: Anular
       update:
-        success: Mapa de chalor betâye a jorn.
-        failure: La mapa de chalor at pas povu étre betâye a jorn.
+        success: Calendriér de contribucions betâ a jorn.
+        failure: Lo calendriér de contribucions at pas povu étre betâ a jorn.
   sessions:
     new:
       tab_title: Sè branchiér
@@ -2629,8 +2625,8 @@ frp:
         contributors_hr_croatia: Croacie
         contributors_hr_dgu: Administracion Gèodèsica de l'Ètât de Croacie
         contributors_hr_open_data_portal: Portâl nacionâl des balyês uvèrtes
-        contributors_nl_credit_html: '%{netherlands} : contint de balyês © AND, 2007
-          (%{and_link}).'
+        contributors_nl_credit_new_html: '%{netherlands} : contint de balyês &copy;
+          AND, 2007'
         contributors_nl_netherlands: Payis-Bâs
         contributors_nz_credit_html: |-
           %{new_zealand} : contint de balyês venent du %{linz_data_service_link}
@@ -2993,6 +2989,15 @@ frp:
       image_dimensions_html: L'émâge montrerat la betâye en fôrma %{layer} de %{width} × %{height}
       download: Tèlèchargiér
       downloading: Tèlèchargement...
+  webgl_error_panes:
+    show:
+      compact_message: Fôt WebGL por ceta mapa.
+      description_html: Dèsolâ, semble que %{your_browser_does_not_support_webgl},
+        un outil por afichiér de graficos 3D sur lo vouebe.
+      your_browser_does_not_support_webgl: voutron navigator supôrte pas WebGL
+      webgl_is_required_for_this_map: Fôt WebGL por afichiér ceta mapa.
+      read_more_about_webgl: En vêre més
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privâ (partagiê ren que de façon anonima, pouents pas ordonâs)
@@ -3037,13 +3042,13 @@ frp:
       points: 'Pouents :'
       start_coordinates: 'Coordonâyes de dèpârt :'
       coordinates_html: '%{latitude} ; %{longitude}'
-      map: mapa
-      edit: changiér
+      map: Afichiér l'emplacement sur la mapa
+      edit: Uvrir dens l'èditor
       owner: 'Propriètèro :'
       description: 'Dèscripcion :'
       tags: 'Balises :'
       none: Nion
-      edit_trace: Changiér ceta trace
+      edit_trace: Modifiar los dètalys de la mârca
       delete_trace: Suprimar ceta trace
       trace_not_found: Trace pas trovâye !
       visibility: Visibilitât
@@ -3055,8 +3060,8 @@ frp:
         other: '%{count} pouents'
       more: més
       trace_details: Vêre los dètalys de la trace
-      view_map: Vêre la mapa
-      edit_map: Changiér la mapa
+      view_map: Afichiér l'emplacement sur la mapa
+      edit_map: Uvrir dens l'èditor
       public: PUBLICA
       identifiable: IDENTIFIÂBLA
       private: PRIVÂYE
@@ -3234,9 +3239,8 @@ frp:
       tab_title: S'encartar
       signup_to_authorize_html: Sè branchiér avouéc OpenStreetMap por arrevar a %{client_app_name}.
       no_auto_account_create: Nos ans pas pu vos crèar de compto ôtomaticament.
-      please_contact_support_html: Mèrci de contactar lo %{support_link} por maneyér
-        la crèacion d'un compto - nos èproverens de trètar la demanda tant rapidament
-        que possiblo.
+      please_contact_support_html: Mèrci de contactar lo %{support_link} por maneyance
+        - nos èproverens de trètar la demanda tant rapidament que possiblo.
       support: assistance
       about:
         header: Libro pués modifiâblo.
@@ -3267,6 +3271,7 @@ frp:
           por més d'enformacions.
       or: ou ben
       use external auth: ou sè branchiér avouéc un sèrviço tièrs
+      verify_human: Vèrifiâd que vos étes un humen
     no_such_user:
       title: Cét(a) usanciér(e) ègziste pas
       heading: L'usanciér(e) « %{user} » ègziste pas
@@ -3325,10 +3330,26 @@ frp:
       change_image: Changiér l'émâge
       edit_company: Changiér l'entreprêsa
       edit_location: Changiér lo luè
-      edit_heatmap: Configurar la mapa de chalor
+      edit_contribution_calendar: Configurar lo calendriér de contribucions
       contributions:
         one: Una contribucion pendent l'an passâ
         other: '%{count} contribucions pendent l''an passâ'
+      title:
+        administrator: O est un administrator ou una administratrice
+        moderator: O est un modèrator ou una modèratrice
+        importer: O est un importator
+      grant:
+        administrator: Acordar l'accès administrator
+        moderator: Acordar l'accès modèrator
+        importer: Acordar lo drêt d'emportacion
+        are_you_sure: Vos étes sûr de volêr acordar lo rolo « %{role} » a l'usanciér(e)
+          « %{name} » ?
+      revoke:
+        administrator: Acordar l'accès administrator
+        moderator: Rèvocar l'accès modèrator
+        importer: Rèvocar lo drêt d'emportacion
+        are_you_sure: Vos étes sûr de volêr rèvocar lo rolo « %{role} » a l'usanciér(e)
+          « %{name} » ?
     sidebar_section:
       home_location: Luè de rèsidence
       company: Entreprêsa
@@ -3426,23 +3447,6 @@ frp:
       option_2: Se vos éd ja un compto, vos pouede vos y reliyér avouéc voutron nom
         d'usanciér(e) et voutron constresegno, pués associyér lo compto avouéc voutron
         identifeyent dens voutres prèferences d'usanciér(e).
-    role_icons:
-      title:
-        administrator: O est un administrator ou una administratrice
-        moderator: O est un modèrator ou una modèratrice
-        importer: O est un importator
-      grant:
-        administrator: Acordar l'accès administrator
-        moderator: Acordar l'accès modèrator
-        importer: Acordar lo drêt d'emportacion
-        are_you_sure: Vos étes sûr de volêr acordar lo rolo « %{role} » a l'usanciér(e)
-          « %{name} » ?
-      revoke:
-        administrator: Acordar l'accès administrator
-        moderator: Rèvocar l'accès modèrator
-        importer: Rèvocar lo drêt d'emportacion
-        are_you_sure: Vos étes sûr de volêr rèvocar lo rolo « %{role} » a l'usanciér(e)
-          « %{name} » ?
   user_role:
     filter:
       not_a_role: « %{role} » est pas un rolo valido.
@@ -3670,14 +3674,18 @@ frp:
       tooltip: Lègenda
       tooltip_disabled: La lègenda est pas disponibla por ceta cuche
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Repèro sur la mapa
       popup:
         close: Cllôre
-      zoom:
-        in: S'aprochiér
-        out: S'èluegnér
-      locate:
-        title: Afichiér mon emplacement
-        not_available: Localisacion pas disponibla
+      navigation_control:
+        zoom_in: S'aprochiér
+        zoom_out: S'èluegnér
+      geolocate_control:
+        find_my_location: Afichiér mon emplacement
+        location_not_available: Localisacion pas disponibla
         metersPopup:
           one: Vos éte a muens de %{count} mètro de cét pouent
           other: Vos éte a muens de %{count} mètros de cét pouent
@@ -3829,7 +3837,7 @@ frp:
     home:
       marker_title: Luè de rèsidence
       not_set: Lo luè de rèsidence est pas dèfeni por voutron compto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Gins de contribucions lo %{date}
         contributions:

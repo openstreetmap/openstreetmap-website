@@ -207,7 +207,7 @@ module Api
       node1 = create(:node)
       node2 = create(:node)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <way changeset='#{changeset.id}'>
@@ -280,7 +280,7 @@ module Api
     end
 
     def test_create_with_missing_node_by_private_user
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <way changeset='#{changeset.id}'>
@@ -296,7 +296,7 @@ module Api
     end
 
     def test_create_without_nodes_by_private_user
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <way changeset='#{changeset.id}' />
@@ -312,7 +312,7 @@ module Api
     def test_create_in_closed_changeset_by_private_user
       node = create(:node)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <way changeset='#{changeset.id}'>
@@ -399,7 +399,7 @@ module Api
     def test_create_with_duplicate_tags_by_private_user
       node = create(:node)
 
-      with_unchanging_request([:data_public => false]) do |headers, changeset|
+      with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
         osm = <<~OSM
           <osm>
             <way changeset='#{changeset.id}'>
@@ -479,7 +479,7 @@ module Api
 
     def test_destroy_without_payload_by_private_user
       with_unchanging(:way) do |way|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           delete api_way_path(way), :headers => headers
 
           assert_response :forbidden
@@ -489,7 +489,7 @@ module Api
 
     def test_destroy_without_changeset_id_by_private_user
       with_unchanging(:way) do |way|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           osm = "<osm><way id='#{way.id}'/></osm>"
 
           delete api_way_path(way), :params => osm, :headers => headers
@@ -501,7 +501,7 @@ module Api
 
     def test_destroy_in_closed_changeset_by_private_user
       with_unchanging(:way) do |way|
-        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }], [:closed]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -514,7 +514,7 @@ module Api
 
     def test_destroy_in_missing_changeset_by_private_user
       with_unchanging(:way) do |way|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, 0
 
@@ -527,7 +527,7 @@ module Api
 
     def test_destroy_by_private_user
       with_unchanging(:way) do |way|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -540,7 +540,7 @@ module Api
 
     def test_destroy_deleted_way_by_private_user
       with_unchanging(:way, :deleted) do |way|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -555,7 +555,7 @@ module Api
       with_unchanging(:way) do |way|
         create(:relation_member, :member => way)
 
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -567,7 +567,7 @@ module Api
     end
 
     def test_destroy_missing_way_by_private_user
-      with_unchanging_request([:data_public => false]) do |headers|
+      with_unchanging_request([{ :data_public => false }]) do |headers|
         delete api_way_path(0), :headers => headers
 
         assert_response :forbidden
@@ -706,7 +706,7 @@ module Api
       with_unchanging(:way_with_nodes) do |way|
         other_user = create(:user)
 
-        with_unchanging_request([:data_public => false], [:user => other_user]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }], [{ :user => other_user }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -719,7 +719,7 @@ module Api
 
     def test_update_in_closed_changeset_by_private_user
       with_unchanging(:way_with_nodes) do |way|
-        with_unchanging_request([:data_public => false], [:closed]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }], [:closed]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -732,7 +732,7 @@ module Api
 
     def test_update_in_missing_changeset_by_private_user
       with_unchanging(:way_with_nodes) do |way|
-        with_unchanging_request([:data_public => false]) do |headers|
+        with_unchanging_request([{ :data_public => false }]) do |headers|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, 0
 
@@ -748,7 +748,7 @@ module Api
         node = create(:node)
         create(:way_node, :way => way, :node => node)
 
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = xml_replace_node osm_xml, node.id, 9999
           osm_xml = update_changeset osm_xml, changeset.id
@@ -766,7 +766,7 @@ module Api
         deleted_node = create(:node, :deleted)
         create(:way_node, :way => way, :node => node)
 
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = xml_replace_node osm_xml, node.id, deleted_node.id
           osm_xml = update_changeset osm_xml, changeset.id
@@ -780,7 +780,7 @@ module Api
 
     def test_update_by_private_user
       with_unchanging(:way_with_nodes) do |way|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -795,7 +795,7 @@ module Api
       with_unchanging(:way_with_nodes) do |way|
         other_user = create(:user)
 
-        with_unchanging_request([], [:user => other_user]) do |headers, changeset|
+        with_unchanging_request([], [{ :user => other_user }]) do |headers, changeset|
           osm_xml = xml_for_way way
           osm_xml = update_changeset osm_xml, changeset.id
 
@@ -956,7 +956,7 @@ module Api
 
     def test_update_with_new_tags_by_private_user
       with_unchanging(:way_with_nodes, :nodes_count => 2) do |way|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           tag_xml = XML::Node.new("tag")
           tag_xml["k"] = "new"
           tag_xml["v"] = "yes"
@@ -1000,7 +1000,7 @@ module Api
       with_unchanging(:way_with_nodes) do |way|
         create(:way_tag, :way => way, :k => "key_to_duplicate", :v => "value_to_duplicate")
 
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           tag_xml = XML::Node.new("tag")
           tag_xml["k"] = "key_to_duplicate"
           tag_xml["v"] = "value_to_duplicate"
@@ -1039,7 +1039,7 @@ module Api
 
     def test_update_with_new_duplicate_tags_by_private_user
       with_unchanging(:way_with_nodes) do |way|
-        with_unchanging_request([:data_public => false]) do |headers, changeset|
+        with_unchanging_request([{ :data_public => false }]) do |headers, changeset|
           tag_xml = XML::Node.new("tag")
           tag_xml["k"] = "i_am_a_duplicate"
           tag_xml["v"] = "foobar"

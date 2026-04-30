@@ -1,4 +1,6 @@
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<%# locals: (title:, opengraph_properties:) %>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <% [57, 60, 72, 76, 114, 120, 144, 152, 180].each do |size| -%>
 <%= favicon_link_tag "apple-touch-icon-#{size}x#{size}.png", :rel => "apple-touch-icon", :sizes => "#{size}x#{size}", :type => "image/png" %>
@@ -22,7 +24,7 @@
 <% end -%>
 <%= tag.link :rel => "search", :type => "application/opensearchdescription+xml", :title => t(".openstreetmap_search"), :href => asset_path("osm.xml") %>
 <%= tag.meta :name => "description", :content => t("layouts.intro_text") %>
-<%= opengraph_tags(@title, @opengraph_properties || {}) %>
+<%= opengraph_tags(title, opengraph_properties || {}) %>
 <% if flash[:matomo_goal] -%>
 <%= tag.meta :name => "matomo-goal", :content => flash[:matomo_goal] %>
 <% end -%>

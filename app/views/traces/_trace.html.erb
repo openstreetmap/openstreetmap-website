@@ -1,3 +1,5 @@
+<%# locals: (trace:) %>
+
 <tr>
   <td>
     <% if Settings.status != "gpx_offline" %>
@@ -12,7 +14,7 @@
   </td>
   <td>
     <ul class="list-inline mb-0">
-      <li class="list-inline-item">
+      <li class="text-break list-inline-item">
         <%= link_to trace.name, show_trace_path(trace.user, trace) %>
       </li>
 
@@ -23,11 +25,8 @@
       <% end %>
 
       <li class="list-inline-item">
-        <% badge_class = case trace.visibility
-                         when "public", "identifiable" then "success"
-                         else "danger"
-                         end %>
-        <span class="badge text-bg-<%= badge_class %>"><%= t(".#{trace.visibility}") %></span>
+        <%= tag.span t(".#{trace.visibility}"),
+                     :class => "badge text-bg-#{%w[public identifiable].include?(trace.visibility) ? 'success' : 'danger'}" %>
       </li>
     </ul>
     <p class="text-body-secondary mb-0">

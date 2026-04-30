@@ -125,8 +125,8 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
     mapViewPixelBounds.max.y += mapViewExpansion;
 
     for (const changeset of this._changesets.values()) {
-      const changesetNorthWestLatLng = L.latLng(changeset.bbox.maxlat, changeset.bbox.minlon),
-            changesetSouthEastLatLng = L.latLng(changeset.bbox.minlat, changeset.bbox.maxlon),
+      const changesetNorthWestLatLng = { lat: changeset.bbox.maxlat, lng: changeset.bbox.minlon },
+            changesetSouthEastLatLng = { lat: changeset.bbox.minlat, lng: changeset.bbox.maxlon },
             changesetCenterLng = (changesetNorthWestLatLng.lng + changesetSouthEastLatLng.lng) / 2,
             shiftInWorldCircumferences = Math.round((changesetCenterLng - mapViewCenterLng) / 360);
 

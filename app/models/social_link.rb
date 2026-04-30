@@ -22,10 +22,11 @@
 class SocialLink < ApplicationRecord
   belongs_to :user
 
-  validates :url, :format => { :with => %r{\A(https?://.+|@([a-zA-Z0-9_]+)@([\w\-.]+))\z}, :message => :http_parse_error }
+  validates :url, :format => { :with => %r{\A(https?://.+|@([a-zA-Z0-9_]+)@([\w\-.]+))\z}, :message => :http_parse_error }, :presence => true
 
   URL_PATTERNS = {
     :bluesky => %r{\Ahttps?://(?:www\.)?bsky\.app/profile/([a-zA-Z0-9._-]+)},
+    :codeberg => %r{\Ahttps?://(?:www\.)?codeberg\.org/([A-Za-z0-9_-]+)},
     :discord => %r{\Ahttps?://(?:www\.)?discord\.com/users/(\d+)},
     :facebook => %r{\Ahttps?://(?:www\.)?facebook\.com/([a-zA-Z0-9.]+)},
     :flickr => %r{\Ahttps?://(?:www\.)?flickr\.com/people/([a-zA-Z0-9@._-]+)},

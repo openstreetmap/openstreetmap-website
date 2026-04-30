@@ -29,13 +29,14 @@ gem "jbuilder", "~> 2.7"
 gem "bootsnap", ">= 1.4.2", :require => false
 
 # Use rtlcss for RTL conversion
-gem "mini_racer", "~> 0.19.1"
+gem "mini_racer", "~> 0.21.0"
 gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
 gem "autoprefixer-rails"
 
 # Use image_optim to optimise images
+gem "image_optim", :github => "tomhughes/image_optim", :ref => "svgo-config"
 gem "image_optim_rails"
 
 # Use argon2 for password hashing
@@ -114,8 +115,8 @@ gem "maxminddb"
 gem "rotp"
 
 # Load memcache client in case we are using it
-gem "connection_pool", "< 3.0.0"
-gem "dalli"
+gem "connection_pool", "< 4.0.0"
+gem "dalli", "< 6.0.0"
 
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rails-8-1"
@@ -153,6 +154,9 @@ gem "open3"
 # Cryptographic tools
 gem "digest"
 
+# Notifications
+gem "noticed", "~> 3.0.0"
+
 # Gems useful for development
 group :development do
   gem "better_errors"
@@ -160,6 +164,7 @@ group :development do
   gem "danger"
   gem "danger-auto_label"
   gem "debug_inspector"
+  gem "herb"
   gem "i18n-tasks"
   gem "listen"
   gem "overcommit"
@@ -174,7 +179,8 @@ group :test do
   gem "jwt"
   gem "minitest"
   gem "minitest-focus", :require => false
-  gem "puma", "~> 7.1"
+  gem "minitest-mock"
+  gem "puma", "~> 8.0"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
@@ -191,6 +197,7 @@ end
 
 group :development, :test do
   gem "annotaterb"
+  gem "database_consistency"
   gem "factory_bot_rails"
   gem "rackup"
   gem "teaspoon"

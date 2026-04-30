@@ -1,75 +1,39 @@
 # frozen_string_literal: true
 
 module ShareButtonsHelper
-  SHARE_BUTTONS_CONFIG = {
-    :email => "share_button_icons/email.svg",
-    :bluesky => "share_button_icons/bluesky.svg",
-    :facebook => "share_button_icons/facebook.svg",
-    :linkedin => "share_button_icons/linkedin.svg",
-    :mastodon => "share_button_icons/mastodon.svg",
-    :telegram => "share_button_icons/telegram.svg",
-    :x => "share_button_icons/x.svg"
-  }.freeze
+  SHARE_BUTTONS_CONFIG = [
+    { :site => "share", :type => "native", :button => "secondary", :icon => "share-fill", :href => "#text={title}&url={url}" },
+    { :site => "email", :type => "email", :icon => "envelope-fill", :href => "mailto:?subject={title}&body={url}" },
+    { :site => "bluesky", :href => "https://bsky.app/intent/compose?text={title}+{url}" },
+    { :site => "facebook", :href => "https://www.facebook.com/sharer/sharer.php?t={title}&u={url}" },
+    { :site => "linkedin", :href => "https://www.linkedin.com/sharing/share-offsite/?url={url}" },
+    { :site => "mastodon", :href => "https://mastodonshare.com/?text={title}&url={url}" },
+    { :site => "telegram", :href => "https://t.me/share/url?text={title}&url={url}" },
+    { :site => "x", :icon => "twitter-x", :href => "https://x.com/intent/tweet?text={title}&url={url}" }
+  ].freeze
 
   # Generates a set of share buttons based on the specified options.
   def share_buttons(title:, url:)
     tag.div(
       :class => "d-flex gap-1 align-items-end flex-wrap mb-3"
     ) do
-      buttons = [
-        tag.button(:type => "button",
-                   :class => "btn btn-secondary p-1 border-1 rounded-circle",
-                   :title => I18n.t("application.share.share.title"),
-                   :hidden => true,
-                   :data => { :share_type => "native",
-                              :share_text => title,
-                              :share_url => url }) do
-          image_tag("share_button_icons/share.svg", :alt => I18n.t("application.share.share.alt"), :size => 18, :class => "d-block")
-        end
-      ]
-
-      buttons << SHARE_BUTTONS_CONFIG.map do |site, icon|
+      safe_join(SHARE_BUTTONS_CONFIG.map do |share|
         link_options = {
           :rel => "nofollow",
-          :class => "rounded-circle focus-ring",
-          :title => I18n.t("application.share.#{site}.title"),
+          :class => "btn btn-#{share[:button] || share[:site]} px-1 py-0 border-2 rounded-circle focus-ring",
+          :title => I18n.t("application.share.#{share[:site]}.title"),
           :target => "_blank",
-          :data => { :share_type => site == :email ? "email" : "site" }
+          :hidden => share[:type] == "native",
+          :data => { :share_type => share[:type] || "site" }
         }
+        share_url = share[:href]
+                    .gsub("{title}", URI.encode_uri_component(title))
+                    .gsub("{url}", URI.encode_uri_component(url))
 
-        link_to generate_share_url(site, title, url), link_options do
-          image_tag(icon, :alt => I18n.t("application.share.#{site}.alt"), :size => 28)
+        link_to share_url, link_options do
+          tag.i(:class => "bi bi-#{share[:icon] || share[:site]}", :aria => { :label => I18n.t("application.share.#{share[:site]}.alt") })
         end
-      end
-
-      safe_join(buttons, "\n")
-    end
-  end
-
-  private
-
-  def generate_share_url(site, title, url)
-    site = site.to_sym
-    title = URI.encode_uri_component(title)
-    url = URI.encode_uri_component(url)
-
-    case site
-    when :email
-      "mailto:?subject=#{title}&body=#{url}"
-    when :x
-      "https://x.com/intent/tweet?url=#{url}&text=#{title}"
-    when :linkedin
-      "https://www.linkedin.com/sharing/share-offsite/?url=#{url}"
-    when :facebook
-      "https://www.facebook.com/sharer/sharer.php?u=#{url}&t=#{title}"
-    when :mastodon
-      "https://mastodonshare.com/?text=#{title}&url=#{url}"
-    when :telegram
-      "https://t.me/share/url?url=#{url}&text=#{title}"
-    when :bluesky
-      "https://bsky.app/intent/compose?text=#{title}+#{url}"
-    else
-      raise ArgumentError, "Unsupported platform: #{platform}"
+      end, "\n")
     end
   end
 end

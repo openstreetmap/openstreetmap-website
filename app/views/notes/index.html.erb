@@ -24,7 +24,7 @@
   <h4><%= t ".no_notes" %></h4>
 
 <% else %>
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
 
   <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick minus] } %>
 
@@ -42,18 +42,15 @@
   <% @notes.each do |note| -%>
     <tr<% if note.author == @user %> class="table-primary"<% end %>>
       <td>
-        <% if !note.visible?
-             alt_text_key = ".hidden"
-             pin_marker = tag.use :href => "#pin-minus", :color => "gray"
-           elsif note.closed?
-             alt_text_key = ".closed"
-             pin_marker = tag.use :href => "#pin-tick", :color => "var(--marker-green)"
-           else
-             alt_text_key = ".open"
-             pin_marker = tag.use :href => "#pin-cross", :color => "var(--marker-red)"
-           end %>
-        <svg width="25" height="40" alt="<%= t alt_text_key %>">
-          <%= pin_marker %>
+        <% note_marker = if !note.visible?
+                           { :alt_text => ".hidden", :icon => "minus", :color => "gray" }
+                         elsif note.closed?
+                           { :alt_text => ".closed", :icon => "tick", :color => "var(--marker-green)" }
+                         else
+                           { :alt_text => ".open", :icon => "cross", :color => "var(--marker-red)" }
+                         end %>
+        <svg width="25" height="40" alt="<%= t note_marker[:alt_text] %>">
+          <%= tag.use :href => "#pin-#{note_marker[:icon]}", :color => note_marker[:color] %>
         </svg>
       </td>
       <td><%= link_to note.id, note %></td>
@@ -65,6 +62,6 @@
   <% end -%>
   </table>
 
-  <%= render :partial => "notes_paging_nav" %>
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
 
 <% end -%>

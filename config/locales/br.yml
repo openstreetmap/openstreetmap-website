@@ -22,7 +22,7 @@
 br:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y da %H:%M'
@@ -102,19 +102,6 @@ br:
       way_node: Skoulm an hent
       way_tag: Tikedenn an hent
     attributes:
-      client_application:
-        name: Anv (Rekis)
-        url: URL pennañ an arload (Rekis)
-        callback_url: URL gervel en-dro
-        support_url: URL skoazell
-        allow_read_prefs: lenn o fenndibaboù implijer.
-        allow_write_prefs: kemmañ o fenndibaboù implijer.
-        allow_write_diary: skrivit en ho teizlevr ha skrivit evezhiadennoù
-        allow_write_api: kemmañ ar gartenn
-        allow_write_changeset_comments: skrivañ un evezhiadenn diwar-benn ar c'hemmoù
-        allow_read_gpx: lenn o roudoù GPS prevez
-        allow_write_gpx: kas roudoù GPS
-        allow_write_notes: kemmañ an notennoù
       diary_comment:
         body: Korf
       diary_entry:
@@ -309,8 +296,11 @@ br:
         agreed: Asantet hoc'h eus da dermenoù ar c'henlabourer d'an %{date}.
         not_agreed: N'hoc'h eus ket asantet c'hoazh da dermenoù ar c'henlabourer.
         agreed_with_pd: Disklêriet hoc'h eus ivez emañ ho tegasadennoù en domani foran.
+        not_agreed_with_pd: N'ho peus ket disklêriet emañ ho tegasadennoù en domani
+          foran.
         review: Lenn an termenoù
         review_and_accept: Lenn hag asantiñ an termenoù
+        consider_pd: Lakaat en Domani Foran
       terms_of_use:
         heading: Termenoù implij
         agreed: Asantet ho peus d'an termenoù implij d'an %{date}.
@@ -718,8 +708,6 @@ br:
         few: '%{count} evezhiadenn'
         many: '%{count} evezhiadenn'
         other: '%{count} evezhiadenn'
-      comments_label: Evezhiadennoù
-      date_label: Deiziad
   doorkeeper:
     flash:
       applications:
@@ -747,6 +735,9 @@ br:
       title: Fazi an arload
     not_found:
       title: N'eo ket bet kavet ar restr
+  export:
+    show:
+      title: OpenStreetMap Enframmet
   follows:
     show:
       follow:
@@ -757,7 +748,10 @@ br:
         button: Na heuliañ an implijer
     create:
       success: Emaoc'h o heuliañ %{name} bremañ!
+      failed: Hon digarezit, ho reked da heuliañ %{name} n'eo ket deuet a-benn.
       already_followed: Emaoc'h o heuliañ %{name} dija.
+      limit_exceeded: Heuliet ho peus kalz a implijerien nevez zo. Gortozit ur pennadig
+        a-raok klask heuliañ re all.
     destroy:
       success: N'emaoc'h ket o heuliañ %{name} ken.
       not_followed: N'emaoc'h ket o heuliañ %{name}.
@@ -1597,6 +1591,7 @@ br:
       download: Pellgargañ an hentad evel ur restr GeoJSON
       filename: hentad
       directions_courtesy_html: Hent a-berzh %{link}
+      check_demo_html: Muioc'h a vunudoù digant %{link}
   issues:
     index:
       title: Kudennoù
@@ -1649,16 +1644,15 @@ br:
       other_issues_against_this_user: Kudennoù all a sell ouzh an implijer-mañ
       no_other_issues: Kudenn all ebet gant an implijer-mañ.
       comments_on_this_issue: Displegadennoù war ar gudenn-mañ
+      comment_from_html: Evezhiadenn gant %{user_link} war %{comment_created_at}
+      reassign_to_moderators: Adkas ar gudenn d'ar verourien
+      reassign_to_administrators: Adkas ar gudenn d'ar velestrourien
     resolve:
       resolved: Stad ar gudenn zo bet lakaet e "Diskoulmet"
     ignore:
       ignored: Stad ar gudenn zo bet lakaet e "Dianavezet"
     reopen:
       reopened: Stad ar gudenn zo bet lakaet e "Digor"
-    comments:
-      comment_from_html: Evezhiadenn gant %{user_link} war %{comment_created_at}
-      reassign_to_moderators: Adkas ar gudenn d'ar verourien
-      reassign_to_administrators: Adkas ar gudenn d'ar velestrourien
     reports:
       reported_by_html: Disklêriet evel %{category} gant %{user} d'an %{updated_at}
     helper:
@@ -1818,34 +1812,38 @@ br:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Mont da lec'h ar gêr
-    logout: Digevreañ
-    log_in: Kevreañ
-    sign_up: En em enskrivañ
+    layer_info: Titouroù ar gwiskad
     start_mapping: Kregiñ da gartennaouiñ
-    edit: Aozañ
-    history: Istor
-    export: Ezporzhiañ
-    issues: Kudennoù
-    gps_traces: Roudoù GPS
-    user_diaries: Deizlevrioù an implijer
-    edit_with: Kemmañ gant %{editor}
     intro_header: Donemat en OpenStreetMap !
     intro_text: Ur gartenn eus ar bed eo OprenStreetMap, krouet gant tud eveldoc'h
       ha frank hec'h implij dindan un aotre-implij digor.
+    hosting_partners_2024_html: Kemeret eo an herberc'hiañ e karg gant %{fastly},
+      %{corpmembers}, ha %{partners} all.
     partners_corpmembers: Izili an embregerezh OSMF
     partners_partners: Kevelourien
     tou: Termenoù implijout
     nothing_to_preview: N'eus rakwel ebet.
-    help: Skoazell
-    about: Diwar-benn
-    copyright: Gwirioù oberour & Aotre-implijout
-    communities: Kumuniezhioù
     learn_more: Gouzout hiroc'h
-    more: Muioc'h
     header:
+      about: Diwar-benn
+      communities: Kumuniezhioù
+      copyright: Gwirioù oberour & Aotre-implijout
+      edit: Aozañ
+      edit_with: Kemmañ gant %{editor}
+      export: Ezporzhiañ
+      gps_traces: Roudoù GPS
+      help: Skoazell
+      history: Istor
+      home: Mont da lec'h ar gêr
+      issues: Kudennoù
+      log_out: Digevreañ
+      log_in: Kevreañ
+      more: Muioc'h
       select_language: Dibab ar yezh
-      loading: O kargañ...
+      sign_up: En em enskrivañ
+      user_diaries: Deizlevrioù an implijer
+    meta:
+      openstreetmap_search: Klask e-barzh OpenStreetMap
     select_language_button:
       title: Dibab ar yezh
     offline_flash:
@@ -2220,6 +2218,9 @@ br:
       update:
         success: Lec'hiadur ar profil hizivaet.
         failure: N'haller ket hizivaat lec'hiadur ar profil.
+    heatmaps:
+      show:
+        cancel: Nullañ
   sessions:
     new:
       tab_title: Kennaskañ
@@ -2332,6 +2333,8 @@ br:
       legal_1_1_openstreetmap_foundation: Diazezadur OpenStreetMap
       legal_1_1_terms_of_use: Termenoù implij
       legal_1_1_privacy_policy: Politikerezh prevezded
+      legal_attribution_example_film_title: Filmoù
+      legal_attribution_example_tv_title: Skinwel
       legal_2_1_contact_the_osmf: mont e darempred gant diazezadur OSM
       legal_2_2_html: OpenStreetMap, al logo gant al loupenn hag ar State of the Map
         a zo %{registered_trademarks_link}.
@@ -2410,8 +2413,6 @@ br:
         contributors_hr_croatia: Kroatia
         contributors_hr_dgu: Melestradurezh c'heodezek Stad Kroatia
         contributors_hr_open_data_portal: Porched broadel ar roadennoù frank
-        contributors_nl_credit_html: '%{netherlands}: ennañ roadennoù © AND, 2007
-          (%{and_link})'
         contributors_nl_netherlands: Izelvroioù
         contributors_nz_new_zealand: Zeland Nevez
         contributors_nz_linz_data_service: Servij roadennoù LINZ
@@ -3028,6 +3029,28 @@ br:
       change_image: Cheñch skeudenn
       edit_company: Kemmañ an embregerezh
       edit_location: Kemmañ al lec'hiadur
+      contributions:
+        one: '%{count} degasadenn er bloaz-mañ'
+        two: '%{count} zegasadenn er bloaz-mañ'
+        few: '%{count} degasadenn er bloaz-mañ'
+        many: '%{count} degasadenn er bloaz-mañ'
+        other: '%{count} a zegasadennoù er bloaz-mañ'
+      title:
+        administrator: Ur merour eo an implijer-mañ
+        moderator: Un habaskaer eo an implijer-mañ
+        importer: Un enporzhier/ez eo an implijer/ez-mañ
+      grant:
+        administrator: Reiñ ar moned merour
+        moderator: Reiñ ar moned habaskaer
+        importer: Grataat gwirioù enporzhiañ
+        are_you_sure: Ha sur oc'h hoc'h eus c'hoant da reiñ ar roll "%{role}" d'an
+          implijer "%{name}" ?
+      revoke:
+        administrator: Disteurel ar moned merour
+        moderator: Disteurel ar moned habaskaer
+        importer: Lemel ar gwirioù enporzhiañ
+        are_you_sure: Ha sur oc'h hoc'h eus c'hoant da lemel ar roll "%{role}" digant
+          an implijer "%{name}" ?
     sidebar_section:
       home_location: Lec'h annezañ
       company: Embregerezh
@@ -3125,23 +3148,6 @@ br:
       option_2: M'ho peus ur gont dija e c'hallit kevreañ outi en ur implijout hoc'h
         anv implijer hag ho ker-tremen, ha goude-se liammañ ho kont ouzh hoc'h ID
         en ho tibaboù implijer.
-    role_icons:
-      title:
-        administrator: Ur merour eo an implijer-mañ
-        moderator: Un habaskaer eo an implijer-mañ
-        importer: Un enporzhier/ez eo an implijer/ez-mañ
-      grant:
-        administrator: Reiñ ar moned merour
-        moderator: Reiñ ar moned habaskaer
-        importer: Grataat gwirioù enporzhiañ
-        are_you_sure: Ha sur oc'h hoc'h eus c'hoant da reiñ ar roll "%{role}" d'an
-          implijer "%{name}" ?
-      revoke:
-        administrator: Disteurel ar moned merour
-        moderator: Disteurel ar moned habaskaer
-        importer: Lemel ar gwirioù enporzhiañ
-        are_you_sure: Ha sur oc'h hoc'h eus c'hoant da lemel ar roll "%{role}" digant
-          an implijer "%{name}" ?
   user_role:
     filter:
       not_a_role: An neudennad « %{role} » n'eo ket ur roll reizh.
@@ -3369,11 +3375,13 @@ br:
       tooltip: Alc'hwez
       tooltip_disabled: Ne c'haller ket kaout an alc'hwez evit ar gwiskad-mañ
     map:
-      zoom:
-        in: Zoumañ
-        out: Dizoumañ
-      locate:
-        title: Diskouez al lec'h m'emaon
+      popup:
+        close: Serriñ
+      navigation_control:
+        zoom_in: Zoumañ
+        zoom_out: Dizoumañ
+      geolocate_control:
+        find_my_location: Diskouez al lec'h m'emaon
         metersPopup:
           one: Emaoc'h dindan %{count} metr diouzh ar poent-mañ
           two: Emaoc'h dindan %{count} vetr diouzh ar poent-mañ
@@ -3526,7 +3534,7 @@ br:
     home:
       marker_title: Lec'hiadur ma zi
       not_set: N'haller ket kaout lec'hiadur ho ti war ar gont-mañ
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Degasadenn ebet d'an %{date}
         contributions:
@@ -3541,6 +3549,7 @@ br:
     edit:
       id_not_configured:
         title: N'eo ket bet kefluniet an ID
+        body: Sellit ouzh CONFIGURE.md evit gouzout hiroc'h
   redactions:
     edit:
       heading: Aozañ ar skridaozadenn

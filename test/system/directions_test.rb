@@ -24,6 +24,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
   test "swaps route endpoints on reverse button click" do
     visit directions_path
     stub_straight_routing(:start_instruction => "Start popup text")
+    stub_disable_reverse_geocoding
 
     find_by_id("route_from").set("60 30").send_keys :enter
     find_by_id("route_to").set("61 31").send_keys :enter
@@ -92,6 +93,21 @@ class DirectionsSystemTest < ApplicationSystemTestCase
               #{callback_code}
           };
         }
+      });
+    SCRIPT
+  end
+
+  def stub_disable_reverse_geocoding
+    execute_script <<~SCRIPT
+      $(() => {
+        const originalFetch = window.fetch;
+        window.fetch = function(input, init) {
+          if (!input?.url?.startsWith(OSM.NOMINATIM_URL)) return originalFetch.apply(this, arguments);
+          return Promise.resolve(new Response(JSON.stringify({}), {
+            status: 200,
+            headers: { "Content-Type": "application/json" }
+          }));
+        };
       });
     SCRIPT
   end

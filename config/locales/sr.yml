@@ -10,6 +10,8 @@
 # Author: Kizule
 # Author: Macofe
 # Author: Magnumns
+# Author: MaliMrav
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: Milicevic01
 # Author: Nemo bis
@@ -29,6 +31,9 @@
 # Author: Сербијана
 ---
 sr:
+  date:
+    formats:
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y у %H:%M'
@@ -95,18 +100,6 @@ sr:
       way_node: Тачка линије
       way_tag: Ознака линије
     attributes:
-      client_application:
-        name: Име (обавезно)
-        url: Главна адреса апликације (обавезно)
-        callback_url: Повратна адреса
-        support_url: Адреса подршке
-        allow_read_prefs: чита њихове корисничке поставке
-        allow_write_prefs: мења њихове корисничке поставке
-        allow_write_diary: прави дневничке записе и коментарише
-        allow_write_api: мења мапу
-        allow_read_gpx: чита њихове приватне GPS трагове
-        allow_write_gpx: отпрема GPS трагове
-        allow_write_notes: мења белешке
       diary_comment:
         body: Текст
       diary_entry:
@@ -234,6 +227,7 @@ sr:
     providers:
       none: Ниједан
       google: Гугл
+      apple: Apple
       facebook: Фејсбук
       microsoft: Мајкрософт
       github: GitHub
@@ -272,6 +266,8 @@ sr:
         agreed: Прихватили сте нове услове уређивања %{date}.
         agreed_with_pd: Такође се слажете да ваше измене буду у јавном власништву.
         not_agreed_with_pd: Нисте прогласили своје доприносе јавним власништвом.
+      terms_of_use:
+        heading: Услови коришћења
       save changes button: Сачувај промене
       delete_account: Брисање налога...
     go_public:
@@ -390,7 +386,7 @@ sr:
       versions_label: 'Верзије:'
   feature_queries:
     show:
-      title: Информације о објектима
+      title: Шта је овде?
       introduction: Кликните на мапу да бисте пронашли објекте у близини.
       nearby: Објекти у близини
       enclosing: Локација
@@ -825,6 +821,7 @@ sr:
           trunk: Магистрала
           trunk_link: Магистрала
           turning_circle: Кружни ток
+          turning_loop: Кружна петља
           unclassified: Некласификовани пут
           "yes": Пут
         historic:
@@ -1370,10 +1367,12 @@ sr:
     select_language_list:
       search_language: Претрага...
       languages:
+        af: африканс
         gsw: алемански
         ast: астуријски
         az: азерски
         id: индонежански
+        ms: малајски
         bs: бошњачки
         ca: каталонски
         cs: чешки
@@ -1444,34 +1443,36 @@ sr:
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap-а
-    home: Кућа
-    logout: Одјава
-    log_in: Пријава
-    sign_up: Регистрација
     start_mapping: Почни са мапирањем
-    edit: Уреди
-    history: Историја
-    export: Извези
-    issues: Проблеми
-    gps_traces: ГПС трагови
-    user_diaries: Дневници корисника
-    edit_with: Уреди помоћу %{editor}
     intro_header: Добро дошли на OpenStreetMap!
     intro_text: OpenStreetMap је мапа света коју су направили људи попут вас. Слободна
       је за коришћење под отвореном лиценцом.
     hosting_partners_2024_html: Хостинг пружају %{fastly}, %{corpmembers}, и други
       %{partners}.
     partners_partners: партнери
+    terms_of_use: Услови коришћења
     tou: Услови коришћења
     nothing_to_preview: Ништа за преглед.
-    help: Помоћ
-    about: О нама
-    copyright: Ауторска права
-    communities: Заједнице
     learn_more: Детаљније
-    more: Више
     header:
-      loading: Учитавање...
+      about: О нама
+      communities: Заједнице
+      copyright: Ауторска права
+      donate: Донирај
+      edit: Уреди
+      edit_with: Уреди помоћу %{editor}
+      export: Извези
+      gps_traces: ГПС трагови
+      help: Помоћ
+      history: Историја
+      home: Кућа
+      issues: Проблеми
+      log_out: Одјава
+      log_in: Пријава
+      more: Више
+      select_language: Изаберите језик
+      sign_up: Регистрација
+      user_diaries: Дневници корисника
     select_language_button:
       title: Изаберите језик
   user_mailer:
@@ -2115,6 +2116,9 @@ sr:
       custom_dimensions: Постави посебне димензије
       download: Преузми
       downloading: Преузимање...
+  webgl_error_panes:
+    show:
+      read_more_about_webgl: Прочитај више
   traces:
     visibility:
       private: Приватни (приказује се као анонимне, непоређане тачке)
@@ -2156,13 +2160,13 @@ sr:
       points: 'Тачака:'
       start_coordinates: 'Почетна координата:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: мапа
-      edit: уреди
+      map: види локацију на карти
+      edit: отвори у уређивачу
       owner: 'Власник:'
       description: 'Опис:'
       tags: 'Ознаке:'
       none: ништа
-      edit_trace: Уреди овај траг
+      edit_trace: Уреди детаље трага
       delete_trace: Обриши овај траг
       trace_not_found: Траг није пронађен.
       visibility: 'Видљивост:'
@@ -2174,8 +2178,8 @@ sr:
         other: '%{count} чвора'
       more: више
       trace_details: Погледајте детаље о трагу
-      view_map: Погледај карту
-      edit_map: Уреди мапу
+      view_map: Види локацију на карти
+      edit_map: Отвори у уређивачу
       public: ЈАВНИ
       identifiable: МОЖЕ СЕ ПРЕПОЗНАТИ
       private: ПРИВАТНИ
@@ -2354,6 +2358,17 @@ sr:
       edit_description: Уреди опис
       change_image: Промени слику
       edit_location: Уреди локацију
+      title:
+        administrator: Овај корисник је администратор
+        moderator: Овај корисник је уредник
+      grant:
+        administrator: Додели овлашћења администратора
+        moderator: Додели овлашћења уредника
+        are_you_sure: Желите ли да доделите улогу „%{role}“ кориснику %{name}?
+      revoke:
+        administrator: Опозови овлашћења администратора
+        moderator: Опозови овлашћења уредника
+        are_you_sure: Желите ли да одузмете улогу „%{role}“ од корисника %{name}?
     sidebar_section:
       company: Предузеће
     go_public:
@@ -2418,18 +2433,6 @@ sr:
         Ако већ имате налог, можете да се пријавите на свој налог
         коришћењем свог корисничког имена и лозинке, а потом да га повежете
         са својим ID-ом у корисничким подешавањима.
-    role_icons:
-      title:
-        administrator: Овај корисник је администратор
-        moderator: Овај корисник је уредник
-      grant:
-        administrator: Додели овлашћења администратора
-        moderator: Додели овлашћења уредника
-        are_you_sure: Желите ли да доделите улогу „%{role}“ кориснику %{name}?
-      revoke:
-        administrator: Опозови овлашћења администратора
-        moderator: Опозови овлашћења уредника
-        are_you_sure: Желите ли да одузмете улогу „%{role}“ од корисника %{name}?
   user_role:
     filter:
       not_a_role: „%{role}“ није исправна улога.
@@ -2568,14 +2571,16 @@ sr:
       tooltip: Легенда
       tooltip_disabled: Легенда није доступна за овај лејер
     map:
+      map:
+        title: Карта
       popup:
         close: Затвори
-      zoom:
-        in: Увећај
-        out: Умањи
-      locate:
-        title: Прикажи моју позицију
-        not_available: Локација није доступна
+      navigation_control:
+        zoom_in: Увећај
+        zoom_out: Умањи
+      geolocate_control:
+        find_my_location: Прикажи моју позицију
+        location_not_available: Локација није доступна
       base:
         standard: Стандардна
         cycle_map: Бициклистичка мапа
@@ -2596,7 +2601,7 @@ sr:
       edit_disabled_tooltip: Увећајте приказ да бисте уредили мапу
       createnote_tooltip: Додај белешку на карту
       createnote_disabled_tooltip: Увећај да додаш белешку на карту
-      queryfeature_tooltip: Информације о објектима
+      queryfeature_tooltip: Шта је овде?
       queryfeature_disabled_tooltip: Зумирај на информације о објектима
     edit_help: Помери карту и увећај на место које хоћеш да уредиш, затим кликни овде.
     directions:
@@ -2657,7 +2662,7 @@ sr:
       directions_to: Упути довде
       add_note: Додај белешку овде
       show_address: Прикажи адресу
-      query_features: Одлике упита
+      query_features: Шта је овде?
       centre_map: Центрирај мапу овде
     edit:
       id_not_configured:

@@ -139,6 +139,9 @@ fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
 # Endpoints for Wikimedia integration
 wikidata_api_url: "https://www.wikidata.org/w/api.php"
 wikimedia_commons_url: "https://commons.wikimedia.org/wiki/"
+# URL to donation form
+donation_url: "https://supporting.openstreetmap.org/donate/"
+# Linkification rules
 linkify:
   detection_rules:
     - patterns:
@@ -170,11 +173,11 @@ linkify:
       - "@(?<username>\\S+)"
       path_template: "user/\\k<username>"
     - patterns:
-      - "(?<key>[^\"?#<>/\\s]+)=\\*"
+      - "(?<key>[-+,.:;'%()\\p{Word}]+)=\\*"
       path_template: "wiki/Key:\\k<key>"
       host: "https://wiki.openstreetmap.org"
     - patterns:
-      - "(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"
+      - "(?<key>[-+,.:;'%()\\p{Word}]+)=(?<value>[-+,.:;'%()/\\p{Word}]+)"
       path_template: "wiki/Tag:\\k<key>=\\k<value>"
       host: "https://wiki.openstreetmap.org"
   display_rules:
@@ -182,20 +185,16 @@ linkify:
       replacement: "@"
     - pattern: "osm\\.org/(?<type>node|way|relation|changeset|note)/"
       replacement: "\\k<type>/"
-    - pattern: "osm\\.wiki/Key:(?<key>[^\"?#<>/\\s]+)"
+    - pattern: "osm\\.wiki/Key:(?<key>[-+,.:;'%()\\p{Word}]+)"
       replacement: "\\k<key>=*"
-    - pattern: "osm\\.wiki/Tag:(?<key>[^\"?#<>/\\s]+)(?:=|%3D)(?<value>[^\"?#<>\\s]+)"
+    - pattern: "osm\\.wiki/Tag:(?<key>[-+,.:;'%()\\p{Word}]+)(?:=|%3D)(?<value>[-+,.:;'%()/\\p{Word}]+)"
       replacement: "\\k<key>=\\k<value>"
-# Main website hosts to match in linkify
-linkify_hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
-# Shorter host to replace main hosts
-linkify_hosts_replacement: "osm.org"
-# Wiki website hosts to match in linkify
-linkify_wiki_hosts: ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
-# Shorter host to replace wiki hosts
-linkify_wiki_hosts_replacement: "osm.wiki"
-# Regexp for wiki prefix that can be removed
-linkify_wiki_optional_path_prefix: "^/wiki(?=/[A-Z])"
+  normalisation_rules:
+    - hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
+      host_replacement: "osm.org"
+    - hosts : ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
+      host_replacement: "osm.wiki"
+      optional_path_prefix: "^/wiki(?=/[A-Z])"
 # External authentication credentials
 #google_auth_id: ""
 #google_auth_secret: ""
@@ -218,6 +217,7 @@ linkify_wiki_optional_path_prefix: "^/wiki(?=/[A-Z])"
 #tracestrack_key: ""
 # Key for generating TOTP tokens
 #totp_key: ""
+#totp_domain: ""
 # Enforce Content-Security-Policy
 csp_enforce: false
 # URL for reporting Content-Security-Policy violations
@@ -254,3 +254,6 @@ smtp_password: null
 #  -----BEGIN PRIVATE KEY-----
 #  ...
 #  -----END PRIVATE KEY-----
+# Credentials for optional cloudflare turnstile widget
+#turnstile_site_key:
+#turnstile_secret_key:

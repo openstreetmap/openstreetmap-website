@@ -7,8 +7,8 @@
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
 Rails.application.configure do
-  connect_src = [:self, "tile.openstreetmap.org"]
-  img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "*.tile.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
+  connect_src = [:self, "tile.openstreetmap.org", "api.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr", "vector.openstreetmap.org", "api.maptiler.com"]
+  img_src = [:self, :data, "www.gravatar.com", "*.wp.com", "tile.openstreetmap.org", "gps.tile.openstreetmap.org", "api.thunderforest.com", "tile.tracestrack.com", "*.openstreetmap.fr"]
   script_src = [:self]
 
   connect_src << Settings.matomo["location"] if defined?(Settings.matomo)
@@ -29,7 +29,7 @@ Rails.application.configure do
     policy.img_src(*img_src)
     policy.manifest_src(:self)
     policy.media_src(:none)
-    policy.object_src(:self)
+    policy.object_src(:none)
     policy.plugin_types
     policy.script_src(*script_src)
     policy.style_src(:self)

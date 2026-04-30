@@ -4,6 +4,7 @@
 # Author: AlesFiala2002
 # Author: Bilbo
 # Author: Bilykralik16
+# Author: Cevioch
 # Author: Chmee2
 # Author: Cvanca
 # Author: Decamexd
@@ -62,7 +63,7 @@
 cs:
   date:
     formats:
-      heatmap: '%-d. %-m.'
+      contribution_calendar: '%-d. %-m.'
   time:
     formats:
       friendly: '%e. %m. %Y v %H:%M'
@@ -140,19 +141,6 @@ cs:
       way_node: Uzel cesty
       way_tag: Tag cesty
     attributes:
-      client_application:
-        name: Jméno (vyžadováno)
-        url: URL hlavní aplikace (vyžadováno)
-        callback_url: URL pro zpětné volání
-        support_url: URL s podporou
-        allow_read_prefs: číst jejich uživatelské nastavení
-        allow_write_prefs: měnit jejich uživatelské nastavení
-        allow_write_diary: vytvářet deníkové záznamy a komentáře
-        allow_write_api: upravovat mapu
-        allow_write_changeset_comments: komentovat sady změn
-        allow_read_gpx: číst jejich soukromé GPS stopy
-        allow_write_gpx: nahrávat GPS stopy
-        allow_write_notes: měnit poznámky
       diary_comment:
         body: Text
       diary_entry:
@@ -822,8 +810,6 @@ cs:
         many: '%{count} komentáře'
         other: '%{count} komentářů'
       title_label: Deníkový záznam
-      comments_label: Komentáře
-      date_label: Datum
   diary_comments:
     new:
       heading: Přidat komentář do následující diskuse k deníkovému záznamu?
@@ -1310,7 +1296,7 @@ cs:
           sports_centre: Sportovní centrum
           stadium: Stadion
           swimming_pool: Bazén
-          track: Běžecká dráha
+          track: Závodní dráha (nemotorová)
           water_park: Aquapark
           "yes": Volný čas
         lock:
@@ -1700,10 +1686,15 @@ cs:
       border_types:
         arrondissement: Hranice arrondissementu
         borough: Hranice městské části
+        cercle: Hranice kerklu
         city: Hranice města
+        comarca: Hranice comarky
         county: Hranice okresu
+        departement: Hranice departementu
+        department: Hranice departementu
         district: Hranice okresu
         distrito: Hranice okresu
+        freguesia: Hranice freguesie
         local_authority: Hranice místní samosprávy
         municipality: Hranice obce
         municipi: Hranice obce
@@ -1743,6 +1734,7 @@ cs:
       download: Stáhnout trasu jako GeoJSON
       filename: trasa
       directions_courtesy_html: Trasa díky %{link}
+      check_demo_html: Další podrobnosti má %{link}
   issues:
     index:
       title: Problémy
@@ -1799,16 +1791,15 @@ cs:
       other_issues_against_this_user: Další hlášení týkající se tohoto uživatele
       no_other_issues: Žádná další hlášení týkající se tohoto uživatele.
       comments_on_this_issue: Komentáře k problému
+      comment_from_html: Komentář od %{user_link} z %{comment_created_at}
+      reassign_to_moderators: Znovu přiřadit problém moderátorům
+      reassign_to_administrators: Znovu přiřadit problém administrátorům
     resolve:
       resolved: Stav problému změněn na „Vyřešeno”
     ignore:
       ignored: Stav problému změněn na „Ignorováno”
     reopen:
       reopened: Stav problému změněn na „Otevřeno”
-    comments:
-      comment_from_html: Komentář od %{user_link} z %{comment_created_at}
-      reassign_to_moderators: Znovu přiřadit problém moderátorům
-      reassign_to_administrators: Znovu přiřadit problém administrátorům
     reports:
       reported_by_html: Nahlášeno jako %{category} uživatelem %{user} v %{updated_at}
     helper:
@@ -1824,6 +1815,8 @@ cs:
           %{datetime_updated}'
         user_html: Uživatel %{title} vytvořil dne %{datetime_created}
     reporters:
+      index:
+        title: Problém %{issue_id} Reportéři
       reporters:
         more_reporters: a %{count} dalších
   issue_comments:
@@ -1869,8 +1862,8 @@ cs:
       search_language: Hledat…
       languages:
         af: afrikánština
-        gsw: Alemanština
-        frp: Arpitan
+        gsw: alemanština
+        frp: franko-provensálština
         ast: asturština
         az: Ázerbájdžánština
         id: indonéština
@@ -1903,17 +1896,18 @@ cs:
         is: islandština
         it: italština
         gcf: Guadeloupská kreolština
-        ku-Latn: Kurdština (latinka)
+        ku-Latn: kurdština (latinka)
         lv: Lotyšština
         lb: Lucemburština
+        lkt: lakotština
         lt: Litevština
         hu: maďarština
-        fit: Tornedalen finština
+        fit: tornedalská finština
         nl: holandština
         nb: Norština (bokmål)
         nn: Norština nynorsk
         oc: Okcitánština
-        nds: Dolní němčina
+        nds: dolnoněmčina
         pl: polština
         pt-PT: portugalština
         pt: portugalština (Brazílie)
@@ -1951,10 +1945,10 @@ cs:
         yi: jidiš
         he: hebrejština
         ar: arabština
-        skr-arab: Saraiki
+        skr-arab: siriačtina
         fa: perština
-        arz: Egyptská arabština
-        pnb: Západní pandžábština
+        arz: egyptská arabština
+        pnb: západní paňdžábština
         ps: paštština
         nqo: N'Ko
         ne: nepálština
@@ -1968,11 +1962,11 @@ cs:
         kn: kannadština
         th: thajština
         my: barmština
-        shn: Shan
+        shn: šanština
         xmf: mingrelština
         ka: gruzínština
         km: khmerština
-        sat: Santali
+        sat: santálština
         zh-CN: čínština (zjednodušená)
         zh-TW: čínština (tradiční)
         zh-HK: čínština (Hongkong)
@@ -1981,18 +1975,8 @@ cs:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Přejít domů
-    logout: Odhlásit se
-    log_in: Přihlásit se
-    sign_up: Zaregistrovat se
+    layer_info: Informace o vrstvě
     start_mapping: Začít mapovat
-    edit: Upravit
-    history: Historie
-    export: Export
-    issues: Problémy
-    gps_traces: GPS stopy
-    user_diaries: Deníky uživatelů
-    edit_with: Upravit pomocí %{editor}
     intro_header: Vítejte v OpenStreetMap!
     intro_text: OpenStreetMap je mapa světa, vytvořená lidmi jako vy a volně využitelná
       pod otevřenou licencí.
@@ -2000,17 +1984,31 @@ cs:
       %{partners}.
     partners_corpmembers: firemní členové OSMF
     partners_partners: partneři
+    welcome_tou_notice_html: Používáním těchto webových stránek nebo další infrastruktury
+      poskytované OpenStreetMap Foundation souhlasíte s %{terms_link}.
+    terms_of_use: Podmínkami užití
     tou: Podmínky užití
     nothing_to_preview: Není k čemu zobrazovat náhled.
-    help: Nápověda
-    about: O projektu
-    copyright: Autorská práva
-    communities: Komunity
     learn_more: Více informací
-    more: Další
     header:
+      about: O projektu
+      communities: Komunity
+      copyright: Autorská práva
+      donate: Darujte
+      edit: Upravit
+      edit_with: Upravit pomocí %{editor}
+      export: Export
+      gps_traces: GPS stopy
+      help: Nápověda
+      history: Historie
+      home: Přejít domů
+      issues: Problémy
+      log_out: Odhlásit se
+      log_in: Přihlásit se
+      more: Další
       select_language: Zvolte si jazyk
-      loading: Načítání...
+      sign_up: Zaregistrovat se
+      user_diaries: Deníky uživatelů
     meta:
       openstreetmap_search: Vyhledávání v OpenStreetMap
     select_language_button:
@@ -2354,7 +2352,7 @@ cs:
         image: Obrázek
         company: Firma
         location: Poloha
-        heatmap: Teplotní mapa
+        contribution_calendar: Kalendář příspěvků
     descriptions:
       show:
         title: Upravit profil
@@ -2415,13 +2413,14 @@ cs:
         failure: Nepodařilo se aktualizovat profilovou polohu.
     heatmaps:
       show:
-        title: Konfigurace teplotní mapy
-        show_heatmap_in_public: Zobrazit teplotní mapu na stránce vašeho profilu
-        save: Aktualizace konfigurace teplotní mapy
-        cancel: Zrušit
+        title: Konfigurace kalendáře příspěvků
+        show_contribution_calendar_in_public: Na stránce vašeho profilu zobrazovat
+          kalendář příspěvků
+        save: Uložit konfiguraci kalendáře příspěvků
+        cancel: Storno
       update:
-        success: Teplotní mapa aktualizována.
-        failure: Nepodařilo se aktualizovat teplotní mapu.
+        success: Kalendář příspěvků aktualizován.
+        failure: Nepodařilo se aktualizovat kalendář příspěvků.
   sessions:
     new:
       tab_title: Přihlášení
@@ -2704,8 +2703,8 @@ cs:
         contributors_hr_croatia: Chorvatsko
         contributors_hr_dgu: Státní geodetické správy Chorvatska
         contributors_hr_open_data_portal: Národního portálu otevřených dat
-        contributors_nl_credit_html: '%{netherlands}: Obsahuje data &copy; AND, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Obsahuje data &copy; AND,
+          2007'
         contributors_nl_netherlands: Nizozemsko
         contributors_nz_credit_html: '%{new_zealand}: Obsahuje data získaná z %{linz_data_service_link}
           a licencovaná pro opětovné použití pod licencí %{cc_by_link}.'
@@ -3062,6 +3061,15 @@ cs:
       image_dimensions_html: Obrázek bude ukazovat vrstvu %{layer} v %{width} × %{height}
       download: Stáhnout
       downloading: Stahování…
+  webgl_error_panes:
+    show:
+      compact_message: Pro tuto mapu je vyžadováno WebGL.
+      description_html: Je nám líto, ale vypadá to, že %{your_browser_does_not_support_webgl},
+        technologii pro vykreslování 3D grafiky na webu.
+      your_browser_does_not_support_webgl: váš prohlížeč nepodporuje WebGL
+      webgl_is_required_for_this_map: Pro zobrazení této mapy je vyžadováno WebGL.
+      read_more_about_webgl: Více informací
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/Cs:This_map_requires_WebGL
   traces:
     visibility:
       private: Soukromá (veřejně dostupná jedině jako anonymní, neuspořádané body)
@@ -3110,13 +3118,13 @@ cs:
       points: 'Bodů:'
       start_coordinates: 'Souřadnice začátku:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: upravit
+      map: zobrazit místo na mapě
+      edit: otevřít v editoru
       owner: 'Vlastník:'
       description: 'Popis:'
       tags: 'Štítky:'
       none: Žádné
-      edit_trace: Upravit tuto stopu
+      edit_trace: Upravit podrobnosti stopy
       delete_trace: Smazat tuto stopu
       trace_not_found: Stopa nenalezena!
       visibility: 'Viditelnost:'
@@ -3130,8 +3138,8 @@ cs:
         other: '%{count} bodů'
       more: více
       trace_details: Zobrazit podrobnosti stopy
-      view_map: Zobrazit mapu
-      edit_map: Upravit mapu
+      view_map: Zobrazit místo na mapě
+      edit_map: Otevřít v editoru
       public: VEŘEJNÁ
       identifiable: IDENTIFIKOVATELNÁ
       private: SOUKROMÁ
@@ -3310,8 +3318,8 @@ cs:
         k %{client_app_name}.
       no_auto_account_create: Bohužel za vás momentálně nejsme schopni vytvořit účet
         automaticky.
-      please_contact_support_html: Kontaktujte prosím %{support_link} a domluvte se
-        na vytvoření účtu – pokusíme se žádost vyřídit co nejrychleji.
+      please_contact_support_html: Pro pomoc prosím kontaktujte %{support_link} –
+        pokusíme se žádost vyřídit co nejrychleji.
       support: podporu
       about:
         header: Svobodná a editovatelná.
@@ -3342,6 +3350,10 @@ cs:
           s našimi %{privacy_policy_link}.
       or: nebo
       use external auth: nebo se přihlaste prostřednictvím třetí strany
+      verify_human: Ověřte, že jste člověk
+    create:
+      not_human: Bohužel se nám nepodařilo ověřit, že jste člověk. Pro vytváření nových
+        účtů je to vyžadováno.
     no_such_user:
       title: Uživatel nenalezen
       heading: Uživatel %{user} neexistuje
@@ -3400,12 +3412,26 @@ cs:
       change_image: Změnit obrázek
       edit_company: Upravit firmu
       edit_location: Upravit polohu
-      edit_heatmap: Konfigurace teplotní mapy
+      edit_contribution_calendar: Konfigurace kalendáře příspěvků
       contributions:
         one: '%{count} příspěvek za poslední rok'
         few: '%{count} příspěvky za poslední rok'
         many: '%{count} příspěvku za poslední rok'
         other: '%{count} příspěvků za poslední rok'
+      title:
+        administrator: Tento uživatel je správce
+        moderator: Tento uživatel je moderátor
+        importer: Tento uživatel je importér
+      grant:
+        administrator: Přidělit práva správce
+        moderator: Přidělit práva moderátora
+        importer: Udělit přístup importérům
+        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
+      revoke:
+        administrator: Odebrat práva správce
+        moderator: Odebrat práva moderátora
+        importer: Zrušit přístup importéra
+        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
     sidebar_section:
       home_location: Poloha domova
       company: Firma
@@ -3505,21 +3531,6 @@ cs:
         níže zobrazeného formuláře.
       option_2: Pokud již účet máte, můžete se k němu přihlásit pomocí svého uživatelského
         jména a hesla a poté v uživatelském nastavení účet propojit s vaším ID.
-    role_icons:
-      title:
-        administrator: Tento uživatel je správce
-        moderator: Tento uživatel je moderátor
-        importer: Tento uživatel je importér
-      grant:
-        administrator: Přidělit práva správce
-        moderator: Přidělit práva moderátora
-        importer: Udělit přístup importérům
-        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
-      revoke:
-        administrator: Odebrat práva správce
-        moderator: Odebrat práva moderátora
-        importer: Zrušit přístup importéra
-        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_role:
     filter:
       not_a_role: Řetězec „%{role}“ neoznačuje platnou roli.
@@ -3755,14 +3766,18 @@ cs:
       tooltip: Legenda
       tooltip_disabled: Pro tuto vrstvu není legenda dostupná
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Značka na mapě
       popup:
         close: Zavřít
-      zoom:
-        in: Přiblížit
-        out: Oddálit
-      locate:
-        title: Ukázat moji polohu
-        not_available: Poloha není k dispozici
+      navigation_control:
+        zoom_in: Přiblížit
+        zoom_out: Oddálit
+      geolocate_control:
+        find_my_location: Ukázat moji polohu
+        location_not_available: Poloha není k dispozici
         metersPopup:
           one: Od tohoto bodu jste méně než %{count} metr
           few: Od tohoto bodu jste méně než %{count} metry
@@ -3773,13 +3788,15 @@ cs:
           few: Od tohoto bodu jste méně než %{count} stopy
           many: Od tohoto bodu jste méně než %{count} stopy
           other: Od tohoto bodu jste méně než %{count} stop
+      attribution_control:
+        toggle_attribution: Přepnout uvedení zdroje
       base:
         standard: Standardní
         cycle_map: Cyklomapa
         transport_map: Dopravní mapa
         tracestracktop_topo: Tracestrack Topo
         hot: Humanitární
-        shortbread: Drobečky
+        shortbread: Shortbread
         openmaptiles_osm: MapTiler OMT
       layers:
         header: Mapové vrstvy
@@ -3918,7 +3935,7 @@ cs:
     home:
       marker_title: Poloha mého domova
       not_set: Ve vašem účtu není nastavena poloha domova
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Dne %{date} žádné úpravy
         contributions:

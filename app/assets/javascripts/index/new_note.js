@@ -120,7 +120,7 @@ OSM.NewNote = function (map) {
     let markerLatlng;
 
     if (params.has("lat") && params.has("lon")) {
-      markerLatlng = L.latLng(params.get("lat"), params.get("lon"));
+      markerLatlng = { lat: params.get("lat"), lng: params.get("lon") };
     } else {
       markerLatlng = map.getCenter();
     }
@@ -149,7 +149,7 @@ OSM.NewNote = function (map) {
       createNote(location, text, (feature) => {
         if (typeof OSM.user === "undefined") {
           const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
-          OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 30 });
+          OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
         }
         content.find("textarea").val("");
         addCreatedNoteMarker(feature);

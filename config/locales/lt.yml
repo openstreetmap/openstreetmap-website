@@ -13,6 +13,7 @@
 # Author: Macofe
 # Author: Mantak111
 # Author: Manvydasz
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: Matasg
 # Author: McDutchie
@@ -101,18 +102,6 @@ lt:
       way_node: Kelio mazgas
       way_tag: Kelio žyma
     attributes:
-      client_application:
-        name: Vardas (Privalomas)
-        url: Pagrindinis aplikacijos URL (Privalomas)
-        callback_url: Atgalinio ryšio nuoroda
-        support_url: Palaikymo URL
-        allow_read_prefs: peržiūrėti jų naudotojo nustatymus
-        allow_write_prefs: redaguoti jų naudotojo nustatymus
-        allow_write_diary: kurti dienoraščio įrašus, komentarus ir susirasti draugų
-        allow_write_api: redaguoti žemėlapį
-        allow_read_gpx: peržiūrėti jų privačius GPS pėdsakus
-        allow_write_gpx: įkelti GPS pėdsakus
-        allow_write_notes: redaguoti užrašus
       diary_comment:
         body: Tekstas
       diary_entry:
@@ -1515,14 +1504,13 @@ lt:
       other_issues_against_this_user: Kiti pranešimai rieš šį naudotoją
       no_other_issues: Nėra kitų pranešimų prieš šį naudotoją.
       comments_on_this_issue: Šios problemos komentarai
+      comment_from_html: '%{user_link} komentavo %{comment_created_at}'
     resolve:
       resolved: Problemos būsena pakeista į „Išspręsta“
     ignore:
       ignored: Problemos būsena pakeista į „Ignoruota“
     reopen:
       reopened: Problemos būsena pakeista į „Atvira“
-    comments:
-      comment_from_html: '%{user_link} komentavo %{comment_created_at}'
     reports:
       reported_by_html: Pranešta kaip %{category} naudotojo %{user} %{updated_at}
     helper:
@@ -1572,18 +1560,7 @@ lt:
   layouts:
     logo:
       alt_text: OpenStreetMap logotipas
-    home: Eiti į namų vietą
-    logout: Atsijungti
-    log_in: Prisijungti
-    sign_up: Užsiregistruoti
     start_mapping: Pradėti žymėjimą
-    edit: Keisti
-    history: Istorija
-    export: Eksportuoti
-    issues: Problemos
-    gps_traces: GPS pėdsakai
-    user_diaries: Dienoraščiai
-    edit_with: Redaguoti su %{editor}
     intro_header: Sveiki atvykę į OpenStreetMap!
     intro_text: OpenStreetMap yra pasaulio žemėlapis, kuriamas žmonių, tokių kaip
       jūs. Jis atviras ir laisvas - naudojamas pagal atvirą licenciją.
@@ -1593,12 +1570,24 @@ lt:
     partners_partners: partneriai
     tou: Naudojimo sąlygos
     nothing_to_preview: Nėra ką peržiūrėti.
-    help: Pagalba
-    about: Apie
-    copyright: Teisės ir licencija
-    communities: Bendruomenės
     learn_more: Sužinoti daugiau
-    more: Daugiau
+    header:
+      about: Apie
+      communities: Bendruomenės
+      copyright: Teisės ir licencija
+      edit: Keisti
+      edit_with: Redaguoti su %{editor}
+      export: Eksportuoti
+      gps_traces: GPS pėdsakai
+      help: Pagalba
+      history: Istorija
+      home: Eiti į namų vietą
+      issues: Problemos
+      log_out: Atsijungti
+      log_in: Prisijungti
+      more: Daugiau
+      sign_up: Užsiregistruoti
+      user_diaries: Dienoraščiai
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMap dienoraščio įrašas #%{id}'
@@ -2094,8 +2083,6 @@ lt:
         contributors_hr_croatia: Kroatija
         contributors_hr_dgu: Kroatijos valstybinė geodezijos administracija
         contributors_hr_open_data_portal: Nacionalinis atvirų duomenų portalas
-        contributors_nl_credit_html: '%{netherlands}: Yra &copy; AND duomenų, 2007
-          (%{and_link})'
         contributors_nl_netherlands: Nyderlandai
         contributors_nz_credit_html: |-
           %{new_zealand}: yra duomenų iš %{linz_data_service_link}
@@ -2699,6 +2686,20 @@ lt:
       unsuspend_user: Atšaukti šio naudotojo suspendavimą
       confirm: Patvirtinti
       report: Pranešti apie šį naudotoją
+      title:
+        administrator: Šis naudotojas yra administratorius
+        moderator: Šis naudotojas yra moderatorius
+        importer: Šis naudotojas yra importuotojas
+      grant:
+        administrator: Suteikti administratoriaus teises
+        moderator: Suteikti moderatoriaus teises
+        importer: Suteikti importuotojui prieigą
+        are_you_sure: Ar tikrai norite naudotojui `%{name}' suteikti rolę `%{role}'?
+      revoke:
+        administrator: Atšaukti administratoriaus teises
+        moderator: Atšaukti moderatoriaus teises
+        importer: Atšaukti importuotojo prieigą
+        are_you_sure: Ar tikrai norite atšaukti `%{role}' nuo naudotojo „%{name}“?
     go_public:
       flash success: Nuo šiol visi jūsų pakeitimai bus vieši ir jums leidžiama keisti.
     issued_blocks:
@@ -2762,21 +2763,6 @@ lt:
         Jei jau turite paskyrą, galite prisijungti prie savo paskyros
         naudodami savo naudotojo vardą ir slaptažodį, ir tada susieti paskyrą
         su savo ID, savo naudotojo nustatymuose.
-    role_icons:
-      title:
-        administrator: Šis naudotojas yra administratorius
-        moderator: Šis naudotojas yra moderatorius
-        importer: Šis naudotojas yra importuotojas
-      grant:
-        administrator: Suteikti administratoriaus teises
-        moderator: Suteikti moderatoriaus teises
-        importer: Suteikti importuotojui prieigą
-        are_you_sure: Ar tikrai norite naudotojui `%{name}' suteikti rolę `%{role}'?
-      revoke:
-        administrator: Atšaukti administratoriaus teises
-        moderator: Atšaukti moderatoriaus teises
-        importer: Atšaukti importuotojo prieigą
-        are_you_sure: Ar tikrai norite atšaukti `%{role}' nuo naudotojo „%{name}“?
   user_role:
     filter:
       not_a_role: Eilutė „%{role}“ nėra tinkama rolė.
@@ -2952,11 +2938,11 @@ lt:
       tooltip: Sutartiniai ženklai
       tooltip_disabled: Sutartiniai ženklai neprieinami šiame sluoksnyje
     map:
-      zoom:
-        in: Priartinti
-        out: Nutolinti
-      locate:
-        title: Rodyti mano vietą
+      navigation_control:
+        zoom_in: Priartinti
+        zoom_out: Nutolinti
+      geolocate_control:
+        find_my_location: Rodyti mano vietą
         metersPopup:
           one: Jūs esate %{count} metro atstumu nuo šio taško
           few: Jūs esate %{count} metrų atstumu nuo šio taško

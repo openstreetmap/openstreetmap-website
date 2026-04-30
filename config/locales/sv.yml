@@ -31,7 +31,9 @@
 # Author: Macofe
 # Author: Magol
 # Author: Malmis
+# Author: Maro21
 # Author: Marwin H.H.
+# Author: Michael FOSS
 # Author: Mjälten
 # Author: Modin
 # Author: Myskoxen
@@ -65,7 +67,7 @@
 sv:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y kl. %H:%M'
@@ -130,7 +132,7 @@ sv:
       relation: Relation
       relation_member: Relationsmedlem
       relation_tag: Relationstagg
-      report: Rapportera
+      report: Rapport
       session: Session
       trace: Spår
       tracepoint: Spårpunkt
@@ -142,19 +144,6 @@ sv:
       way_node: Sträcknod
       way_tag: Sträcketagg
     attributes:
-      client_application:
-        name: Namn (krävs)
-        url: Huvudapplikationsadress (obligatorisk)
-        callback_url: Återkopplingsadress
-        support_url: Supportadress
-        allow_read_prefs: läs deras användaralternativ
-        allow_write_prefs: ändra deras användaralternativ
-        allow_write_diary: skapa dagboksinlägg och kommentarer
-        allow_write_api: ändra kartan
-        allow_write_changeset_comments: kommentar på ändringsuppsättning
-        allow_read_gpx: läs deras privata GPS-spår
-        allow_write_gpx: ladda upp GPS-spår
-        allow_write_notes: ändra anteckningar
       diary_comment:
         body: Brödtext
       diary_entry:
@@ -783,8 +772,6 @@ sv:
         one: '%{count} kommentar'
         other: '%{count} kommentarer'
       title_label: Dagboksinlägg
-      comments_label: Kommentarer
-      date_label: Datum
   diary_comments:
     new:
       heading: Lägg en kommentar på följande diskussion om dagboksinlägg?
@@ -1269,7 +1256,7 @@ sv:
           sports_centre: Idrottsanläggning
           stadium: Stadium
           swimming_pool: Simbassäng
-          track: Löparbana
+          track: Löparbana (inte motorsport)
           water_park: Vattenpark
           "yes": Fritid
         lock:
@@ -1565,7 +1552,7 @@ sv:
           pet: Djuraffär
           pet_grooming: Husdjursfrisör
           photo: Fotoaffär
-          seafood: Skaldjur
+          seafood: Fisk och skaldjur
           second_hand: Second hand-butik
           sewing: Sybutik
           shoes: Skoaffär
@@ -1707,6 +1694,7 @@ sv:
       download: Ladda ner rutt som GeoJSON
       filename: rutt
       directions_courtesy_html: Vägbeskrivning med tillstånd av %{link}
+      check_demo_html: Mer information från %{link}
   issues:
     index:
       title: Ärenden
@@ -1759,16 +1747,15 @@ sv:
       other_issues_against_this_user: Andra ärenden mot denna användare
       no_other_issues: Inga andra ärenden mot denna användare.
       comments_on_this_issue: Kommentarer på detta ärende
+      comment_from_html: Kommentar från %{user_link} på %{comment_created_at}
+      reassign_to_moderators: Omtilldela ärenden till moderatorer
+      reassign_to_administrators: Omtilldelar ärenden till administratörer
     resolve:
       resolved: Ärendestatus har ändrats till "Löst"
     ignore:
       ignored: Ärendestatus har ändrats till "Ignoreras"
     reopen:
       reopened: Ärendestatus har ändrats till "Öppen"
-    comments:
-      comment_from_html: Kommentar från %{user_link} på %{comment_created_at}
-      reassign_to_moderators: Omtilldela ärenden till moderatorer
-      reassign_to_administrators: Omtilldelar ärenden till administratörer
     reports:
       reported_by_html: Rapporterades som %{category} av %{user} den %{updated_at}
     helper:
@@ -1868,6 +1855,7 @@ sv:
         ku-Latn: Kurdiska (latin)
         lv: Lettiska
         lb: Luxemburgiska
+        lkt: Lakota
         lt: Litauiska
         hu: Ungerska
         fit: Tornedalens finska
@@ -1943,18 +1931,9 @@ sv:
   layouts:
     logo:
       alt_text: OpenStreetMaps logotyp
-    home: Gå till hemposition
-    logout: Logga ut
-    log_in: Logga in
-    sign_up: Registrera
+    main_navigation: Huvudsida
+    layer_info: Lagerinformation
     start_mapping: Börja kartlägga
-    edit: Redigera
-    history: Historik
-    export: Exportera
-    issues: Ärenden
-    gps_traces: GPS-spår
-    user_diaries: Användardagböcker
-    edit_with: Redigera med %{editor}
     intro_header: Välkommen till OpenStreetMap!
     intro_text: OpenStreetMap är en karta över världen, skapad av människor som du
       och fri att använda under en öppen licens.
@@ -1962,17 +1941,31 @@ sv:
       %{partners}.
     partners_corpmembers: OSMF-företagsmedlemmar
     partners_partners: partners
+    welcome_tou_notice_html: Genom att använda denna webbplats eller annan infrastruktur
+      som tillhandahålls av OpenStreetMap Foundation, godkänner du %{terms_link}.
+    terms_of_use: Användarvillkor
     tou: Användarvillkor
     nothing_to_preview: Ingenting att förhandsvisa.
-    help: Hjälp
-    about: Om
-    copyright: Upphovsrätt
-    communities: Gemenskaper
     learn_more: Läs mer
-    more: Mer
     header:
+      about: Om
+      communities: Gemenskaper
+      copyright: Upphovsrätt
+      donate: Donera
+      edit: Redigera
+      edit_with: Redigera med %{editor}
+      export: Exportera
+      gps_traces: GPS-spår
+      help: Hjälp
+      history: Historik
+      home: Gå till hemposition
+      issues: Ärenden
+      log_out: Logga ut
+      log_in: Logga in
+      more: Mer
       select_language: Välj språk
-      loading: Läser in...
+      sign_up: Registrera
+      user_diaries: Användardagböcker
     meta:
       openstreetmap_search: OpenStreetMap-sökning
     select_language_button:
@@ -2312,7 +2305,7 @@ sv:
         image: Bild
         company: Företag
         location: Plats
-        heatmap: Värmekarta
+        contribution_calendar: Bidragskalender
     descriptions:
       show:
         title: Redigera profil
@@ -2372,13 +2365,13 @@ sv:
         failure: Kunde inte uppdatera profilens plats.
     heatmaps:
       show:
-        title: Konfigurera värmekarta
-        show_heatmap_in_public: Visa värmekartan på din profilsida
-        save: Uppdatera värmekartakonfiguration
+        title: Konfigurera bidragskalender
+        show_contribution_calendar_in_public: Viss bidragskalendern på din profilsida
+        save: Uppdatera bidragskalenderns konfiguration
         cancel: Avbryt
       update:
-        success: Värmekartan uppdaterad.
-        failure: Kunde inte uppdatera värmekartan.
+        success: Bidragskalendern uppdaterad.
+        failure: Bidragskalendern kunde inte uppdateras.
   sessions:
     new:
       tab_title: Logga in
@@ -2586,7 +2579,7 @@ sv:
           skapat en bläddrbar karta, en utskriven karta eller en statisk bild.
           Mer information finns i avsnittet %{attribution_guidelines_link} i %{licensing_requirements_link}.
         credit_3_v2025_requirements_on_how_displayed: krav på hur detta ska visas
-        credit_3_v2025_attribution_guidelines: erkännande riktlinjer
+        credit_3_v2025_attribution_guidelines: erkännanderiktlinjer
         credit_3_v2025_licensing_requirements: licenskraven
         credit_4_v2025_html: |-
           Generellt sett,
@@ -2600,7 +2593,7 @@ sv:
         credit_5_v2025_html: 'I det här exemplet visas erkännande i hörnet av kartan:'
         attribution_example:
           alt: Exempel på hur en webbsida kan ange OpenStreetMap som källa
-          title: Exempel på attribuering.
+          title: Exempel på erkännande
         infringement_title_html: Upphovsrättsintrång
         infringement_1_html: |-
           Bidragsgivare till OSM påminns om att aldrig lägga till data från
@@ -2670,8 +2663,8 @@ sv:
         contributors_hr_croatia: Kroatien
         contributors_hr_dgu: Kroatiens statliga geodatiska förvaltning
         contributors_hr_open_data_portal: Nationella öppen data-portalen
-        contributors_nl_credit_html: '%{netherlands}: Innehåller &copy; AND data,
-          2007 (%{and_link}).'
+        contributors_nl_credit_new_html: '%{netherlands}: Innehåller &copy; OCH data,
+          2007'
         contributors_nl_netherlands: Nederländerna
         contributors_nz_credit_html: |-
           %{new_zealand}: Innehåller data hämtade från %{linz_data_service_link}
@@ -3031,6 +3024,14 @@ sv:
       image_dimensions_html: Bilden kommer visa lager %{layer} på %{width} x %{height}
       download: Ladda ned
       downloading: Laddar ner...
+  webgl_error_panes:
+    show:
+      compact_message: WebGL krävs för den här kartan.
+      description_html: Vi beklagar, men det verkar att %{your_browser_does_not_support_webgl},
+        en teknisk lösning för att rendera 3D-grafik på webben.
+      your_browser_does_not_support_webgl: din webbläsare stödjer inte WebGL
+      webgl_is_required_for_this_map: WebGL krävs för att visa den här kartan.
+      read_more_about_webgl: Läs mer
   traces:
     visibility:
       private: Privat (spåret delas anonymt och utan ordning)
@@ -3075,13 +3076,13 @@ sv:
       points: 'Punkter:'
       start_coordinates: 'Startkoordinat:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: karta
-      edit: redigera
+      map: visa plats på karta
+      edit: öppna i redigerare
       owner: 'Ägare:'
       description: 'Beskrivning:'
       tags: 'Taggar:'
       none: Ingen
-      edit_trace: Redigera detta GPS-spår
+      edit_trace: Redigera spårdetaljer
       delete_trace: Radera detta GPS-spår
       trace_not_found: GPS-spår hittades inte!
       visibility: 'Synlighet:'
@@ -3093,8 +3094,8 @@ sv:
         other: '%{count} punkter'
       more: mer
       trace_details: Visa detaljer för GPS-spår
-      view_map: Visa karta
-      edit_map: Redigera karta
+      view_map: Visa plats på karta
+      edit_map: Öppna i redigerare
       public: PUBLIK
       identifiable: IDENTIFIERBAR
       private: PRIVAT
@@ -3273,8 +3274,8 @@ sv:
         till %{client_app_name}
       no_auto_account_create: Tyvärr kan vi för närvarande inte kan skapa ett konto
         åt dig automatiskt.
-      please_contact_support_html: Kontakta %{support_link} för att ordna att ett
-        konto ska skapas - vi kommer att försöka ta itu med begäran så fort som möjligt.
+      please_contact_support_html: Kontakta %{support_link} för hjälp – vi kommer
+        att försöka hantera din begäran så snabbt som möjligt.
       support: support
       about:
         header: Fri och redigerbar.
@@ -3303,6 +3304,10 @@ sv:
           mer information.
       or: eller
       use external auth: eller registrera med en tredje part
+      verify_human: Bekräfta att du är en människa
+    create:
+      not_human: Tyvärr kan vi inte bekräfta att du är en människa. Detta krävs för
+        att skapa nya konton.
     no_such_user:
       title: Finns ingen sådan användare
       heading: Användaren %{user} finns inte
@@ -3361,10 +3366,26 @@ sv:
       change_image: Ändra bild
       edit_company: Redigera företag
       edit_location: Redigera plats
-      edit_heatmap: Konfigurera värmekarta
+      edit_contribution_calendar: Konfigurera bidragskalender
       contributions:
         one: '%{count} bidrag under det senaste året'
         other: '%{count} bidrag under det senaste året'
+      title:
+        administrator: Den här användaren är en administratör
+        moderator: Den här användaren är en moderator
+        importer: Denna användare är en importör
+      grant:
+        administrator: Tilldela administratörsrättigheter
+        moderator: Tilldela moderatorrättigheter
+        importer: Ge importåtkomst
+        are_you_sure: Är du säker på att du vill ge rollen '%{role}' till användaren
+          '%{name}'?
+      revoke:
+        administrator: Återkalla administratörsrättigheter
+        moderator: Återkalla moderatorrättigheter
+        importer: Återkalla importåtkomst
+        are_you_sure: Är du säker på att du vill återkalla rollen '%{role}' från användaren
+          '%{name}'?
     sidebar_section:
       home_location: Hemplats
       company: Företag
@@ -3463,23 +3484,6 @@ sv:
         Om du redan har ett konto, kan du logga in på ditt konto
         med hjälp av ditt användarnamn och lösenord och sedan koppla kontot
         med ditt ID i dina användarinställningar.
-    role_icons:
-      title:
-        administrator: Den här användaren är en administratör
-        moderator: Den här användaren är en moderator
-        importer: Denna användare är en importör
-      grant:
-        administrator: Tilldela administratörsrättigheter
-        moderator: Tilldela moderatorrättigheter
-        importer: Ge importåtkomst
-        are_you_sure: Är du säker på att du vill ge rollen '%{role}' till användaren
-          '%{name}'?
-      revoke:
-        administrator: Återkalla administratörsrättigheter
-        moderator: Återkalla moderatorrättigheter
-        importer: Återkalla importåtkomst
-        are_you_sure: Är du säker på att du vill återkalla rollen '%{role}' från användaren
-          '%{name}'?
   user_role:
     filter:
       not_a_role: Strängen '%{role}' är inte en giltig roll.
@@ -3704,20 +3708,26 @@ sv:
       tooltip: Teckenförklaring
       tooltip_disabled: Teckenförklaring finns inte för detta lager
     map:
+      map:
+        title: Karta
+        marker:
+          title: Kortmarkör
       popup:
         close: Stäng
-      zoom:
-        in: Zooma in
-        out: Zooma ut
-      locate:
-        title: Visa min position
-        not_available: Platsen är inte tillgänglig
+      navigation_control:
+        zoom_in: Zooma in
+        zoom_out: Zooma ut
+      geolocate_control:
+        find_my_location: Visa min position
+        location_not_available: Platsen är inte tillgänglig
         metersPopup:
           one: Du är inom %{count} meter av denna punkt
           other: Du är inom %{count} meter av denna punkt
         feetPopup:
           one: Du är inom %{count} fot av denna punkt
           other: Du är inom %{count} fot av denna punkt
+      attribution_control:
+        toggle_attribution: Aktivera/inaktivera erkännande
       base:
         standard: Standard
         cycle_map: Cykelkarta
@@ -3859,7 +3869,7 @@ sv:
     home:
       marker_title: Min hemort
       not_set: Hemort har inte angetts för ditt konto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Inga bidrag på %{date}
         contributions:

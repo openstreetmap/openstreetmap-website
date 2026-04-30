@@ -4,7 +4,6 @@ require "application_system_test_case"
 
 class ReportDiaryCommentTest < ApplicationSystemTestCase
   def setup
-    create(:language, :code => "en")
     @diary_entry = create(:diary_entry)
     @comment = create(:diary_comment, :diary_entry => @diary_entry)
   end

@@ -39,7 +39,7 @@
   <% @comments.each do |comment| %>
     <% next unless comment.visible || current_user&.moderator? %>
     <article id="c<%= comment.id %>">
-      <small class='text-body-secondary'>
+      <small class="text-body-secondary">
         <%= comment_by_options = { :time_ago => friendly_date_ago(comment.created_at),
                                    :user => link_to(comment.author.display_name, comment.author) }
             comment.visible ? t(".comment_by_html", **comment_by_options) : t(".hidden_comment_by_html", **comment_by_options) %>
@@ -101,14 +101,14 @@
   <% end %>
 </div>
 
-<div class='secondary-actions'>
+<div class="secondary-actions">
   <%= link_to t(".changesetxml"), api_changeset_path(@changeset) %>
   &middot;
   <%= link_to t(".osmchangexml"), api_changeset_download_path(@changeset) %>
 </div>
 
 <% if @next_by_user || @prev_by_user %>
-  <div class='secondary-actions'>
+  <div class="secondary-actions">
     <% if @prev_by_user %>
       <%= link_to @prev_by_user, :class => "icon-link" do %>
         <%= previous_page_svg_tag :height => 11 %>

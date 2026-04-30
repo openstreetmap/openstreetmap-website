@@ -20,7 +20,7 @@ is:
     dir: ltr
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -101,19 +101,6 @@ is:
       way_node: Leiðarliður
       way_tag: Merki leiðar
     attributes:
-      client_application:
-        name: Nafn (krafist)
-        url: Slóð á aðalforritið (nauðsynleg)
-        callback_url: Svarslóð
-        support_url: Slóð á aðstoð
-        allow_read_prefs: lesa notandastillingar þeirra
-        allow_write_prefs: breyta notandastillingum þeirra
-        allow_write_diary: búa til bloggfærslur og athugasemdir
-        allow_write_api: breyta kortagögnunum
-        allow_write_changeset_comments: athugasemd við breytingarsett
-        allow_read_gpx: lesa einka-GPS-ferlana þeirra
-        allow_write_gpx: senda inn GPS ferla
-        allow_write_notes: breyta minnispunktum
       diary_comment:
         body: Texti
       diary_entry:
@@ -727,8 +714,6 @@ is:
         one: '%{count} athugasemd'
         other: '%{count} athugasemdir'
       title_label: Bloggfærsla
-      comments_label: Athugasemdir
-      date_label: Dagsetning
   diary_comments:
     new:
       heading: Bæta athugasemd við umræðu með bloggfærslu?
@@ -1700,14 +1685,13 @@ is:
       other_issues_against_this_user: Önnur vandamál varðandi þennan notanda
       no_other_issues: Engin önnur vandamál varðandi þennan notanda.
       comments_on_this_issue: Athugasemdir við þetta vandamál
+      comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
     resolve:
       resolved: Staða vandamáls hefur verið sett á 'Leyst'
     ignore:
       ignored: Staða vandamáls hefur verið sett á 'Hunsað'
     reopen:
       reopened: Staða vandamáls hefur verið sett á 'Opið'
-    comments:
-      comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
     reports:
       reported_by_html: Tilkynnt sem %{category} af %{user} þann %{updated_at}
     helper:
@@ -1880,18 +1864,7 @@ is:
       title: OpenStreetMap
     logo:
       alt_text: OpenStreetMap merkið
-    home: Fara heim
-    logout: Skrá út
-    log_in: Skrá inn
-    sign_up: Nýskrá
     start_mapping: Hefja kortlagningu
-    edit: Breyta
-    history: Breytingaskrá
-    export: Flytja út
-    issues: Vandamál
-    gps_traces: GPS ferlar
-    user_diaries: Blogg notenda
-    edit_with: Breyta með %{editor}
     intro_header: Velkomin(n) í OpenStreetMap!
     intro_text: OpenStreetMap er heimskort gert af fólki eins og þér. Það er gefið
       út með opnu hugbúnaðarleyfi og það kostar ekkert að nota það.
@@ -1902,15 +1875,25 @@ is:
     partners_partners: samstarfsaðilum
     tou: Notkunarskilmálar
     nothing_to_preview: Ekkert til að forskoða.
-    help: Hjálp
-    about: Um hugbúnaðinn
-    copyright: Höfundaréttur
-    communities: Samfélög
     learn_more: Vita meira
-    more: Meira
     header:
+      about: Um hugbúnaðinn
+      communities: Samfélög
+      copyright: Höfundaréttur
+      edit: Breyta
+      edit_with: Breyta með %{editor}
+      export: Flytja út
+      gps_traces: GPS ferlar
+      help: Hjálp
+      history: Breytingaskrá
+      home: Fara heim
+      issues: Vandamál
+      log_out: Skrá út
+      log_in: Skrá inn
+      more: Meira
       select_language: Veldu tungumál
-      loading: Hleð inn...
+      sign_up: Nýskrá
+      user_diaries: Blogg notenda
     select_language_button:
       title: Veldu tungumál
     offline_flash:
@@ -2559,11 +2542,7 @@ is:
         contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: National Open Data Portal
         contributors_hr_open_data_portal_url: https://data.gov.hr/
-        contributors_nl_credit_html: '%{netherlands}: Inniheldur AND-gögn &copy;,
-          2007 (%{and_link})'
         contributors_nl_netherlands: Holland
-        contributors_nl_and: www.and.com
-        contributors_nl_and_url: https://www.and.com
         contributors_nz_credit_html: |-
           %{new_zealand}: Inniheldur gögn með uppruna frá %{linz_data_service_link}
           og er með %{cc_by_link} notkunarleyfi til endurnýtingar.
@@ -3292,6 +3271,22 @@ is:
       contributions:
         one: '%{count} framlag á síðasta ári'
         other: '%{count} framlög á síðasta ári'
+      title:
+        administrator: Þessi notandi er möppudýr
+        moderator: Þessi notandi er prófarkalesari
+        importer: Þessi notandi hefur heimild til innflutnings
+      grant:
+        administrator: Veita möppudýrsréttindi
+        moderator: Veita stjórnandaréttindi
+        importer: Veita aðgang að innflutningi
+        are_you_sure: Ertu viss um að þú viljir veita notandanum '%{name}' heimildina
+          '%{role}'?
+      revoke:
+        administrator: Svifta möppudýrsréttindum
+        moderator: Svifta stjórnandaréttindum
+        importer: Afturkalla aðgang að innflutningi
+        are_you_sure: Ertu viss um að þú viljir svifta notandann '%{name}' heimildinni
+          '%{role}'?
     sidebar_section:
       home_location: Heimastaðsetning
       company: Fyrirtæki
@@ -3389,23 +3384,6 @@ is:
         Ef þú ert þegar með aðgang, geturðu skráð þig inn á aðganginn
         með notandanafni og lykilorði og síðan tengt aðganginn
         við auðkennið þitt í notandastillingunum.
-    role_icons:
-      title:
-        administrator: Þessi notandi er möppudýr
-        moderator: Þessi notandi er prófarkalesari
-        importer: Þessi notandi hefur heimild til innflutnings
-      grant:
-        administrator: Veita möppudýrsréttindi
-        moderator: Veita stjórnandaréttindi
-        importer: Veita aðgang að innflutningi
-        are_you_sure: Ertu viss um að þú viljir veita notandanum '%{name}' heimildina
-          '%{role}'?
-      revoke:
-        administrator: Svifta möppudýrsréttindum
-        moderator: Svifta stjórnandaréttindum
-        importer: Afturkalla aðgang að innflutningi
-        are_you_sure: Ertu viss um að þú viljir svifta notandann '%{name}' heimildinni
-          '%{role}'?
   user_role:
     filter:
       not_a_role: Strengurinn '%{role}' er ekki gilt leyfi.
@@ -3635,11 +3613,11 @@ is:
       tooltip: Kortaskýring
       tooltip_disabled: Kortaskýringar ekki tiltækar fyrir þessa þekju
     map:
-      zoom:
-        in: Renna að
-        out: Renna frá
-      locate:
-        title: Birta staðsetningu mína
+      navigation_control:
+        zoom_in: Renna að
+        zoom_out: Renna frá
+      geolocate_control:
+        find_my_location: Birta staðsetningu mína
         metersPopup:
           one: Þú ert minna en %{count} metra frá þessum punkti
           other: Þú ert minna en %{count} metra frá þessum punkti
@@ -3796,7 +3774,7 @@ is:
     home:
       marker_title: Heimastaðsetning mín
       not_set: Heimastaðsetning er ekki sett upp fyrir notandaaðganginn þinn
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Engin framlög þann %{date}
         contributions:

@@ -5,6 +5,7 @@
 # Author: Alvarenga
 # Author: Andrekowacs
 # Author: Athena in Wonderland
+# Author: Bartomelow
 # Author: BraulioBezerra
 # Author: Brunomelnic
 # Author: Cainamarques
@@ -31,6 +32,7 @@
 # Author: Imperadeiro90
 # Author: Imperadeiro98
 # Author: Indech
+# Author: Iohanen
 # Author: Isabelle Belato
 # Author: JPLSilva
 # Author: JasonZe
@@ -45,6 +47,7 @@
 # Author: Luk3
 # Author: Malafaya
 # Author: Mariagarbin
+# Author: Marwin H.H.
 # Author: Matheus Sousa L.T
 # Author: Matheusgomesms
 # Author: McDutchie
@@ -79,7 +82,7 @@
 pt:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e de %B de %Y às %H:%M'
@@ -145,7 +148,7 @@ pt:
       relation: Relação
       relation_member: Membro da relação
       relation_tag: Etiqueta de relação
-      report: Denunciar
+      report: Denúncia
       session: Sessão
       trace: Trilha
       tracepoint: Ponto de trilha
@@ -157,19 +160,6 @@ pt:
       way_node: Nó de linha
       way_tag: Etiqueta de linha
     attributes:
-      client_application:
-        name: Nome (item obrigatório)
-        url: URL do aplicativo principal (item obrigatório)
-        callback_url: URL de callback
-        support_url: URL de suporte
-        allow_read_prefs: ler preferências do usuário
-        allow_write_prefs: modificar preferências do usuário
-        allow_write_diary: criar publicações e comentários no diário
-        allow_write_api: modificar o mapa
-        allow_write_changeset_comments: comentar os conjuntos de alterações
-        allow_read_gpx: ler as rotas GPS privadas do usuário
-        allow_write_gpx: enviar rotas GPS
-        allow_write_notes: modificar notas
       diary_comment:
         body: Corpo
       diary_entry:
@@ -807,8 +797,6 @@ pt:
         one: '%{count} comentário'
         other: '%{count} comentários'
       title_label: Entrada do diário
-      comments_label: Comentários
-      date_label: Data
   diary_comments:
     new:
       heading: Deseja adicionar um comentário na seguinte discussão sobre a entrada
@@ -871,6 +859,9 @@ pt:
       title: Arquivo não encontrado
       description: Não foi possível encontrar uma operação de arquivo/diretório/API
         com esse nome no servidor OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap incorporado
   follows:
     show:
       follow:
@@ -1297,7 +1288,7 @@ pt:
           sports_centre: Centro/Clube Esportivo
           stadium: Estádio
           swimming_pool: Piscina
-          track: Pista de Corrida
+          track: Pista de corrida (veículos não motorizados)
           water_park: Parque Aquático
           "yes": Lazer
         lock:
@@ -1735,6 +1726,7 @@ pt:
       download: Baixar rota como GeoJSON
       filename: rota
       directions_courtesy_html: Itinerário cortesia de %{link}
+      check_demo_html: Mais detalhes de %{link}
   issues:
     index:
       title: Problemas
@@ -1787,16 +1779,15 @@ pt:
       other_issues_against_this_user: Outros problemas contra este usuário
       no_other_issues: Nenhum outro problema contra este usuário.
       comments_on_this_issue: Comentários sobre este problema
+      comment_from_html: Comentário de %{user_link} em %{comment_created_at}
+      reassign_to_moderators: Repassar problema aos moderadores
+      reassign_to_administrators: Repassar problema aos administradores
     resolve:
       resolved: O status do problema foi definido como "Resolvido"
     ignore:
       ignored: O status do problema foi definido como "Ignorado"
     reopen:
       reopened: O status do problema foi definido como "Aberto"
-    comments:
-      comment_from_html: Comentário de %{user_link} em %{comment_created_at}
-      reassign_to_moderators: Repassar problema aos moderadores
-      reassign_to_administrators: Repassar problema aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} em %{updated_at}
     helper:
@@ -1865,6 +1856,7 @@ pt:
         az: Azerbaijano
         id: Indonésio
         ms: Malaio
+        bcl: Bicol Central
         bs: Bósnio
         br: Bretã
         ca: Catalão
@@ -1895,6 +1887,7 @@ pt:
         ku-Latn: Curdo (Latim)
         lv: Letão
         lb: Luxemburguês
+        lkt: Lakota
         lt: Lituano
         hu: Húngaro
         fit: Finlandês Tornedaliano
@@ -1970,18 +1963,8 @@ pt:
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
-    home: Ir para o seu local principal
-    logout: Sair
-    log_in: Entrar
-    sign_up: Criar conta
+    layer_info: Informações da camada
     start_mapping: Começar a Mapear
-    edit: Editar
-    history: Histórico
-    export: Exportar
-    issues: Problemas
-    gps_traces: Trilhas GPS
-    user_diaries: Diários de usuário
-    edit_with: Edite com %{editor}
     intro_header: Bem-vindo(a) ao OpenStreetMap!
     intro_text: O OpenStreetMap é um mapa do mundo, criado por pessoas como você e
       de uso livre sob uma licença aberta.
@@ -1989,17 +1972,31 @@ pt:
       e outros %{partners}.
     partners_corpmembers: Membros corporativos OSMF
     partners_partners: parceiros
+    welcome_tou_notice_html: Ao utilizar este site ou qualquer outra infraestrutura
+      fornecida pela Fundação OpenStreetMap, você concorda com os %{terms_link}.
+    terms_of_use: Termos de uso
     tou: Termo de uso
     nothing_to_preview: Nada para pré-visualizar.
-    help: Ajuda
-    about: Sobre
-    copyright: Direitos autorais
-    communities: Comunidades
     learn_more: Saiba Mais
-    more: Mais
     header:
+      about: Sobre
+      communities: Comunidades
+      copyright: Direitos autorais
+      donate: Doar
+      edit: Editar
+      edit_with: Edite com %{editor}
+      export: Exportar
+      gps_traces: Trilhas GPS
+      help: Ajuda
+      history: Histórico
+      home: Ir para o seu local principal
+      issues: Problemas
+      log_out: Sair
+      log_in: Entrar
+      more: Mais
       select_language: Selecionar idioma
-      loading: Carregando...
+      sign_up: Criar conta
+      user_diaries: Diários de usuário
     meta:
       openstreetmap_search: Pesquisa no OpenStreetMap
     select_language_button:
@@ -2338,6 +2335,7 @@ pt:
         image: Imagem
         company: Empresa
         location: Localização
+        contribution_calendar: Calendário de contribuições
     descriptions:
       show:
         title: Editar perfil
@@ -2396,6 +2394,16 @@ pt:
       update:
         success: Localização do perfil atualizada.
         failure: Não foi possível atualizar a localização do perfil.
+    heatmaps:
+      show:
+        title: Configurar o calendário de contribuições
+        show_contribution_calendar_in_public: Mostrar o calendário de contribuições
+          na sua página de perfil
+        save: Atualizar a configuração do calendário de contribuições
+        cancel: Cancelar
+      update:
+        success: Calendário de contribuições atualizado.
+        failure: Não foi possível atualizar o calendário de contribuições.
   sessions:
     new:
       tab_title: Entrar
@@ -2519,14 +2527,22 @@ pt:
       legal_1_1_terms_of_use: Termos de uso
       legal_1_1_aup: Políticas de uso aceitável
       legal_1_1_privacy_policy: Politica de privacidade
+      legal_1_2_html: Se você deseja usar mapas ou dados do OpenStreetMap, certifique-se
+        de atribuir os créditos ao OpenStreetMap — consulte %{attribution_guidelines_link}
+        para obter mais informações.
       legal_attribution_guidelines_title: Diretrizes de atribuição
       legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_1_3_html: Especificamente para usar uma captura de tela do OpenStreetMap
+        diretamente em seu livro, publicação, filme ou programa de TV, você não precisa
+        pedir permissão, pois os dados do OpenStreetMap são abertos para uso por todos.
+        Consulte o %{attribution_guidelines_link} e veja exemplos existentes em %{attribution_example_film}
+        e %{attribution_example_tv}.
       legal_attribution_example_film_title: Filme
       legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
       legal_attribution_example_tv_title: TV
       legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       legal_2_1_html: Por favor, %{contact_the_osmf_link} se tiver dúvidas de licenciamento,
-        direitos de autor ou de outro teor.
+        direitos de autor ou sobre outras questões legais.
       legal_2_1_contact_the_osmf: contate a OSMF
       legal_2_2_html: O OpenStreetMap, o logotipo da lupa e o State of the Map são
         %{registered_trademarks_link}.
@@ -2686,8 +2702,8 @@ pt:
         contributors_hr_croatia: Croácia
         contributors_hr_dgu: Administração Geodésica Estatal da Croácia
         contributors_hr_open_data_portal: Portal Nacional de Dados Abertos
-        contributors_nl_credit_html: '%{netherlands}: Contém &copy; e dados, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Contém dados de AND &copy;
+          2007'
         contributors_nl_netherlands: Países Baixos
         contributors_nz_credit_html: |-
           %{new_zealand}: Contém dados provenientes do %{linz_data_service_link}
@@ -2773,6 +2789,8 @@ pt:
       export_download: Baixando...
       confirmation:
         header: Baixar Dados XML
+        body: Quer baixar dados do mapa para esta área em formato XML? Lembramos que
+          as áreas grandes podem demorar algum tempo a ser baixadas.
         cancel: Cancelar
         download: Baixar
     fixthemap:
@@ -3056,6 +3074,16 @@ pt:
       image_dimensions_html: A imagem mostrará a camada %{layer} em %{width} x %{height}
       download: Baixar
       downloading: Baixando...
+  webgl_error_panes:
+    show:
+      compact_message: É necessário ter o WebGL para visualizar este mapa.
+      description_html: Nos desculpe, mas parece que %{your_browser_does_not_support_webgl},
+        uma tecnologia para renderizar gráficos 3D na web.
+      your_browser_does_not_support_webgl: Seu navegador não é compatível com WebGL
+      webgl_is_required_for_this_map: É necessário ter o WebGL para visualizar este
+        mapa.
+      read_more_about_webgl: Leia mais
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privado (compartilhado apenas como pontos anônimos e não ordenados)
@@ -3102,13 +3130,13 @@ pt:
       points: 'Pontos:'
       start_coordinates: 'Coordenada inicial:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: editar
+      map: ver localização no mapa
+      edit: abrir no editor
       owner: 'Dono:'
       description: 'Descrição:'
       tags: 'Etiquetas:'
       none: Nenhum
-      edit_trace: Edite esta trilha
+      edit_trace: Editar detalhes da trilha
       delete_trace: Apague esta trilha
       trace_not_found: Trilha não encontrada!
       visibility: 'Visibilidade:'
@@ -3120,8 +3148,8 @@ pt:
         other: '%{count} pontos'
       more: mais
       trace_details: Ver detalhes da trilha
-      view_map: Ver Mapa
-      edit_map: Editar Mapa
+      view_map: Ver localização no mapa
+      edit_map: Abrir no editor
       public: PÚBLICO
       identifiable: IDENTIFICÁVEL
       private: PRIVADO
@@ -3298,8 +3326,8 @@ pt:
       signup_to_authorize_html: Cadastre-se no OpenStreetMap para acessar %{client_app_name}.
       no_auto_account_create: Infelizmente no momento não podemos criar uma conta
         para você automaticamente.
-      please_contact_support_html: Por favor, contacte %{support_link} para pedir
-        a criação de uma conta - tentaremos tratar do pedido o mais rapidamente possível.
+      please_contact_support_html: Por favor, contate %{support_link} para obter ajuda
+        - tentaremos tratar do pedido o mais rapidamente possível.
       support: suporte
       about:
         header: Livre e editável.
@@ -3331,6 +3359,10 @@ pt:
           para obter mais informações.
       or: ou
       use external auth: ou inscreva-se com um terceiro
+      verify_human: Confirme que você é humano
+    create:
+      not_human: Infelizmente, não podemos confirmar que você é uma pessoa. Isso é
+        necessário para criar novas contas.
     no_such_user:
       title: Usuário não existe
       heading: O usuário %{user} não existe
@@ -3378,7 +3410,9 @@ pt:
       activate_user: Ativar este usuário
       confirm_user: Confirmar este usuário
       unconfirm_user: Desconfirmar este usuário
+      suspend_user: Suspender este usuário
       unsuspend_user: Anular a suspensão deste Usuário
+      undelete_user: Recuperar este usuário
       confirm: Confirmar
       report: Denunciar este usuário
       edit_profile_details: Editar detalhes do perfil
@@ -3387,9 +3421,24 @@ pt:
       change_image: Alterar imagem
       edit_company: Editar empresa
       edit_location: Editar localização
+      edit_contribution_calendar: Configurar o calendário de contribuições
       contributions:
         one: '%{count} contribuição no último ano'
         other: '%{count} contribuições no último ano'
+      title:
+        administrator: Este usuário é um administrador
+        moderator: Este usuário é um moderador
+        importer: Este usuário é importador
+      grant:
+        administrator: Conceder acesso de administrador
+        moderator: Conceder acesso de moderador
+        importer: Conceder o acesso de importador
+        are_you_sure: Deseja mesmo dar o papel '%{role}' ao usuário '%{name}'?
+      revoke:
+        administrator: Revogar acesso de administrador
+        moderator: Revogar acesso de moderador
+        importer: Revogar o acesso de importador
+        are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
     sidebar_section:
       home_location: Local principal
       company: Empresa
@@ -3440,6 +3489,7 @@ pt:
           one: '%{count} usuário encontrado'
           other: '%{count} usuários encontrados'
         confirm: Confirmar usuários selecionados
+        suspend: Suspender usuários selecionados
         empty: Não há usuários correspondentes
       user:
         summary_html: '%{name} criado no computador %{ip_address} em %{date}'
@@ -3488,21 +3538,6 @@ pt:
         Se você já tem uma conta, você pode entrar na sua conta
         usando seu nome de usuário e senha e, em seguida, associar a conta
         com o seu ID em suas configurações de usuário.
-    role_icons:
-      title:
-        administrator: Este usuário é um administrador
-        moderator: Este usuário é um moderador
-        importer: Este usuário é importador
-      grant:
-        administrator: Conceder acesso de administrador
-        moderator: Conceder acesso de moderador
-        importer: Conceder o acesso de importador
-        are_you_sure: Deseja mesmo dar o papel '%{role}' ao usuário '%{name}'?
-      revoke:
-        administrator: Revogar acesso de administrador
-        moderator: Revogar acesso de moderador
-        importer: Revogar o acesso de importador
-        are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
   user_role:
     filter:
       not_a_role: O texto '%{role}' não é um papel válido.
@@ -3728,17 +3763,26 @@ pt:
       tooltip: Legenda
       tooltip_disabled: Legenda não disponível para esta camada
     map:
-      zoom:
-        in: Aproximar
-        out: Afastar
-      locate:
-        title: Exibir minha localização
+      map:
+        title: Mapa
+        marker:
+          title: Marcador no mapa
+      popup:
+        close: Fechar
+      navigation_control:
+        zoom_in: Aproximar
+        zoom_out: Afastar
+      geolocate_control:
+        find_my_location: Exibir minha localização
+        location_not_available: Localização indisponível
         metersPopup:
           one: Você está dentro de %{count} metro deste ponto
           other: Você está dentro %{count} metros deste ponto
         feetPopup:
           one: Você está dentro de %{count} pé deste ponto
           other: Você está dentro %{count} pés deste ponto
+      attribution_control:
+        toggle_attribution: Alternar atribuição
       base:
         standard: Padrão
         cycle_map: Ciclístico
@@ -3884,7 +3928,7 @@ pt:
     home:
       marker_title: Localização da minha casa
       not_set: Localização da casa não está definida para sua conta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Sem contribuições em %{date}
         contributions:

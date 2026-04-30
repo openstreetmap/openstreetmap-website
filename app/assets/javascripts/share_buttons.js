@@ -17,10 +17,7 @@ $(function () {
 
   if (navigator.share) {
     $("[data-share-type='native']").prop("hidden", false).on("click", function () {
-      navigator.share({
-        text: this.dataset.shareText,
-        url: this.dataset.shareUrl
-      });
+      navigator.share(Object.fromEntries(new URLSearchParams(this.hash.slice(1))));
     });
   }
 });

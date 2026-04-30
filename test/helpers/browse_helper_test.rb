@@ -79,31 +79,31 @@ class BrowseHelperTest < ActionView::TestCase
     add_old_tags_selection(node_v1)
 
     icon = element_icon("node", create(:node))
-    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    icon_dom = parse_html(icon)
     assert_dom icon_dom, "img:root", :count => 1 do
       assert_dom "> @title", 0
     end
 
     icon = element_icon("node", create(:node, :deleted))
-    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    icon_dom = parse_html(icon)
     assert_dom icon_dom, "img:root", :count => 1 do
       assert_dom "> @title", 0
     end
 
     icon = element_icon("node", node)
-    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    icon_dom = parse_html(icon)
     assert_dom icon_dom, "img:root", :count => 1 do
       assert_dom "> @title", "building=yes, shop=gift, and tourism=museum"
     end
 
     icon = element_icon("node", node_v2)
-    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    icon_dom = parse_html(icon)
     assert_dom icon_dom, "img:root", :count => 1 do
       assert_dom "> @title", "building=yes, shop=gift, and tourism=museum"
     end
 
     icon = element_icon("node", node_v1)
-    icon_dom = Rails::Dom::Testing.html_document_fragment.parse(icon)
+    icon_dom = parse_html(icon)
     assert_dom icon_dom, "img:root", :count => 1 do
       assert_dom "> @title", 0
     end

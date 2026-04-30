@@ -47,18 +47,18 @@ class BrowseTagsHelperTest < ActionView::TestCase
                      html
 
     html = format_value("wikidata", "Q42")
-    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    dom = parse_html html
     assert_select dom, "a[title='The Q42 item on Wikidata'][href$='www.wikidata.org/entity/Q42?uselang=en']", :text => "Q42"
     assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
     html = format_value("operator:wikidata", "Q12;Q98")
-    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    dom = parse_html html
     assert_select dom, "a[title='The Q12 item on Wikidata'][href$='www.wikidata.org/entity/Q12?uselang=en']", :text => "Q12"
     assert_select dom, "a[title='The Q98 item on Wikidata'][href$='www.wikidata.org/entity/Q98?uselang=en']", :text => "Q98"
     assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
     html = format_value("name:etymology:wikidata", "Q123")
-    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    dom = parse_html html
     assert_select dom, "a[title='The Q123 item on Wikidata'][href$='www.wikidata.org/entity/Q123?uselang=en']", :text => "Q123"
     assert_select dom, "button.wdt-preview>svg>path[fill]", 1
 
@@ -70,12 +70,18 @@ class BrowseTagsHelperTest < ActionView::TestCase
                      html
 
     html = format_value("colour", "#f00")
-    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    dom = parse_html html
     assert_select dom, "svg>rect>@fill", "#f00"
     assert_match(/#f00$/, html)
 
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
+
+    html = format_value("opening_hours", "Mo-Fr 09:00-12:00;Sa 09:00-17:00")
+    dom = parse_html html
+    assert_select dom, "a", 1
+    assert_select dom, "a[rel='nofollow']",
+                  :text => "Mo-Fr 09:00-12:00;Sa 09:00-17:00"
 
     html = format_value("website", "https://example.com")
     assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>", html
@@ -84,7 +90,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow\" dir=\"auto\">https://example.net</a>", html
 
     html = format_value("website", "https://routing.openstreetmap.de/routed-car/route/v1/driving/-3.68,57.63;-3.68,57.61")
-    dom = Rails::Dom::Testing.html_document_fragment.parse html
+    dom = parse_html html
     assert_select dom, "a", 1
 
     html = format_value("website", "example.com/page")
@@ -110,8 +116,8 @@ class BrowseTagsHelperTest < ActionView::TestCase
       link = wiki_link("key", "highway")
       assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
 
-      link = wiki_link("tag", "highway=primary")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=tr", link
+      link = wiki_link("tag", "highway=path")
+      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=path?uselang=tr", link
     end
   end
 

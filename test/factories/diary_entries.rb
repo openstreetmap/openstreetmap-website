@@ -5,6 +5,7 @@ FactoryBot.define do
     sequence(:title) { |n| "Diary entry #{n}" }
     sequence(:body) { |n| "This is diary entry #{n}" }
 
+    language { Language.find_by(:code => "en") || create(:language, :code => "en") }
     user
   end
 end

@@ -26,9 +26,9 @@ OSM.initializations.push(function (map) {
     e.preventDefault();
     $("header").addClass("closed");
     const zoom = map.getZoom();
-    const [lat, lon] = OSM.cropLocation(map.getCenter(), zoom);
+    const { lat, lng } = OSM.cropLocation(map.getCenter(), zoom);
 
-    OSM.router.route("/search?" + new URLSearchParams({ lat, lon, zoom }));
+    OSM.router.route("/search?" + new URLSearchParams({ lat, lon: lng, zoom }));
   });
 });
 

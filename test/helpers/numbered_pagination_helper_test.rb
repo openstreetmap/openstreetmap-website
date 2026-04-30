@@ -5,7 +5,7 @@ require "test_helper"
 class NumberedPaginationHelperTest < ActionView::TestCase
   def test_numbered_pagination1
     pagination = numbered_pagination(1, "active_page") { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 1 do
         check_page_link sample_item_data(1)
@@ -15,7 +15,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination1_active1
     pagination = numbered_pagination(1, "active_page", :active_page => 1) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 1 do
         check_page_link sample_item_data(1), :active => true
@@ -25,7 +25,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination5
     pagination = numbered_pagination(5, "active_page") { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 1 do
       assert_dom "> li", 5 do |items|
         items.each_with_index do |item, i|
@@ -37,7 +37,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6
     pagination = numbered_pagination(6, "active_page") { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do
         check_page_link sample_item_data(1)
@@ -55,7 +55,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active1
     pagination = numbered_pagination(6, "active_page", :active_page => 1) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 2 do |items|
         check_page_link items.shift, sample_item_data(1), :active => true
@@ -74,7 +74,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active2
     pagination = numbered_pagination(6, "active_page", :active_page => 2) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 3 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -93,7 +93,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active3
     pagination = numbered_pagination(6, "active_page", :active_page => 3) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -112,7 +112,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active4
     pagination = numbered_pagination(6, "active_page", :active_page => 4) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -131,7 +131,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active5
     pagination = numbered_pagination(6, "active_page", :active_page => 5) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -150,7 +150,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination6_active6
     pagination = numbered_pagination(6, "active_page", :active_page => 6) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -169,7 +169,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_start_include
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3, :active_page => 3) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -190,7 +190,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_start_touch
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3, :active_page => 5) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -213,7 +213,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_start_touch_almost
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3, :active_page => 6) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -237,7 +237,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_middle
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3, :active_page => 43) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -261,7 +261,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_end_touch
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3, :active_page => 46) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -284,7 +284,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_window_end_beyond
     pagination = numbered_pagination(50, "active_page", :window_half_size => 3) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -302,7 +302,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_step
     pagination = numbered_pagination(35, "active_page", :step_size => 10, :window_half_size => 0) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -324,7 +324,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_step_end_touch
     pagination = numbered_pagination(31, "active_page", :step_size => 10, :window_half_size => 0) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -345,7 +345,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_step_window
     pagination = numbered_pagination(35, "active_page", :active_page => 15, :step_size => 10, :window_half_size => 1) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)
@@ -371,7 +371,7 @@ class NumberedPaginationHelperTest < ActionView::TestCase
 
   def test_numbered_pagination_step_window_touch
     pagination = numbered_pagination(35, "active_page", :active_page => 12, :step_size => 10, :window_half_size => 1) { |n| sample_item_data n }
-    pagination_dom = Rails::Dom::Testing.html_document_fragment.parse(pagination)
+    pagination_dom = parse_html(pagination)
     assert_dom pagination_dom, "ul", :count => 3 do |lists|
       assert_dom lists[0], "> li", 1 do |items|
         check_page_link items.shift, sample_item_data(1)

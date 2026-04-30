@@ -20,25 +20,24 @@ OSM.initializations.push(function (map) {
     return $input.val();
   };
 
-  const latLngFromContext = () =>
-    L.latLng($contextMenu.data("lat"), $contextMenu.data("lng"));
+  const latLngFromContext = () => L.latLng($contextMenu.data("lat"), $contextMenu.data("lng"));
 
-  const croppedLatLon = () =>
-    OSM.cropLocation(latLngFromContext(), map.getZoom());
+  const croppedLatLng = () => OSM.cropLocation(latLngFromContext(), map.getZoom());
 
   const routeWithLatLon = (path, extraParams = {}) => {
-    const [lat, lon] = croppedLatLon();
-    OSM.router.route(`${path}?` + new URLSearchParams({ lat, lon, ...extraParams }));
+    const { lat, lng } = croppedLatLng();
+    OSM.router.route(`${path}?` + new URLSearchParams({ lat, lon: lng, ...extraParams }));
   };
 
   const contextmenuItems = [
     {
       id: "menu-action-directions-from",
-      icon: "bi-play",
+      icon: "bi-cursor",
       text: OSM.i18n.t("javascripts.context.directions_from"),
       callback: () => {
+        const { lat, lng } = croppedLatLng();
         const params = new URLSearchParams({
-          from: croppedLatLon().join(","),
+          from: `${lat},${lng}`,
           to: getDirectionsCoordinates($("#route_to"))
         });
         OSM.router.route(`/directions?${params}`);
@@ -46,12 +45,13 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-directions-to",
-      icon: "bi-stop",
+      icon: "bi-flag",
       text: OSM.i18n.t("javascripts.context.directions_to"),
       callback: () => {
+        const { lat, lng } = croppedLatLng();
         const params = new URLSearchParams({
           from: getDirectionsCoordinates($("#route_from")),
-          to: croppedLatLon().join(",")
+          to: `${lat},${lng}`
         });
         OSM.router.route(`/directions?${params}`);
       }
@@ -61,7 +61,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-add-note",
-      icon: "bi-chat-text",
+      icon: "bi-chat-square-text",
       text: OSM.i18n.t("javascripts.context.add_note"),
       callback: () => routeWithLatLon("/note/new")
     },
@@ -76,7 +76,7 @@ OSM.initializations.push(function (map) {
     },
     {
       id: "menu-action-query-features",
-      icon: "bi-question",
+      icon: "bi-question-lg",
       text: OSM.i18n.t("javascripts.context.query_features"),
       callback: () => routeWithLatLon("/query")
     },
@@ -88,7 +88,6 @@ OSM.initializations.push(function (map) {
     }
   ];
 
-  // Event bindings
   map.on("contextmenu", function (e) {
     map.osm_contextmenu.show(e, contextmenuItems);
     updateContextMenuState();
@@ -159,7 +158,7 @@ class ContextMenu {
         {
           name: "offset",
           options: {
-            offset: [0, 0] // no offset, exactly aligned to placement corner
+            offset: [0, 0]
           }
         },
         {

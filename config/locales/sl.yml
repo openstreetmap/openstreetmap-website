@@ -21,11 +21,12 @@
 # Author: Skalcaa
 # Author: Stefanb
 # Author: Upwinxp
+# Author: ZigaD
 ---
 sl:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y, ob %H:%M'
@@ -104,19 +105,6 @@ sl:
       way_node: Vozlišče poti
       way_tag: Oznaka poti
     attributes:
-      client_application:
-        name: Ime (obvezno)
-        url: URL glavne aplikacije (obvezno)
-        callback_url: URL povratnih klicev
-        support_url: URL za podporo
-        allow_read_prefs: branje uporabniških prilagoditev
-        allow_write_prefs: spreminjanje uporabniških nastavitev
-        allow_write_diary: ustvarjanje dnevniških zapisov in komentarjev
-        allow_write_api: spreminjanje zemljevida
-        allow_write_changeset_comments: komentiranje naborov sprememb
-        allow_read_gpx: branje zasebnih sledi GPS
-        allow_write_gpx: nalaganje sledi GPS
-        allow_write_notes: spreminjanje opomb
       diary_comment:
         body: Jedro
       diary_entry:
@@ -430,7 +418,7 @@ sl:
       other: '%{count} poti'
     download_xml: Prenesi XML
     view_unredacted_history: Poglej neskrito zgodovino
-    location: 'Poožaj:'
+    location: 'Položaj:'
     node:
       title_html: 'Vozlišče: %{name}'
     way:
@@ -784,8 +772,6 @@ sl:
         few: '%{count} komentarji'
         other: '%{count} komentarjev'
       title_label: Dnevniški vpis
-      comments_label: Komentarji
-      date_label: Datum
   diary_comments:
     new:
       heading: Želite dodati komentar k sledečemu dnevniškemu vpisu?
@@ -818,7 +804,7 @@ sl:
     scopes:
       address: Ogled vašega fizičnega naslova
       email: Ogled vašega e-poštnega naslova
-      openid: Avtenticirajte svoj račun
+      openid: Potrdite pristnost svojega računa
       phone: Ogled vaše telefonske številke
       profile: Ogled vaših profilnih podatkov
   errors:
@@ -912,20 +898,20 @@ sl:
           bureau_de_change: Menjalnica
           bus_station: Avtobusna postaja
           cafe: Kavarna
-          car_rental: Rent-a-car
+          car_rental: Izposoja avtomobila
           car_sharing: Souporaba avtomobila
           car_wash: Avtopralnica
-          casino: Kazino
+          casino: Igralnica na srečo
           charging_station: Polnilna postaja
           childcare: Varstvo otrok
-          cinema: Kinematograf
+          cinema: Kino
           clinic: Klinika
           clock: Ura
           college: Fakulteta
-          community_centre: Center skupnosti
+          community_centre: Središče skupnosti
           conference_centre: Konferenčni center
           courthouse: Sodišče
-          crematorium: Krematorij
+          crematorium: Upepeljevalnica
           dentist: Zobozdravnik
           doctors: Zdravniki
           drinking_water: Pitna voda
@@ -953,7 +939,7 @@ sl:
           marketplace: Tržnica
           mobile_money_agent: Mobilni gotovinski agent
           monastery: Samostan
-          money_transfer: Denarna transakcija
+          money_transfer: Denarno nakazilo
           motorcycle_parking: Parkirišče motornih koles
           music_school: Glasbena šola
           nightclub: Nočni klub
@@ -977,7 +963,7 @@ sl:
           restaurant: Restavracija
           sanitary_dump_station: Sanitarna odlagališča
           school: Šola
-          shelter: Zavetišče
+          shelter: Zavetje
           shower: Tuš
           social_centre: Družbeni center
           social_facility: Socialni objekt
@@ -1026,7 +1012,7 @@ sl:
           church: Cerkveno poslopje
           civic: Občinska stavba
           college: VIsokošolska stavba
-          commercial: Poslovna stavba
+          commercial: Trgovska stavba
           construction: Stavba v gradnji
           cowshed: Hlev za krave
           detached: Samostojna hiša
@@ -1041,7 +1027,7 @@ sl:
           hospital: Poslopje bolnišnice
           hotel: Poslopje hotela
           house: Hiša
-          houseboat: Bivalni čoln - Hiša-čoln
+          houseboat: Hišni čoln
           hut: Koča
           industrial: Industrijski objekt
           kindergarten: Poslopje vrtca
@@ -1064,7 +1050,7 @@ sl:
           train_station: Poslopje železniške postaje
           university: Univerza
           warehouse: Skladišče
-          "yes": Stavba
+          "yes": Zgradba
         club:
           scout: Baza skavtske skupine
           sport: Športni klub
@@ -1077,7 +1063,7 @@ sl:
           caterer: Gostinec
           confectionery: Slaščičarna
           dressmaker: Šiviljstvo
-          electrician: Elektrikar
+          electrician: Električar
           electronics_repair: Popravilo elektronskih naprav
           gardener: Vrtnar
           glaziery: Steklarstvo
@@ -1273,7 +1259,7 @@ sl:
           sports_centre: Športni center
           stadium: Stadion
           swimming_pool: Bazen
-          track: Tekaška proga
+          track: Dirkalna steza (nemotociklistična)
           water_park: Vodni park
           "yes": Prosti čas
         lock:
@@ -1711,6 +1697,7 @@ sl:
       download: Prenesi pot kot GeoJSON
       filename: pot
       directions_courtesy_html: Navodila prispeva %{link}
+      check_demo_html: Več podrobnosti iz %{link}
   issues:
     index:
       title: Težave
@@ -1767,16 +1754,15 @@ sl:
       other_issues_against_this_user: Druge težave glede tega uporabnika
       no_other_issues: Ni drugih težav glede tega uporabnika.
       comments_on_this_issue: Komentarji o tej težavi
+      comment_from_html: Komentar uporabnika %{user_link} dne %{comment_created_at}
+      reassign_to_moderators: Predodeli težavo moderatorjem
+      reassign_to_administrators: Predodeli težavo administratorjem
     resolve:
       resolved: Stanje težave je nastavljeno na »Rešeno«
     ignore:
       ignored: Stanje težave je nastavljeno na »Prezrto«
     reopen:
       reopened: Stanje težave je nastavljeno na »Odprto«
-    comments:
-      comment_from_html: Komentar uporabnika %{user_link} dne %{comment_created_at}
-      reassign_to_moderators: Predodeli težavo moderatorjem
-      reassign_to_administrators: Predodeli težavo administratorjem
     reports:
       reported_by_html: Sporočil_a %{user} kot %{category} dne %{updated_at}
     helper:
@@ -1846,6 +1832,7 @@ sl:
         az: azerbajdžanščina
         id: indonezijščina
         ms: malajščina
+        bcl: Osrednji Bikol
         bs: bosanščina
         br: bretonščina
         ca: katalonščina
@@ -1861,7 +1848,7 @@ sl:
         eo: Esperanto
         eu: baskovščina
         fr: francoščina
-        fy: Zahodnofrizijščina
+        fy: Zahodna frizijščina
         fur: furlanščina
         ga: irščina
         gd: škotska gelščina
@@ -1876,6 +1863,7 @@ sl:
         ku-Latn: kurdščina (latinična)
         lv: latvijščina
         lb: luksemburščina
+        lkt: lakota
         lt: litovščina
         hu: madžarščina
         fit: tornedalska finščina
@@ -1951,18 +1939,9 @@ sl:
   layouts:
     logo:
       alt_text: OpenStreetMap logotip
-    home: Domov
-    logout: Odjava
-    log_in: Prijava
-    sign_up: Ustvari račun
+    main_navigation: Glavno
+    layer_info: Informacije o sloju
     start_mapping: Začnite kartirati
-    edit: Uredi
-    history: Zgodovina
-    export: Izvozi
-    issues: Težave
-    gps_traces: Sledi GPS
-    user_diaries: Dnevnik
-    edit_with: Za urejanje uporabi %{editor}
     intro_header: Pozdravljeni v OpenStreetMap!
     intro_text: OpenStreetMap je zemljevid sveta, ki ga ustvarjajo ljudje, kot ste
       vi, in brezplačen za uporabo pod odprto licenco.
@@ -1972,15 +1951,26 @@ sl:
     partners_partners: partnerji
     tou: Pogoji uporabe
     nothing_to_preview: Ničesar ni za predogled.
-    help: Pomoč
-    about: O projektu
-    copyright: Avtorske pravice
-    communities: Skupnosti
     learn_more: Več o tem
-    more: Več
     header:
+      about: O projektu
+      communities: Skupnosti
+      copyright: Avtorske pravice
+      donate: Donirajte
+      edit: Uredi
+      edit_with: Za urejanje uporabi %{editor}
+      export: Izvozi
+      gps_traces: Sledi GPS
+      help: Pomoč
+      history: Zgodovina
+      home: Domov
+      issues: Težave
+      log_out: Odjava
+      log_in: Prijava
+      more: Več
       select_language: Izberite jezik
-      loading: Nalaganje ...
+      sign_up: Ustvari račun
+      user_diaries: Dnevnik
     meta:
       openstreetmap_search: Iskanje po OpenStreetMap
     select_language_button:
@@ -2386,6 +2376,14 @@ sl:
       update:
         success: Lokacija profila je posodobljena.
         failure: Lokacije profila ni bilo mogoče posodobiti.
+    heatmaps:
+      show:
+        title: Nastavi toplotni zemljevid
+        save: Posodobi nastavitve toplotnega zemljevida
+        cancel: Prekliči
+      update:
+        success: Toplotni zemljevid je posodobljen
+        failure: Toplotnega zemljevida ni bilo mogoče posodobiti.
   sessions:
     new:
       tab_title: Prijava
@@ -2675,7 +2673,6 @@ sl:
         contributors_hr_croatia: Hrvaška
         contributors_hr_dgu: Državna geodetska uprava Hrvaške
         contributors_hr_open_data_portal: Nacionalni portal odprtih podatkov
-        contributors_nl_credit_html: '%{netherlands}: Vsebuje podatke © IN, 2007 (%{and_link})'
         contributors_nl_netherlands: Nizozemska
         contributors_nz_credit_html: |-
           %{new_zealand}: Vsebuje podatke, pridobljene iz %{linz_data_service_link}
@@ -2732,7 +2729,7 @@ sl:
       not_public_description_html: Urejanje zemljevida ni mogoče dokler vaši prispevki
         niso javni. Označite jih lahko kot javne na %{user_page}.
       user_page_link: strani vašega uporabniškega računa
-      anon_edits_link_text: Pojasnilo zakaj je temu tako.
+      anon_edits_link_text: Pojasnilo, zakaj je tako.
     export:
       title: Izvozi
       manually_select: Ročno izberite drugo območje
@@ -3040,6 +3037,15 @@ sl:
         %{width} x %{height}
       download: Prenesi
       downloading: Prenos ...
+  webgl_error_panes:
+    show:
+      compact_message: Za ta zemljevid je potreben WebGL.
+      description_html: Žal nam je, toda zdi se, da %{your_browser_does_not_support_webgl},
+        tehnologije za upodabljanje 3D-grafike na spletu.
+      your_browser_does_not_support_webgl: vaš brskalnik ne podpira WebGL
+      webgl_is_required_for_this_map: Za prikaz tega zemljevida je potreben WebGL.
+      read_more_about_webgl: Več o tem
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Zasebna (v skupni rabi kot anonimna, neurejene točke)
@@ -3083,13 +3089,13 @@ sl:
       points: 'Točk:'
       start_coordinates: 'Začetna koordinata:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: zemljevid
-      edit: uredi
+      map: ogled lokacije na zemljevidu
+      edit: odpri v urejevalniku
       owner: 'Lastnik:'
       description: 'Opis:'
       tags: 'Oznake:'
       none: Brez
-      edit_trace: Uredi to sled
+      edit_trace: Uredi podrobnosti sledi
       delete_trace: Izbriši to sled
       trace_not_found: Sledi ni bilo mogoče najti!
       visibility: 'Vidnost:'
@@ -3103,8 +3109,8 @@ sl:
         other: '%{count} točk'
       more: več
       trace_details: Ogled podrobnnosti zemljevida
-      view_map: Prikaži zemljevid
-      edit_map: Uredi zemljevid
+      view_map: Ogled lokacije na zemljevidu
+      edit_map: Odpri v urejevalniku
       public: JAVNA
       identifiable: DOLOČLJIVA
       private: ZASEBNA
@@ -3284,7 +3290,7 @@ sl:
       no_auto_account_create: Žal vam trenutno ne moremo samodejno ustvariti uporabniškega
         računa.
       please_contact_support_html: Obrnite se na %{support_link}, da se dogovorimo
-        za ustvaritev računa – zahtevek bomo poskušali  obravnavati čim prej.
+        za ustvaritev računa – zahtevek bomo poskušali obravnavati čim prej.
       support: podpora
       about:
         header: Prosto in omogoča urejanje.
@@ -3314,6 +3320,10 @@ sl:
         html: Vaš naslov ni javno prikazan, za več informacij glejte naš %{privacy_policy_link}.
       or: ali
       use external auth: ali se prijavite prek tretje osebe
+      verify_human: Potrdite, da ste človek
+    create:
+      not_human: Žal ne moremo potrditi, da ste človek. To je potrebno za ustvarjanje
+        novih računov.
     no_such_user:
       title: Ni tega uporabnika
       heading: Uporabnik %{user} ne obstaja
@@ -3361,7 +3371,9 @@ sl:
       activate_user: Aktiviraj uporabnika
       confirm_user: Potrdi uporabnika
       unconfirm_user: Prekliči potrditev tega uporabnika
+      suspend_user: Začasno onemogoči tega uporabnika
       unsuspend_user: Prekliči suspendiranje tega uporabnika
+      undelete_user: Razveljavi izbris tega uporabnika
       confirm: Potrdi
       report: Prijavi tega uporabnika
       edit_profile_details: Uredi podrobnosti profila
@@ -3375,6 +3387,20 @@ sl:
         two: '%{count} prispevka v zadnjem letu'
         few: '%{count} prispevkov v zadnjem letu'
         other: '%{count} prispevkov v zadnjem letu'
+      title:
+        administrator: Ta uporabnik je administrator
+        moderator: Ta uporabnik je moderator
+        importer: Ta uporabnik je uvoznik
+      grant:
+        administrator: Podeli administratorski dostop
+        moderator: Podeli moderatorski dostop
+        importer: Podeli dostop uvoznika
+        are_you_sure: Ali res želite podeliti vlogo '%{role}' uporabniku_ci '%{name}'?
+      revoke:
+        administrator: Odvzemi administratorski dostop
+        moderator: Odvzemi moderatorski dostop
+        importer: Odvzemi dostop uvoznika
+        are_you_sure: Ali res želite preklicati vlogo »%{role}« uporabnika »%{name}«?
     sidebar_section:
       home_location: Domača lokacija
       company: Podjetje
@@ -3428,6 +3454,7 @@ sl:
           few: '%{count} najdeni uporabniki'
           other: '%{count} najdenih uporabnikov'
         confirm: Potrdi izbrane uporabnike
+        suspend: Začasno onemogoči izbrane uporabnike
         empty: Nobenega uporabnika ni bilo mogoče najti
       user:
         summary_html: '%{name} ustvarjen iz %{ip_address} dne %{date}'
@@ -3472,21 +3499,6 @@ sl:
         spodnjega obrazca.
       option_2: Če že imate račun, se lahko prijavite s svojim uporabniškim imenom
         in geslom ter račun v nastavitvah povežete s svojim ID-jem.
-    role_icons:
-      title:
-        administrator: Ta uporabnik je administrator
-        moderator: Ta uporabnik je moderator
-        importer: Ta uporabnik je uvoznik
-      grant:
-        administrator: Podeli administratorski dostop
-        moderator: Podeli moderatorski dostop
-        importer: Podeli dostop uvoznika
-        are_you_sure: Ali res želite podeliti vlogo '%{role}' uporabniku_ci '%{name}'?
-      revoke:
-        administrator: Odvzemi administratorski dostop
-        moderator: Odvzemi moderatorski dostop
-        importer: Odvzemi dostop uvoznika
-        are_you_sure: Ali res želite preklicati vlogo »%{role}« uporabnika »%{name}«?
   user_role:
     filter:
       not_a_role: Niz »%{role}« ni veljavna vloga.
@@ -3722,11 +3734,16 @@ sl:
       tooltip: Legenda
       tooltip_disabled: Legende za ta sloj ni na voljo
     map:
-      zoom:
-        in: Približaj
-        out: Oddalji
-      locate:
-        title: Pokaži mojo lokacijo
+      map:
+        title: Zemljevid
+      popup:
+        close: Zapri
+      navigation_control:
+        zoom_in: Približaj
+        zoom_out: Oddalji
+      geolocate_control:
+        find_my_location: Pokaži mojo lokacijo
+        location_not_available: Položaj ni na voljo
         metersPopup:
           one: Ste znotraj %{count} metra od te točke
           two: Ste znotraj %{count} metrov od te točke
@@ -3885,7 +3902,7 @@ sl:
     home:
       marker_title: Moja domača lokacija
       not_set: Domača lokacija za vaš račun ni nastavljena
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Brez prispevkov dne %{date}
         contributions:

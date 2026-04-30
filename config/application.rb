@@ -32,7 +32,7 @@ module OpenStreetMap
     config.active_record.schema_format = :sql unless Settings.status == "database_offline"
 
     # Use memcached for caching if required
-    config.cache_store = :mem_cache_store, Settings.memcache_servers, { :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
+    config.cache_store = :mem_cache_store, Settings.memcache_servers, { :protocol => :meta, :namespace => "rails:cache" } if Settings.key?(:memcache_servers)
 
     # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
     # the I18n.default_locale when a translation cannot be found).

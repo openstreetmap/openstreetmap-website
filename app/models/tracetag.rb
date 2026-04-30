@@ -24,5 +24,5 @@ class Tracetag < ApplicationRecord
   belongs_to :trace, :foreign_key => "gpx_id", :inverse_of => :tags
 
   validates :trace, :associated => true
-  validates :tag, :length => 1..255, :characters => { :url_safe => true }
+  validates :tag, :length => 1..255, :characters => { :url_safe => true }, :presence => true
 end

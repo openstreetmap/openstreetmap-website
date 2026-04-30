@@ -21,7 +21,7 @@ module OsmCommunityIndex
         id = community.id
 
         strings = community_locale_yaml[id] || {}
-        strings["name"] = resolve_name(community, community_locale_yaml, community_en_yaml)
+        strings["name"] = resolve_name(community, community_locale_yaml, community_en_yaml, locale)
 
         obj.deep_merge!("osm_community_index" => { "communities" => { id => strings } })
       end
@@ -30,7 +30,7 @@ module OsmCommunityIndex
     end
   end
 
-  def self.resolve_name(community, community_locale_yaml, community_en_yaml)
+  def self.resolve_name(community, community_locale_yaml, community_en_yaml, locale_name)
     # If theres an explicitly translated name then use that
     translated_name = community_locale_yaml.dig(community.id, "name")
     return translated_name if translated_name
@@ -42,8 +42,8 @@ module OsmCommunityIndex
     # Change the `{community}` placeholder to `%{community}` and use Ruby's Kernel.format to fill it in.
     begin
       translated_name = format(template.gsub("{", "%{"), { :community => community_name }) if template && community_name
-    rescue KeyError => e
-      Rails.logger.warn e.full_message
+    rescue KeyError
+      Rails.logger.warn "Could not find a translated name for community #{community.id.inspect} in locale #{locale_name.inspect}"
     end
     return translated_name if translated_name
 

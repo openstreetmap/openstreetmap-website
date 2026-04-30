@@ -8,6 +8,7 @@
 # Author: C933103
 # Author: Cwlin0416
 # Author: EagerLin
+# Author: Entropy lover nagnto
 # Author: Foothsu
 # Author: GuoPC
 # Author: HTan (WMF)
@@ -15,6 +16,7 @@
 # Author: Impersonator 1
 # Author: Jiazheng0609
 # Author: Justincheng12345
+# Author: Key0121
 # Author: Kly
 # Author: LNDDYL
 # Author: LaoShuBaby
@@ -58,10 +60,10 @@
 zh-TW:
   date:
     formats:
-      heatmap: '%-m月%-d日'
+      contribution_calendar: '%-m月%-d日'
   time:
     formats:
-      friendly: '%Y年%m月%e日 %H時%M分'
+      friendly: '%Y年%-m月%-d日 %-H時%M分'
       blog: '%Y年%B%e日'
   helpers:
     file:
@@ -136,19 +138,6 @@ zh-TW:
       way_node: 路徑節點
       way_tag: 路徑標籤
     attributes:
-      client_application:
-        name: 名稱 (必填)
-        url: 主要應用程式 URL (必填)
-        callback_url: 回呼(Callback)URL
-        support_url: 支援 URL
-        allow_read_prefs: 讀取使用者偏好設定
-        allow_write_prefs: 修改使用者偏好設定
-        allow_write_diary: 建立日記的項目和評論
-        allow_write_api: 修改地圖
-        allow_write_changeset_comments: 在變更集上留言
-        allow_read_gpx: 讀取個人 GPS 軌跡
-        allow_write_gpx: 上傳 GPS 軌跡
-        allow_write_notes: 修改註記
       diary_comment:
         body: 內文
       diary_entry:
@@ -313,7 +302,7 @@ zh-TW:
     go_public:
       heading: 公開編輯
       currently_not_public: 目前你的編輯都是暱名的，其他人無法寄給你訊息或是知道你的位置。要讓別人知道你編輯什麼，以及透過網站聯繫你，請你點以下的按鈕。
-      only_public_can_edit: 自從 API 0.6 版本上線，只有公共帳號的使用者可以編輯地圖資料。
+      only_public_can_edit: 自從 API 0.6 版本上線，只有公開帳號的使用者才能編輯地圖資料。
       find_out_why_html: (%{link})。
       find_out_why: 找出原因
       email_not_revealed: 你的電子郵件地址不會公開洩漏。
@@ -404,9 +393,7 @@ zh-TW:
     way:
       title_html: 路徑：%{name}
       nodes: 節點
-      nodes_count:
-        one: '%{count} 個節點'
-        other: '%{count}  個節點'
+      nodes_count: '%{count} 個節點'
       also_part_of_html:
         one: 此路徑 %{related_ways} 的一部份
         other: 此些路徑 %{related_ways} 的一部份
@@ -722,8 +709,6 @@ zh-TW:
       latest_diaries: 最新日記
       comments: '%{count}條評論'
       title_label: 日記項目
-      comments_label: 評論
-      date_label: 日期
   diary_comments:
     new:
       heading: 在以下日記項目討論新增留言？
@@ -808,7 +793,7 @@ zh-TW:
           t-bar: T 型桿拖拉式索道
           "yes": 空中索道
         aeroway:
-          aerodrome: 機場
+          aerodrome: 飛行場
           airstrip: 簡易跑道
           apron: 停機坪
           gate: 登機口
@@ -1202,7 +1187,7 @@ zh-TW:
           sports_centre: 運動中心
           stadium: 體育館
           swimming_pool: 游泳池
-          track: 跑道
+          track: 賽道（非賽車運動）
           water_park: 水上樂園
           "yes": 休閒娛樂
         lock:
@@ -1640,6 +1625,7 @@ zh-TW:
       download: 以 GeoJSON 格式下載路線
       filename: 路線
       directions_courtesy_html: 由 %{link} 提供路線指引
+      check_demo_html: 更多來自%{link}的詳細資訊
   issues:
     index:
       title: 問題
@@ -1692,16 +1678,15 @@ zh-TW:
       other_issues_against_this_user: 其它針對此使用者的問題
       no_other_issues: 沒有其它針對此使用者的問題。
       comments_on_this_issue: 在此問題的評論
+      comment_from_html: 由 %{user_link} 於 %{comment_created_at} 發表的評論
+      reassign_to_moderators: 重新指派問題給仲裁員
+      reassign_to_administrators: 重新指派問題給管理員
     resolve:
       resolved: 問題狀態已設定成「已解決」
     ignore:
       ignored: 問題狀態已設定成「已忽略」
     reopen:
       reopened: 問題狀態已設定成「開啟」
-    comments:
-      comment_from_html: 由 %{user_link} 於 %{comment_created_at} 發表的評論
-      reassign_to_moderators: 重新指派問題給仲裁員
-      reassign_to_administrators: 重新指派問題給管理員
     reports:
       reported_by_html: 由 %{user} 於 %{updated_at} 回報為 %{category}
     helper:
@@ -1797,6 +1782,7 @@ zh-TW:
         ku-Latn: 庫德語（拉丁字母）
         lv: 拉脫維亞語
         lb: 盧森堡語
+        lkt: 拉科塔語
         lt: 立陶宛語
         hu: 匈牙利語
         fit: 梅安語
@@ -1874,34 +1860,37 @@ zh-TW:
       title: OpenStreetMap 開放街圖
     logo:
       alt_text: 開放街圖標誌
-    home: 移至家的位置
-    logout: 登出
-    log_in: 登入
-    sign_up: 註冊
+    layer_info: 圖層資訊
     start_mapping: 開始製圖
-    edit: 編輯
-    history: 歷史
-    export: 匯出
-    issues: 問題
-    gps_traces: GPS軌跡
-    user_diaries: 日記
-    edit_with: 以%{editor}來編輯
     intro_header: 歡迎來到開放街圖！
     intro_text: 開放街圖是一份全世界的地圖，由如同你一樣的人們所建立，在開放授權下可以自由使用。
     hosting_partners_2024_html: 由%{fastly}、%{corpmembers}，和其他%{partners}支援代管。
     partners_corpmembers: OSMF 團體成員
     partners_partners: 合作夥伴
+    welcome_tou_notice_html: 使用本網站或開放街圖基金會提供的其他基礎設施，即表示您同意 %{terms_link}。
+    terms_of_use: 使用條款
     tou: 使用條款
     nothing_to_preview: 無可預覽內容。
-    help: 說明
-    about: 關於
-    copyright: 著作權
-    communities: 社群
     learn_more: 瞭解更多
-    more: 更多
     header:
+      about: 關於
+      communities: 社群
+      copyright: 著作權
+      donate: 捐款
+      edit: 編輯
+      edit_with: 以%{editor}來編輯
+      export: 匯出
+      gps_traces: GPS軌跡
+      help: 說明
+      history: 歷史
+      home: 移至家的位置
+      issues: 問題
+      log_out: 登出
+      log_in: 登入
+      more: 更多
       select_language: 選擇語言
-      loading: 載入中…
+      sign_up: 註冊
+      user_diaries: 日記
     meta:
       openstreetmap_search: OpenStreetMap 搜尋
     select_language_button:
@@ -2016,12 +2005,12 @@ zh-TW:
         partial_changeset_with_comment_html: 評論 "%{changeset_comment}"
         partial_changeset_without_comment: 沒有評論
       details: 在 %{url} 回覆或瞭解更多有關於變更集的資訊。
-      details_html: 在 %{url} 回覆或瞭解更多有關變更集的資訊。
+      details_html: 在 %{url} 回覆或瞭解更多有關於變更集的資訊。
       unsubscribe: 你可以在 %{url} 取消訂閱此變更集的更新內容。
       unsubscribe_html: 你可以在 %{url} 取消訂閱此變更集的更新內容。
   confirmations:
     confirm:
-      heading: 檢查你的電子郵件！
+      heading: 請檢查你的電子郵件！
       introduction_1: 我們已經寄給你一封確認電子郵件。
       introduction_2: 按電子郵件中的連結以確認你的帳號，然後你就可以開始繪製地圖。
       press confirm button: 按下確認按鈕以開啟你的帳號。
@@ -2168,7 +2157,7 @@ zh-TW:
           auto: 與網站相同
           light: 淺色
           dark: 深色
-        save: 更新偏好
+        save: 更新偏好設定
     advanced_preferences:
       show:
         title: 我的進階偏好設定
@@ -2181,7 +2170,7 @@ zh-TW:
         image: 圖片
         company: 公司
         location: 位置
-        heatmap: 熱力圖
+        contribution_calendar: 貢獻日曆
     descriptions:
       show:
         title: 編輯基本資料
@@ -2241,13 +2230,13 @@ zh-TW:
         failure: 無法更新個人資料位置。
     heatmaps:
       show:
-        title: 設定熱力圖
-        show_heatmap_in_public: 在您的個人檔案頁面顯示熱力圖
-        save: 更新熱力圖設定
+        title: 配置貢獻日曆
+        show_contribution_calendar_in_public: 在您的個人檔案頁面上顯示捐款日曆
+        save: 更新貢獻日曆配置
         cancel: 取消
       update:
-        success: 熱力圖已經更新了。
-        failure: 無法更新熱力圖。
+        success: 貢獻日曆已更新。
+        failure: 無法更新貢獻日曆。
   sessions:
     new:
       tab_title: 登入
@@ -2478,7 +2467,7 @@ zh-TW:
         contributors_hr_croatia: 克羅埃西亞
         contributors_hr_dgu: 克羅埃西亞國家大地測量局
         contributors_hr_open_data_portal: 國家開放資料入口網站
-        contributors_nl_credit_html: '%{netherlands}：包含 &copy; AND 資料，2007 (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}：包含 &copy; 與資料，2007'
         contributors_nl_netherlands: 荷蘭
         contributors_nz_credit_html: '%{new_zealand}：包含來自 %{linz_data_service_link}與基於%{cc_by_link}
           的重複使用授權條款。'
@@ -2792,6 +2781,15 @@ zh-TW:
       image_dimensions_html: 圖片會顯示成 %{width} x %{height} %{layer}圖層
       download: 下載
       downloading: 正在下載…
+  webgl_error_panes:
+    show:
+      compact_message: 此地圖需要 WebGL 功能。
+      description_html: 很抱歉，看起來%{your_browser_does_not_support_webgl}，這是一種用於在 Web
+        上渲染 3D 圖形的技術。
+      your_browser_does_not_support_webgl: 您的瀏覽器不支援 WebGL
+      webgl_is_required_for_this_map: 顯示此地圖需要 WebGL。
+      read_more_about_webgl: 閱讀更多
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: 私人 (以匿名方式分享，節點無順序)
@@ -2825,13 +2823,13 @@ zh-TW:
       points: 點數：
       start_coordinates: 開始坐標：
       coordinates_html: '%{latitude}; %{longitude}'
-      map: 地圖
-      edit: 編輯
+      map: 在地圖上檢視位置
+      edit: 在編輯器中開啟
       owner: 擁有者：
       description: 描述：
       tags: 標籤
       none: 無
-      edit_trace: 編輯這個軌跡
+      edit_trace: 編輯軌跡詳細資訊
       delete_trace: 刪除這個軌跡
       trace_not_found: 找不到軌跡！
       visibility: 能見度
@@ -2843,8 +2841,8 @@ zh-TW:
         other: '%{count} 個點'
       more: 更多
       trace_details: 檢視軌跡詳細資料
-      view_map: 檢視地圖
-      edit_map: 編輯地圖
+      view_map: 在地圖上檢視位置
+      edit_map: 在編輯器中開啟
       public: 公開
       identifiable: 可辨識
       private: 私人
@@ -3012,7 +3010,7 @@ zh-TW:
       tab_title: 註冊
       signup_to_authorize_html: 註冊開放街圖以存取 %{client_app_name}。
       no_auto_account_create: 很不幸的，我們現在無法自動為你建立帳號。
-      please_contact_support_html: 請聯繫 %{support_link} 來安排建立帳號 - 我們會盡快處理這份請求。
+      please_contact_support_html: 如需協助，請聯絡 %{support_link} - 我們將盡快處理您的請求。
       support: 支援
       about:
         header: 自由且可編輯。
@@ -3026,7 +3024,7 @@ zh-TW:
         tou: 使用條款
         privacy_policy: 隱私權政策
         privacy_policy_title: OSMF 隱私權政策包含電子郵件地址部份
-        contributor_terms_url: https://wiki.osmfoundation.org/wiki/Licence/Contributor_Terms
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: 貢獻者條款
       continue: 註冊
       email_help:
@@ -3035,11 +3033,14 @@ zh-TW:
         html: 你的地址不會公開顯示，請參閱我們的%{privacy_policy_link}來了解更多資訊。
       or: 或
       use external auth: 或者使用第三方服務註冊
+      verify_human: 驗證您是否為人類
+    create:
+      not_human: 抱歉，我們無法確認您是真人。建立新帳號必須通過此驗證。
     no_such_user:
       title: 沒有這個使用者
       heading: 使用者 %{user} 不存在
       body: 抱歉，沒有名為 %{user} 的使用者。請檢查你的拼字，或者可能是你按到錯誤的連結。
-      deleted: 已刪除賬號
+      deleted: 已刪除的帳號
     show:
       my diary: 我的日記
       my edits: 我的編輯
@@ -3092,8 +3093,22 @@ zh-TW:
       change_image: 更改圖片
       edit_company: 編輯公司
       edit_location: 編輯位置
-      edit_heatmap: 設定熱力圖
+      edit_contribution_calendar: 設定貢獻者日曆
       contributions: 去年有%{count}貢獻
+      title:
+        administrator: 這個使用者是一個管理員
+        moderator: 這個使用者是一個仲裁員
+        importer: 此名使用者是匯入者
+      grant:
+        administrator: 授予管理員權限
+        moderator: 授予仲裁員權限
+        importer: 授予匯入權限
+        are_you_sure: 你確定要授予使用者 '%{name}' '%{role}' 的身份？
+      revoke:
+        administrator: 撤銷管理員權限
+        moderator: 撤銷仲裁員權限
+        importer: 撤銷匯入權限
+        are_you_sure: 你確定要撤銷使用者 '%{name}' '%{role}' 的身份？
     sidebar_section:
       home_location: 家的位置
       company: 公司
@@ -3185,21 +3200,6 @@ zh-TW:
       heading: 你的 ID 尚未與開放街圖帳號關聯。
       option_1: 如果你是新來到開放街圖，請使用下方表單建立一個帳號。
       option_2: 如果你已擁有一個帳號，可以用你的使用者名稱與密碼登入你的帳號，並在使用者設定中關連你的 ID。
-    role_icons:
-      title:
-        administrator: 這個使用者是一個管理員
-        moderator: 這個使用者是一個仲裁員
-        importer: 此名使用者是匯入者
-      grant:
-        administrator: 授予管理員權限
-        moderator: 授予仲裁員權限
-        importer: 授予匯入權限
-        are_you_sure: 你確定要授予使用者 '%{name}' '%{role}' 的身份？
-      revoke:
-        administrator: 撤銷管理員權限
-        moderator: 撤銷仲裁員權限
-        importer: 撤銷匯入權限
-        are_you_sure: 你確定要撤銷使用者 '%{name}' '%{role}' 的身份？
   user_role:
     filter:
       not_a_role: 字串 '%{role}' 不是有效的身份。
@@ -3260,7 +3260,7 @@ zh-TW:
       short:
         ended: 已結束
         revoked_html: 已被 %{name} 撤銷
-        active: 活躍的
+        active: 作用中
         active_until_read: 直到讀取後才活躍
         read_html: 已讀於 %{time}
         time_in_future_title: '%{time_absolute}；於 %{time_relative}'
@@ -3404,20 +3404,26 @@ zh-TW:
       tooltip: 圖例
       tooltip_disabled: 圖例不適用這個圖層
     map:
+      map:
+        title: 地圖
+        marker:
+          title: 地圖標記
       popup:
         close: 關閉
-      zoom:
-        in: 放大
-        out: 縮小
-      locate:
-        title: 顯示我的位置
-        not_available: 位置不可用
+      navigation_control:
+        zoom_in: 放大
+        zoom_out: 縮小
+      geolocate_control:
+        find_my_location: 顯示我的位置
+        location_not_available: 位置不可用
         metersPopup:
           one: 你距離此地點不到 %{count} 公尺
           other: 你距離此地點不到 %{count} 公尺
         feetPopup:
           one: 你距離此地點不到 %{count} 英尺
           other: 你距離此地點不到 %{count} 英尺
+      attribution_control:
+        toggle_attribution: 切換署名
       base:
         standard: 標準
         cycle_map: 自行車地圖
@@ -3555,7 +3561,7 @@ zh-TW:
     home:
       marker_title: 我家位置
       not_set: 你的帳號還未設定家位置
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: '%{date} 沒有貢獻'
         contributions: '%{date}有%{count}貢獻'

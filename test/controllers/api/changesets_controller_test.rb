@@ -808,6 +808,9 @@ module Api
         end
         assert_dom "> @comments_count", changeset.comments.length.to_s
         assert_dom "> @changes_count", changeset.num_changes.to_s
+        assert_dom "> @created_count", changeset.num_created_elements.to_s
+        assert_dom "> @modified_count", changeset.num_modified_elements.to_s
+        assert_dom "> @deleted_count", changeset.num_deleted_elements.to_s
         yield if block_given?
       end
     end
@@ -824,6 +827,9 @@ module Api
       end
       assert_equal changeset.comments.length, js["changeset"]["comments_count"]
       assert_equal changeset.num_changes, js["changeset"]["changes_count"]
+      assert_equal changeset.num_created_elements, js["changeset"]["created_count"]
+      assert_equal changeset.num_modified_elements, js["changeset"]["modified_count"]
+      assert_equal changeset.num_deleted_elements, js["changeset"]["deleted_count"]
     end
 
     ##

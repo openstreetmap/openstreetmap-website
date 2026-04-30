@@ -12,6 +12,8 @@
 class Language < ApplicationRecord
   has_many :diary_entries, :foreign_key => "language", :inverse_of => :language
 
+  validates :english_name, :presence => true
+
   def self.load(file)
     Language.transaction do
       YAML.safe_load_file(file).each do |k, v|

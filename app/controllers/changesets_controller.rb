@@ -68,7 +68,7 @@ class ChangesetsController < ApplicationController
         changesets = changesets.where(:user => current_user.nearby)
       end
 
-      @changesets, @newer_changesets_id, @older_changesets_id = get_page_items(changesets, :includes => [:user, :changeset_tags, :comments])
+      @changesets = get_page_items(changesets, :includes => [:user, :changeset_tags, :comments])
 
       render :action => :index, :layout => false
     end

@@ -11,19 +11,26 @@ L.OSM.Map = L.Map.extend({
     L.Map.prototype.initialize.call(this, id, options);
 
     this.baseLayers = OSM.LAYER_DEFINITIONS.map((
-      { credit, nameId, leafletOsmId, leafletOsmDarkId, ...layerOptions }
+      { credit, nameId, leafletOsmId, leafletOsmDarkId, style, styleDark, ...layerOptions }
     ) => {
       if (credit) layerOptions.attribution = makeAttribution(credit);
       if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
-      const layerConstructor =
-        (OSM.isDarkMap() && L.OSM[leafletOsmDarkId]) ||
-        L.OSM[leafletOsmId] ||
-        L.OSM.TileLayer;
+
+      let layerConstructor;
+      if (OSM.isDarkMap()) {
+        layerConstructor = L.OSM[leafletOsmDarkId] ?? L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+        layerOptions.url = layerOptions.urlDark ?? layerOptions.url;
+      } else {
+        layerConstructor = L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+      }
+
+      layerOptions.url = layerOptions.url?.replace("{ratio}", "{r}");
 
       const layer = new layerConstructor(layerOptions);
       layer.on("add", () => {
         this.fire("baselayerchange", { layer: layer });
       });
+      layer.options.style = (OSM.isDarkMap() && styleDark) || style;
       return layer;
     });
 
@@ -77,19 +84,19 @@ L.OSM.Map = L.Map.extend({
         children[childId] = makeCredit(credit.children[childId]);
       }
       const text = OSM.i18n.t(`javascripts.map.${credit.id}`, children);
-      if (credit.href) {
-        const link = $("<a>", {
-          href: credit.href,
-          text: text
-        });
-        if (credit.donate) {
-          link.addClass("donate-attr");
-        } else {
-          link.attr("target", "_blank");
-        }
-        return link.prop("outerHTML");
+      if (!credit.href) {
+        return text;
       }
-      return text;
+      const link = $("<a>", {
+        href: credit.href,
+        text: text
+      });
+      if (credit.donate) {
+        link.addClass("donate-attr");
+      } else {
+        link.attr("target", "_blank");
+      }
+      return link.prop("outerHTML");
     }
   },
 
@@ -134,7 +141,9 @@ L.OSM.Map = L.Map.extend({
     const params = {};
 
     if (marker && this.hasLayer(marker)) {
-      [params.mlat, params.mlon] = OSM.cropLocation(marker.getLatLng(), this.getZoom());
+      const { lat, lng } = OSM.cropLocation(marker.getLatLng(), this.getZoom());
+      params.mlat = lat;
+      params.mlon = lng;
     }
 
     let url = location.protocol + "//" + OSM.SERVER_URL + "/";
@@ -216,7 +225,8 @@ L.OSM.Map = L.Map.extend({
       latLng = marker.getLatLng();
     }
 
-    return `geo:${OSM.cropLocation(latLng, zoom).join(",")}?z=${zoom}`;
+    const { lat, lng } = OSM.cropLocation(latLng, zoom);
+    return `geo:${lat},${lng}?z=${zoom}`;
   },
 
   addObject: function (object, callback) {

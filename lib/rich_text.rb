@@ -87,12 +87,19 @@ module RichText
       Sanitize.clean(text, Sanitize::Config::OSM).html_safe
     end
 
-    def linkify(text, mode = :urls)
-      ERB::Util.html_escape(text)
-               .then { |html| expand_link_shorthands(html) }
-               .then { |html| expand_host_shorthands(html) }
-               .then { |html| auto_link(html, mode) }
-               .html_safe
+    def linkify(text, mode = :urls, hosts: true, paths: true)
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      html = ERB::Util.html_escape(text)
+
+      html = expand_link_shorthands(html) if paths
+      html = expand_host_shorthands(html) if hosts
+
+      Rinku.auto_link(html, mode, link_attr) do |url|
+        url = shorten_hosts(url) if hosts
+        url = shorten_link(url) if paths
+
+        url
+      end.html_safe
     end
 
     private
@@ -104,8 +111,8 @@ module RichText
         .flat_map do |rule|
           expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
           rule.patterns
-              .select { |pattern| pattern.is_a?(String) }
-              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE), expanded_path] }
+              .grep(String)
+              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE, :timeout => 1), expanded_path] }
         end
     end
 
@@ -115,40 +122,35 @@ module RichText
     end
 
     def expand_host_shorthands(text)
-      [
-        [Settings.linkify_hosts, Settings.linkify_hosts_replacement],
-        [Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement]
-      ]
-        .select { |hosts, replacement| replacement && hosts&.any? }
-        .reduce(text) do |text, (hosts, replacement)|
-          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(replacement)}/) do
-            "#{Settings.server_protocol}://#{hosts[0]}"
+      Array
+        .wrap(Settings.linkify&.normalisation_rules)
+        .select { |rule| rule.host_replacement && rule.hosts&.any? }
+        .reduce(text) do |text, rule|
+          text.gsub(/(?<=^|#{URL_UNSAFE_CHARS})\b#{Regexp.escape(rule.host_replacement)}/) do
+            "#{Settings.server_protocol}://#{rule.hosts[0]}"
           end
         end
     end
 
-    def auto_link(text, mode)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      Rinku.auto_link(text, mode, link_attr) { |url| format_link_text(url) }
+    def shorten_hosts(url)
+      Array
+        .wrap(Settings.linkify&.normalisation_rules)
+        .reduce(url) { |url, rule| shorten_host(url, rule) }
     end
 
-    def format_link_text(url)
-      url = shorten_host(url, Settings.linkify_hosts, Settings.linkify_hosts_replacement)
-      url = shorten_host(url, Settings.linkify_wiki_hosts, Settings.linkify_wiki_hosts_replacement) do |path|
-        path.sub(Regexp.new(Settings.linkify_wiki_optional_path_prefix || ""), "")
-      end
+    def shorten_link(url)
       Array.wrap(Settings.linkify&.display_rules)
            .select { |rule| rule.pattern && rule.replacement }
            .reduce(url) { |url, rule| url.sub(Regexp.new(rule.pattern), rule.replacement) }
     end
 
-    def shorten_host(url, hosts, hosts_replacement)
+    def shorten_host(url, rule)
       %r{^(https?://([^/]*))(.*)$}.match(url) do |m|
         scheme_host, host, path = m.captures
-        if hosts&.include?(host)
-          path = yield(path) if block_given?
-          if hosts_replacement
-            "#{hosts_replacement}#{path}"
+        if rule.hosts&.include?(host)
+          path = path.sub(Regexp.new(rule.optional_path_prefix || ""), "")
+          if rule.host_replacement
+            "#{rule.host_replacement}#{path}"
           else
             "#{scheme_host}#{path}"
           end
@@ -159,7 +161,7 @@ module RichText
 
   class HTML < Base
     def to_html
-      linkify(simple_format(self))
+      linkify(simple_format(self), :paths => false)
     end
 
     def to_text
@@ -169,7 +171,7 @@ module RichText
 
   class Markdown < Base
     def to_html
-      linkify(sanitize(document.to_html), :all)
+      linkify(sanitize(document.to_html), :all, :paths => false)
     end
 
     def to_text

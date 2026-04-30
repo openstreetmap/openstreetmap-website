@@ -20,10 +20,10 @@ module UserMailerHelper
     )
   end
 
-  def message_body(&)
+  def message_body(locals = {}, &)
     render(
       :partial => "message_body",
-      :locals => { :body => capture(&) }
+      :locals => locals.merge(:body => capture(&))
     )
   end
 

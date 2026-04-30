@@ -38,4 +38,19 @@ class NoteCommentTest < ActiveSupport::TestCase
       assert_not_predicate note_comment, :valid?, "#{body} is valid when it shouldn't be"
     end
   end
+
+  def test_notifiable_subscribers
+    commenter1 = create(:user)
+    commenter2 = create(:user, :suspended)
+    commenter3 = create(:user)
+    commenter4 = create(:user)
+    note = create(:note)
+    create(:note_subscription, :note => note, :user => commenter1)
+    create(:note_subscription, :note => note, :user => commenter2)
+    create(:note_subscription, :note => note, :user => commenter3)
+    create(:note_subscription, :note => note, :user => commenter4)
+    comment = create(:note_comment, :note => note, :author => commenter4)
+
+    assert_equal comment.notifiable_subscribers.sort, [commenter1, commenter3].sort
+  end
 end

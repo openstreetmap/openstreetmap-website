@@ -4,23 +4,19 @@
   <% Rails.root.glob("app/assets/images/routing/*.svg")
           .map { |path| File.basename(path, ".svg") }
           .each do |icon| %>
-    <%= inline_svg_tag "routing/#{icon}.svg", :id => "routing-sprite-#{icon}", :to_symbol => true %>
-    <% if icon.end_with?("right") %>
-      <symbol id="routing-sprite-<%= icon.sub("right", "left") %>">
-        <use href="#routing-sprite-<%= icon %>" transform="matrix(-1 0 0 1 20 0)" />
-      </symbol>
-    <% end
-  end %>
+            <%= inline_svg_tag "routing/#{icon}.svg", :id => "routing-sprite-#{icon}", :to_symbol => true %>
+            <% if icon.end_with?("right") %>
+              <symbol id="routing-sprite-<%= icon.sub("right", "left") %>">
+                <use href="#routing-sprite-<%= icon %>" transform="matrix(-1 0 0 1 20 0)" />
+              </symbol>
+            <% end %>
+          <% end %>
 </svg>
 
 <%= render "sidebar_header", :title => t(".title") %>
 
 <div id="directions_loader" hidden>
-  <div class="text-center loader">
-    <div class="spinner-border" role="status">
-      <span class="visually-hidden"><%= t("browse.start_rjs.loading") %></span>
-    </div>
-  </div>
+  <div class="text-center loader"><%= render "shared/loader" %></div>
 </div>
 
 <div id="directions_error" hidden></div>
@@ -40,7 +36,7 @@
   </div>
 
   <div class="mx-n3">
-    <table class='table table-hover table-sm mb-3'>
+    <table class="table table-hover table-sm mb-3">
       <thead>
         <td colspan="2" class="ps-3">
           <span>
@@ -71,4 +67,7 @@
   <p class="text-center">
     <%= t ".directions_courtesy_html", :link => tag.a("", :id => "directions_route_credit", :target => "_blank") %>
   </p>
+ <p class="text-center">
+  <%= t ".check_demo_html", :link => tag.a("", :id => "directions_route_demo", :target => "_blank") %>
+</p>
 </div>

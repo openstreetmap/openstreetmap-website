@@ -22,9 +22,6 @@
 # Author: กิ๊ฟ เลิกล่ะ สายแข็ง
 ---
 th:
-  date:
-    formats:
-      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y เมื่อเวลา %H:%M น.'
@@ -101,19 +98,6 @@ th:
       way_node: โหนดเส้นทาง
       way_tag: แท็กกำกับเส้นทาง
     attributes:
-      client_application:
-        name: ชื่อ (ต้องมี)
-        url: ที่อยู่ URL แอปพลิเคชันหลัก (ต้องมี)
-        callback_url: ที่อยู่ URL เรียกกลับ
-        support_url: ที่อยู่ URL สนับสนุน
-        allow_read_prefs: อ่านการตั้งค่าของผู้ใช้
-        allow_write_prefs: แก้ไขการตั้งค่าของผู้ใช้
-        allow_write_diary: สร้างรายการบันทึก ข้อคิดเห็น และแสดงความคิดเห็น
-        allow_write_api: แก้ไขแผนที่
-        allow_write_changeset_comments: เพิ่มความคิดเห็นเกี่ยวกับชุดการเปลี่ยนแปลง
-        allow_read_gpx: อ่านรอยทาง GPS ส่วนบุคคล
-        allow_write_gpx: อัปโหลดรอยทาง GPS
-        allow_write_notes: แก้ไขหมายเหตุ
       diary_comment:
         body: เนื้อหา
       diary_entry:
@@ -685,8 +669,6 @@ th:
       comments:
         other: '%{count} ความคิดเห็น'
       title_label: รายการบันทึก
-      comments_label: ความคิดเห็น
-      date_label: วันที่
   diary_comments:
     new:
       heading: เพิ่มความคิดเห็นในการสนทนารายการบันทึกนี้?
@@ -1654,16 +1636,15 @@ th:
       other_issues_against_this_user: รายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
       no_other_issues: ไม่มีรายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
       comments_on_this_issue: ความคิดเห็นที่มีต่อปัญหานี้
+      comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
+      reassign_to_moderators: มอบหมายปัญหาใหม่ให้กับผู้ดูแล
+      reassign_to_administrators: มอบหมายปัญหาใหม่ให้กับผู้ดูแลระบบ
     resolve:
       resolved: สถานะปัญหาได้ถูกตั้งค่าเป็น 'แก้ไขแล้ว'
     ignore:
       ignored: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ละเว้น'
     reopen:
       reopened: สถานะปัญหาได้ถูกตั้งค่าเป็น 'เปิด'
-    comments:
-      comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
-      reassign_to_moderators: มอบหมายปัญหาใหม่ให้กับผู้ดูแล
-      reassign_to_administrators: มอบหมายปัญหาใหม่ให้กับผู้ดูแลระบบ
     reports:
       reported_by_html: รายงานเป็น %{category} โดย %{user} เมื่อ %{updated_at}
     helper:
@@ -1835,18 +1816,7 @@ th:
   layouts:
     logo:
       alt_text: ตราสัญลักษณ์ OpenStreetMap
-    home: กลับไปที่ตำแหน่งบ้าน
-    logout: ออกจากระบบ
-    log_in: ลงชื่อเข้าใช้
-    sign_up: สมัครบัญชี
     start_mapping: เริ่มการทำแผนที่
-    edit: แก้ไข
-    history: ประวัติ
-    export: ส่งออก
-    issues: ปัญหา
-    gps_traces: รอยทาง GPS
-    user_diaries: บันทึกของผู้ใช้
-    edit_with: แก้ไขด้วย %{editor}
     intro_header: ยินดีต้อนรับสู่ OpenStreetMap!
     intro_text: OpenStreetMap เป็นแผนที่โลกที่สร้างโดยผู้คนเช่นท่าน และใช้งานได้ไม่เสียค่าใช้จ่ายภายใต้สัญญาอนุญาตแบบเปิด
     hosting_partners_2024_html: โฮสติ้งได้รับการสนับสนุนโดย %{fastly}, %{corpmembers}
@@ -1855,15 +1825,25 @@ th:
     partners_partners: องค์กรพันธมิตร
     tou: ข้อกำหนดการใช้งาน
     nothing_to_preview: ไม่มีอะไรให้แสดงตัวอย่าง
-    help: วิธีใช้
-    about: เกี่ยวกับ
-    copyright: ลิขสิทธิ์
-    communities: ชุมชน
     learn_more: เรียนรู้เพิ่มเติม
-    more: เพิ่มเติม
     header:
+      about: เกี่ยวกับ
+      communities: ชุมชน
+      copyright: ลิขสิทธิ์
+      edit: แก้ไข
+      edit_with: แก้ไขด้วย %{editor}
+      export: ส่งออก
+      gps_traces: รอยทาง GPS
+      help: วิธีใช้
+      history: ประวัติ
+      home: กลับไปที่ตำแหน่งบ้าน
+      issues: ปัญหา
+      log_out: ออกจากระบบ
+      log_in: ลงชื่อเข้าใช้
+      more: เพิ่มเติม
       select_language: เลือกภาษา
-      loading: กำลังโหลด...
+      sign_up: สมัครบัญชี
+      user_diaries: บันทึกของผู้ใช้
     select_language_button:
       title: เลือกภาษา
     offline_flash:
@@ -2481,8 +2461,6 @@ th:
         contributors_hr_croatia: โครเอเชีย
         contributors_hr_dgu: สำนักงานภูมิสารสนเทศแห่งรัฐโครเอเชีย
         contributors_hr_open_data_portal: พอร์ทัลข้อมูลเปิดแห่งชาติ
-        contributors_nl_credit_html: '%{netherlands}: มีข้อมูล &copy; ข้อมูล AND,
-          2007 (%{and_link})'
         contributors_nl_netherlands: เนเธอร์แลนด์
         contributors_nz_new_zealand: นิวซีแลนด์
         contributors_nz_linz_data_service: บริการข้อมูล LINZ
@@ -2912,6 +2890,17 @@ th:
       activate_user: เปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
+      title:
+        administrator: คนนี้เป็นผู้ดูแลระบบ
+        moderator: ผู้ใช้นี้เป็นผู้ดูแล
+      grant:
+        administrator: ให้สิทธิ์ผู้ดูแลระบบ
+        moderator: ให้สิทธิ์ผู้ควบคุม
+        are_you_sure: แน่ใจว่าต้องการแต่งตั้งบทบาท `%{role}' แก่ผู้ใช้ `%{name}'?
+      revoke:
+        administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
+        moderator: เพิกถอนสิทธิ์ผู้ควบคุม
+        are_you_sure: แน่ใจว่าต้องการถอดถอนบทบาท `%{role}' จากผู้ใช้ `%{name}'?
     sidebar_section:
       home_location: ตำแหน่งบ้าน
       company: บริษัท
@@ -2973,18 +2962,6 @@ th:
       option_1: ถ้าท่านเป็นผู้ใช้ OpenStreetMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
       option_2: หากมีบัญชีอยู่แล้ว สามารถเข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่าน จากนั้นจึงเชื่อมโยงบัญชีกับ
         ID ในการตั้งค่าผู้ใช้
-    role_icons:
-      title:
-        administrator: คนนี้เป็นผู้ดูแลระบบ
-        moderator: ผู้ใช้นี้เป็นผู้ดูแล
-      grant:
-        administrator: ให้สิทธิ์ผู้ดูแลระบบ
-        moderator: ให้สิทธิ์ผู้ควบคุม
-        are_you_sure: แน่ใจว่าต้องการแต่งตั้งบทบาท `%{role}' แก่ผู้ใช้ `%{name}'?
-      revoke:
-        administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
-        moderator: เพิกถอนสิทธิ์ผู้ควบคุม
-        are_you_sure: แน่ใจว่าต้องการถอดถอนบทบาท `%{role}' จากผู้ใช้ `%{name}'?
   user_role:
     filter:
       not_a_role: ข้อความ `%{role}' ไม่ใช่บทบาทที่ถูกต้อง
@@ -3161,11 +3138,11 @@ th:
       tooltip: ความหมายสัญลักษณ์
       tooltip_disabled: ความหมายสัญลักษณ์ไม่พร้อมใช้งานสำหรับเลเยอร์นี้
     map:
-      zoom:
-        in: ซูมเข้า
-        out: ซูมออก
-      locate:
-        title: แสดงตำแหน่งของฉัน
+      navigation_control:
+        zoom_in: ซูมเข้า
+        zoom_out: ซูมออก
+      geolocate_control:
+        find_my_location: แสดงตำแหน่งของฉัน
         metersPopup:
           other: คุณอยู่ภายในระยะ %{count} เมตรจากจุดนี้
         feetPopup:
@@ -3308,7 +3285,7 @@ th:
     home:
       marker_title: ตำแหน่งบ้านของฉัน
       not_set: ตำแหน่งบ้านไม่ได้ถูกตั้งค่าสำหรับบัญชีของคุณ
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: ไม่มีส่วนร่วมใน %{date}
         contributions:

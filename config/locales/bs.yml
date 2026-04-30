@@ -9,6 +9,7 @@
 # Author: Gravitystorm
 # Author: KWiki
 # Author: Macofe
+# Author: Maro21
 # Author: Maxmus
 # Author: Obsuser
 # Author: Palapa
@@ -89,18 +90,6 @@ bs:
       way_node: Čvor putanje
       way_tag: Oznaka putanje
     attributes:
-      client_application:
-        name: Ime (obavezno)
-        url: Glavni URL aplikacije (potreban)
-        callback_url: URL za povratni poziv
-        support_url: URL podrške
-        allow_read_prefs: Pročitajte njihove korisničke postavke
-        allow_write_prefs: izmijenjite njihove korisničke postavke
-        allow_write_diary: kreirajte dnevničke zapise i komentare
-        allow_write_api: izmijeni kartu
-        allow_read_gpx: čitati njihove privatne GPS tragove
-        allow_write_gpx: uploadujte GPS tragove
-        allow_write_notes: izmijeni bilješke
       diary_comment:
         body: Tijelo
       diary_entry:
@@ -878,24 +867,25 @@ bs:
   layouts:
     logo:
       alt_text: OpenStreetMap logotip
-    home: Idi na početnu lokaciju
-    logout: Odjava
-    log_in: Prijava
-    sign_up: Otvorite račun
-    edit: Urediti
-    history: Historija
-    export: Izvoz
-    gps_traces: GPS trase
-    user_diaries: Dnevnici korisnika
-    edit_with: Uredi sa %{editor}
     intro_header: Dobordošli na OpenStreetMap stranicu!
     intro_text: OpenStreetMap predstavlja mapu svijeta, kreiranu od strane ljudi kao
       što ste vi i može se besplatno koristiti.
     partners_partners: partnera
-    help: Pomoć
-    about: O nama
-    copyright: Autorska prava i dozvola
     learn_more: Saznaj više
+    header:
+      about: O nama
+      copyright: Autorska prava i dozvola
+      edit: Urediti
+      edit_with: Uredi sa %{editor}
+      export: Izvoz
+      gps_traces: GPS trase
+      help: Pomoć
+      history: Historija
+      home: Idi na početnu lokaciju
+      log_out: Odjava
+      log_in: Prijava
+      sign_up: Otvorite račun
+      user_diaries: Dnevnici korisnika
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} je komentirao tvoj unos u dnevnik'
@@ -1164,7 +1154,7 @@ bs:
       to: Do
       where_am_i: Gdje sam?
       where_am_i_title: Opišite trenutnu lokaciju koristeći pretraživač
-      submit_text: Idi
+      submit_text: Pokreni
     welcome:
       title: Dobrodošli!
       basic_terms:
@@ -1357,6 +1347,19 @@ bs:
       activate_user: Aktiviraj ovog korisnika
       confirm_user: Potvrdi ovog korisnika
       confirm: Potvrditi
+      title:
+        administrator: Ovaj korisnik je administrator
+        moderator: Ovaj korisnik je moderator
+      grant:
+        administrator: Dodjeliti pristup za administratora
+        moderator: Dodjeliti pristup za moderatora
+        are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
+          `%{name}'?
+      revoke:
+        administrator: Opozvati pristup za administatora
+        moderator: Opozvati pristup za moderatora
+        are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' korisnika
+          `%{name}'?
     go_public:
       flash success: Sva Vaša uređivanja su sada javna i sada vam je dozvoljeno uređivanje.
     issued_blocks:
@@ -1389,20 +1392,6 @@ bs:
     suspended:
       title: Račun suspendiran
       heading: Račun suspendiran
-    role_icons:
-      title:
-        administrator: Ovaj korisnik je administrator
-        moderator: Ovaj korisnik je moderator
-      grant:
-        administrator: Dodjeliti pristup za administratora
-        moderator: Dodjeliti pristup za moderatora
-        are_you_sure: Jeste li sigurni da želite dodjeliti ulogu `%{role}' korisniku
-          `%{name}'?
-      revoke:
-        administrator: Opozvati pristup za administatora
-        moderator: Opozvati pristup za moderatora
-        are_you_sure: Jeste li sigurni da želite opozvati ulogu `%{role}' korisnika
-          `%{name}'?
   user_role:
     filter:
       not_a_role: String `%{role}' nije valjana uloga.
@@ -1485,11 +1474,11 @@ bs:
       title: Legenda
       tooltip_disabled: Legenda nije dostupna za ovaj sloj
     map:
-      zoom:
-        in: Približi
-        out: Udalji
-      locate:
-        title: Prikaži moju lokaciju
+      navigation_control:
+        zoom_in: Približi
+        zoom_out: Udalji
+      geolocate_control:
+        find_my_location: Prikaži moju lokaciju
       base:
         standard: Standardni
         cycle_map: Biciklistička karta

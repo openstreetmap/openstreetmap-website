@@ -12,11 +12,15 @@
 # Author: Nemo bis
 # Author: Pizza1016
 # Author: SNN95
+# Author: Taqi1109
 # Author: Tofeiku
 # Author: Ultron90
 # Author: Zulfadli51
 ---
 ms:
+  date:
+    formats:
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y pada %H:%M'
@@ -52,6 +56,10 @@ ms:
       models:
         user_mute:
           is_already_muted: sudah dibisukan
+        social_link:
+          attributes:
+            url:
+              http_parse_error: Url hendaklah bermula dengan http:// atau https://
     models:
       acl: Senarai Kawalan Capaian
       changeset: Set Ubah
@@ -89,18 +97,6 @@ ms:
       way_node: Nod Jalan
       way_tag: Tag Jalan
     attributes:
-      client_application:
-        name: Nama (Perlu)
-        url: URL Aplikasi Utama (Diperlukan)
-        callback_url: URL Panggil Balik
-        support_url: URL Sokongan
-        allow_read_prefs: baca keutamaan penggunanya
-        allow_write_prefs: ubah suai keutamaan penggunanya
-        allow_write_diary: cipta masukan diari, ulasan dan berkawan
-        allow_write_api: ubah suai peta
-        allow_read_gpx: baca jejak GPS peribadinya
-        allow_write_gpx: muat naik jejak GPS
-        allow_write_notes: ubah suai catatan
       diary_comment:
         body: Isi
       diary_entry:
@@ -149,8 +145,10 @@ ms:
         active: Aktif
         display_name: Nama Paparan
         description: Keterangan Profil
+        company: Syarikat
         home_lat: Garis Lintang
         home_lon: Garis Bujur
+        home_location_name: Nama Lokasi Rumah
         languages: Bahasa pilihan
         preferred_editor: Penyunting Pilihan
         pass_crypt: Kata laluan
@@ -173,19 +171,31 @@ ms:
         new_email: (tidak sesekali dipaparkan kepada umum)
   datetime:
     distance_in_words_ago:
-      about_x_hours: sekitar %{count} jam yang lalu
-      about_x_months: sekitar %{count} bulan yang lalu
-      about_x_years: sekitar %{count} tahun yang lalu
-      almost_x_years: hampir %{count} tahun yang lalu
+      about_x_hours:
+        other: sekitar %{count} jam yang lalu
+      about_x_months:
+        other: sekitar %{count} bulan yang lalu
+      about_x_years:
+        other: sekitar %{count} tahun yang lalu
+      almost_x_years:
+        other: hampir %{count} tahun yang lalu
       half_a_minute: setengah jam yang lalu
-      less_than_x_seconds: kurang daripada %{count} saat yang lalu
-      less_than_x_minutes: kurang daripada %{count} minit yang lalu
-      over_x_years: lebih %{count} tahun yang lalu
-      x_seconds: '%{count} saat yang lalu'
-      x_minutes: '%{count} minit yang lalu'
-      x_days: '%{count} hari yang lalu'
-      x_months: '%{count} bulan yang lalu'
-      x_years: '%{count} tahun yang lalu'
+      less_than_x_seconds:
+        other: kurang daripada %{count} saat yang lalu
+      less_than_x_minutes:
+        other: kurang daripada %{count} minit yang lalu
+      over_x_years:
+        other: lebih %{count} tahun yang lalu
+      x_seconds:
+        other: '%{count} saat yang lalu'
+      x_minutes:
+        other: '%{count} minit yang lalu'
+      x_days:
+        other: '%{count} hari yang lalu'
+      x_months:
+        other: '%{count} bulan yang lalu'
+      x_years:
+        other: '%{count} tahun yang lalu'
   editor:
     default: Asali (kini %{name})
     id:
@@ -193,11 +203,12 @@ ms:
       description: iD (alat sunting pada pelayar)
     remote:
       name: Kawalan Jauh
-      description: Kawalan Jauh (JOSM atau Merkaartor)
+      description: Kawalan Jauh (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Tiada
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Microsoft
       github: GitHub
@@ -228,18 +239,37 @@ ms:
   accounts:
     show:
       title: Sunting akaun
-      current email address: 'Alamat E-Mel Sekarang:'
+      my_account: Akaun Saya
+      current email address: Alamat E-Mel Sekarang
       external auth: Pengesahan Luaran
       contributor_terms:
         heading: Syarat Penyumbang
-        agreed: Anda telah bersetuju dengan Terma-Terma Penyumbang yang baru.
+        agreed: Anda telah bersetuju dengan Terma-terma Penyumbangan pada %{date}.
+        not_agreed: Anda belum lagi bersetuju dengan Terma-terma Penyumbangan.
         agreed_with_pd: Anda juga telah mengisytiharkan bahawa anda menganggap suntingan-suntingan
           anda sebagai berada dalam Domain Awam.
+        not_agreed_with_pd: Anda belum menyatakan bahawa anda bersetuju dengan menjadikan
+          suntingan anda sebahagian daripada Domain Awam.
+        review: Semak Terma-terma
+        review_and_accept: Semak dan setuju dengan Terma-terma
+        consider_pd: Pertimbangkan Domain Awam
+      terms_of_use:
+        heading: Syarat-syarat Penggunaan
+        agreed: Anda bersetuju dengan Terma-terma Penggunaan pada %{date}.
+        not_agreed: Anda belum bersetuju dengan Terma-terma Penggunaan.
+        review: Semak Terma-terma
+        review_and_accept: Semak dan setuju dengan Terma-terma
       save changes button: Simpan Perubahan
       delete_account: Hapus Akaun...
     go_public:
       heading: Penyuntingan awam
+      only_public_can_edit: Sejak perubahan API 0.6, hanya pengguna awam sahaja yang
+        boleh menyunting data peta.
       find_out_why: ketahui sebabnya
+      email_not_revealed: Alamat e-mel anda tidak akan didedahkan jika anda menjadi
+        pengguna awam.
+      not_reversible: Tindakan ini tidak boleh dibatalkan dan semua pengguna baharu
+        kini akan menjadi pengguna awam secara automatik.
       make_edits_public_button: Umumkan semua suntingan saya
     update:
       success_confirm_needed: Maklumat pengguna berjaya dikemaskinikan. Semak e-mel
@@ -250,13 +280,45 @@ ms:
     deletions:
       show:
         title: Hapus Akaun Saya
+        warning: Amaran! Proses pemadaman akaun ialah muktamad, dan tidak boleh diundurkan
+          semula.
         delete_account: Hapus Akaun
+        delete_introduction: 'Anda boleh memadam akaun OpenStreetMap menggunakan butang
+          di bawah. Sila ambil perhatian butiran berikut:'
+        delete_profile: Maklumat profil anda, termasuk avatar, deskripsi serta lokasi
+          rumah, akan dipadam.
+        delete_display_name: Nama paparan anda akan dipadam, dan boleh digunakan oleh
+          akaun lain.
+        retain_caveats: 'Walau bagaimanapun, beberapa maklumat tentang anda akan disimpan
+          di OpenStreetMap, walaupun akaun anda telah dipadam, seperti:'
+        retain_edits: Suntingan anda di pangkalan data peta, jika ada, akan disimpan.
+        retain_traces: Jejak GPS yang anda muat naik, jika ada, akan disimpan.
+        retain_diary_entries: Catatan diari dan komen diari anda, jika ada, akan disimpan
+          tetapi tersembunyi dari orang awam.
+        retain_notes: Nota peta dan komen nota peta, jika ada, akan disimpan tetapi
+          tersembunyi dari awam.
+        retain_changeset_discussions: Perbincangan set perubahan anda, jika ada, akan
+          disimpan.
+        retain_email: Alamat e-mel anda akan disimpan.
+        recent_editing_html: Oleh sebab anda telah menyunting baru-baru ini, akaun
+          anda tidak boleh dipadamkan sekarang. Pemadaman akaun boleh dibuat dalam
+          masa %{time}.
         confirm_delete: Anda pasti?
         cancel: Batal
     terms:
       show:
-        title: Terma-terma penyumbang
-        heading: Terma-terma penyumbang
+        title: Terma-terma
+        heading: Terma-terma
+        heading_ct: Terma-terma Penyumbangan
+        read and accept with tou: Sila baca perjanjian penyumbangan dan Terma Penggunaan,
+          seterusnya tanda kedua-dua kotak tanda setelah selesai, kemudian tekan butang
+          teruskan.
+        read_ct: Saya telah membaca dan bersetuju dengan Terma Penyumbangan di atas
+        tou_explain:
+          tou: Syarat-syarat Penggunaan
+        read_tou: Saya telah membaca dan bersetuju dengan Terma-terma Penggunaan
+        guidance_info_html: 'Maklumat untuk membantu memahami istilah-istilah ini:
+          %{readable_summary_link} dan beberapa %{informal_translations_link}'
         readable_summary: ringkasan yang boleh dibaca manusia
         informal_translations: penterjemahan tidak formal
         continue: Sambung
@@ -274,6 +336,8 @@ ms:
         terms_declined_link: laman wiki ini
     pd_declarations:
       show:
+        title: Anggap sumbangan saya berada dalam Domain Awam
+        consider_pd: Saya menganggap sumbangan saya berada dalam Domain Awam
         confirm: Sahkan
   browse:
     version: Versi
@@ -336,6 +400,11 @@ ms:
       wikipedia_link: Rencana %{page} di Wikipedia
       telephone_link: Hubungi %{phone_number}
       email_link: E-mel %{email}
+    versions_navigation:
+      node: Nod
+      relation: Hubungan
+      history: Sejarah
+      versions_label: 'Versi:'
   feature_queries:
     show:
       title: Ciri-ciri pertanyaan
@@ -385,6 +454,7 @@ ms:
     paging_nav:
       nodes_paginated: Nod (%{x}-%{y} / %{count})
       ways_paginated: Jalan (%{x}-%{y} / %{count})
+      relations_title: Hubungan
       relations_paginated: Hubungan (%{x}-%{y} / %{count})
     timeout:
       sorry: Maaf, senarai set perubahan yang anda minta mengambil masa yang terlalu
@@ -400,19 +470,22 @@ ms:
       your location: Lokasi anda
       nearby mapper: Pemeta berdekatan
     show:
+      title: Papan Pemuka Saya
       edit_your_profile: Sunting profil anda
+      followings: Pengguna yang anda ikuti
       nearby users: Pengguna lain yang berdekatan
       no nearby users: Belum ada pengguna lain yang mengaku memetakan kawasan berdekatan.
       nearby_changesets: set ubah pengguna berdekatan
       nearby_diaries: catatan diari pengguna berdekatan
   diary_entries:
     new:
-      title: Catatan Diari Baru
+      title: Catatan Diari Baharu
     form:
       location: Lokasi
       use_map_link: Guna Peta
     index:
-      title: Diari pengguna
+      title: Diari Pengguna
+      title_followed: Diari Pengguna-pengguna yang diikuti
       title_nearby: Diari pengguna berdekatan
       user_title: Diari %{user}
       in_language_title: Catatan Diari dalam %{language}
@@ -425,6 +498,9 @@ ms:
     show:
       title: Diari %{user} | %{title}
       user_title: Diari %{user}
+      discussion: Perbincangan
+      subscribe: Langgan
+      unsubscribe: Nyahlanggan
       leave_a_comment: Tinggalkan komen
       login_to_leave_a_comment_html: '%{login_link} untuk meninggalkan komen'
       login: Log masuk
@@ -434,7 +510,7 @@ ms:
       body: Maaf, tiada catatan atau komen diari dengan id %{id}. Sila semak ejaan
         anda, atau mungkin pautan yang anda klik itu tidak betul.
     diary_entry:
-      posted_by_html: Diposkan oleh %{link_user} pada %{created} dalam %{language_link}
+      posted_by_html: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}
       comment_link: Ulas catatan ini
       reply_link: Balas catatan ini
       comment_count:
@@ -472,6 +548,8 @@ ms:
       applications:
         create:
           notice: Aplikasi Didaftarkan.
+    scopes:
+      email: Lihat alamat e-mel anda
   errors:
     forbidden:
       title: Dilarang
@@ -479,6 +557,9 @@ ms:
       title: Ralat aplikasi
     not_found:
       title: Fail tidak dijumpai
+  follows:
+    destroy:
+      not_followed: Anda tidak mengikuti %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -488,13 +569,16 @@ ms:
           drag_lift: Lif Seret
           gondola: Lif Gondola
           station: Stesen Kereta Gantung
+          t-bar: Lif Bar-T
+          "yes": Laluan Udara
         aeroway:
           aerodrome: Padang Terbang
           airstrip: Landasan kecil
           apron: Apron
-          gate: Pintu
+          gate: Gerbang Lapangan Terbang
           hangar: Hangar
           helipad: Helipad
+          navigationaid: Bantuan Pandu Arah Penerbangan
           runway: Landasan Kapal Terbang
           taxiway: Jalan Rayap
           terminal: Terminal
@@ -570,6 +654,7 @@ ms:
           prison: Penjara
           pub: Pab
           public_building: Bangunan Awam
+          ranger_station: Stesen Renjer
           recycling: Kitar Semula
           restaurant: Kedai Makan
           school: Sekolah
@@ -646,6 +731,7 @@ ms:
           sport: Kelab Sukan
           "yes": Kelab
         craft:
+          brewery: Kilang Bir
           carpenter: Tukang Kayu
           electrician: Juruelektrik
           gardener: Tukang Kebun
@@ -735,10 +821,16 @@ ms:
           wayside_shrine: Tempat Suci Tepi Jalan
           wreck: Ranap
           "yes": Tapak Bersejarah
+        information:
+          board: Papan Maklumat
+          map: Peta
+          office: Pejabat Pelancongan
+          terminal: Terminal Maklumat
         junction:
           "yes": Simpang
         landuse:
           allotments: Taman petak
+          aquaculture: Akuakultur
           basin: Lembangan
           brownfield: Tanah Terbiar
           cemetery: Perkuburan
@@ -883,6 +975,7 @@ ms:
           it: Pejabat IT
           lawyer: Peguam
           logistics: Pejabat Logistik
+          newspaper: Pejabat Surat Khabar
           ngo: Pejabat Badan Bukan Kerajaan
           religion: Pejabat Agama
           research: Pejabat Penyelidikan
@@ -1011,6 +1104,7 @@ ms:
           organic: Kedai Makanan Organik
           outdoor: Kedai Luaran
           paint: Kedai Cat
+          pastry: Kedai Pastri
           pet: Kedai Haiwan
           photo: Kedai Foto
           seafood: Makanan Laut
@@ -1058,6 +1152,10 @@ ms:
         tunnel:
           culvert: Pembetung
           "yes": Terowong
+        water:
+          lake: Tasik
+          pond: Kolam
+          fishpond: Kolam Ikan
         waterway:
           artificial: Jalan Air Buatan
           boatyard: Limbungan Bot
@@ -1085,6 +1183,14 @@ ms:
         level8: Sempadan Bandar
         level9: Sempadan Desa
         level10: Sempadan Pinggir Bandar
+      border_types:
+        district: Sempadan Daerah
+        distrito: Sempadan Daerah
+        nation: Sempadan Antarabangsa
+        national: Sempadan Antarabangsa
+        neighbourhood: Sempadan Kejiranan
+        state: Sempadan Negeri
+        village: Sempadan Kampung
   searches:
     show:
       title:
@@ -1098,6 +1204,8 @@ ms:
       title: Arah
       distance: Jarak
       time: Masa
+      kilometers: kilometer
+      miles_feet: batu, kaki
       directions_courtesy_html: Arah ihsan dari %{link}
   issues:
     index:
@@ -1114,6 +1222,8 @@ ms:
       status: Status
       reports: Laporan
       last_updated: Kali Terahkir Dikemaskini
+      states:
+        open: Buka
     show:
       no_reports: Tiada laporan
       ignore: Abaikan
@@ -1144,32 +1254,48 @@ ms:
     create:
       successful_report: Laporan anda telah berjaya didaftar
       provide_details: Tolong berikan butiran yang diperlukan
+  languages_panes:
+    select_language_list:
+      languages:
+        ms: Melayu
+        en: Inggeris
+        es: Sepanyol
+        eo: Esperanto
+        fr: Perancis
+        it: Itali
+        yo: Yoruba
+        th: Thai
+        ja: Jepun
+        ko: Korea
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Pergi ke Lokasi Pangkal
-    logout: Log Keluar
-    log_in: log Masuk
-    sign_up: Daftar
+    layer_info: Maklumat Lapisan
     start_mapping: Mulakan Memeta
-    edit: Sunting
-    history: Sejarah
-    export: Eksport
-    issues: Masalah-masalah
-    gps_traces: Jejak GPS
-    user_diaries: Diari Pengguna
-    edit_with: Sunting dengan %{editor}
     intro_header: Selamat datang ke OpenStreetMap!
     intro_text: OpenStreetMap ialah peta dunia yang diwujudkan oleh insan seperti
       anda, dan bebas digunakan dengan berlandaskan lesen terbuka.
     partners_partners: rakan-rakan kongsi
     tou: Syarat-Syarat Penggunaan
-    help: Bantuan
-    about: Perihal
-    copyright: Hak Cipta
-    communities: Masyarakat
     learn_more: Ketahui Lebih Lanjut
-    more: Selebihnya
+    header:
+      about: Perihal
+      communities: Masyarakat
+      copyright: Hak Cipta
+      donate: Derma
+      edit: Sunting
+      edit_with: Sunting dengan %{editor}
+      export: Eksport
+      gps_traces: Jejak GPS
+      help: Bantuan
+      history: Sejarah
+      home: Pergi ke Lokasi Pangkal
+      issues: Masalah-masalah
+      log_out: Log Keluar
+      log_in: log Masuk
+      more: Selebihnya
+      sign_up: Daftar
+      user_diaries: Diari Pengguna
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] %{user} mengulas catatan diari anda'
@@ -1313,6 +1439,7 @@ ms:
         to: Kepada
         subject: Subjek
         date: Tarikh
+        actions: Tindakan
       message:
         unread_button: Tanda sebagai belum dibaca
         read_button: Tanda sebagai sudah dibaca
@@ -1362,10 +1489,18 @@ ms:
     basic_preferences:
       show:
         title: Keutamaan Saya
+        site_color_schemes:
+          auto: Auto
+          light: Terang
+          dark: Gelap
   profiles:
     profile_sections:
       navigation:
+        description: Keterangan
+        links: Pautan
         image: Imej
+        company: Syarikat
+        location: Lokasi
     descriptions:
       show:
         title: Sunting Profil
@@ -1374,8 +1509,14 @@ ms:
     links:
       show:
         title: Sunting Profil
+        cancel: Batalkan
+        social_links:
+          title: Pautan Profil Sosial
     images:
       show:
+        title: Sunting Profil
+        save: Kemas Kini Profil
+        cancel: Batalkan
         gravatar:
           gravatar: Gunakan Gravatar
           what_is_gravatar: Apa itu Gravatar?
@@ -1390,6 +1531,9 @@ ms:
         no home location: Anda belum memasukkan lokasi rumah anda.
         update home location on click: Adakah anda ingin mengemaskinikan lokasi rumah
           dengan mengklik pada peta?
+    heatmaps:
+      show:
+        cancel: Batalkan
   sessions:
     new:
       tab_title: Log masuk
@@ -1450,6 +1594,7 @@ ms:
       open_data_title: Data Terbuka
       open_data_open_data: data terbuka
       open_data_copyright_license: Laman Hak Cipta dan Lesen
+      legal_attribution_example_film_title: Filem
       partners_title: Rakan Kongsi
     copyright:
       title: Hak Cipta dan Lesen
@@ -1541,6 +1686,8 @@ ms:
           title: Sumber-sumber Lain
           description: Sumber-sumber lanjutan yang tersenarai di wiki OpenStreetMap
       export_button: Eksport
+      confirmation:
+        download: Muat turun
     fixthemap:
       title: Laporkan masalah / Baiki peta
       how_to_help:
@@ -1652,7 +1799,10 @@ ms:
         cycleway: Lorong basikal
         footway: Laluan pejalan kaki
         rail: Landasan keretapi
+        train: Kereta api
         subway: Landasan bawah tanah
+        ferry: Feri
+        bus: Bas
         cable_car: Kereta kabel
         chair_lift: lif kerusi
         runway: Landasan kapal terbang
@@ -1661,6 +1811,8 @@ ms:
         admin: Sempadan pentadbiran
         forest: Hutan
         wood: Hutan kecil
+        grass: Rumput
+        sand: Pasir
         golf: Padang golf
         park: Taman
         common: Tanah awam
@@ -1681,6 +1833,7 @@ ms:
         military: Kawasan tentera
         school: Sekolah
         university: universiti
+        hospital: Hospital
         building: Bangunan penting
         station: Stesen keretapi
         summit: Kemuncak
@@ -1809,7 +1962,7 @@ ms:
         alt: Log masuk dengan Google OpenID
       facebook:
         title: Log masuk dengan Facebook
-        alt: Log masuk dengan Akuan Facebook
+        alt: Logo Facebook
       microsoft:
         title: Log masuk dengan Window Live
         alt: Log masuk dengan Akaun Windows Live
@@ -1851,6 +2004,7 @@ ms:
       display name description: Nama pengguna anda yang dipaparkan kepada awam. Anda
         boleh menukarnya dalam keutamaan anda pada bila-bila masa.
       continue: Daftar
+      or: atau
       use external auth: Secara alternatif, gunakan khidmat pihak ketiga untuk log
         masuk
     no_such_user:
@@ -1892,6 +2046,19 @@ ms:
       confirm_user: sahkan pengguna ini
       confirm: Sahkan
       report: Laporkan Pengguna ini
+      title:
+        administrator: Pengguna ini seorang pentadbir
+        moderator: Pengguna ini seorang penyelia
+      grant:
+        administrator: Berikan akses pentadbir
+        moderator: Berikan akses penyelia
+        are_you_sure: Adakah anda benar-benar ingin memberikan peranan '%{role}' kepada
+          pengguna '%{name}'?
+      revoke:
+        administrator: Tarik balik akses pentadbir
+        moderator: Tarik balik akses penyelia
+        are_you_sure: Adakah anda benar-benar ingin menarik balik peranan '%{role}'
+          daripada pengguna '%{name}'?
     go_public:
       flash success: Sekarang, suntingan anda menjadi tatapan umum, maka anda dibenarkan
         untuk menyunting.
@@ -1909,6 +2076,8 @@ ms:
       show:
         title: Pengguna
         heading: Pengguna
+        name_or_email: Nama atau E-mel
+        ip_address: Alamat IP
       page:
         confirm: Sahkan Pengguna-Pengguna Terpilih
         empty: Tiada pengguna sepadan yang dijumpai
@@ -1926,20 +2095,6 @@ ms:
       title: Akaun Digantung
       heading: Akaun Digantung
       support: sokongan
-    role_icons:
-      title:
-        administrator: Pengguna ini seorang pentadbir
-        moderator: Pengguna ini seorang penyelia
-      grant:
-        administrator: Berikan akses pentadbir
-        moderator: Berikan akses penyelia
-        are_you_sure: Adakah anda benar-benar ingin memberikan peranan '%{role}' kepada
-          pengguna '%{name}'?
-      revoke:
-        administrator: Tarik balik akses pentadbir
-        moderator: Tarik balik akses penyelia
-        are_you_sure: Adakah anda benar-benar ingin menarik balik peranan '%{role}'
-          daripada pengguna '%{name}'?
   user_role:
     filter:
       not_a_role: Rentetan '%{role}' bukan peranan yang sah.
@@ -2012,6 +2167,7 @@ ms:
       description: Keterangan
       created_at: Dicatatkan pada
       last_changed: Kali terakhir disunting
+      all: Semua
     show:
       title: 'Nota: %{id}'
       description: Keterangan
@@ -2040,6 +2196,7 @@ ms:
     share:
       title: Kongsi
       view_larger_map: Lihat Peta yang Lebih Besar
+      filename: peta
     embed:
       report_problem: Laporkan masalah
     legend:
@@ -2047,11 +2204,11 @@ ms:
       tooltip: Petunjuk Peta
       tooltip_disabled: Kunci Peta tersedia untuk lapisan Biasa sahaja
     map:
-      zoom:
-        in: Zum Dekat
-        out: Zum Jauh
-      locate:
-        title: Paparkan Lokasi Saya
+      navigation_control:
+        zoom_in: Zum Dekat
+        zoom_out: Zum Jauh
+      geolocate_control:
+        find_my_location: Paparkan Lokasi Saya
       base:
         standard: Piawai
         cycle_map: Peta Basikal

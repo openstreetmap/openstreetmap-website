@@ -10,9 +10,6 @@
 # Author: Via maxima
 ---
 sc:
-  date:
-    formats:
-      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y a is %H:%M'
@@ -79,18 +76,6 @@ sc:
       way_node: Nodu de su caminu
       way_tag: Eticheta de sa lìnia
     attributes:
-      client_application:
-        name: Nùmene (obligatòriu)
-        url: URL printzipale de s'aplicatzione (obligatòriu)
-        callback_url: URL de torrada
-        support_url: URL de s'assistèntzia
-        allow_read_prefs: lèghere sas preferèntzias tuas de utente
-        allow_write_prefs: modificare sas preferèntzias tuas de utente.
-        allow_write_diary: creare intradas de su diàriu e cummentos
-        allow_write_api: modìfica sa mapa
-        allow_read_gpx: lèghere sas rastas GPS privadas issoro
-        allow_write_gpx: carrigare rastas GPS
-        allow_write_notes: modificare sas notas
       diary_comment:
         body: Corpus
       diary_entry:
@@ -609,8 +594,6 @@ sc:
       new_title: Cumpone un'intrada noa in su diàriu de utente meu
     profile_diaries:
       title_label: Intrada in su diàriu
-      comments_label: Cummentos
-      date_label: Data
   doorkeeper:
     errors:
       messages:
@@ -1498,14 +1481,13 @@ sc:
       other_issues_against_this_user: Àteras sinnalatziones contra a custu utente
       no_other_issues: Non b'at perunu àteru problema chi pertochet a custu utente.
       comments_on_this_issue: Cummentos subra de custu problema
+      comment_from_html: Cummentu de %{user_link} de su %{comment_created_at}
     resolve:
       resolved: S'istadu de su problema est istadu impostadu comente ‘Risoltu'
     ignore:
       ignored: S'istadu de su problema est istadu impostadu comente ‘Ignoradu'
     reopen:
       reopened: S'istadu de su problema est istadu impostadu comente ‘Abertu'
-    comments:
-      comment_from_html: Cummentu de %{user_link} de su %{comment_created_at}
     reports:
       reported_by_html: Sinnaladu comente %{category} dae %{user} su %{updated_at}
     helper:
@@ -1657,32 +1639,31 @@ sc:
   layouts:
     logo:
       alt_text: Logotipu de OpenStreetMap
-    home: Bae a sa positzione de incumintzu
-    logout: Essi
-    log_in: Intra
-    sign_up: Iscrie·ti
     start_mapping: Incumintza a mapare
-    edit: Modìfica
-    history: Cronologia
-    export: Esporta
-    issues: Problemas
-    gps_traces: Rastas GPS
-    user_diaries: Diàrios de sos utentes
-    edit_with: Modìfica cun %{editor}
     intro_header: Bene bènnidu in OpenStreetMap!
     intro_text: OpenStreetMap est una mapa de su mundu, creada dae persones che a
       tie e de impreu lìberu suta de una litzèntzia aberta.
     partners_partners: sòtzios
     tou: Conditziones de impreu
-    help: Agiudu
-    about: Informatziones
-    copyright: Deretu de autore
-    communities: Comunidades
     learn_more: Leghe àteru
-    more: Àteru
     header:
+      about: Informatziones
+      communities: Comunidades
+      copyright: Deretu de autore
+      edit: Modìfica
+      edit_with: Modìfica cun %{editor}
+      export: Esporta
+      gps_traces: Rastas GPS
+      help: Agiudu
+      history: Cronologia
+      home: Bae a sa positzione de incumintzu
+      issues: Problemas
+      log_out: Essi
+      log_in: Intra
+      more: Àteru
       select_language: Issèbera sa limba
-      loading: Carrighende...
+      sign_up: Iscrie·ti
+      user_diaries: Diàrios de sos utentes
     select_language_button:
       title: Issèbera sa limba
   user_mailer:
@@ -2179,8 +2160,6 @@ sc:
           %{france}: Cuntenet datos pigados dae sa
           Diretzione Generale de sas Impostas.
         contributors_fr_france: Frantza
-        contributors_nl_credit_html: '%{netherlands}: Cuntenet &copy; AND datos, 2007
-          (%{and_link})'
         contributors_nl_netherlands: Paisos Bassos
         contributors_nz_credit_html: |-
           %{new_zealand}: Cuntenet datos pigados dae su %{linz_data_service_link}
@@ -2817,6 +2796,22 @@ sc:
       unsuspend_user: Boga sa suspensione de s'utente
       confirm: Cunfirma
       report: Sinnala custu utente
+      title:
+        administrator: Custu utente est un'amministradore
+        moderator: Custu utente est unu moderadore
+        importer: Custu impitadore est un'importadore
+      grant:
+        administrator: Cuntzede s'atzessu comente amministradore
+        moderator: Cuntzede s'atzessu comente moderadore
+        importer: Cuntzede s'atzessu comente importadore
+        are_you_sure: Ses seguru de bòlere cuntzèdere su ruolu '%{role}' a s'utente
+          '%{name}'?
+      revoke:
+        administrator: Rèvoca s'atzessu comente amministradore
+        moderator: Rèvoca s'atzessu comente moderadore
+        importer: Rèvoca s'atzessu comente importadore
+        are_you_sure: Ses seguru de bòlere revocare su ruolu '%{role}' de s'utente
+          '%{name}'?
     go_public:
       flash success: Totu sas modìficas tuas como sunt pùblicas, e tenes su permissu
         de modificare.
@@ -2875,23 +2870,6 @@ sc:
         Si tenes giai unu contu bi podes intrare
         impreende su nùmene utente tuo e sa crae tua e a pustis assotziende su contu
         cun s'ID tuo in sas impostatziones de utente tuas.
-    role_icons:
-      title:
-        administrator: Custu utente est un'amministradore
-        moderator: Custu utente est unu moderadore
-        importer: Custu impitadore est un'importadore
-      grant:
-        administrator: Cuntzede s'atzessu comente amministradore
-        moderator: Cuntzede s'atzessu comente moderadore
-        importer: Cuntzede s'atzessu comente importadore
-        are_you_sure: Ses seguru de bòlere cuntzèdere su ruolu '%{role}' a s'utente
-          '%{name}'?
-      revoke:
-        administrator: Rèvoca s'atzessu comente amministradore
-        moderator: Rèvoca s'atzessu comente moderadore
-        importer: Rèvoca s'atzessu comente importadore
-        are_you_sure: Ses seguru de bòlere revocare su ruolu '%{role}' de s'utente
-          '%{name}'?
   user_role:
     filter:
       not_a_role: S'istringa '%{role}' no est unu ruolu vàlidu.
@@ -3043,11 +3021,11 @@ sc:
       tooltip: Legenda
       tooltip_disabled: Sa legenda no est a disponimentu pro custu istratu
     map:
-      zoom:
-        in: Ismànnia
-        out: Mìnima
-      locate:
-        title: Ammustra sa positzione mea
+      navigation_control:
+        zoom_in: Ismànnia
+        zoom_out: Mìnima
+      geolocate_control:
+        find_my_location: Ammustra sa positzione mea
         metersPopup:
           one: Ses a %{count} metru dae custu puntu
           other: Ses a %{count} metros dae custu puntu

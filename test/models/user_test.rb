@@ -443,20 +443,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "resolved", issue.reload.status
   end
 
-  def test_mark_deleted
-    user = create(:user)
-    user.mark_deleted
-    assert_equal "deleted", user.status
-  end
-
-  def test_mark_deleted_closes_issues
-    user = create(:user)
-    issue = create(:issue, :reportable => user)
-    user.mark_deleted
-    assert_equal "deleted", user.status
-    assert_equal "resolved", issue.reload.status
-  end
-
   def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
     user.soft_destroy

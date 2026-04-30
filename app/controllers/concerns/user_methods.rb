@@ -56,7 +56,7 @@ module UserMethods
           flash[:notice] = t "accounts.update.success_confirm_needed"
 
           begin
-            UserMailer.email_confirm(user, token).deliver_later
+            UserMailer.with(:user => user, :token => token).email_confirm.deliver_later
           rescue StandardError
             # Ignore errors sending email
           end

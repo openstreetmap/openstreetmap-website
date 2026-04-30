@@ -14,6 +14,7 @@
 # Author: Luckas
 # Author: LyzTyphone
 # Author: Marcellus
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: Michawiki
 # Author: Minh Nguyen
@@ -34,7 +35,7 @@
 eo:
   date:
     formats:
-      heatmap: la %-d-a de %B
+      contribution_calendar: la %-d-a de %B
   time:
     formats:
       friendly: '%e %B %Y je %H:%M'
@@ -99,7 +100,7 @@ eo:
       relation: Rilato
       relation_member: Ano de rilato
       relation_tag: Etikedo de rilato
-      report: Raporti
+      report: raporton
       session: Seanco
       trace: Spuro
       tracepoint: Spur-punkto
@@ -111,19 +112,6 @@ eo:
       way_node: Nodo de linio
       way_tag: Etikedo de linio
     attributes:
-      client_application:
-        name: Nomo (nepra)
-        url: Ĉefa ligilo de aplikaĵo (nepra)
-        callback_url: Revoka retadreso
-        support_url: Subtena retadreso
-        allow_read_prefs: legi preferojn de uzantoj
-        allow_write_prefs: modifi preferojn de uzantoj
-        allow_write_diary: afiŝi en taglibro kaj komenti
-        allow_write_api: redakti la mapon
-        allow_write_changeset_comments: komenti ŝanĝarojn
-        allow_read_gpx: legi privatajn GPS-spurojn
-        allow_write_gpx: alŝuti GPS-spurojn
-        allow_write_notes: modifi rimarkojn
       diary_comment:
         body: Enhavo
       diary_entry:
@@ -755,8 +743,6 @@ eo:
         one: '%{count} komento'
         other: '%{count} komentoj'
       title_label: Taglibra skribaĵo
-      comments_label: Komentoj
-      date_label: Dato
   diary_comments:
     new:
       heading: Ĉu aldoni komenton al la diskuto pri tiu ĉi taglibra afiŝo?
@@ -1680,6 +1666,7 @@ eo:
       download: Elŝuti kurson kiel GeoJSON
       filename: kurso
       directions_courtesy_html: Kalkulado de kurso danke al %{link}
+      check_demo_html: Pliaj detaloj el %{link}
   issues:
     index:
       title: Problemoj
@@ -1732,16 +1719,15 @@ eo:
       other_issues_against_this_user: Aliaj problemoj pri tiu ĉi uzanto
       no_other_issues: Neniu alia problemo pri tiu ĉi uzanto.
       comments_on_this_issue: Komentoj al tiu ĉi problemo
+      comment_from_html: Komento fare de %{user_link} je %{comment_created_at}
+      reassign_to_moderators: Reasigni problemon al kontrolantoj
+      reassign_to_administrators: Reasigni problemon al administrantoj
     resolve:
       resolved: Problemo estas solvita
     ignore:
       ignored: Problemo estas ignorita
     reopen:
       reopened: Problemo estas malfermita
-    comments:
-      comment_from_html: Komento fare de %{user_link} je %{comment_created_at}
-      reassign_to_moderators: Reasigni problemon al kontrolantoj
-      reassign_to_administrators: Reasigni problemon al administrantoj
     reports:
       reported_by_html: Raportita kiel %{category} fare de %{user} je %{updated_at}
     helper:
@@ -1839,6 +1825,7 @@ eo:
         ku-Latn: kurda (latina)
         lv: latva
         lb: luksemburga
+        lkt: lakota
         lt: litova
         hu: hungara
         fit: finna (tornivala)
@@ -1914,18 +1901,8 @@ eo:
   layouts:
     logo:
       alt_text: Emblemo de OpenStreetMap
-    home: Iri al la hejmloko
-    logout: Elsaluti
-    log_in: Ensaluti
-    sign_up: Registriĝi
+    layer_info: Informoj pri tavolo
     start_mapping: Ekigi mapigadon
-    edit: Redakti
-    history: Historio
-    export: Elporti
-    issues: Problemoj
-    gps_traces: GPS-spuroj
-    user_diaries: Taglibroj de uzantoj
-    edit_with: Redakti per %{editor}
     intro_header: Bonvenon al OpenStreetMap!
     intro_text: OpenStreetMap estas mapo de la mondo, kreata de homoj kiel vi, kaj
       libere uzebla laŭ malferma permesilo.
@@ -1933,17 +1910,31 @@ eo:
       kaj aliaj %{partners}.
     partners_corpmembers: firmaaj anoj de OSMF
     partners_partners: kunlaborantoj
+    welcome_tou_notice_html: Uzante tiun ĉi retejon aŭ alian infrastrukturon liveratan
+      de la Fondaĵo OpenStreetMap, vi konsentas kun la %{terms_link}.
+    terms_of_use: Uzkondiĉoj
     tou: Uzkondiĉoj
     nothing_to_preview: Nenio por antaŭvidi.
-    help: Helpo
-    about: Pri
-    copyright: Aŭtorrajto
-    communities: Komunumoj
     learn_more: Ekscii pli
-    more: Pli
     header:
+      about: Pri
+      communities: Komunumoj
+      copyright: Aŭtorrajto
+      donate: Donaci
+      edit: Redakti
+      edit_with: Redakti per %{editor}
+      export: Elporti
+      gps_traces: GPS-spuroj
+      help: Helpo
+      history: Historio
+      home: Iri al la hejmloko
+      issues: Problemoj
+      log_out: Elsaluti
+      log_in: Ensaluti
+      more: Pli
       select_language: Elekti lingvon
-      loading: Enlegado…
+      sign_up: Registriĝi
+      user_diaries: Taglibroj de uzantoj
     meta:
       openstreetmap_search: OpenStreetMap-serĉilo
     select_language_button:
@@ -2267,7 +2258,7 @@ eo:
         image: Profilbildo
         company: Firmao
         location: Loko
-        heatmap: Oftecmapo
+        contribution_calendar: Kalendaro de kontribuoj
     descriptions:
       show:
         title: Redakti profilon
@@ -2328,13 +2319,14 @@ eo:
         failure: Ne povis aktualigi lokon de profilo.
     heatmaps:
       show:
-        title: Agordi oftecmapon
-        show_heatmap_in_public: Montri la oftecmapon sur via profila paĝo
+        title: Agordi kalendaron de kontribuoj
+        show_contribution_calendar_in_public: Montri la kalendaron de kontribuon sur
+          mia profilpaĝo
         save: Konservi
         cancel: Nuligi
       update:
-        success: Aktualigis la oftecmapon.
-        failure: Ne povis aktualigi la oftecmapon.
+        success: Aktualigis la kalendaron de kontribuoj.
+        failure: Ne povis aktualigi la kalendaron de kontribuoj.
   sessions:
     new:
       tab_title: Ensaluti
@@ -2609,8 +2601,8 @@ eo:
         contributors_hr_croatia: Kroatujo
         contributors_hr_dgu: Ŝtata Termezurada Ofico de Kroatujo
         contributors_hr_open_data_portal: Ŝtata Portalo de Malfermaj Datumoj
-        contributors_nl_credit_html: '%{netherlands}: enhavas datumojn el &copy; AND,
-          2007 (%{and_link}).'
+        contributors_nl_credit_new_html: '%{netherlands}: enhavas &copy; datumojn
+          el AND, 2007'
         contributors_nl_netherlands: Nederlando
         contributors_nz_credit_html: '%{new_zealand}: enhavas datumojn ricevitajn
           el %{linz_data_service_link} eldonitaj por reuzo laŭ %{cc_by_link}.'
@@ -2968,6 +2960,14 @@ eo:
       image_dimensions_html: Bildo montros la tavolon “%{layer}” je distingivo %{width}×%{height}
       download: Elŝuti
       downloading: Elŝutado…
+  webgl_error_panes:
+    show:
+      compact_message: WebGL estas postulata por tiu ĉi mapo.
+      description_html: Ŝajnas, ke %{your_browser_does_not_support_webgl} – teĥnikaron
+        por bildigi 3-dimensian grafikon sur retpaĝoj.
+      your_browser_does_not_support_webgl: via retfoliumilo ne subtenas WebGL
+      webgl_is_required_for_this_map: WebGL estas postulata por vidigi tiun ĉi mapon.
+      read_more_about_webgl: Legi plu
   traces:
     visibility:
       private: privata (kunhavigata nur kiel sennomaj, malordigitaj punktoj)
@@ -3010,13 +3010,13 @@ eo:
       points: 'Punktoj:'
       start_coordinates: 'Komencaj koordinatoj:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapo
-      edit: redakti
+      map: montri lokon sur la mapo
+      edit: malfermi en redaktilo
       owner: 'Posedanto:'
       description: 'Priskribo:'
       tags: 'Etikedoj:'
       none: Neniu
-      edit_trace: Redakti tiun ĉi spuron
+      edit_trace: redakti detalojn pri spuro
       delete_trace: Forigi tiun ĉi spuron
       trace_not_found: Spuro ne trovebla!
       visibility: 'Videbleco:'
@@ -3028,8 +3028,8 @@ eo:
         other: '%{count} punktoj'
       more: pli
       trace_details: Vidi detalojn de spuro
-      view_map: Vidi mapon
-      edit_map: Redakti mapon
+      view_map: montri lokon sur la mapo
+      edit_map: malfermi en redaktilo
       public: PUBLIKA
       identifiable: IDENTIGEBLA
       private: PRIVATA
@@ -3206,8 +3206,8 @@ eo:
       signup_to_authorize_html: Registriĝu al OpenStreetMap por aliri %{client_app_name}.
       no_auto_account_create: Bedaŭrinde ni nun ne povas aŭtomate krei konton por
         vi.
-      please_contact_support_html: Kontaktu la %{support_link} por renkonti por krei
-        konton – ni provos kiel eble plej rapide respondi vian peton.
+      please_contact_support_html: Kontaktu la %{support_link} por akiri helpon –
+        ni provos kiel eble plej rapide respondi vian peton.
       support: subtenan teamon
       about:
         header: Libera kaj redaktebla.
@@ -3237,6 +3237,10 @@ eo:
           por pli da informoj.
       or: aŭ
       use external auth: 'registriĝi per ekstera liveranto:'
+      verify_human: Provu, ke vi estas homo
+    create:
+      not_human: Bedaŭrinde ni ne povis provi, ke vi estas homo. Tio ĉi estas necesa
+        por krei novan konton.
     no_such_user:
       title: Neekzistanta uzanto
       heading: La uzanto %{user} ne ekzistas
@@ -3295,10 +3299,24 @@ eo:
       change_image: Ŝanĝi bildon
       edit_company: Redakti firmaon
       edit_location: Redakti lokon
-      edit_heatmap: Agordi oftecmapon
+      edit_contribution_calendar: Agordi kalendaron de kontribuoj
       contributions:
         one: '%{count} kontribuo dum la antaŭa jaro'
         other: '%{count} kontribuoj dum la antaŭa jaro'
+      title:
+        administrator: Ĉi tiu uzanto estas administranto
+        moderator: Ĉi tiu uzanto estas kontrolanto
+        importer: Tiu ĉi uzanto estas enportisto
+      grant:
+        administrator: Permesi aliron de administranto
+        moderator: Permesi aliron de kontrolanto
+        importer: Permesi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas doni la rolon '%{role}' al la uzanto '%{name}'?
+      revoke:
+        administrator: Nuligi aliron de administranto
+        moderator: Nuligi aliron de kontrolanto
+        importer: Nuligi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
     sidebar_section:
       home_location: Hejmloko
       company: Firmao
@@ -3394,21 +3412,6 @@ eo:
         la jena formularo.
       option_2: Se vi jam havas konton, vi povas ensaluti per viaj uzantnomo kaj pasvorto,
         kaj poste kunligi la konton kun via identigilo en agordoj de uzanto.
-    role_icons:
-      title:
-        administrator: Ĉi tiu uzanto estas administranto
-        moderator: Ĉi tiu uzanto estas kontrolanto
-        importer: Tiu ĉi uzanto estas enportisto
-      grant:
-        administrator: Permesi aliron de administranto
-        moderator: Permesi aliron de kontrolanto
-        importer: Permesi aliron de enportisto
-        are_you_sure: Ĉu vi certe volas doni la rolon '%{role}' al la uzanto '%{name}'?
-      revoke:
-        administrator: Nuligi aliron de administranto
-        moderator: Nuligi aliron de kontrolanto
-        importer: Nuligi aliron de enportisto
-        are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
   user_role:
     filter:
       not_a_role: La ĉeno '%{role}' ne estas ĝusta rolo.
@@ -3632,20 +3635,26 @@ eo:
       tooltip: Mapklarigo
       tooltip_disabled: Mapklarigo ne estas disponebla por tiu ĉi tavolo
     map:
+      map:
+        title: Mapo
+        marker:
+          title: Map-markilo
       popup:
         close: Fermi
-      zoom:
-        in: Pligrandigi
-        out: Malgrandigi
-      locate:
-        title: Montri mian pozicion
-        not_available: Pozicio ne trovita
+      navigation_control:
+        zoom_in: Pligrandigi
+        zoom_out: Malgrandigi
+      geolocate_control:
+        find_my_location: Montri mian pozicion
+        location_not_available: Pozicio ne trovita
         metersPopup:
           one: Vi estas %{count} metro for de tiu punkto
           other: Vi estas %{count} metroj for de tiu punkto
         feetPopup:
           one: Vi estas %{count} futo for de tiu punkto
           other: Vi estas %{count} futoj for de tiu punkto
+      attribution_control:
+        toggle_attribution: Baskuligi atribuon
       base:
         standard: Norma mapo
         cycle_map: Biciklada mapo
@@ -3795,7 +3804,7 @@ eo:
     home:
       marker_title: Mia hejmloko
       not_set: Hejmloko ne estas agordita por via konto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: neniu kontribuo je %{date}
         contributions:

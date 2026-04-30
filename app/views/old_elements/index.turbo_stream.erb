@@ -1,9 +1,9 @@
 <% if params[:after] %>
-  <% if @newer_features_version %>
+  <% if @old_features.newer_items_cursor %>
     <%= turbo_stream.update "newer_element_versions_navigation" do %>
       <li class="page-item">
         <%= link_to t(".newer_versions"),
-                    params.permit(:show_redactions).merge(:after => @newer_features_version),
+                    params.permit(:show_redactions).merge(:after => @old_features.newer_items_cursor),
                     :class => "page-link",
                     :data => { :turbo => true, :turbo_stream => true } %>
       </li>
@@ -12,17 +12,17 @@
     <%= turbo_stream.remove "newer_element_versions_navigation" %>
   <% end %>
   <%= turbo_stream.prepend "element_versions_list" do %>
-    <%= render :partial => "browse/#{@type}", :formats => [:html], :collection => @old_features %>
+    <%= render :partial => "browse/#{@type}", :formats => [:html], :collection => @old_features.items %>
   <% end %>
 <% elsif params[:before] %>
   <%= turbo_stream.append "element_versions_list" do %>
-    <%= render :partial => "browse/#{@type}", :formats => [:html], :collection => @old_features %>
+    <%= render :partial => "browse/#{@type}", :formats => [:html], :collection => @old_features.items %>
   <% end %>
-  <% if @older_features_version %>
+  <% if @old_features.older_items_cursor %>
     <%= turbo_stream.update "older_element_versions_navigation" do %>
       <li class="page-item">
         <%= link_to t(".older_versions"),
-                    params.permit(:show_redactions).merge(:before => @older_features_version),
+                    params.permit(:show_redactions).merge(:before => @old_features.older_items_cursor),
                     :class => "page-link",
                     :data => { :turbo => true, :turbo_stream => true } %>
       </li>

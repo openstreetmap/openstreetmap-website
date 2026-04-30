@@ -45,12 +45,12 @@ class MessagesController < ApplicationController
     @message.sender = current_user
     @message.sent_on = Time.now.utc
 
-    if current_user.sent_messages.where(:sent_on => (Time.now.utc - 1.hour)..).count >= current_user.max_messages_per_hour
+    if Message.where(:sender => current_user, :sent_on => (Time.now.utc - 1.hour)..).count >= current_user.max_messages_per_hour
       flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      UserMailer.message_notification(@message).deliver_later if @message.notify_recipient?
+      DirectMessageNotifier.with(:record => @message).deliver_later if @message.notify_recipient?
       redirect_to messages_outbox_path
     else
       @title = t "messages.new.title"

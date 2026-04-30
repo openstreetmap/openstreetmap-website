@@ -2,12 +2,14 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: Aceman444
+# Author: Cevioch
 # Author: Chiak
 # Author: Dušan Kreheľ
 # Author: Filip009
 # Author: Gravitystorm
 # Author: Helix84
 # Author: Jose1711
+# Author: KormiSK
 # Author: KuboF
 # Author: Kusavica
 # Author: Lesny skriatok
@@ -28,6 +30,7 @@
 # Author: Teslaton
 # Author: Tj
 # Author: TomášPolonec
+# Author: Username1233219128
 # Author: Vladolc
 # Author: Wizzard
 # Author: Yardom78
@@ -35,7 +38,7 @@
 sk:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y o %H:%M'
@@ -109,22 +112,9 @@ sk:
       user_preference: Osobné nastavenia
       user_token: Používateľský token
       way: Línia
-      way_node: Bod cesty
+      way_node: Uzol cesty
       way_tag: Značka cesty
     attributes:
-      client_application:
-        name: Meno (povinné)
-        url: URL adresa hlavnej aplikácie (vyžaduje sa)
-        callback_url: URL pre spätné volanie (callback)
-        support_url: URL s podporou
-        allow_read_prefs: čítať ich používateľské nastavenia
-        allow_write_prefs: upraviť ich používateľské nastavenia
-        allow_write_diary: vytvoriť položky denníka a komentáre
-        allow_write_api: upravovať mapu
-        allow_write_changeset_comments: komentovať sady zmien
-        allow_read_gpx: čítať ich súkromné GPS stopy
-        allow_write_gpx: nahrávať GPS stopy
-        allow_write_notes: meniť poznámky
       diary_comment:
         body: Text
       diary_entry:
@@ -795,8 +785,6 @@ sk:
         many: '%{count} komentárov}'
         other: '%{count} komentárov'
       title_label: Záznam denníka
-      comments_label: Komentáre
-      date_label: Dátum
   diary_comments:
     new:
       heading: Pridať komentár k diskusii v denníku sledujúceho?
@@ -853,6 +841,9 @@ sk:
       title: Súbor nenájdený
       description: Nepodarilo sa nájsť súbor/adresár/operáciu API s týmto názvom na
         serveri OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: Včlenený OpenStreetMap
   follows:
     show:
       follow:
@@ -1279,7 +1270,7 @@ sk:
           sports_centre: Športové stredisko
           stadium: Štadión
           swimming_pool: Plaváreň
-          track: Bežecká dráha
+          track: Pretekárska dráha (nie motorové športy)
           water_park: Aquapark
           "yes": Voľný čas
         lock:
@@ -1667,15 +1658,31 @@ sk:
         level10: Administratívna hranica (úroveň 10)
         level11: Administratívna hranica (úroveň 11)
       border_types:
+        arrondissement: Hranica arrondissementu
+        borough: Hranica mestskej časti
+        cercle: Hranica kruhu
         city: Hranica mesta
+        comarca: Hranica komarky
         county: Hranica okresu
+        departement: Hranica oddelenia
+        department: Hranica oddelenia
+        district: Hranica okresu
+        distrito: Hranica okresu
+        freguesia: Hranica Freguesie
+        local_authority: Hranice miestnej samosprávy
+        municipality: Hranice obce
+        municipi: Hranice obce
+        município: Hranice obce
         nation: Štátna hranica
         national: Štátna hranica
+        neighbourhood: Hranica susedstva
         parish: Hranica farnosti
+        province: Hranica provincie
         região: Hranica regiónu
         region: Hranica regiónu
         state: Hranica kraja (state)
         town: Hranica mesta
+        township: Hranica mesta
         village: Hranica obce
   searches:
     show:
@@ -1701,6 +1708,7 @@ sk:
       download: Stiahnuť trasu ako GeoJSON
       filename: trasa
       directions_courtesy_html: Trasa získaná vďaka %{link}
+      check_demo_html: Viac informácií z %{link}
   issues:
     index:
       title: Problémy
@@ -1757,16 +1765,15 @@ sk:
       other_issues_against_this_user: Iné problémy proti tomuto používateľovi
       no_other_issues: Žiadne ďalšie problémy proti tomuto používateľovi.
       comments_on_this_issue: Komentáre k problému
+      comment_from_html: Komentár od používateľa %{user_link} z %{comment_created_at}
+      reassign_to_moderators: Prideliť problém moderátorom
+      reassign_to_administrators: Prideliť problém administrátorom
     resolve:
       resolved: Stav problému bol nastavený na „Vyriešené“
     ignore:
       ignored: Stav problému bol nastavený na „Ignorované“
     reopen:
       reopened: Stav problému bol nastavený na „Otvorené“
-    comments:
-      comment_from_html: Komentár od používateľa %{user_link} z %{comment_created_at}
-      reassign_to_moderators: Prideliť problém moderátorom
-      reassign_to_administrators: Prideliť problém administrátorom
     reports:
       reported_by_html: Nahlásené ako %{category} používateľom %{user} o %{updated_at}
     helper:
@@ -1828,21 +1835,67 @@ sk:
   languages_panes:
     select_language_list:
       search_language: Hľadať...
+      languages:
+        af: afrikánčina
+        gsw: Alemančina
+        ast: astúrčina
+        az: azerbajdžančina
+        id: indonézština
+        ms: malajčina
+        bs: bosniačtina
+        br: bretónčina
+        ca: Katalánčina
+        cs: čeština
+        cy: Waleština
+        da: dánčina
+        de: nemčina
+        dsb: Dolnosrbčina
+        et: estónčina
+        en: angličtina
+        en-GB: angličtina (Spojené Kráľovstvo)
+        es: španielčina
+        eo: esperanto
+        eu: Baskičtina
+        fr: francúzština
+        fur: Friulčina
+        ga: írčina
+        gd: Škótska gaelčina
+        gl: Galícijčina
+        hr: chorvátčina
+        ia: Interlingua
+        is: islandčina
+        it: taliančina
+        hu: maďarčina
+        nl: holandčina
+        pl: poľština
+        pt-PT: portugalčina
+        pt: portugalčina (Brazília)
+        sq: albánčina
+        sk: slovenčina
+        sl: slovinčina
+        fi: fínčina
+        sv: švédčina
+        vi: vietnamčina
+        el: gréčtina
+        be: bieloruština
+        be-Tarask: Bieloruština (tarašk.)
+        bg: bulharčina
+        mk: macedónčina
+        ru: ruština
+        sr: srbčina (cyrilika)
+        uk: ukrajinčina
+        he: hebrejčina
+        ar: arabčina
+        ta: tamilčina
+        zh-CN: čínština (zjednodušená)
+        zh-TW: čínština (tradičná)
+        ja: japončina
+        ko: kórejčina
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
-    home: Prejsť na domovskú polohu
-    logout: Odhlásiť sa
-    log_in: Prihláste sa
-    sign_up: Zaregistrujte sa
+    layer_info: Informácie o vrstve
     start_mapping: Začať mapovať
-    edit: Upraviť
-    history: História
-    export: Export
-    issues: Problémy
-    gps_traces: GPS stopy
-    user_diaries: Denníky používateľov
-    edit_with: Upraviť pomocou %{editor}
     intro_header: Vitajte v OpenStreetMap!
     intro_text: OpenStreetMap je mapa sveta, vytvorené ľuďmi ako vy, voľne využiteľná
       pod slobodnou licenciou.
@@ -1850,17 +1903,31 @@ sk:
       a ďalší %{partners}.
     partners_corpmembers: firemní členovia OSMF
     partners_partners: partneri
+    welcome_tou_notice_html: Používaním tejto webovej stránky alebo inej infraštruktúry
+      poskytovanej nadáciou OpenStreetMap Foundation súhlasíte s %{terms_link}.
+    terms_of_use: Podmienky používania
     tou: Podmienky používania
     nothing_to_preview: Nič k náhľadu.
-    help: Pomocník
-    about: O projekte
-    copyright: Autorské práva
-    communities: Komunity
     learn_more: Viac info
-    more: Ďalšie
     header:
+      about: O projekte
+      communities: Komunity
+      copyright: Autorské práva
+      donate: Prispejte
+      edit: Upraviť
+      edit_with: Upraviť pomocou %{editor}
+      export: Export
+      gps_traces: GPS stopy
+      help: Pomocník
+      history: História
+      home: Prejsť na domovskú polohu
+      issues: Problémy
+      log_out: Odhlásiť sa
+      log_in: Prihláste sa
+      more: Ďalšie
       select_language: Zvoľte jazyk
-      loading: Načítava sa...
+      sign_up: Zaregistrujte sa
+      user_diaries: Denníky používateľov
     meta:
       openstreetmap_search: Vyhľadávanie v OpenStreetMap
     select_language_button:
@@ -2199,6 +2266,7 @@ sk:
         image: Obrázok
         company: Spoločnosť
         location: Poloha
+        contribution_calendar: Kalendár príspevkov
     descriptions:
       show:
         title: Upraviť profil
@@ -2257,6 +2325,16 @@ sk:
       update:
         success: Poloha v profile bola aktualizovaná.
         failure: Nepodarilo sa aktualizovať polohu v profile.
+    heatmaps:
+      show:
+        title: Konfigurácia kalendára príspevkov
+        show_contribution_calendar_in_public: Zobraziť kalendár príspevkov na vašom
+          profile
+        save: Aktualizovať konfiguráciu kalendára príspevkov
+        cancel: Zrušiť
+      update:
+        success: Kalendár príspevkov bol aktualizovaný.
+        failure: Nepodarilo sa aktualizovať kalendár príspevkov.
   sessions:
     new:
       tab_title: Prihlásenie
@@ -2547,8 +2625,8 @@ sk:
         contributors_hr_croatia: Chorvátsko
         contributors_hr_dgu: Štátnej geodetickej správy Chorvátska
         contributors_hr_open_data_portal: Národného portálu otvorených údajov
-        contributors_nl_credit_html: '%{netherlands}: Obsahuje údaje &copy; AND, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Obsahuje údaje &copy; AND,
+          2007'
         contributors_nl_netherlands: Holandsko
         contributors_nz_credit_html: |-
           %{new_zealand}: Obsahuje dáta pochádzajúce z %{linz_data_service_link}
@@ -2907,6 +2985,15 @@ sk:
         x %{height}
       download: Stiahnuť
       downloading: Sťahovanie...
+  webgl_error_panes:
+    show:
+      compact_message: Pre túto mapu je potrebný WebGL.
+      description_html: Je nám ľúto, ale zdá sa, že %{your_browser_does_not_support_webgl},
+        technológiu na vykresľovanie 3D grafiky na webe.
+      your_browser_does_not_support_webgl: Váš prehliadač nepodporuje WebGL
+      webgl_is_required_for_this_map: Pre zobrazenie tejto mapy je potrebný WebGL.
+      read_more_about_webgl: Čítať viac
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/Cs:This_map_requires_WebGL
   traces:
     visibility:
       private: Súkromné (iba zdieľané ako anonymné, neusporiadané body)
@@ -2954,13 +3041,13 @@ sk:
       points: 'Bodov:'
       start_coordinates: 'Začiatočná súradnica:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: upraviť
+      map: zobraziť miesto na mape
+      edit: otvoriť v editore
       owner: 'Vlastník:'
       description: 'Popis:'
       tags: 'Tagy:'
       none: Žiadne
-      edit_trace: Upraviť túto stopu
+      edit_trace: Upraviť detaily stopy
       delete_trace: Vymazať túto stopu
       trace_not_found: Stopa nenájdená!
       visibility: 'Viditeľnosť:'
@@ -2974,8 +3061,8 @@ sk:
         other: '%{count} bodov'
       more: viac
       trace_details: Zobraziť detaily stopy
-      view_map: Zobraziť mapu
-      edit_map: Upraviť mapu
+      view_map: Zobraziť miesto na mape
+      edit_map: Otvoriť v editore
       public: VEREJNÁ
       identifiable: IDENTIFIKOVATEĽNÁ
       private: SÚKROMNÁ
@@ -3155,8 +3242,8 @@ sk:
         do %{client_app_name}.
       no_auto_account_create: Bohužiaľ teraz nie sme schopný vytvoriť pre vás účet
         automaticky.
-      please_contact_support_html: Kontaktujte prosím %{support_link} a dohodnite
-        si vytvorenie účtu – pokúsime sa čo najrýchlejšie spracovať žiadosť.
+      please_contact_support_html: Kontaktujte prosím %{support_link} pre asistenciu
+        – pokúsime sa vašu žiadosť vybaviť čo najrýchlejšie.
       support: podporu
       about:
         header: Slobodné a upravovateľné.
@@ -3187,6 +3274,10 @@ sk:
           našim %{privacy_policy_link}.
       or: alebo
       use external auth: prípadne využite na registráciu služby tretích strán
+      verify_human: Overte, že ste človek
+    create:
+      not_human: Žiaľ, nemôžeme potvrdiť, že ste človek. Toto je potrebné na vytvorenie
+        nových účtov.
     no_such_user:
       title: Taký používateľ neexistuje
       heading: Používateľ %{user} neexistuje
@@ -3234,7 +3325,9 @@ sk:
       activate_user: Aktivovať tohoto používateľa
       confirm_user: Potvrdiť tohoto používateľa
       unconfirm_user: Zrušiť potvrdenie tohto používateľa
+      suspend_user: Pozastaviť tohto používateľa
       unsuspend_user: Zrušiť pozastavenie tohto používateľa
+      undelete_user: Obnoviť tohto používateľa
       confirm: Potvrdiť
       report: Nahlásiť tohto používateľa
       edit_profile_details: Upraviť podrobnosti profilu
@@ -3243,11 +3336,26 @@ sk:
       change_image: Zmeniť obrázok
       edit_company: Upraviť spoločnosť
       edit_location: Upraviť polohu
+      edit_contribution_calendar: Konfigurácia kalendára príspevkov
       contributions:
         one: '%{count} príspevok za posledný rok'
         few: '%{count} príspevky za posledný rok'
         many: '%{count} príspevkov za posledný rok'
         other: '%{count} príspevkov za posledný rok'
+      title:
+        administrator: Tento používateľ je administrátor
+        moderator: Tento používateľ je moderátor
+        importer: Tento používateľ je importér
+      grant:
+        administrator: Povoliť prístup administrátora
+        moderator: Povoliť prístup moderátora
+        importer: Udeliť prístup importéra
+        are_you_sure: Naozaj chcete prideliť rolu „%{role}“ používateľovi „%{name}“?
+      revoke:
+        administrator: Zrušiť prístup administrátora
+        moderator: Zrušiť prístup moderátora
+        importer: Odobrať prístup importéra
+        are_you_sure: Naozaj chcete odobrať rolu „%{role}“ používateľovi „%{name}“?
     sidebar_section:
       home_location: Domovská poloha
       company: Spoločnosť
@@ -3303,6 +3411,7 @@ sk:
           many: '%{count} nájdených používateľov'
           other: '%{count} nájdených používateľov'
         confirm: Potvrdiť zvolených používateľov
+        suspend: Pozastaviť vybraných používateľov
         empty: Žiadni používatelia vyhovujúci podmienkam neboli nájdení
       user:
         summary_html: '%{name} založené %{date} z %{ip_address}'
@@ -3351,21 +3460,6 @@ sk:
         Ak už máte účet, môžete sa prihlásiť do svojho účtu
         pomocou svojho používateľského mena a hesla a potom priradiť účet
         k svojmu ID v používateľských nastaveniach.
-    role_icons:
-      title:
-        administrator: Tento používateľ je administrátor
-        moderator: Tento používateľ je moderátor
-        importer: Tento používateľ je importér
-      grant:
-        administrator: Povoliť prístup administrátora
-        moderator: Povoliť prístup moderátora
-        importer: Udeliť prístup importéra
-        are_you_sure: Naozaj chcete prideliť rolu „%{role}“ používateľovi „%{name}“?
-      revoke:
-        administrator: Zrušiť prístup administrátora
-        moderator: Zrušiť prístup moderátora
-        importer: Odobrať prístup importéra
-        are_you_sure: Naozaj chcete odobrať rolu „%{role}“ používateľovi „%{name}“?
   user_role:
     filter:
       not_a_role: Reťazec „%{role}“ nie je platnou rolou.
@@ -3607,11 +3701,18 @@ sk:
       tooltip: Legenda
       tooltip_disabled: Legenda nie je dostupná pre túto vrstvu
     map:
-      zoom:
-        in: Priblížiť
-        out: Oddialiť
-      locate:
-        title: Zobraziť moju polohu
+      map:
+        title: Mapa
+        marker:
+          title: Značka na mape
+      popup:
+        close: Zatvoriť
+      navigation_control:
+        zoom_in: Priblížiť
+        zoom_out: Oddialiť
+      geolocate_control:
+        find_my_location: Zobraziť moju polohu
+        location_not_available: Poloha nie je k dispozícii
         metersPopup:
           one: Ste menej než %{count} meter od tohto bodu
           few: Ste menej než %{count} metre od tohto bodu
@@ -3622,6 +3723,8 @@ sk:
           few: Ste menej než %{count} stopy od tohto bodu
           many: Ste menej než %{count} stôp od tohto bodu
           other: Ste menej než %{count} stôp od tohto bodu
+      attribution_control:
+        toggle_attribution: Prepnúť uvádzanie pôvodu
       base:
         standard: Štandardná
         cycle_map: Cyklomapa
@@ -3767,7 +3870,7 @@ sk:
     home:
       marker_title: Moja domovská poloha
       not_set: Vo vašom účte nie je nastavená domovská poloha
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Žiadne príspevky dňa %{date}
         contributions:

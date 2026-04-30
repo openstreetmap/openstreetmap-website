@@ -1,3 +1,5 @@
+<%# locals: (way:) %>
+
 <%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
                        { "text-body-secondary" => way.redacted? && params[:show_redactions] }] do %>
   <% if way.redacted? && !params[:show_redactions] %>
@@ -7,21 +9,21 @@
           :redaction_link => link_to(t("browse.redacted.redaction",
                                        :id => way.redaction.id), way.redaction) %>
   <% else %>
-    <%= render :partial => "browse/common_details", :object => way %>
+    <%= render :partial => "browse/common_details", :object => way, :locals => { :type => "way" } %>
 
     <% unless way.containing_relation_members.empty? %>
       <h4><%= t "browse.part_of" %></h4>
-      <details <%= "open" if way.containing_relation_members.count < 10 %>>
+      <%= tag.details :open => way.containing_relation_members.count < 10 do %>
         <summary><%= t "browse.part_of_relations", :count => way.containing_relation_members.uniq.count %></summary>
         <ul class="list-unstyled browse-element-list">
           <%= render :partial => "browse/containing_relation", :collection => way.containing_relation_members.uniq %>
         </ul>
-      </details>
+      <% end %>
     <% end %>
 
     <% unless way.way_nodes.empty? %>
       <h4><%= t ".nodes" %></h4>
-      <details <%= "open" if way.way_nodes.count < 10 %>>
+      <%= tag.details :open => way.way_nodes.count < 10 do %>
         <summary><%= t ".nodes_count", :count => way.way_nodes.count %></summary>
         <ul class="list-unstyled browse-element-list">
           <% way.way_nodes.each do |wn| %>
@@ -29,7 +31,7 @@
               <%= element_single_current_link "node", wn.node %>
               <% related_ways = wn.node.ways.reject { |w| w.id == wn.way_id } %>
               <% icon_connector = " " %>
-              <% if related_ways.size > 0 then %>
+              <% if related_ways.size > 0 %>
                 (<%= t ".also_part_of_html",
                        :count => related_ways.size,
                        :related_ways => to_sentence(related_ways.map { |w| element_icon("way", w) + icon_connector + element_single_current_link("way", w) }) %>)
@@ -37,7 +39,7 @@
             <% end %>
           <% end %>
         </ul>
-      </details>
+      <% end %>
     <% end %>
   <% end %>
 <% end %>

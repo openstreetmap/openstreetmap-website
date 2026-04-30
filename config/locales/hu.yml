@@ -41,7 +41,7 @@
 hu:
   date:
     formats:
-      heatmap: '%B %-d.'
+      contribution_calendar: '%B %-d.'
   time:
     formats:
       friendly: '%Y. %B %e., %H.%M'
@@ -119,19 +119,6 @@ hu:
       way_node: Vonal pontja
       way_tag: Vonal címkéje
     attributes:
-      client_application:
-        name: Név (kötelező)
-        url: Fő alkalmazás URL-je (kötelező)
-        callback_url: Visszahívási URL
-        support_url: Támogatás URL
-        allow_read_prefs: felhasználói beállítások elolvasása
-        allow_write_prefs: felhasználói beállításaik módosítása
-        allow_write_diary: naplóbejegyzések és hozzászólások készítése
-        allow_write_api: a térkép módosítása
-        allow_write_changeset_comments: hozzászólás módosításcsomagokhoz
-        allow_read_gpx: magán GPS-nyomvonalaik megtekintése
-        allow_write_gpx: GPS-nyomvonalak feltöltése
-        allow_write_notes: jegyzetek módosítása
       diary_comment:
         body: Szöveg
       diary_entry:
@@ -764,8 +751,6 @@ hu:
         one: '%{count} hozzászólás'
         other: '%{count} hozzászólás'
       title_label: Naplóbejegyzés
-      comments_label: Hozzászólások
-      date_label: Dátum
   diary_comments:
     new:
       heading: Hozzáfűzől egy megjegyzést a következő naplóhozzászóláshoz?
@@ -1688,6 +1673,7 @@ hu:
       download: Útvonal letöltése GeoJSON formátumban
       filename: útvonal
       directions_courtesy_html: Útvonaltervezés a(z) %{link} jóvoltából
+      check_demo_html: 'További részletek innen: %{link}'
   issues:
     index:
       title: Problémák
@@ -1740,16 +1726,15 @@ hu:
       other_issues_against_this_user: Más problémák ezzel a felhasználóval
       no_other_issues: Nincsenek további problémák ezzel a felhasználóval kapcsolatban
       comments_on_this_issue: Hozzászólások a problémához
+      comment_from_html: '%{user_link} hozzászólása (%{comment_created_at})'
+      reassign_to_moderators: Probléma újbóli kiszignálása moderátoroknak
+      reassign_to_administrators: Probléma újbóli kiszignálása adminisztrátoroknak
     resolve:
       resolved: 'A probléma állapota átállítva a következőre: „megoldva”'
     ignore:
       ignored: 'A probléma állapota átállítva a következőre: „figyelmen kívül hagyva”'
     reopen:
       reopened: 'A probléma állapota átállítva a következőre: „nyitott”'
-    comments:
-      comment_from_html: '%{user_link} hozzászólása (%{comment_created_at})'
-      reassign_to_moderators: Probléma újbóli kiszignálása moderátoroknak
-      reassign_to_administrators: Probléma újbóli kiszignálása adminisztrátoroknak
     reports:
       reported_by_html: '%{user} bejelentette %{category} kategóriájúként ekkor: %{updated_at}'
     helper:
@@ -1817,6 +1802,7 @@ hu:
         az: azeri
         id: indonéz
         ms: maláj
+        bcl: közép-bikol
         bs: bosnyák
         br: breton
         ca: katalán
@@ -1922,18 +1908,8 @@ hu:
   layouts:
     logo:
       alt_text: OpenStreetMap logó
-    home: Ugrás az otthonodhoz
-    logout: Kijelentkezés
-    log_in: Bejelentkezés
-    sign_up: Regisztráció
+    layer_info: Réteginformáció
     start_mapping: Térképezés indítása
-    edit: Szerkesztés
-    history: Előzmények
-    export: Exportálás
-    issues: Problémák
-    gps_traces: GPS-nyomvonalak
-    user_diaries: Naplók
-    edit_with: 'Szerkesztés a következővel: %{editor}'
     intro_header: Üdvözöljük az OpenStreetMap-en!
     intro_text: Az OpenStreetMap egy világtérkép, amelyet hozzád hasonló emberek készítenek
       és szabad licenc alatt elérhető.
@@ -1943,15 +1919,25 @@ hu:
     partners_partners: partnerek
     tou: Felhasználási feltételek
     nothing_to_preview: Nincs mit megtekinteni.
-    help: Súgó
-    about: Névjegy
-    copyright: Szerzői jog és licenc
-    communities: Közösségek
     learn_more: További info
-    more: Több
     header:
+      about: Névjegy
+      communities: Közösségek
+      copyright: Szerzői jog és licenc
+      edit: Szerkesztés
+      edit_with: 'Szerkesztés a következővel: %{editor}'
+      export: Exportálás
+      gps_traces: GPS-nyomvonalak
+      help: Súgó
+      history: Előzmények
+      home: Ugrás az otthonodhoz
+      issues: Problémák
+      log_out: Kijelentkezés
+      log_in: Bejelentkezés
+      more: Több
       select_language: Nyelv kiválasztása
-      loading: Betöltés…
+      sign_up: Regisztráció
+      user_diaries: Naplók
     meta:
       openstreetmap_search: OpenStreetMap Keresés
     select_language_button:
@@ -2341,6 +2327,14 @@ hu:
       update:
         success: A profil helye frissítve.
         failure: Nem sikerült frissíteni a profil helyét.
+    heatmaps:
+      show:
+        title: Hőtérkép konfigurálása
+        save: Hőtérkép konfigurációjának frissítése
+        cancel: Mégse
+      update:
+        success: Hőtérkép frissítve.
+        failure: Nem sikerült frissíteni a hőtérképet.
   sessions:
     new:
       tab_title: Bejelentkezés
@@ -2619,8 +2613,6 @@ hu:
         contributors_hr_croatia: Horvátország
         contributors_hr_dgu: Horvátországi Állami Geodéziai Igazgatósága
         contributors_hr_open_data_portal: Nemzeti Nyílt Adatportál
-        contributors_nl_credit_html: '%{netherlands}: 2007-es &copy; AND adatokat
-          tartalmaz (%{and_link})'
         contributors_nl_netherlands: Hollandia
         contributors_nz_credit_html: '%{new_zealand}: a %{linz_data_service_link}
           által szolgáltatott adatokat tartalmaz, amelyek %{cc_by_link} alapján engedélyezettek
@@ -3313,6 +3305,20 @@ hu:
       contributions:
         one: '%{count} közreműködés az elmúlt évben'
         other: '%{count} közreműködés az elmúlt évben'
+      title:
+        administrator: Ez a felhasználó adminisztrátor
+        moderator: Ez a felhasználó moderátor
+        importer: Ez a felhasználó importálhat
+      grant:
+        administrator: Adminisztrátori hozzáférés megadása
+        moderator: Moderátori hozzáférés megadása
+        importer: Importálási jog megadása
+        are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
+      revoke:
+        administrator: Adminisztrátori hozzáférés visszavonása
+        moderator: Moderátori hozzáférés viszzavonása
+        importer: Importálási hozzáférés visszavonása
+        are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
     sidebar_section:
       home_location: Otthon helye
       company: Vállalat
@@ -3408,21 +3414,6 @@ hu:
         a lenti űrlap segítségével.
       option_2: Ha már van fiókod, bejelentkezhetsz a felhasználóneveddel és jelszavaddal,
         majd összekapcsolhatod az azonosítóddal a beállításaidban.
-    role_icons:
-      title:
-        administrator: Ez a felhasználó adminisztrátor
-        moderator: Ez a felhasználó moderátor
-        importer: Ez a felhasználó importálhat
-      grant:
-        administrator: Adminisztrátori hozzáférés megadása
-        moderator: Moderátori hozzáférés megadása
-        importer: Importálási jog megadása
-        are_you_sure: Biztosan kiosztod '%{name}' felhasználónak a '%{role}' szerepet?
-      revoke:
-        administrator: Adminisztrátori hozzáférés visszavonása
-        moderator: Moderátori hozzáférés viszzavonása
-        importer: Importálási hozzáférés visszavonása
-        are_you_sure: Biztosan megfosztod '%{name}' felhasználót '%{role}' szerepétől?
   user_role:
     filter:
       not_a_role: A '%{role}' kifejezés nem érvényes szerep.
@@ -3649,11 +3640,11 @@ hu:
       tooltip: Jelmagyarázat
       tooltip_disabled: A jelkulcs nem érhető el ezen a rétegen
     map:
-      zoom:
-        in: Nagyítás
-        out: Kicsinyítés
-      locate:
-        title: Helyzetem megjelenítése
+      navigation_control:
+        zoom_in: Nagyítás
+        zoom_out: Kicsinyítés
+      geolocate_control:
+        find_my_location: Helyzetem megjelenítése
         metersPopup:
           one: '%{count} méternél is közelebb vagy ehhez a ponthoz'
           other: '%{count} méternél közelebb vagy ehhez a ponthoz'
@@ -3809,7 +3800,7 @@ hu:
     home:
       marker_title: Az otthoni helyem
       not_set: Nincs beállítva otthoni hely a fiókodhoz
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: '%{date} napon nincs közreműködés'
         contributions:

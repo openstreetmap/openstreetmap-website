@@ -59,7 +59,7 @@
 uk:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
@@ -137,19 +137,6 @@ uk:
       way_node: Точка лінії
       way_tag: Теґ лінії
     attributes:
-      client_application:
-        name: Назва (Обов’язково)
-        url: Основний URL застосунку (Обов’язково)
-        callback_url: URL зворотного виклику
-        support_url: URL підтримки
-        allow_read_prefs: отримувати налаштування
-        allow_write_prefs: змінювати налаштування
-        allow_write_diary: створювати записи у щоденнику та залишати коментарі
-        allow_write_api: змінювати мапу
-        allow_write_changeset_comments: коментувати набори змін
-        allow_read_gpx: отримувати приватні GPS-треки.
-        allow_write_gpx: надсилати GPS-треки на сервер
-        allow_write_notes: змінювати нотатки
       diary_comment:
         body: Текст
       diary_entry:
@@ -837,8 +824,6 @@ uk:
         many: '%{count} коментарів'
         other: ""
       title_label: Запис щоденника
-      comments_label: Коментарі
-      date_label: Дата
   diary_comments:
     new:
       heading: Додати коментар до обговорення запису в щоденнику?
@@ -1183,7 +1168,7 @@ uk:
           motorway_link: З’єднання з автомагістраллю
           passing_place: Роз'їзд
           path: Стежка
-          pedestrian: Пішохідна дорога
+          pedestrian: Пішохідна вулиця
           platform: Платформа
           primary: Головна дорога
           primary_link: З’єднання з головною дорогою
@@ -1325,7 +1310,7 @@ uk:
           sports_centre: Спортивний центр
           stadium: Стадіон
           swimming_pool: Басейн
-          track: Бігова доріжка
+          track: Гоночна траса (не для автоспорту)
           water_park: Аквапарк
           "yes": Дозвілля
         lock:
@@ -1765,6 +1750,7 @@ uk:
       download: Завантажити маршрут як GeoJSON
       filename: маршрут
       directions_courtesy_html: Маршрут наданий %{link}
+      check_demo_html: Більше деталей за %{link}
   issues:
     index:
       title: Звернення
@@ -1821,16 +1807,15 @@ uk:
       other_issues_against_this_user: Інші звернення щодо цього учасника
       no_other_issues: Немає інших скарг на цього учасника
       comments_on_this_issue: Коментарі до цього звернення
+      comment_from_html: Коментар від %{user_link}, %{comment_created_at}
+      reassign_to_moderators: Перепризначити звернення Модераторам
+      reassign_to_administrators: Перепризначити звернення Адміністраторам
     resolve:
       resolved: Статус звернення був змінений на 'Розв’язано'
     ignore:
       ignored: Статус звернення був змінений на 'Проігноровано'
     reopen:
       reopened: Статус проблеми був змінений на 'Відкрито'
-    comments:
-      comment_from_html: Коментар від %{user_link}, %{comment_created_at}
-      reassign_to_moderators: Перепризначити звернення Модераторам
-      reassign_to_administrators: Перепризначити звернення Адміністраторам
     reports:
       reported_by_html: Повідомлено як %{category}, %{user}, %{updated_at}
     helper:
@@ -1931,6 +1916,7 @@ uk:
         ku-Latn: Курдська (латиниця)
         lv: Латиська
         lb: Люксембурзька
+        lkt: Лакота
         lt: Литовська
         hu: Угорська
         fit: Торнедален Фінська
@@ -2006,18 +1992,9 @@ uk:
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap
-    home: Додому
-    logout: Вийти
-    log_in: Увійти
-    sign_up: Реєстрація
+    main_navigation: Головна
+    layer_info: Інфо про шар
     start_mapping: Почати мапити
-    edit: Редагувати
-    history: Історія
-    export: Експорт
-    issues: Звернення
-    gps_traces: GPS-треки
-    user_diaries: Щоденники
-    edit_with: Редагувати – %{editor}
     intro_header: Ласкаво просимо до OpenStreetMap!
     intro_text: OpenStreetMap — мапа світу, створена такими ж людьми, як і ви, для
       вільного використання під відкритою ліцензією.
@@ -2025,17 +2002,31 @@ uk:
       іншими %{partners}.
     partners_corpmembers: Корпоративними членами OSMF
     partners_partners: партнерами
+    welcome_tou_notice_html: Використовуючи цей веб-сайт або іншу інфраструктуру,
+      надану Фондом OpenStreetMap, ви погоджуєтеся з умовами %{terms_link}.
+    terms_of_use: Умови використання
     tou: Умови використання
     nothing_to_preview: Нічого немає для перегляду.
-    help: Довідка
-    about: Про проєкт
-    copyright: Авторські права
-    communities: Спільноти
     learn_more: Докладніше
-    more: Більше
     header:
+      about: Про проєкт
+      communities: Спільноти
+      copyright: Авторські права
+      donate: Пожертвувати
+      edit: Редагувати
+      edit_with: Редагувати – %{editor}
+      export: Експорт
+      gps_traces: GPS-треки
+      help: Довідка
+      history: Історія
+      home: Додому
+      issues: Звернення
+      log_out: Вийти
+      log_in: Увійти
+      more: Більше
       select_language: Обрати мову
-      loading: Завантаження…
+      sign_up: Реєстрація
+      user_diaries: Щоденники
     meta:
       openstreetmap_search: Пошук OpenStreetMap
     select_language_button:
@@ -2381,6 +2372,7 @@ uk:
         image: Зображення
         company: Компанія
         location: Розташування
+        contribution_calendar: Участь
     descriptions:
       show:
         title: Редагування профілю
@@ -2440,6 +2432,16 @@ uk:
       update:
         success: Розташування профілю оновлено
         failure: Не вдалося оновити розташування профілю.
+    heatmaps:
+      show:
+        title: Налаштувати календар внесків
+        show_contribution_calendar_in_public: Показувати календар участі у вашому
+          профілі
+        save: Оновити конфігурацію календаря внесків
+        cancel: Скасувати
+      update:
+        success: Календар внесків оновлено.
+        failure: Не вдалося оновити календар внесків.
   sessions:
     new:
       tab_title: Вхід
@@ -2559,7 +2561,7 @@ uk:
         \n%{openstreetmap_foundation_link} від імені спільноти. Використання усіх
         сервісів, підконтрольних OSMF, здійснюється на основі %{terms_of_use_link},
         %{aup_link} та нашій %{privacy_policy_link}."
-      legal_1_1_openstreetmap_foundation: Фундацією OpenStreetMap
+      legal_1_1_openstreetmap_foundation: Фондом OpenStreetMap
       legal_1_1_terms_of_use: Умов використання
       legal_1_1_aup: Правил щодо прийнятного використання
       legal_1_1_privacy_policy: Політиці конфіденційності
@@ -2622,7 +2624,7 @@ uk:
           Ліцензії %{odc_odbl_link} (ODbL) %{osm_foundation_link} (OSMF). Скорочено:'
         licensing_1_open: відкриті
         licensing_1_odc_odbl: Open Data Commons Open Database License
-        licensing_1_osm_foundation: Фундацією OpenStreetMap
+        licensing_1_osm_foundation: Фондом OpenStreetMap
         licensing_2_html: |-
           Ви можете вільно копіювати, поширювати, передавати та адаптувати наші дані, за умови, що ви посилаєтесь на проєкт OpenStreetMap та його учасників. Якщо ви змінюєте або використовуєте наші дані, ви
           можете поширювати результат лише за тією самою ліцензією. %{legal_code_link} пояснює ваші права та обов’язки.
@@ -2675,7 +2677,7 @@ uk:
         infringement_2_1_online_filing_page: нашій онлайн сторінці для звернень
         trademarks_title: Торгові марки
         trademarks_1_1_html: OpenStreetMap, логотип у вигляді лупи та State of the
-          Map є зареєстрованими товарними знаками Фундації OpenStreetMap. Якщо у вас
+          Map є зареєстрованими товарними знаками Фонду OpenStreetMap. Якщо у вас
           виникли запитання щодо використання вами цих знаків, перегляньте наші %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Правила використання торгової марки
         services_title_html: Додаткові послуги
@@ -2730,7 +2732,8 @@ uk:
         contributors_hr_croatia: Хорватія
         contributors_hr_dgu: Державне геодезичне управління Хорватії
         contributors_hr_open_data_portal: Національний портал відкритих даних
-        contributors_nl_credit_html: '%{netherlands}: Містить дані © AND, 2007 (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Містить &copy; дані AND,
+          2007'
         contributors_nl_netherlands: Нідерланди
         contributors_nz_credit_html: |-
           %{new_zealand}: містить дані, отримані з %{linz_data_service_link}
@@ -2965,7 +2968,7 @@ uk:
           крок до створення юридичних осіб у своєму регіоні. Як правило, це не прибуткові
           громадські організації. Вони є представниками місцевих маперів, коли йдеться
           про стосунки з місцевою владою, бізнесом і ЗМІ. Вони також є представниками
-          Фундації OpenStreetMap (OSMF), виконуючи роль сполучної ланки між юридичним
+          Фонду OpenStreetMap (OSMF), виконуючи роль сполучної ланки між юридичним
           представництвом та керівним органом проєкту, що є тримачем авторських прав.
         list_text: 'Наступні спільноти мають офіційно створені місцеві осередки:'
       other_groups:
@@ -3092,6 +3095,15 @@ uk:
       image_dimensions_html: На зображені буде шар %{layer} (%{width} * %{height})
       download: Завантажити
       downloading: Завантаження…
+  webgl_error_panes:
+    show:
+      compact_message: Для показу цієї мапи потрібен WebGL.
+      description_html: На жаль, схоже, що %{your_browser_does_not_support_webgl},
+        технологію для відтворення 3D-графіки у веб.
+      your_browser_does_not_support_webgl: ваш оглядач не підтримує WebGL
+      webgl_is_required_for_this_map: Для показу цієї мапи потрібен WebGL.
+      read_more_about_webgl: Докладніше
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/Uk:This_map_requires_WebGL
   traces:
     visibility:
       private: Приватний (доступний тільки як анонімний, невпорядковані точки)
@@ -3141,13 +3153,13 @@ uk:
       points: 'Кількість точок:'
       start_coordinates: 'Координати початку:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: на мапі
-      edit: редагувати
+      map: переглянути місцезнаходження на карті
+      edit: відкрити в редакторі
       owner: 'Власник:'
       description: 'Опис:'
       tags: 'Теґи:'
       none: Нічого
-      edit_trace: Редагувати трек
+      edit_trace: Редагувати дані треку
       delete_trace: Вилучити цей трек
       trace_not_found: Трек не знайдено!
       visibility: 'Видимість:'
@@ -3161,8 +3173,8 @@ uk:
         other: ""
       more: більше
       trace_details: Показати дані треку
-      view_map: Перегляд мапи
-      edit_map: Редагувати мапу
+      view_map: Переглянути місцезнаходження на карті
+      edit_map: Відкрити в редакторі
       public: ЗАГАЛЬНИЙ
       identifiable: ІДЕНТИФІКОВУВАНИЙ
       private: ПРИВАТНИЙ
@@ -3344,9 +3356,8 @@ uk:
         щоб отримати доступ до %{client_app_name}.
       no_auto_account_create: На жаль, наразі ми не в змозі створити для вас обліковий
         запис автоматично.
-      please_contact_support_html: Будь ласка, зв’яжіться з %{support_link}, щоб домовитися
-        про створення облікового запису – ми постараємося розглянути запит якомога
-        швидше.
+      please_contact_support_html: Будь ласка, зв’яжіться з %{support_link} по допомогу –
+        ми спробуємо розглянути запит якомога швидше.
       support: підтримкою
       about:
         header: Вільні й доступні для редагування дані.
@@ -3379,6 +3390,10 @@ uk:
       or: або
       use external auth: або використовуйте, облікові записи з інших ресурсів для
         входу
+      verify_human: Підтвердьте, що ви людина
+    create:
+      not_human: На жаль, ми не можемо підтвердити, що ви людина. Це необхідно для
+        створення нових облікових записів.
     no_such_user:
       title: Немає такого учасника
       heading: Учасника %{user} не існує.
@@ -3437,11 +3452,27 @@ uk:
       change_image: Змінити зображення
       edit_company: Редагувати компанію
       edit_location: Редагувати розташування
+      edit_contribution_calendar: Налаштувати календар участі
       contributions:
         one: Кількість редагувань за останній рік — %{count} елемент
         few: Кількість редагувань за останній рік — %{count} елементи
         many: Кількість редагувань за останній рік — %{count} елементів
         other: 'Кількість редагувань за останній рік — '
+      title:
+        administrator: Цей учасник є адміністратором
+        moderator: Цей учасник є модератором
+        importer: Цей учасник виконує імпорт
+      grant:
+        administrator: Надати права адміністратора
+        moderator: Надати права модератора
+        importer: Надати дозвіл на імпорт
+        are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» учаснику «%{name}»?
+      revoke:
+        administrator: Відкликати права адміністратора
+        moderator: Відкликати права модератора
+        importer: Відкликати доступ на імпорт
+        are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» в учасника
+          «%{name}»?
     sidebar_section:
       home_location: Місце розташування
       company: Компанія
@@ -3543,22 +3574,6 @@ uk:
       option_2: Якщо у вас вже є обліковий запис, то ви можете увійти до нього, використовуючи
         своє прізвисько та пароль, а потім звʼязати обліковий запис із вашим ID у
         налаштуваннях.
-    role_icons:
-      title:
-        administrator: Цей учасник є адміністратором
-        moderator: Цей учасник є модератором
-        importer: Цей учасник виконує імпорт
-      grant:
-        administrator: Надати права адміністратора
-        moderator: Надати права модератора
-        importer: Надати дозвіл на імпорт
-        are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» учаснику «%{name}»?
-      revoke:
-        administrator: Відкликати права адміністратора
-        moderator: Відкликати права модератора
-        importer: Відкликати доступ на імпорт
-        are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» в учасника
-          «%{name}»?
   user_role:
     filter:
       not_a_role: Рядок «%{role}» не є припустимою роллю.
@@ -3802,14 +3817,18 @@ uk:
       tooltip: Умовні знаки
       tooltip_disabled: Легенда мапи недоступна для цього шару
     map:
+      map:
+        title: Мапа
+        marker:
+          title: Мітка на мапі
       popup:
         close: Закрити
-      zoom:
-        in: Збільшити
-        out: Зменшити
-      locate:
-        title: Показати моє місцезнаходження
-        not_available: Розташування недоступне
+      navigation_control:
+        zoom_in: Збільшити
+        zoom_out: Зменшити
+      geolocate_control:
+        find_my_location: Показати моє місцезнаходження
+        location_not_available: Розташування недоступне
         metersPopup:
           one: Ви перебуваєте за %{count} метр від цієї точки
           few: Ви перебуваєте за %{count} метри від цієї точки
@@ -3820,6 +3839,8 @@ uk:
           few: Ви перебуваєте за %{count} фути від цієї точки
           many: Ви перебуваєте за %{count} футів від цієї точки
           other: ""
+      attribution_control:
+        toggle_attribution: Показувати атрибуцію
       base:
         standard: Стандартний
         cyclosm: ЦиклОСМ
@@ -3965,7 +3986,7 @@ uk:
     home:
       marker_title: Моє розташування
       not_set: Для вашого облікового запису не вказано його розташування
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Немає внесків станом на %{date}
         contributions:

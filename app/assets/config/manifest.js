@@ -20,3 +20,5 @@
 //= link leaflet/dist/images/marker-shadow.png
 
 //= link @mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js
+
+//= link make-plural/cardinals.js

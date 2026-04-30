@@ -16,7 +16,7 @@ module HeatmapHelper
              .map do |month|
                month_offset += 12 if month == 1
                month + month_offset
-    end
+             end
 
     {
       :days => all_days,

@@ -34,9 +34,9 @@ ENV["RAILS_ENV"] = "test"
 require_relative "../config/environment"
 require "rails/test_help"
 require "webmock/minitest"
-require "minitest/focus" unless ENV["CI"]
+require "minitest/focus"
 
-WebMock.disable_net_connect!(:allow_localhost => true)
+WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium-default selenium-de selenium-nolang rails-app])
 
 module ActiveSupport
   class TestCase
@@ -44,15 +44,21 @@ module ActiveSupport
     include ActiveJob::TestHelper
     include LibXML
 
-    # Run tests in parallel with specified workers
-    parallelize(:workers => :number_of_processors)
+    if ENV.key?("CAPYBARA_SERVER_PORT")
+      # Running in the devcontainer. Can't figure out how
+      # to run things in parallel at the moment, so for now
+      # we are not doing it.
+    elsif Settings.enable_parallel_tests
+      # Run tests in parallel with specified workers
+      parallelize(:workers => :number_of_processors)
 
-    parallelize_setup do |worker|
-      SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
-    end
+      parallelize_setup do |worker|
+        SimpleCov.command_name "#{SimpleCov.command_name}-#{worker}"
+      end
 
-    parallelize_teardown do
-      SimpleCov.result
+      parallelize_teardown do
+        SimpleCov.result
+      end
     end
 
     ##
@@ -359,6 +365,10 @@ module ActiveSupport
     def with_settings(settings)
       saved_settings = Settings.to_hash.slice(*settings.keys)
 
+      settings.each_key do |key|
+        saved_settings[key] = nil unless saved_settings.key?(key)
+      end
+
       Settings.merge!(settings)
 
       yield
@@ -408,6 +418,10 @@ module ActiveSupport
       assert_response :success
       assert_template template
       assert_template :layout => "xhr"
+    end
+
+    def parse_html(html)
+      Rails::Dom::Testing.html_document_fragment.parse(html)
     end
   end
 end

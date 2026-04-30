@@ -10,9 +10,6 @@
 # Author: Marwin H.H.
 ---
 gd:
-  date:
-    formats:
-      heatmap: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y aig %H:%M'
@@ -78,16 +75,6 @@ gd:
       way_node: Nòd slighe
       way_tag: Taga slighe
     attributes:
-      client_application:
-        name: Ainm (Riatanach)
-        callback_url: URL ais-ghairm
-        support_url: URL taice
-        allow_read_prefs: na roghainnean a' chleachdaiche aca a leughadh
-        allow_write_prefs: na roghainnean a' chleachdaiche aca atharrachadh
-        allow_write_api: am mapa atharrachadh
-        allow_read_gpx: na lorgaidhean GPS prìobhaideach aca a leughadh
-        allow_write_gpx: lorgaidhean GPS a luchdadh suas
-        allow_write_notes: nòtaichean atharrachadh
       diary_comment:
         body: Bodhaig
       diary_entry:
@@ -1079,26 +1066,27 @@ gd:
   layouts:
     logo:
       alt_text: Suaicheantas OpenStreetMap
-    home: Rach gun ionad dachaigh
-    logout: Clàraich a-mach
-    log_in: Clàraich a-steach
-    sign_up: Clàraich
     start_mapping: Tòisich air an obair-mhapa
-    edit: Deasaich
-    history: Eachdraidh
-    export: Às-phortaich
-    gps_traces: Lorgaidhean GPS
-    user_diaries: Leabhraichean-latha
-    edit_with: Deasaich le %{editor}
     intro_header: Fàilte gu OpenStreetMap!
     intro_text: '''S e mapa an t-saoghail a tha san OpenStreetMap a chaidh a chruthachadh
       le daoine mar thu fhèin ''s a tha saor fo cheadachas fhosgailte.'
     partners_partners: com-pàirtichean eile
-    help: Cobhair
-    about: Mu dhèidhinn
-    copyright: Còir-lethbhreac
     learn_more: Barrachd fiosrachaidh
-    more: Barrachd
+    header:
+      about: Mu dhèidhinn
+      copyright: Còir-lethbhreac
+      edit: Deasaich
+      edit_with: Deasaich le %{editor}
+      export: Às-phortaich
+      gps_traces: Lorgaidhean GPS
+      help: Cobhair
+      history: Eachdraidh
+      home: Rach gun ionad dachaigh
+      log_out: Clàraich a-mach
+      log_in: Clàraich a-steach
+      more: Barrachd
+      sign_up: Clàraich
+      user_diaries: Leabhraichean-latha
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] Thug %{user} seachad beachd air leabhar-latha'
@@ -1783,6 +1771,19 @@ gd:
       activate_user: Gnìomhaich an cleachdaiche seo
       confirm_user: Dearbhaich an cleachdaiche seo
       confirm: Dearbhaich
+      title:
+        administrator: '''S e rianaire a tha sa chleachdaiche seo'
+        moderator: '''S e maor a tha sa chleachdaiche seo'
+      grant:
+        administrator: Thoir seachad inntrigeadh rianaire
+        moderator: Thoir seachad inntrigeadh maoir
+        are_you_sure: A bheil thu cinnteach gu bheil thu airson an dreuchd "%{role}"
+          a thoirt dhan chleachdaiche "%{name}"?
+      revoke:
+        administrator: Cùl-ghairm inntrigeadh rianaire
+        moderator: Cùl-ghairm inntrigeadh maoir
+        are_you_sure: A bheil thu cinnteach gu bheil thu airson an dreuchd "%{role}"
+          a thoirt air falbh on chleachdaiche "%{name}"?
     go_public:
       flash success: Tha gach deasachadh a rinn 's a nì thu poblach agus faodaidh
         tu deasachadh a dhèanamh a-nis.
@@ -1819,20 +1820,6 @@ gd:
     auth_failure:
       connection_failed: Cha deach leinn ceangal ri solaraiche an dearbhaidh
       invalid_credentials: Tha an dàta-dearbhaidh mì-dhligheach
-    role_icons:
-      title:
-        administrator: '''S e rianaire a tha sa chleachdaiche seo'
-        moderator: '''S e maor a tha sa chleachdaiche seo'
-      grant:
-        administrator: Thoir seachad inntrigeadh rianaire
-        moderator: Thoir seachad inntrigeadh maoir
-        are_you_sure: A bheil thu cinnteach gu bheil thu airson an dreuchd "%{role}"
-          a thoirt dhan chleachdaiche "%{name}"?
-      revoke:
-        administrator: Cùl-ghairm inntrigeadh rianaire
-        moderator: Cùl-ghairm inntrigeadh maoir
-        are_you_sure: A bheil thu cinnteach gu bheil thu airson an dreuchd "%{role}"
-          a thoirt air falbh on chleachdaiche "%{name}"?
   user_role:
     filter:
       not_a_role: Chan eil an dreuchd "%{role}" 'na dreuchd dhligheach.
@@ -1937,11 +1924,11 @@ gd:
       tooltip: Iuchair a' mhapa
       tooltip_disabled: Chan eil iuchair a’ mhapa ri fhaighinn airson na breath seo
     map:
-      zoom:
-        in: Sùm a-steach
-        out: Sùm a-mach
-      locate:
-        title: Seall far a bheil mi
+      navigation_control:
+        zoom_in: Sùm a-steach
+        zoom_out: Sùm a-mach
+      geolocate_control:
+        find_my_location: Seall far a bheil mi
       base:
         standard: Àbhaisteach
         cycle_map: Mapa baidhseagail

@@ -3,11 +3,6 @@
 require "test_helper"
 
 class DiaryEntryTest < ActiveSupport::TestCase
-  def setup
-    # Create the default language for diary entries
-    create(:language, :code => "en")
-  end
-
   def test_diary_entry_validations
     diary_entry_valid({})
     diary_entry_valid({ :title => "" }, :valid => false)
@@ -49,6 +44,18 @@ class DiaryEntryTest < ActiveSupport::TestCase
     create(:diary_comment, :diary_entry => diary, :visible => false)
     assert_equal 1, diary.visible_comments.count
     assert_equal 2, diary.comments.count
+  end
+
+  def test_visible_subscribers
+    commenter1 = create(:user)
+    commenter2 = create(:user, :suspended)
+    commenter3 = create(:user)
+    diary_entry = create(:diary_entry)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter1)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter2)
+    create(:diary_entry_subscription, :diary_entry => diary_entry, :user => commenter3)
+
+    assert_equal diary_entry.visible_subscribers.sort, [commenter1, commenter3].sort
   end
 
   private

@@ -36,7 +36,7 @@
 vi:
   date:
     formats:
-      heatmap: '%-d tháng %-m'
+      contribution_calendar: '%-d tháng %-m'
   time:
     formats:
       friendly: '%e tháng %-m năm %Y lúc %H:%M'
@@ -115,19 +115,6 @@ vi:
       way_node: Nốt Lối
       way_tag: Thẻ Lối
     attributes:
-      client_application:
-        name: Tựa đề (Yêu cầu)
-        url: URL ứng dụng chính (Bắt buộc)
-        callback_url: URL Gọi lại
-        support_url: URL Trợ giúp
-        allow_read_prefs: thay đổi tùy chọn cá nhân
-        allow_write_prefs: thay đổi tùy chọn cá nhân
-        allow_write_diary: tạo mục nhật ký và bình luận
-        allow_write_api: sửa đổi bản đồ
-        allow_write_changeset_comments: bình luận về bộ thay đổi
-        allow_read_gpx: đọc dấu vết GPS riêng tư của họ
-        allow_write_gpx: tải lên nật trình GPS
-        allow_write_notes: sửa đổi ghi chú
       diary_comment:
         body: Nội dung
       diary_entry:
@@ -731,8 +718,6 @@ vi:
       comments:
         other: '%{count} bình luận'
       title_label: Mục Nhật ký
-      comments_label: Bình luận
-      date_label: Ngày tháng
   diary_comments:
     new:
       heading: Thêm bình luận vào cuộc thảo luận về mục nhật ký sau đây?
@@ -1172,7 +1157,7 @@ vi:
           sports_centre: Trung tâm Thể thao
           stadium: Sân vận động
           swimming_pool: Hồ Bơi
-          track: Đường Chạy
+          track: Đường Đua (Không phải Đua Xe)
           water_park: Công viên Nước
           "yes": Giải trí
         lock:
@@ -1561,6 +1546,7 @@ vi:
       download: Tải về tuyến đường dưới dạng GeoJSON
       filename: tuyến đường
       directions_courtesy_html: Chỉ đường do %{link} cung cấp
+      check_demo_html: Xem thêm chi tiết tại %{link}
   issues:
     index:
       title: Vấn đề
@@ -1611,16 +1597,15 @@ vi:
       other_issues_against_this_user: Vấn đề khác do người dùng này gây ra
       no_other_issues: Không có vấn đề khác do người dùng ngày gây ra.
       comments_on_this_issue: Bình luận về vấn đề này
+      comment_from_html: Bình luận của %{user_link} vào %{comment_created_at}
+      reassign_to_moderators: Giao lại cho Điều hành viên
+      reassign_to_administrators: Giao lại cho Quản lý viên
     resolve:
       resolved: Trạng thái vấn đề được đánh dấu là “Giải quyết”
     ignore:
       ignored: Trạng thái vấn đề được đánh dấu là “Bỏ qua”
     reopen:
       reopened: Trạng thái vấn đề được đánh dấu là “Mở”
-    comments:
-      comment_from_html: Bình luận của %{user_link} vào %{comment_created_at}
-      reassign_to_moderators: Giao lại cho Điều hành viên
-      reassign_to_administrators: Giao lại cho Quản lý viên
     reports:
       reported_by_html: Báo cáo là %{category} bởi %{user} vào %{updated_at}
     helper:
@@ -1720,6 +1705,7 @@ vi:
         ku-Latn: Kurd (Latinh)
         lv: Latvia
         lb: Luxembourg
+        lkt: Lakota
         lt: Litva
         hu: Hungary
         fit: Phần Lan Thung lũng Torne
@@ -1795,18 +1781,8 @@ vi:
   layouts:
     logo:
       alt_text: Biểu trưng OpenStreetMap
-    home: Về Vị trí Nhà ở
-    logout: Đăng xuất
-    log_in: Đăng nhập
-    sign_up: Mở Tài khoản
+    layer_info: Thông tin lớp
     start_mapping: Bắt đầu Đóng góp
-    edit: Sửa đổi
-    history: Lịch sử
-    export: Xuất
-    issues: Vấn đề
-    gps_traces: Tuyến GPS
-    user_diaries: Nhật ký
-    edit_with: Sửa đổi dùng %{editor}
     intro_header: Chào mừng đến với OpenStreetMap!
     intro_text: OpenStreetMap là bản đồ thế giới do những người như bạn xây dựng và
       cho phép sử dụng thoải mái theo một giấy phép nguồn mở.
@@ -1814,17 +1790,31 @@ vi:
       và %{partners} khác.
     partners_corpmembers: các thành viên công ty Quỹ OSM
     partners_partners: các công ty bảo trợ
+    welcome_tou_notice_html: Với việc sử dụng trang mạng này hoặc các cơ sở hạ tầng
+      khác do Quỹ OpenStreetMap cung cấp, bạn đồng ý với các %{terms_link}.
+    terms_of_use: Điều khoản Sử dụng
     tou: Điều khoản sử dụng
     nothing_to_preview: Không có gì để xem trước.
-    help: Trợ giúp
-    about: Giới thiệu
-    copyright: Bản quyền
-    communities: Cộng đồng
     learn_more: Tìm hiểu Thêm
-    more: Thêm
     header:
+      about: Giới thiệu
+      communities: Cộng đồng
+      copyright: Bản quyền
+      donate: Quyên góp
+      edit: Sửa đổi
+      edit_with: Sửa đổi dùng %{editor}
+      export: Xuất
+      gps_traces: Tuyến GPS
+      help: Trợ giúp
+      history: Lịch sử
+      home: Về Vị trí Nhà ở
+      issues: Vấn đề
+      log_out: Đăng xuất
+      log_in: Đăng nhập
+      more: Thêm
       select_language: Chọn Ngôn ngữ
-      loading: Đang tải…
+      sign_up: Mở Tài khoản
+      user_diaries: Nhật ký
     meta:
       openstreetmap_search: Tìm kiếm OpenStreetMap
     select_language_button:
@@ -2121,7 +2111,7 @@ vi:
       update_success_flash:
         message: Đã cập nhật tùy chỉnh.
       navigation:
-        preferences: Tùy chọn
+        preferences: Tùy chỉnh
         advanced_preferences: Tùy chỉnh Nâng cao
     basic_preferences:
       show:
@@ -2155,6 +2145,7 @@ vi:
         image: Hình
         company: Công ty
         location: Vị trí
+        contribution_calendar: Lịch Đóng góp
     descriptions:
       show:
         title: Sửa đổi Hồ sơ
@@ -2214,6 +2205,16 @@ vi:
       update:
         success: Đã cập nhật vị trí trong hồ sơ.
         failure: Không thể cập nhật vị trí trong hồ sơ.
+    heatmaps:
+      show:
+        title: Thiết lập Lịch Đóng góp
+        show_contribution_calendar_in_public: Hiển thị lịch đóng góp trên trang hồ
+          sơ của bạn
+        save: Cập nhật Cấu hình Lịch Đóng góp
+        cancel: Hủy bỏ
+      update:
+        success: Lịch đóng góp đã được cập nhật.
+        failure: Không thể cập nhật lịch đóng góp.
   sessions:
     new:
       tab_title: Đăng nhập
@@ -2506,8 +2507,8 @@ vi:
         contributors_hr_croatia: Croatia
         contributors_hr_dgu: Cơ quan Quản lý Trắc địa Nhà nước Croatia
         contributors_hr_open_data_portal: Cổng Dữ liệu Mở Quốc gia
-        contributors_nl_credit_html: '%{netherlands}: Chứa dữ liệu &copy; AND, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Chứa dữ liệu &copy; AND,
+          2007'
         contributors_nl_netherlands: Hà Lan
         contributors_nz_credit_html: |-
           %{new_zealand}: Chứa dữ liệu bắt nguồn từ %{linz_data_service_link}
@@ -2866,6 +2867,14 @@ vi:
       image_dimensions_html: Hình của lớp %{layer} với kích thước %{width}×%{height}
       download: Tải về
       downloading: Đang tải về…
+  webgl_error_panes:
+    show:
+      compact_message: Bản đồ này yêu cầu WebGL.
+      description_html: Rất tiếc, hình như %{your_browser_does_not_support_webgl},
+        một công nghệ dùng để kết xuất đồ họa 3D trên mạng.
+      your_browser_does_not_support_webgl: trình duyệt của bạn không hỗ trợ WebGL
+      webgl_is_required_for_this_map: Bản đồ này yêu cầu WebGL.
+      read_more_about_webgl: Đọc thêm
   traces:
     visibility:
       private: Bí mật (chỉ hiển thị các điểm vô danh không có thứ tự)
@@ -2908,13 +2917,13 @@ vi:
       points: 'Số nốt:'
       start_coordinates: 'Tọa độ đầu đường:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: bản đồ
-      edit: sửa đổi
+      map: xem địa điểm trên bản đồ
+      edit: mở trong trình vẽ
       owner: 'Tác giả:'
       description: 'Miêu tả:'
       tags: 'Thẻ:'
       none: Không có
-      edit_trace: Sửa đổi tuyến đường này
+      edit_trace: Sửa chi tiết tuyến đường
       delete_trace: Xóa tuyến đường này
       trace_not_found: Không tìm thấy tuyến đường!
       visibility: 'Mức độ truy cập:'
@@ -2925,8 +2934,8 @@ vi:
         other: '%{count} điểm'
       more: thêm
       trace_details: Xem Chi tiết Tuyến đường
-      view_map: Xem Bản đồ
-      edit_map: Sửa đổi Bản đồ
+      view_map: Xem địa điểm trên bản đồ
+      edit_map: Mở trong trình vẽ
       public: CÔNG KHAI
       identifiable: NHẬN RA ĐƯỢC
       private: RIÊNG
@@ -3103,8 +3112,8 @@ vi:
       signup_to_authorize_html: Mở tài khoản OpenStreetMap để truy cập %{client_app_name}.
       no_auto_account_create: Rất tiếc, chúng ta hiện không có khả năng tạo ra tài
         khoản tự động cho bạn.
-      please_contact_support_html: Vui lòng liên hệ với %{support_link} để yêu cầu
-        tạo tài khoản – chúng tôi sẽ cố gắng giải quyết yêu cầu nhanh nhất có thể.
+      please_contact_support_html: Vui lòng liên hệ với %{support_link} để được hỗ
+        trợ – chúng tôi sẽ cố gắng giải quyết yêu cầu nhanh nhất có thể.
       support: nhóm hỗ trợ
       about:
         header: Tự do sử dụng và sửa đổi.
@@ -3135,6 +3144,10 @@ vi:
           trong %{privacy_policy_link} của chúng tôi.
       or: hoặc
       use external auth: hoặc mở tài khoản qua dịch vụ bên thứ ba
+      verify_human: Xác minh bạn là người thật
+    create:
+      not_human: Rất tiếc, không thể xác nhận bạn là người thật. Chỉ có người thật
+        được phép tạo tài khoản mới.
     no_such_user:
       title: Người dùng không tồn tại
       heading: Người dùng %{user} không tồn tại
@@ -3193,8 +3206,23 @@ vi:
       change_image: Sửa đổi Hình ảnh
       edit_company: Sửa đổi Công ty
       edit_location: Sửa đổi Vị trí
+      edit_contribution_calendar: Thiết lập Lịch Đóng góp
       contributions:
         other: Đóng góp %{count} lần trong năm qua
+      title:
+        administrator: Người dùng này là quản lý viên
+        moderator: Người dùng này là điều hành viên
+        importer: Người dùng này là người nhập dữ liệu
+      grant:
+        administrator: Cấp quyền quản lý viên
+        moderator: Cấp quyền điều hành viên
+        importer: Cấp quyền truy cập cho người nhập dữ liệu
+        are_you_sure: Bạn có chắc muốn cấp vai trò “%{role}” cho người dùng “%{name}”?
+      revoke:
+        administrator: Rút quyền quản lý viên
+        moderator: Rút quyền điều hành viên
+        importer: Rút quyền truy cập của người nhập dữ liệu
+        are_you_sure: Bạn có chắc muốn rút vai trò “%{role}” của người dùng “%{name}”?
     sidebar_section:
       home_location: Vị trí nhà
       company: Công ty
@@ -3291,21 +3319,6 @@ vi:
       option_2: Nếu bạn đã có tài khoản, bạn có thể đăng nhập vào tài khoản của bạn
         dùng tên người dùng và mật khẩu của bạn rồi liên kết tài khoản với ID của
         bạn trong tùy chọn.
-    role_icons:
-      title:
-        administrator: Người dùng này là quản lý viên
-        moderator: Người dùng này là điều hành viên
-        importer: Người dùng này là người nhập dữ liệu
-      grant:
-        administrator: Cấp quyền quản lý viên
-        moderator: Cấp quyền điều hành viên
-        importer: Cấp quyền truy cập cho người nhập dữ liệu
-        are_you_sure: Bạn có chắc muốn cấp vai trò “%{role}” cho người dùng “%{name}”?
-      revoke:
-        administrator: Rút quyền quản lý viên
-        moderator: Rút quyền điều hành viên
-        importer: Rút quyền truy cập của người nhập dữ liệu
-        are_you_sure: Bạn có chắc muốn rút vai trò “%{role}” của người dùng “%{name}”?
   user_role:
     filter:
       not_a_role: Chuỗi “%{role}” không phải là vai trò hợp lệ.
@@ -3526,18 +3539,24 @@ vi:
       tooltip: Chú giải
       tooltip_disabled: Bảng Chú giải không có sẵn cho lớp này
     map:
+      map:
+        title: Bản đồ
+        marker:
+          title: Ghim bản đồ
       popup:
         close: Đóng
-      zoom:
-        in: Phóng to
-        out: Thu nhỏ
-      locate:
-        title: Bay tới Vị trí của Tôi
-        not_available: Vị trí không có sẵn
+      navigation_control:
+        zoom_in: Phóng to
+        zoom_out: Thu nhỏ
+      geolocate_control:
+        find_my_location: Bay tới Vị trí của Tôi
+        location_not_available: Vị trí không có sẵn
         metersPopup:
           other: Bạn đang cách địa điểm này trong vòng %{count} mét
         feetPopup:
           other: Bạn đang cách địa điểm này trong vòng %{count} bộ
+      attribution_control:
+        toggle_attribution: Bật tắt Lời ghi công
       base:
         standard: Chuẩn
         cycle_map: Bản đồ Xe đạp
@@ -3682,7 +3701,7 @@ vi:
     home:
       marker_title: Vị trí nhà ở của tôi
       not_set: Tài khoản của bạn chưa đặt vị trí nhà ở
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Không đóng góp vào %{date}
         contributions:

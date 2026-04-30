@@ -108,18 +108,6 @@ nb:
       way_node: Veinode
       way_tag: Linjemerkelapp
     attributes:
-      client_application:
-        name: Navn (påkrevd)
-        url: Hovedapplikasjons-URL (påkrevd)
-        callback_url: 'URL for tilbakekall:'
-        support_url: Støtte-URL
-        allow_read_prefs: lese brukeralternativ deres
-        allow_write_prefs: endre brukeralternativ deres
-        allow_write_diary: opprette dagbokoppføringer og kommentarer
-        allow_write_api: endre kartet
-        allow_read_gpx: lese deres private GPS-spor
-        allow_write_gpx: laste opp GPS-spor
-        allow_write_notes: endre merknader
       diary_comment:
         body: Brødtekst
       diary_entry:
@@ -1284,14 +1272,13 @@ nb:
       other_issues_against_this_user: Andre saker mot denne brukeren
       no_other_issues: Ingen andre saker mot denne brukeren.
       comments_on_this_issue: Kommentarer om denne saken
+      comment_from_html: Kommentar fra %{user_link} %{comment_created_at}
     resolve:
       resolved: Saksstatus har blitt satt til 'Løst'
     ignore:
       ignored: Saksstatus har blitt satt til 'Sett bort fra'
     reopen:
       reopened: Saksstatus har blitt satt til 'Åpen'
-    comments:
-      comment_from_html: Kommentar fra %{user_link} %{comment_created_at}
     reports:
       reported_by_html: Reportert som %{category} av %{user} %{updated_at}
     helper:
@@ -1342,31 +1329,31 @@ nb:
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
-    home: Gå til din brukers hjemmeadresse
-    logout: Logg ut
-    log_in: Logg inn
-    sign_up: Registrer deg
     start_mapping: Start kartlegging
-    edit: Rediger
-    history: Historikk
-    export: Eksporter
-    issues: Problemer
-    gps_traces: GPS-spor
-    user_diaries: Brukerdagbok
-    edit_with: Rediger med %{editor}
     intro_header: Velkommen til OpenStreetMap!
     intro_text: OpenStreetMap er et kart over verden, skapt av mennesker som deg,
       og gratis å bruke under en åpen lisens.
     partners_partners: partnere
     tou: Bruksvilkår
-    help: Hjelp
-    about: Om
-    copyright: Opphavsrett
-    communities: Fellesskap
     learn_more: Lær mer
-    more: Mer
     header:
+      about: Om
+      communities: Fellesskap
+      copyright: Opphavsrett
+      edit: Rediger
+      edit_with: Rediger med %{editor}
+      export: Eksporter
+      gps_traces: GPS-spor
+      help: Hjelp
+      history: Historikk
+      home: Gå til din brukers hjemmeadresse
+      issues: Problemer
+      log_out: Logg ut
+      log_in: Logg inn
+      more: Mer
       select_language: Velg språk
+      sign_up: Registrer deg
+      user_diaries: Brukerdagbok
     select_language_button:
       title: Velg språk
   user_mailer:
@@ -2122,6 +2109,18 @@ nb:
       confirm_user: Bekreft denne brukeren
       confirm: Bekreft
       report: Rapporter denne brukeren
+      title:
+        administrator: Denne brukeren er en administrator
+        moderator: Denne brukeren er en moderator
+      grant:
+        administrator: Gi administrator-tilgang
+        moderator: Gi moderator-tilgang
+        are_you_sure: Er du sikker på at du vil gi rollen `%{role}' til brukeren `%{name}'?
+      revoke:
+        administrator: Fjern administrator-tilgang
+        moderator: Fjern moderator-tilgang
+        are_you_sure: Er du sikker på at du vil fjerne rollen "%{role}" fra brukeren
+          "%{name}"?
     go_public:
       flash success: Alle dine redigeringer er nå offentlig, og du har lov til å redigere.
     issued_blocks:
@@ -2165,19 +2164,6 @@ nb:
       option_1: Opprett konto i skjemaet nedenfor.
       option_2: Logg inn med brukernavn og passord, du kan tilknytte kontoen til din
         ID i brukerinnstillingene.
-    role_icons:
-      title:
-        administrator: Denne brukeren er en administrator
-        moderator: Denne brukeren er en moderator
-      grant:
-        administrator: Gi administrator-tilgang
-        moderator: Gi moderator-tilgang
-        are_you_sure: Er du sikker på at du vil gi rollen `%{role}' til brukeren `%{name}'?
-      revoke:
-        administrator: Fjern administrator-tilgang
-        moderator: Fjern moderator-tilgang
-        are_you_sure: Er du sikker på at du vil fjerne rollen "%{role}" fra brukeren
-          "%{name}"?
   user_role:
     filter:
       not_a_role: Strengen "%{role}" er ikke en gyldig rolle.
@@ -2299,11 +2285,11 @@ nb:
       tooltip: Kartsymbol
       tooltip_disabled: Kartnøkkel ikke tilgjengelig for dette laget
     map:
-      zoom:
-        in: Forstørr utvalg
-        out: Forminsk utvalg
-      locate:
-        title: Vis posisjonen min
+      navigation_control:
+        zoom_in: Forstørr utvalg
+        zoom_out: Forminsk utvalg
+      geolocate_control:
+        find_my_location: Vis posisjonen min
         metersPopup:
           one: Du er innenfor én meter fra dette punktet
           other: Du er innenfor %{count} meter fra dette punktet

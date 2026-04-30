@@ -12,7 +12,7 @@
 mk:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y г. во %H:%M ч.'
@@ -79,7 +79,7 @@ mk:
       relation: Однос
       relation_member: Член на однос
       relation_tag: Ознака за однос
-      report: Пријави
+      report: Пријава
       session: Седница
       trace: Трага
       tracepoint: Точка на трага
@@ -91,19 +91,6 @@ mk:
       way_node: Јазол на пат
       way_tag: Ознака на пат
     attributes:
-      client_application:
-        name: Име (задолжително)
-        url: URL на главниот прилог (задолжително)
-        callback_url: URL за одѕив
-        support_url: URL за поддршка
-        allow_read_prefs: им ги чита корисничките нагодувања
-        allow_write_prefs: им ги менува корисничките нагодувања
-        allow_write_diary: создавање на ставки во дневникот и коментари
-        allow_write_api: ја менува картата
-        allow_write_changeset_comments: коментирање на измени
-        allow_read_gpx: им ги чита личните ГПС-траги
-        allow_write_gpx: подига ГПС-траги
-        allow_write_notes: менува белешки
       diary_comment:
         body: Содржина
       diary_entry:
@@ -730,8 +717,6 @@ mk:
         one: '%{count} коментар'
         other: '%{count} коментари'
       title_label: Ставка во дневник
-      comments_label: Коментари
-      date_label: Датум
   diary_comments:
     new:
       heading: Ставате коментар во следниов разговор за дневничка ставка?
@@ -1219,7 +1204,7 @@ mk:
           sports_centre: Спортски центар
           stadium: Стадион
           swimming_pool: Базен
-          track: Спортска патека
+          track: Спортска патека (немотоспортска)
           water_park: Аквапарк
           "yes": Разонода
         lock:
@@ -1657,6 +1642,7 @@ mk:
       download: Преземи патен правец како GeoJSON
       filename: патен правец
       directions_courtesy_html: Насоките ги добивте благодарение на %{link}
+      check_demo_html: Повеќе поединости од %{link}
   issues:
     index:
       title: Проблеми
@@ -1709,16 +1695,15 @@ mk:
       other_issues_against_this_user: Други проблеми со овој корисник
       no_other_issues: Нема други проблеми со овој корисник.
       comments_on_this_issue: Коментари за проблемов
+      comment_from_html: Коментар од %{user_link} на %{comment_created_at}
+      reassign_to_moderators: Преназначете го проблемот на модераторите
+      reassign_to_administrators: Преназначете го проблемот на администраторите
     resolve:
       resolved: Состојбата на проблемот е поставена како „Решено“
     ignore:
       ignored: Состојбата на проблемот е поставена како „Занемарено“
     reopen:
       reopened: Состојбата на проблемот е поставена како „Отворено“
-    comments:
-      comment_from_html: Коментар од %{user_link} на %{comment_created_at}
-      reassign_to_moderators: Преназначете го проблемот на модераторите
-      reassign_to_administrators: Преназначете го проблемот на администраторите
     reports:
       reported_by_html: Пријавено како %{category} од %{user} на %{updated_at}
     helper:
@@ -1817,6 +1802,7 @@ mk:
         ku-Latn: курдски (латиница)
         lv: латвиски
         lb: луксембуршки
+        lkt: лакотски
         lt: литвански
         hu: унгарски
         fit: турнедалски фински
@@ -1892,18 +1878,8 @@ mk:
   layouts:
     logo:
       alt_text: Лого на OpenStreetMap
-    home: Оди на матичната местоположба
-    logout: Одјава
-    log_in: Најава
-    sign_up: Зачленување
+    layer_info: Инфо за слојот
     start_mapping: Почнете да ги работите картите
-    edit: Уреди
-    history: Историја
-    export: Извези
-    issues: Проблеми
-    gps_traces: ГПС-траги
-    user_diaries: Кориснички дневници
-    edit_with: Уреди со %{editor}
     intro_header: Добре дојдовте на OpenStreetMap!
     intro_text: OpenStreetMap е карта на светот создадена од луѓе како вас и се нуди
       за слободна употреба под отворена лиценца.
@@ -1911,17 +1887,31 @@ mk:
       и други %{partners}.
     partners_corpmembers: Корпоративни членови на OSMF
     partners_partners: партнери
+    welcome_tou_notice_html: Користејќи го ова мрежно место и другата инфраструктура
+      овозможена од Задолжбината OpenStreetMap, се согласувате со %{terms_link}.
+    terms_of_use: Условите на употреба
     tou: Услови на употреба
     nothing_to_preview: Нема што да се прегледа.
-    help: Помош
-    about: За нас
-    copyright: Авторски права
-    communities: Заедници
     learn_more: Дознајте повеќе
-    more: Повеќе
     header:
+      about: За нас
+      communities: Заедници
+      copyright: Авторски права
+      donate: Дарувајте
+      edit: Уреди
+      edit_with: Уреди со %{editor}
+      export: Извези
+      gps_traces: ГПС-траги
+      help: Помош
+      history: Историја
+      home: Оди на матичната местоположба
+      issues: Проблеми
+      log_out: Одјава
+      log_in: Најава
+      more: Повеќе
       select_language: Изберете јазик
-      loading: Вчитувам...
+      sign_up: Зачленување
+      user_diaries: Кориснички дневници
     meta:
       openstreetmap_search: Пребарување на OpenStreetMap
     select_language_button:
@@ -2256,7 +2246,7 @@ mk:
         image: Слика
         company: Фирма
         location: Местоположба
-        heatmap: Топлинска карта
+        contribution_calendar: Календар на придонеси
     descriptions:
       show:
         title: Уреди профил
@@ -2318,14 +2308,14 @@ mk:
         failure: Не можев да ја подновам местоположбата на профилот.
     heatmaps:
       show:
-        title: Намести топлинска карта
-        show_heatmap_in_public: Прикажувај ја топлинската карта на мојата профилна
-          страница
-        save: Измени поставки за топлинска карта
+        title: Постави календар на придонеси
+        show_contribution_calendar_in_public: Прикажувај календар на придонеси во
+          профилната страница
+        save: Измени поставеност на календарот на придонеси
         cancel: Откажи
       update:
-        success: Топлинската карта е подновена.
-        failure: Не можев да ја подновам топлинската карта.
+        success: Календарот на придонеси е подновен.
+        failure: Не можев да го подновам календарот на придонеси.
   sessions:
     new:
       tab_title: Најава
@@ -2614,8 +2604,8 @@ mk:
         contributors_hr_croatia: Хрватска
         contributors_hr_dgu: Државна геодетска управа на Хрватска
         contributors_hr_open_data_portal: Портал за отворени податоци
-        contributors_nl_credit_html: '%{netherlands}: Содржи &copy; и податоци, 2007
-          (%{and_link})'
+        contributors_nl_credit_new_html: '%{netherlands}: Содржи &copy; И податоци,
+          2007'
         contributors_nl_netherlands: Холандија
         contributors_nz_credit_html: |-
           %{new_zealand}: Содржи податоци од %{linz_data_service_link}
@@ -2979,6 +2969,15 @@ mk:
       image_dimensions_html: Сликата ќе го покаже слојот %{layer} со %{width} x %{height}
       download: Преземи
       downloading: Преземам...
+  webgl_error_panes:
+    show:
+      compact_message: Оваа карта бара WebGL.
+      description_html: За жал, се чини дека %{your_browser_does_not_support_webgl},
+        технологија за исцртување на 3Д-графики на семрежјето.
+      your_browser_does_not_support_webgl: вашиот прелистувач не го поддржува WebGL
+      webgl_is_required_for_this_map: Оваа карта бара WebGL за да се прикаже.
+      read_more_about_webgl: Прочитајте повеќе
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Доверливо (споделено само како анонимни, неподредени точки)
@@ -3025,13 +3024,13 @@ mk:
       points: 'Точки:'
       start_coordinates: 'Почетна координата:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: карта
-      edit: уреди
+      map: погл. местоположбата на карта
+      edit: отвори во уредник
       owner: 'Сопственик:'
       description: 'Опис:'
       tags: 'Ознаки:'
       none: Ништо
-      edit_trace: Уреди ја трагава
+      edit_trace: Уреди подиности за трагата
       delete_trace: Избриши ја трагава
       trace_not_found: Трагата не беше најдена!
       visibility: 'Видливост:'
@@ -3043,8 +3042,8 @@ mk:
         other: '%{count} точки'
       more: повеќе
       trace_details: Погледајте ги деталите за трагата
-      view_map: Погледај ја картата
-      edit_map: Уредување
+      view_map: Погледај ја местоположбат на карта
+      edit_map: Отвори во уредувач
       public: ЈАВНО
       identifiable: ПРЕПОЗНАТЛИВО
       private: ЛИЧНО
@@ -3221,8 +3220,8 @@ mk:
       signup_to_authorize_html: Зачленете се на OpenStreetMap за пристап до %{client_app_name}.
       no_auto_account_create: За жал, моментално не можеме автоматски да ви создадеме
         сметка.
-      please_contact_support_html: Обратете се кај %{support_link} за да побарате
-        создавање на сметка — ќе се потрудиме да ве услужиме во најкраток можен рок.
+      please_contact_support_html: Обратете се кај %{support_link} за помош — ќе се
+        потрудиме да ве услужиме во најкраток можен рок.
       support: поддршката
       about:
         header: Слободна и уредлива.
@@ -3252,6 +3251,10 @@ mk:
         html: Вашата адреса не се прикажува јавно. Повеќе ќе дознаете на %{privacy_policy_link}.
       or: или
       use external auth: или зачленете се преку надворешно место
+      verify_human: Потврдете дека сте човек
+    create:
+      not_human: За жал, не можев да потврдам дека сте човек. Ова е потребно за создавање
+        на нови сметки.
     no_such_user:
       title: Нема таков корисник
       heading: Корисникот %{user} не постои.
@@ -3310,10 +3313,26 @@ mk:
       change_image: Смени слика
       edit_company: Уреди фирма
       edit_location: Уреди местоположба
-      edit_heatmap: Намести топлинска карта
+      edit_contribution_calendar: Постави го Календарот на придонеси
       contributions:
         one: '%{count} придонес во минатата година'
         other: '%{count} придонеси во минатата година'
+      title:
+        administrator: Овој корисник е администратор
+        moderator: Овој корисник е модератор
+        importer: Овој корисник е увозник
+      grant:
+        administrator: Додели администраторски пристап
+        moderator: Додели модераторски пристап
+        importer: Дај увознички пристап
+        are_you_sure: Дали сигурно сакае да му ја доделите улогата „%{role}“ на корисникот
+          „%{name}“?
+      revoke:
+        administrator: Лиши од администраторски пристап
+        moderator: Лиши од модераторски пристап
+        importer: Одземи увознички пристап
+        are_you_sure: Дали сигурно сакате да го лишите корисникот „%{name}“ од улогата
+          „%{role}“?
     sidebar_section:
       home_location: Матична местоположба
       company: Фирма
@@ -3411,23 +3430,6 @@ mk:
       option_2: Ако веќе имате сметка, можете да се најавите на неа користејќи го
         вашето презиме и лозинка, па во корисничките нагодувања да ја здружите сметката
         со вашата назнака.
-    role_icons:
-      title:
-        administrator: Овој корисник е администратор
-        moderator: Овој корисник е модератор
-        importer: Овој корисник е увозник
-      grant:
-        administrator: Додели администраторски пристап
-        moderator: Додели модераторски пристап
-        importer: Дај увознички пристап
-        are_you_sure: Дали сигурно сакае да му ја доделите улогата „%{role}“ на корисникот
-          „%{name}“?
-      revoke:
-        administrator: Лиши од администраторски пристап
-        moderator: Лиши од модераторски пристап
-        importer: Одземи увознички пристап
-        are_you_sure: Дали сигурно сакате да го лишите корисникот „%{name}“ од улогата
-          „%{role}“?
   user_role:
     filter:
       not_a_role: Низата „%{role}“ не претставува важечка улога.
@@ -3652,20 +3654,26 @@ mk:
       tooltip: Легенда
       tooltip_disabled: Легендата не е достапна за овој слој
     map:
+      map:
+        title: Карта
+        marker:
+          title: Обележувач на карта
       popup:
         close: Затвори
-      zoom:
-        in: Приближи
-        out: Оддалечи
-      locate:
-        title: Прик. моја местоположба
-        not_available: Местоположбата е недостапна
+      navigation_control:
+        zoom_in: Приближи
+        zoom_out: Оддалечи
+      geolocate_control:
+        find_my_location: Прик. моја местоположба
+        location_not_available: Местоположбата е недостапна
         metersPopup:
           one: Се наоѓате на  %{count} метар од оваа точка
           other: Се наоѓате на %{count} метри од оваа точка
         feetPopup:
           one: Се наоѓате на  %{count} стапка од оваа точка
           other: Се наоѓате на %{count} стапки од оваа точка
+      attribution_control:
+        toggle_attribution: Вкл./Искл. припис
       base:
         standard: Стандардна
         cycle_map: Велосипедска
@@ -3810,7 +3818,7 @@ mk:
     home:
       marker_title: Моја домашна местоположба
       not_set: На вашата сметка нема зададено домашна местоположба
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Нема придонеси на %{date}
         contributions:

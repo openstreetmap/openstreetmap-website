@@ -17,12 +17,26 @@ modified_yml_files = git.modified_files.select do |file|
 end
 
 # Report if some translation file (except en.yml) is modified
-if modified_yml_files.empty?
+if modified_yml_files.empty? || github.pr_author == "translatewiki"
   auto_label.remove("inappropriate-translations")
 else
   modified_files_str = modified_yml_files.map { |file| "`#{file}`" }.join(", ")
   warn("The following YAML files other than `en.yml` have been modified: #{modified_files_str}. Only `en.yml` is allowed to be changed. Translations are updated via Translatewiki, see CONTRIBUTING.md.")
   auto_label.set(pr_number, "inappropriate-translations", "B60205")
+end
+
+# Get list of vendored files which are modified
+modified_vendor_files = git.modified_files.select do |file|
+  file.start_with?("vendor")
+end
+
+# Report if some vendored file is modified
+if modified_vendor_files.empty?
+  auto_label.remove("vendor-changes")
+else
+  modified_files_str = modified_vendor_files.map { |file| "`#{file}`" }.join(", ")
+  warn("The following vendored files have been modified: #{modified_files_str}. Vendored files should be updated upstream.")
+  auto_label.set(pr_number, "vendor-changes", "B60205")
 end
 
 # Report if there are merge-commits in PR

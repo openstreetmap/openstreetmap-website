@@ -1,12 +1,15 @@
 name: Lint
 on:
-  - push
-  - pull_request
+  push:
+    branches-ignore:
+      - "dependabot/**"
+      - translatewiki
+  pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 env:
-  ruby: '3.2'
+  ruby: '3.3'
 jobs:
   rubocop:
     name: RuboCop
@@ -14,45 +17,66 @@ jobs:
     timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Setup ruby
-      uses: ruby/setup-ruby@4c24fa5ec04b2e79eb40571b1cee2a0d2b705771 # v1.278.0
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
         ruby-version: ${{ env.ruby }}
-        rubygems: 3.4.10
         bundler-cache: true
     - name: Run rubocop
       run: bundle exec rubocop --format fuubar
   erblint:
     name: ERB Lint
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Setup ruby
-      uses: ruby/setup-ruby@4c24fa5ec04b2e79eb40571b1cee2a0d2b705771 # v1.278.0
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
         ruby-version: ${{ env.ruby }}
-        rubygems: 3.4.10
         bundler-cache: true
     - name: Run erblint
       run: bundle exec erb_lint .
-  eslint:
-    name: ESLint
-    runs-on: ubuntu-22.04
+  herb:
+    name: Herb
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Setup ruby
-      uses: ruby/setup-ruby@4c24fa5ec04b2e79eb40571b1cee2a0d2b705771 # v1.278.0
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
         ruby-version: ${{ env.ruby }}
-        rubygems: 3.4.10
+        bundler-cache: true
+    - name: Run herb parser
+      run: bundle exec herb analyze app/
+    - name: Cache node modules
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bundle exec bin/yarn install
+    - name: Create dummy database configuration
+      run: cp config/example.database.yml config/database.yml
+    - name: Run herb linter
+      run: bundle exec bin/yarn run herb-lint
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Setup ruby
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
+      with:
+        ruby-version: ${{ env.ruby }}
         bundler-cache: true
     - name: Cache node modules
-      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
       with:
         cache: yarn
     - name: Install node modules
@@ -63,16 +87,15 @@ jobs:
       run: bundle exec rails eslint
   brakeman:
     name: Brakeman
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Setup ruby
-      uses: ruby/setup-ruby@4c24fa5ec04b2e79eb40571b1cee2a0d2b705771 # v1.278.0
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
         ruby-version: ${{ env.ruby }}
-        rubygems: 3.4.10
         bundler-cache: true
     - name: Run brakeman
       run: bundle exec brakeman -q
@@ -80,23 +103,22 @@ jobs:
     env:
       RAILS_ENV: test
     name: Rails Annotate Models
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
     - name: Check out code
-      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
     - name: Setup ruby
-      uses: ruby/setup-ruby@4c24fa5ec04b2e79eb40571b1cee2a0d2b705771 # v1.278.0
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
       with:
         ruby-version: ${{ env.ruby }}
-        rubygems: 3.4.10
         bundler-cache: true
     - name: Configure rails
       run: |
         cp config/github.database.yml config/database.yml
         cp config/example.storage.yml config/storage.yml
     - name: Cache node modules
-      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
       with:
         cache: yarn
     - name: Install node modules
@@ -111,3 +133,35 @@ jobs:
       run: bundle exec annotaterb models
     - name: Fail if model annotations are out of date
       run: git diff --exit-code
+  database_consistency:
+    env:
+      RAILS_ENV: test
+    name: Database Consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - name: Setup ruby
+      uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1.306.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
+    - name: Cache node modules
+      uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bundle exec bin/yarn install
+    - name: Setup database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        bundle exec rails db:schema:load
+    - name: Run Database Consistency
+      run: bundle exec database_consistency

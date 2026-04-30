@@ -46,6 +46,7 @@
 # Author: Rönttönen
 # Author: SMAUG
 # Author: Samoasambia
+# Author: Sikmir
 # Author: Silvonen
 # Author: Snidata
 # Author: Spude
@@ -55,13 +56,14 @@
 # Author: Tumm1
 # Author: Usp
 # Author: Veikk0.ma
+# Author: Wikipeedikko
 # Author: Yupik
 # Author: ZeiP
 ---
 fi:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %Bta %Y klo %H.%M'
@@ -137,19 +139,6 @@ fi:
       way_node: Viivan piste
       way_tag: Viivan tagi
     attributes:
-      client_application:
-        name: Nimi (pakollinen)
-        url: Pääsovelluksen URL-osoite (pakollinen)
-        callback_url: Takaisinsoiton verkko-osoite
-        support_url: Tuen osoite (URL)
-        allow_read_prefs: päästä käyttäjäasetuksiin
-        allow_write_prefs: muokata käyttäjäasetuksia
-        allow_write_diary: Päiväkirjamerkintöjen luonti ja kommentointi
-        allow_write_api: muokata karttaa
-        allow_write_changeset_comments: Muutoskokoelmien kommentointi
-        allow_read_gpx: päästä yksityisiin GPS-jälkiin
-        allow_write_gpx: tallentaa GPS-jälkiä
-        allow_write_notes: muokata karttailmoituksia
       diary_comment:
         body: Leipäteksti
       diary_entry:
@@ -316,9 +305,14 @@ fi:
         agreed_with_pd: Olet myös ilmaissut muokkaustesi olevan tekijänoikeudesta
           vapaita (Public Domain).
         not_agreed_with_pd: Et ole hyväksynyt, että muokkauksesi ovat tekijänoikeudettomia.
+        review: Lue ehdot
+        review_and_accept: Lue ja hyväksy ehdot
       terms_of_use:
         heading: Käyttöehdot
+        agreed: Hyväksyit käyttöehdot %{date}.
         not_agreed: Et ole vielä hyväksynyt käyttöehtoja.
+        review: Lue ehdot
+        review_and_accept: Lue ja hyväksy ehdot
       save changes button: Tallenna muutokset
       delete_account: Poista käyttäjä...
     go_public:
@@ -357,7 +351,11 @@ fi:
         retain_traces: Lähettämäsi jäljet, jos sellaisia on, säilytetään.
         retain_diary_entries: Päiväkirjamerkintäsi ja päiväkirjakommenttisi, jos sellaisia
           on, säilytetään, mutta piilotetaan näkyviltä.
+        retain_notes: Karttoihin mahdollisesti tekemäsi muistiinpanot ja muistiinpanojen
+          kommentit säilytetään, mutta ne piilotetaan.
         retain_email: Sähköpostiosoitteesi säilytetään.
+        recent_editing_html: Olet tehnyt hiljattain muokkauksia, joten tiliäsi ei
+          voi toistaiseksi poistaa. Poistaminen on mahdollista %{time} alkaen.
         confirm_delete: Oletko varma?
         cancel: Peruuta
     terms:
@@ -482,13 +480,14 @@ fi:
     versions_navigation:
       node: Solmu
       way: Tie
+      relation: Relaatio
       history: Historia
       version: 'Versio #%{version}'
       versions_label: 'Versiot:'
   feature_queries:
     show:
       title: Ominaisuuskysely
-      introduction: Napsauta karttaa löytääksesi lähistön karttakohteita.
+      introduction: Tutustu alueen karttakohteisiin napsauttamalla karttaa.
       nearby: Lähistön karttakohteet
       enclosing: Ympäröivät karttakohteet
   old_elements:
@@ -523,6 +522,15 @@ fi:
       changes:
         one: '%{count} muutos'
         other: '%{count} muutosta'
+      n_elements_created:
+        one: '%{count} kohde luotu'
+        other: '%{count} kohdetta luotu'
+      n_elements_modified:
+        one: '%{count} kohdetta muokattu'
+        other: '%{count} kohdetta muokattu'
+      n_elements_deleted:
+        one: '%{count} kohde poistettu'
+        other: '%{count} kohdetta poistettu'
     index:
       title: Muutoskokoelmat
       title_user: Käyttäjän %{user} muutoskokoelmat
@@ -580,6 +588,9 @@ fi:
       unsubscribe:
         heading: Lopetetaanko seuraavan muutoskokoelman keskustelun tilaaminen?
         button: Lopeta keskustelun tilaaminen
+    heading:
+      title: Muutoskokoelma %{id}
+      created_by_html: Luonut %{link_user} %{created}.
   dashboards:
     contact:
       km away: '%{count} kilometrin päässä'
@@ -687,8 +698,6 @@ fi:
         one: '%{count} kommentti'
         other: '%{count} kommenttia'
       title_label: Päiväkirjamerkintä
-      comments_label: Kommentit
-      date_label: Päiväys
   doorkeeper:
     flash:
       applications:
@@ -702,6 +711,7 @@ fi:
       profile: Näytä profiilisi tiedot
   errors:
     contact:
+      contact_url_title: Eri sisältökanavien kuvaukset
       contact: Ota yhteyttä
       contact_the_community_html: '%{contact_link} OpenStreetMap-yhteisöön, jos olet
         löytänyt rikkinäisen linkin / virheen. Kirjoita muistiin pyyntösi tarkka URL-osoite.'
@@ -980,9 +990,10 @@ fi:
           bridleway: Ratsastustie
           bus_guideway: Ohjattu linja-autokaista
           bus_stop: Bussipysäkki
+          busway: Linja-autokaista
           construction: Rakenteilla oleva tie
           corridor: käytävä
-          crossing: Suojatie
+          crossing: Tienylityspaikka
           cycleway: Pyörätie
           elevator: Hissi
           emergency_access_point: Hätätilapaikka
@@ -1425,7 +1436,7 @@ fi:
           pet: Eläinkauppa
           pet_grooming: Trimmaamo
           photo: Valokuvausliike
-          seafood: Meriruoka
+          seafood: Merenherkut
           second_hand: Osto- ja myyntiliike
           sewing: Ompelutarvikeliike
           shoes: Kenkäkauppa
@@ -1480,6 +1491,7 @@ fi:
           pond: Lampi
           reservoir: Tekojärvi
           lagoon: Laguuni
+          wastewater: Jätevesi
         waterway:
           artificial: Kanava
           boatyard: Telakka
@@ -1547,6 +1559,7 @@ fi:
       download: Lataa reitti GeoJSON-muodossa
       filename: reitti
       directions_courtesy_html: Reittiohjeet tarjoaa %{link}
+      check_demo_html: 'Yksityiskohtaisempi versio: %{link}'
   issues:
     index:
       title: Tapaukset
@@ -1590,14 +1603,13 @@ fi:
       other_issues_against_this_user: Muut tähän käyttäjään kohdistetut ilmiannot
       no_other_issues: Ei muita tähän käyttäjään kohdistuvia ilmiantoja.
       comments_on_this_issue: Tapauksen kommentit
+      comment_from_html: Kommentti käyttäjältä %{user_link} %{comment_created_at}
     resolve:
       resolved: Tapaus on merkitty ratkaistuksi
     ignore:
       ignored: Tapaus on merkitty aiheettomaksi
     reopen:
       reopened: Tapaus on merkitty käsittelyssä olevaksi
-    comments:
-      comment_from_html: Kommentti käyttäjältä %{user_link} %{comment_created_at}
     reports:
       reported_by_html: Käyttäjä %{user} ilmiantanut merkinnällä %{category} %{updated_at}
     helper:
@@ -1649,98 +1661,121 @@ fi:
       search_language: Hae...
       languages:
         af: Afrikaans
-        az: Azeri
-        id: Indonesia
-        ms: Malaiji
-        bs: Bosnia
-        br: Breton
-        ca: Katalaani
-        cs: Tšekki
-        cy: Kymri
-        da: Tanska
-        de: Saksa
-        et: Viro
-        en: Englanti
-        en-GB: Englanti (UK)
-        es: Espanja
-        eo: Esperanto
-        eu: Baski
-        fr: Ranska
-        ga: Iiri
-        gl: Galego
-        hr: Kroaatti
+        gsw: alemannimurteet
+        frp: arpitaani
+        ast: asturia
+        az: azeri
+        id: indonesia
+        ms: malaiji
+        bcl: keskibikol
+        bs: bosnia
+        br: bretoni
+        ca: katalaani
+        cs: tšekki
+        cy: kymri
+        da: tanska
+        de: saksa
+        dsb: alasorbi
+        et: viro
+        en: englanti
+        en-GB: englanti (Yhdistynyt kuningaskunta)
+        es: espanja
+        eo: esperanto
+        eu: baski
+        fr: ranska
+        fy: länsifriisi
+        fur: friisi
+        ga: iiri
+        gd: gaeli
+        gl: galicia
+        aln: gegi
+        hsb: yläsorbi
+        hr: kroaatti
         ia: Interlingua
-        is: Islanti
-        it: Italia
-        ku-Latn: Kurdi (latina)
-        lv: Latvia
-        lb: Luxemburg
-        lt: Liettua
-        hu: Unkari
-        fit: Tornionlaakson suomi
-        nl: Hollanti
-        pl: Puola
-        pt-PT: Portugali
-        pt: Portugali (Brasilia)
-        ro: Romania
-        sc: Sardi
-        sco: Skotti
-        sq: Albania
-        sk: Slovakki
-        sl: Sloveeni
-        sr-Latn: Serbi (latina)
-        fi: Suomi
-        sv: Ruotsi
-        tl: Tagalog
-        vi: Vietnam
-        tr: Turkki
-        yo: Joruba
-        el: Kreikka
-        ba: Baškiiri
-        be: Valkovenäjä
-        bg: Bulgaria
-        mk: Makedonia
-        ce: Tšetšeeni
-        ru: Venäjä
-        sr: Serbi (kyrillinen)
-        tt: Tataari (kyrillinen)
-        uk: Ukraina
-        yi: Jiddiš
-        he: Heprea
-        ar: Arabia
-        fa: Persia
+        is: islanti
+        it: italia
+        gcf: guadeloupen kreoli
+        ku-Latn: kurdi (latinalainen)
+        lv: latvia
+        lb: luxemburg
+        lkt: lakota
+        lt: liettua
+        hu: unkari
+        fit: meänkieli
+        nl: hollanti
+        nb: norja (kirjanorja)
+        nn: norja (uusnorja)
+        oc: oksitaani
+        nds: alasaksa
+        pl: puola
+        pt-PT: portugali
+        pt: portugali (Brasilia)
+        ksh: kölsch
+        ro: romania
+        sc: sardi
+        sco: skotti
+        sq: albania
+        scn: sisilia
+        sk: slovakki
+        sl: sloveeni
+        sr-Latn: serbi (latinalainen)
+        sh: serbokroatia (latinalainen)
+        fi: suomi
+        sv: ruotsi
+        tl: tagalog
+        kab: kabyyli
+        vi: vietnam
+        tr: turkki
+        yo: joruba
+        diq: dimli
+        el: kreikka
+        ba: baškiiri
+        be: valkovenäjä
+        be-Tarask: valkovenäjä (taraškievicilainen)
+        bg: bulgaria
+        mk: makedonia
+        mo: moldova
+        ce: tšetšeeni
+        ru: venäjä
+        sr: serbi (kyrillinen)
+        tt: tataari (kyrillinen)
+        uk: ukraina
+        kk-cyrl: kazakki
+        yi: jiddiš
+        he: heprea
+        ar: arabia
+        skr-arab: saraiki
+        fa: persia
         arz: Egyptin arabia
-        ne: Nepali
-        hi: Hindi
-        pa: Punjabi
-        gu: Gudžarati
-        ta: Tamili
-        te: Telugu
-        kn: Kannada
-        th: Thai
-        my: Burma
-        ka: Georgia
-        km: Khmer
-        zh-CN: Kiina (yksinkertaistettu)
-        zh-TW: Kiina (perinteinen)
-        zh-HK: Kiina (Hongkong)
-        ja: Japani
-        ko: Korea
+        pnb: länsipandžabi
+        ps: paštu
+        nqo: n'ko
+        ne: nepali
+        mr: marathi
+        hi: hindi
+        bn: bengali
+        pa: pandžabi
+        gu: gudžarati
+        ta: tamili
+        te: telugu
+        kn: kannada
+        th: thai
+        my: burma
+        shn: shan
+        xmf: mingreli
+        ka: georgia
+        km: khmer
+        sat: santali
+        zh-CN: kiina (yksinkertaistettu)
+        zh-TW: kiina (perinteinen)
+        zh-HK: kiina (Hongkong)
+        ja: japani
+        ko: korea
   layouts:
     logo:
       alt_text: OpenStreetMap-logo
-    home: Siirry kotipaikkaan
-    logout: Kirjaudu ulos
-    log_in: Kirjaudu sisään
-    sign_up: Rekisteröidy
+    layer_info: Tasotiedot
     start_mapping: Liity mukaan
-    edit: Muokkaa
-    history: Historia
-    export: Vienti
-    issues: Ilmiannot
-    gps_traces: GPS-jäljet
-    user_diaries: Päiväkirjamerkinnät
-    edit_with: 'Muokkaa: %{editor}'
     intro_header: Tervetuloa OpenStreetMapiin!
     intro_text: OpenStreetMap on vapaaehtoisten luoma maailmankartta, jota voi käyttää
       vapaasti avoimella lisenssillä.
@@ -1748,17 +1783,31 @@ fi:
       ja muut  %{partners}.
     partners_corpmembers: OSM-säätiön yritysjäsenet
     partners_partners: kumppanimme
+    terms_of_use: Käyttöehdot
     tou: Käyttöehdot
     nothing_to_preview: Ei mitään esikatseltavaa
-    help: Ohje
-    about: Tietoja
-    copyright: Tekijänoikeudet
-    communities: Yhteisöt
     learn_more: Lisätietoja
-    more: Lisää
     header:
+      about: Tietoja
+      communities: Yhteisöt
+      copyright: Tekijänoikeudet
+      donate: Lahjoita
+      edit: Muokkaa
+      edit_with: 'Muokkaa: %{editor}'
+      export: Vienti
+      gps_traces: GPS-jäljet
+      help: Ohje
+      history: Historia
+      home: Siirry kotipaikkaan
+      issues: Ilmiannot
+      log_out: Kirjaudu ulos
+      log_in: Kirjaudu sisään
+      more: Lisää
       select_language: Valitse kieli
-      loading: Ladataan...
+      sign_up: Rekisteröidy
+      user_diaries: Päiväkirjamerkinnät
+    meta:
+      openstreetmap_search: OpenStreetMap-haku
     select_language_button:
       title: Valitse kieli
   user_mailer:
@@ -1949,6 +1998,7 @@ fi:
       heading:
         my_inbox: Saapuneet
         my_outbox: Lähetetyt
+        muted_messages: Mykistetyt viestit
       messages_table:
         from: Lähettäjä
         to: Vastaanottaja
@@ -1959,6 +2009,7 @@ fi:
         unread_button: Merkitse lukemattomaksi
         read_button: Merkitse luetuksi
         destroy_button: Poista
+        unmute_button: Siirrä postilaatikkoon
     inboxes:
       show:
         title: Saapuneet
@@ -1971,6 +2022,12 @@ fi:
           other: '%{count} luettua viestiä'
         no_messages_yet_html: Ei viestejä. %{people_mapping_nearby_link}
         people_mapping_nearby: Lähiseudun kartoittajat
+    muted_inboxes:
+      show:
+        title: Mykistetyt viestit
+        messages:
+          one: '%{count} mykistetty viesti'
+          other: Sinulla on %{count} mykistettyä viestiä
     outboxes:
       show:
         title: Lähetetyt
@@ -1990,11 +2047,11 @@ fi:
   passwords:
     new:
       title: Unohtunut salasana
-      heading: Unohditko salasanasi?
+      heading: Unohditko salasanan?
       email address: Sähköpostiosoite
       new password button: Lähetä salasanan palautusohjeet
-      help_text: Kirjoita alapuolelle kirjautumissähköpostiosoitteesi. Osoitteeseen
-        lähetetään salasanan palautusohjeet.
+      help_text: Kirjoita kirjautumiseen käytettävä sähköpostiosoite. Salasanan palautusohjeet
+        lähetetään tähän osoitteeseen.
     create:
       send_paranoid_instructions: Jos sähköpostiosoitteesi on tietokannassamme, saat
         muutamassa minuutissa sähköpostin, jossa on ohjeet salasanan palautukseen.
@@ -2025,7 +2082,12 @@ fi:
           dark: Tumma
         preferred_map_color_scheme: Ensisijainen kartan väriteema
         map_color_schemes:
-          auto: Automaattinen
+          auto: Sama kuin sivuston
+          light: Vaalea
+          dark: Tumma
+        preferred_editor_color_scheme: Ensisijainen muokkausohjelman väriteema
+        editor_color_schemes:
+          auto: Sama kuin sivuston
           light: Vaalea
           dark: Tumma
         save: Päivitä asetukset
@@ -2081,6 +2143,7 @@ fi:
         save: Päivitä profiili
         cancel: Peruuta
       update:
+        success: Profiilin yritys päivitetty.
         failure: Profiilin yrityksen päivittäminen epäonnistui.
     locations:
       show:
@@ -2093,7 +2156,11 @@ fi:
         delete: Poista
         undelete: Peruuta poistaminen
       update:
+        success: Profiilin paikkatiedot päivitetty.
         failure: Profiilin sijainnin päivittäminen epäonnistui.
+    heatmaps:
+      show:
+        cancel: Peruuta
   sessions:
     new:
       tab_title: Kirjaudu
@@ -2101,7 +2168,7 @@ fi:
       email or username: Sähköpostiosoite tai käyttäjätunnus
       password: Salasana
       remember: Pidä minut sisäänkirjautuneena
-      lost password link: Unohditko salasanasi?
+      lost password link: Unohditko salasanan?
       login_button: Kirjaudu sisään
       with external: 'tai kirjaudu jonkun muun palvelun tunnuksilla:'
       or: tai
@@ -2151,6 +2218,8 @@ fi:
       issues:
         older: Vanhemmat ongelmat
         newer: Uudemmat ongelmat
+        oldest: Vanhimmat ongelmat
+        newest: Uusimmat ongelmat
       traces:
         older: Vanhat jäljet
         newer: Uudet jäljet
@@ -2202,6 +2271,14 @@ fi:
       legal_1_1_terms_of_use: käyttöehtoja
       legal_1_1_aup: sallitun käytön käytäntöjä
       legal_1_1_privacy_policy: tietosuojakäytäntöä
+      legal_1_2_html: Jos käytät OpenStreetMap-karttoja tai -aineistoa, muista mainita
+        OpenStreetMap lähteenä – lisätietoja on sivulla %{attribution_guidelines_link}.
+      legal_attribution_guidelines_title: nimeämisohjeistus
+      legal_1_3_html: Pelkästään OpenStreetMapista otetun näyttökuvan käyttämiseen
+        sellaisenaan kirjassa, julkaisussa, elokuvassa tai TV-ohjelmassa ei tarvitse
+        pyytää lupaa, koska OpenStreetMapin tiedot ovat kaikkien käytettävissä. Lisätietoja
+        on sivulla %{attribution_guidelines_link} ja esimerkkejä sivuilla %{attribution_example_film}
+        ja %{attribution_example_tv}.
       legal_2_1_html: Lisätietoja lisensoinnista, tekijänoikeuksista ja muista oikeudellisista
         kysymyksistä saa %{contact_the_osmf_link}.
       legal_2_1_contact_the_osmf: OSM-säätiöltä
@@ -2211,7 +2288,7 @@ fi:
     copyright:
       title: Tekijänoikeus ja lisenssi
       foreign:
-        title: Tietoa tästä käännöksestä
+        title: Huomautus tästä käännöksestä
         html: Jos tämän käännetyn sivun ja %{english_original_link} välillä on eroja,
           englanninkielinen sivu on aina etusijalla.
         english_link: englanninenkielisen alkuperäisversion
@@ -2329,8 +2406,6 @@ fi:
           Générale des Impôtsista.'
         contributors_fr_france: Ranska
         contributors_hr_croatia: Kroatia
-        contributors_nl_credit_html: '%{netherlands}: Sisältää &copy; AND-karttatietoja
-          vuodelta 2007 (%{and_link})'
         contributors_nl_netherlands: Alankomaat
         contributors_nz_new_zealand: Uusi-Seelanti
         contributors_nz_cc_by: CC BY 4.0
@@ -2394,6 +2469,12 @@ fi:
           description: Muut lähteet ovat esillä OpenStreetMap-wikissä
       export_button: Vie
       export_download: Ladataan...
+      confirmation:
+        header: Lataa XML-tiedot
+        body: Haluatko ladata tämän alueen karttatiedot XML-muodossa? Huomaathan,
+          että suuret alueet voivat latautua hitaasti.
+        cancel: Peruuta
+        download: Lataa
     fixthemap:
       title: Ilmoita ongelmasta / Korjaa karttaa
       how_to_help:
@@ -2500,6 +2581,7 @@ fi:
         imports: Tuonnit
         automated_edits: Automatisoidut muokkaukset
       start_mapping: Aloita kartan muokkaaminen
+      continue_authorization: Jatka valtuutusta
     add_a_note:
       title: Eikö muokkaaminen innosta? Ilmoita karttavirheistä!
       para_1: Jos huomaat kartalla virheen, muttet halua korjata sitä itse, tee siitä
@@ -2514,6 +2596,11 @@ fi:
         Ryhmät voivat olla muodollisia tai epävirallisia.
       local_chapters:
         title: Paikalliset osastot
+        about_text: Paikalliset osastot ovat maa- tai aluetason ryhmiä, jotka ovat
+          perustaneet muodollisesti päteviä voittoa tavoittelemattomia oikeushenkilöitä.
+          Ne edustavat alueensa karttaa ja kartoittajia paikallishallinnon, yritysten
+          ja median suuntaan. Ne ovat sopineet yhteydestä OpenStreetMap-säätiöön (OSMF),
+          mikä antaa niille yhteyden laki- ja tekijänoikeuselimeen.
       other_groups:
         title: Muut ryhmät
         communities_wiki: Yhteisöjen wiki-sivu
@@ -2614,7 +2701,7 @@ fi:
         bicycle_parking: Pyöräparkki
         bicycle_parking_small: Pieni pyöräparkki
         toilets: Vessat
-      see_external_legend: Laajempi kartan selite toisessa palvelussa
+      see_external_legend: Laajempi kartan selite ulkoisessa palvelussa
   share_panes:
     show:
       link: Linkki tai HTML-koodi
@@ -2633,6 +2720,10 @@ fi:
       image_dimensions_html: '%{layer}-karttanäkymä koossa %{width} x %{height}'
       download: Lataa
       downloading: Ladataan...
+  webgl_error_panes:
+    show:
+      compact_message: WebGL on pakollinen tälle kartalle.
+      read_more_about_webgl: Lisätietoja
   traces:
     visibility:
       private: Yksityinen (vain pisteet ilman nimeä ja aikaleimoja)
@@ -2680,8 +2771,8 @@ fi:
       points: 'Pisteitä:'
       start_coordinates: 'Alkupisteen koordinaatit:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: kartalla
-      edit: muokkaa
+      map: näytä paikka kartalla
+      edit: avaa muokkaimessa
       owner: 'Käyttäjä:'
       description: 'Kuvaus:'
       tags: 'Ominaisuustiedot:'
@@ -2699,7 +2790,7 @@ fi:
       more: tiedot
       trace_details: Näytä jäljen tiedot
       view_map: Selaa karttaa
-      edit_map: Muokkaa karttaa
+      edit_map: Muokkaa muokkaimessa
       public: JULKINEN
       identifiable: TUNNISTETTAVA
       private: YKSITYINEN
@@ -2900,6 +2991,7 @@ fi:
         html: Osoitetta ei näytetä julkisesti, lisätietoja on sivulla %{privacy_policy_link}.
       or: tai
       use external auth: Kirjaudu toisen palvelun tunnuksilla
+      verify_human: Vahvista olevasi oikea ihminen
     no_such_user:
       title: Haettua käyttäjää ei ole olemassa
       heading: Käyttäjää %{user} ei ole olemassa
@@ -2946,6 +3038,7 @@ fi:
       confirm_user: Vahvista tämä käyttäjä
       unconfirm_user: Peru tämän käyttäjän vahvistus
       unsuspend_user: Peru tämän käyttäjän jäädytys
+      undelete_user: Kumoa tämän käyttäjän poistaminen
       confirm: Vahvista
       report: Ilmianna käyttäjä
       edit_profile_details: Muokkaa profiilin tietoja
@@ -2957,8 +3050,23 @@ fi:
       contributions:
         one: '%{count} muokkaus viimeisen vuoden aikana'
         other: '%{count} muokkausta viimeisen vuoden aikana'
+      title:
+        administrator: Tämä käyttäjä on ylläpitäjä.
+        moderator: Tämä käyttäjä on moderaattori.
+        importer: Tämä käyttäjä on tuoja
+      grant:
+        administrator: Myönnä ylläpitäjän oikeudet
+        moderator: Myönnä moderaattorin oikeudet
+        importer: Myönnä tuojan käyttöoikeudet
+        are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
+      revoke:
+        administrator: Poista ylläpitäjän oikeudet
+        moderator: Poista moderaattorin oikeudet
+        importer: Poista tuojan käyttöoikeudet
+        are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
     sidebar_section:
       home_location: Kotipaikka
+      company: Yritys
     go_public:
       flash success: Kaikki tekemäsi muokkaukset ovat nyt julkisia.
     issued_blocks:
@@ -2971,6 +3079,9 @@ fi:
         title: Käyttäjän %{name} estot
         heading_html: Käyttäjän %{name} estot
         empty: Käyttäjää %{name} ei ole estetty.
+      edit:
+        empty: Käyttäjällä %{name} ei ole aktiivisia estoja.
+        confirm: 'Haluatko varmasti poistaa seuraavat: %{active_blocks}?'
     lists:
       show:
         title: Käyttäjät
@@ -3037,18 +3148,6 @@ fi:
       option_1: 'Uusi OpenStreetMapin käyttäjä: luo käyttäjätunnus tällä lomakkeella.'
       option_2: 'Nykyinen OpenStreetMapin käyttäjä: kirjaudu sisään käyttäjätunnuksella
         ja salasanalla ja yhdistä tili käyttäjäasetuksissa.'
-    role_icons:
-      title:
-        administrator: Tämä käyttäjä on ylläpitäjä.
-        moderator: Tämä käyttäjä on moderaattori.
-      grant:
-        administrator: Myönnä ylläpitäjän oikeudet
-        moderator: Myönnä moderaattorin oikeudet
-        are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
-      revoke:
-        administrator: Poista ylläpitäjän oikeudet
-        moderator: Poista moderaattorin oikeudet
-        are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
   user_role:
     filter:
       not_a_role: Merkkijono '%{role}' ei ole kelvollinen rooli.
@@ -3275,11 +3374,18 @@ fi:
       tooltip: Merkkien selitykset
       tooltip_disabled: Ei käytettävissä tässä karttanäkymässä
     map:
-      zoom:
-        in: Lähennä
-        out: Loitonna
-      locate:
-        title: Näytä oma sijaintini
+      map:
+        title: Kartta
+        marker:
+          title: Karttimerkki
+      popup:
+        close: Sulje
+      navigation_control:
+        zoom_in: Lähennä
+        zoom_out: Loitonna
+      geolocate_control:
+        find_my_location: Näytä oma sijaintini
+        location_not_available: Paikkatiedot eivät ole käytettävissä
         metersPopup:
           one: Olet %{count} metrin etäisyydellä tästä pisteessä
           other: Olet %{count} metrin etäisyydellä tästä pisteestä
@@ -3290,7 +3396,10 @@ fi:
         standard: Perinteinen
         cycle_map: Pyöräilykartta
         transport_map: Joukkoliikenne
+        tracestracktop_topo: Tracestrack Topo
         hot: Humanitaarinen
+        shortbread: Shortbread
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Karttanäkymä
         notes: Karttailmoitukset
@@ -3330,6 +3439,7 @@ fi:
         no_route: Reittiä näiden paikkojen välille ei löytynyt.
         no_place:
           title: Haku epäonnistui
+          body: Paikkaa '%{place}' ei löydy.
       instructions:
         continue_without_exit: Jatka tiellä %{name}
         slight_right_without_exit: Kaarra oikealle tielle %{name}
@@ -3427,7 +3537,7 @@ fi:
     home:
       marker_title: Kotipaikka
       not_set: Tilille ei ole asetettu kotipaikkaa
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Ei muokkauksia %{date}
         contributions:

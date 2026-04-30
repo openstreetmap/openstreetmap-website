@@ -129,6 +129,10 @@ class Changeset < ApplicationRecord
     cs
   end
 
+  def visible_subscribers
+    subscribers.visible
+  end
+
   ##
   # returns the bounding box of the changeset. it is possible that some
   # or all of the values will be nil, indicating that they are undefined.

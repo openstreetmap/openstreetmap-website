@@ -7,9 +7,10 @@ This guide covers our development workflow, coding standards, and how to get you
 1. [Getting Started](#getting-started)
 2. [How to Contribute](#how-to-contribute)
 3. [Code Quality Guidelines](#code-quality-guidelines)
-4. [Submitting Changes](#submitting-changes)
-5. [Localization (i18n)](#localization-i18n)
-6. [Copyright Attribution](#copyright-attribution)
+4. [AI Assisted Contributions](#ai-assisted-contributions)
+5. [Submitting Changes](#submitting-changes)
+6. [Localization (i18n)](#localization-i18n)
+7. [Copyright Attribution](#copyright-attribution)
 
 ## Getting Started
 
@@ -22,7 +23,7 @@ This guide covers our development workflow, coding standards, and how to get you
 
 > [!NOTE]
 > We don't assign issues to individual contributors. You are welcome to work on any issue, and there's no need to ask first.
-> For more details see [our FAQ](FAQ.md)
+> For more details see [our FAQ](doc/FAQ.md)
 
 We welcome the community to contribute to this repository in any form:
 
@@ -81,7 +82,7 @@ Here's the typical contribution workflow:
 
 1. **Find an Issue**: Browse our [issues](https://github.com/openstreetmap/openstreetmap-website/issues) or identify a bug/feature you'd like to work on
 2. **Fork, Clone & Branch**: Fork the repository, clone it to your local machine, and create a new branch for your work. Avoid working directly on the `master` branch.
-3. **Set Up**: Follow the [installation guide](INSTALL.md) to set up your development environment
+3. **Set Up**: Follow the [installation guide](doc/INSTALL.md) to set up your development environment
 4. **Develop**: Make your changes following our [code quality guidelines](#code-quality-guidelines)
 5. **Test**: Write tests for your changes and ensure all existing tests pass
 6. **Commit**: Write clear commit messages following our [guidelines](#committing)
@@ -149,7 +150,7 @@ You can view test coverage statistics by browsing the `coverage` directory.
 The tests are automatically run on Pull Requests and other commits via github actions. The results shown are within the PR display on github.
 
 > [!TIP]
-> **System tests** use Selenium with Firefox for browser automation. On Ubuntu 24.04, if Firefox is installed via snap, you may need to override the Firefox binary path in `config/settings.local.yml`:
+> **System tests** use Selenium with Firefox for browser automation. On Ubuntu 24.04, if Firefox is installed via snap, you may need to override the Firefox binary path in `config/settings/test.local.yml`:
 >
 > ```yaml
 > system_test_firefox_binary: /snap/firefox/current/usr/lib/firefox/firefox
@@ -171,6 +172,15 @@ When contributing, you should:
 
 * Comment your code where necessary - explain the bits which might be difficult to understand what the code does, why it does it and why it should be the way it is.
 * Check existing comments to ensure that they are not misleading.
+
+## AI-Assisted Contributions
+
+If you choose to use AI tools to help create pull requests, you should follow these additional guidelines:
+
+* Make sure that a human has reviewed, tested, and fully understands all the code changes being submitted.
+* If you submit code that you don't understand, then you aren't actually helping anyone. Maintainers already have access to AI tools. If pasting the output into a PR is all that was required, then the maintainers would have done that themselves already.
+* Issues tagged for new contributors are meant as learning opportunities, not as items that need to be addressed with urgency. Using AI for these issues removes the opportunity to learn, both from you and other contributors.
+* If you submit a PR and the maintainers suspect that you haven't reviewed, tested, or understood the code, they may decline your PR without further discussion.
 
 ## Submitting Changes
 

@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: AiseluRB
 # Author: Bashkorttan
+# Author: Cevioch
 # Author: Lizalizaufa
 # Author: MR973
 # Author: Roustammr
@@ -65,6 +66,7 @@ ba:
       message: Хәбәр
       node: Төп технологик элемент
       node_tag: Төп технологик элемент тамғаһы
+      note: Иҫкәрмә
       old_node: Иҫке нөктә
       old_node_tag: Нөктәнең иҫке тегы
       old_relation: Иҫке сағыштырма
@@ -88,19 +90,6 @@ ba:
       way_node: Һыҙат нөктәһе
       way_tag: Һыҙат тегы
     attributes:
-      client_application:
-        name: Исем (Мотлаҡ)
-        url: Ҡушымта Url (Мотлаҡ)
-        callback_url: Callback URL
-        support_url: Ҡулланыусыларға ярҙам URL
-        allow_read_prefs: ҡулланыусы көйләүҙәрен уҡыу
-        allow_write_prefs: ҡулланыусы көйләүҙәрен үҙгәртеү
-        allow_write_diary: көндәлектә яҙмалар булдырыу, комментарий биреү һәм дуҫтар
-          табыу
-        allow_write_api: картаны мөхәррирләү
-        allow_read_gpx: шәхси GPS-тректарҙы уҡыу
-        allow_write_gpx: GPS-тректарҙы тейәү
-        allow_write_notes: яҙмаларҙы төҙәтеү
       diary_comment:
         body: Текст
       diary_entry:
@@ -149,8 +138,10 @@ ba:
         active: Әүҙем
         display_name: Сағылдырылған исем
         description: Профиль тасуирламаһы
+        company: Компания
         home_lat: Киңлек
         home_lon: Оҙонлоҡ
+        home_location_name: Өй урынының исеме
         languages: Тәҡдим ителгән телдәр
         preferred_editor: Тәҡдим ителгән редактор
         pass_crypt: Серһүҙ
@@ -223,6 +214,7 @@ ba:
     providers:
       none: Юҡ
       google: Google
+      apple: Apple
       facebook: Facebook
       microsoft: Майкрософт
       github: GitHub
@@ -254,13 +246,22 @@ ba:
   accounts:
     show:
       title: Аккаунтты үҙгәртергә
+      my_account: Минең иҫәбем
       current email address: Ағымдағы электрон почта адресы
       external auth: Тышҡы аутентификация
       contributor_terms:
         heading: Ҡатнашыу шарттары
-        agreed: Һеҙ яңы Ҡатнашыу шарттарына ризалыҡ бирҙегеҙ.
+        agreed: Һеҙ %{date} көнөндә Контрибьютор шарттарын ҡабул иттегеҙ.
+        not_agreed: Һеҙ яңы Ҡатнашыу шарттарына әле ризалыҡ бирмәнегеҙ.
         agreed_with_pd: Һеҙ шулай уҡ үҙегеҙҙең төҙәтеүҙәрегеҙҙе Йәмәғәтселек Милке
           тип иҫәпләүегеҙҙе белдерҙегеҙ.
+        not_agreed_with_pd: Һеҙ шулай уҡ үҙегеҙҙең төҙәтеүҙәрегеҙҙе Йәмәғәтселек Милке
+          тип иҫәпләүегеҙҙе белдерҙегеҙ.
+        review: Шарттарҙы ҡарап сығығыҙ
+        review_and_accept: Шарттарҙы ҡарап, ҡабул итегеҙ
+        consider_pd: Ҡулланыу өсөн ирекле булған автор хоҡуғыһыҙ материалдарҙы ҡарағыҙ
+      terms_of_use:
+        heading: Ҡулланыу шарттары
       save changes button: Үҙгәрештәрҙе һаҡлау
       delete_account: Аккаунтты юйырға...
     go_public:
@@ -1460,14 +1461,13 @@ ba:
       other_issues_against_this_user: Был ҡулланыусыға ҡаршы башҡа мәсьәләләр
       no_other_issues: Был ҡулланыусыға ҡаршы башҡа мәсьәләләр юҡ.
       comments_on_this_issue: Был мәсьәләгә комментарийҙар
+      comment_from_html: Фекер %{user_link} тарафынан %{comment_created_at} өҫтәлде
     resolve:
       resolved: Мәсьәлә статусы 'Хәл ителгән' тип ҡуйылған
     ignore:
       ignored: Мәсьәлә статусы 'Иғтибарһыҙ ҡалдырылған' тип ҡуйылған
     reopen:
       reopened: Мәсьәлә статусы 'Асыҡ' тип ҡуйылған
-    comments:
-      comment_from_html: Фекер %{user_link} тарафынан %{comment_created_at} өҫтәлде
     reports:
       reported_by_html: '%{category} тип хәбәр ителгән, автор: %{user}, %{updated_at}
         көнө'
@@ -1516,18 +1516,7 @@ ba:
   layouts:
     logo:
       alt_text: OpenStreetMap логотибы
-    home: Төп урынға күсеү
-    logout: Сығыу
-    log_in: Инеү
-    sign_up: Теркәлеү
     start_mapping: Карталауҙы башлау
-    edit: Үҙгәртеү
-    history: Тарих
-    export: Экспорт
-    issues: Проблемалар
-    gps_traces: GPS-тректар
-    user_diaries: Ҡулланыусылар көндәлектәре
-    edit_with: '%{editor} менән мөхәррирләү'
     intro_header: OpenStreetMap-ҡа рәхим итегеҙ!
     intro_text: OpenStreetMap — был донъя картаһы, ул һеҙҙең кеүек кешеләр тарафынан
       төҙөлә һәм асыҡ лицензия аҫтында ирекле ҡулланыу өсөн тәғәйенләнгән.
@@ -1537,12 +1526,24 @@ ba:
     partners_partners: партнерҙары
     tou: Ҡулланыу шарттары
     nothing_to_preview: Күрһәтерлек бер нәмә лә юҡ.
-    help: Ярҙам
-    about: Тураһында
-    copyright: Авторлыҡ хоҡуҡтары
-    communities: Берләшмәләр
     learn_more: Тулыраҡ белергә
-    more: Тағы
+    header:
+      about: Тураһында
+      communities: Берләшмәләр
+      copyright: Авторлыҡ хоҡуҡтары
+      edit: Үҙгәртеү
+      edit_with: '%{editor} менән мөхәррирләү'
+      export: Экспорт
+      gps_traces: GPS-тректар
+      help: Ярҙам
+      history: Тарих
+      home: Төп урынға күсеү
+      issues: Проблемалар
+      log_out: Сығыу
+      log_in: Инеү
+      more: Тағы
+      sign_up: Теркәлеү
+      user_diaries: Ҡулланыусылар көндәлектәре
   user_mailer:
     diary_comment_notification:
       description: OpenStreetMap көндәлек яҙмаһы №%{id}
@@ -1580,6 +1581,33 @@ ba:
     gpx_failure:
       hi: Сәләм, %{to_user},
       failed_to_import: 'импортлау мөмкин түгел. Бына хата:'
+  confirmations:
+    confirm:
+      heading: Электрон почтағыҙҙы тикшерегеҙ!
+      introduction_1: Беҙ һеҙгә раҫлау электрон почта ебәрҙек.
+      introduction_2: Электрон почтағығыҙҙағы һылтанмаға баҫып, иҫәп яҙмағыҙҙы раҫлағыҙ,
+        һәм карта төҙөүҙе башлай аласаҡһығыҙ.
+      press confirm button: Аҫтағы «Раҫлау» төймәһенә баҫып, иҫәп яҙмағыҙҙы активлаштырығыҙ.
+      button: Раҫларға
+      success: Һеҙҙең иҫәп яҙмағығыҙ раҫланды, теркәлгәнегеҙ өсөн рәхмәт!
+      already active: Был иҫәп яҙмаһы инде раҫланған.
+      unknown token: Ул раҫлау кодының ваҡыты үткән йәки ул юҡ.
+      if_need_resend: Әгәр раҫлау электрон почтаны яңынан ебәреүебеҙ кәрәк булһа,
+        аҫтағы төймәгә баҫығыҙ.
+  messages:
+    create:
+      limit_exceeded: Һуңғы ваҡытта һеҙ күп ҡулланыусыларҙы дуҫ итеп өҫтәнегеҙ. Яңы
+        дуҫтар өҫтәр алдынан бер аҙ көтөгөҙ.
+    mutes:
+      destroy:
+        error: Хәбәрҙе Кергән хаттар папкаһына күсереп булмай.
+  passwords:
+    create:
+      send_paranoid_instructions: Әгәр һеҙҙең электрон почта адресығыҙ беҙҙең базала
+        булһа, бер нисә минут эсендә һеҙгә парольды тергеҙеү һылтанмаһы электрон почта
+        адресығыҙға ебәреләсәк.
+    edit:
+      title: Серһүҙҙе алып ташлау
   shared:
     pagination:
       diary_comments:

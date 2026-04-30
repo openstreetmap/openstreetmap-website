@@ -9,12 +9,8 @@ L.OSM.query = function (options) {
       .attr("class", "control-button")
       .attr("href", "#")
       .attr("title", OSM.i18n.t("javascripts.site.queryfeature_tooltip"))
+      .append($("<i>").addClass("fs-5 bi bi-question-lg"))
       .appendTo($container);
-
-    $(L.SVG.create("svg"))
-      .append($(L.SVG.create("use")).attr("href", "#icon-query"))
-      .attr("class", "h-100 w-100")
-      .appendTo(link);
 
     map.on("zoomend", update);
 

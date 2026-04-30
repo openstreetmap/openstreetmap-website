@@ -44,4 +44,19 @@ class SpamScorerTest < ActiveSupport::TestCase
     scorer = SpamScorer.new_from_rich_text(r)
     assert_equal 160, scorer.score.round
   end
+
+  def test_to_comparable_form_collapses_unicode_whitespace
+    r = RichText.new("text", "x")
+    scorer = SpamScorer.new_from_rich_text(r)
+
+    input = "  A\u00A0\tB\n\nC"
+    assert_equal " a b c", scorer.send(:to_comparable_form, input)
+  end
+
+  def test_spammy_phrase_can_match_across_newlines_after_normalization
+    create(:spammy_phrase, :phrase => "foo bar")
+    r = RichText.new("markdown", "foo\nbar")
+    scorer = SpamScorer.new_from_rich_text(r)
+    assert_equal 40, scorer.score.round
+  end
 end

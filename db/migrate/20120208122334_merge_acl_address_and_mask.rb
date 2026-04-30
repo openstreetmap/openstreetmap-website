@@ -2,16 +2,6 @@
 
 require "ipaddr"
 
-class IPAddr
-  def address
-    _to_string(@addr)
-  end
-
-  def netmask
-    _to_string(@mask_addr)
-  end
-end
-
 class MergeAclAddressAndMask < ActiveRecord::Migration[4.2]
   class Acl < ApplicationRecord
   end
@@ -40,7 +30,7 @@ class MergeAclAddressAndMask < ActiveRecord::Migration[4.2]
     Acl.find_each do |acl|
       address = IPAddr.new(acl.address)
 
-      acl.address = address.address
+      acl.address = address.to_string
       acl.netmask = address.netmask
       acl.save!
     end

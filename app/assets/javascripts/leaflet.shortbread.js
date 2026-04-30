@@ -1,5 +1,3 @@
-//= require leaflet.maplibre
-
 L.OSM.Shortbread = L.OSM.MaplibreGL.extend({
   onAdd: function (map) {
     L.OSM.MaplibreGL.prototype.onAdd.call(this, map);

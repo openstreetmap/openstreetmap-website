@@ -49,7 +49,6 @@ class UserLogoutTest < ApplicationSystemTestCase
   end
 
   test "Sign out after navigating diary entries with Turbo pagination" do
-    create(:language, :code => "en")
     create(:diary_entry, :title => "First Diary Entry")
     create_list(:diary_entry, 20) # rubocop:disable FactoryBot/ExcessiveCreateList
 

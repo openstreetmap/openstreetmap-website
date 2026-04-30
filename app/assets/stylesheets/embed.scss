@@ -1,5 +1,5 @@
 /*
- *= require leaflet/dist/leaflet
+ *= require maplibre-gl
  */
 
 html {
@@ -18,12 +18,32 @@ body {
   height: 100%;
 }
 
-.leaflet-marker-icon.leaflet-div-icon {
-  background: none;
-  border: none;
-  pointer-events: none;
+// Minimal styles for the WebGL error pane.
+//
+// Instead of loading full Bootstrap, we duplicate a small subset here.
+// This avoids forcing all users to load extra CSS for a rare error case.
+//
+// Tradeoff: styling may drift from the main UI over time since they are not shared.
+// To minimize issues, these styles are kept loosely coupled—
+// if they become outdated, they should degrade gracefully.
+.maplibre-error {
+  background-color: #cff4fc;
+  color: #055160;
+  font-size: 1.25rem;
+  line-height: 1.5;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: center;
 
-  use[color] {
-    pointer-events: auto;
+
+  b, a {
+    color: #055160;
+    font-weight: 700;
+  }
+  // purposely not supported to keep things simple
+  .maplibre-error-compact, .bi {
+    display: none !important;
   }
 }

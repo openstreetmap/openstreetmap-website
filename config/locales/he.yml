@@ -24,6 +24,7 @@
 # Author: Metraduk
 # Author: N100a
 # Author: Nemo bis
+# Author: Neriah
 # Author: Nimrod Rak
 # Author: Orsa
 # Author: Ruila
@@ -46,7 +47,7 @@ he:
     dir: rtl
   date:
     formats:
-      heatmap: '%-d ב%B'
+      contribution_calendar: '%-d ב%B'
   time:
     formats:
       friendly: '%e ב%B %Y בשעה %H:%M'
@@ -125,19 +126,6 @@ he:
       way_node: נקודה של קו
       way_tag: תג קו
     attributes:
-      client_application:
-        name: שם (נדרש)
-        url: כתובת יישום ראשית (נדרשת)
-        callback_url: כתובת קריאה חוזרת (callback)
-        support_url: כתובת לתמיכה
-        allow_read_prefs: לקרוא את העדפות המשתמש שלהם
-        allow_write_prefs: לשנות את העדפות המשתמש שלהם
-        allow_write_diary: יצירת רשומות והערות ביומן
-        allow_write_api: לשנות את המפה
-        allow_write_changeset_comments: להעיר על ערכות שינויים
-        allow_read_gpx: לקרוא את הקלטות ה־GPS הפרטיות שלהם
-        allow_write_gpx: להעלות הקלטות GPS
-        allow_write_notes: לשנות הערות
       diary_comment:
         body: גוף
       diary_entry:
@@ -326,6 +314,7 @@ he:
         not_agreed_with_pd: לא הצהרת שמבחינתך העריכות שלך יהיו בנחלת הכלל.
         review: לסקירת התנאים
         review_and_accept: לסקור ולקבל את התנאים
+        consider_pd: כדאי לשקול את נחלת הכלל
       terms_of_use:
         heading: תנאי שימוש
         agreed: הסכמת לתנאי השימוש ב־%{date}.
@@ -504,6 +493,11 @@ he:
         key: דף התיאור עבור התג %{key}
         tag: דף התיאור עבור התג %{key}=%{value}
       wikidata_link: פריט %{page} בוויקינתונים
+      wikidata_preview:
+        one: תצוגה מקדימה של פריט ויקינתונים
+        two: תצוגה מקדימה של פריטי ויקינתונים
+        many: תצוגה מקדימה של פריטי ויקינתונים
+        other: תצוגה מקדימה של פריטי ויקינתונים
       wikipedia_link: הערך %{page} בוויקיפדיה
       wikimedia_commons_link: הפריט %{page} בוויקישיתוף
       telephone_link: להתקשר למספר %{phone_number}
@@ -514,7 +508,7 @@ he:
       way: דרך
       relation: יחס
       history: היסטוריה
-      version: גרסה מס׳ %{version}
+      version: גרסה %{version}
       versions_label: 'גרסאות:'
   feature_queries:
     show:
@@ -563,11 +557,18 @@ he:
   relation_members:
     not_found_message:
       sorry: מחילה, יחס מס׳ %{id} לא נמצא.
+    timeout:
+      sorry: לקח יותר מדי זמן למשוך את הנתונים של היחס עם המזהה %{id}, עמך הסליחה.
   old_relations:
     not_found_message:
       sorry: מצטערים, לא ניתן למצוא את יחס מס׳ %{id} בגרסה %{version}.
     timeout:
       sorry: מצטערים, אחזור ההיסטוריה של יחס מספר %{id} ארך זמן רב מדי.
+  old_relation_members:
+    not_found_message:
+      sorry: לא ניתן למצוא את יחס מס׳ %{id} בגרסה %{version}, עמך הסליחה.
+    timeout:
+      sorry: משיכת החברים של יחס מספר %{id} ארכה זמן רב מדי, עמך הסליחה.
   changeset_comments:
     feeds:
       comment:
@@ -591,6 +592,11 @@ he:
         two: '%{count} שינויים'
         many: '%{count} שינויים'
         other: '%{count} שינויים'
+      n_elements_created:
+        one: נוצר רכיב
+        two: נוצרו שני רכיבים
+        many: נוצרו %{count}רכיבים
+        other: נוצרו %{count} רכיבים
     index:
       title: ערכות שינויים
       title_user: ערכות שינויים מאת %{user}
@@ -756,18 +762,18 @@ he:
       heading: לבטל את המינוי לדיון ברשומת היומן הבאה?
       button: ביטול המינוי לדיון
     navigation:
+      in_language: רשומות יומן ב%{language}
       my_diary: היום שלי
       new: רשומת יומן חדשה
       new_title: כתיבת רשומה חדשה ביומן המשתמש שלי
     profile_diaries:
+      latest_diaries: יומנים עדכניים
       comments:
         one: הערה
         two: שתי הערות
         many: '%{count} הערות'
         other: '%{count} הערות'
       title_label: רשומת יומן
-      comments_label: הערות
-      date_label: תאריך
   diary_comments:
     new:
       heading: להוסיף הערה לדיון ברשומת היומן הבאה?
@@ -820,6 +826,9 @@ he:
       title: הקובץ לא נמצא
       description: איתור קובץ/תיקייה/פעולת API בשם הזה בשרת של OpenStreetMap לא הצליח
         (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap מוטמע
   follows:
     show:
       follow:
@@ -1282,6 +1291,7 @@ he:
           mineshaft: פיר מכרה
           monitoring_station: תחנת ניטור
           petroleum_well: באר נפט
+          planter: אדניות גדולות
           pier: רציף
           pipeline: קו צינורות
           pumping_station: תחנת שאיבה
@@ -1683,6 +1693,7 @@ he:
       download: הורדת מסלול בתור GeoJSON
       filename: מסלול
       directions_courtesy_html: הכיוונים באדיבות %{link}
+      check_demo_html: פרטים נוספים מהאתר %{link}
   issues:
     index:
       title: בעיות
@@ -1739,16 +1750,15 @@ he:
       other_issues_against_this_user: עוד בעיות עם המשתמש הזה
       no_other_issues: אין בעיות נוספות עם המשתמש הזה.
       comments_on_this_issue: הערות על בעיה זו
+      comment_from_html: תגובה מאת %{user_link} על %{comment_created_at}
+      reassign_to_moderators: להקצות את הבעיה מחדש למפקחים
+      reassign_to_administrators: להקצות את הבעיה מחדש למנהלים
     resolve:
       resolved: מצב הבעיה שונה ל„טופל”
     ignore:
       ignored: מצב הבעיה שונה ל„התעלמות”
     reopen:
       reopened: מצב הבעיות שונה ל„פתוחה”
-    comments:
-      comment_from_html: תגובה מאת %{user_link} על %{comment_created_at}
-      reassign_to_moderators: להקצות את הבעיה מחדש למפקחים
-      reassign_to_administrators: להקצות את הבעיה מחדש למנהלים
     reports:
       reported_by_html: דווח בתור %{category} על־ידי %{user} ב־%{updated_at}
     helper:
@@ -1815,10 +1825,11 @@ he:
         az: אזרבייג'נית
         id: אינדונזית
         ms: מלאית
+        bcl: ביקול מרכזית
         bs: בוסנית
         br: ברטונית
         ca: קטלאנית
-        cs: צ׳כית
+        cs: צ'כית
         cy: ולשית
         da: דנית
         de: גרמנית
@@ -1920,18 +1931,8 @@ he:
   layouts:
     logo:
       alt_text: הלוגו של OpenStreetMap
-    home: מעבר למיקום הבית
-    logout: יציאה מהחשבון
-    log_in: כניסה לחשבון
-    sign_up: הרשמה
+    layer_info: פרטי שכבה
     start_mapping: להתחיל למפות
-    edit: עריכה
-    history: היסטוריה
-    export: יצוא
-    issues: תקלות
-    gps_traces: מסלולי GPS
-    user_diaries: יומני משתמשים
-    edit_with: לעריכה עם %{editor}
     intro_header: ברוכים הבאים ל־OpenStreetMap!
     intro_text: OpenStreetMap היא מפה של העולם, שנוצרת על־ידי אנשים כמוך, וחופשית
       לשימוש תחת רישיון פתוח.
@@ -1942,15 +1943,26 @@ he:
     partners_partners: שותפים
     tou: תנאי השימוש
     nothing_to_preview: אין מה להראות בתצוגה מקדימה.
-    help: עזרה
-    about: אודות
-    copyright: זכויות יוצרים
-    communities: קהילות
     learn_more: מידע נוסף
-    more: עוד
     header:
+      about: אודות
+      communities: קהילות
+      copyright: זכויות יוצרים
+      donate: תרומה
+      edit: עריכה
+      edit_with: לעריכה עם %{editor}
+      export: יצוא
+      gps_traces: מסלולי GPS
+      help: עזרה
+      history: היסטוריה
+      home: מעבר למיקום הבית
+      issues: תקלות
+      log_out: יציאה מהחשבון
+      log_in: כניסה לחשבון
+      more: עוד
       select_language: בחירת שפה
-      loading: טעינה...
+      sign_up: הרשמה
+      user_diaries: יומני משתמשים
     meta:
       openstreetmap_search: חיפוש ב־OpenStreetMap
     select_language_button:
@@ -2265,7 +2277,6 @@ he:
         image: תמונה
         company: חברה
         location: מקום
-        heatmap: מפת חום
     descriptions:
       show:
         title: עריכת פרופיל
@@ -2326,7 +2337,6 @@ he:
     heatmaps:
       show:
         title: הגדרת מפת חום
-        show_heatmap_in_public: הצגת מפת החום בדף הפרופיל שלך
         save: עדכון הגדרות מפת חום
         cancel: ביטול
       update:
@@ -2336,6 +2346,11 @@ he:
     new:
       tab_title: כניסה
       login_to_authorize_html: נא להיכנס ל־OpenStreetMap כדי לגשת ליישום %{client_app_name}.
+      already_logged_in_html: כבר נכנסת בתור %{user}. כניסה שוב תחליף את החשבון הנוכחי
+        שלך.
+      access_another_page: 'הגעת לכאן כשניסית לגשת לדף אחר. כדי לגשת לדף הזה עם החשבון
+        הנוכחי שלך, יש ללחוץ על הכפתור שלהלן:'
+      visit_referring_page: ביקור בדף המפנה
       email or username: כתובת דוא״ל או שם משתמש
       password: סיסמה
       remember: לזכור אותי
@@ -2451,10 +2466,18 @@ he:
       legal_1_1_terms_of_use: תנאי שימוש
       legal_1_1_aup: מדיניות שימוש מקובל
       legal_1_1_privacy_policy: מדיניות פרטיות
+      legal_1_2_html: כדי להשתמש במפות או בנתונים של OpenStreetMap נא לוודא שהוספת
+        ייחוס ל־OpenStreetMap-ניתן לפנות אל %{attribution_guidelines_link} לפרטים
+        נוספים.
       legal_attribution_guidelines_title: הנחיות ייחוס
+      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_example_film_title: סרט
+      legal_attribution_example_film_url: https://wiki.openstreetmap.org/wiki/Films
+      legal_attribution_example_tv_title: סדרה
+      legal_attribution_example_tv_url: https://wiki.openstreetmap.org/wiki/TV_series
       legal_2_1_html: |-
         נא %{contact_the_osmf_link}
-        אם יש לך שאלות על רישוי, זכויות יוצרים או נושאים משפטיים אחרים.
+        לשאלות על רישוי, זכויות יוצרים או נושאים משפטיים אחרים.
       legal_2_1_contact_the_osmf: ליצור קשר עם OSMF
       legal_2_2_html: OpenStreetMap, סמל הזכוכית המגדלת ו־State of the Map הם %{registered_trademarks_link}.
       legal_2_2_registered_trademarks: סימנים מסחריים של OSMF
@@ -2473,19 +2496,42 @@ he:
         native_link: גרסה העברית
         mapping_link: להתחיל למפות
       legal_babble:
+        lead_2_learn_more_about_osm: מידע נוסף על OpenStreetMap
+        lead_2_get_started_mapping: להתחיל למפות
+        lead_2_osm_blog: בלוג OpenStreetMap
+        lead_2_osm_community: קהילת OSM
         lead_2_osm_foundation: קרן OSM
+        lead_2_making_donation: תרומה
         licensing_title: רישוי OpenStreetMap
+        licensing_1_html: 'OpenStreetMap היא נתונים %{open}, שכפופים ל־%{odc_odbl_link}
+          (ODbL) מבית %{osm_foundation_link} (OSMF). בקצרה:'
+        licensing_1_open: פתוחים
         licensing_1_odc_odbl: רישיון מסד נתונים פתוח של Open Data Commons
         licensing_1_osm_foundation: קרן אופן סטריט מאפ
+        licensing_2_html: מותר לך להעתיק, להפיץ, למסור ולהתאים את הנתונים שלנו כל
+          עוד נתת ייחוס ל־OpenStreetMap ומתנדבי המיזם. אפשר לשנות או לבנות על הנתונים
+          שלנו כל עוד התוצאה מופצת באותו הרישיון. %{legal_code_link} מסביר את הזכויות
+          והמחויבויות שלך.
+        licensing_2_legal_code: הקוד המשפטי המלא שנמצא ב־Open Data Commons
+        licensing_3_html: התיעוד שלנו כפוף ל־%{creative_commons_license_link} (CC
+          BY-SA 2.0).
+        licensing_3_creative_commons_license: רישיון Creative Commons Attribution-ShareAlike
+          2.0
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.he
+        licensing_4_html: מידע נוסף על איך להשתמש בנתונים שלנו אפשר למצוא ב־%{osmf_license_page_link}.
         licensing_4_osmf_license_page: דף הרישיון של OSMF
         credit_title_html: איך לתת ייחוס ל־OpenStreetMap
         credit_1_html: 'בעת שימוש בנתונים של OpenStreetMap, חובה לעשות את שני הדברים
           הבאים:'
+        credit_2_attribution: חשוב לתת ייחוס ל־OpenStreetMap על־ידי הצגת הודעת זכויות
+          היוצרים שלנו.
         credit_2_license: יש להבהיר שהנתונים זמינים לפי רישיון מסד נתונים פתוח.
+        credit_3_v2025_requirements_on_how_displayed: דרישות בנוגע לאיך היא אמורה
+          להופיע
         credit_3_v2025_attribution_guidelines: הנחיות ייחוס
         credit_3_v2025_licensing_requirements: דרישות הרישוי
         credit_4_v2025_this_copyright_page: דף זכויות היוצרים הזה
+        credit_5_v2025_html: 'בדוגמה הזאת, הייחוס מופיע בפינת המפה:'
         attribution_example:
           alt: דוגמה לצורה הנכונה לתת ייחוס ל־OpenStreetMap באתר האינטרנט
           title: דוגמה לייחוס
@@ -2561,7 +2607,6 @@ he:
         contributors_hr_croatia: קרואטיה
         contributors_hr_dgu: המִנהל הגאודטי הממלכתי של קרואטיה
         contributors_hr_open_data_portal: פורטל הנתונים הפתוחים הלאומי
-        contributors_nl_credit_html: '%{netherlands}: מכילה © נתוני AND‏, 2007 (‏%{and_link})'
         contributors_nl_netherlands: הולנד
         contributors_nz_credit_html: |-
           %{new_zealand}: מכילה נתונים שמקורם ב־%{linz_data_service_link}
@@ -2646,6 +2691,8 @@ he:
       export_download: בהורדה...
       confirmation:
         header: הורדת נתוני XML
+        body: מעניין אותך להוריד את נתוני המפה של האזור הזה בתסדיר XML? נא לשים לב
+          שלאזורים גדולים יכול לקחת זמן לרדת.
         cancel: ביטול
         download: הורדה
     fixthemap:
@@ -2909,6 +2956,15 @@ he:
       image_dimensions_html: התמונה תופיע כחלק מהשכבה %{layer} בגודל %{width} x %{height}
       download: הורדה
       downloading: בהורדה...
+  webgl_error_panes:
+    show:
+      compact_message: דרוש WebGL למפה הזאת.
+      description_html: אנו מתנצלים, אבל נראה ש%{your_browser_does_not_support_webgl},
+        טכנולוגיה לתיצוג גרפיקה תלת־ממדית דרך דפדפן.
+      your_browser_does_not_support_webgl: הדפדפן שלך לא תומך ב־WebGL
+      webgl_is_required_for_this_map: דרוש WebGL כדי להציג את המפה הזאת.
+      read_more_about_webgl: מידע נוסף
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: פרטי (משותף רק כאלמוני, נקודות לא ממוינות)
@@ -2947,13 +3003,13 @@ he:
       points: 'נקודות:'
       start_coordinates: 'נקודות ציון של תחילה:'
       coordinates_html: '%{latitude}, %{longitude}'
-      map: מפה
-      edit: עריכה
+      map: הצגת המקום במפה
+      edit: פתיחה בעורך
       owner: 'בעלים:'
       description: 'תיאור:'
       tags: 'תגים:'
       none: אין
-      edit_trace: עריכת המסלול הזה
+      edit_trace: עריכת פרטי מסלול
       delete_trace: מחיקת המסלול הזה
       trace_not_found: המסלול לא נמצא!
       visibility: 'נראוּת:'
@@ -2967,8 +3023,8 @@ he:
         other: '%{count} נקודות.'
       more: עוד
       trace_details: הצגת פרטי מסלול
-      view_map: הצגת מפה
-      edit_map: עריכת מפה
+      view_map: הצגת המקום במפה
+      edit_map: פתיחה בעורך
       public: ציבורי
       identifiable: בר זיהוי
       private: פרטי
@@ -3027,7 +3083,7 @@ he:
         alt: סמל גוגל
       apple:
         title: כניסה עם Apple
-        alt: הלוגו של Apple
+        alt: הסמל של Apple
       facebook:
         title: כניסה עם פייסבוק
         alt: סמל פייסבוק
@@ -3139,8 +3195,8 @@ he:
       tab_title: הרשמה
       signup_to_authorize_html: נא להירשם ל־OpenStreetMap כדי לגשת ליישום %{client_app_name}.
       no_auto_account_create: למרבה הצער, כעת איננו יכולים ליצור לך חשבון באופן אוטומטי.
-      please_contact_support_html: נא ליצור קשר עם %{support_link} כדי לארגן יצירת
-        חשבון - נשתדל לטפל בבקשה במהירות האפשרית.
+      please_contact_support_html: נא ליצור קשר עם %{support_link} לעזרה - נשתדל לטפל
+        בבקשה במהירות האפשרית.
       support: תמיכה
       about:
         header: חופשית וניתנת לעריכה.
@@ -3225,7 +3281,27 @@ he:
       change_image: החלפת תמונה
       edit_company: עריכת חברה
       edit_location: עריכת מקום
+      contributions:
+        one: תרומה בשנה האחרונה
+        two: שתי תרומות בשנה האחרונה
+        many: '%{count} תרומות בשנה האחרונה'
+        other: '%{count} תרומות בשנה האחרונה'
+      title:
+        administrator: לחשבון הזה יש הרשאות מנהל
+        moderator: זהו חשבון מפקח
+        importer: זהו חשבון מייבא
+      grant:
+        administrator: הענקת הרשאות מנהל
+        moderator: הענקת הרשאות מפקח
+        importer: הענקת הרשאות מייבא
+        are_you_sure: באמת להעניק את התפקיד „%{role}” למשתמש „%{name}”?
+      revoke:
+        administrator: שלילת הרשאות מנהל
+        moderator: שלילת הרשאות מפקח
+        importer: שלילת הרשאות מייבא
+        are_you_sure: באמת לשלול את התפקיד „%{role}” מהמשתמש „%{name}”?
     sidebar_section:
+      home_location: מקום הבית
       company: חברה
       company_tooltip: השיוך לחברה מדווח עצמית ולא עבר אימות
     go_public:
@@ -3322,21 +3398,6 @@ he:
         להלן.
       option_2: אם כבר יש לך חשבון, אפשר להיכנס לחשבון שלך באמצעות שם המשתמש והסיסמה
         שלך ואז לשייך את החשבון שלך למזהה מהגדרות המשתמש שלך.
-    role_icons:
-      title:
-        administrator: לחשבון הזה יש הרשאות מנהל
-        moderator: זהו חשבון מפקח
-        importer: זהו חשבון מייבא
-      grant:
-        administrator: הענקת הרשאות מנהל
-        moderator: הענקת הרשאות מפקח
-        importer: הענקת הרשאות מייבא
-        are_you_sure: באמת להעניק את התפקיד „%{role}” למשתמש „%{name}”?
-      revoke:
-        administrator: שלילת הרשאות מנהל
-        moderator: שלילת הרשאות מפקח
-        importer: שלילת הרשאות מייבא
-        are_you_sure: באמת לשלול את התפקיד „%{role}” מהמשתמש „%{name}”?
   user_role:
     filter:
       not_a_role: המחרוזת „%{role}” אינה תפקיד תקין.
@@ -3483,8 +3544,9 @@ he:
       last_changed: 'שינוי אחרון:'
       apply: החלה
       all: הכול
-      open: פתוחה
-      closed: סגורה
+      open: לא פתורה
+      closed: פתורה
+      hidden: מוסתרת
       status: מצב
     show:
       title: 'הערה: %{id}'
@@ -3567,12 +3629,12 @@ he:
     map:
       popup:
         close: סגירה
-      zoom:
-        in: התקרבות
-        out: התרחקות
-      locate:
-        title: הצגת המיקום שלי
-        not_available: המקום לא זמין
+      navigation_control:
+        zoom_in: התקרבות
+        zoom_out: התרחקות
+      geolocate_control:
+        find_my_location: הצגת המיקום שלי
+        location_not_available: המקום לא זמין
         metersPopup:
           one: המרחק שלך מהנקודה הזאת הוא פחות ממטר
           two: המרחק שלך מהנקודה הזאת הוא עד %{count} מטרים
@@ -3589,6 +3651,7 @@ he:
         transport_map: מפת תחבורה
         tracestracktop_topo: טופוגרפיה של Tracestrack
         hot: הומניטרית
+        shortbread: Shortbread
       layers:
         header: שכבות במפה
         notes: הערות במפה
@@ -3606,6 +3669,8 @@ he:
       tracestrack_credit: האריחים באדיבות %{tracestrack_link}
       hotosm_credit: סגנון אריחים מאת %{hotosm_link} מתארח אצל %{osm_france_link}
       hotosm_name: צוות OpenStreetMap הומניטרי
+      openmaptiles_credit: אריחים וקטוריים מתוך %{openmaptiles_link} שמתארחים על־ידי
+        %{maptiler_link}
     site:
       edit_tooltip: עריכת המפה
       edit_disabled_tooltip: להתקרב כדי לערוך את המפה
@@ -3628,7 +3693,7 @@ he:
         no_route: לא מצאנו נתיב שמחבר בין שני המקומות האלה.
         no_place:
           title: החיפוש נכשל
-          body: לא ניתן לאתר את ‚%{place}’.
+          body: לא ניתן לאתר את „%{place}”.
       instructions:
         continue_without_exit: להמשיך על %{name}
         slight_right_without_exit: קצת ימינה אל %{name}
@@ -3716,10 +3781,11 @@ he:
       show_address: להציג כתובת
       query_features: שאילתת ישויות
       centre_map: למרכז את המפה כאן
+      scroll_to_changeset: גלילה לערכת השינויים
     home:
       marker_title: מיקום הבית שלי
       not_set: מיקום הבית לא מוגדר עבור החשבון שלך
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: אין תרומות ב־%{date}
         contributions:
@@ -3734,7 +3800,7 @@ he:
     edit:
       id_not_configured:
         title: לא התבצעו הגדרות של iD
-        body: נא לפנות אל CONFIGURE.md לפרטים נוספים
+        body: ר׳ את CONFIGURE.md לפרטים נוספים
   redactions:
     edit:
       heading: עריכת הסרה
