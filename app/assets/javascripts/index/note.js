@@ -85,12 +85,13 @@ OSM.Note = function (map) {
     const resolveButton = content.find("button[name='close']");
     const commentButton = content.find("button[name='comment']");
 
-    content.find("button[name]").prop("disabled", false);
     if (content.find("textarea").val() === "") {
       resolveButton.text(resolveButton.data("defaultActionText"));
+      resolveButton.prop("disabled", !resolveButton.data("canResolveWithoutComment"));
       commentButton.prop("disabled", true);
     } else {
       resolveButton.text(resolveButton.data("commentActionText"));
+      content.find("button[name]").prop("disabled", false);
     }
   }
 
