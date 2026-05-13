@@ -1,0 +1,10 @@
+<%# locals: (notifications:, params:) %>
+
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <% UserNotifications.wrap(notifications.items).each do |notification| %>
+    <%= render :partial => notification.to_partial_path, :object => notification, :as => :notification %>
+    <hr>
+  <% end %>
+
+  <%= render "pagination", :paginator => notifications, :params => params %>
+</turbo-frame>
