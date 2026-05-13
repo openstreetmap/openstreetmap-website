@@ -164,17 +164,22 @@ class UserNotifications
     NoteCommentNotifier::Notification
   ].freeze
 
+  def self.wrap(notification_records)
+    notification_records.map { |record| Notification.from(record) }
+  end
+
   def initialize(user)
     @user = user
   end
 
-  def each(&)
+  def notification_records(&)
     @user
       .notifications
       .where(:type => LISTABLE_NOTIFICATIONS)
-      .newest_first
-      .map { |instance| Notification.from(instance) }
-      .each(&)
+  end
+
+  def each(&)
+    notification_records.each(&)
   end
 
   def empty?
