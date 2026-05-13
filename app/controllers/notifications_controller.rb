@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class NotificationsController < ApplicationController
+  include PaginationMethods
+
   layout :site_layout
 
   before_action :authorize_web
@@ -11,6 +13,8 @@ class NotificationsController < ApplicationController
   before_action :check_database_readable
 
   def index
-    @notifications = UserNotifications.new(current_user)
+    records = UserNotifications.new(current_user).notification_records
+    @notifications = get_page_items(records)
+    @params = params.permit
   end
 end

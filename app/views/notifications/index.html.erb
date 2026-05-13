@@ -8,13 +8,8 @@
   </p>
 <% end %>
 
-<% if @notifications.empty? %>
+<% if @notifications.items.empty? %>
   <p><%= t(".no_notifications") %></p>
 <% else %>
-  <div class="container">
-    <% @notifications.each do |notification| %>
-      <%= render :partial => notification.to_partial_path, :object => notification, :as => :notification %>
-      <hr>
-    <% end %>
-  </div>
+  <%= render "page", :notifications => @notifications, :params => @params %>
 <% end %>
