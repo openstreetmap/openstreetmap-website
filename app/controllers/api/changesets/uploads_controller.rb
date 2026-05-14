@@ -29,7 +29,7 @@ module Api
       # http://wiki.openstreetmap.org/wiki/OSM_Protocol_Version_0.6
       def create
         Changeset.transaction do
-          changeset = Changeset.lock.find(params[:changeset_id])
+          changeset = Changeset.lock.find(params.expect(:changeset_id))
           check_changeset_consistency(changeset, current_user)
 
           diff_reader = DiffReader.new(request.raw_post, changeset)

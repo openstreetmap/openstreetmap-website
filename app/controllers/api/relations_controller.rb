@@ -12,9 +12,9 @@ module Api
     before_action :check_rate_limit, :only => [:create, :update, :destroy]
 
     def index
-      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params["relations"]
+      raise OSM::APIBadUserInput, "The parameter relations is required, and must be of the form relations=id[,id[,id...]]" unless params[:relations]
 
-      ids = params["relations"].split(",").collect(&:to_i)
+      ids = params.extract_value(:relations, :delimiter => ",").collect(&:to_i)
 
       raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
 
@@ -28,7 +28,7 @@ module Api
     end
 
     def show
-      relation = Relation.includes(:relation_members, :element_tags).find(params[:id])
+      relation = Relation.includes(:relation_members, :element_tags).find(params.expect(:id))
 
       response.last_modified = relation.timestamp unless params[:full]
 
@@ -107,7 +107,7 @@ module Api
     end
 
     def update
-      relation = Relation.find(params[:id])
+      relation = Relation.find(params.expect(:id))
       new_relation = Relation.from_xml(request.raw_post)
 
       raise OSM::APIBadUserInput, "The id in the url (#{relation.id}) is not the same as provided in the xml (#{new_relation.id})" unless new_relation && new_relation.id == relation.id
@@ -120,7 +120,7 @@ module Api
     end
 
     def destroy
-      relation = Relation.find(params[:id])
+      relation = Relation.find(params.expect(:id))
       new_relation = Relation.from_xml(request.raw_post)
       if new_relation && new_relation.id == relation.id
         Changeset.transaction do

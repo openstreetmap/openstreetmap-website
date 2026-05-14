@@ -42,10 +42,10 @@ class NotesController < ApplicationController
     @type = "note"
 
     if current_user&.moderator?
-      @note = Note.find(params[:id])
+      @note = Note.find(params.expect(:id))
       @note_comments = @note.comments.unscope(:where => :visible)
     else
-      @note = Note.visible.find(params[:id])
+      @note = Note.visible.find(params.expect(:id))
       @note_comments = @note.comments
     end
 

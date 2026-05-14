@@ -31,7 +31,7 @@ module Api
       raise OSM::APIRateLimitExceeded if rate_limit_exceeded?
 
       # Extract the arguments
-      changeset_id = params[:changeset_id].to_i
+      changeset_id = params.expect(:changeset_id).to_i
       body = params[:text]
 
       # Find the changeset and check it is valid

@@ -30,7 +30,7 @@ module Users
     ##
     # ensure that there is a "user" instance variable
     def lookup_user_by_name
-      @user = User.find_by!(:display_name => params[:user_display_name])
+      @user = User.find_by!(:display_name => params.expect(:user_display_name))
     rescue ActiveRecord::RecordNotFound
       redirect_to user_path(params[:user_display_name]) unless @user
     end

@@ -14,7 +14,7 @@ module Api
 
     # Dump the details on a message given in params[:id]
     def show
-      @message = Message.includes(:sender, :recipient).find(params[:id])
+      @message = Message.includes(:sender, :recipient).find(params.expect(:id))
 
       raise OSM::APIAccessDenied if current_user.id != @message.from_user_id && current_user.id != @message.to_user_id
 
@@ -33,10 +33,10 @@ module Api
 
       # Extract the arguments
       if params[:recipient_id]
-        recipient_id = params[:recipient_id].to_i
+        recipient_id = params.expect(:recipient_id).to_i
         recipient = User.find(recipient_id)
       elsif params[:recipient]
-        recipient_display_name = params[:recipient]
+        recipient_display_name = params.expect(:recipient)
         recipient = User.find_by(:display_name => recipient_display_name)
       else
         raise OSM::APIBadUserInput, "No recipient was given"
@@ -63,7 +63,7 @@ module Api
 
     # Update read status of a message
     def update
-      @message = Message.find(params[:id])
+      @message = Message.find(params.expect(:id))
       read_status_idx = %w[true false].index params[:read_status]
 
       raise OSM::APIBadUserInput, "Invalid value of `read_status` was given" if read_status_idx.nil?
@@ -81,7 +81,7 @@ module Api
 
     # Delete message by marking it as not visible for the current user
     def destroy
-      @message = Message.find(params[:id])
+      @message = Message.find(params.expect(:id))
       if current_user.id == @message.from_user_id
         @message.from_user_visible = false
       elsif current_user.id == @message.to_user_id

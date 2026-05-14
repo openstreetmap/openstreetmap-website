@@ -70,7 +70,7 @@ class TracesController < ApplicationController
   end
 
   def show
-    @trace = Trace.visible.find(params[:id])
+    @trace = Trace.visible.find(params.expect(:id))
 
     if @trace.public? || @trace.user == current_user
       @title = t ".title", :name => @trace.name
@@ -89,7 +89,7 @@ class TracesController < ApplicationController
   end
 
   def edit
-    @trace = Trace.visible.find(params[:id])
+    @trace = Trace.visible.find(params.expect(:id))
 
     if current_user.nil? || @trace.user != current_user
       head :forbidden
@@ -135,7 +135,7 @@ class TracesController < ApplicationController
   end
 
   def update
-    @trace = Trace.visible.find(params[:id])
+    @trace = Trace.visible.find(params.expect(:id))
 
     if current_user.nil? || @trace.user != current_user
       head :forbidden
@@ -151,7 +151,7 @@ class TracesController < ApplicationController
   end
 
   def destroy
-    trace = Trace.visible.find(params[:id])
+    trace = Trace.visible.find(params.expect(:id))
 
     if current_user.nil? || (trace.user != current_user && !current_user.administrator? && !current_user.moderator?)
       head :forbidden

@@ -60,7 +60,7 @@ module Api
     # Return XML giving the basic info about the changeset. Does not
     # return anything about the nodes, ways and relations in the changeset.
     def show
-      @changeset = Changeset.find(params[:id])
+      @changeset = Changeset.find(params.expect(:id))
       if params[:include_discussion].presence
         @comments = @changeset.comments
         @comments = @comments.unscope(:where => :visible) if params[:show_hidden_comments].presence && can?(:create, :changeset_comment_visibility)
@@ -96,7 +96,7 @@ module Api
     #
     # after succesful update, returns the XML of the changeset.
     def update
-      @changeset = Changeset.find(params[:id])
+      @changeset = Changeset.find(params.expect(:id))
       new_changeset = Changeset.from_xml(request.raw_post)
 
       check_changeset_consistency(@changeset, current_user)

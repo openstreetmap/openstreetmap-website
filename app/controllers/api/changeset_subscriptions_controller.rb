@@ -17,7 +17,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:changeset_id]
 
       # Extract the arguments
-      changeset_id = params[:changeset_id].to_i
+      changeset_id = params.expect(:changeset_id).to_i
 
       # Find the changeset and check it is valid
       @changeset = Changeset.find(changeset_id)
@@ -39,7 +39,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:changeset_id]
 
       # Extract the arguments
-      changeset_id = params[:changeset_id].to_i
+      changeset_id = params.expect(:changeset_id).to_i
 
       # Find the changeset and check it is valid
       @changeset = Changeset.find(changeset_id)

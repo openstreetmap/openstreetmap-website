@@ -15,9 +15,9 @@ module Api
 
     # Dump the details on many nodes whose ids are given in the "nodes" parameter.
     def index
-      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params["nodes"]
+      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params[:nodes]
 
-      ids = params["nodes"].split(",").collect(&:to_i)
+      ids = params.extract_value(:nodes, :delimiter => ",").collect(&:to_i)
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
@@ -32,7 +32,7 @@ module Api
 
     # Dump the details on a node given in params[:id]
     def show
-      @node = Node.includes(:element_tags).find(params[:id])
+      @node = Node.includes(:element_tags).find(params.expect(:id))
 
       response.last_modified = @node.timestamp
 
@@ -60,7 +60,7 @@ module Api
 
     # Update a node from given XML
     def update
-      node = Node.find(params[:id])
+      node = Node.find(params.expect(:id))
       new_node = Node.from_xml(request.raw_post)
 
       raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
@@ -76,7 +76,7 @@ module Api
     # in a wiki-like way. We therefore treat it like an update, so the delete
     # method returns the new version number.
     def destroy
-      node = Node.find(params[:id])
+      node = Node.find(params.expect(:id))
       new_node = Node.from_xml(request.raw_post)
 
       raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id

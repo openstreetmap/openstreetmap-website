@@ -72,22 +72,22 @@ class SiteController < ApplicationController
 
     begin
       if params[:node]
-        bbox = Node.visible.find(params[:node]).bbox.to_unscaled
+        bbox = Node.visible.find(params.expect(:node)).bbox.to_unscaled
         @lat = bbox.centre_lat
         @lon = bbox.centre_lon
         @zoom = 18
       elsif params[:way]
-        bbox = Way.visible.find(params[:way]).bbox.to_unscaled
+        bbox = Way.visible.find(params.expect(:way)).bbox.to_unscaled
         @lat = bbox.centre_lat
         @lon = bbox.centre_lon
         @zoom = 17
       elsif params[:note]
-        note = Note.visible.find(params[:note])
+        note = Note.visible.find(params.expect(:note))
         @lat = note.lat
         @lon = note.lon
         @zoom = 17
       elsif params[:gpx] && current_user
-        trace = Trace.visible_to(current_user).find(params[:gpx])
+        trace = Trace.visible_to(current_user).find(params.expect(:gpx))
         @lat = trace.latitude
         @lon = trace.longitude
         @zoom = 16

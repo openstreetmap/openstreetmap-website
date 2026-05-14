@@ -7,7 +7,7 @@ module Api
     def lookup_old_element
       @old_element = OldNode
                      .includes(:old_tags)
-                     .find([params[:node_id], params[:version]])
+                     .find(params.expect(:node_id, :version))
     end
 
     def lookup_old_element_versions

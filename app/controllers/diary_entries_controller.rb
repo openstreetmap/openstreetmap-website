@@ -41,7 +41,7 @@ class DiaryEntriesController < ApplicationController
       entries = DiaryEntry.joins(:user).where(:users => { :status => %w[active confirmed] })
 
       if params[:language]
-        @title = t ".in_language_title", :language => Language.find(params[:language]).english_name
+        @title = t ".in_language_title", :language => Language.find(params.expect(:language)).english_name
         entries = entries.where(:language_code => params[:language])
       else
         candidate_codes = preferred_languages.flat_map(&:candidates).uniq.map(&:to_s)
@@ -86,7 +86,7 @@ class DiaryEntriesController < ApplicationController
 
   def edit
     @title = t ".title"
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
 
     redirect_to diary_entry_path(@diary_entry.user, @diary_entry) if current_user != @diary_entry.user
 
@@ -115,7 +115,7 @@ class DiaryEntriesController < ApplicationController
 
   def update
     @title = t "diary_entries.edit.title"
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
 
     if cannot?(:update, @diary_entry) ||
        (params[:diary_entry] && @diary_entry.update(entry_params))
@@ -129,7 +129,7 @@ class DiaryEntriesController < ApplicationController
   end
 
   def subscribe
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
 
     if request.post?
       @diary_entry.subscriptions.create(:user => current_user) unless @diary_entry.subscribers.exists?(current_user.id)
@@ -141,7 +141,7 @@ class DiaryEntriesController < ApplicationController
   end
 
   def unsubscribe
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
 
     if request.post?
       @diary_entry.subscriptions.where(:user => current_user).delete_all if @diary_entry.subscribers.exists?(current_user.id)
@@ -174,8 +174,8 @@ class DiaryEntriesController < ApplicationController
 
       if params[:language]
         @entries = @entries.where(:language_code => params[:language])
-        @title = t("diary_entries.feed.language.title", :language_name => Language.find(params[:language]).english_name)
-        @description = t("diary_entries.feed.language.description", :language_name => Language.find(params[:language]).english_name)
+        @title = t("diary_entries.feed.language.title", :language_name => Language.find(params.expect(:language)).english_name)
+        @description = t("diary_entries.feed.language.description", :language_name => Language.find(params.expect(:language)).english_name)
         @link = url_for :action => "index", :language => params[:language], :host => Settings.server_url, :protocol => Settings.server_protocol
       else
         @title = t("diary_entries.feed.all.title")
@@ -187,13 +187,13 @@ class DiaryEntriesController < ApplicationController
   end
 
   def hide
-    entry = DiaryEntry.find(params[:id])
+    entry = DiaryEntry.find(params.expect(:id))
     entry.update(:visible => false)
     redirect_to :action => "index", :display_name => entry.user.display_name
   end
 
   def unhide
-    entry = DiaryEntry.find(params[:id])
+    entry = DiaryEntry.find(params.expect(:id))
     entry.update(:visible => true)
     redirect_to :action => "index", :display_name => entry.user.display_name
   end

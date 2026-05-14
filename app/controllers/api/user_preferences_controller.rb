@@ -24,7 +24,7 @@ module Api
     ##
     # return the value for a single preference
     def show
-      pref = UserPreference.find([current_user.id, params[:preference_key]])
+      pref = UserPreference.find([current_user.id, params.expect(:preference_key)])
 
       render :plain => pref.v.to_s
     end
@@ -60,7 +60,7 @@ module Api
     # update the value of a single preference
     def update
       begin
-        pref = UserPreference.find([current_user.id, params[:preference_key]])
+        pref = UserPreference.find([current_user.id, params.expect(:preference_key)])
       rescue ActiveRecord::RecordNotFound
         pref = UserPreference.new
         pref.user = current_user
@@ -76,7 +76,7 @@ module Api
     ##
     # delete a single preference
     def destroy
-      UserPreference.find([current_user.id, params[:preference_key]]).delete
+      UserPreference.find([current_user.id, params.expect(:preference_key)]).delete
 
       render :plain => ""
     end

@@ -14,7 +14,7 @@ module Messages
 
     # Moves message into Inbox by unsetting the muted-flag
     def destroy
-      message = current_user.muted_messages.find(params[:message_id])
+      message = current_user.muted_messages.find(params.expect(:message_id))
 
       if message.unmute
         flash[:notice] = t(".notice")
