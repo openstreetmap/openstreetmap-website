@@ -17,18 +17,18 @@
 <%= render @diary_entry, :user => @user, :truncated => false %>
 <%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
 
-<nav class="diary-entry-navigation d-flex justify-content-between mb-3">
+<nav class="d-flex justify-content-between mb-3 pagination">
   <div>
     <% if @prev_entry %>
-      <%= link_to diary_entry_path(@user, @prev_entry), :class => "btn btn-outline-secondary" do %>
-      &laquo; <%= t(".previous_entry") %>
+      <%= link_to diary_entry_path(@user, @prev_entry), :class => "btn btn-outline-primary btn-sm" do %>
+      &lsaquo; <%= t(".previous_entry") %>
       <% end %>
     <% end %>
   </div>
   <div>
     <% if @next_entry %>
-      <%= link_to diary_entry_path(@user, @next_entry), :class => "btn btn-outline-secondary" do %>
-      <%= t(".next_entry") %> &raquo;
+      <%= link_to diary_entry_path(@user, @next_entry), :class => "btn btn-outline-primary btn-sm" do %>
+      <%= t(".next_entry") %> &rsaquo;
       <% end %>
     <% end %>
   </div>
