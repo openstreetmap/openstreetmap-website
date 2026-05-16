@@ -16,7 +16,7 @@ class Oauth2ApplicationsController < Doorkeeper::ApplicationsController
   private
 
   def set_application
-    @application = current_resource_owner&.oauth2_applications&.find(params[:id])
+    @application = current_resource_owner&.oauth2_applications&.find(params.expect(:id))
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end

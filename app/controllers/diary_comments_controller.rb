@@ -14,7 +14,7 @@ class DiaryCommentsController < ApplicationController
   allow_thirdparty_images :only => :create
 
   def create
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
     @comments = @diary_entry.visible_comments
     @diary_comment = @diary_entry.comments.build(comment_params)
     @diary_comment.user = current_user
@@ -35,13 +35,13 @@ class DiaryCommentsController < ApplicationController
   end
 
   def hide
-    comment = DiaryComment.find(params[:comment])
+    comment = DiaryComment.find(params.expect(:comment))
     comment.update(:visible => false)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 
   def unhide
-    comment = DiaryComment.find(params[:comment])
+    comment = DiaryComment.find(params.expect(:comment))
     comment.update(:visible => true)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end

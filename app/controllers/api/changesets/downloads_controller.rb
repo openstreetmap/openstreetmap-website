@@ -22,7 +22,7 @@ module Api
       # behaviour cannot be guaranteed anyway and is the result of a design
       # choice.
       def show
-        changeset = Changeset.find(params[:changeset_id])
+        changeset = Changeset.find(params.expect(:changeset_id))
 
         # get all the elements in the changeset which haven't been redacted
         # and stick them in a big array.

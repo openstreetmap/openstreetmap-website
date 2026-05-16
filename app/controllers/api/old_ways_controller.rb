@@ -7,7 +7,7 @@ module Api
     def lookup_old_element
       @old_element = OldWay
                      .includes(:old_nodes, :old_tags)
-                     .find([params[:way_id], params[:version]])
+                     .find(params.expect(:way_id, :version))
     end
 
     def lookup_old_element_versions

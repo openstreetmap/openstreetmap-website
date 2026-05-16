@@ -8,7 +8,7 @@ module Api
     authorize_resource
 
     def create
-      note_id = params[:note_id].to_i
+      note_id = params.expect(:note_id).to_i
       note = Note.find(note_id)
       note.subscribers << current_user
     rescue ActiveRecord::RecordNotFound
@@ -18,7 +18,7 @@ module Api
     end
 
     def destroy
-      note_id = params[:note_id].to_i
+      note_id = params.expect(:note_id).to_i
       note = Note.find(note_id)
       count = note.subscriptions.where(:user => current_user).delete_all
       report_error "You are not subscribed to note #{note_id}.", :not_found if count.zero?

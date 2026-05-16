@@ -11,7 +11,7 @@ module Api
       before_action :offline_error
 
       def show
-        trace = Trace.visible.find(params[:trace_id])
+        trace = Trace.visible.find(params.expect(:trace_id))
 
         if trace.public? || trace.user == current_user
           if request.format == Mime[:xml]

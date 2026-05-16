@@ -72,6 +72,6 @@ class RedactionsController < ApplicationController
   private
 
   def lookup_redaction
-    @redaction = Redaction.find(params[:id])
+    @redaction = Redaction.find(params.expect(:id))
   end
 end

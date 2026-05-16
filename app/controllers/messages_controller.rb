@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
   # Show a message
   def show
     @title = t ".title"
-    @message = Message.find(params[:id])
+    @message = Message.find(params.expect(:id))
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user
@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
 
   # Destroy the message.
   def destroy
-    @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user.id)).find(params[:id])
+    @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user.id)).find(params.expect(:id))
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save

@@ -60,7 +60,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Find the note and check it is valid
-      @note = Note.find(params[:id])
+      @note = Note.find(params.expect(:id))
       raise OSM::APINotFoundError unless @note
       raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
 
@@ -121,7 +121,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -152,8 +152,8 @@ module Api
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
       # Extract the arguments
-      id = params[:id].to_i
-      comment = params[:text]
+      id = params.expect(:id).to_i
+      comment = params.expect(:text)
 
       # Find the note and check it is valid
       Note.transaction do
@@ -180,7 +180,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -210,7 +210,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -318,7 +318,7 @@ module Api
     # on their status and the user's request parameters
     def closed_condition(notes)
       closed_since = if params[:closed]
-                       params[:closed].to_i.days
+                       params.expect(:closed).to_i.days
                      else
                        Note::DEFAULT_FRESHLY_CLOSED_LIMIT
                      end

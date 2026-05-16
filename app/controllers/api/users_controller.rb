@@ -12,9 +12,9 @@ module Api
     before_action :set_request_formats
 
     def index
-      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params["users"]
+      raise OSM::APIBadUserInput, "The parameter users is required, and must be of the form users=id[,id[,id...]]" unless params[:users]
 
-      ids = params["users"].split(",").collect(&:to_i)
+      ids = params.extract_value(:users, :delimiter => ",").collect(&:to_i)
 
       raise OSM::APIBadUserInput, "No users were given to search for" if ids.empty?
 

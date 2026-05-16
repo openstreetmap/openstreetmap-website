@@ -17,7 +17,7 @@ module ChangesetComments
     def show
       if params[:changeset_id]
         # Extract the arguments
-        changeset_id = params[:changeset_id].to_i
+        changeset_id = params.expect(:changeset_id).to_i
 
         # Find the changeset
         changeset = Changeset.find(changeset_id)

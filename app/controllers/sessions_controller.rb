@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
 
     referer = safe_referer(params[:referer]) if params[:referer]
 
-    password_authentication(params[:username].strip, params[:password], referer)
+    password_authentication(params.expect(:username).strip, params.expect(:password), referer)
   end
 
   def destroy

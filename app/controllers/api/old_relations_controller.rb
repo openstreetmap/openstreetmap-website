@@ -7,7 +7,7 @@ module Api
     def lookup_old_element
       @old_element = OldRelation
                      .includes(:old_members, :old_tags)
-                     .find([params[:relation_id], params[:version]])
+                     .find(params.expect(:relation_id, :version))
     end
 
     def lookup_old_element_versions

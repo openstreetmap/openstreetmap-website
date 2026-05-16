@@ -82,8 +82,8 @@ module QueryMethods
     max_limit = Settings["max_#{name}_query_limit"]
     default_limit = Settings["default_#{name}_query_limit"]
     if params[:limit]
-      if params[:limit].to_i.positive? && params[:limit].to_i <= max_limit
-        params[:limit].to_i
+      if params.expect(:limit).to_i.positive? && params.expect(:limit).to_i <= max_limit
+        params.expect(:limit).to_i
       else
         raise OSM::APIBadUserInput, "#{controller_name.classify} limit must be between 1 and #{max_limit}"
       end
