@@ -239,6 +239,8 @@ OpenStreetMap::Application.routes.draw do
     scope ":provider" do
       match "/callback" => "users#auth_success", :via => [:get, :post], :as => :success
       match "" => "users#auth", :via => [:post, :patch]
+
+      resource :delete, :only => [:show, :create], :module => "accounts", :controller => "auth_deletions"
     end
   end
 

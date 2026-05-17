@@ -12,6 +12,7 @@ class Ability
     can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
     can [:create, :show], :export
     can [:create, :read], :search
+    can [:create, :show], :auth_deletion
 
     if Settings.status != "database_offline"
       can [:read, :feed], Changeset
