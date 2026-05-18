@@ -120,7 +120,7 @@ OSM.NewNote = function (map) {
     let markerLatlng;
 
     if (params.has("lat") && params.has("lon")) {
-      markerLatlng = L.latLng(params.get("lat"), params.get("lon"));
+      markerLatlng = { lat: params.get("lat"), lng: params.get("lon") };
     } else {
       markerLatlng = map.getCenter();
     }

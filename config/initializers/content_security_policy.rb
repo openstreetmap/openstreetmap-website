@@ -29,7 +29,7 @@ Rails.application.configure do
     policy.img_src(*img_src)
     policy.manifest_src(:self)
     policy.media_src(:none)
-    policy.object_src(:self)
+    policy.object_src(:none)
     policy.plugin_types
     policy.script_src(*script_src)
     policy.style_src(:self)

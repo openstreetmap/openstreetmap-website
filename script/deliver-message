@@ -34,6 +34,6 @@ mail = Mail.new($stdin.read
 message = Message.from_mail(mail, from, to)
 message.save!
 
-UserMailer.with(:message => message).message_notification.deliver if message.notify_recipient?
+DirectMessageNotifier.with(:record => message).deliver_later if message.notify_recipient?
 
 exit 0

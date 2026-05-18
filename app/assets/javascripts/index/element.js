@@ -92,8 +92,10 @@
   }
 
   function getLocalizedResponse(entity) {
-    const rank = ({ rank }) => ({ preferred: 1, normal: 0, deprecated: -1 })[rank] ?? 0;
-    const toBestClaim = (out, claim) => (rank(claim) > rank(out)) ? claim : out;
+    const siteScheme = OSM.isDark("bs") ? "Q6545942" : "Q101608434";
+    const scheme = ({ qualifiers }) => qualifiers?.P8798?.some(q => q?.datavalue?.value?.id === siteScheme) ?? 0;
+    const rank = ({ rank }) => ({ preferred: 2, normal: 0, deprecated: -2 })[rank] ?? 0;
+    const toBestClaim = (out, claim) => (rank(claim) + scheme(claim) > rank(out) + scheme(out)) ? claim : out;
     const toFirstOf = (property) => (out, localization) => out ?? property[localization];
     const data = {
       qid: entity.id,

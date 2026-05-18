@@ -102,9 +102,10 @@ OSM.Router = function (map, rts) {
 
   function updateSecondaryNav() {
     $("header nav.secondary > ul > li > a").each(function () {
-      const active = $(this).attr("href") === location.pathname;
+      const active = new URL($(this).attr("href"), location.href).pathname === location.pathname;
 
       $(this)
+        .toggleClass("active", active)
         .toggleClass("text-secondary", !active)
         .toggleClass("text-secondary-emphasis", active);
     });

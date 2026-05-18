@@ -13,7 +13,7 @@
 ia:
   date:
     formats:
-      heatmap: '%-d de %B'
+      contribution_calendar: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B %Y a %H:%M'
@@ -727,8 +727,6 @@ ia:
         one: '%{count} commento'
         other: '%{count} commentos'
       title_label: Entrata del diario
-      comments_label: Commentos
-      date_label: Data
   diary_comments:
     new:
       heading: Adder un commento al sequente discussion de entrata de diario?
@@ -1709,16 +1707,15 @@ ia:
       other_issues_against_this_user: Altere problemas concernente iste usator
       no_other_issues: Il non ha altere problemas concernente iste usator.
       comments_on_this_issue: Commentos sur iste problema
+      comment_from_html: Commento de %{user_link} del %{comment_created_at}
+      reassign_to_moderators: Reassignar le problema al moderatores
+      reassign_to_administrators: Reassignar le problema al administratores
     resolve:
       resolved: Le stato del problema ha essite cambiate a 'Resolvite'
     ignore:
       ignored: Le stato del problema ha essite cambiate a 'Ignorate'
     reopen:
       reopened: Le stato del problema ha essite cambiate a 'Aperte'
-    comments:
-      comment_from_html: Commento de %{user_link} del %{comment_created_at}
-      reassign_to_moderators: Reassignar le problema al moderatores
-      reassign_to_administrators: Reassignar le problema al administratores
     reports:
       reported_by_html: Reportate como %{category} per %{user} le %{updated_at}
     helper:
@@ -1816,10 +1813,12 @@ ia:
         ia: Interlingua
         is: Islandese
         it: Italiano
+        kw: Cornico
         gcf: Creolo de Guadalupe
         ku-Latn: Kurdo (latin)
         lv: Letton
         lb: Luxemburgese
+        lkt: Lakota
         lt: Lituano
         hu: Hungaro
         fit: Finnese tornedalian
@@ -1895,6 +1894,7 @@ ia:
   layouts:
     logo:
       alt_text: Logo de OpenStreetMap
+    main_navigation: Principal
     layer_info: Information sur le strato
     start_mapping: Comenciar a cartographiar
     intro_header: Benvenite a OpenStreetMap!
@@ -1904,6 +1904,9 @@ ia:
       e altere %{partners}.
     partners_corpmembers: Membros corporative de OSMF
     partners_partners: partners
+    welcome_tou_notice_html: Per le uso de iste sito web o altere infrastructura fornite
+      per le Fundation OpenStreetMap, tu accepta le %{terms_link}.
+    terms_of_use: Conditiones de uso
     tou: Conditiones de uso
     nothing_to_preview: Nihil a previsualisar.
     learn_more: Leger plus
@@ -1920,7 +1923,6 @@ ia:
       history: Historia
       home: Vader al loco de residentia
       issues: Problemas
-      loading: Cargamento in curso…
       log_out: Clauder session
       log_in: Aperir session
       more: Plus
@@ -2236,8 +2238,9 @@ ia:
       update_success_flash:
         message: Preferentias actualisate.
       navigation:
-        preferences: Preferentias
-        advanced_preferences: Preferentias avantiate
+        preferences: Interfacie
+        notification_preferences: Notificationes
+        advanced_preferences: Avantiate
     basic_preferences:
       show:
         title: Mi preferentias
@@ -2258,6 +2261,19 @@ ia:
           light: Clar
           dark: Obscur
         save: Actualisar preferentias
+    notification_preferences:
+      show:
+        title: Preferentias de notification
+        changeset_comment: Commentos de gruppo de modificationes
+        diary_comment: Commentos de diario
+        direct_message: Messages directe
+        gpx_import_failure: 'Importation tracia GPS: fallimento'
+        gpx_import_success: 'Importation tracia GPS: successo'
+        new_follower: Nove sequitores
+        note_comment: Commentos de nota
+        save: Actualisar preferentias
+        delivery_mechanisms:
+          email: E-mail
     advanced_preferences:
       show:
         title: Mi preferentias avantiate
@@ -2270,7 +2286,7 @@ ia:
         image: Imagine
         company: Compania
         location: Loco
-        heatmap: Carta de calor
+        contribution_calendar: Calendario de contributiones
     descriptions:
       show:
         title: Modificar profilo
@@ -2331,13 +2347,14 @@ ia:
         failure: Non poteva actualisar le loco del profilo.
     heatmaps:
       show:
-        title: Configurar le carta de calor
-        show_heatmap_in_public: Monstrar le carta de calor sur tu pagina de profilo
-        save: Actualisar le configuration del carta de calor
+        title: Configurar le calendario de contributiones
+        show_contribution_calendar_in_public: Monstrar le calendario de contributiones
+          sur tu pagina de profilo
+        save: Actualisar le configuration del calendario de contributiones
         cancel: Cancellar
       update:
-        success: Carta de calor actualisate.
-        failure: Non poteva actualisar le carta de calor.
+        success: Calendario de contributiones actualisate.
+        failure: Non poteva actualisar le calendario de contributiones.
   sessions:
     new:
       tab_title: Aperir session
@@ -2355,6 +2372,8 @@ ia:
       login_button: Aperir session
       with external: o usa un tertio pro aperir session
       or: o
+      reset_to_login: Tu contrasigno ha expirate. Per favor reinitialisa tu contrasigno
+        pro aperir session.
       auth failure: Pardono, non poteva aperir un session con iste detalios.
     destroy:
       title: Clauder session
@@ -2464,7 +2483,7 @@ ia:
         assecura te de attribuer los a OpenStreetMap. Consulta %{attribution_guidelines_link}
         pro plus information.
       legal_attribution_guidelines_title: Directivas de attribution
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: In le caso specific de usar un captura de schermo de OpenStreetMap
         directemente in tu libro, publication, film o programma de television, non
         es necessari demandar permission perque le datos in OpenStreetMap es aperte
@@ -2621,6 +2640,8 @@ ia:
         contributors_hr_croatia: Croatia
         contributors_hr_dgu: Administration Geodetic Statal de Croatia
         contributors_hr_open_data_portal: Portal national de datos aperte
+        contributors_nl_credit_new_html: '%{netherlands}: Contine datos &copy; AND,
+          2007'
         contributors_nl_netherlands: Nederlandia
         contributors_nz_credit_html: |-
           %{new_zealand}: Contine datos proveniente del %{linz_data_service_link}
@@ -2988,6 +3009,14 @@ ia:
         %{height}
       download: Discargar
       downloading: Discargamento…
+  webgl_error_panes:
+    show:
+      compact_message: WebGL es necessari pro iste carta.
+      description_html: Pare que %{your_browser_does_not_support_webgl}, un technologia
+        pro render graphicos 3D sur le web.
+      your_browser_does_not_support_webgl: tu navigator non supporta WebGL
+      webgl_is_required_for_this_map: WebGL es necessari pro monstrar iste carta.
+      read_more_about_webgl: Leger plus
   traces:
     visibility:
       private: Private (solmente condividite como anonymo, punctos non ordinate)
@@ -3033,13 +3062,13 @@ ia:
       points: 'Punctos:'
       start_coordinates: 'Coordinata de initio:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: carta
-      edit: modificar
+      map: vider position sur carta
+      edit: aperir in editor
       owner: 'Proprietario:'
       description: 'Description:'
       tags: 'Etiquettas:'
       none: Nulle
-      edit_trace: Modificar iste tracia
+      edit_trace: Modificar le detalios del tracia
       delete_trace: Deler iste tracia
       trace_not_found: Tracia non trovate!
       visibility: 'Visibilitate:'
@@ -3051,8 +3080,8 @@ ia:
         other: '%{count} punctos'
       more: plus
       trace_details: Vider detalios del tracia
-      view_map: Vider carta
-      edit_map: Modificar carta
+      view_map: Vider position sur carta
+      edit_map: Aperir in editor
       public: PUBLIC
       identifiable: IDENTIFICABILE
       private: PRIVATE
@@ -3262,6 +3291,10 @@ ia:
           pro plus information.
       or: o
       use external auth: o usa un tertio pro aperir session
+      verify_human: Verifica que tu es un esser human
+    create:
+      not_human: Infortunatemente, nos non pote confirmar que tu es un esser human.
+        Isto es necessari pro crear nove contos.
     no_such_user:
       title: Iste usator non existe
       heading: Le usator %{user} non existe
@@ -3320,10 +3353,24 @@ ia:
       change_image: Cambiar imagine
       edit_company: Modificar compania
       edit_location: Modificar loco
-      edit_heatmap: Configurar le carta de calor
+      edit_contribution_calendar: Configurar le calendario de contributiones
       contributions:
         one: '%{count} contribution in the le ultime anno'
         other: '%{count} contributiones in le ultime anno'
+      title:
+        administrator: Iste usator es un administrator
+        moderator: Iste usator es un moderator
+        importer: Iste usator es un importator
+      grant:
+        administrator: Conceder accesso de administrator
+        moderator: Conceder accesso de moderator
+        importer: Conceder le accesso de importator
+        are_you_sure: Es tu secur de voler conceder le rolo ‘%{role}’ al usator ‘%{name}’?
+      revoke:
+        administrator: Revocar accesso de administrator
+        moderator: Revocar accesso de moderator
+        importer: Revocar le accesso de importator
+        are_you_sure: Es tu secur de voler revocar le rolo ‘%{role}’ del usator ‘%{name}’?
     sidebar_section:
       home_location: Loco de residentia
       company: Compania
@@ -3420,21 +3467,6 @@ ia:
         del formulario sequente.
       option_2: Si tu jam ha un conto, tu pote aperir session con tu nomine de usator
         e contrasigno e postea associar le conto a tu ID in tu parametros de usator.
-    role_icons:
-      title:
-        administrator: Iste usator es un administrator
-        moderator: Iste usator es un moderator
-        importer: Iste usator es un importator
-      grant:
-        administrator: Conceder accesso de administrator
-        moderator: Conceder accesso de moderator
-        importer: Conceder le accesso de importator
-        are_you_sure: Es tu secur de voler conceder le rolo ‘%{role}’ al usator ‘%{name}’?
-      revoke:
-        administrator: Revocar accesso de administrator
-        moderator: Revocar accesso de moderator
-        importer: Revocar le accesso de importator
-        are_you_sure: Es tu secur de voler revocar le rolo ‘%{role}’ del usator ‘%{name}’?
   user_role:
     filter:
       not_a_role: Le catena ‘%{role}’ non es un rolo valide.
@@ -3662,6 +3694,10 @@ ia:
       tooltip: Legenda
       tooltip_disabled: Le legenda non es disponibile pro iste strato
     map:
+      map:
+        title: Carta
+        marker:
+          title: Marcator sur carta
       popup:
         close: Clauder
       navigation_control:
@@ -3676,6 +3712,8 @@ ia:
         feetPopup:
           one: Tu es minus de %{count} pede distante de iste puncto
           other: Tu es minus de %{count} pedes distante de iste puncto
+      attribution_control:
+        toggle_attribution: Alternar attribution
       base:
         standard: Standard
         cycle_map: Carta cyclista
@@ -3821,7 +3859,7 @@ ia:
     home:
       marker_title: Mi loco de residentia
       not_set: Le loco de residentia non es definite pro tu conto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Necun contribution le %{date}
         contributions:

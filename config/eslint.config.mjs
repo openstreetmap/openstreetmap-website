@@ -33,6 +33,7 @@ export default [
         Turbo: "readonly",
         bootstrap: "readonly",
         maplibregl: "readonly",
+        polyline: "readonly",
         updateLinks: "readonly"
       }
     },

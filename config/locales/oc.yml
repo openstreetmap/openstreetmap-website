@@ -9,6 +9,7 @@
 # Author: Guilhelma
 # Author: Lhanars
 # Author: Macofe
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: OpenStreetMap-oc
 # Author: Quentí
@@ -57,6 +58,7 @@ oc:
       message: Messatge
       node: Nos
       node_tag: Etiqueta de nos
+      note: Nòta
       old_node: Node Ancian
       old_node_tag: Etiqueta de node anciana
       old_relation: Relacion anciana
@@ -128,6 +130,7 @@ oc:
         active: Actiu
         display_name: Nom afichat
         description: Descripcion dau perfiu
+        company: Societat
         home_lat: 'Latitud :'
         home_lon: 'Longitud :'
         languages: Lengas preferidas
@@ -281,8 +284,11 @@ oc:
         cancel: Anullar
     terms:
       show:
-        title: Tèrmes del contributor
-        heading: Tèrmes del contributor
+        title: Condicions
+        heading: Condicions
+        heading_ct: Tèrmes de collaboracion
+        read and accept with tou: Legètz l'acòrdi de collaborator e lei condicions
+          d'usatge, crosatz puei lei dos carrèus e quichatz lo boton contuniar.
         continue: Contunhar
         you need to accept or decline: Legissètz e puèi, siá acceptatz o refusatz
           las novèlas condicions de contributor per contunhar.
@@ -426,17 +432,29 @@ oc:
       changesetxml: Grop de modificacions XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: Nos
       nodes_paginated: Nos (%{x} a %{y} sus %{count})
+      ways_title: Camins
       ways_paginated: Linhas (%{x} a %{y} sus %{count})
+      relations_title: Relacions
       relations_paginated: Relacions (%{x} a %{y} sus %{count})
+      range: Linhas (%{x} a %{y} sus %{count})
+    not_found_message:
+      sorry: 'O planhèm, #%{id} es pas estat trobat.'
     timeout:
       sorry: O planhèm, la lista deis gropes de modificacions qu'avètz demandada met
         tròp de temps per èsser recuperada.
+  changeset_subscriptions:
+    heading:
+      title: Grop de modificacions %{id}
+      created_by_html: Creat per %{link_user} de %{created}.
+    no_such_entry:
+      heading: 'Ges d''entrada amb l''id : %{id}'
   dashboards:
     contact:
       km away: '%{count} km'
       m away: distant de %{count} m
-      latest_edit_html: 'Darrièra modificacion %{ago} :'
+      latest_edit_html: 'Darriera modificacion %{ago} :'
       no_edits: (sensa modificacion)
       view_changeset_details: Mostrar per lo menut lo grop de modificacions
     popup:
@@ -484,12 +502,14 @@ oc:
     diary_entry:
       posted_by_html: Postat per %{link_user} a %{created} en %{language_link}
       updated_at_html: Darriera actualizacion de %{updated}
+      full_entry: Veire l'intrada completa
       comment_link: Comentar aquesta entrada
       reply_link: Respòndre a aquesta intrada
       comment_count:
         one: '%{count} comentari'
         zero: Pas de comentari
         other: '%{count} comentaris'
+      no_comments: (sensa comentaris)
       edit_link: Modificar aquesta entrada
       hide_link: Amagar aquesta entrada
       unhide_link: Mostrar aquesta intrada
@@ -855,6 +875,11 @@ oc:
           wayside_shrine: Orador
           wreck: Varatge
           "yes": Site istoric
+        information:
+          map: Mapa
+          office: Oficina de Torisme
+          terminal: Terminau d'informacion
+          sign: Aficha informativa
         junction:
           "yes": Interseccion / Caireforc
         landuse:
@@ -1267,6 +1292,16 @@ oc:
           building_passage: Passatge de bastissa
           culvert: Pontet
           "yes": Galariá
+        water:
+          lake: Lac
+          pond: Pesquier
+          reservoir: Sèrva
+          basin: Bacin d'aiga
+          fishpond: Estanh de peis
+          lagoon: Launa
+          wastewater: Aigas residualas
+          oxbow: Braç mòrt
+          lock: Resclausa
         waterway:
           artificial: Riu artificial
           boatyard: Obrdor de construccion navala
@@ -1291,12 +1326,15 @@ oc:
         level3: Limit regionau
         level4: Frontiera de l’estat
         level5: Frontiera de la region
-        level6: Frontiera del comtat
+        level6: Frontiera de comtat
         level7: Limit municipau
         level8: Limit de la vila
         level9: Limit dau vilatge
         level10: Limit de la banlèga
         level11: Limit de quartier
+      border_types:
+        arrondissement: Limit d’arrondiment
+        borough: Limit de quartier exterior
   searches:
     queries:
       create:
@@ -1309,7 +1347,9 @@ oc:
       time: Temps
       ascend: Creissent
       descend: Descreissent
+      filename: percors
       directions_courtesy_html: Itinerari peovesit per %{link}
+      check_demo_html: Mai de detalh de  %{link}
   issues:
     index:
       title: Incidéncias
@@ -1332,11 +1372,19 @@ oc:
         one: 1 rapòrt
         other: '%{count} rapòrts'
       reported_item: Element raportat
+      states:
+        open: Dubèrt
+        resolved: Reglat
     show:
+      title:
+        open: 'Problèma dubèrt #%{issue_id}'
+        ignored: Problèma ignorat %{issue_id}
+        resolved: Problèma reglat %{issue_id}
       reports:
         zero: Ges de rapòrt
         one: 1 rapport
         other: '%{count} rapòrts'
+      no_reports: Ges de rapòrt
       report_created_at_html: Raportat per premier còp lo %{datetime}
       last_resolved_at_html: Reglat per darrier còp lo %{datetime}
       last_updated_at_html: Actualizat per darrier còp lo %{datetime} per %{displayname}
@@ -1349,14 +1397,13 @@ oc:
       other_issues_against_this_user: Autreis incidéncias còntra d'aqueste usatgier
       no_other_issues: I a pas d'autras incidéncias còntra d'aqueste usatgier.
       comments_on_this_issue: Comentaris sus aquesta incidéncia
+      comment_from_html: Comentari de %{user_link} sus %{comment_created_at}
     resolve:
       resolved: L'estat de l'incidéncia s'es establit en 'Reglat'
     ignore:
       ignored: L'estat de l'incidéncia s'es establit en 'Ignorat'
     reopen:
       reopened: L'estat de l'incidéncia s'es establit en 'Dobèrt'.
-    comments:
-      comment_from_html: Comentari de %{user_link} sus %{comment_created_at}
     reports:
       reported_by_html: Raportat coma %{category} per %{user} lo %{updated_at}
     helper:
@@ -1401,6 +1448,16 @@ oc:
     create:
       successful_report: Avètz capitat d’enregistrar lo rapòrt
       provide_details: Se vos platz, fornissètz lei detalhs demandats
+  languages_panes:
+    select_language_list:
+      search_language: Recèrca en cors...
+      languages:
+        frp: Arpitan
+        oc: Occitan
+        nds: Alemand bas
+        pl: Polonés
+        pt-PT: Portugués
+        pt: Portugués (Brasil)
   layouts:
     logo:
       alt_text: Lògo d'OpenStreetMap
@@ -2118,6 +2175,17 @@ oc:
       confirm_user: Confirmar aqueste utilizaire
       confirm: Confirmar
       report: Denonciatz aquel usatgièr
+      title:
+        administrator: Aqueste utilizaire es un administrator
+        moderator: Aqueste utilizaire es un moderator
+      grant:
+        administrator: Autrejar l'accès administrator
+        moderator: Autrejar l'accès moderator
+        are_you_sure: Sètz segur que volètz atribuir lo ròtle `%{role}' a l'utilizaire
+          `%{name}'?
+      revoke:
+        administrator: Revocar l'accès administrator
+        moderator: Revocar l'accès moderador
     issued_blocks:
       show:
         title: Blocatges per %{name}
@@ -2158,18 +2226,6 @@ oc:
       invalid_scope: Espandida invalida
     auth_association:
       heading: Vòstre ID es pas encara associat a un compte OpenStreetMap.
-    role_icons:
-      title:
-        administrator: Aqueste utilizaire es un administrator
-        moderator: Aqueste utilizaire es un moderator
-      grant:
-        administrator: Autrejar l'accès administrator
-        moderator: Autrejar l'accès moderator
-        are_you_sure: Sètz segur que volètz atribuir lo ròtle `%{role}' a l'utilizaire
-          `%{name}'?
-      revoke:
-        administrator: Revocar l'accès administrator
-        moderator: Revocar l'accès moderador
   user_role:
     filter:
       not_a_role: La cadena « %{role} » es un ròtle valid.

@@ -76,7 +76,7 @@
 nl:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y om %H:%M'
@@ -789,8 +789,6 @@ nl:
         one: '%{count} reactie'
         other: '%{count} reacties'
       title_label: Dagboekbericht
-      comments_label: Reacties
-      date_label: Datum
   diary_comments:
     new:
       heading: Een reactie toevoegen aan de volgende dagboekaantekening?
@@ -1769,16 +1767,15 @@ nl:
       other_issues_against_this_user: Andere problemen met deze gebruiker
       no_other_issues: Geen andere problemen tegen deze gebruiker.
       comments_on_this_issue: Reacties op deze kwestie
+      comment_from_html: Reactie van %{user_link} op %{comment_created_at}
+      reassign_to_moderators: Probleem opnieuw toewijzen aan moderators
+      reassign_to_administrators: Probleem opnieuw toewijzen aan beheerders
     resolve:
       resolved: De status van het probleem is ingesteld op 'Opgelost'
     ignore:
       ignored: De status van het probleem is ingesteld op 'Genegeerd'
     reopen:
       reopened: De status van het probleem is ingesteld op 'Open'
-    comments:
-      comment_from_html: Reactie van %{user_link} op %{comment_created_at}
-      reassign_to_moderators: Probleem opnieuw toewijzen aan moderators
-      reassign_to_administrators: Probleem opnieuw toewijzen aan beheerders
     reports:
       reported_by_html: Als %{category} gemeld door %{user} op %{updated_at}
     helper:
@@ -1876,6 +1873,7 @@ nl:
         ia: Interlingua
         is: IJslands
         it: Italiaans
+        kw: Cornish
         gcf: Guadeloupe-Creools
         ku-Latn: Koerdisch (Latijns)
         lv: Lets
@@ -1956,6 +1954,7 @@ nl:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    main_navigation: Startpagina
     layer_info: Laaginformatie
     start_mapping: Begin met mappen
     intro_header: Welkom bij OpenStreetMap!
@@ -1965,6 +1964,10 @@ nl:
       en andere %{partners}.
     partners_corpmembers: OSMF-bedrijfsleden
     partners_partners: partners
+    welcome_tou_notice_html: Door gebruik te maken van deze website of andere infrastructuur
+      die door de OpenStreetMap Foundation wordt aangeboden, gaat u akkoord met de
+      %{terms_link}.
+    terms_of_use: Gebruiksvoorwaarden
     tou: Gebruiksvoorwaarden
     nothing_to_preview: Er is geen voorvertoning.
     learn_more: Meer lezen
@@ -1981,7 +1984,6 @@ nl:
       history: Geschiedenis
       home: Naar thuislocatie gaan
       issues: Problemen
-      loading: Aan het laden…
       log_out: Afmelden
       log_in: Aanmelden
       more: Meer
@@ -2037,7 +2039,7 @@ nl:
     gpx_details:
       details: 'Details van je bestand:'
       filename: Bestandsnaam
-      url: URL
+      url: Url
       description: Beschrijving
       tags: Labels
       total_points: Totaal aantal punten
@@ -2299,8 +2301,9 @@ nl:
       update_success_flash:
         message: Voorkeuren bijgewerkt.
       navigation:
-        preferences: Voorkeuren
-        advanced_preferences: Geavanceerde voorkeuren
+        preferences: Interface
+        notification_preferences: Meldingen
+        advanced_preferences: Geavanceerd
     basic_preferences:
       show:
         title: Mijn voorkeuren
@@ -2321,6 +2324,19 @@ nl:
           light: Licht
           dark: Donker
         save: Voorkeuren bijwerken
+    notification_preferences:
+      show:
+        title: Meldingsvoorkeuren
+        changeset_comment: Opmerkingen bij de wijzigingsset
+        diary_comment: Dagboekreacties
+        direct_message: Directe berichten
+        gpx_import_failure: 'GPS-trace importeren: mislukt'
+        gpx_import_success: 'GPX-trace-import: succesvol'
+        new_follower: Nieuwe volgers
+        note_comment: Opmerkingen
+        save: Voorkeuren bijwerken
+        delivery_mechanisms:
+          email: E-mail
     advanced_preferences:
       show:
         title: Mijn geavanceerde voorkeuren
@@ -2333,7 +2349,7 @@ nl:
         image: Afbeelding
         company: Bedrijf
         location: Locatie
-        heatmap: Heatmap
+        contribution_calendar: Bijdragekalender
     descriptions:
       show:
         title: Profiel wijzigen
@@ -2395,13 +2411,13 @@ nl:
         failure: Locatie-informatie op profiel kon niet bijgewerkt worden.
     heatmaps:
       show:
-        title: Heatmap instellingen
-        show_heatmap_in_public: Heatmap weergeven op uw profielpagina.
-        save: Instellingen voor Heatmap bijwerken
+        title: Bijdragekalender instellen
+        show_contribution_calendar_in_public: Bijdragekalender weergeven op uw profielpagina
+        save: Instellingen voor Bijdragekalender bijwerken
         cancel: Annuleren
       update:
-        success: Heatmap bijgewerkt.
-        failure: De heatmap kon niet worden bijgewerkt.
+        success: Bijdragekalender bijgewerkt.
+        failure: De bijdragekalender kon niet worden bijgewerkt.
   sessions:
     new:
       tab_title: Aanmelden
@@ -2420,6 +2436,8 @@ nl:
       login_button: Inloggen
       with external: of meld u aan via een derde
       or: of
+      reset_to_login: Uw wachtwoord is verlopen. Stel uw wachtwoord opnieuw in om
+        aan te melden.
       auth failure: Met deze gegevens kunt u helaas niet aanmelden.
     destroy:
       title: Afmelden
@@ -2443,7 +2461,7 @@ nl:
       text: Tekst
       image: Afbeelding
       alt: Alternatieve tekst
-      url: URL
+      url: Url
       codeblock: Codeblok
     richtext_field:
       edit: Bewerken
@@ -2530,7 +2548,7 @@ nl:
         er dan voor dat u OpenStreetMap als bron vermeldt. Raadpleeg %{attribution_guidelines_link}
         voor meer informatie.
       legal_attribution_guidelines_title: Richtlijnen voor naamsvermelding
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: U geen toestemming te vragen voor het opnemen van een schermafbeelding
         van OpenStreetMap in uw boek, publicatie, film of tv-programma, aangezien
         OpenStreetMap-gegevens voor iedereen vrij te gebruiken zijn. Raadpleeg wel
@@ -2694,6 +2712,8 @@ nl:
         contributors_hr_croatia: Kroatië
         contributors_hr_dgu: Staatsgeodesisch bestuur van Kroatië
         contributors_hr_open_data_portal: Nationaal Open Data Portaal
+        contributors_nl_credit_new_html: '%{netherlands}: bevat &copy; EN gegevens,
+          2007'
         contributors_nl_netherlands: Nederland
         contributors_nz_credit_html: |-
           %{new_zealand}: Bevat gegevens uit de %{linz_data_service_link}
@@ -3407,10 +3427,26 @@ nl:
       change_image: Afbeelding wijzigen
       edit_company: Bedrijf bewerken
       edit_location: Locatie bewerken
-      edit_heatmap: Heatmap instellingen
+      edit_contribution_calendar: Bijdragekalender instellen
       contributions:
         one: '%{count} bijdrage in het afgelopen jaar'
         other: '%{count} bijdragen in het afgelopen jaar'
+      title:
+        administrator: Deze gebruiker is beheerder
+        moderator: Deze gebruiker is moderator
+        importer: Deze gebruiker is een importeur
+      grant:
+        administrator: Beheerdersrechten toekennen
+        moderator: Moderatorrechten toekennen
+        importer: Importeurstoegang verlenen
+        are_you_sure: Weet u zeker dat u de rol "%{role}" aan gebruiker "%{name}"
+          wilt toekennen?
+      revoke:
+        administrator: Beheerdersrechten intrekken
+        moderator: Moderatorrechten intrekken
+        importer: Importeurstoegang intrekken
+        are_you_sure: Weet u zeker dat u de rol "%{role}" van gebruiker "%{name}"
+          wilt intrekken?
     sidebar_section:
       home_location: Thuislocatie
       company: Bedrijf
@@ -3500,7 +3536,7 @@ nl:
       invalid_credentials: Ongeldige verificatiereferenties
       no_authorization_code: Geen autorisatiecode
       unknown_signature_algorithm: Onbekend algoritme voor handtekening
-      invalid_scope: Ongeldig toepassingsgebied
+      invalid_scope: Onjuist toepassingsgebied
       unknown_error: Authenticatie mislukt
     auth_association:
       heading: Uw ID is nog niet gekoppeld aan een OpenStreetMap-account.
@@ -3508,23 +3544,6 @@ nl:
         formulier een account aanmaken.
       option_2: Als u al een account hebt, kunt u hieronder met uw gebruikersnaam
         en wachtwoord aanmelden en daarna uw ID aan uw account koppelen in uw instellingen.
-    role_icons:
-      title:
-        administrator: Deze gebruiker is beheerder
-        moderator: Deze gebruiker is moderator
-        importer: Deze gebruiker is een importeur
-      grant:
-        administrator: Beheerdersrechten toekennen
-        moderator: Moderatorrechten toekennen
-        importer: Importeurstoegang verlenen
-        are_you_sure: Weet u zeker dat u de rol "%{role}" aan gebruiker "%{name}"
-          wilt toekennen?
-      revoke:
-        administrator: Beheerdersrechten intrekken
-        moderator: Moderatorrechten intrekken
-        importer: Importeurstoegang intrekken
-        are_you_sure: Weet u zeker dat u de rol "%{role}" van gebruiker "%{name}"
-          wilt intrekken?
   user_role:
     filter:
       not_a_role: '"%{role}" is geen geldige rol.'
@@ -3756,6 +3775,10 @@ nl:
       tooltip: Legenda
       tooltip_disabled: Er is geen legenda beschikbaar voor deze laag
     map:
+      map:
+        title: Kaart
+        marker:
+          title: Kaartmarkering
       popup:
         close: Sluiten
       navigation_control:
@@ -3770,6 +3793,8 @@ nl:
         feetPopup:
           one: U bevindt zich binnen %{count} voet van dit punt
           other: U bevindt zich binnen %{count} voet van dit punt
+      attribution_control:
+        toggle_attribution: Attributie weergeven of verbergen
       base:
         standard: Standaard
         cycle_map: Fietskaart
@@ -3913,7 +3938,7 @@ nl:
     home:
       marker_title: Mijn thuislocatie
       not_set: De thuislocatie is niet ingesteld voor uw account
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Geen bijdragen op %{date}
         contributions:

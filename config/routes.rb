@@ -339,6 +339,7 @@ OpenStreetMap::Application.routes.draw do
 
   scope :preferences, :module => :preferences do
     resource :basic_preferences, :path => "basic", :only => [:show, :update]
+    resource :notification_preferences, :path => "notifications", :only => [:show, :update]
     resource :advanced_preferences, :path => "advanced", :only => [:show, :update]
   end
   get "/preferences", :to => redirect(:path => "/preferences/basic"), :as => nil

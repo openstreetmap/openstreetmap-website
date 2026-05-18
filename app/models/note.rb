@@ -100,6 +100,10 @@ class Note < ApplicationRecord
     RichText.new("text", super)
   end
 
+  def visible_subscribers
+    subscribers.visible
+  end
+
   private
 
   # Fill in default values for new notes

@@ -1,4 +1,4 @@
-<%# locals: (common_details:) %>
+<%# locals: (type:, common_details:) %>
 
 <h4>
   <%= if common_details.redacted?
@@ -6,7 +6,7 @@
       else
         t "browse.version"
       end %>
-  #<%= link_to_unless_current common_details.version, :controller => "old_#{@type.pluralize}", :action => :show, :version => common_details.version %>
+  #<%= link_to_unless_current common_details.version, :controller => "old_#{type.pluralize}", :action => :show, :version => common_details.version %>
 </h4>
 
 <div class="fs-6 overflow-x-auto mb-2">
@@ -25,7 +25,7 @@
     #<%= link_to common_details.changeset_id, common_details.changeset %>
   <% end %>
 
-  <% if @type == "node" and common_details.visible? %>
+  <% if type == "node" and common_details.visible? %>
     <div>
       <%= t "browse.location" %>
       <%= link_to(t(".coordinates_html",

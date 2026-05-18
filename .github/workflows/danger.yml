@@ -18,17 +18,22 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup ruby
-        uses: ruby/setup-ruby@319994f95fa847cf3fb3cd3dbe89f6dcde9f178f # v1.295.0
+        uses: ruby/setup-ruby@6aaa311d81eba98ae12eaffbcb63296ace0efcde # v1.307.0
         with:
-          ruby-version: 3.2
-          rubygems: 3.4.10
+          ruby-version: 3.3
           bundler-cache: true
       - name: Create base branch
+        env:
+          BASE_CLONE_URL: ${{ github.event.pull_request.base.repo.clone_url }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
-          git fetch ${{ github.event.pull_request.base.repo.clone_url }} ${{ github.event.pull_request.base.sha }}:danger_base
+          git fetch "$BASE_CLONE_URL" "$BASE_SHA:danger_base"
       - name: Create head branch
+        env:
+          HEAD_CLONE_URL: ${{ github.event.pull_request.head.repo.clone_url }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          git fetch ${{ github.event.pull_request.head.repo.clone_url }} ${{ github.event.pull_request.head.sha }}:danger_head
+          git fetch "$HEAD_CLONE_URL" "$HEAD_SHA:danger_head"
       - name: Danger
         env:
           DANGER_GITHUB_BEARER_TOKEN: ${{ secrets.GITHUB_TOKEN }}

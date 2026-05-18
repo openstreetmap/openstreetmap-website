@@ -57,7 +57,7 @@
 ca:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y a les %H.%M'
@@ -765,8 +765,6 @@ ca:
         one: '%{count} comentari'
         other: '%{count} comentaris'
       title_label: Entrada al diari
-      comments_label: Comentaris
-      date_label: Data
   diary_comments:
     new:
       heading: Voleu afegir un comentari a la següent entrada del debat?
@@ -1747,16 +1745,15 @@ ca:
       other_issues_against_this_user: Altres incidències contra aquest usuari
       no_other_issues: No hi ha cap altra incidència contra aquest usuari
       comments_on_this_issue: Comentaris sobre aquesta incidència
+      comment_from_html: Comentari de %{user_link} a %{comment_created_at}
+      reassign_to_moderators: Reassignar el problema als moderadors
+      reassign_to_administrators: Reassignar el problema als administradors
     resolve:
       resolved: L'estat de la incidència ha passat a "Resolta"
     ignore:
       ignored: L'estat de la incidència ha passat a "Ignorada"
     reopen:
       reopened: L'estat de la incidència ha passat a "Oberta"
-    comments:
-      comment_from_html: Comentari de %{user_link} a %{comment_created_at}
-      reassign_to_moderators: Reassignar el problema als moderadors
-      reassign_to_administrators: Reassignar el problema als administradors
     reports:
       reported_by_html: Denunciat com a %{category} per %{user} a %{updated_at}
     helper:
@@ -1956,7 +1953,6 @@ ca:
       history: Historial
       home: Ves a la ubicació d'inici
       issues: Incidències
-      loading: S'està carregant...
       log_out: Surt
       log_in: Inicia la sessió
       more: Més
@@ -2303,7 +2299,6 @@ ca:
         image: Imatge
         company: Empresa
         location: Ubicació
-        heatmap: Mapa de calor
     descriptions:
       show:
         title: Edita el perfil
@@ -2365,7 +2360,6 @@ ca:
     heatmaps:
       show:
         title: Configura el mapa de calor
-        show_heatmap_in_public: Mostra el mapa de calor a la vostra pàgina de perfil
         save: Actualitza la configuració del mapa de calor
         cancel: Cancel·la
       update:
@@ -3357,10 +3351,24 @@ ca:
       change_image: Canviar la imatge
       edit_company: Editar l'empresa
       edit_location: Editar la ubicació
-      edit_heatmap: Configura el mapa de calor
       contributions:
         one: '%{count} contribució en l''últim any'
         other: '%{count} contribucions en l''últim any'
+      title:
+        administrator: Aquest usuari és administrador
+        moderator: Aquest usuari és moderador
+        importer: Aquest usuari és un importador
+      grant:
+        administrator: Concedeix accés d'administrador
+        moderator: Concedeix accés de moderador
+        importer: Concedir accés a l'importador
+        are_you_sure: Esteu segur que voleu concedir el paper «%{role}» a l'usuari
+          «%{name}»?
+      revoke:
+        administrator: Revoca l'accés d'administrador
+        moderator: Revocar l'accés de moderador
+        importer: Revocar l'accés a l'importador
+        are_you_sure: Esteu segur que voleu revocar el rol «%{role}» de l'usuari «%{name}»?
     sidebar_section:
       home_location: La vostra ubicació
       company: Empresa
@@ -3459,22 +3467,6 @@ ca:
       option_2: |-
         Si ja teniu un compte, podeu iniciar sessió al vostre compte
         utilitzant el vostre nom d'usuari i contrasenya i, a continuació associar el compte amb l'ID a la configuració d'usuari.
-    role_icons:
-      title:
-        administrator: Aquest usuari és administrador
-        moderator: Aquest usuari és moderador
-        importer: Aquest usuari és un importador
-      grant:
-        administrator: Concedeix accés d'administrador
-        moderator: Concedeix accés de moderador
-        importer: Concedir accés a l'importador
-        are_you_sure: Esteu segur que voleu concedir el paper «%{role}» a l'usuari
-          «%{name}»?
-      revoke:
-        administrator: Revoca l'accés d'administrador
-        moderator: Revocar l'accés de moderador
-        importer: Revocar l'accés a l'importador
-        are_you_sure: Esteu segur que voleu revocar el rol «%{role}» de l'usuari «%{name}»?
   user_role:
     filter:
       not_a_role: La cadena «%{role}» no és un rol vàlid.
@@ -3860,7 +3852,7 @@ ca:
     home:
       marker_title: La vostra ubicació
       not_set: La vostra ubicació no està definida per al vostre compte.
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Cap contribució el dia %{date}
         contributions:

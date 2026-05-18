@@ -5,6 +5,7 @@
 # Author: Alvarenga
 # Author: Andrekowacs
 # Author: Athena in Wonderland
+# Author: Bartomelow
 # Author: BraulioBezerra
 # Author: Brunomelnic
 # Author: Cainamarques
@@ -31,6 +32,7 @@
 # Author: Imperadeiro90
 # Author: Imperadeiro98
 # Author: Indech
+# Author: Iohanen
 # Author: Isabelle Belato
 # Author: JPLSilva
 # Author: JasonZe
@@ -80,7 +82,7 @@
 pt:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e de %B de %Y às %H:%M'
@@ -146,7 +148,7 @@ pt:
       relation: Relação
       relation_member: Membro da relação
       relation_tag: Etiqueta de relação
-      report: Denunciar
+      report: Denúncia
       session: Sessão
       trace: Trilha
       tracepoint: Ponto de trilha
@@ -795,8 +797,6 @@ pt:
         one: '%{count} comentário'
         other: '%{count} comentários'
       title_label: Entrada do diário
-      comments_label: Comentários
-      date_label: Data
   diary_comments:
     new:
       heading: Deseja adicionar um comentário na seguinte discussão sobre a entrada
@@ -1288,7 +1288,7 @@ pt:
           sports_centre: Centro/Clube Esportivo
           stadium: Estádio
           swimming_pool: Piscina
-          track: Pista de Corrida
+          track: Pista de corrida (veículos não motorizados)
           water_park: Parque Aquático
           "yes": Lazer
         lock:
@@ -1779,16 +1779,15 @@ pt:
       other_issues_against_this_user: Outros problemas contra este usuário
       no_other_issues: Nenhum outro problema contra este usuário.
       comments_on_this_issue: Comentários sobre este problema
+      comment_from_html: Comentário de %{user_link} em %{comment_created_at}
+      reassign_to_moderators: Repassar problema aos moderadores
+      reassign_to_administrators: Repassar problema aos administradores
     resolve:
       resolved: O status do problema foi definido como "Resolvido"
     ignore:
       ignored: O status do problema foi definido como "Ignorado"
     reopen:
       reopened: O status do problema foi definido como "Aberto"
-    comments:
-      comment_from_html: Comentário de %{user_link} em %{comment_created_at}
-      reassign_to_moderators: Repassar problema aos moderadores
-      reassign_to_administrators: Repassar problema aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} em %{updated_at}
     helper:
@@ -1884,6 +1883,7 @@ pt:
         ia: Interlíngua
         is: Islandês
         it: Italiano
+        kw: Córnico
         gcf: Crioulo de Guadalupe
         ku-Latn: Curdo (Latim)
         lv: Letão
@@ -1964,6 +1964,7 @@ pt:
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
+    main_navigation: Principal
     layer_info: Informações da camada
     start_mapping: Começar a Mapear
     intro_header: Bem-vindo(a) ao OpenStreetMap!
@@ -1973,6 +1974,9 @@ pt:
       e outros %{partners}.
     partners_corpmembers: Membros corporativos OSMF
     partners_partners: parceiros
+    welcome_tou_notice_html: Ao utilizar este site ou qualquer outra infraestrutura
+      fornecida pela Fundação OpenStreetMap, você concorda com os %{terms_link}.
+    terms_of_use: Termos de uso
     tou: Termo de uso
     nothing_to_preview: Nada para pré-visualizar.
     learn_more: Saiba Mais
@@ -1989,7 +1993,6 @@ pt:
       history: Histórico
       home: Ir para o seu local principal
       issues: Problemas
-      loading: Carregando...
       log_out: Sair
       log_in: Entrar
       more: Mais
@@ -2300,8 +2303,9 @@ pt:
       update_success_flash:
         message: Preferências atualizadas.
       navigation:
-        preferences: Preferências
-        advanced_preferences: Preferências avançadas
+        preferences: Interface
+        notification_preferences: Notificações
+        advanced_preferences: Avançado
     basic_preferences:
       show:
         title: Minhas preferências
@@ -2322,6 +2326,18 @@ pt:
           light: Claro
           dark: Escuro
         save: Atualizar preferências
+    notification_preferences:
+      show:
+        title: Preferências de notificação
+        changeset_comment: Comentários do conjunto de alterações
+        diary_comment: Comentários do diário
+        direct_message: Mensagens dirtas
+        gpx_import_failure: 'Importação de trilha de GPS: falha'
+        gpx_import_success: 'Importação de trilha GPX: bem-sucedida'
+        new_follower: Novos seguidores
+        save: Atualizar preferências
+        delivery_mechanisms:
+          email: E-mail
     advanced_preferences:
       show:
         title: Minhas preferências avançadas
@@ -2334,7 +2350,7 @@ pt:
         image: Imagem
         company: Empresa
         location: Localização
-        heatmap: Mapa de calor
+        contribution_calendar: Calendário de contribuições
     descriptions:
       show:
         title: Editar perfil
@@ -2395,13 +2411,14 @@ pt:
         failure: Não foi possível atualizar a localização do perfil.
     heatmaps:
       show:
-        title: Configurar mapa de calor
-        show_heatmap_in_public: Mostrar o mapa de calor na sua página de perfil
-        save: Atualizar configuração do mapa de calor
+        title: Configurar o calendário de contribuições
+        show_contribution_calendar_in_public: Mostrar o calendário de contribuições
+          na sua página de perfil
+        save: Atualizar a configuração do calendário de contribuições
         cancel: Cancelar
       update:
-        success: Mapa de calor atualizado.
-        failure: Não foi possível atualizar o mapa de calor.
+        success: Calendário de contribuições atualizado.
+        failure: Não foi possível atualizar o calendário de contribuições.
   sessions:
     new:
       tab_title: Entrar
@@ -2418,6 +2435,8 @@ pt:
       login_button: Entrar
       with external: ou entre com um aplicativo de terceiros
       or: ou
+      reset_to_login: Desculpe, sua senha expirou. Por favor, redefina sua senha para
+        fazer login.
       auth failure: Impossível entrar com estas informações.
     destroy:
       title: Sair
@@ -2700,6 +2719,8 @@ pt:
         contributors_hr_croatia: Croácia
         contributors_hr_dgu: Administração Geodésica Estatal da Croácia
         contributors_hr_open_data_portal: Portal Nacional de Dados Abertos
+        contributors_nl_credit_new_html: '%{netherlands}: Contém dados de AND &copy;
+          2007'
         contributors_nl_netherlands: Países Baixos
         contributors_nz_credit_html: |-
           %{new_zealand}: Contém dados provenientes do %{linz_data_service_link}
@@ -3073,6 +3094,8 @@ pt:
   webgl_error_panes:
     show:
       compact_message: É necessário ter o WebGL para visualizar este mapa.
+      description_html: Nos desculpe, mas parece que %{your_browser_does_not_support_webgl},
+        uma tecnologia para renderizar gráficos 3D na web.
       your_browser_does_not_support_webgl: Seu navegador não é compatível com WebGL
       webgl_is_required_for_this_map: É necessário ter o WebGL para visualizar este
         mapa.
@@ -3320,15 +3343,15 @@ pt:
       signup_to_authorize_html: Cadastre-se no OpenStreetMap para acessar %{client_app_name}.
       no_auto_account_create: Infelizmente no momento não podemos criar uma conta
         para você automaticamente.
-      please_contact_support_html: Por favor, contacte %{support_link} para pedir
-        a criação de uma conta - tentaremos tratar do pedido o mais rapidamente possível.
+      please_contact_support_html: Por favor, contate %{support_link} para obter ajuda
+        - tentaremos tratar do pedido o mais rapidamente possível.
       support: suporte
       about:
         header: Livre e editável.
         paragraph_1: Ao contrário de outros mapas, OpenStreetMap é completamente criado
           por pessoas como vocé, e qualquer um pode repará-lo, atualizá-lo, baixá-lo
           e usá-lo de forma gratuita.
-        paragraph_2: Registre-se para começar a contruibuir.
+        paragraph_2: Registre-se para começar a contribuir.
         welcome: Bem-vindo(a) ao OpenStreetMap
       duplicate_social_email: Se você já possui uma conta OpenStreetMap e deseja usar
         um provedor de identidade terceirizado, faça login usando sua senha e modifique
@@ -3415,10 +3438,24 @@ pt:
       change_image: Alterar imagem
       edit_company: Editar empresa
       edit_location: Editar localização
-      edit_heatmap: Configurar mapa de calor
+      edit_contribution_calendar: Configurar o calendário de contribuições
       contributions:
         one: '%{count} contribuição no último ano'
         other: '%{count} contribuições no último ano'
+      title:
+        administrator: Este usuário é um administrador
+        moderator: Este usuário é um moderador
+        importer: Este usuário é importador
+      grant:
+        administrator: Conceder acesso de administrador
+        moderator: Conceder acesso de moderador
+        importer: Conceder o acesso de importador
+        are_you_sure: Deseja mesmo dar o papel '%{role}' ao usuário '%{name}'?
+      revoke:
+        administrator: Revogar acesso de administrador
+        moderator: Revogar acesso de moderador
+        importer: Revogar o acesso de importador
+        are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
     sidebar_section:
       home_location: Local principal
       company: Empresa
@@ -3518,21 +3555,6 @@ pt:
         Se você já tem uma conta, você pode entrar na sua conta
         usando seu nome de usuário e senha e, em seguida, associar a conta
         com o seu ID em suas configurações de usuário.
-    role_icons:
-      title:
-        administrator: Este usuário é um administrador
-        moderator: Este usuário é um moderador
-        importer: Este usuário é importador
-      grant:
-        administrator: Conceder acesso de administrador
-        moderator: Conceder acesso de moderador
-        importer: Conceder o acesso de importador
-        are_you_sure: Deseja mesmo dar o papel '%{role}' ao usuário '%{name}'?
-      revoke:
-        administrator: Revogar acesso de administrador
-        moderator: Revogar acesso de moderador
-        importer: Revogar o acesso de importador
-        are_you_sure: Deseja mesmo retirar o papel "%{role}" do usuário "%{name}"?
   user_role:
     filter:
       not_a_role: O texto '%{role}' não é um papel válido.
@@ -3758,6 +3780,10 @@ pt:
       tooltip: Legenda
       tooltip_disabled: Legenda não disponível para esta camada
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcador no mapa
       popup:
         close: Fechar
       navigation_control:
@@ -3772,6 +3798,8 @@ pt:
         feetPopup:
           one: Você está dentro de %{count} pé deste ponto
           other: Você está dentro %{count} pés deste ponto
+      attribution_control:
+        toggle_attribution: Alternar atribuição
       base:
         standard: Padrão
         cycle_map: Ciclístico
@@ -3917,7 +3945,7 @@ pt:
     home:
       marker_title: Localização da minha casa
       not_set: Localização da casa não está definida para sua conta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Sem contribuições em %{date}
         contributions:

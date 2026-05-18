@@ -196,7 +196,8 @@ OSM = {
 
     layers = layers.replace("M", "");
 
-    let hash = "#map=" + [zoom, ...OSM.cropLocation(center, zoom)].join("/");
+    const { lat, lng } = OSM.cropLocation(center, zoom);
+    let hash = `#map=${zoom}/${lat}/${lng}`;
 
     if (layers) {
       hash += "&layers=" + layers;
@@ -214,13 +215,16 @@ OSM = {
   cropLocation: function (latLng, zoom) {
     const precision = OSM.zoomPrecision(zoom),
           wrapped = latLng.wrap();
-    return [wrapped.lat, wrapped.lng].map(c => c.toFixed(precision));
+    return {
+      lat: wrapped.lat.toFixed(precision),
+      lng: wrapped.lng.toFixed(precision)
+    };
   },
 
   locationCookie: function (map) {
     const zoom = map.getZoom(),
-          center = OSM.cropLocation(map.getCenter(), zoom).reverse();
-    return [...center, zoom, map.getLayersCode()].join("|");
+          { lat, lng } = OSM.cropLocation(map.getCenter(), zoom);
+    return [lng, lat, zoom, map.getLayersCode()].join("|");
   },
 
   showAlert: function (title, message) {

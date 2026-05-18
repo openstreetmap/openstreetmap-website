@@ -6,7 +6,8 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.0"
 gem "turbo-rails"
 
-# Use postgres as the database
+# Use postgres+postgis as the database
+gem "activerecord-postgis"
 gem "pg"
 
 # Use SCSS for stylesheets
@@ -23,13 +24,12 @@ gem "terser"
 gem "jquery-rails"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.7"
+gem "jbuilder"
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", ">= 1.4.2", :require => false
+gem "bootsnap", :require => false
 
 # Use rtlcss for RTL conversion
-gem "mini_racer", "~> 0.20.0"
 gem "rtlcss"
 
 # Use autoprefixer to generate CSS prefixes
@@ -50,41 +50,41 @@ gem "sprockets-exporters_pack"
 gem "benchmark"
 
 # Load rails plugins
-gem "actionpack-page_caching", ">= 1.2.0"
+gem "actionpack-page_caching"
 gem "activerecord-import"
 gem "active_record_union"
-gem "bootstrap", "~> 5.3.2"
-gem "bootstrap_form", "~> 5.0"
+gem "bootstrap"
+gem "bootstrap_form"
 gem "cancancan"
 gem "config"
 gem "delayed_job_active_record"
 gem "dry-validation"
 gem "frozen_record"
-gem "http_accept_language", "~> 2.1.1"
-gem "i18n-js", "~> 4.2.3"
-gem "openstreetmap-deadlock_retry", ">= 1.3.1", :require => "deadlock_retry"
+gem "http_accept_language"
+gem "i18n-js"
+gem "openstreetmap-deadlock_retry", :require => "deadlock_retry"
 gem "rack-cors"
-gem "rails-i18n", "~> 8.1.0"
+gem "rails-i18n"
 gem "rails_param"
-gem "rinku", ">= 2.0.6", :require => "rails_rinku"
+gem "rinku", :require => "rails_rinku"
 gem "strong_migrations"
-gem "validates_email_format_of", ">= 1.5.1"
+gem "validates_email_format_of"
 
 # Native OSM extensions
-gem "quad_tile", "~> 1.0.1"
+gem "quad_tile"
 
 # Sanitise URIs
-gem "addressable", "~> 2.8"
+gem "addressable"
 gem "rack-uri_sanitizer"
 
-gem "omniauth", "~> 2.1.3"
+gem "omniauth"
 gem "omniauth-apple"
 gem "omniauth-facebook"
 gem "omniauth-github"
-gem "omniauth-google-oauth2", ">= 0.6.0"
-gem "omniauth-mediawiki", ">= 0.0.4"
+gem "omniauth-google-oauth2"
+gem "omniauth-mediawiki"
 gem "omniauth-microsoft_graph"
-gem "omniauth-rails_csrf_protection", "~> 2.0"
+gem "omniauth-rails_csrf_protection"
 
 # Doorkeeper for OAuth2
 gem "doorkeeper"
@@ -98,7 +98,7 @@ gem "kramdown"
 gem "aasm"
 
 # XML parsing and generation
-gem "libxml-ruby", ">= 2.0.5"
+gem "libxml-ruby"
 gem "rexml"
 
 # Use for HTML sanitisation
@@ -115,8 +115,8 @@ gem "maxminddb"
 gem "rotp"
 
 # Load memcache client in case we are using it
-gem "connection_pool", "< 3.0.0"
-gem "dalli", "< 5.0.0"
+gem "connection_pool"
+gem "dalli"
 
 # Load canonical-rails to generate canonical URLs
 gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rails-8-1"
@@ -155,7 +155,7 @@ gem "open3"
 gem "digest"
 
 # Notifications
-gem "noticed", "~> 3.0.0"
+gem "noticed"
 
 # Gems useful for development
 group :development do
@@ -174,13 +174,13 @@ end
 # Gems needed for running tests
 group :test do
   gem "brakeman"
-  gem "capybara", ">= 2.15"
+  gem "capybara"
   gem "erb_lint", :require => false
   gem "jwt"
   gem "minitest"
   gem "minitest-focus", :require => false
   gem "minitest-mock"
-  gem "puma", "~> 7.1"
+  gem "puma"
   gem "rails-controller-testing"
   gem "rubocop"
   gem "rubocop-capybara"
@@ -201,7 +201,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "rackup"
   gem "teaspoon"
-  gem "teaspoon-mocha", "~> 2.3.3"
+  gem "teaspoon-mocha"
   gem "webrick"
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

@@ -23,7 +23,7 @@
 gl:
   date:
     formats:
-      heatmap: '%-d de %B'
+      contribution_calendar: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y ás %H:%M'
@@ -742,8 +742,6 @@ gl:
         one: '%{count} comentario'
         other: '%{count} comentarios'
       title_label: Entrada no diario
-      comments_label: Comentarios
-      date_label: Data
   diary_comments:
     new:
       heading: Queres engadir un comentario á seguinte conversa sobre a entrada no
@@ -1725,16 +1723,15 @@ gl:
       other_issues_against_this_user: Outro informe deste usuario
       no_other_issues: Non hai máis informes deste usuario.
       comments_on_this_issue: Comentarios neste informe
+      comment_from_html: Comentario de %{user_link} no %{comment_created_at}
+      reassign_to_moderators: Reasignar a incidencia aos moderadores
+      reassign_to_administrators: Reasignar a incidencia aos administradores
     resolve:
       resolved: O estado da incidencia mudou a "Resolta"
     ignore:
       ignored: O estado da incidencia mudou a "Ignorada"
     reopen:
       reopened: O estado da incidencia mudou a "Aberta"
-    comments:
-      comment_from_html: Comentario de %{user_link} no %{comment_created_at}
-      reassign_to_moderators: Reasignar a incidencia aos moderadores
-      reassign_to_administrators: Reasignar a incidencia aos administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} o %{updated_at}
     helper:
@@ -1829,6 +1826,7 @@ gl:
         ia: interlingua
         is: islandés
         it: italiano
+        kw: córnico
         gcf: crioulo antillano
         ku-Latn: kurdo (latino)
         lv: letón
@@ -1909,6 +1907,7 @@ gl:
   layouts:
     logo:
       alt_text: Logotipo do OpenStreetMap
+    main_navigation: Principal
     layer_info: Información da capa
     start_mapping: Comezar a cartografar
     intro_header: Dámosche a benvida ó OpenStreetMap!
@@ -1918,6 +1917,9 @@ gl:
       e outros %{partners}.
     partners_corpmembers: membros corporativos da OSMF
     partners_partners: socios
+    welcome_tou_notice_html: Ao utilizares este sitio web ou outra infraestrutura
+      proporcionada pola Fundación OpenStreetMap, aceptas os %{terms_link}.
+    terms_of_use: termos de uso
     tou: termos de uso
     nothing_to_preview: Non hai nada que previsualizar.
     learn_more: Máis información
@@ -1934,7 +1936,6 @@ gl:
       history: Historial
       home: Ir á localización da túa casa
       issues: Problemas
-      loading: Cargando...
       log_out: Pechar a sesión
       log_in: Iniciar a sesión
       more: Máis
@@ -2250,8 +2251,9 @@ gl:
       update_success_flash:
         message: Preferencias actualizadas.
       navigation:
-        preferences: Preferencias
-        advanced_preferences: Preferencias avanzadas
+        preferences: Interface
+        notification_preferences: Notificacións
+        advanced_preferences: Avanzadas
     basic_preferences:
       show:
         title: As miñas preferencias
@@ -2272,6 +2274,19 @@ gl:
           light: Claro
           dark: Escuro
         save: Actualizar as preferencias
+    notification_preferences:
+      show:
+        title: Preferencias de notificación
+        changeset_comment: Comentarios do conxunto de cambios
+        diary_comment: Comentarios do diario
+        direct_message: Mensaxes directas
+        gpx_import_failure: 'Importación da pista GPS: erro'
+        gpx_import_success: 'Importación da pista GPX: correcta'
+        new_follower: Novos seguidores
+        note_comment: Comentarios da nota
+        save: Actualizar as preferencias
+        delivery_mechanisms:
+          email: Correo electrónico
     advanced_preferences:
       show:
         title: As miñas preferencias avanzadas
@@ -2284,7 +2299,7 @@ gl:
         image: Imaxe
         company: Empresa
         location: Localización
-        heatmap: Mapa de calor
+        contribution_calendar: Calendario de contribucións
     descriptions:
       show:
         title: Editar o perfil
@@ -2346,13 +2361,14 @@ gl:
         failure: Non se puido actualizar a localización do perfil.
     heatmaps:
       show:
-        title: Configurar o mapa de calor
-        show_heatmap_in_public: Mostrar o mapa de calor no teu perfil
-        save: Actualizar a configuración do mapa de calor
+        title: Configurar o calendario de contribucións
+        show_contribution_calendar_in_public: Mostrar o calendario de contribucións
+          na túa páxina de perfil
+        save: Actualizar a configuración do calendario de contribucións
         cancel: Cancelar
       update:
-        success: Actualizouse o mapa de calor.
-        failure: Non se puido actualizar o mapa de calor.
+        success: Actualizouse o calendario de contribucións.
+        failure: Non se puido actualizar o calendario de contribucións.
   sessions:
     new:
       tab_title: Iniciar a sesión
@@ -2370,6 +2386,8 @@ gl:
       login_button: Acceder ao sistema
       with external: ou accede cun servizo de terceiros
       or: ou
+      reset_to_login: Sentímolo, o teu contrasinal caducou. Restablece o contrasinal
+        para iniciar sesión.
       auth failure: Sentímolo, non se puido acceder ó sistema con eses datos.
     destroy:
       title: Pechar a sesión
@@ -2485,8 +2503,8 @@ gl:
       legal_1_2_html: Se queres utilizar mapas ou datos do OpenStreetMap, asegúrate
         de atribuír ao OpenStreetMap; consulta as %{attribution_guidelines_link} para
         obter máis información.
-      legal_attribution_guidelines_title: directrices de atribución
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_title: directrices de recoñecemento
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: Para empregar especificamente unha captura de pantalla do OpenStreetMap
         directamente no teu libro, publicación, película ou programa de televisión,
         non necesitas pedir permiso, xa que os datos do OpenStreetMap son abertos
@@ -3376,10 +3394,24 @@ gl:
       change_image: Cambiar a imaxe
       edit_company: Editar a empresa
       edit_location: Editar a localización
-      edit_heatmap: Configurar o mapa de calor
+      edit_contribution_calendar: Configurar o calendario de contribucións
       contributions:
         one: '%{count} contribución no último ano'
         other: '%{count} contribucións no último ano'
+      title:
+        administrator: Este usuario é administrador
+        moderator: Este usuario é moderador
+        importer: Este usuario é importador
+      grant:
+        administrator: Conceder o acceso de administrador
+        moderator: Conceder o acceso de moderador
+        importer: Conceder o acceso de importador
+        are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
+      revoke:
+        administrator: Revogar o acceso de administrador
+        moderator: Revogar o acceso de moderador
+        importer: Revogar o acceso de importador
+        are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
     sidebar_section:
       home_location: Localización da túa casa
       company: Empresa
@@ -3477,21 +3509,6 @@ gl:
       option_2: Se xa tes unha conta, podes conectarte á túa conta empregando o teu
         nome de usuario e contrasinal, e despois asociar a conta co teu identificador
         nas túas preferencias de usuario.
-    role_icons:
-      title:
-        administrator: Este usuario é administrador
-        moderator: Este usuario é moderador
-        importer: Este usuario é importador
-      grant:
-        administrator: Conceder o acceso de administrador
-        moderator: Conceder o acceso de moderador
-        importer: Conceder o acceso de importador
-        are_you_sure: Queres concederlle o rol "%{role}" ó usuario "%{name}"?
-      revoke:
-        administrator: Revogar o acceso de administrador
-        moderator: Revogar o acceso de moderador
-        importer: Revogar o acceso de importador
-        are_you_sure: Queres quitarlle o rol "%{role}" ó usuario "%{name}"?
   user_role:
     filter:
       not_a_role: A cadea "%{role}" non é un rol correcto.
@@ -3717,6 +3734,10 @@ gl:
       tooltip: Lenda
       tooltip_disabled: Non está dispoñíbel a lenda para esta capa
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcador de mapa
       popup:
         close: Pechar
       navigation_control:
@@ -3731,6 +3752,8 @@ gl:
         feetPopup:
           one: Estás a menos de %{count} pé deste punto
           other: Estás a menos de %{count} pés deste punto
+      attribution_control:
+        toggle_attribution: Activar/Desactivar o recoñecemento
       base:
         standard: Estándar
         cyclosm: CyclOSM
@@ -3878,7 +3901,7 @@ gl:
     home:
       marker_title: Localización da miña casa
       not_set: A localización da túa casa non está configurada para a túa conta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Non hai contribucións o %{date}
         contributions:

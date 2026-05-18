@@ -1,7 +1,7 @@
-<%# locals: (f:) %>
+<%# locals: (f:, diary_entry:, lat:, lon:, zoom:) %>
 
 <%= f.text_field :title %>
-<%= f.richtext_field :body, :cols => 80, :rows => 20, :format => @diary_entry.body_format %>
+<%= f.richtext_field :body, :cols => 80, :rows => 20, :format => diary_entry.body_format %>
 <%= f.collection_select :language_code, Language.order(:english_name), :code, :name %>
 
 <fieldset>
@@ -9,7 +9,7 @@
 
   <%= render :partial => "layouts/markers", :locals => { :types => %w[dot] } %>
 
-  <%= tag.div "", :id => "map", :class => "border border-secondary-subtle rounded mb-3 z-0", :data => { :lat => @lat, :lon => @lon, :zoom => @zoom } %>
+  <%= tag.div "", :id => "map", :class => "border border-secondary-subtle rounded mb-3 z-0", :data => { :lat => lat, :lon => lon, :zoom => zoom } %>
 
   <div class="row mb-3">
     <%= f.text_field :latitude, :wrapper_class => "col-sm-4 d-flex flex-column", :class => "mt-auto", :id => "latitude" %>

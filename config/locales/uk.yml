@@ -59,7 +59,7 @@
 uk:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
@@ -824,8 +824,6 @@ uk:
         many: '%{count} коментарів'
         other: ""
       title_label: Запис щоденника
-      comments_label: Коментарі
-      date_label: Дата
   diary_comments:
     new:
       heading: Додати коментар до обговорення запису в щоденнику?
@@ -1809,16 +1807,15 @@ uk:
       other_issues_against_this_user: Інші звернення щодо цього учасника
       no_other_issues: Немає інших скарг на цього учасника
       comments_on_this_issue: Коментарі до цього звернення
+      comment_from_html: Коментар від %{user_link}, %{comment_created_at}
+      reassign_to_moderators: Перепризначити звернення Модераторам
+      reassign_to_administrators: Перепризначити звернення Адміністраторам
     resolve:
       resolved: Статус звернення був змінений на 'Розв’язано'
     ignore:
       ignored: Статус звернення був змінений на 'Проігноровано'
     reopen:
       reopened: Статус проблеми був змінений на 'Відкрито'
-    comments:
-      comment_from_html: Коментар від %{user_link}, %{comment_created_at}
-      reassign_to_moderators: Перепризначити звернення Модераторам
-      reassign_to_administrators: Перепризначити звернення Адміністраторам
     reports:
       reported_by_html: Повідомлено як %{category}, %{user}, %{updated_at}
     helper:
@@ -1915,10 +1912,12 @@ uk:
         ia: Інтерлінгва
         is: Ісландська
         it: Італійська
+        kw: Корнська
         gcf: Гваделупська креольська
         ku-Latn: Курдська (латиниця)
         lv: Латиська
         lb: Люксембурзька
+        lkt: Лакота
         lt: Литовська
         hu: Угорська
         fit: Торнедален Фінська
@@ -1994,6 +1993,7 @@ uk:
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap
+    main_navigation: Головна
     layer_info: Інфо про шар
     start_mapping: Почати мапити
     intro_header: Ласкаво просимо до OpenStreetMap!
@@ -2003,6 +2003,9 @@ uk:
       іншими %{partners}.
     partners_corpmembers: Корпоративними членами OSMF
     partners_partners: партнерами
+    welcome_tou_notice_html: Використовуючи цей веб-сайт або іншу інфраструктуру,
+      надану Фондом OpenStreetMap, ви погоджуєтеся з умовами %{terms_link}.
+    terms_of_use: Умови використання
     tou: Умови використання
     nothing_to_preview: Нічого немає для перегляду.
     learn_more: Докладніше
@@ -2019,7 +2022,6 @@ uk:
       history: Історія
       home: Додому
       issues: Звернення
-      loading: Завантаження…
       log_out: Вийти
       log_in: Увійти
       more: Більше
@@ -2337,8 +2339,9 @@ uk:
       update_success_flash:
         message: Налаштування збережено.
       navigation:
-        preferences: Налаштування
-        advanced_preferences: Розширені налаштування
+        preferences: Інтерфейс
+        notification_preferences: Сповіщення
+        advanced_preferences: Розширені
     basic_preferences:
       show:
         title: Налаштування
@@ -2359,6 +2362,19 @@ uk:
           light: Світла
           dark: Темна
         save: Зберегти налаштування
+    notification_preferences:
+      show:
+        title: Налаштування сповіщень
+        changeset_comment: Коментарі до набору змін
+        diary_comment: Коментарі щоденнику
+        direct_message: Прямі повідомлення
+        gpx_import_failure: 'Імпорт GPS-треку: помилка'
+        gpx_import_success: 'Імпорт GPX-треку: успішно'
+        new_follower: Нові підписники
+        note_comment: Коментарі до приміток
+        save: Оновлення налаштувань
+        delivery_mechanisms:
+          email: Електронна пошта
     advanced_preferences:
       show:
         title: Розширені налаштування
@@ -2371,7 +2387,7 @@ uk:
         image: Зображення
         company: Компанія
         location: Розташування
-        heatmap: Теплова карта
+        contribution_calendar: Участь
     descriptions:
       show:
         title: Редагування профілю
@@ -2433,13 +2449,14 @@ uk:
         failure: Не вдалося оновити розташування профілю.
     heatmaps:
       show:
-        title: Налаштувати теплову карту
-        show_heatmap_in_public: Показувати теплову карту на сторінці вашого профілю
-        save: Оновити конфігурацію теплової карти
+        title: Налаштувати календар внесків
+        show_contribution_calendar_in_public: Показувати календар участі у вашому
+          профілі
+        save: Оновити конфігурацію календаря внесків
         cancel: Скасувати
       update:
-        success: Теплову карту оновлено.
-        failure: Не вдалося оновити теплову карту.
+        success: Календар внесків оновлено.
+        failure: Не вдалося оновити календар внесків.
   sessions:
     new:
       tab_title: Вхід
@@ -2457,6 +2474,8 @@ uk:
       login_button: Увійти
       with external: Або використовуйте, облікові записи з інших ресурсів
       or: або
+      reset_to_login: На жаль, термін дії вашого пароля минув. Будь ласка, скиньте
+        пароль, щоб увійти.
       auth failure: Вибачте, вхід з цими ім’ям або паролем неможливий.
     destroy:
       title: Вийти
@@ -2559,7 +2578,7 @@ uk:
         \n%{openstreetmap_foundation_link} від імені спільноти. Використання усіх
         сервісів, підконтрольних OSMF, здійснюється на основі %{terms_of_use_link},
         %{aup_link} та нашій %{privacy_policy_link}."
-      legal_1_1_openstreetmap_foundation: Фундацією OpenStreetMap
+      legal_1_1_openstreetmap_foundation: Фондом OpenStreetMap
       legal_1_1_terms_of_use: Умов використання
       legal_1_1_aup: Правил щодо прийнятного використання
       legal_1_1_privacy_policy: Політиці конфіденційності
@@ -2622,7 +2641,7 @@ uk:
           Ліцензії %{odc_odbl_link} (ODbL) %{osm_foundation_link} (OSMF). Скорочено:'
         licensing_1_open: відкриті
         licensing_1_odc_odbl: Open Data Commons Open Database License
-        licensing_1_osm_foundation: Фундацією OpenStreetMap
+        licensing_1_osm_foundation: Фондом OpenStreetMap
         licensing_2_html: |-
           Ви можете вільно копіювати, поширювати, передавати та адаптувати наші дані, за умови, що ви посилаєтесь на проєкт OpenStreetMap та його учасників. Якщо ви змінюєте або використовуєте наші дані, ви
           можете поширювати результат лише за тією самою ліцензією. %{legal_code_link} пояснює ваші права та обов’язки.
@@ -2675,7 +2694,7 @@ uk:
         infringement_2_1_online_filing_page: нашій онлайн сторінці для звернень
         trademarks_title: Торгові марки
         trademarks_1_1_html: OpenStreetMap, логотип у вигляді лупи та State of the
-          Map є зареєстрованими товарними знаками Фундації OpenStreetMap. Якщо у вас
+          Map є зареєстрованими товарними знаками Фонду OpenStreetMap. Якщо у вас
           виникли запитання щодо використання вами цих знаків, перегляньте наші %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Правила використання торгової марки
         services_title_html: Додаткові послуги
@@ -2730,6 +2749,8 @@ uk:
         contributors_hr_croatia: Хорватія
         contributors_hr_dgu: Державне геодезичне управління Хорватії
         contributors_hr_open_data_portal: Національний портал відкритих даних
+        contributors_nl_credit_new_html: '%{netherlands}: Містить &copy; дані AND,
+          2007'
         contributors_nl_netherlands: Нідерланди
         contributors_nz_credit_html: |-
           %{new_zealand}: містить дані, отримані з %{linz_data_service_link}
@@ -2964,7 +2985,7 @@ uk:
           крок до створення юридичних осіб у своєму регіоні. Як правило, це не прибуткові
           громадські організації. Вони є представниками місцевих маперів, коли йдеться
           про стосунки з місцевою владою, бізнесом і ЗМІ. Вони також є представниками
-          Фундації OpenStreetMap (OSMF), виконуючи роль сполучної ланки між юридичним
+          Фонду OpenStreetMap (OSMF), виконуючи роль сполучної ланки між юридичним
           представництвом та керівним органом проєкту, що є тримачем авторських прав.
         list_text: 'Наступні спільноти мають офіційно створені місцеві осередки:'
       other_groups:
@@ -3386,6 +3407,10 @@ uk:
       or: або
       use external auth: або використовуйте, облікові записи з інших ресурсів для
         входу
+      verify_human: Підтвердьте, що ви людина
+    create:
+      not_human: На жаль, ми не можемо підтвердити, що ви людина. Це необхідно для
+        створення нових облікових записів.
     no_such_user:
       title: Немає такого учасника
       heading: Учасника %{user} не існує.
@@ -3444,12 +3469,27 @@ uk:
       change_image: Змінити зображення
       edit_company: Редагувати компанію
       edit_location: Редагувати розташування
-      edit_heatmap: Налаштувати теплову карту
+      edit_contribution_calendar: Налаштувати календар участі
       contributions:
         one: Кількість редагувань за останній рік — %{count} елемент
         few: Кількість редагувань за останній рік — %{count} елементи
         many: Кількість редагувань за останній рік — %{count} елементів
         other: 'Кількість редагувань за останній рік — '
+      title:
+        administrator: Цей учасник є адміністратором
+        moderator: Цей учасник є модератором
+        importer: Цей учасник виконує імпорт
+      grant:
+        administrator: Надати права адміністратора
+        moderator: Надати права модератора
+        importer: Надати дозвіл на імпорт
+        are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» учаснику «%{name}»?
+      revoke:
+        administrator: Відкликати права адміністратора
+        moderator: Відкликати права модератора
+        importer: Відкликати доступ на імпорт
+        are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» в учасника
+          «%{name}»?
     sidebar_section:
       home_location: Місце розташування
       company: Компанія
@@ -3551,22 +3591,6 @@ uk:
       option_2: Якщо у вас вже є обліковий запис, то ви можете увійти до нього, використовуючи
         своє прізвисько та пароль, а потім звʼязати обліковий запис із вашим ID у
         налаштуваннях.
-    role_icons:
-      title:
-        administrator: Цей учасник є адміністратором
-        moderator: Цей учасник є модератором
-        importer: Цей учасник виконує імпорт
-      grant:
-        administrator: Надати права адміністратора
-        moderator: Надати права модератора
-        importer: Надати дозвіл на імпорт
-        are_you_sure: Ви впевнені, що бажаєте надати роль «%{role}» учаснику «%{name}»?
-      revoke:
-        administrator: Відкликати права адміністратора
-        moderator: Відкликати права модератора
-        importer: Відкликати доступ на імпорт
-        are_you_sure: Ви впевнені, що хочете відкликати роль «%{role})» в учасника
-          «%{name}»?
   user_role:
     filter:
       not_a_role: Рядок «%{role}» не є припустимою роллю.
@@ -3810,6 +3834,10 @@ uk:
       tooltip: Умовні знаки
       tooltip_disabled: Легенда мапи недоступна для цього шару
     map:
+      map:
+        title: Мапа
+        marker:
+          title: Мітка на мапі
       popup:
         close: Закрити
       navigation_control:
@@ -3828,6 +3856,8 @@ uk:
           few: Ви перебуваєте за %{count} фути від цієї точки
           many: Ви перебуваєте за %{count} футів від цієї точки
           other: ""
+      attribution_control:
+        toggle_attribution: Показувати атрибуцію
       base:
         standard: Стандартний
         cyclosm: ЦиклОСМ
@@ -3973,7 +4003,7 @@ uk:
     home:
       marker_title: Моє розташування
       not_set: Для вашого облікового запису не вказано його розташування
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Немає внесків станом на %{date}
         contributions:

@@ -47,7 +47,7 @@ he:
     dir: rtl
   date:
     formats:
-      heatmap: '%-d ב%B'
+      contribution_calendar: '%-d ב%B'
   time:
     formats:
       friendly: '%e ב%B %Y בשעה %H:%M'
@@ -597,6 +597,16 @@ he:
         two: נוצרו שני רכיבים
         many: נוצרו %{count}רכיבים
         other: נוצרו %{count} רכיבים
+      n_elements_modified:
+        one: רכיב נערך
+        two: שני רכיבים נערכו
+        many: '%{count} רכיבים נערכו'
+        other: '%{count} רכיבים נערכו'
+      n_elements_deleted:
+        one: רכיב נמחק
+        two: שני רכיבים נמחקו
+        many: '%{count} רכיבים נמחקו'
+        other: '%{count} רכיבים נמחקו'
     index:
       title: ערכות שינויים
       title_user: ערכות שינויים מאת %{user}
@@ -774,8 +784,6 @@ he:
         many: '%{count} הערות'
         other: '%{count} הערות'
       title_label: רשומת יומן
-      comments_label: הערות
-      date_label: תאריך
   diary_comments:
     new:
       heading: להוסיף הערה לדיון ברשומת היומן הבאה?
@@ -1257,7 +1265,7 @@ he:
           sports_centre: מרכז ספורט
           stadium: אצטדיון
           swimming_pool: ברֵכת שחייה
-          track: מסלול ריצה
+          track: מסלול מרוצים (לא ממונע)
           water_park: פארק מים
           "yes": נופש
         lock:
@@ -1752,16 +1760,15 @@ he:
       other_issues_against_this_user: עוד בעיות עם המשתמש הזה
       no_other_issues: אין בעיות נוספות עם המשתמש הזה.
       comments_on_this_issue: הערות על בעיה זו
+      comment_from_html: תגובה מאת %{user_link} על %{comment_created_at}
+      reassign_to_moderators: להקצות את הבעיה מחדש למפקחים
+      reassign_to_administrators: להקצות את הבעיה מחדש למנהלים
     resolve:
       resolved: מצב הבעיה שונה ל„טופל”
     ignore:
       ignored: מצב הבעיה שונה ל„התעלמות”
     reopen:
       reopened: מצב הבעיות שונה ל„פתוחה”
-    comments:
-      comment_from_html: תגובה מאת %{user_link} על %{comment_created_at}
-      reassign_to_moderators: להקצות את הבעיה מחדש למפקחים
-      reassign_to_administrators: להקצות את הבעיה מחדש למנהלים
     reports:
       reported_by_html: דווח בתור %{category} על־ידי %{user} ב־%{updated_at}
     helper:
@@ -1855,10 +1862,12 @@ he:
         ia: אינטרלינגואה
         is: איסלנדית
         it: איטלקית
+        kw: קורנית
         gcf: קריאולית גואדלופית
         ku-Latn: כורדית (לטינית)
         lv: לטבית
         lb: לוקסמבורגית
+        lkt: לקוטה
         lt: ליטאית
         hu: הונגרית
         fit: פינית טורנדאלית
@@ -1934,6 +1943,7 @@ he:
   layouts:
     logo:
       alt_text: הלוגו של OpenStreetMap
+    main_navigation: ראשי
     layer_info: פרטי שכבה
     start_mapping: להתחיל למפות
     intro_header: ברוכים הבאים ל־OpenStreetMap!
@@ -1944,6 +1954,9 @@ he:
     partners_fastly: פאסטלי
     partners_corpmembers: חברים תאגידיים אחרים ב־OSMF
     partners_partners: שותפים
+    welcome_tou_notice_html: השימוש באתר הזה או בכל תשתית אחרת שמסופקת על ידי קרן
+      OpenStreetMap מהווה את הסכמתך ל%{terms_link}.
+    terms_of_use: תנאי השימוש
     tou: תנאי השימוש
     nothing_to_preview: אין מה להראות בתצוגה מקדימה.
     learn_more: מידע נוסף
@@ -1960,7 +1973,6 @@ he:
       history: היסטוריה
       home: מעבר למיקום הבית
       issues: תקלות
-      loading: טעינה...
       log_out: יציאה מהחשבון
       log_in: כניסה לחשבון
       more: עוד
@@ -2247,8 +2259,9 @@ he:
       update_success_flash:
         message: ההעדפות עודכנו.
       navigation:
-        preferences: העדפות
-        advanced_preferences: העדפות מתקדמות
+        preferences: ממשק
+        notification_preferences: הודעות
+        advanced_preferences: מתקדם
     basic_preferences:
       show:
         title: ההעדפות שלי
@@ -2269,6 +2282,14 @@ he:
           light: בהירה
           dark: כהה
         save: עדכון העדפות
+    notification_preferences:
+      show:
+        title: העדפות הודעות
+        direct_message: הודעות ישירות
+        new_follower: עוקבים חדשים
+        save: עדכון העדפות
+        delivery_mechanisms:
+          email: דוא״ל
     advanced_preferences:
       show:
         title: ההעדפות המתקדמות שלי
@@ -2281,7 +2302,6 @@ he:
         image: תמונה
         company: חברה
         location: מקום
-        heatmap: מפת חום
     descriptions:
       show:
         title: עריכת פרופיל
@@ -2342,7 +2362,6 @@ he:
     heatmaps:
       show:
         title: הגדרת מפת חום
-        show_heatmap_in_public: הצגת מפת החום בדף הפרופיל שלך
         save: עדכון הגדרות מפת חום
         cancel: ביטול
       update:
@@ -2364,6 +2383,7 @@ he:
       login_button: כניסה
       with external: לחלופין, אפשר להשתמש בצד שלישי כדי להיכנס
       or: או
+      reset_to_login: תוקף הסיסמה שלך פג. נא לאפס אותה כדי להיכנס, עמך הסליחה.
       auth failure: מצטערים, לא ניתן להיכנס עם הפרטים האלה.
     destroy:
       title: יציאה
@@ -2502,9 +2522,15 @@ he:
         native_link: גרסה העברית
         mapping_link: להתחיל למפות
       legal_babble:
+        lead_2_html: |-
+          %{learn_more_about_osm_link} ואפשר %{get_started_mapping_link}!
+          אפשר לקרוא עוד ב%{osm_blog_link}, ולהירשם ל־ %{weeklyosm_link}.
+          למצוא ממפים נוספים ב%{osm_community_link}.
+          לתמוך במיזם על ידי הצטרפות ל%{osm_foundation_link} ולהגיש %{making_donation_link}.
         lead_2_learn_more_about_osm: מידע נוסף על OpenStreetMap
         lead_2_get_started_mapping: להתחיל למפות
         lead_2_osm_blog: בלוג OpenStreetMap
+        lead_2_weeklyosm: OSM השבועי
         lead_2_osm_community: קהילת OSM
         lead_2_osm_foundation: קרן OSM
         lead_2_making_donation: תרומה
@@ -2560,7 +2586,11 @@ he:
           ר׳ את %{trademark_policy_link} שלנו.
         trademarks_1_1_trademark_policy: מדיניות הסימנים המסחריים
         services_title_html: שירותים נוספים
-        services_1_api_usage_policy: מדינית השימוש ב־API
+        services_1_html: |-
+          אף ש־OpenStreetMap היא נתונים פתוחים, איננו יכולים לספק
+          API של מפות ללא תשלום עבור גורמי צד שלישי.
+          נא לעיין ב%{api_usage_policy_link}, ב%{tile_usage_policy_link} וב%{nominatim_usage_policy_link} שלנו.
+        services_1_api_usage_policy: מדיניות השימוש ב־API
         services_1_tile_usage_policy: מדיניות השימוש באריחים
         services_1_nominatim_usage_policy: מדיניות השימוש בנומינטים
         contributors_title_html: התורמים שלנו
@@ -3229,6 +3259,10 @@ he:
           נוסף.
       or: או
       use external auth: לחלופין, אפשר להשתמש בצד שלישי כדי להירשם
+      verify_human: נא לאמת שמדובר בבן אדם
+    create:
+      not_human: לרוע המזל, לא הצלחנו לאמת אם מדובר בבן אדם או לא. השלב הזה הכרחי
+        ליצירת חשבונות חדשים.
     no_such_user:
       title: אין משתמש כזה
       heading: המשתמש %{user} אינו קיים
@@ -3287,12 +3321,25 @@ he:
       change_image: החלפת תמונה
       edit_company: עריכת חברה
       edit_location: עריכת מקום
-      edit_heatmap: הגדרת מפת חום
       contributions:
         one: תרומה בשנה האחרונה
         two: שתי תרומות בשנה האחרונה
         many: '%{count} תרומות בשנה האחרונה'
         other: '%{count} תרומות בשנה האחרונה'
+      title:
+        administrator: לחשבון הזה יש הרשאות מנהל
+        moderator: זהו חשבון מפקח
+        importer: זהו חשבון מייבא
+      grant:
+        administrator: הענקת הרשאות מנהל
+        moderator: הענקת הרשאות מפקח
+        importer: הענקת הרשאות מייבא
+        are_you_sure: באמת להעניק את התפקיד „%{role}” למשתמש „%{name}”?
+      revoke:
+        administrator: שלילת הרשאות מנהל
+        moderator: שלילת הרשאות מפקח
+        importer: שלילת הרשאות מייבא
+        are_you_sure: באמת לשלול את התפקיד „%{role}” מהמשתמש „%{name}”?
     sidebar_section:
       home_location: מקום הבית
       company: חברה
@@ -3391,21 +3438,6 @@ he:
         להלן.
       option_2: אם כבר יש לך חשבון, אפשר להיכנס לחשבון שלך באמצעות שם המשתמש והסיסמה
         שלך ואז לשייך את החשבון שלך למזהה מהגדרות המשתמש שלך.
-    role_icons:
-      title:
-        administrator: לחשבון הזה יש הרשאות מנהל
-        moderator: זהו חשבון מפקח
-        importer: זהו חשבון מייבא
-      grant:
-        administrator: הענקת הרשאות מנהל
-        moderator: הענקת הרשאות מפקח
-        importer: הענקת הרשאות מייבא
-        are_you_sure: באמת להעניק את התפקיד „%{role}” למשתמש „%{name}”?
-      revoke:
-        administrator: שלילת הרשאות מנהל
-        moderator: שלילת הרשאות מפקח
-        importer: שלילת הרשאות מייבא
-        are_you_sure: באמת לשלול את התפקיד „%{role}” מהמשתמש „%{name}”?
   user_role:
     filter:
       not_a_role: המחרוזת „%{role}” אינה תפקיד תקין.
@@ -3635,6 +3667,10 @@ he:
       tooltip: מקרא
       tooltip_disabled: אין מקרא זמין לשכבה הזאת
     map:
+      map:
+        title: מפה
+        marker:
+          title: סמן מפה
       popup:
         close: סגירה
       navigation_control:
@@ -3793,7 +3829,7 @@ he:
     home:
       marker_title: מיקום הבית שלי
       not_set: מיקום הבית לא מוגדר עבור החשבון שלך
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: אין תרומות ב־%{date}
         contributions:

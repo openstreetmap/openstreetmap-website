@@ -1,3 +1,5 @@
+//= require polyline_decoder
+
 (function () {
   function FOSSGISValhallaEngine(modeId, costing, profile) {
     const INSTR_MAP = [
@@ -43,7 +45,7 @@
     ];
 
     function _processDirections(leg) {
-      const line = L.PolylineUtil.decode(leg.shape, { precision: 6 });
+      const line = OSM.decodePolyline(leg.shape, { precision: 6 });
 
       const steps = leg.maneuvers.map(manoeuvre => [
         INSTR_MAP[manoeuvre.type],

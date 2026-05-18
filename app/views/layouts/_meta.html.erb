@@ -1,4 +1,4 @@
-<%# locals: () %>
+<%# locals: (title:, opengraph_properties:) %>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -24,7 +24,7 @@
 <% end -%>
 <%= tag.link :rel => "search", :type => "application/opensearchdescription+xml", :title => t(".openstreetmap_search"), :href => asset_path("osm.xml") %>
 <%= tag.meta :name => "description", :content => t("layouts.intro_text") %>
-<%= opengraph_tags(@title, @opengraph_properties || {}) %>
+<%= opengraph_tags(title, opengraph_properties || {}) %>
 <% if flash[:matomo_goal] -%>
 <%= tag.meta :name => "matomo-goal", :content => flash[:matomo_goal] %>
 <% end -%>

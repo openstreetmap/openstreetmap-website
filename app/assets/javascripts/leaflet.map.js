@@ -17,7 +17,7 @@ L.OSM.Map = L.Map.extend({
       if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
 
       let layerConstructor;
-      if (OSM.isDarkMap()) {
+      if (OSM.isDark("map")) {
         layerConstructor = L.OSM[leafletOsmDarkId] ?? L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
         layerOptions.url = layerOptions.urlDark ?? layerOptions.url;
       } else {
@@ -30,7 +30,7 @@ L.OSM.Map = L.Map.extend({
       layer.on("add", () => {
         this.fire("baselayerchange", { layer: layer });
       });
-      layer.options.style = (OSM.isDarkMap() && styleDark) || style;
+      layer.options.style = (OSM.isDark("map") && styleDark) || style;
       return layer;
     });
 
@@ -84,19 +84,19 @@ L.OSM.Map = L.Map.extend({
         children[childId] = makeCredit(credit.children[childId]);
       }
       const text = OSM.i18n.t(`javascripts.map.${credit.id}`, children);
-      if (credit.href) {
-        const link = $("<a>", {
-          href: credit.href,
-          text: text
-        });
-        if (credit.donate) {
-          link.addClass("donate-attr");
-        } else {
-          link.attr("target", "_blank");
-        }
-        return link.prop("outerHTML");
+      if (!credit.href) {
+        return text;
       }
-      return text;
+      const link = $("<a>", {
+        href: credit.href,
+        text: text
+      });
+      if (credit.donate) {
+        link.addClass("donate-attr");
+      } else {
+        link.attr("target", "_blank");
+      }
+      return link.prop("outerHTML");
     }
   },
 
@@ -141,7 +141,9 @@ L.OSM.Map = L.Map.extend({
     const params = {};
 
     if (marker && this.hasLayer(marker)) {
-      [params.mlat, params.mlon] = OSM.cropLocation(marker.getLatLng(), this.getZoom());
+      const { lat, lng } = OSM.cropLocation(marker.getLatLng(), this.getZoom());
+      params.mlat = lat;
+      params.mlon = lng;
     }
 
     let url = location.protocol + "//" + OSM.SERVER_URL + "/";
@@ -223,7 +225,8 @@ L.OSM.Map = L.Map.extend({
       latLng = marker.getLatLng();
     }
 
-    return `geo:${OSM.cropLocation(latLng, zoom).join(",")}?z=${zoom}`;
+    const { lat, lng } = OSM.cropLocation(latLng, zoom);
+    return `geo:${lat},${lng}?z=${zoom}`;
   },
 
   addObject: function (object, callback) {
@@ -397,9 +400,10 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-OSM.isDarkMap = function () {
-  const mapTheme = $("body").attr("data-map-theme");
-  if (mapTheme) return mapTheme === "dark";
+OSM.isDark = function (subject) {
+  const data = `${subject}-theme`,
+        theme = $(`[data-${data}]`).first().data(data);
+  if (theme) return theme === "dark";
   return window.matchMedia("(prefers-color-scheme: dark)").matches;
 };
 

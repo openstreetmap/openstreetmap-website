@@ -20,7 +20,7 @@ is:
     dir: ltr
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y kl. %H:%M'
@@ -714,8 +714,6 @@ is:
         one: '%{count} athugasemd'
         other: '%{count} athugasemdir'
       title_label: Bloggfærsla
-      comments_label: Athugasemdir
-      date_label: Dagsetning
   diary_comments:
     new:
       heading: Bæta athugasemd við umræðu með bloggfærslu?
@@ -1687,14 +1685,13 @@ is:
       other_issues_against_this_user: Önnur vandamál varðandi þennan notanda
       no_other_issues: Engin önnur vandamál varðandi þennan notanda.
       comments_on_this_issue: Athugasemdir við þetta vandamál
+      comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
     resolve:
       resolved: Staða vandamáls hefur verið sett á 'Leyst'
     ignore:
       ignored: Staða vandamáls hefur verið sett á 'Hunsað'
     reopen:
       reopened: Staða vandamáls hefur verið sett á 'Opið'
-    comments:
-      comment_from_html: Athugasemd frá %{user_link} gerð %{comment_created_at}
     reports:
       reported_by_html: Tilkynnt sem %{category} af %{user} þann %{updated_at}
     helper:
@@ -1891,7 +1888,6 @@ is:
       history: Breytingaskrá
       home: Fara heim
       issues: Vandamál
-      loading: Hleð inn...
       log_out: Skrá út
       log_in: Skrá inn
       more: Meira
@@ -3275,6 +3271,22 @@ is:
       contributions:
         one: '%{count} framlag á síðasta ári'
         other: '%{count} framlög á síðasta ári'
+      title:
+        administrator: Þessi notandi er möppudýr
+        moderator: Þessi notandi er prófarkalesari
+        importer: Þessi notandi hefur heimild til innflutnings
+      grant:
+        administrator: Veita möppudýrsréttindi
+        moderator: Veita stjórnandaréttindi
+        importer: Veita aðgang að innflutningi
+        are_you_sure: Ertu viss um að þú viljir veita notandanum '%{name}' heimildina
+          '%{role}'?
+      revoke:
+        administrator: Svifta möppudýrsréttindum
+        moderator: Svifta stjórnandaréttindum
+        importer: Afturkalla aðgang að innflutningi
+        are_you_sure: Ertu viss um að þú viljir svifta notandann '%{name}' heimildinni
+          '%{role}'?
     sidebar_section:
       home_location: Heimastaðsetning
       company: Fyrirtæki
@@ -3372,23 +3384,6 @@ is:
         Ef þú ert þegar með aðgang, geturðu skráð þig inn á aðganginn
         með notandanafni og lykilorði og síðan tengt aðganginn
         við auðkennið þitt í notandastillingunum.
-    role_icons:
-      title:
-        administrator: Þessi notandi er möppudýr
-        moderator: Þessi notandi er prófarkalesari
-        importer: Þessi notandi hefur heimild til innflutnings
-      grant:
-        administrator: Veita möppudýrsréttindi
-        moderator: Veita stjórnandaréttindi
-        importer: Veita aðgang að innflutningi
-        are_you_sure: Ertu viss um að þú viljir veita notandanum '%{name}' heimildina
-          '%{role}'?
-      revoke:
-        administrator: Svifta möppudýrsréttindum
-        moderator: Svifta stjórnandaréttindum
-        importer: Afturkalla aðgang að innflutningi
-        are_you_sure: Ertu viss um að þú viljir svifta notandann '%{name}' heimildinni
-          '%{role}'?
   user_role:
     filter:
       not_a_role: Strengurinn '%{role}' er ekki gilt leyfi.
@@ -3779,7 +3774,7 @@ is:
     home:
       marker_title: Heimastaðsetning mín
       not_set: Heimastaðsetning er ekki sett upp fyrir notandaaðganginn þinn
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Engin framlög þann %{date}
         contributions:

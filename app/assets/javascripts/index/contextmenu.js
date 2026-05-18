@@ -20,15 +20,13 @@ OSM.initializations.push(function (map) {
     return $input.val();
   };
 
-  const latLngFromContext = () =>
-    L.latLng($contextMenu.data("lat"), $contextMenu.data("lng"));
+  const latLngFromContext = () => L.latLng($contextMenu.data("lat"), $contextMenu.data("lng"));
 
-  const croppedLatLon = () =>
-    OSM.cropLocation(latLngFromContext(), map.getZoom());
+  const croppedLatLng = () => OSM.cropLocation(latLngFromContext(), map.getZoom());
 
   const routeWithLatLon = (path, extraParams = {}) => {
-    const [lat, lon] = croppedLatLon();
-    OSM.router.route(`${path}?` + new URLSearchParams({ lat, lon, ...extraParams }));
+    const { lat, lng } = croppedLatLng();
+    OSM.router.route(`${path}?` + new URLSearchParams({ lat, lon: lng, ...extraParams }));
   };
 
   const contextmenuItems = [
@@ -37,8 +35,9 @@ OSM.initializations.push(function (map) {
       icon: "bi-cursor",
       text: OSM.i18n.t("javascripts.context.directions_from"),
       callback: () => {
+        const { lat, lng } = croppedLatLng();
         const params = new URLSearchParams({
-          from: croppedLatLon().join(","),
+          from: `${lat},${lng}`,
           to: getDirectionsCoordinates($("#route_to"))
         });
         OSM.router.route(`/directions?${params}`);
@@ -49,9 +48,10 @@ OSM.initializations.push(function (map) {
       icon: "bi-flag",
       text: OSM.i18n.t("javascripts.context.directions_to"),
       callback: () => {
+        const { lat, lng } = croppedLatLng();
         const params = new URLSearchParams({
           from: getDirectionsCoordinates($("#route_from")),
-          to: croppedLatLon().join(",")
+          to: `${lat},${lng}`
         });
         OSM.router.route(`/directions?${params}`);
       }

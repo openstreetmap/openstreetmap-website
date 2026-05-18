@@ -162,8 +162,7 @@ class UserCreationTest < ActionDispatch::IntegrationTest
 
     user.reload
     assert_predicate user, :active?
-
-    assert_equal user, User.authenticate(:username => new_email, :password => "testtest")
+    assert user.password_matches?("testtest")
   end
 
   # Check that the user can successfully recover their password

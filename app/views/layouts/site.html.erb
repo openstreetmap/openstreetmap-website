@@ -2,7 +2,7 @@
 <%= tag.html :lang => I18n.locale,
              :dir => dir,
              :data => { :bs_theme => current_user&.preferred_color_scheme(:site) } do %>
-  <%= render :partial => "layouts/head" %>
+  <%= render "layouts/head", :title => @title, :opengraph_properties => @opengraph_properties %>
   <%= tag.body :class => body_class,
                :data => { :map_theme => current_user&.preferred_color_scheme(:map, :site) } do %>
     <%= render :partial => "layouts/header" %>

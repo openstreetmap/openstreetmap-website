@@ -13,7 +13,7 @@ module Traces
     before_action :offline_redirect
 
     def show
-      trace = Trace.visible.find(params[:trace_id])
+      trace = Trace.visible.find(params.expect(:trace_id))
 
       if trace.public? || (current_user && current_user == trace.user)
         if Acl.no_trace_download?(request.remote_ip)

@@ -101,6 +101,8 @@
 # Author: S.kozyr
 # Author: Sanail
 # Author: Santacloud
+# Author: Shabe
+# Author: Sikmir
 # Author: Silovan
 # Author: Sobloku
 # Author: Spider
@@ -133,7 +135,7 @@
 ru:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y в %H:%M'
@@ -889,15 +891,13 @@ ru:
         few: '%{count} комментария'
         many: '%{count} комментариев'
         other: ""
-      comments_label: Комментарии
-      date_label: Дата
   diary_comments:
     new:
       heading: Добавить комментарий к следующему обсуждению записи в дневнике?
   doorkeeper:
     errors:
       messages:
-        account_selection_required: Сервер авторизации требует выбора учетной записи
+        account_selection_required: Сервер авторизации требует выбора учётной записи
           конечного пользователя.
         consent_required: Сервер авторизации требует согласия конечного пользователя
         interaction_required: Сервер авторизации требует взаимодействия  с конечным
@@ -1820,16 +1820,15 @@ ru:
       other_issues_against_this_user: Другие проблемы с этим пользователем
       no_other_issues: Нет других проблем с этим пользователем
       comments_on_this_issue: Комментарии по этой проблеме
+      comment_from_html: Комментарий участника %{user_link}, созданный %{comment_created_at}
+      reassign_to_moderators: Перенаправить проблему модераторам
+      reassign_to_administrators: Перенаправить проблему Администраторам
     resolve:
       resolved: Статус проблемы был установлен в "Обработано"
     ignore:
       ignored: Статус проблемы был установлен в "Проигнорировано"
     reopen:
       reopened: Статус проблемы был установлен в "Открыто"
-    comments:
-      comment_from_html: Комментарий участника %{user_link}, созданный %{comment_created_at}
-      reassign_to_moderators: Перенаправить проблему модераторам
-      reassign_to_administrators: Перенаправить проблему Администраторам
     reports:
       reported_by_html: Указано как %{category} пользователем %{user} %{updated_at}
     helper:
@@ -1883,17 +1882,69 @@ ru:
       search_language: Поиск…
       languages:
         af: Африкаанс
+        gsw: Алеманнский
+        ast: Астурийский
+        az: Азербайджанский
+        id: Индонезийский
+        bs: Боснийский
+        br: Бретонский
+        ca: Каталонский
         cs: Чешский
         cy: Уэльсский
         da: Датский
         de: Немецкий
+        et: Эстонский
         en: Английский
+        es: Испанский
         eo: Эсперанто
+        eu: Баскский
         fr: Французский
+        ga: Ирландский
+        hr: Хорватский
+        ia: Интерлингва
+        is: Исландский
+        it: Итальянский
+        lv: Латышский
+        lt: Литовский
+        hu: Венгерский
+        nl: Нидерландский
+        nb: Норвежский (букмол)
+        nn: Новонорвежский
+        nds: Нижненемецкий
+        pl: Польский
+        pt-PT: Португальский
+        ro: Румынский
+        sc: Сардинский
+        sco: Шотландский
         sq: Албанский
+        scn: Cицилийский
+        sk: Словацкий
+        sl: Словенский
+        fi: Финский
+        sv: Шведский
         vi: Вьетнамский
         tr: Турецкий
+        el: Греческий
+        ba: Башкирский
+        bg: Болгарский
+        mk: Македонский
+        ru: Русский
+        sr: Сербский (кириллица)
+        tt: Татарский (кириллица)
         uk: Украинский
+        kk-cyrl: Казахский (кириллица)
+        yi: Идиш
+        he: Иврит
+        ar: Арабский
+        fa: Персидский
+        ne: Непальский
+        hi: Хинди
+        ka: Грузинский
+        zh-CN: Китайский (упрощенный)
+        zh-TW: Китайский (традиционный)
+        zh-HK: Китайский (Гонконг)
+        ja: Японский
+        ko: Корейский
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap
@@ -1912,6 +1963,7 @@ ru:
       about: О проекте
       communities: Сообщества
       copyright: Авторские права
+      donate: Пожертвовать
       edit: Правка
       edit_with: Редактировать с помощью %{editor}
       export: Экспорт
@@ -1920,7 +1972,6 @@ ru:
       history: История
       home: Домой
       issues: Проблемы
-      loading: Загружается…
       log_out: Выйти
       log_in: Войти
       more: Ещё
@@ -2238,6 +2289,9 @@ ru:
           auto: Автоматическая
           light: Светлая
           dark: Тёмная
+        editor_color_schemes:
+          light: Светлая
+          dark: Тёмная
         save: Обновить предпочтения
   profiles:
     profile_sections:
@@ -2287,6 +2341,9 @@ ru:
         show: Показать
         delete: Удалить
         undelete: Отменить удаление
+    heatmaps:
+      show:
+        cancel: Отмена
   sessions:
     new:
       tab_title: Вход
@@ -3125,6 +3182,22 @@ ru:
       confirm: Подтвердить
       report: Сообщить об этом пользователе
       edit_profile_details: Редактировать данные профиля
+      title:
+        administrator: Этот пользователь является администратором
+        moderator: Этот пользователь является модератором
+        importer: Этот пользователь является импортёром
+      grant:
+        administrator: Присвоить права администратора
+        moderator: Присвоить права модератора
+        importer: Присвоить права импортёра
+        are_you_sure: Вы уверены, что хотите присвоить роль '%{role}' пользователю
+          '%{name}'?
+      revoke:
+        administrator: Отозвать права администратора
+        moderator: Отозвать права модератора
+        importer: Отозвать права импортёра
+        are_you_sure: Вы уверены, что хотите отозвать роль '%{role}' у пользователя
+          '%{name}'?
     sidebar_section:
       company: Компания
     go_public:
@@ -3203,23 +3276,6 @@ ru:
       option_2: Если у вас уже есть учётная запись, вы можете войти в неё, используя
         свой логин и пароль, а затем связать учётную запись с вашем ID в пользовательских
         настройках.
-    role_icons:
-      title:
-        administrator: Этот пользователь является администратором
-        moderator: Этот пользователь является модератором
-        importer: Этот пользователь является импортёром
-      grant:
-        administrator: Присвоить права администратора
-        moderator: Присвоить права модератора
-        importer: Присвоить права импортёра
-        are_you_sure: Вы уверены, что хотите присвоить роль '%{role}' пользователю
-          '%{name}'?
-      revoke:
-        administrator: Отозвать права администратора
-        moderator: Отозвать права модератора
-        importer: Отозвать права импортёра
-        are_you_sure: Вы уверены, что хотите отозвать роль '%{role}' у пользователя
-          '%{name}'?
   user_role:
     filter:
       not_a_role: Строка '%{role}' не является допустимой ролью.
@@ -3449,6 +3505,8 @@ ru:
       tooltip: Легенда
       tooltip_disabled: Легенда недоступна для этого слоя
     map:
+      popup:
+        close: Закрыть
       navigation_control:
         zoom_in: Приблизить
         zoom_out: Отдалить
@@ -3595,7 +3653,7 @@ ru:
     home:
       marker_title: Мой домашний адрес
       not_set: Установка места нахождения не установлена для вашей учётной записи
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Нет правок %{date}
         contributions:

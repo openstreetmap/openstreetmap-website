@@ -29,7 +29,7 @@ class SessionsController < ApplicationController
 
     referer = safe_referer(params[:referer]) if params[:referer]
 
-    password_authentication(params[:username].strip, params[:password], referer)
+    password_authentication(params.expect(:username).strip, params.expect(:password), referer)
   end
 
   def destroy
@@ -51,12 +51,18 @@ class SessionsController < ApplicationController
   ##
   # handle password authentication
   def password_authentication(username, password, referer = nil)
-    if (user = User.authenticate(:username => username, :password => password))
-      successful_login(user, referer)
-    elsif (user = User.authenticate(:username => username, :password => password, :pending => true))
-      unconfirmed_login(user, referer)
-    elsif User.authenticate(:username => username, :password => password, :suspended => true)
-      failed_login({ :partial => "sessions/suspended_flash" }, username, referer)
+    user = User.lookup(username)
+
+    if user&.password_expired?
+      redirect_to user_forgot_password_path, :warning => t("sessions.new.reset_to_login")
+    elsif user&.password_matches?(password)
+      if user.pending?
+        unconfirmed_login(user, referer)
+      elsif user.suspended?
+        failed_login({ :partial => "sessions/suspended_flash" }, username, referer)
+      else
+        successful_login(user, referer)
+      end
     else
       failed_login(t("sessions.new.auth failure"), username, referer)
     end

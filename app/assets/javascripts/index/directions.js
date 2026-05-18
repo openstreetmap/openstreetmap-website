@@ -5,7 +5,7 @@
 
 OSM.Directions = function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
-  let lastLocation = [];
+  let lastLocation = null;
   let chosenEngine;
 
   let sidebarReadyPromise = null;
@@ -19,13 +19,10 @@ OSM.Directions = function (map) {
 
     getRoute(false, !dragging);
   };
-  const endpointChangeCallback = function () {
-    getRoute(true, true);
-  };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "start", color: "var(--marker-green)" }, endpointDragCallback, endpointChangeCallback),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "destination", color: "var(--marker-red)" }, endpointDragCallback, endpointChangeCallback)
+    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "start", color: "var(--marker-green)" }, endpointDragCallback, getRoute),
+    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "destination", color: "var(--marker-red)" }, endpointDragCallback, getRoute)
   ];
 
   const expires = new Date();
@@ -95,7 +92,7 @@ OSM.Directions = function (map) {
     select.val(chosenEngine.provider);
   }
 
-  function getRoute(fitRoute, reportErrors) {
+  function getRoute(fitRoute = true, reportErrors = true) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
 
@@ -153,18 +150,18 @@ OSM.Directions = function (map) {
   modeGroup.on("change", "input[name='modes']", function (e) {
     setEngine(chosenEngine.provider + "_" + e.target.value);
     OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
-    getRoute(true, true);
+    getRoute();
   });
 
   select.on("change", function (e) {
     setEngine(e.target.value + "_" + chosenEngine.mode);
     OSM.cookies.set("_osm_directions_engine", chosenEngine.id, { expires });
-    getRoute(true, true);
+    getRoute();
   });
 
   $(".directions_form").on("submit", function (e) {
     e.preventDefault();
-    getRoute(true, true);
+    getRoute();
   });
 
   $(".routing_marker_column span").on("dragstart", function (e) {
@@ -188,21 +185,21 @@ OSM.Directions = function (map) {
     }
   });
 
-  function sendstartinglocation({ latlng: { lat, lng } }) {
-    map.fire("startinglocation", { latlng: [lat, lng] });
+  function sendStartingLocation({ lat, lng }) {
+    map.fire("startinglocation", { lat, lng });
   }
 
-  function startingLocationListener({ latlng }) {
+  function startingLocationListener({ lat, lng }) {
     if (endpoints[0].value) return;
 
-    endpoints[0].setValue(latlng.join(", "));
+    endpoints[0].setValue(`${lat}, ${lng}`);
   }
 
-  map.on("locationfound", ({ latlng: { lat, lng } }) =>
-    lastLocation = [lat, lng]
-  ).on("locateactivate", () => {
-    map.once("startinglocation", startingLocationListener);
-  });
+  map
+    .on("locationfound", ({ latlng: { lat, lng } }) => lastLocation = { lat, lng })
+    .on("locateactivate", () => {
+      map.once("startinglocation", startingLocationListener);
+    });
 
   function initializeFromParams() {
     const params = new URLSearchParams(location.search),
@@ -210,7 +207,8 @@ OSM.Directions = function (map) {
 
     if (params.has("engine")) setEngine(params.get("engine"));
 
-    endpoints[0].setValue(params.get("from") || route[0] || lastLocation.join(", "));
+    const lastLocationAsString = lastLocation ? `${lastLocation.lat}, ${lastLocation.lng}` : "";
+    endpoints[0].setValue(params.get("from") || route[0] || lastLocationAsString);
     endpoints[1].setValue(params.get("to") || route[1] || "");
   }
 
@@ -232,12 +230,12 @@ OSM.Directions = function (map) {
       pt.y += 20;
 
       const ll = map.containerPointToLatLng(pt);
-      const llWithPrecision = OSM.cropLocation(ll, map.getZoom());
+      const { lat, lng } = OSM.cropLocation(ll, map.getZoom());
 
-      endpoints[type === "from" ? 0 : 1].setValue(llWithPrecision.join(", "));
+      endpoints[type === "from" ? 0 : 1].setValue(`${lat}, ${lng}`);
     });
 
-    map.on("locationfound", sendstartinglocation);
+    map.on("locationfound", sendStartingLocation);
 
     endpoints[0].enableListeners();
     endpoints[1].enableListeners();
@@ -276,7 +274,7 @@ OSM.Directions = function (map) {
 
     $("#sidebar .sidebar-close-controls button").off("click", closeButtonListener);
     $("#map").off("dragend dragover drop");
-    map.off("locationfound", sendstartinglocation);
+    map.off("locationfound", sendStartingLocation);
 
     endpoints[0].disableListeners();
     endpoints[1].disableListeners();

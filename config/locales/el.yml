@@ -49,6 +49,9 @@
 # Author: 아라
 ---
 el:
+  date:
+    formats:
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y στις %H:%M'
@@ -767,8 +770,6 @@ el:
         one: '%{count} σχόλιο'
         other: '%{count} σχόλια'
       title_label: Καταχώριση ημερολογίου
-      comments_label: Σχόλια
-      date_label: Ημερομηνία
   diary_comments:
     new:
       heading: Προσθήκη σχολίου στην ακόλουθη συζήτηση καταχώρισης ημερολογίου;
@@ -1311,7 +1312,7 @@ el:
           surveillance: Επιτήρηση
           telescope: Τηλεσκόπιο
           tower: Πύργος
-          utility_pole: Στύλος (ρεύματος, τηλεφώνου)
+          utility_pole: Στύλος κοινής ωφέλειας
           wastewater_plant: Μονάδα επεξεργασίας λυμάτων
           watermill: Νερόμυλος
           water_tap: Βρύση
@@ -1754,16 +1755,15 @@ el:
       other_issues_against_this_user: Άλλα ζητήματα κατά αυτού του χρήστη
       no_other_issues: Δεν υπάρχουν άλλα ζητήματα κατά αυτού του χρήστη.
       comments_on_this_issue: Σχόλια στο ζήτημα
+      comment_from_html: Σχόλιο από %{user_link} γραμμένο στις %{comment_created_at}
+      reassign_to_moderators: Ανάθεση ζητήματος σε Συντονιστές
+      reassign_to_administrators: Ανάθεση ζητήματος σε Διαχειριστές
     resolve:
       resolved: Η κατάσταση του ζητήματος έχει οριστεί σε 'Επιλυμένο'
     ignore:
       ignored: Η κατάσταση του ζητήματος έχει οριστεί σε 'Αγνοημένο'
     reopen:
       reopened: Η κατάσταση του ζητήματος έχει οριστεί σε 'Ανοιχτό'
-    comments:
-      comment_from_html: Σχόλιο από %{user_link} γραμμένο στις %{comment_created_at}
-      reassign_to_moderators: Ανάθεση ζητήματος σε Συντονιστές
-      reassign_to_administrators: Ανάθεση ζητήματος σε Διαχειριστές
     reports:
       reported_by_html: Αναφέρθηκε ως %{category} από %{user} στις %{updated_at}
     helper:
@@ -1861,6 +1861,7 @@ el:
         ia: Ιντερλίνγκουα
         is: Ισλανδικά
         it: Ιταλικά
+        kw: Κορνουαλικά
         gcf: Κρεόλ Γουαδελούπης
         ku-Latn: Κουρδικά (Λατινικά)
         lv: Λετονικά
@@ -1868,7 +1869,7 @@ el:
         lkt: Λακότα
         lt: Λιθουανικά
         hu: Ουγγρικά
-        fit: Φινλανδικά Tornedalen
+        fit: Φινλανδικά Τορνεντάλεν
         nl: Ολλανδικά
         nb: Νορβηγικά Μποκμάλ
         nn: Νορβηγικά Νινόρσκ
@@ -1898,7 +1899,7 @@ el:
         el: Ελληνικά
         ba: Μπασκίρ
         be: Λευκορώσικα
-        be-Tarask: Λευκορωσικά (Tarašk.)
+        be-Tarask: Λευκορωσικά (Ταρασκ.)
         bg: Βουλγάρικα
         mk: Σλαβομακεδονικά
         mo: Μολδαβικά
@@ -1941,6 +1942,7 @@ el:
   layouts:
     logo:
       alt_text: Λογότυπο OpenStreetMap
+    main_navigation: Αρχική
     layer_info: Πληροφορίες επιπέδου
     start_mapping: Ξεκινήστε τη χαρτογράφηση
     intro_header: Καλώς ήρθατε στο OpenStreetMap!
@@ -1950,6 +1952,9 @@ el:
       και άλλους %{partners}.
     partners_corpmembers: εταιρικά μέλη του OSMF
     partners_partners: συνεργάτες
+    welcome_tou_notice_html: Χρησιμοποιώντας αυτόν τον ιστότοπο ή άλλη υποδομή που
+      παρέχεται από το Ίδρυμα OpenStreetMap, συμφωνείτε με τους %{terms_link}.
+    terms_of_use: όρους χρήσης
     tou: Όροι Χρήσης
     nothing_to_preview: Τίποτα για προεπισκόπηση.
     learn_more: Μάθετε περισσότερα
@@ -1966,7 +1971,6 @@ el:
       history: Ιστορικό
       home: Μετάβαση στη τοποθεσία σπιτιού
       issues: Ζητήματα
-      loading: Φόρτωση...
       log_out: Αποσύνδεση
       log_in: Σύνδεση
       more: Περισσότερα
@@ -2288,8 +2292,9 @@ el:
       update_success_flash:
         message: Οι προτιμήσεις ενημερώθηκαν.
       navigation:
-        preferences: Προτιμήσεις
-        advanced_preferences: Προηγμένες προτιμήσεις
+        preferences: Διεπαφή
+        notification_preferences: Ειδοποιήσεις
+        advanced_preferences: Προηγμένες
     basic_preferences:
       show:
         title: Οι προτιμήσεις μου
@@ -2310,6 +2315,19 @@ el:
           light: Φωτεινός
           dark: Σκοτεινός
         save: Ενημέρωση προτιμήσεων
+    notification_preferences:
+      show:
+        title: Προτιμήσεις ειδοποιήσεων
+        changeset_comment: Σχόλια συνόλου αλλαγών
+        diary_comment: Σχόλια ημερολογίου
+        direct_message: Άμεσα μηνύματα
+        gpx_import_failure: 'Εισαγωγή ιχνών GPS: αποτυχία'
+        gpx_import_success: 'Εισαγωγή ιχνών GPS: επιτυχία'
+        new_follower: Νέοι ακόλουθοι
+        note_comment: Σχόλια σημείωσης
+        save: Ενημέρωση προτιμήσεων
+        delivery_mechanisms:
+          email: Email
     advanced_preferences:
       show:
         title: Οι προηγμένες προτιμήσεις μου
@@ -2322,7 +2340,7 @@ el:
         image: Εικόνα
         company: Εταιρεία
         location: Τοποθεσία
-        heatmap: Θερμικός χάρτης
+        contribution_calendar: Ημερολόγιο συνεισφορών
     descriptions:
       show:
         title: Επεξεργασία προφίλ
@@ -2383,13 +2401,14 @@ el:
         failure: Δεν ήταν δυνατή η ενημέρωση της τοποθεσίας του προφίλ.
     heatmaps:
       show:
-        title: Διαμόρφωση θερμικού χάρτη
-        show_heatmap_in_public: Εμφάνιση του θερμικού χάρτη στη σελίδα προφίλ σας
-        save: Ενημέρωση διαμόρφωσης θερμικού χάρτη
+        title: Διαμόρφωση ημερολογίου συνεισφορών
+        show_contribution_calendar_in_public: Εμφάνιση του ημερολογίου συνεισφορών
+          στη σελίδα του προφίλ σας
+        save: Ενημέρωση διαμόρφωσης ημερολογίου συνεισφορών
         cancel: Ακύρωση
       update:
-        success: Ο θερμικός χάρτης ενημερώθηκε.
-        failure: Δεν ήταν δυνατή η ενημέρωση του θερμικού χάρτη.
+        success: Το ημερολόγιο συνεισφορών ενημερώθηκε.
+        failure: Δεν ήταν δυνατή η ενημέρωση του ημερολογίου συνεισφορών.
   sessions:
     new:
       tab_title: Σύνδεση
@@ -2407,6 +2426,8 @@ el:
       login_button: Σύνδεση
       with external: ή συνδεθείτε μέσω τρίτης υπηρεσίας
       or: ή
+      reset_to_login: Λυπούμαστε, ο κωδικός πρόσβασής σας έχει λήξει. Παρακαλούμε
+        επαναφέρετε τον κωδικό πρόσβασής σας για να συνδεθείτε.
       auth failure: Λυπούμαστε, δεν μπορείτε να συνδεθείτε με αυτές τις λεπτομέρειες.
     destroy:
       title: Αποσύνδεση
@@ -2686,6 +2707,8 @@ el:
         contributors_hr_croatia: Κροατία
         contributors_hr_dgu: Κρατική Γεωδαιτική Διοίκηση της Κροατίας
         contributors_hr_open_data_portal: Εθνική Πύλη Ανοικτών Δεδομένων
+        contributors_nl_credit_new_html: '%{netherlands}: Περιέχει δεδομένα &copy;
+          AND, 2007'
         contributors_nl_netherlands: Κάτω Χώρες
         contributors_nz_credit_html: |-
           %{new_zealand}: Περιέχει δεδομένα που προέρχονται από την %{linz_data_service_link}
@@ -3414,10 +3437,25 @@ el:
       change_image: Αλλαγή εικόνας
       edit_company: Επεξεργασία εταιρείας
       edit_location: Επεξεργασία τοποθεσίας
-      edit_heatmap: Διαμόρφωση θερμικού χάρτη
+      edit_contribution_calendar: Διαμόρφωση ημερολογίου συνεισφορών
       contributions:
         one: '%{count} συνεισφορά τον τελευταίο χρόνο'
         other: '%{count} συνεισφορές τον τελευταίο χρόνο'
+      title:
+        administrator: Αυτός ο χρήστης είναι διαχειριστής
+        moderator: Αυτός ο χρήστης είναι συντονιστής
+        importer: Αυτός ο χρήστης είναι εισαγωγέας
+      grant:
+        administrator: Χορήγηση πρόσβασης διαχειριστή
+        moderator: Χορήγηση πρόσβασης συντονιστή
+        importer: Χορήγηση πρόσβασης εισαγωγέα
+        are_you_sure: Σίγουρα θέλετε να εκχωρήσετε το ρόλο «%{role}» στον χρήστη «%{name}»;
+      revoke:
+        administrator: Ανακαλέστε την πρόσβαση διαχειριστή
+        moderator: Ανάκληση πρόσβασης συντονιστή
+        importer: Ανάκληση πρόσβασης εισαγωγέα
+        are_you_sure: Σίγουρα θέλετε να ανακαλέστε τον ρόλο «%{role}» από τον χρήστη
+          «%{name}»;
     sidebar_section:
       home_location: Τοποθεσία σπιτιού
       company: Εταιρεία
@@ -3427,13 +3465,13 @@ el:
         να επεξεργαστείτε τον χάρτη.
     issued_blocks:
       show:
-        title: Φραγές από τον/την %{name}
-        heading_html: Κατάλογος φραγών από τον/την %{name}
+        title: Φραγές από %{name}
+        heading_html: Λίστα φραγών από %{name}
         empty: Ο/Η %{name} δεν έχει κάνει φραγή ακόμη.
     received_blocks:
       show:
-        title: Φραγές στον/στην %{name}
-        heading_html: Κατάλογος φραγών στον/στην %{name}
+        title: Φραγές σε %{name}
+        heading_html: Λίστα φραγών σε %{name}
         empty: Ο/Η %{name} δεν έχει φραγεί ακόμη.
       edit:
         title: Ανάκληση όλων των φραγών σε %{block_on}
@@ -3517,22 +3555,6 @@ el:
       option_2: Αν έχετε ήδη λογαριασμό, μπορείτε να συνδεθείτε στον λογαριασμό σας
         χρησιμοποιώντας το όνομα χρήστη και τον κωδικό πρόσβασης και, στη συνέχεια,
         να συσχετίσετε τον λογαριασμό με το ID σας στις ρυθμίσεις χρήστη.
-    role_icons:
-      title:
-        administrator: Αυτός ο χρήστης είναι διαχειριστής
-        moderator: Αυτός ο χρήστης είναι συντονιστής
-        importer: Αυτός ο χρήστης είναι εισαγωγέας
-      grant:
-        administrator: Χορήγηση πρόσβασης διαχειριστή
-        moderator: Χορήγηση πρόσβασης συντονιστή
-        importer: Χορήγηση πρόσβασης εισαγωγέα
-        are_you_sure: Σίγουρα θέλετε να εκχωρήσετε το ρόλο «%{role}» στον χρήστη «%{name}»;
-      revoke:
-        administrator: Ανακαλέστε την πρόσβαση διαχειριστή
-        moderator: Ανάκληση πρόσβασης συντονιστή
-        importer: Ανάκληση πρόσβασης εισαγωγέα
-        are_you_sure: Σίγουρα θέλετε να ανακαλέστε τον ρόλο «%{role}» από τον χρήστη
-          «%{name}»;
   user_role:
     filter:
       not_a_role: Η συμβολοσειρά '%{role}' δεν είναι ένας έγκυρος ρόλος.
@@ -3574,7 +3596,7 @@ el:
       success: Η φραγή ενημερώθηκε.
     index:
       title: Φραγές χρήστη
-      heading: Λίστα φραγών του χρήστη
+      heading: Λίστα φραγών χρηστών
       empty: Δεν έχουν γίνει ακόμη φραγές.
     helper:
       time_future_html: Τελειώνει σε %{time}.
@@ -3628,9 +3650,9 @@ el:
     navigation:
       all_blocks: Όλες οι φραγές
       blocks_on_me: Φραγές σε μένα
-      blocks_on_user_html: Φραγές στον/στην %{user}
+      blocks_on_user_html: Φραγές σε %{user}
       blocks_by_me: Φραγές από μένα
-      blocks_by_user_html: Φραγές από τον/την %{user}
+      blocks_by_user_html: Φραγές από %{user}
       block: 'Φραγή #%{id}'
       new_block: Νέα φραγή
   user_mutes:
@@ -3762,6 +3784,10 @@ el:
       tooltip: Υπόμνημα
       tooltip_disabled: Το υπόμνημα δεν είναι διαθέσιμο σε αυτό το επίπεδο
     map:
+      map:
+        title: Χάρτης
+        marker:
+          title: Δείκτης χάρτη
       popup:
         close: Κλείσιμο
       navigation_control:
@@ -3776,6 +3802,8 @@ el:
         feetPopup:
           one: Είστε εντός %{count} ποδός από το σημείο
           other: Είστε εντός %{count} ποδιών από το σημείο
+      attribution_control:
+        toggle_attribution: Εναλλαγή αναφοράς δημιουργού
       base:
         standard: Κανονικό
         cyclosm: CyclOSM ποδηλασία
@@ -3925,7 +3953,7 @@ el:
     home:
       marker_title: Τοποθεσία του σπιτιού μου
       not_set: Η τοποθεσία του σπιτιού δεν έχει οριστεί για τον λογαριασμό σας
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Δεν υπάρχουν συνεισφορές στις %{date}
         contributions:

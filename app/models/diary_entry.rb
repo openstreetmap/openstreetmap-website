@@ -55,6 +55,10 @@ class DiaryEntry < ApplicationRecord
     @body ||= RichText.new(self[:body_format], self[:body])
   end
 
+  def visible_subscribers
+    subscribers.visible
+  end
+
   private
 
   def spam_check

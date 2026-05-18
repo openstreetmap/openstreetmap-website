@@ -3,16 +3,15 @@
     <% @legend.each do |layer_name, layer_data| %>
       <% layer_data["entries"].each do |entry| %>
         <%= tag.tr :data => { :layer => layer_name, :zoom_min => entry["min_zoom"], :zoom_max => entry["max_zoom"] } do %>
+          <% description = entry["name"].map { |feature_name| t ".entries.#{feature_name}" }.join(" · ") %>
           <td>
             <% if entry["image"] %>
-              <%= image_tag "legend/#{layer_name}/#{entry['image']}", :class => "filtered-image d-block mx-auto" %>
+              <%= image_tag "legend/#{layer_name}/#{entry['image']}", :class => "d-block mx-auto", :alt => description %>
             <% else %>
-              <%= legend_svg_tag :class => "filtered-image d-block mx-auto", **entry %>
+              <%= legend_svg_tag :class => "d-block mx-auto", **entry, :title => description %>
             <% end %>
           </td>
-          <td>
-            <%= entry["name"].map { |feature_name| t ".entries.#{feature_name}" }.join(" · ") %>
-          </td>
+          <td><%= description %></td>
         <% end %>
       <% end %>
     <% end %>

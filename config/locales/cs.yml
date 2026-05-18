@@ -63,7 +63,7 @@
 cs:
   date:
     formats:
-      heatmap: '%-d. %-m.'
+      contribution_calendar: '%-d. %-m.'
   time:
     formats:
       friendly: '%e. %m. %Y v %H:%M'
@@ -810,8 +810,6 @@ cs:
         many: '%{count} komentáře'
         other: '%{count} komentářů'
       title_label: Deníkový záznam
-      comments_label: Komentáře
-      date_label: Datum
   diary_comments:
     new:
       heading: Přidat komentář do následující diskuse k deníkovému záznamu?
@@ -1594,7 +1592,7 @@ cs:
           pet: Prodejna pro chovatele
           pet_grooming: Psí salon
           photo: Prodejna foto
-          seafood: Obchod s rybami nebo mořskými plody
+          seafood: Obchod s rybami nebo mořskými plody
           second_hand: Bazar
           sewing: Obchod se šicími potřebami
           shoes: Obuvnictví
@@ -1793,16 +1791,15 @@ cs:
       other_issues_against_this_user: Další hlášení týkající se tohoto uživatele
       no_other_issues: Žádná další hlášení týkající se tohoto uživatele.
       comments_on_this_issue: Komentáře k problému
+      comment_from_html: Komentář od %{user_link} z %{comment_created_at}
+      reassign_to_moderators: Znovu přiřadit problém moderátorům
+      reassign_to_administrators: Znovu přiřadit problém administrátorům
     resolve:
       resolved: Stav problému změněn na „Vyřešeno”
     ignore:
       ignored: Stav problému změněn na „Ignorováno”
     reopen:
       reopened: Stav problému změněn na „Otevřeno”
-    comments:
-      comment_from_html: Komentář od %{user_link} z %{comment_created_at}
-      reassign_to_moderators: Znovu přiřadit problém moderátorům
-      reassign_to_administrators: Znovu přiřadit problém administrátorům
     reports:
       reported_by_html: Nahlášeno jako %{category} uživatelem %{user} v %{updated_at}
     helper:
@@ -1898,6 +1895,7 @@ cs:
         ia: Interlingua
         is: islandština
         it: italština
+        kw: kornština
         gcf: Guadeloupská kreolština
         ku-Latn: kurdština (latinka)
         lv: Lotyšština
@@ -1978,6 +1976,7 @@ cs:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    main_navigation: Hlavní
     layer_info: Informace o vrstvě
     start_mapping: Začít mapovat
     intro_header: Vítejte v OpenStreetMap!
@@ -1987,6 +1986,9 @@ cs:
       %{partners}.
     partners_corpmembers: firemní členové OSMF
     partners_partners: partneři
+    welcome_tou_notice_html: Používáním těchto webových stránek nebo další infrastruktury
+      poskytované OpenStreetMap Foundation souhlasíte s %{terms_link}.
+    terms_of_use: Podmínkami užití
     tou: Podmínky užití
     nothing_to_preview: Není k čemu zobrazovat náhled.
     learn_more: Více informací
@@ -2003,7 +2005,6 @@ cs:
       history: Historie
       home: Přejít domů
       issues: Problémy
-      loading: Načítání...
       log_out: Odhlásit se
       log_in: Přihlásit se
       more: Další
@@ -2319,8 +2320,9 @@ cs:
       update_success_flash:
         message: Preference nastaveny.
       navigation:
-        preferences: Preference
-        advanced_preferences: Pokročilé preference
+        preferences: Rozhraní
+        notification_preferences: Upozornění
+        advanced_preferences: Pokročilé
     basic_preferences:
       show:
         title: Moje preference
@@ -2341,6 +2343,19 @@ cs:
           light: Světlé
           dark: Tmavé
         save: Nastavit preference
+    notification_preferences:
+      show:
+        title: Nastavení upozornění
+        changeset_comment: Komentáře k sadám změn
+        diary_comment: Komentáře k deníku
+        direct_message: Přímé zprávy
+        gpx_import_failure: 'Import GPS stopy: neúspěch'
+        gpx_import_success: 'Import GPS stopy: úspěch'
+        new_follower: Noví sledující
+        note_comment: Komentáře k poznámkám
+        save: Uložit preference
+        delivery_mechanisms:
+          email: E-mailem
     advanced_preferences:
       show:
         title: Moje pokročilé preference
@@ -2353,7 +2368,7 @@ cs:
         image: Obrázek
         company: Firma
         location: Poloha
-        heatmap: Teplotní mapa
+        contribution_calendar: Kalendář příspěvků
     descriptions:
       show:
         title: Upravit profil
@@ -2414,13 +2429,14 @@ cs:
         failure: Nepodařilo se aktualizovat profilovou polohu.
     heatmaps:
       show:
-        title: Konfigurace teplotní mapy
-        show_heatmap_in_public: Zobrazit teplotní mapu na stránce vašeho profilu
-        save: Uložit konfiguraci teplotní mapy
+        title: Konfigurace kalendáře příspěvků
+        show_contribution_calendar_in_public: Na stránce vašeho profilu zobrazovat
+          kalendář příspěvků
+        save: Uložit konfiguraci kalendáře příspěvků
         cancel: Storno
       update:
-        success: Teplotní mapa aktualizována.
-        failure: Nepodařilo se aktualizovat teplotní mapu.
+        success: Kalendář příspěvků aktualizován.
+        failure: Nepodařilo se aktualizovat kalendář příspěvků.
   sessions:
     new:
       tab_title: Přihlášení
@@ -2438,6 +2454,8 @@ cs:
       login_button: Přihlásit se
       with external: nebo se přihlaste prostřednictvím třetí strany
       or: nebo
+      reset_to_login: Omlouváme se, platnost vašeho hesla vypršela. Pro přihlášení
+        si prosím obnovte heslo.
       auth failure: Je mi líto, ale s uvedenými údaji se nemůžete přihlásit.
     destroy:
       title: Odhlásit se
@@ -3412,12 +3430,26 @@ cs:
       change_image: Změnit obrázek
       edit_company: Upravit firmu
       edit_location: Upravit polohu
-      edit_heatmap: Konfigurace teplotní mapy
+      edit_contribution_calendar: Konfigurace kalendáře příspěvků
       contributions:
         one: '%{count} příspěvek za poslední rok'
         few: '%{count} příspěvky za poslední rok'
         many: '%{count} příspěvku za poslední rok'
         other: '%{count} příspěvků za poslední rok'
+      title:
+        administrator: Tento uživatel je správce
+        moderator: Tento uživatel je moderátor
+        importer: Tento uživatel je importér
+      grant:
+        administrator: Přidělit práva správce
+        moderator: Přidělit práva moderátora
+        importer: Udělit přístup importérům
+        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
+      revoke:
+        administrator: Odebrat práva správce
+        moderator: Odebrat práva moderátora
+        importer: Zrušit přístup importéra
+        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
     sidebar_section:
       home_location: Poloha domova
       company: Firma
@@ -3517,21 +3549,6 @@ cs:
         níže zobrazeného formuláře.
       option_2: Pokud již účet máte, můžete se k němu přihlásit pomocí svého uživatelského
         jména a hesla a poté v uživatelském nastavení účet propojit s vaším ID.
-    role_icons:
-      title:
-        administrator: Tento uživatel je správce
-        moderator: Tento uživatel je moderátor
-        importer: Tento uživatel je importér
-      grant:
-        administrator: Přidělit práva správce
-        moderator: Přidělit práva moderátora
-        importer: Udělit přístup importérům
-        are_you_sure: Opravdu chcete přidělit roli „%{role}“ uživateli „%{name}“?
-      revoke:
-        administrator: Odebrat práva správce
-        moderator: Odebrat práva moderátora
-        importer: Zrušit přístup importéra
-        are_you_sure: Opravdu chcete odebrat roli „%{role}“ uživateli „%{name}“?
   user_role:
     filter:
       not_a_role: Řetězec „%{role}“ neoznačuje platnou roli.
@@ -3767,6 +3784,10 @@ cs:
       tooltip: Legenda
       tooltip_disabled: Pro tuto vrstvu není legenda dostupná
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Značka na mapě
       popup:
         close: Zavřít
       navigation_control:
@@ -3785,6 +3806,8 @@ cs:
           few: Od tohoto bodu jste méně než %{count} stopy
           many: Od tohoto bodu jste méně než %{count} stopy
           other: Od tohoto bodu jste méně než %{count} stop
+      attribution_control:
+        toggle_attribution: Přepnout uvedení zdroje
       base:
         standard: Standardní
         cycle_map: Cyklomapa
@@ -3930,7 +3953,7 @@ cs:
     home:
       marker_title: Poloha mého domova
       not_set: Ve vašem účtu není nastavena poloha domova
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Dne %{date} žádné úpravy
         contributions:

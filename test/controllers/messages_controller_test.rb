@@ -191,12 +191,30 @@ class MessagesControllerTest < ActionDispatch::IntegrationTest
     # Login as a normal user
     user = create(:user)
     recipient_user = create(:user)
+    message = create(:message, :unread, :sender => user, :recipient => recipient_user)
     session_for(user)
 
     # Check that sending a message fails when the message limit is hit
     assert_no_difference "ActionMailer::Base.deliveries.size" do
       assert_no_difference "Message.count" do
-        with_settings(:max_messages_per_hour => 0) do
+        with_settings(:max_messages_per_hour => 1) do
+          perform_enqueued_jobs do
+            post messages_path(:display_name => recipient_user.display_name,
+                               :message => { :title => "Test Message", :body => "Test message body" })
+            assert_response :success
+            assert_template "new"
+            assert_select ".alert.alert-danger", /wait a while/
+          end
+        end
+      end
+    end
+
+    message.update(:from_user_visible => false)
+
+    # Check that sending a message still fails when message is deleted
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      assert_no_difference "Message.count" do
+        with_settings(:max_messages_per_hour => 1) do
           perform_enqueued_jobs do
             post messages_path(:display_name => recipient_user.display_name,
                                :message => { :title => "Test Message", :body => "Test message body" })

@@ -26,9 +26,9 @@ OSM.initializations.push(function (map) {
   });
 
   function clickHandler(e) {
-    const [lat, lon] = OSM.cropLocation(e.latlng, map.getZoom());
+    const { lat, lng } = OSM.cropLocation(e.latlng, map.getZoom());
 
-    OSM.router.route("/query?" + new URLSearchParams({ lat, lon }));
+    OSM.router.route("/query?" + new URLSearchParams({ lat, lon: lng }));
   }
 
   function enableQueryMode() {
@@ -270,9 +270,9 @@ OSM.Query = function (map) {
   function queryOverpass(latlng) {
     const bounds = map.getBounds(),
           zoom = map.getZoom(),
-          bbox = [bounds.getSouthWest(), bounds.getNorthEast()]
-            .map(c => OSM.cropLocation(c, zoom))
-            .join(),
+          sw = OSM.cropLocation(bounds.getSouthWest(), zoom),
+          ne = OSM.cropLocation(bounds.getNorthEast(), zoom),
+          bbox = `${sw.lat},${sw.lng},${ne.lat},${ne.lng}`,
           geom = `geom(${bbox})`,
           radius = 10 * Math.pow(1.5, 19 - zoom),
           here = `(around:${radius},${latlng})`,

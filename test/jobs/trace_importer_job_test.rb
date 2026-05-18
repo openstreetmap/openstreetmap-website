@@ -6,7 +6,7 @@ require "minitest/mock"
 class TraceImporterJobTest < ActiveJob::TestCase
   def test_success_notification
     # Check that the user gets a success notification when the trace has valid points
-    trace = create(:trace)
+    trace = create(:trace, :tags => build_list(:tracetag, 2))
 
     gpx = Minitest::Mock.new
     def gpx.actual_points
@@ -14,7 +14,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -26,7 +28,7 @@ class TraceImporterJobTest < ActiveJob::TestCase
 
   def test_failure_notification
     # Check that the user gets a failure notification when the trace has no valid points
-    trace = create(:trace)
+    trace = create(:trace, :tags => build_list(:tracetag, 2))
 
     gpx = Minitest::Mock.new
     def gpx.actual_points
@@ -34,7 +36,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     end
 
     trace.stub(:import, gpx) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -48,7 +52,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
     # Check that the user gets a failure notification when something goes badly wrong
     trace = create(:trace)
     trace.stub(:import, -> { raise "Test Exception" }) do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -63,7 +69,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
   def test_parse_error_notification
     trace = create(:trace, :inserted => false, :fixture => "jpg")
     Rails.logger.silence do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last
@@ -78,7 +86,9 @@ class TraceImporterJobTest < ActiveJob::TestCase
   def test_gz_parse_error_notification
     trace = create(:trace, :inserted => false, :fixture => "jpg.gz")
     Rails.logger.silence do
-      TraceImporterJob.perform_now(trace)
+      perform_enqueued_jobs do
+        TraceImporterJob.perform_now(trace)
+      end
     end
 
     email = ActionMailer::Base.deliveries.last

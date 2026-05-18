@@ -50,6 +50,8 @@ module BrowseTagsHelper
         concat tag.rect :x => 0.5, :y => 0.5, :width => 13, :height => 13, :fill => colour_value, :stroke => "#2222"
       end
       svg + colour_value
+    elsif %w[opening_hours collection_times service_times].include?(key)
+      tag2link_link(key, value) || linkify(h(value))
     else
       safe_join(value.split(";", -1).map { |x| tag2link_link(key, x) || linkify(h(x)) }, ";")
     end

@@ -83,4 +83,16 @@ class NoteTest < ActiveSupport::TestCase
     assert_equal "0.0000400", note.lat.to_s
     assert_equal "0.0000800", note.lon.to_s
   end
+
+  def test_visible_subscribers
+    commenter1 = create(:user)
+    commenter2 = create(:user, :suspended)
+    commenter3 = create(:user)
+    note = create(:note)
+    create(:note_subscription, :note => note, :user => commenter1)
+    create(:note_subscription, :note => note, :user => commenter2)
+    create(:note_subscription, :note => note, :user => commenter3)
+
+    assert_equal note.visible_subscribers.sort, [commenter1, commenter3].sort
+  end
 end

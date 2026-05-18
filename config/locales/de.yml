@@ -130,7 +130,7 @@
 de:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y um %H:%M Uhr'
@@ -365,7 +365,7 @@ de:
   accounts:
     show:
       title: Benutzerkonto bearbeiten
-      my_account: Mein Benutzerkonto
+      my_account: Benutzerkonto
       current email address: Aktuelle E-Mail-Adresse
       external auth: Externe Authentifikation
       contributor_terms:
@@ -759,7 +759,7 @@ de:
       nearby mapper: Mapper in der Nähe
       following: Abonniert
     show:
-      title: Meine Übersichtsseite
+      title: Übersichtsseite
       no_home_location_html: '%{edit_profile_link} und lege deinen Wohnort fest, um
         Benutzer in der Nähe zu sehen.'
       edit_your_profile: Bearbeite dein Profil
@@ -855,8 +855,6 @@ de:
         one: '%{count} Kommentar'
         other: '%{count} Kommentare'
       title_label: Blog-Eintrag
-      comments_label: Kommentare
-      date_label: Datum
   diary_comments:
     new:
       heading: Einen Kommentar zur folgenden Blogeintragsdiskussion hinzufügen?
@@ -1836,16 +1834,15 @@ de:
       other_issues_against_this_user: Weitere Probleme gegen diesen Benutzer
       no_other_issues: Keine weiteren Probleme gegen diesen Benutzer.
       comments_on_this_issue: Kommentare zu diesem Problem
+      comment_from_html: Kommentar von %{user_link} erstellt am %{comment_created_at}
+      reassign_to_moderators: Weise das Problem den Moderatoren zu
+      reassign_to_administrators: Weise das Problem den Administratoren zu
     resolve:
       resolved: Der Problemstatus wurde auf „Erledigt“ geändert
     ignore:
       ignored: Der Problemstatus wurde auf „Ignoriert“ geändert
     reopen:
       reopened: Der Problemstatus wurde auf „Offen“ geändert
-    comments:
-      comment_from_html: Kommentar von %{user_link} erstellt am %{comment_created_at}
-      reassign_to_moderators: Weise das Problem den Moderatoren zu
-      reassign_to_administrators: Weise das Problem den Administratoren zu
     reports:
       reported_by_html: Gemeldet als %{category} von %{user} bei %{updated_at}
     helper:
@@ -2023,6 +2020,7 @@ de:
   layouts:
     logo:
       alt_text: OpenStreetMap Logo
+    main_navigation: Start
     layer_info: Ebeneninfo
     start_mapping: Mit dem Kartieren anfangen
     intro_header: Willkommen bei OpenStreetMap!
@@ -2032,6 +2030,9 @@ de:
       anderen %{partners} unterstützt.
     partners_corpmembers: OSMF-Unternehmensmitgliedern
     partners_partners: Partnern
+    welcome_tou_notice_html: Mit der Nutzung dieser Website oder anderer von der OpenStreetMap
+      Foundation bereitgestellter Infrastruktur stimmst du den %{terms_link} zu.
+    terms_of_use: Nutzungsbedingungen
     tou: Nutzungsbedingungen
     nothing_to_preview: Es existiert keine Vorschau.
     learn_more: Mehr erfahren
@@ -2048,7 +2049,6 @@ de:
       history: Chronik
       home: Gehe zum Heimatstandort
       issues: Probleme
-      loading: Laden...
       log_out: Abmelden
       log_in: Anmelden
       more: Mehr
@@ -2376,6 +2376,7 @@ de:
         message: Benutzereinstellungen aktualisiert.
       navigation:
         preferences: Einstellungen
+        notification_preferences: Benachrichtigungen
         advanced_preferences: Erweiterte Einstellungen
     basic_preferences:
       show:
@@ -2397,6 +2398,10 @@ de:
           light: Hell
           dark: Dunkel
         save: Benutzereinstellungen aktualisieren
+    notification_preferences:
+      show:
+        delivery_mechanisms:
+          email: E-Mail-Adresse
     advanced_preferences:
       show:
         title: Erweiterte Einstellungen
@@ -2409,7 +2414,7 @@ de:
         image: Bild
         company: Unternehmen
         location: Standort
-        heatmap: Wärmebildkarte
+        contribution_calendar: Beitragskalender
     descriptions:
       show:
         title: Profil bearbeiten
@@ -2471,13 +2476,14 @@ de:
         failure: Profilstandort konnte nicht aktualisiert werden.
     heatmaps:
       show:
-        title: Heatmap konfigurieren
-        show_heatmap_in_public: Zeigen Sie die Heatmap auf Ihrer Profilseite an
-        save: Heatmap-Konfiguration aktualisieren
+        title: Beitragskalender konfigurieren
+        show_contribution_calendar_in_public: Zeige den Beitragskalender auf deiner
+          Profilseite an
+        save: Beitragskalenderkonfiguration aktualisieren
         cancel: Abbrechen
       update:
-        success: Heatmap aktualisiert.
-        failure: Die Heatmap konnte nicht aktualisiert werden.
+        success: Beitragskalender aktualisiert.
+        failure: Der Beitragskalender konnte nicht aktualisiert werden.
   sessions:
     new:
       tab_title: Anmelden
@@ -3170,6 +3176,7 @@ de:
       your_browser_does_not_support_webgl: dein Browser WebGL nicht unterstützt
       webgl_is_required_for_this_map: WebGL ist erforderlich, um diese Karte anzuzeigen.
       read_more_about_webgl: Mehr lesen
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privat (werden nur als anonyme, unsortierte Punkte ohne Zeitangaben
@@ -3466,10 +3473,10 @@ de:
       my notes: Meine Hinweise
       my messages: Nachrichten
       my profile: Profil
-      my_account: Mein Benutzerkonto
+      my_account: Benutzerkonto
       my comments: Meine Kommentare
       my_preferences: Benutzereinstellungen
-      my_dashboard: Meine Übersichtsseite
+      my_dashboard: Übersichtsseite
       blocks on me: Erhaltene Sperren
       blocks by me: Vergebene Sperren
       create_mute: Diesen Benutzer stummschalten
@@ -3511,10 +3518,26 @@ de:
       change_image: Bild ändern
       edit_company: Firma bearbeiten
       edit_location: Standort bearbeiten
-      edit_heatmap: Heatmap konfigurieren
+      edit_contribution_calendar: Beitragskalender konfigurieren
       contributions:
         one: '%{count} Beitrag im letzten Jahr'
         other: '%{count} Beiträge im letzten Jahr'
+      title:
+        administrator: Dieser Benutzer ist ein Administrator
+        moderator: Dieser Benutzer ist ein Moderator
+        importer: Dieser Benutzer ist ein Importeur
+      grant:
+        administrator: Administrator-Rechte vergeben
+        moderator: Moderator-Rechte vergeben
+        importer: Importeurzugriff genehmigne
+        are_you_sure: Bist du sicher, dass du Benutzer „%{name}“ der Rolle „%{role}“
+          zuordnen möchtest?
+      revoke:
+        administrator: Administrator-Rechte entziehen
+        moderator: Moderator-Rechte entziehen
+        importer: Importeurzugriff aufheben
+        are_you_sure: Bist du sicher, dass du die Zuordnung von Benutzer „%{name}“
+          zur Rolle „%{role}“ aufheben willst?
     sidebar_section:
       home_location: Heimatort
       company: Unternehmen
@@ -3616,23 +3639,6 @@ de:
         Falls du bereits ein Benutzerkonto hast, kannst du dich bei deinem Konto
         mithilfe deines Benutzernamens und Passwortes anmelden und dann das Benutzerkonto
         mit deiner ID in deinen Benutzereinstellungen verknüpfen.
-    role_icons:
-      title:
-        administrator: Dieser Benutzer ist ein Administrator
-        moderator: Dieser Benutzer ist ein Moderator
-        importer: Dieser Benutzer ist ein Importeur
-      grant:
-        administrator: Administrator-Rechte vergeben
-        moderator: Moderator-Rechte vergeben
-        importer: Importeurzugriff genehmigne
-        are_you_sure: Bist du sicher, dass du Benutzer „%{name}“ der Rolle „%{role}“
-          zuordnen möchtest?
-      revoke:
-        administrator: Administrator-Rechte entziehen
-        moderator: Moderator-Rechte entziehen
-        importer: Importeurzugriff aufheben
-        are_you_sure: Bist du sicher, dass du die Zuordnung von Benutzer „%{name}“
-          zur Rolle „%{role}“ aufheben willst?
   user_role:
     filter:
       not_a_role: Der String „%{role}“ bezeichnet keine gültige Rolle.
@@ -3863,6 +3869,10 @@ de:
       tooltip: Legende
       tooltip_disabled: Die Legende ist nicht für diese Ebene verfügbar
     map:
+      map:
+        title: Karte
+        marker:
+          title: Kartenmarkierung
       popup:
         close: Schließen
       navigation_control:
@@ -3877,6 +3887,8 @@ de:
         feetPopup:
           one: Du bist weniger als 1 Fuß von diesem Punkt entfernt
           other: Du bist weniger als %{count} Fuß von diesem Punkt entfernt
+      attribution_control:
+        toggle_attribution: Quellenangabe umschalten
       base:
         standard: Standard
         cycle_map: Radfahrerkarte
@@ -4026,7 +4038,7 @@ de:
     home:
       marker_title: Mein Heimatort
       not_set: Der Heimatort ist für dein Konto nicht festgelegt
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Keine Beiträge am %{date}
         contributions:

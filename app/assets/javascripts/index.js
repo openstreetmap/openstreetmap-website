@@ -7,7 +7,6 @@
 //= require leaflet.legend
 //= require leaflet.note
 //= require leaflet.share
-//= require leaflet.polyline
 //= require leaflet.query
 //= require index/contextmenu
 //= require index/search
@@ -189,7 +188,7 @@ $(function () {
 
   $("#banner .btn-close").on("click", function (e) {
     const cookieId = e.target.id;
-    $("#banner").hide();
+    $("#banner").removeClass("d-md-block");
     e.preventDefault();
     if (cookieId) {
       OSM.cookies.set(cookieId, "hide", { expires });

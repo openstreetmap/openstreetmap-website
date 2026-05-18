@@ -7,6 +7,7 @@
 # Author: Nayvik
 # Author: Omshivaprakash
 # Author: Prnhdl
+# Author: Rmurthy
 # Author: Shankar
 # Author: Srividyacb
 # Author: VASANTH S.N.
@@ -17,6 +18,9 @@
 # Author: ಮಲ್ನಾಡಾಚ್ ಕೊಂಕ್ಣೊ
 ---
 kn:
+  date:
+    formats:
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%H:%M ರಲ್ಲಿ %e %B %Y'
@@ -207,6 +211,7 @@ kn:
       none: ಯಾವುದೂ ಇಲ್ಲ
       openid: ಓಪನ್ ಐಡಿ
       google: ಗೂಗಲ್
+      apple: ಆಪಲ್
       facebook: ಫೇಸ್‍ಬುಕ್
       microsoft: ಮೈಕ್ರೋಸಾಫ್ಟ್
       github: ಗಿಟ್‌ಹಬ್
@@ -216,9 +221,11 @@ kn:
       comment:
         opened_at_html: ಸೃಷ್ಟಿಸಲಾಗಿದೆ %{when}
         opened_at_by_html: ಸೃಷ್ಟಿಸಲಾಗಿದೆ %{when} ಇವರಿಂದ %{user}
+        commented_at_html: ನವೀಕರಿಸಲಾಗಿದೆ %{when}
         commented_at_by_html: '%{user} ಅವರಿಂದ %{when} ನವೀಕರಿಸಲಾಗಿದೆ'
         closed_at_html: ಪರಿಹರಿಸಲಾಗಿದೆ %{when}
         closed_at_by_html: ಪರಿಹರಿಸಲಾಗಿದೆ %{when} ಇವರಿಂದ %{user}
+        reopened_at_html: ಮರುಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ %{when}
         reopened_at_by_html: '%{user} ಅವರಿಂದ %{when} ಅನ್ನು ಪುನಃ ಸಕ್ರಿಯಗೊಳಿಸಲಾಗಿದೆ'
       rss:
         title: ಓಪನ್ ಸ್ಟ್ರೀಟ್ ಮ್ಯಾಪ್ ಟಿಪ್ಪಣಿಗಳು
@@ -229,31 +236,118 @@ kn:
         opened: ಹೊಸ ಟಿಪ್ಪಣಿ (near %{place})
         commented: ಹೊಸ ಅಭಿಪ್ರಾಯ (near %{place})
         closed: '%{place} ಹತ್ತಿರ ಮುಗಿಸಿದ ಪಟ್ಟಿ'
+        reopened: ಮರುಸಕ್ರಿಯಗೊಂಡ ಟಿಪ್ಪಣಿ (%{place} ಹತ್ತಿರ)
       entry:
         comment: ಅಭಿಪ್ರಾಯ
         full: ಪೂರ್ತಿ ಟಿಪ್ಪಣಿ
   accounts:
     show:
       title: ಖಾತೆಯನ್ನು ಸಂಪಾದಿಸಿ
+      my_account: ನನ್ನ ಖಾತೆ
       current email address: ಪ್ರಸ್ತುತ ಇಮೇಲ್ ವಿಳಾಸ
       external auth: ಬಾಹ್ಯ ದೃಢೀಕರಣ
+      contributor_terms:
+        heading: ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳು
+        agreed: ನೀವು %{date} ರಂದು ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳಿಗೆ ಒಪ್ಪಿಕೊಂಡಿದ್ದೀರಿ.
+        not_agreed: ನೀವು ಇನ್ನೂ ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳಿಗೆ ಒಪ್ಪಿಕೊಂಡಿಲ್ಲ.
+        agreed_with_pd: ನಿಮ್ಮ ಸಂಪಾದನೆಗಳನ್ನು ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್‌ನಲ್ಲಿರಿಸುವುದನ್ನು  ಪರಿಗಣಿಸುವುದಾಗಿಯೂ
+          ನೀವು ಘೋಷಿಸಿದ್ದೀರಿ.
+        not_agreed_with_pd: ನೀವು ನಿಮ್ಮ ಸಂಪಾದನೆಗಳನ್ನು ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್‌ನಲ್ಲಿರಿಸುವುದರ
+          ಪರಿಗಣನೆಯನ್ನು ಘೋಷಿಸಿಲ್ಲ.
+        review: ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಿ
+        review_and_accept: ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಒಪ್ಪಿಕೊಳ್ಳಿ.
+        consider_pd: ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್ ಅನ್ನು ಪರಿಗಣಿಸಿ
+      terms_of_use:
+        heading: ಬಳಕೆಯ ನಿಬಂಧನೆಗಳು
+        agreed: ನೀವು %{date} ರಂದು ಬಳಕೆಯ ನಿಯಮಗಳಿಗೆ ಒಪ್ಪಿಕೊಂಡಿದ್ದೀರಿ.
+        not_agreed: ನೀವು ಇನ್ನೂ ಬಳಕೆಯ ನಿಯಮಗಳಿಗೆ ಒಪ್ಪಿಕೊಂಡಿಲ್ಲ.
+        review: ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಿ
+        review_and_accept: ನಿಯಮಗಳನ್ನು ಪರಿಶೀಲಿಸಿ ಮತ್ತು ಒಪ್ಪಿಕೊಳ್ಳಿ.
       save changes button: ಬದಲಾವಣೆಗಳನ್ನು ಉಳಿಸಿ
       delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
     go_public:
       heading: ಸಾರ್ವಜನಿಕ ಸಂಪಾದನೆ
+      find_out_why: ಏಕೆ ಎಂದು ತಿಳಿದುಕೊಳ್ಳಿ
+      email_not_revealed: ಸಾರ್ವಜನಿಕವಾಗುವುದರಿಂದ ನಿಮ್ಮ ಮಿಂಚೆ ವಿಳಾಸವು ಬಹಿರಂಗಗೊಳ್ಳುವುದಿಲ್ಲ.
+      not_reversible: ಈ ಕ್ರಿಯೆಯನ್ನು ರದ್ದುಗೊಳಿಸಲಾಗುವುದಿಲ್ಲ ಮತ್ತು ಎಲ್ಲಾ ಹೊಸ ಬಳಕೆದಾರರು
+        ಈಗ ಪೂರ್ವನಿಗದಿಯಂತೆ ಸಾರ್ವಜನಿಕರಾಗಿದ್ದಾರೆ.
+      make_edits_public_button: ನನ್ನ ಎಲ್ಲಾ ಸಂಪಾದನೆಗಳನ್ನು ಸಾರ್ವಜನಿಕಗೊಳಿಸಿ
+    update:
+      success_confirm_needed: ಬಳಕೆದಾರರ ಮಾಹಿತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ. ನಿಮ್ಮ
+        ಹೊಸ ಮಿಂಚೆ ವಿಳಾಸವನ್ನು ದೃಢೀಕರಿಸಲು ಟಿಪ್ಪಣಿಗಾಗಿ ನಿಮ್ಮ ಮಿಂಚೆಯನ್ನು ಪರಿಶೀಲಿಸಿ.
+      success: ಬಳಕೆದಾರ ಮಾಹಿತಿಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ನವೀಕರಿಸಲಾಗಿದೆ.
     destroy:
       success: ಖಾತೆಯನ್ನು ಅಳಿಸಲಾಗಿದೆ.
     deletions:
       show:
         title: ನನ್ನ ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        warning: ಎಚ್ಚರಿಕೆ! ಖಾತೆ ಅಳಿಸುವಿಕೆ ಪ್ರಕ್ರಿಯೆಯು ಅಂತಿಮವಾಗಿರುತ್ತದೆ, ಮತ್ತು ಅದನ್ನು
+          ಹಿಂತಿರುಗಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ.
         delete_account: ಖಾತೆಯನ್ನು ಅಳಿಸಿ
+        delete_introduction: ಕೆಳಗಿನ ಗುಂಡಿಯನ್ನು ಬಳಸಿಕೊಂಡು ನೀವು ನಿಮ್ಮ ಓಪನ್ ಸ್ಟ್ರೀಟ್
+          ಮ್ಯಾಪ್ ಖಾತೆಯನ್ನು ಅಳಿಸಬಹುದು. ದಯವಿಟ್ಟು ಈ ಕೆಳಗಿನ ವಿವರಗಳನ್ನು ಗಮನಿಸಿಃ
+        delete_profile: ನಿಮ್ಮ ಅವತಾರ, ವಿವರಣೆ ಮತ್ತು ಮನೆಯ ಸ್ಥಳ ಸೇರಿದಂತೆ ನಿಮ್ಮ ಪ್ರೊಫೈಲ್
+          ಮಾಹಿತಿಯನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ.
+        delete_display_name: ನಿಮ್ಮ ಪ್ರದರ್ಶನ ಹೆಸರನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು
+          ಇತರ ಖಾತೆಗಳಿಂದ ಮರುಬಳಕೆ ಮಾಡಬಹುದು.
+        retain_caveats: 'ಆದಾಗ್ಯೂ, ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಅಳಿಸಿದ ನಂತರವೂ ನಿಮ್ಮ ಕುರಿತಾದ ಕೆಲವು
+          ಮಾಹಿತಿಯನ್ನು ಓಪನ್‌ಸ್ಟ್ರೀಟ್‌ಮ್ಯಾಪ್‌ನಲ್ಲಿ ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ:'
+        retain_edits: ನಕ್ಷೆಯ ದತ್ತಸಂಚಯಕ್ಕೆ ನಿಮ್ಮ ಸಂಪಾದನೆಗಳು ಯಾವುದಾದರೂ ಇದ್ದರೆ, ಅವುಗಳನ್ನು
+          ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ.
+        retain_traces: ನಿಮ್ಮ ಅಪ್ಲೋಡ್ ಮಾಡಲಾದ ಜಾಡುಗಳು ಯಾವುದಾದರೂ ಇದ್ದರೆ, ಅವುಗಳನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ.
+        retain_diary_entries: ನಿಮ್ಮ ದಿನಚರಿಯ ನಮೂದುಗಳು ಮತ್ತು ದಿನಚರಿಯ ಟಿಪ್ಪಣಿಗಳು ಯಾವುದಾದರೂ
+          ಇದ್ದರೆ, ಅವುಗಳನ್ನು ಇರಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ ಆದರೆ ವೀಕ್ಷಣೆಯಿಂದ ಮರೆಮಾಡಲಾಗುತ್ತದೆ.
+        retain_notes: ನಿಮ್ಮ ನಕ್ಷೆಯ ಟಿಪ್ಪಣಿಗಳು ಮತ್ತು ಟಿಪ್ಪಣಿಯ ಪ್ರತಿಕ್ರಿಯೆಗಳು ಯಾವುದಾದರೂ
+          ಇದ್ದರೆ, ಅವುಗಳನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ ಆದರೆ ವೀಕ್ಷಣೆಯಿಂದ ಮರೆಮಾಡಲಾಗುತ್ತದೆ.
+        retain_changeset_discussions: ನಿಮ್ಮ ಬದಲಾವಣೆಗಳ ಚರ್ಚೆಗಳು ಯಾವುದಾದರೂ ಇದ್ದರೆ, ಅವುಗಳನ್ನು
+          ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ.
+        retain_email: ನಿಮ್ಮ ಮಿಂಚೆ ವಿಳಾಸವನ್ನು ಉಳಿಸಿಕೊಳ್ಳಲಾಗುತ್ತದೆ.
+        recent_editing_html: ನೀವು ಇತ್ತೀಚೆಗಷ್ಟೇ ಸಂಪಾದಿಸಿರುವುದರಿಂದ ನಿಮ್ಮ ಖಾತೆಯನ್ನು ಪ್ರಸ್ತುತ
+          ಅಳಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ. ಅಳಿಸುವಿಕೆಯು %{time} ನಲ್ಲಿ ಸಾಧ್ಯವಿದೆ.
+        confirm_delete: ನಿಮಗೆ ಖಚಿತವೇ?
         cancel: ರದ್ದುಗೊಳಿಸಿ
     terms:
       show:
+        title: ನಿಯಮಗಳು
+        heading: ನಿಯಮಗಳು
+        heading_ct: ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳು
+        read and accept with tou: ದಯವಿಟ್ಟು ಕೊಡುಗೆದಾರರ ಒಪ್ಪಂದ ಮತ್ತು ಬಳಕೆಯ ನಿಯಮಗಳನ್ನು
+          ಓದಿ, ಮುಗಿದ ನಂತರ ಎರಡೂ ಚೆಕ್‌ಬಾಕ್ಸ್‌ಗಳನ್ನು ತುಂಬಿ ಮತ್ತು ನಂತರ ಮುಂದುವರಿಸಿ ಗುಂಡಿಯನ್ನು  ಒತ್ತಿರಿ.
+        contributor_terms_explain: ಈ ಒಪ್ಪಂದವು ನಿಮ್ಮ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಮತ್ತು ಭವಿಷ್ಯದ
+          ಕೊಡುಗೆಗಳ ನಿಯಮಗಳನ್ನು ನಿಯಂತ್ರಿಸುತ್ತದೆ.
+        read_ct: ನಾನು ಮೇಲಿನ ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳನ್ನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪಿಕೊಂಡಿದ್ದೇನೆ.
+        tou_explain:
+          tou: ಬಳಕೆಯ ನಿಬಂಧನೆಗಳು
+        read_tou: ನಾನು ಬಳಕೆಯ ನಿಯಮಗಳನ್ನು ಓದಿದ್ದೇನೆ ಮತ್ತು ಒಪ್ಪುತ್ತೇನೆ.
+        guidance_info_html: 'ಈ ನಿಯಮಗಳನ್ನು ಅರ್ಥಮಾಡಿಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುವ ಮಾಹಿತಿ: %{readable_summary_link}
+          ಮತ್ತು ಕೆಲವು %{informal_translations_link}'
+        informal_translations: ಅನೌಪಚಾರಿಕ ಅನುವಾದಗಳು
+        continue: ಮುಂದುವರೆಸಿ
+        cancel: ರದ್ದುಗೊಳಿಸಿ
+        you need to accept or decline: ದಯವಿಟ್ಟು ಓದಿರಿ ಮತ್ತು ನಂತರ ಮುಂದುವರಿಯಲು ಹೊಸ ಕೊಡುಗೆದಾರರ
+          ನಿಯಮಗಳನ್ನು ಸ್ವೀಕರಿಸಿ ಅಥವಾ ನಿರಾಕರಿಸಿ.
+        legale_select: 'ವಾಸವಿರುವ ದೇಶ:'
         legale_names:
           france: ಫ಼್ರಾನ್ಸ್
           italy: ಇಟಲಿ
+      update:
+        terms accepted: ಹೊಸ ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳನ್ನು ಒಪ್ಪಿಕೊಂಡಿದ್ದಕ್ಕಾಗಿ ಧನ್ಯವಾದಗಳು!
+      terms_declined_flash:
+        terms_declined_html: ನೀವು ಹೊಸ ಕೊಡುಗೆದಾರರ ನಿಯಮಗಳನ್ನು ಸ್ವೀಕರಿಸದಿರಲು ನಿರ್ಧರಿಸಿದ್ದಕ್ಕಾಗಿ
+          ನಾವು ವಿಷಾದಿಸುತ್ತೇವೆ. ಹೆಚ್ಚಿನ ಮಾಹಿತಿಗಾಗಿ, ದಯವಿಟ್ಟು %{terms_declined_link}
+          ಅನ್ನು ನೋಡಿ.
+        terms_declined_link: ಈ ವಿಕಿ ಪುಟ
+    pd_declarations:
+      show:
+        title: ಸಾರ್ವಜನಿಕ ವಲಯದಲ್ಲಿರಿಸಲು ನನ್ನ ಕೊಡುಗೆಗಳನ್ನು ಪರಿಗಣಿಸಿ
+        consider_pd: ನನ್ನ ಕೊಡುಗೆಗಳು ಸಾರ್ವಜನಿಕ ವಲಯದಲ್ಲಿರುತ್ತವೆ ಎಂಬುದನ್ನು ನಾನು ಪರಿಗಣಿಸುತ್ತೇನೆ.
+        consider_pd_why: ನನ್ನ ಕೊಡುಗೆಗಳು ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್ನಲ್ಲಿ ಇರಬೇಕೆಂದು ನಾನು ಏಕೆ ಬಯಸುತ್ತೇನೆ?
+        confirm: ದೃಢೀಕರಿಸಿ
+      create:
+        successfully_declared: ನೀವು ನಿಮ್ಮ ಸಂಪಾದನೆಗಳನ್ನು ಸಾರ್ವಜನಿಕ ಡೊಮೇನ್‌ನಲ್ಲಿರಿಸುವುದರ
+          ಪರಿಗಣನೆಯನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಘೋಷಿಸಿದ್ದೀರಿ.
   browse:
+    edited_ago_by_html: '%{user} ಅವರು %{time_ago} ಹಿಂದೆ ಸಂಪಾದಿಸಿದ್ದಾರೆ'
     version: ಆವೃತ್ತಿ
     in_changeset: ಬದಲಾವಣೆಗಳು
     anonymous: ಅನಾಮಧೇಯ
@@ -294,6 +388,12 @@ kn:
     tag_details:
       tags: ಟ್ಯಾಗ್‌ಗಳು
       telephone_link: '%{phone_number} ಕರೆಮಾಡಿ'
+      colour_preview: '%{colour_value} ಬಣ್ಣದ ಪೂರ್ವವೀಕ್ಷಣೆ'
+      email_link: ಮಿಂಚೆ %{email}
+    versions_navigation:
+      history: ಇತಿಹಾಸ
+      version: 'ಆವೃತ್ತಿ #%{version}'
+      versions_label: ಆವೃತ್ತಿಗಳು
   feature_queries:
     show:
       introduction: ಹತ್ತಿರದ ವೈಶಿಷ್ಟ್ಯಗಳನ್ನು ಹುಡುಕಲು ನಕ್ಷೆಯ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಿ.
@@ -303,6 +403,8 @@ kn:
     index:
       node:
         title_html: 'ನೊಡ್ ನ ಇತಿಹಾಸ: %{name}'
+      older_versions: ಹಳೆಯ ಆವೃತ್ತಿಗಳು
+      newer_versions: ಹೊಸ ಆವೃತ್ತಿಗಳು
   changeset_comments:
     feeds:
       comment:
@@ -332,12 +434,22 @@ kn:
       title: 'ಬದಲಾವಣೆಗಳು: %{id}'
       discussion: ಚರ್ಚೆ
       join_discussion: ‍ಚರ್ಚೆಗೆ ಸೇರಲು ಲಾಗ್ ಇನ್ ಆಗಿರಿ
+      subscribe: ಚಂದಾದಾರರಾಗಿ
+      unsubscribe: ಚಂದಾದಾರಿಕೆ ರದ್ದುಗೊಳಿಸಿ
+      comment_by_html: '%{time_ago} %{user} ಅವರಿಂದ ಪ್ರತಿಕ್ರಿಯೆ'
+      hide_comment: ಮರೆಮಾಡಿ
+      unhide_comment: ಬಹಿರಂಗಗೊಳಿಸಿ
+      comment: ಪ್ರತಿಕ್ರಿಯೆ
     paging_nav:
       nodes_paginated: ನೋಡ್ಸ್  (%{x}-%{y} ರ %{count})
       ways_paginated: ದಾರಿಗಳು (%{x}-%{y} ರ %{count})
       relations_paginated: ಸಂಬಂಧಗಳು(%{x}-%{y} of %{count})
     timeout:
       sorry: ಕ್ಷಮಿಸಿ, ನೀವು ಕೇಳಿದ ಬದಲಾವಣಾ ಪಟ್ಟಿ ಪಡೆಯಲು ದೀರ್ಘ ಸಮಯ ಬೇಕಾಯಿತು.
+  changeset_subscriptions:
+    show:
+      subscribe:
+        button: ಚರ್ಚೆಗೆ ಚಂದಾದಾರರಾಗಿ
   dashboards:
     contact:
       km away: '%{count} ಕಿಮೀ ದೂರ'
@@ -346,6 +458,8 @@ kn:
       view_changeset_details: ಬದಲಾವಣೆಯ ವಿವರಗಳನ್ನು ತೋರಿಸಿ
     popup:
       your location: ನಿಮ್ಮ ಸ್ಥಳ
+    show:
+      followed_diaries: ದಿನಚರಿ ನಮೂದುಗಳು
   diary_entries:
     new:
       title: ದಿನಚರಿಯಲ್ಲಿ ಹೊಸದಾದ ದಾಖಲೆ
@@ -366,6 +480,8 @@ kn:
     show:
       title: '%{user} ಅವರ ದಿನಚರಿ | %{title}'
       user_title: '%{user}ರ ದಿನಚರಿ'
+      discussion: ಚರ್ಚೆ
+      unsubscribe: ಚಂದಾದಾರಿಕೆ ರದ್ದುಗೊಳಿಸಿ
       leave_a_comment: ಟಿಪ್ಪಣಿ ನೀಡಿರಿ
       login_to_leave_a_comment_html: '%{login_link} ಅಭಿಪ್ರಾಯ ತಿಳಿಸಲು'
       login: ಲಾಗಿನ್
@@ -375,11 +491,15 @@ kn:
     diary_entry:
       posted_by_html: '%{link_user} ಅವರಿಂದ %{created} ರಂದು %{language_link} ನಲ್ಲಿ
         ಪೋಸ್ಟ್ ಮಾಡಲಾಗಿದೆ'
+      updated_at_html: '%{updated} ನಲ್ಲಿ ಕೊನೆಯದಾಗಿ ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿದೆ.'
+      full_entry: ಪೂರ್ಣ ನಮೂದನ್ನು ನೋಡಿ
       comment_link: ಈ ದಾಖಲಾತಿಗೆ ನಿಮ್ಮ ಅಭಿಪ್ರಾಯ ತಿಳಿಸಿ
       reply_link: ಲೇಖಕರಿಗೆ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಿ
+      no_comments: ಯಾವುದೇ ಪ್ರತಿಕ್ರಿಯೆಗಳಿಲ್ಲ
       edit_link: ಈ ದಾಖಲೆಯನ್ನು ತಿದ್ದಿರಿ
       hide_link: ಈ ದಾಖಲೆಯನ್ನು ಬಚ್ಚಿಡಿ
       confirm: ಧೃಡಪಡಿಸಿ
+      report: ಈ ನಮೂದನ್ನು ವರದಿ ಮಾಡಿ
     diary_comment:
       comment_from_html: '%{link_user}ಅವರಿಂದ %{comment_created_at}ರಂದು ಅಭಿಪ್ರಾಯ'
       hide_link: ಈ ಟಿಪ್ಪಣಿಯನ್ನು ಅಡಗಿಸಿ
@@ -393,6 +513,8 @@ kn:
         description: ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್ ನಲ್ಲಿ %{user} ಅವರ ಇತ್ತೀಚಿನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು
       language:
         title: '%{language_name} ಭಾಷೆಯಲ್ಲಿ ಓಪನ್‍ಸ್ಟ್ರೀಟ್‍ಮ್ಯಾಪ್‍ನ ದಿನಚರಿ ದಾಖಲಾತಿಗಳು'
+    subscribe:
+      button: ಚರ್ಚೆಗೆ ಚಂದಾದಾರರಾಗಿ
     navigation:
       my_diary: ನನ್ನ ಡೈರಿ
       new: ಹೊಸದಾದ ದಿನಚರಿ ದಾಖಲು

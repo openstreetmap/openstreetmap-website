@@ -14,16 +14,14 @@ class DiaryCommentsController < ApplicationController
   allow_thirdparty_images :only => :create
 
   def create
-    @diary_entry = DiaryEntry.find(params[:id])
+    @diary_entry = DiaryEntry.find(params.expect(:id))
     @comments = @diary_entry.visible_comments
     @diary_comment = @diary_entry.comments.build(comment_params)
     @diary_comment.user = current_user
     if @diary_comment.save
 
       # Notify current subscribers of the new comment
-      @diary_entry.subscribers.visible.each do |user|
-        UserMailer.with(:comment => @diary_comment, :recipient => user).diary_comment_notification.deliver_later if current_user != user
-      end
+      DiaryCommentNotifier.with(:record => @diary_comment).deliver_later
 
       # Add the commenter to the subscribers if necessary
       @diary_entry.subscriptions.create(:user => current_user) unless @diary_entry.subscribers.exists?(current_user.id)
@@ -37,13 +35,13 @@ class DiaryCommentsController < ApplicationController
   end
 
   def hide
-    comment = DiaryComment.find(params[:comment])
+    comment = DiaryComment.find(params.expect(:comment))
     comment.update(:visible => false)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end
 
   def unhide
-    comment = DiaryComment.find(params[:comment])
+    comment = DiaryComment.find(params.expect(:comment))
     comment.update(:visible => true)
     redirect_to diary_entry_path(comment.diary_entry.user, comment.diary_entry)
   end

@@ -7,9 +7,10 @@ This guide covers our development workflow, coding standards, and how to get you
 1. [Getting Started](#getting-started)
 2. [How to Contribute](#how-to-contribute)
 3. [Code Quality Guidelines](#code-quality-guidelines)
-4. [Submitting Changes](#submitting-changes)
-5. [Localization (i18n)](#localization-i18n)
-6. [Copyright Attribution](#copyright-attribution)
+4. [AI Assisted Contributions](#ai-assisted-contributions)
+5. [Submitting Changes](#submitting-changes)
+6. [Localization (i18n)](#localization-i18n)
+7. [Copyright Attribution](#copyright-attribution)
 
 ## Getting Started
 
@@ -22,7 +23,7 @@ This guide covers our development workflow, coding standards, and how to get you
 
 > [!NOTE]
 > We don't assign issues to individual contributors. You are welcome to work on any issue, and there's no need to ask first.
-> For more details see [our FAQ](doc/FAQ.md)
+> For more details see [our FAQ](FAQ.md)
 
 We welcome the community to contribute to this repository in any form:
 
@@ -171,6 +172,15 @@ When contributing, you should:
 
 * Comment your code where necessary - explain the bits which might be difficult to understand what the code does, why it does it and why it should be the way it is.
 * Check existing comments to ensure that they are not misleading.
+
+## AI-Assisted Contributions
+
+If you choose to use AI tools to help create pull requests, you should follow these additional guidelines:
+
+* Make sure that a human has reviewed, tested, and fully understands all the code changes being submitted.
+* If you submit code that you don't understand, then you aren't actually helping anyone. Maintainers already have access to AI tools. If pasting the output into a PR is all that was required, then the maintainers would have done that themselves already.
+* Issues tagged for new contributors are meant as learning opportunities, not as items that need to be addressed with urgency. Using AI for these issues removes the opportunity to learn, both from you and other contributors.
+* If you submit a PR and the maintainers suspect that you haven't reviewed, tested, or understood the code, they may decline your PR without further discussion.
 
 ## Submitting Changes
 

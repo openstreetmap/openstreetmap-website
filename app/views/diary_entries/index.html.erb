@@ -11,15 +11,15 @@
 
     <div class="col">
       <h1><%= @title %></h1>
-      <%= render :partial => "navigation" %>
+      <%= render "navigation", :user => @user, :languages => Array.wrap(@languages) %>
     </div>
   </div>
 <% end %>
 
-<% if @entries.empty? %>
+<% if @entries.items.empty? %>
   <h4><%= t ".no_entries" %></h4>
 <% else %>
-  <%= render :partial => "page" %>
+  <%= render "page", :entries => @entries, :user => @user, :params => @params %>
 <% end -%>
 
 <% unless params[:friends] or params[:nearby] -%>

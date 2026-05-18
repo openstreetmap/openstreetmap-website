@@ -1,4 +1,4 @@
-<%# locals: () %>
+<%# locals: (source_page:) %>
 
 <div class="mb-3 px-2">
   <%= text_field_tag :language_search,
@@ -12,13 +12,13 @@
   <% AVAILABLE_LANGUAGES.each do |language| %>
     <li class="language-item">
       <% target_path = begin
-           uri = URI.parse(@source_page)
+           uri = URI.parse(source_page)
            query_params = Rack::Utils.parse_nested_query(uri.query)
            query_params["locale"] = language[:code]
            uri.query = query_params.to_query
            uri.to_s
          rescue StandardError
-           "#{@source_page}?locale=#{language[:code]}"
+           "#{source_page}?locale=#{language[:code]}"
          end %>
 
       <%= link_to target_path,

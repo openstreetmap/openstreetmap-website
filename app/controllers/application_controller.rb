@@ -286,8 +286,10 @@ class ApplicationController < ActionController::Base
     if Settings.key?(:totp_key)
       cookies["_osm_totp_token"] = {
         :value => ROTP::TOTP.new(Settings.totp_key, :interval => 3600).now,
-        :domain => "openstreetmap.org",
-        :expires => 1.hour.from_now
+        :domain => Settings.totp_domain,
+        :expires => 1.hour.from_now,
+        :secure => Settings.server_protocol == "https",
+        :httponly => true
       }
     end
   end

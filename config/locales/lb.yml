@@ -66,6 +66,7 @@ lb:
       message: Message
       node: Knuet
       node_tag: Knuet-Tag
+      note: Notiz
       old_node: Ale Knuet
       old_node_tag: Ale Knuet-Tag
       old_relation: Al Relatioun
@@ -289,6 +290,7 @@ lb:
         cancel: Ofbriechen
     terms:
       show:
+        title: Bedingungen
         heading: Bedingungen
         tou_explain:
           tou: Benotzungskonditiounen
@@ -538,6 +540,8 @@ lb:
       unsubscribe:
         heading: Déi follgend Ännerungssaz-Diskussioun ofbestellen?
         button: Diskussioun ofbestellen
+    heading:
+      title: Ännerungssaz %{id}
     no_such_entry:
       heading: 'Keen Antrag mat der ID: %{id}'
   dashboards:
@@ -572,10 +576,10 @@ lb:
       title: Blogge vun de Benotzer
       title_nearby: Blogge vu Benotzer an dénger Noperschaft
       user_title: Blog vum %{user}
-      in_language_title: Blog-Anträg op %{language}
+      in_language_title: Blog-Ännerungen op %{language}
       no_entries: Keng Bloganträg
     page:
-      recent_entries: Neiest Anträg
+      recent_entries: Neist Ännerungen
     edit:
       title: Blogantrag beaarbechten
       marker_text: Plaz vum Blogantrag
@@ -636,7 +640,6 @@ lb:
       new_title: Blogantrag erstellen
     profile_diaries:
       title_label: Blog-Antrag
-      date_label: Datum
   doorkeeper:
     flash:
       applications:
@@ -1405,7 +1408,7 @@ lb:
           guest_house: Pensioun
           hostel: Jugendherberg
           hotel: Hotel
-          information: Informatioun
+          information: Informatiounen
           motel: Motel
           museum: Musée
           picnic_site: Piknikplaz
@@ -1463,6 +1466,8 @@ lb:
     show:
       title:
         latlon: Intern
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Näischt fonnt
@@ -1523,14 +1528,13 @@ lb:
       other_issues_against_this_user: Weider Problemer géint dëse Benotzer
       no_other_issues: Keng weider Problemer géint dëse Benotzer
       comments_on_this_issue: Commentairen zu dësem Problem
+      comment_from_html: Commentaire vun %{user_link} erstallt den %{comment_created_at}
     resolve:
       resolved: De Problemstatus gouf op „Erleedegt“ geännert
     ignore:
       ignored: De Problemstatus gouf op „Ignoréiert“ geännert
     reopen:
       reopened: De Problemstatus gouf op „Oppe“ geännert
-    comments:
-      comment_from_html: Commentaire vun %{user_link} erstallt den %{comment_created_at}
     reports:
       reported_by_html: Gemellt als %{category} vun %{user} den %{updated_at}
     helper:
@@ -1677,6 +1681,7 @@ lb:
     intro_text: OpenStreetMap ass eng Kaart vun der Welt, déi vu Leit wéi Iech gemaach
       gouf an déi fräi ënner enger oppener Lizenz benotzt ka ginn.
     partners_partners: Partneren
+    terms_of_use: Benotzungsbedingungen
     tou: Benotzungs-Bedéngungen
     learn_more: Méi gewuer ginn
     header:
@@ -1692,7 +1697,6 @@ lb:
       history: Versiounen
       home: Op déi Plaz zréckgoen déi als Doheem definéiert ass
       issues: Problemer
-      loading: Lueden...
       log_out: Ofmellen
       log_in: Aloggen
       more: Méi
@@ -1990,8 +1994,9 @@ lb:
       update_success_flash:
         message: Benotzerastellungen aktualiséiert.
       navigation:
-        preferences: Astellungen
-        advanced_preferences: Erweidert Astellungen
+        preferences: Interface
+        notification_preferences: Notifikatiounen
+        advanced_preferences: Erweidert
     basic_preferences:
       show:
         title: Meng Benotzerastellungen
@@ -2006,7 +2011,16 @@ lb:
           auto: Automatesch
           light: Hell
           dark: Däischter
+        editor_color_schemes:
+          light: Hell
+          dark: Däischter
         save: Benotzerastellungen aktualiséieren
+    notification_preferences:
+      show:
+        title: Notifikatiounsastellungen
+        save: Astellungen aktualiséieren
+        delivery_mechanisms:
+          email: E-Mail
     advanced_preferences:
       show:
         title: Meng erweidert Astellungen
@@ -2129,8 +2143,8 @@ lb:
       diary_entries:
         older: Eeler Anträg
         newer: Méi nei Anträg
-        oldest: Eelst Anträg
-        newest: Neist Anträg
+        oldest: Eelst Ännerungen
+        newest: Neist Ännerungen
       issues:
         older: Eeler Problemer
         newer: Méi nei Problemer
@@ -2672,6 +2686,19 @@ lb:
       contributions:
         one: '%{count} Kontributioun am leschte Joer'
         other: '%{count} Kontributiounen am leschte Joer'
+      title:
+        administrator: Dëse Benotzer ass en Administrateur
+        moderator: Dëse Benotzer ass e Moderateur
+      grant:
+        administrator: Administrateur-Zougang accordéieren
+        moderator: Moderateursrechter ginn
+        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
+          zoudeele wëllt?
+      revoke:
+        administrator: Administrateur-Zougang ofhuelen
+        moderator: Moderateursrechter ewechhuelen
+        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
+          ofhuele wëllt?
     sidebar_section:
       home_location: Doheem
       company: Firma
@@ -2743,20 +2770,6 @@ lb:
       heading: Är ID ass nach net mat engem OpenStreetMap-Kont verbonnen.
       option_1: Wann Dir nei sidd bei OpenSrreetMap da leet wgl. e Benotzerkont un
         andeem Dir de Formulaire hei drënner benotzt.
-    role_icons:
-      title:
-        administrator: Dëse Benotzer ass en Administrateur
-        moderator: Dëse Benotzer ass e Moderateur
-      grant:
-        administrator: Administrateur-Zougang accordéieren
-        moderator: Moderateursrechter ginn
-        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
-          zoudeele wëllt?
-      revoke:
-        administrator: Administrateur-Zougang ofhuelen
-        moderator: Moderateursrechter ewechhuelen
-        are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
-          ofhuele wëllt?
   user_role:
     filter:
       not_a_role: D'Zeecheketten '%{role}' ass keng gülteg Roll.
@@ -3033,7 +3046,7 @@ lb:
     home:
       marker_title: Mäin Doheem
       not_set: Fir Äre Kont ass keen Doheem definéiert
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Keng Kontributioune vum %{date}
         contributions:

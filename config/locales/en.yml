@@ -3,7 +3,7 @@ en:
     dir: ltr
   date:
     formats:
-      heatmap: "%B %-d"
+      contribution_calendar: "%B %-d"
   time:
     formats:
       friendly: "%e %B %Y at %H:%M"
@@ -301,7 +301,7 @@ en:
         title: "Terms"
         heading: "Terms"
         heading_ct: "Contributor terms"
-        read and accept with tou: "Please read the contributor agreement and the terms of use, check both checkboxes when done and then press the continue button."
+        read and accept with tou: "Please read the Contributor Terms and the Terms of Use, check both checkboxes when done, and then press \"Continue\"."
         contributor_terms_explain: "This agreement governs the terms for your existing and future contributions."
         read_ct: "I have read and agree to the above contributor terms"
         tou_explain:
@@ -683,8 +683,6 @@ en:
         one: "%{count} comment"
         other: "%{count} comments"
       title_label: Diary Entry
-      comments_label: Comments
-      date_label: Date
   diary_comments:
     new:
       heading: Add a comment to the following diary entry discussion?
@@ -893,9 +891,13 @@ en:
           aboriginal_lands: "Aboriginal Lands"
           administrative: "Administrative Boundary"
           census: "Census Boundary"
+          low_emission_zone: "Low-Emission Zone"
           national_park: "National Park"
           political: "Electoral Boundary"
+          postal_code: "Postal Code"
           protected_area: "Protected Area"
+          public_transport: "Public Transportation District"
+          timezone: "Time Zone"
           "yes": "Boundary"
         bridge:
           aqueduct: "Aqueduct"
@@ -1071,6 +1073,7 @@ en:
           milestone: "Historic Milestone"
           mine: "Mine"
           mine_shaft: "Mine Shaft"
+          monastery: "Historic Monastery"
           monument: "Monument"
           railway: "Historic Railway"
           roman_road: "Roman Road"
@@ -1338,6 +1341,7 @@ en:
           abandoned: "Abandoned Railway"
           buffer_stop: "Buffer Stop"
           construction: "Railway under Construction"
+          crossing: "Railway-Path Crossing"
           disused: "Disused Railway"
           funicular: "Funicular Railway"
           halt: "Train Stop"
@@ -1457,7 +1461,7 @@ en:
           pet: "Pet Shop"
           pet_grooming: "Pet Grooming"
           photo: "Photo Shop"
-          seafood: "Sea Food"
+          seafood: "Seafood"
           second_hand: "Second-hand Shop"
           sewing: "Sewing Shop"
           shoes: "Shoe Shop"
@@ -1652,16 +1656,15 @@ en:
       other_issues_against_this_user: Other issues against this user
       no_other_issues: No other issues against this user.
       comments_on_this_issue: Comments on this issue
+      comment_from_html: "Comment from %{user_link} on %{comment_created_at}"
+      reassign_to_moderators: Reassign Issue to Moderators
+      reassign_to_administrators: Reassign Issue to Administrators
     resolve:
       resolved: Issue status has been set to 'Resolved'
     ignore:
       ignored: Issue status has been set to 'Ignored'
     reopen:
       reopened: Issue status has been set to 'Open'
-    comments:
-      comment_from_html: "Comment from %{user_link} on %{comment_created_at}"
-      reassign_to_moderators: Reassign Issue to Moderators
-      reassign_to_administrators: Reassign Issue to Administrators
     reports:
       reported_by_html: "Reported as %{category} by %{user} on %{updated_at}"
     helper:
@@ -1753,6 +1756,7 @@ en:
         ia: Interlingua
         is: Icelandic
         it: Italian
+        kw: Cornish
         gcf: Guadeloupean Creole
         ku-Latn: Kurdish (Latin)
         lv: Latvian
@@ -1835,6 +1839,7 @@ en:
       title: OpenStreetMap
     logo:
       alt_text: OpenStreetMap logo
+    main_navigation: Main
     layer_info: "Layer Info"
     start_mapping: Start Mapping
     intro_header: Welcome to OpenStreetMap!
@@ -1843,6 +1848,8 @@ en:
     partners_fastly: "Fastly"
     partners_corpmembers: "OSMF corporate members"
     partners_partners: "partners"
+    welcome_tou_notice_html: "By using this website or other infrastructure provided by the OpenStreetMap Foundation, you agree to the %{terms_link}."
+    terms_of_use: "Terms of Use"
     tou: "Terms of Use"
     nothing_to_preview: "Nothing to preview."
     learn_more: "Learn More"
@@ -1859,7 +1866,6 @@ en:
       history: History
       home: Go to Home Location
       issues: Issues
-      loading: Loading...
       log_out: Log Out
       log_in: Log In
       more: More
@@ -2113,8 +2119,9 @@ en:
       update_success_flash:
         message: Preferences updated.
       navigation:
-        preferences: Preferences
-        advanced_preferences: Advanced Preferences
+        preferences: Interface
+        notification_preferences: Notifications
+        advanced_preferences: Advanced
     basic_preferences:
       show:
         title: My Preferences
@@ -2135,6 +2142,19 @@ en:
           light: Light
           dark: Dark
         save: Update Preferences
+    notification_preferences:
+      show:
+        title: Notification Preferences
+        changeset_comment: Changeset comments
+        diary_comment: Diary comments
+        direct_message: Direct messages
+        gpx_import_failure: "GPS trace import: failure"
+        gpx_import_success: "GPX trace import: success"
+        new_follower: New followers
+        note_comment: Note comments
+        save: Update Preferences
+        delivery_mechanisms:
+          email: Email
     advanced_preferences:
       show:
         title: My Advanced Preferences
@@ -2147,7 +2167,7 @@ en:
         image: Image
         company: Company
         location: Location
-        heatmap: Heatmap
+        contribution_calendar: Contribution Calendar
     descriptions:
       show:
         title: Edit Profile
@@ -2208,13 +2228,13 @@ en:
         failure: Couldn't update profile location.
     heatmaps:
       show:
-        title: Configure Heatmap
-        show_heatmap_in_public: "Show the heatmap on your profile page"
-        save: Update Heatmap Configuration
+        title: Configure Contribution Calendar
+        show_contribution_calendar_in_public: "Show the contribution calendar on your profile page"
+        save: Update Contribution Calendar Configuration
         cancel: Cancel
       update:
-        success: Heatmap updated.
-        failure: Couldn't update the heatmap.
+        success: Contribution calendar updated.
+        failure: Couldn't update the contribution calendar.
   sessions:
     new:
       tab_title: "Log In"
@@ -2229,6 +2249,7 @@ en:
       login_button: "Log in"
       with external: "or log in with a third party"
       or: "or"
+      reset_to_login: "Sorry, your password has been expired. Please reset your password to login."
       auth failure: "Sorry, could not log in with those details."
     destroy:
       title: "Logout"
@@ -2351,7 +2372,7 @@ en:
       legal_1_2_html: |
         If you would like to use OpenStreetMap maps or data please make sure to attribute OpenStreetMap—refer to %{attribution_guidelines_link} for more information.
       legal_attribution_guidelines_title: Attribution Guidelines
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: |
         Specifically for using a screenshot from OpenStreetMap directly in your book, publication, film or TV show, you do not need to ask for permission as data in OpenStreetMap is open for all to use. Refer to the %{attribution_guidelines_link} and see existing examples in %{attribution_example_film} and %{attribution_example_tv}.
       legal_attribution_example_film_title: Film
@@ -2436,11 +2457,11 @@ en:
           created a browsable map, a printed map or a static image.
           More details can be found in the %{attribution_guidelines_link} section of %{licensing_requirements_link}.
         credit_3_v2025_requirements_on_how_displayed: requirements on how this should be displayed
-        credit_3_v2025_requirements_on_how_displayed_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_requirements_on_how_displayed_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_attribution_guidelines: attribution guidelines
-        credit_3_v2025_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+        credit_3_v2025_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_licensing_requirements: the licensing requirements
-        credit_3_v2025_licensing_requirements_url: https://wiki.osmfoundation.org/wiki/Licence
+        credit_3_v2025_licensing_requirements_url: https://osmfoundation.org/wiki/Licence
         credit_4_v2025_html: |
           Generally speaking,
           to make clear that the data is available under the Open
@@ -2466,7 +2487,7 @@ en:
           to our %{takedown_procedure_link} or file directly at our
           %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: takedown procedure
-        infringement_2_1_takedown_procedure_url: https://wiki.osmfoundation.org/wiki/Takedown_procedure
+        infringement_2_1_takedown_procedure_url: https://osmfoundation.org/wiki/Takedown_procedure
         infringement_2_1_online_filing_page: on-line filing page
         infringement_2_1_online_filing_page_url: https://dmca.openstreetmap.org/
         trademarks_title: Trademarks
@@ -2475,7 +2496,7 @@ en:
           OpenStreetMap Foundation. If you have questions about your use of the marks, please see our
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Trademark Policy
-        trademarks_1_1_trademark_policy_url: https://wiki.osmfoundation.org/wiki/Trademark_Policy
+        trademarks_1_1_trademark_policy_url: https://osmfoundation.org/wiki/Trademark_Policy
         services_title_html: Additional services
         services_1_html: |
           Although OpenStreetMap is open data, we cannot provide a
@@ -3248,10 +3269,24 @@ en:
       change_image: Change Image
       edit_company: Edit Company
       edit_location: Edit Location
-      edit_heatmap: Configure Heatmap
+      edit_contribution_calendar: Configure Contribution Calendar
       contributions:
         one: "%{count} contribution in the last year"
         other: "%{count} contributions in the last year"
+      title:
+        administrator: "This user is an administrator"
+        moderator: "This user is a moderator"
+        importer: "This user is an importer"
+      grant:
+        administrator: "Grant administrator access"
+        moderator: "Grant moderator access"
+        importer: "Grant importer access"
+        are_you_sure: "Are you sure you want to grant the role '%{role}' to the user '%{name}'?"
+      revoke:
+        administrator: "Revoke administrator access"
+        moderator: "Revoke moderator access"
+        importer: "Revoke importer access"
+        are_you_sure: "Are you sure you want to revoke the role '%{role}' from the user '%{name}'?"
     sidebar_section:
       home_location: "Home location"
       company: "Company"
@@ -3348,21 +3383,6 @@ en:
         If you already have an account, you can log in to your account
         using your username and password and then associate the account
         with your ID in your user settings.
-    role_icons:
-      title:
-        administrator: "This user is an administrator"
-        moderator: "This user is a moderator"
-        importer: "This user is an importer"
-      grant:
-        administrator: "Grant administrator access"
-        moderator: "Grant moderator access"
-        importer: "Grant importer access"
-        are_you_sure: "Are you sure you want to grant the role '%{role}' to the user '%{name}'?"
-      revoke:
-        administrator: "Revoke administrator access"
-        moderator: "Revoke moderator access"
-        importer: "Revoke importer access"
-        are_you_sure: "Are you sure you want to revoke the role '%{role}' from the user '%{name}'?"
   user_role:
     filter:
       not_a_role: "The string '%{role}' is not a valid role."
@@ -3571,6 +3591,10 @@ en:
       tooltip: "Legend"
       tooltip_disabled: "Legend not available for this layer"
     map:
+      map:
+        title: Map
+        marker:
+          title: Map marker
       popup:
         close: Close
       navigation_control:
@@ -3585,6 +3609,8 @@ en:
         feetPopup:
           one: You are within %{count} foot of this point
           other: You are within %{count} feet of this point
+      attribution_control:
+        toggle_attribution: Toggle Attribution
       base:
         standard: Standard
         cyclosm: CyclOSM
@@ -3726,7 +3752,7 @@ en:
     home:
       marker_title: My home location
       not_set: Home location is not set for your account
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: "No contributions on %{date}"
         contributions:

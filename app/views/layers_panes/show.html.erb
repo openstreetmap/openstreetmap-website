@@ -23,10 +23,10 @@
          options = { :data => layer, :class => "form-check" }
          options[:title] = t(".map_#{layer[:name]}_zoom_in_tooltip") if layer[:max_area] %>
       <%= tag.div(**options) do %>
-        <label id="<%= "label-layers-#{layer[:name]}" %>" class="form-check-label">
+        <%= tag.label :id => "label-layers-#{layer[:name]}", :class => "form-check-label" do %>
           <input type="checkbox" class="form-check-input">
           <%= t "javascripts.map.layers.#{layer[:name]}" %>
-        </label>
+        <% end %>
       <% end %>
     <% end %>
   </div>

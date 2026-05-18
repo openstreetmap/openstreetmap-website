@@ -41,4 +41,50 @@ $(function () {
       location.reload();
     }
   });
+
+  let hashChangedAutomatically = false;
+  window.addEventListener("message", function (event) {
+    if (event.source !== id[0].contentWindow || event.origin !== location.origin) return;
+    const msg = event.data;
+    switch (msg.type) {
+      case "hashchange":
+        return onIframeHashChange(msg.data);
+      case "titlechange":
+        return onIframeTitleChange(msg.data);
+    }
+  });
+
+  function onIframeHashChange(data) {
+    updateLinks(data, data.zoom);
+
+    // Manually resolve URL to avoid iframe JS context weirdness.
+    // https://gist.github.com/jfirebaugh/5439412
+    const hash = OSM.formatHash(data);
+    if (hash === location.hash) return;
+
+    hashChangedAutomatically = true;
+    location.replace(location.href.replace(/(#.*|$)/, hash));
+  }
+
+  function onIframeTitleChange(title) {
+    document.title = [title, OSM.i18n.t("layouts.project_name.title")].filter(t => t).join(" | ");
+  }
+
+  function postMessageToIframe(type, data) {
+    id[0].contentWindow.postMessage({ type, data }, location.origin);
+  }
+
+  $("body").on("click", "a.set_position", function (e) {
+    e.preventDefault();
+    postMessageToIframe("hashchange", $(this).data());
+  });
+
+  addEventListener("hashchange", function (e) {
+    if (hashChangedAutomatically) {
+      hashChangedAutomatically = false;
+      return;
+    }
+    e.preventDefault();
+    postMessageToIframe("hashchange", OSM.mapParams());
+  });
 });

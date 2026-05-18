@@ -1,3 +1,5 @@
+//= require polyline_decoder
+
 (function () {
   function GraphHopperEngine(modeId, vehicleType, profile) {
     const GH_INSTR_MAP = {
@@ -19,7 +21,7 @@
     };
 
     function _processDirections(path) {
-      const line = L.PolylineUtil.decode(path.points);
+      const line = OSM.decodePolyline(path.points, { precision: 5 });
 
       const steps = path.instructions.map(instr => [
         GH_INSTR_MAP[instr.sign],

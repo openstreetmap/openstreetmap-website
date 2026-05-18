@@ -7,8 +7,8 @@
       <%= t "layouts.project_name.title" %>
     </a>
     <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none"] %>
-    <a href="#" id="menu-icon" class="d-md-none">
-      <%= inline_svg_tag "menu-icon.svg", :size => "30px" %>
+    <a href="#" id="menu-icon" class="d-md-none" aria-expanded="false" aria-label="<%= t("layouts.main_navigation") %>">
+      <i class="bi bi-list lh-1 text-body-secondary"></i>
     </a>
   </h1>
   <nav class="primary">
@@ -34,9 +34,9 @@
   </nav>
   <nav class="secondary d-flex flex-column flex-md-row gap-2 flex-grow-1 align-items-center">
     <ul id="secondary-nav-menu" class="nav flex-grow-1 justify-content-center justify-content-md-start" data-turbo-permanent>
-      <% secondary_nav_items.each do |path, label, options| %>
+      <% secondary_nav_items.each do |path, label, options = {}| %>
         <li class="nav-item pb-2 pb-md-0">
-          <%= link_to label, path, :class => ["nav-link", "px-1", "py-0", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary"], **(options || {}) %>
+          <%= link_to label, path, :class => ["nav-link", "px-1", "py-0", current_page?(path) ? "active text-secondary-emphasis" : "text-secondary", options.delete(:class)], **options %>
         </li>
       <% end %>
       <li id="compact-secondary-nav" class="dropdown nav-item ms-auto pb-2 pb-md-0 collapse">
@@ -46,7 +46,7 @@
       </li>
     </ul>
 
-    <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block", { "border-secondary-subtle" => current_user&.id }] %>
+    <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block py-0", { "border-secondary-subtle" => current_user&.id }] %>
     <% if current_user && current_user.id %>
       <div class="d-inline-flex dropdown user-menu logged-in">
         <button class="d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100" type="button" data-bs-toggle="dropdown">
@@ -92,11 +92,7 @@
       </div>
       <div class="modal-body px-1">
         <turbo-frame id="select_language_list" src="<%= languages_pane_path %>?source=<%= ERB::Util.url_encode(request.fullpath) %>" loading="lazy">
-          <div class="text-center py-3">
-            <div class="spinner-border text-secondary" role="status">
-              <span class="visually-hidden"><%= t ".loading" %></span>
-            </div>
-          </div>
+          <div class="text-center py-3"><%= render "shared/loader" %></div>
         </turbo-frame>
       </div>
     </div>

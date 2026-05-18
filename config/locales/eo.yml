@@ -14,6 +14,7 @@
 # Author: Luckas
 # Author: LyzTyphone
 # Author: Marcellus
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: Michawiki
 # Author: Minh Nguyen
@@ -34,7 +35,7 @@
 eo:
   date:
     formats:
-      heatmap: la %-d-a de %B
+      contribution_calendar: la %-d-a de %B
   time:
     formats:
       friendly: '%e %B %Y je %H:%M'
@@ -99,7 +100,7 @@ eo:
       relation: Rilato
       relation_member: Ano de rilato
       relation_tag: Etikedo de rilato
-      report: Raporti
+      report: raporton
       session: Seanco
       trace: Spuro
       tracepoint: Spur-punkto
@@ -742,8 +743,6 @@ eo:
         one: '%{count} komento'
         other: '%{count} komentoj'
       title_label: Taglibra skribaĵo
-      comments_label: Komentoj
-      date_label: Dato
   diary_comments:
     new:
       heading: Ĉu aldoni komenton al la diskuto pri tiu ĉi taglibra afiŝo?
@@ -1720,16 +1719,15 @@ eo:
       other_issues_against_this_user: Aliaj problemoj pri tiu ĉi uzanto
       no_other_issues: Neniu alia problemo pri tiu ĉi uzanto.
       comments_on_this_issue: Komentoj al tiu ĉi problemo
+      comment_from_html: Komento fare de %{user_link} je %{comment_created_at}
+      reassign_to_moderators: Reasigni problemon al kontrolantoj
+      reassign_to_administrators: Reasigni problemon al administrantoj
     resolve:
       resolved: Problemo estas solvita
     ignore:
       ignored: Problemo estas ignorita
     reopen:
       reopened: Problemo estas malfermita
-    comments:
-      comment_from_html: Komento fare de %{user_link} je %{comment_created_at}
-      reassign_to_moderators: Reasigni problemon al kontrolantoj
-      reassign_to_administrators: Reasigni problemon al administrantoj
     reports:
       reported_by_html: Raportita kiel %{category} fare de %{user} je %{updated_at}
     helper:
@@ -1823,6 +1821,7 @@ eo:
         ia: Interlingvao
         is: islanda
         it: itala
+        kw: kornvala
         gcf: gvadelupa kreola
         ku-Latn: kurda (latina)
         lv: latva
@@ -1903,6 +1902,7 @@ eo:
   layouts:
     logo:
       alt_text: Emblemo de OpenStreetMap
+    main_navigation: Ĉefa
     layer_info: Informoj pri tavolo
     start_mapping: Ekigi mapigadon
     intro_header: Bonvenon al OpenStreetMap!
@@ -1912,6 +1912,9 @@ eo:
       kaj aliaj %{partners}.
     partners_corpmembers: firmaaj anoj de OSMF
     partners_partners: kunlaborantoj
+    welcome_tou_notice_html: Uzante tiun ĉi retejon aŭ alian infrastrukturon liveratan
+      de la Fondaĵo OpenStreetMap, vi konsentas kun la %{terms_link}.
+    terms_of_use: Uzkondiĉoj
     tou: Uzkondiĉoj
     nothing_to_preview: Nenio por antaŭvidi.
     learn_more: Ekscii pli
@@ -1928,7 +1931,6 @@ eo:
       history: Historio
       home: Iri al la hejmloko
       issues: Problemoj
-      loading: Enlegado…
       log_out: Elsaluti
       log_in: Ensaluti
       more: Pli
@@ -2258,7 +2260,7 @@ eo:
         image: Profilbildo
         company: Firmao
         location: Loko
-        heatmap: Oftecmapo
+        contribution_calendar: Kalendaro de kontribuoj
     descriptions:
       show:
         title: Redakti profilon
@@ -2319,13 +2321,14 @@ eo:
         failure: Ne povis aktualigi lokon de profilo.
     heatmaps:
       show:
-        title: Agordi oftecmapon
-        show_heatmap_in_public: Montri la oftecmapon sur mia profila paĝo
+        title: Agordi kalendaron de kontribuoj
+        show_contribution_calendar_in_public: Montri la kalendaron de kontribuon sur
+          mia profilpaĝo
         save: Konservi
         cancel: Nuligi
       update:
-        success: Aktualigis la oftecmapon.
-        failure: Ne povis aktualigi la oftecmapon.
+        success: Aktualigis la kalendaron de kontribuoj.
+        failure: Ne povis aktualigi la kalendaron de kontribuoj.
   sessions:
     new:
       tab_title: Ensaluti
@@ -2342,6 +2345,8 @@ eo:
       login_button: Ensaluti
       with external: 'ensaluti per ekstera liveranto:'
       or: aŭ
+      reset_to_login: Bedaŭrinde via pasvorto senvalidiĝis. Restarigu vian pasvorton
+        por ensaluti.
       auth failure: Bedaŭrinde ne povas ensaluti kun ĉi tiuj informoj.
     destroy:
       title: Elsaluti
@@ -3298,10 +3303,24 @@ eo:
       change_image: Ŝanĝi bildon
       edit_company: Redakti firmaon
       edit_location: Redakti lokon
-      edit_heatmap: Agordi oftecmapon
+      edit_contribution_calendar: Agordi kalendaron de kontribuoj
       contributions:
         one: '%{count} kontribuo dum la antaŭa jaro'
         other: '%{count} kontribuoj dum la antaŭa jaro'
+      title:
+        administrator: Ĉi tiu uzanto estas administranto
+        moderator: Ĉi tiu uzanto estas kontrolanto
+        importer: Tiu ĉi uzanto estas enportisto
+      grant:
+        administrator: Permesi aliron de administranto
+        moderator: Permesi aliron de kontrolanto
+        importer: Permesi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas doni la rolon '%{role}' al la uzanto '%{name}'?
+      revoke:
+        administrator: Nuligi aliron de administranto
+        moderator: Nuligi aliron de kontrolanto
+        importer: Nuligi aliron de enportisto
+        are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
     sidebar_section:
       home_location: Hejmloko
       company: Firmao
@@ -3397,21 +3416,6 @@ eo:
         la jena formularo.
       option_2: Se vi jam havas konton, vi povas ensaluti per viaj uzantnomo kaj pasvorto,
         kaj poste kunligi la konton kun via identigilo en agordoj de uzanto.
-    role_icons:
-      title:
-        administrator: Ĉi tiu uzanto estas administranto
-        moderator: Ĉi tiu uzanto estas kontrolanto
-        importer: Tiu ĉi uzanto estas enportisto
-      grant:
-        administrator: Permesi aliron de administranto
-        moderator: Permesi aliron de kontrolanto
-        importer: Permesi aliron de enportisto
-        are_you_sure: Ĉu vi certe volas doni la rolon '%{role}' al la uzanto '%{name}'?
-      revoke:
-        administrator: Nuligi aliron de administranto
-        moderator: Nuligi aliron de kontrolanto
-        importer: Nuligi aliron de enportisto
-        are_you_sure: Ĉu vi certe volas nuligi la rolon '%{role}' de la uzanto '%{name}'?
   user_role:
     filter:
       not_a_role: La ĉeno '%{role}' ne estas ĝusta rolo.
@@ -3635,6 +3639,10 @@ eo:
       tooltip: Mapklarigo
       tooltip_disabled: Mapklarigo ne estas disponebla por tiu ĉi tavolo
     map:
+      map:
+        title: Mapo
+        marker:
+          title: Map-markilo
       popup:
         close: Fermi
       navigation_control:
@@ -3649,6 +3657,8 @@ eo:
         feetPopup:
           one: Vi estas %{count} futo for de tiu punkto
           other: Vi estas %{count} futoj for de tiu punkto
+      attribution_control:
+        toggle_attribution: Baskuligi atribuon
       base:
         standard: Norma mapo
         cycle_map: Biciklada mapo
@@ -3798,7 +3808,7 @@ eo:
     home:
       marker_title: Mia hejmloko
       not_set: Hejmloko ne estas agordita por via konto
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: neniu kontribuo je %{date}
         contributions:

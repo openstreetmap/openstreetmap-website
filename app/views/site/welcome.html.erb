@@ -53,15 +53,19 @@
 
 <%= render "any_questions" %>
 
-<div class="text-center mb-3">
-<% if params[:oauth_return_url] %>
-  <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
-<% else %>
-  <%= link_to t(".start_mapping"), edit_path(:editor => params[:editor], :anchor => map_hash(params)), :class => "btn btn-primary start-mapping" %>
-<% end %>
-</div>
-
 <div class="alert alert-secondary">
   <h2><%= t "site.add_a_note.title" %></h2>
   <%= render "add_a_note" %>
 </div>
+
+<% content_for :footer_outer_class, "sticky-bottom" %>
+<% content_for :footer_class, "mx-auto" %>
+<% content_for :footer do %>
+  <div class="d-flex justify-content-center align-items-center">
+    <% if params[:oauth_return_url] %>
+      <a class="btn btn-primary" href="<%= params[:oauth_return_url] %>"><%= t ".continue_authorization" %></a>
+    <% else %>
+      <%= link_to t(".start_mapping"), edit_path(:editor => params[:editor], :anchor => map_hash(params)), :class => "btn btn-primary start-mapping" %>
+    <% end %>
+  </div>
+<% end %>

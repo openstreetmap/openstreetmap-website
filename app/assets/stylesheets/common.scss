@@ -13,7 +13,6 @@ $bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
 
 body {
   font-size: $typeheight;
-  --dark-mode-map-filter: none;
 }
 
 time[title] {
@@ -70,10 +69,8 @@ time[title] {
 
 /* Rules for the header */
 
-#menu-icon svg {
-  fill: var(--bs-emphasis-color);
-  stroke: var(--bs-body-bg);
-  opacity: 0.6;
+#menu-icon i.bi {
+  font-size: 30px;
 }
 
 header {
@@ -387,12 +384,14 @@ nav.primary, nav.secondary {
   }
 }
 
+.maplibregl-ctrl.maplibregl-ctrl-attrib,
 .maplibregl-popup-content,
 .leaflet-popup-content-wrapper, .leaflet-popup-tip,
 .leaflet-control-attribution, .leaflet-control-scale-line {
   @extend .bg-body, .text-body;
 }
 
+.maplibregl-ctrl.maplibregl-ctrl-attrib,
 .leaflet-control-attribution, .leaflet-control-scale-line {
   @extend .bg-opacity-75;
   text-shadow: none !important;
@@ -407,33 +406,13 @@ nav.primary, nav.secondary {
 }
 
 @include color-mode(dark) {
+  .maplibregl-ctrl.maplibregl-ctrl-attrib a,
   .leaflet-container .leaflet-control-attribution a {
     color: var(--bs-link-color);
   }
 
   .leaflet-control-scale-line {
     border-color: rgba(var(--bs-light-rgb), .75) !important;
-  }
-}
-
-@mixin dark-map-color-scheme {
-  .leaflet-tile-container,
-  #legend .filtered-image {
-    filter: var(--dark-mode-map-filter);
-  }
-
-  .leaflet-tile-container .leaflet-tile {
-    filter: none;
-  }
-}
-
-body[data-map-theme="dark"] {
-  @include dark-map-color-scheme;
-}
-
-@include color-mode(dark) {
-  body:not([data-map-theme]) {
-    @include dark-map-color-scheme;
   }
 }
 
@@ -484,6 +463,9 @@ legend {
 
 .directions_form {
   display: none;
+  .reverse_directions {
+    border-color: transparent;
+  }
 }
 
 .search_form {
@@ -661,25 +643,23 @@ tr.turn {
 }
 
 .header-illustration {
-  background-position: right;
+  /*rtl:ignore*/ background-position: bottom right;
+  background-size: contain;
   background-repeat: no-repeat;
   position: relative;
   min-height: 200px;
-  width: 100%;
-  left: 0;
-  bottom: 0;
+  inset: 0;
 
   &.new-user-main {
-    background-image: image-url("sign-up-illustration.svg");
-    background-position-x: 70px;
+    background-image: image-url("illustrations/sign-up.svg");
   }
 
   &.confirm-main {
-    background-image: image-url("confirm-illustration.svg");
+    background-image: image-url("illustrations/confirm.svg");
   }
 
   &.new-user-terms {
-    background-image: image-url("terms-illustration.svg");
+    background-image: image-url("illustrations/terms.svg");
   }
 }
 
@@ -804,9 +784,6 @@ nav.secondary-actions {
       margin-bottom: $lineheight * 0.125;
     }
   }
-  i.bi-rss-fill {
-    color: #f69e42;
-  }
 }
 
 div.secondary-actions {
@@ -905,6 +882,10 @@ div.secondary-actions {
 }
 
 /* Rules for traces */
+
+i.bi-rss.nobox {
+  clip-path: inset(10%);
+}
 
 img.trace_image {
   mix-blend-mode: darken;

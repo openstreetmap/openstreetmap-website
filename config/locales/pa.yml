@@ -1361,7 +1361,6 @@ pa:
       other_issues_against_this_user: ਇਸ ਵਰਤੋਂਕਾਰ ਦੇ ਖਿਲਾਫ ਹੋਰ ਮੁੱਦੇ
       no_other_issues: ਇਸ ਵਰਤੋਂਕਾਰ ਦੇ ਖਿਲਾਫ ਕੋਈ ਹੋਰ ਮੁੱਦੇ ਨਹੀਂ ਹਨ।
       comments_on_this_issue: ਇਸ ਮੁੱਦੇ 'ਤੇ ਟਿੱਪਣੀ
-    comments:
       comment_from_html: '%{user_link} ਤੋਂ %{comment_created_at} ''ਤੇ ਟਿੱਪਣੀ'
     reports:
       reported_by_html: '%{updated_at} ਨੂੰ %{user} ਵੱਲੋਂ %{category} ਵਜੋਂ ਇਤਲਾਹ ਕੀਤੀ
@@ -1609,7 +1608,7 @@ pa:
         newer: ਨਵੇਂ ਇੰਦਰਾਜ
       issues:
         older: ਪੁਰਾਣੇ ਮੁੱਦੇ
-        newer: ਨਵੇਂ ਮੁੱਦੇ
+        newer: ਨਵੇਂ ਮਾਮਲੇ
       traces:
         older: ਪੁਰਾਣੇ ਖੁਰਾ-ਖੋਜ
         newer: ਨਵੇਂ ਖੁਰਾ-ਖੋਜ
@@ -1990,6 +1989,7 @@ pa:
           ਸਾਡਾ %{privacy_policy_link} ਵੇਖੋ।
       or: ਜਾਂ
       use external auth: ਜਾਂ ਕਿਸੇ ਤੀਜੀ ਧਿਰ ਨਾਲ ਦਾਖਲ ਹੋਵੋ
+      verify_human: ਸਾਬਤ ਕਰੋ ਕਿ ਤੁਸੀਂ ਇੱਕ ਮਨੁੱਖ ਹੋ
     no_such_user:
       title: ਕੋਈ ਅਜਿਹਾ ਵਰਤੋਂਕਾਰ ਨਹੀਂ
       heading: ਵਰਤੋਂਕਾਰ %{user} ਮੌਜੂਦ ਨਹੀਂ ਹੈ
@@ -2033,6 +2033,21 @@ pa:
       unsuspend_user: ਇਸ ਵਰਤੋਂਕਾਰ ਨੂੰ ਮੁਅੱਤਲ ਨਾ ਕਰੋ
       confirm: ਤਸਦੀਕ ਕਰੋ
       report: ਇਸ ਵਰਤੋਂਕਾਰ ਦੀ ਇਤਲਾਹ ਦਿਓ
+      title:
+        administrator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਪ੍ਰਬੰਧਕ ਹੈ।
+        moderator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਵਿਚੋਲਾ ਹੈ।
+        importer: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਦਰਾਮਦਕਾਰ ਹੈ
+      grant:
+        administrator: ਪ੍ਰਬੰਧਕੀ ਹੱਕ ਦਿਓ
+        moderator: ਵਿਚੋਲਗੀ ਦੇ ਹੱਕ ਦਿਉ
+        importer: ਦਰਾਮਦਕਾਰ ਪਹੁੰਚ ਪ੍ਰਦਾਨ ਕਰੋ
+        are_you_sure: ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਵਰਤੋਂਕਾਰ '%{name}' ਨੂੰ '%{role}' ਜ਼ੁੰਮੇਵਾਰੀ
+          ਦੇਣਾ ਚਾਹੁੰਦੇ ਹੋ?
+      revoke:
+        administrator: ਪ੍ਰਬੰਧਕੀ ਪਹੁੰਚ ਰੱਦ ਕਰੋ
+        importer: ਦਰਾਮਦਕਾਰ ਪਹੁੰਚ ਰੱਦ ਕਰੋ
+        are_you_sure: ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਵਰਤੋਂਕਾਰ '%{name}' ਤੋਂ ਜ਼ੁੰਮੇਵਾਰੀ '%{role}'
+          ਨੂੰ ਰੱਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?
     go_public:
       flash success: ਤੁਹਾਡੇ ਸਾਰੇ ਸੋਧ ਹੁਣ ਜਨਤਕ ਹਨ, ਅਤੇ ਤੁਹਾਨੂੰ ਹੁਣ ਸੋਧ ਕਰਨ ਦੀ ਇਜਾਜ਼ਤ
         ਹੈ।
@@ -2106,22 +2121,6 @@ pa:
       option_2: ਜੇਕਰ ਤੁਹਾਡੇ ਕੋਲ ਪਹਿਲਾਂ ਹੀ ਖਾਤਾ ਹੈ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੇ ਵਰਤੋਂਕਾਰ ਨਾਂ ਅਤੇ
         ਪਛਾਣ-ਸ਼ਬਦ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਆਪਣੇ ਖਾਤੇ ਵਿੱਚ ਦਾਖ਼ਲ ਹੋ ਸਕਦੇ ਹੋ ਅਤੇ ਫਿਰ ਆਪਣਿਆਂ ਵਰਤੋਂਕਾਰ
         ਤਰਜੀਹਾਂ ਵਿੱਚ ਖਾਤੇ ਨੂੰ  ਆਪਣੀ ID ਨਾਲ ਜੋੜੋ।
-    role_icons:
-      title:
-        administrator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਪ੍ਰਬੰਧਕ ਹੈ।
-        moderator: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਵਿਚੋਲਾ ਹੈ।
-        importer: ਇਹ ਵਰਤੋਂਕਾਰ ਇੱਕ ਦਰਾਮਦਕਾਰ ਹੈ
-      grant:
-        administrator: ਪ੍ਰਬੰਧਕੀ ਹੱਕ ਦਿਓ
-        moderator: ਵਿਚੋਲਗੀ ਦੇ ਹੱਕ ਦਿਉ
-        importer: ਦਰਾਮਦਕਾਰ ਪਹੁੰਚ ਪ੍ਰਦਾਨ ਕਰੋ
-        are_you_sure: ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਵਰਤੋਂਕਾਰ '%{name}' ਨੂੰ '%{role}' ਜ਼ੁੰਮੇਵਾਰੀ
-          ਦੇਣਾ ਚਾਹੁੰਦੇ ਹੋ?
-      revoke:
-        administrator: ਪ੍ਰਬੰਧਕੀ ਪਹੁੰਚ ਰੱਦ ਕਰੋ
-        importer: ਦਰਾਮਦਕਾਰ ਪਹੁੰਚ ਰੱਦ ਕਰੋ
-        are_you_sure: ਕੀ ਤੁਸੀਂ ਯਕੀਨੀ ਤੌਰ 'ਤੇ ਵਰਤੋਂਕਾਰ '%{name}' ਤੋਂ ਜ਼ੁੰਮੇਵਾਰੀ '%{role}'
-          ਨੂੰ ਰੱਦ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ?
   user_role:
     filter:
       not_a_role: ਤੰਦ %{role} ਇੱਕ ਜਾਇਜ਼ ਜ਼ੁੰਮੇਵਾਰੀ ਨਹੀਂ ਏ।

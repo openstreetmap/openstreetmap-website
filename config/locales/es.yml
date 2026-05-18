@@ -74,6 +74,7 @@
 # Author: Luzcaru
 # Author: Macofe
 # Author: MarcoAurelio
+# Author: Maro21
 # Author: Marwin H.H.
 # Author: McDutchie
 # Author: Minh Nguyen
@@ -119,7 +120,7 @@ es:
     dir: ltr
   date:
     formats:
-      heatmap: '%-d de %B'
+      contribution_calendar: '%-d de %B'
   time:
     formats:
       friendly: '%e de %B de %Y a las %H:%M'
@@ -187,7 +188,7 @@ es:
       relation: Relación
       relation_member: Miembro de la relación
       relation_tag: Etiqueta de la relación
-      report: Denunciar
+      report: Denuncia
       session: Sesión
       trace: Traza
       tracepoint: Punto de la traza
@@ -850,8 +851,6 @@ es:
         one: '%{count} comentario'
         other: '%{count} comentarios'
       title_label: Entrada de diario
-      comments_label: Comentarios
-      date_label: Fecha
   diary_comments:
     new:
       heading: ¿Añadir un comentario a la siguiente discusión de entrada en el diario?
@@ -1651,7 +1650,7 @@ es:
           tattoo: Estudio de tatuajes
           tea: Tienda de té
           ticket: Tienda de Tickets
-          tobacco: Tienda de conveniencia
+          tobacco: Tienda de tabaco
           toys: Juguetería
           travel_agency: Agencia de viajes
           tyres: Tienda de neumáticos
@@ -1834,16 +1833,15 @@ es:
       other_issues_against_this_user: Otras incidencias en contra de este usuario
       no_other_issues: No hay otras incidencias en contra de este usuario.
       comments_on_this_issue: Comentarios sobre esta incidencia
+      comment_from_html: Comentario de %{user_link} en %{comment_created_at}
+      reassign_to_moderators: Reasignar incidencia a los moderadores
+      reassign_to_administrators: Reasignar incidencia a los administradores
     resolve:
       resolved: El estado de la incidencia se ha establecido a 'Resuelto'
     ignore:
       ignored: El estado de la incidencia se ha establecido a 'Ignorado'
     reopen:
       reopened: El estado de la incidencia se ha establecido a 'Abierto'.
-    comments:
-      comment_from_html: Comentario de %{user_link} en %{comment_created_at}
-      reassign_to_moderators: Reasignar incidencia a los moderadores
-      reassign_to_administrators: Reasignar incidencia a los administradores
     reports:
       reported_by_html: Denunciado como %{category} por %{user} en %{updated_at}
     helper:
@@ -1944,6 +1942,7 @@ es:
         ku-Latn: kurdo (latín)
         lv: letón
         lb: luxemburgués
+        lkt: Lakota
         lt: lituano
         hu: húngaro
         fit: finés tornedaliano
@@ -2021,6 +2020,7 @@ es:
       title: OpenStreetMap
     logo:
       alt_text: Logo de OpenStreetMap
+    main_navigation: Principal
     layer_info: Información de la capa
     start_mapping: Comenzar a mapear
     intro_header: ¡Bienvenido a OpenStreetMap!
@@ -2031,6 +2031,9 @@ es:
     partners_fastly: Fastly
     partners_corpmembers: Miembros corporativos de OSMF
     partners_partners: socios
+    welcome_tou_notice_html: Al utilizar este sitio web u otra infraestructura proporcionada
+      por la Fundación OpenStreetMap, aceptas los %{terms_link}.
+    terms_of_use: Términos de uso
     tou: Términos de Uso
     nothing_to_preview: Nada que previsualizar.
     learn_more: Más información
@@ -2047,7 +2050,6 @@ es:
       history: Historial
       home: Ir a mi ubicación de casa
       issues: Incidencias
-      loading: Cargando...
       log_out: Cerrar sesión
       log_in: Iniciar sesión
       more: Más
@@ -2364,6 +2366,7 @@ es:
         message: Preferencias actualizadas.
       navigation:
         preferences: Preferencias
+        notification_preferences: Notificaciones
         advanced_preferences: Preferencias avanzadas
     basic_preferences:
       show:
@@ -2385,6 +2388,12 @@ es:
           light: Claro
           dark: Oscuro
         save: Actualizar preferencias
+    notification_preferences:
+      show:
+        new_follower: Nuevos seguidores
+        save: Actualizar preferencias
+        delivery_mechanisms:
+          email: Correo electrónico
     advanced_preferences:
       show:
         title: Mis preferencias avanzadas
@@ -2397,10 +2406,10 @@ es:
         image: Imagen
         company: Empresa
         location: Ubicación
-        heatmap: Mapa de calor
+        contribution_calendar: Calendario de contribuciones
     descriptions:
       show:
-        title: Editar Perfil
+        title: Editar perfil
         save: Actualizar perfil
         cancel: Cancelar
       update:
@@ -2413,7 +2422,7 @@ es:
         cancel: Cancelar
         social_links:
           title: Enlaces de perfiles de redes sociales
-          remove: Quitar
+          remove: Eliminar
           add: Añadir enlace de redes sociales
       update:
         success: Enlaces del perfil actualizados.
@@ -2459,13 +2468,14 @@ es:
         failure: No se ha podido actualizar la ubicación del perfil.
     heatmaps:
       show:
-        title: Configurar Mapa de Calor
-        show_heatmap_in_public: Mostrar el mapa de calor en tu página de perfil
-        save: Actualizar la configuración del mapa de calor
+        title: Configurar calendario de contribuciones
+        show_contribution_calendar_in_public: Mostrar el calendario de contribuciones
+          en tu página de perfil
+        save: Actualizar la configuración del calendario de contribuciones
         cancel: Cancelar
       update:
-        success: Mapa de Calor actualizado.
-        failure: No se pudo actualizar el Mapa de Calor.
+        success: Calendario de contribuciones actualizado.
+        failure: No se pudo actualizar el calendario de contribuciones.
   sessions:
     new:
       tab_title: Iniciar sesión
@@ -2774,6 +2784,8 @@ es:
         contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: Portal Nacional de Datos Abiertos
         contributors_hr_open_data_portal_url: https://data.gov.hr/
+        contributors_nl_credit_new_html: '%{netherlands}: Contiene datos &copy; AND,
+          2007'
         contributors_nl_netherlands: Países Bajos
         contributors_nz_credit_html: "%{new_zealand}: Contiene datos del %{linz_data_service_link}
           \ny licenciados para su reutilización bajo %{cc_by_link}."
@@ -3169,6 +3181,15 @@ es:
       image_dimensions_html: La imagen mostrará la capa %{layer} en %{width} x %{height}
       download: Descargar
       downloading: Descargando...
+  webgl_error_panes:
+    show:
+      compact_message: Se requiere WebGL para este mapa.
+      description_html: Lo sentimos, pero parece que %{your_browser_does_not_support_webgl},
+        una tecnología para renderizar gráficos 3D en la web.
+      your_browser_does_not_support_webgl: Tu navegador no admite WebGL.
+      webgl_is_required_for_this_map: Se requiere WebGL para mostrar este mapa.
+      read_more_about_webgl: Leer más
+      read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
     visibility:
       private: Privado (solo compartido como anónimo, puntos no ordenados)
@@ -3213,13 +3234,13 @@ es:
       points: 'Puntos:'
       start_coordinates: 'Coordenadas de inicio:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: editar
+      map: ver ubicación en el mapa
+      edit: abrir en el editor
       owner: 'Propietario:'
       description: 'Descripción:'
       tags: 'Etiquetas:'
       none: Ninguna
-      edit_trace: Editar esta traza
+      edit_trace: Editar detalles de la traza
       delete_trace: Eliminar esta traza
       trace_not_found: ¡No se ha encontrado la traza!
       visibility: 'Visibilidad:'
@@ -3231,8 +3252,8 @@ es:
         other: '%{count} puntos'
       more: más
       trace_details: Ver detalles de la traza
-      view_map: Ver mapa
-      edit_map: Editar mapa
+      view_map: Vea la ubicación en el mapa
+      edit_map: Abrir en el editor
       public: PÚBLICO
       identifiable: IDENTIFICABLE
       private: PRIVADA
@@ -3448,6 +3469,10 @@ es:
           nuestra %{privacy_policy_link} para obtener más información.
       or: o
       use external auth: o registrarse con un tercero
+      verify_human: Verifica que eres humano
+    create:
+      not_human: Lamentablemente, no podemos confirmar que seas humano. Esto es necesario
+        para crear nuevas cuentas.
     no_such_user:
       title: Este usuario no existe
       heading: El usuario %{user} no existe
@@ -3506,10 +3531,26 @@ es:
       change_image: Cambiar imagen
       edit_company: Editar compañía
       edit_location: Editar ubicación
-      edit_heatmap: Configurar Mapa de Calor
+      edit_contribution_calendar: Configurar el calendario de contribuciones
       contributions:
         one: '%{count} contribución en el último año'
         other: '%{count} contribuciones en el último año'
+      title:
+        administrator: Este usuario es un administrador
+        moderator: Este usuario es un moderador
+        importer: Este usuario es un importador
+      grant:
+        administrator: Otorgar acceso de administrador
+        moderator: Otorgar acceso de moderador
+        importer: Otorgar acceso importador
+        are_you_sure: ¿Estás seguro de que deseas otorgar el rol '%{role}' al usuario
+          '%{name}'?
+      revoke:
+        administrator: Revocar acceso de administrador
+        moderator: Revocar acceso de moderador
+        importer: Revocar el acceso importador
+        are_you_sure: ¿Estás seguro de que quieres revocar el rol '%{role}' del usuario
+          '%{name}'?
     sidebar_section:
       home_location: Ubicación de Casa
       company: Compañía
@@ -3609,23 +3650,6 @@ es:
         Si ya tienes una cuenta, puedes iniciar sesión con tu cuenta
         usando tu nombre de usuario y contraseña y luego asociar la cuenta
         con tu identificador en tus configuraciones de usuario.
-    role_icons:
-      title:
-        administrator: Este usuario es un administrador
-        moderator: Este usuario es un moderador
-        importer: Este usuario es un importador
-      grant:
-        administrator: Otorgar acceso de administrador
-        moderator: Otorgar acceso de moderador
-        importer: Otorgar acceso importador
-        are_you_sure: ¿Estás seguro de que deseas otorgar el rol '%{role}' al usuario
-          '%{name}'?
-      revoke:
-        administrator: Revocar acceso de administrador
-        moderator: Revocar acceso de moderador
-        importer: Revocar el acceso importador
-        are_you_sure: ¿Estás seguro de que quieres revocar el rol '%{role}' del usuario
-          '%{name}'?
   user_role:
     filter:
       not_a_role: La cadena '%{role}' no es un rol válido.
@@ -3855,6 +3879,10 @@ es:
       tooltip: Leyenda del mapa
       tooltip_disabled: Leyenda del mapa no disponible en esta capa
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcadores de mapas
       popup:
         close: Cerrar
       navigation_control:
@@ -3869,6 +3897,8 @@ es:
         feetPopup:
           one: Estás a %{count} pie desde este punto
           other: Estás a %{count} pies desde este punto
+      attribution_control:
+        toggle_attribution: Alternar atribución
       base:
         standard: Estándar
         cyclosm: CyclOSM
@@ -4021,7 +4051,7 @@ es:
     home:
       marker_title: Mi Ubicación de Casa
       not_set: La Ubicación de Casa no está configurada para tu cuenta
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: No hay contribuciones el %{date}
         contributions:

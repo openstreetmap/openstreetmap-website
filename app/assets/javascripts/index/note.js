@@ -6,8 +6,8 @@ OSM.Note = function (map) {
     OSM.loadSidebarContent(path, function () {
       const data = $(".details").data();
       if (!data) return;
-      const latLng = L.latLng(data.coordinates.split(","));
-      initialize(path, id, map.getBounds().contains(latLng));
+      const [lat, lng] = data.coordinates.split(",").map(parseFloat);
+      initialize(path, id, map.getBounds().contains({ lat, lng }));
     });
   };
 

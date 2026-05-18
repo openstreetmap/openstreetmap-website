@@ -12,7 +12,7 @@
 cy:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y am %H:%M'
@@ -803,8 +803,6 @@ cy:
         many: '%{count} sylw'
         other: '%{count} sylw'
       title_label: Cofnod Dyddiadur
-      comments_label: Sylwadau
-      date_label: Dyddiad
   diary_comments:
     new:
       heading: Ychwanegu sylw at y drafodaeth cofnod dyddiadur canlynol?
@@ -1776,16 +1774,15 @@ cy:
       other_issues_against_this_user: Materion eraill yn erbyn y defnyddiwr hwn
       no_other_issues: Dim materion eraill yn erbyn y defnyddiwr hwn.
       comments_on_this_issue: Sylwadau ar y mater hwn
+      comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
+      reassign_to_moderators: Ailbennu Mater i Gymedrolwyr
+      reassign_to_administrators: Ailbennu Mater i Weinyddwyr
     resolve:
       resolved: Mae statws y mater wedi'i osod i 'Datrys'
     ignore:
       ignored: Mae statws y mater wedi'i osod i 'Anwybyddwyd'
     reopen:
       reopened: Mae statws y mater wedi'i osod i 'Agored'
-    comments:
-      comment_from_html: Sylw gan %{user_link} ar %{comment_created_at}
-      reassign_to_moderators: Ailbennu Mater i Gymedrolwyr
-      reassign_to_administrators: Ailbennu Mater i Weinyddwyr
     reports:
       reported_by_html: Adroddwyd fel %{category} gan %{user} ar %{updated_at}
     helper:
@@ -1885,6 +1882,7 @@ cy:
         ku-Latn: Cwrdeg (Lladin)
         lv: Latfieg
         lb: Lwcsembwrgeg
+        lkt: Lakota
         lt: Lithwaneg
         hu: Hwngareg
         fit: Ffineg Tornedalen
@@ -1960,6 +1958,7 @@ cy:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    main_navigation: Prif
     layer_info: Gwybodaeth Haen
     start_mapping: Dechrau Mapio
     intro_header: Croeso i OpenStreetMap!
@@ -1969,6 +1968,7 @@ cy:
       a %{partners} eraill.
     partners_corpmembers: Aelodau corfforaethol OSMF
     partners_partners: phartneriaid
+    terms_of_use: Telerau Defnydd
     tou: Telerau Defnydd
     nothing_to_preview: Dim rhagolwg.
     learn_more: Dysgu Rhagor
@@ -1985,7 +1985,6 @@ cy:
       history: Hanes
       home: Mynd i Leoliad Cartref
       issues: Problemau
-      loading: Wrthi'n llwytho…
       log_out: Allgofnodi
       log_in: Mewngofnodi
       more: Rhagor
@@ -2292,7 +2291,6 @@ cy:
         image: Llun
         company: Cwmni
         location: Lleoliad
-        heatmap: Map Gwres
     descriptions:
       show:
         title: Golygu proffil
@@ -2354,7 +2352,6 @@ cy:
     heatmaps:
       show:
         title: Addasu'r Map Gwres
-        show_heatmap_in_public: Dangos y map gwres ar eich tudalen broffil
         save: Diweddaru Addasiad y Map Gwres
         cancel: Canslo
       update:
@@ -2623,6 +2620,8 @@ cy:
         contributors_hr_croatia: Croatia
         contributors_hr_dgu: Gweinyddiaeth Geodetig Talaith Croatia
         contributors_hr_open_data_portal: Phorth Data Agored Cenedlaethol
+        contributors_nl_credit_new_html: '%{netherlands}: Yn cynnwys &copy; A data,
+          2007'
         contributors_nl_netherlands: Yr Iseldiroedd
         contributors_nz_credit_html: '%{new_zealand}: Yn cynnwys data o ffynhonnell
           %{linz_data_service_link} wedi''i drwyddedu i''w hailddefnyddio o dan %{cc_by_link}.'
@@ -2969,6 +2968,11 @@ cy:
       downloading: Wrthi'n lawrlwytho...
   webgl_error_panes:
     show:
+      compact_message: Mae angen WebGL ar gyfer y map hwn.
+      description_html: Mae'n ddrwg gennym, ond mae'n ymddangos %{your_browser_does_not_support_webgl},
+        sef technoleg ar gyfer rendro graffeg 3D ar y we.
+      your_browser_does_not_support_webgl: nad yw eich porwr yn cefnogi WebGL
+      webgl_is_required_for_this_map: Mae angen WebGL i arddangos y map hwn.
       read_more_about_webgl: Dysgu mwy
       read_more_about_webgl_url: https://wiki.openstreetmap.org/wiki/This_map_requires_WebGL
   traces:
@@ -3232,6 +3236,7 @@ cy:
           %{privacy_policy_link} am ragor o wybodaeth.
       or: neu
       use external auth: neu gofrestru gyda thrydydd parti
+      verify_human: Cadarnhau eich bod yn ddynol
     no_such_user:
       title: Dim defnyddiwr o'r fath
       heading: Nid yw'r defnyddiwr %{user} yn bodoli.
@@ -3290,7 +3295,6 @@ cy:
       change_image: Newid Delwedd
       edit_company: Golygu Cwmni
       edit_location: Golygu Lleoliad
-      edit_heatmap: Addasu'r Map Gwres
       contributions:
         zero: '%{count} cyfraniad yn ystod y flwyddyn ddiwethaf'
         one: '%{count} cyfraniad  yn ystod y flwyddyn ddiwethaf'
@@ -3298,6 +3302,20 @@ cy:
         few: '%{count} chyfraniad  yn ystod y flwyddyn ddiwethaf'
         many: '%{count} cyfraniad  yn ystod y flwyddyn ddiwethaf'
         other: '%{count} o gyfraniadau  yn ystod y flwyddyn ddiwethaf'
+      title:
+        administrator: Mae'r defnyddiwr hwn yn weinyddwr.
+        moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
+        importer: Mae'r defnyddiwr hwn yn fewnforiwr
+      grant:
+        administrator: Rhoi statws gweinyddwr
+        moderator: Rhoi statws cymedrolwr
+        importer: Rhoi statws mewnforiwr
+        are_you_sure: Ydych chi'n siŵr eich bod am roi'r rôl '%{role}' i'r defnyddiwr
+          '%{name}'?
+      revoke:
+        administrator: Tynnu statws gweinyddwr
+        moderator: Tynnu statws cymedrolwr
+        importer: Tynnu statws mewnforiwr
     sidebar_section:
       home_location: Lleoliad cartref
       company: Cwmni
@@ -3398,21 +3416,6 @@ cy:
       heading: Nid yw eich ID yn gysylltiedig â chyfrif OpenStreetMap eto.
       option_1: "Os ydych yn newydd i OpenStreetMap, crëwch \ngyfrif newydd\ngan ddefnyddio'r
         ffurflen isod."
-    role_icons:
-      title:
-        administrator: Mae'r defnyddiwr hwn yn weinyddwr.
-        moderator: Mae'r defnyddiwr hwn yn gymedrolwr.
-        importer: Mae'r defnyddiwr hwn yn fewnforiwr
-      grant:
-        administrator: Rhoi statws gweinyddwr
-        moderator: Rhoi statws cymedrolwr
-        importer: Rhoi statws mewnforiwr
-        are_you_sure: Ydych chi'n siŵr eich bod am roi'r rôl '%{role}' i'r defnyddiwr
-          '%{name}'?
-      revoke:
-        administrator: Tynnu statws gweinyddwr
-        moderator: Tynnu statws cymedrolwr
-        importer: Tynnu statws mewnforiwr
   user_blocks:
     model:
       non_moderator_update: Rhaid bod yn gymedrolwr i greu neu ddiweddaru bloc.
@@ -3650,6 +3653,10 @@ cy:
       tooltip: Allwedd
       tooltip_disabled: Nid yw'r allwedd ar gael ar gyfer yr haen hon
     map:
+      map:
+        title: Map
+        marker:
+          title: Marciwr map
       popup:
         close: Cau
       navigation_control:
@@ -3672,6 +3679,8 @@ cy:
           few: Rydych chi o fewn %{count} throedfedd i'r pwynt hwn
           many: Rydych chi o fewn %{count} troedfedd i'r pwynt hwn
           other: Rydych chi o fewn %{count} troedfedd i'r pwynt hwn
+      attribution_control:
+        toggle_attribution: Toglo Priodoliad
       base:
         standard: Safonol
         cycle_map: Map Beicio
@@ -3816,7 +3825,7 @@ cy:
     home:
       marker_title: Fy lleoliad cartref
       not_set: Nid yw lleoliad cartref wedi'i osod ar gyfer eich cyfrif
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Dim cyfraniadau ar %{date}
         contributions:

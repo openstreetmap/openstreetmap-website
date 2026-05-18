@@ -54,7 +54,7 @@ class UserMailerTest < ActionMailer::TestCase
       create(:tracetag, :trace => t, :tag => "two&three")
       create(:tracetag, :trace => t, :tag => "four<five")
     end
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
 
     assert_match("one, two&amp;three, four&lt;five", email.html_part.body.to_s)
     assert_match("one, two&three, four<five", email.text_part.body.to_s)
@@ -62,7 +62,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_all_traces_link
     trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
     url = url_helpers.url_for(:controller => "traces", :action => "mine")
 
     assert_select parse_html_body(email), "a[href='#{url}']"
@@ -71,26 +71,42 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_gpx_success_trace_link
     trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :possible_points => 100).gpx_success
+    email = UserMailer.with(:record => trace, :possible_points => 100, :recipient => trace.user).gpx_success
     url = url_helpers.show_trace_url(trace.user, trace)
 
     assert_select parse_html_body(email), "a[href='#{url}']", :text => trace.name
     assert_includes email.text_part.body, url
   end
 
-  def test_gpx_failure_no_trace_link
-    trace = create(:trace)
-    email = UserMailer.with(:trace => trace, :error => "some error").gpx_failure
-    url = url_helpers.show_trace_url(trace.user, trace)
+  def test_gpx_failure
+    trace = build(:trace, :tags => build_list(:tracetag, 2))
+    tag_strings = trace.tags.map(&:tag)
+    email = UserMailer.with(
+      :trace_name => trace.name,
+      :trace_description => trace.description,
+      :trace_tags => tag_strings,
+      :error => "some error",
+      :recipient => trace.user
+    ).gpx_failure
 
-    assert_select parse_html_body(email), "a[href='#{url}']", :count => 0
-    assert_not_includes email.text_part.body, url
+    assert_match trace.name, email.html_part.body.to_s
+    assert_match trace.description, email.html_part.body.to_s
+    assert_match tag_strings[0], email.html_part.body.to_s
+    assert_match tag_strings[1], email.html_part.body.to_s
+    assert_match "some error", email.html_part.body.to_s
+
+    assert_match trace.name, email.text_part.body.to_s
+    assert_match trace.description, email.text_part.body.to_s
+    assert_match tag_strings[0], email.text_part.body.to_s
+    assert_match tag_strings[1], email.text_part.body.to_s
+    assert_match "some error", email.text_part.body.to_s
   end
 
   def test_message_notification
-    user = create(:user, :display_name => "Jack & Jill <br>")
-    message = create(:message, :sender => user)
-    email = UserMailer.with(:message => message).message_notification
+    sender = create(:user, :display_name => "Jack & Jill <br>")
+    recipient = create(:user)
+    message = create(:message, :sender => sender, :recipient => recipient)
+    email = UserMailer.with(:record => message, :recipient => recipient).message_notification
 
     assert_match("Jack & Jill <br>", email.text_part.body.to_s)
     assert_match("Jack &amp; Jill &lt;br&gt;", email.html_part.body.to_s)
@@ -98,12 +114,11 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_diary_comment_notification
-    create(:language, :code => "en")
     user = create(:user)
     other_user = create(:user)
     diary_entry = create(:diary_entry, :user => user)
     diary_comment = create(:diary_comment, :diary_entry => diary_entry)
-    email = UserMailer.with(:comment => diary_comment, :recipient => other_user).diary_comment_notification
+    email = UserMailer.with(:record => diary_comment, :recipient => other_user).diary_comment_notification
     body = parse_html_body(email)
 
     url = url_helpers.diary_entry_url(user, diary_entry)
@@ -114,7 +129,7 @@ class UserMailerTest < ActionMailer::TestCase
 
   def test_follow_notification
     follow = create(:follow)
-    email = UserMailer.with(:follow => follow).follow_notification
+    email = UserMailer.with(:record => follow, :recipient => follow.following).follow_notification
 
     follower_profile_url = url_helpers.user_url(follow.follower)
     follow_follower_url = url_helpers.follow_url(follow.follower)
@@ -129,7 +144,7 @@ class UserMailerTest < ActionMailer::TestCase
     commenter = create(:user)
     note = create(:note, :lat => 51.7632, :lon => -0.0076)
     comment = create(:note_comment, :author => commenter, :note => note)
-    email = UserMailer.with(:comment => comment, :recipient => recipient).note_comment_notification
+    email = UserMailer.with(:record => comment, :recipient => recipient).note_comment_notification
     html_body =
       Nominatim.stub :describe_location, "The End of the Rainbow" do
         parse_html_body(email)
@@ -141,7 +156,6 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_changeset_comment_notification
-    create(:language, :code => "en")
     user = create(:user)
     other_user = create(:user)
     changeset = create(:changeset, :user => user)

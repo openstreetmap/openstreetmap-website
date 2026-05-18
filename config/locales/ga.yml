@@ -8,12 +8,17 @@
 # Author: Tem
 ---
 ga:
+  html:
+    dir: ltr
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y ag %H:%M'
+      blog: '%e %B %Y'
+  count:
+    at_least_pattern: '%{count}+'
   helpers:
     file:
       prompt: Roghnaigh comhad
@@ -236,6 +241,9 @@ ga:
         few: '%{count} bliain ó shin'
         many: '%{count} bliain ó shin'
         other: '%{count} bliain ó shin'
+  printable_name:
+    with_name_html: '%{name} (%{id})'
+    current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
     default: Réamhshocraithe (%{name} faoi láthair)
     id:
@@ -247,9 +255,11 @@ ga:
   auth:
     providers:
       none: Ceann ar bith
+      openid: OpenID
       google: Google
       apple: Apple
       facebook: Facebook
+      microsoft: Microsoft
       github: GitHub
       wikipedia: Vicipéid
   api:
@@ -309,7 +319,9 @@ ga:
         teagmháil a dhéanamh leat tríd an suíomh Gréasáin, cliceáil an cnaipe thíos.
       only_public_can_edit: Ó athrú API 0.6, ní féidir ach le húsáideoirí poiblí sonraí
         léarscáile a chur in eagar.
+      find_out_why_html: (%{link}).
       find_out_why: faigh amach cén fáth
+      find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Ní nochtfar do sheoladh ríomhphoist trína chur ar fáil don
         phobal.
       not_reversible: Ní féidir an gníomh seo a aisiompú agus bíonn gach úsáideoir
@@ -386,6 +398,7 @@ ga:
         terms_declined_html: Tá brón orainn gur shocraigh tú gan glacadh leis na Téarmaí
           Rannpháirtí nua. Le haghaidh tuilleadh eolais, féach %{terms_declined_link}.
         terms_declined_link: an leathanach vicí seo
+        terms_declined_url: https://wiki.openstreetmap.org/wiki/Contributor_Terms_Declined
     pd_declarations:
       show:
         title: Meastar go bhfuil mo chuid ranníocaíochtaí i bhFearann ​​​​an Phoiblí
@@ -393,6 +406,7 @@ ga:
           Phoiblí
         consider_pd_why: Cén fáth ar mhaith liom go mbeadh mo chuid ranníocaíochtaí
           i bhFearann ​​Poiblí?
+        consider_pd_why_url: https://osmfoundation.org/wiki/Licence_and_Legal_FAQ/Why_would_I_want_my_contributions_to_be_public_domain
         confirm: Deimhnigh
       create:
         successfully_declared: D’éirigh leat a dhearbhú go measann tú go bhfuil do
@@ -425,6 +439,8 @@ ga:
     download_xml: Íoslódail XML
     view_unredacted_history: Féach ar Stair Neamh-Leasaithe
     location: 'Suíomh:'
+    common_details:
+      coordinates_html: '%{latitude}, %{longitude}'
     node:
       title_html: 'Nód: %{name}'
     way:
@@ -452,6 +468,7 @@ ga:
         many: '%{count} baill'
         other: '%{count} baill'
     relation_member:
+      entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} mar %{role}'
       type:
         node: Nód
@@ -774,6 +791,7 @@ ga:
       report: Déan an nóta tráchta seo a thuairisciú
     location:
       location: 'Suíomh:'
+      coordinates: '%{latitude}; %{longitude}'
     feed:
       user:
         title: Iontrálacha dialainne OpenStreetMap le haghaidh %{user}
@@ -805,8 +823,6 @@ ga:
         many: '%{count} tráchtanna'
         other: '%{count} tráchtanna'
       title_label: Iontráil Dialainne
-      comments_label: Tráchtanna
-      date_label: Dáta
   diary_comments:
     new:
       heading: Cuir trácht leis an bplé seo a leanas faoin iontráil dialainne?
@@ -844,6 +860,7 @@ ga:
       profile: Féach ar fhaisnéis do phróifíle
   errors:
     contact:
+      contact_url: https://wiki.openstreetmap.org/wiki/Contact
       contact_url_title: Mínítear bealaí teagmhála éagsúla
       contact: teagmháil
       contact_the_community_html: Ná bíodh drogall ort %{contact_link} pobal OpenStreetMap
@@ -887,6 +904,7 @@ ga:
       not_followed: Níl tú ag leanúint %{name}.
   geocoder:
     search_osm_nominatim:
+      prefix_format: '%{name}'
       prefix:
         aerialway:
           cable_car: Carr Cábla
@@ -1590,7 +1608,7 @@ ga:
           pet: Siopa Peataí
           pet_grooming: Grúmaeireacht Peataí
           photo: Siopa Grianghrafadóireachta
-          seafood: Bia mara
+          seafood: Bia Mara
           second_hand: Siopa Earraí Athláimhe
           sewing: Siopa Fuála
           shoes: Siopa Bróg
@@ -1791,16 +1809,15 @@ ga:
       other_issues_against_this_user: Fadhbanna eile i leith an úsáideora seo
       no_other_issues: Níl aon fhadhb eile i leith an úsáideora seo.
       comments_on_this_issue: Nótaí tráchta faoin bhfadhb
+      comment_from_html: Trácht ó %{user_link} ar %{comment_created_at}
+      reassign_to_moderators: Athshann an Cheist do Mhodhnóirí
+      reassign_to_administrators: Athshann an Fhadhb do Riarthóirí
     resolve:
       resolved: Stádas na faidhbe socraithe go 'Réitithe'
     ignore:
       ignored: Stádas na faidhbe socraithe go 'Neamhaird'
     reopen:
       reopened: Stádas na faidhbe socraithe go 'Oscailte'
-    comments:
-      comment_from_html: Trácht ó %{user_link} ar %{comment_created_at}
-      reassign_to_moderators: Athshann an Cheist do Mhodhnóirí
-      reassign_to_administrators: Athshann an Fhadhb do Riarthóirí
     reports:
       reported_by_html: Tuairiscíodh mar %{category} ag %{user} ar %{updated_at}
     helper:
@@ -1896,6 +1913,7 @@ ga:
         ia: Idirtheangach
         is: Íoslainnis
         it: Iodáilis
+        kw: Cornais
         gcf: Creole Guadalúip
         ku-Latn: Cúirdís (Laidin)
         lv: Laitvis
@@ -1974,8 +1992,11 @@ ga:
         ja: Seapánach
         ko: Cóiréach
   layouts:
+    project_name:
+      title: OpenStreetMap
     logo:
       alt_text: Lógó OpenStreetMap
+    main_navigation: Príomh
     layer_info: Eolas Sraithe
     start_mapping: Téigh i mbun Léarscáilithe
     intro_header: Fáilte go OpenStreetMap!
@@ -1983,8 +2004,12 @@ ga:
       leatsa agus atá saor in aisce le húsáid faoi cheadúnas oscailte.
     hosting_partners_2024_html: Tacaíonn %{fastly}, %{corpmembers}, agus %{partners}
       eile leis an óstáil.
+    partners_fastly: Fastly
     partners_corpmembers: Baill chorparáideacha OSMF
     partners_partners: comhpháirtithe
+    welcome_tou_notice_html: Trí úsáid a bhaint as an suíomh gréasáin seo nó as bonneagar
+      eile arna sholáthar ag Fondúireacht OpenStreetMap, aontaíonn tú leis na %{terms_link}.
+    terms_of_use: Téarmaí Úsáide
     tou: Téarmaí Úsáide
     nothing_to_preview: Níl aon rud le réamhamharc.
     learn_more: Tuilleadh Eolais
@@ -2001,7 +2026,6 @@ ga:
       history: Stair
       home: Gabh chuig an Suíomh Baile
       issues: Fadhbanna
-      loading: Ag lódáil...
       log_out: Logáil Amach
       log_in: Logáil isteach
       more: Tuilleadh
@@ -2075,6 +2099,7 @@ ga:
         conas iad a sheachaint a fháil ag %{url}
       more_info_html: Is féidir tuilleadh eolais faoi theipeanna allmhairithe GPX
         agus conas iad a sheachaint a fháil ag %{url}.
+      import_failures_url: https://wiki.openstreetmap.org/wiki/GPX_Import_Failures
       subject: '[OpenStreetMap] Theip ar Iompórtáil GPX'
     gpx_success:
       hi: Haigh %{to_user},
@@ -2334,8 +2359,9 @@ ga:
       update_success_flash:
         message: Nuashonraíodh na roghanna.
       navigation:
-        preferences: Roghanna
-        advanced_preferences: Roghanna Ardleibhéil
+        preferences: Comhéadan
+        notification_preferences: Fógraí
+        advanced_preferences: Ardleibhéil
     basic_preferences:
       show:
         title: Mo Roghanna
@@ -2356,6 +2382,19 @@ ga:
           light: Solas
           dark: Dorcha
         save: Nuashonraigh Roghanna
+    notification_preferences:
+      show:
+        title: Roghanna Fógra
+        changeset_comment: Tráchtanna ar an athrú
+        diary_comment: Tráchtanna dialainne
+        direct_message: Teachtaireachtaí díreacha
+        gpx_import_failure: 'Allmhairiú rian GPS: teip'
+        gpx_import_success: 'Allmhairiú rian GPX: rathúil'
+        new_follower: Leantóirí nua
+        note_comment: Nótaí tráchta
+        save: Nuashonraigh Roghanna
+        delivery_mechanisms:
+          email: Ríomhphost
     advanced_preferences:
       show:
         title: Mo Roghanna Ardleibhéil
@@ -2368,7 +2407,7 @@ ga:
         image: Íomhá
         company: Comhlacht
         location: Suíomh
-        heatmap: Léarscáil Teasa
+        contribution_calendar: Féilire Ranníocaíochta
     descriptions:
       show:
         title: Cuir Próifíl in Eagar
@@ -2396,6 +2435,7 @@ ga:
         cancel: Cealaigh
         gravatar:
           gravatar: Úsáid Gravatar
+          link: https://wiki.openstreetmap.org/wiki/Gravatar
           what_is_gravatar: Cad é Gravatar?
         new image: Cuir íomhá leis
         keep image: Coinnigh an íomhá reatha
@@ -2429,13 +2469,14 @@ ga:
         failure: Níorbh fhéidir suíomh an phróifíle a nuashonrú.
     heatmaps:
       show:
-        title: Cumraigh Léarscáil Teasa
-        show_heatmap_in_public: Taispeáin an léarscáil teasa ar do leathanach próifíle
-        save: Nuashonraigh Cumraíocht Léarscáil Teasa
+        title: Cumraigh Féilire Ranníocaíochta
+        show_contribution_calendar_in_public: Taispeáin an féilire ranníocaíochta
+          ar do leathanach próifíle
+        save: Nuashonraigh Cumraíocht Féilire Ranníocaíochtaí
         cancel: Cealaigh
       update:
-        success: Léarscáil teasa nuashonraithe.
-        failure: Níorbh fhéidir an léarscáil teasa a nuashonrú.
+        success: Féilire ranníocaíochta nuashonraithe.
+        failure: Níorbh fhéidir an féilire ranníocaíochta a nuashonrú.
   sessions:
     new:
       tab_title: Logáil Isteach
@@ -2454,6 +2495,8 @@ ga:
       login_button: Logáil isteach
       with external: nó logáil isteach le tríú páirtí
       or: nó
+      reset_to_login: Ár leithscéal, tá do phasfhocal imithe in éag. Athshocraigh
+        do phasfhocal le logáil isteach.
       auth failure: Ár leithscéil, níorbh fhéidir logáil isteach leis na sonraí sin.
     destroy:
       title: Logáil amach
@@ -2468,6 +2511,8 @@ ga:
   shared:
     markdown_help:
       heading_html: Parsáilte le %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Ceannteidil
       heading: Ceannteideal
       subheading: Fo-cheannteideal
@@ -2544,9 +2589,12 @@ ga:
         %{user_diaries_link}, %{community_blogs_link}, agus ar shuíomh Gréasáin
         %{osm_foundation_link}.
       community_driven_osm_blog: Blag OpenStreetMap
+      community_driven_osm_blog_url: https://blog.openstreetmap.org
       community_driven_user_diaries: dialann úsáideoirí
       community_driven_community_blogs: blaganna pobail
+      community_driven_community_blogs_url: https://blogs.openstreetmap.org/
       community_driven_osm_foundation: Fondúireacht OSM
+      community_driven_osm_foundation_url: https://www.osmfoundation.org/
       open_data_title: Sonraí Oscailte
       open_data_1_html: |-
         Is %{open_data} é OpenStreetMap: tá cead agat é a úsáid chun aon chríche
@@ -2562,14 +2610,18 @@ ga:
         thar ceann an phobail. Tá úsáid gach seirbhís a oibríonn OSMF faoi réir
         ár %{terms_of_use_link}, %{aup_link} agus ár %{privacy_policy_link}.
       legal_1_1_openstreetmap_foundation: Fondúireacht OpenStreetMap
+      legal_1_1_openstreetmap_foundation_url: https://osmfoundation.org/
       legal_1_1_terms_of_use: Téarmaí Úsáide
+      legal_1_1_terms_of_use_url: https://osmfoundation.org/wiki/Terms_of_Use
       legal_1_1_aup: Polasaithe Úsáide Inghlactha
+      legal_1_1_aup_url: https://wiki.openstreetmap.org/wiki/Acceptable_Use_Policy
       legal_1_1_privacy_policy: Polasaí Príobháideachais
+      legal_1_1_privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
       legal_1_2_html: Más mian leat léarscáileanna nó sonraí OpenStreetMap a úsáid,
         déan cinnte go gcuireann tú OpenStreetMap leis an ainm sin—féach %{attribution_guidelines_link}
         le haghaidh tuilleadh eolais.
       legal_attribution_guidelines_title: Treoirlínte um Chur i Láthair
-      legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
       legal_1_3_html: Go sonrach chun úsáid a bhaint as gabháil scáileáin ó OpenStreetMap
         go díreach i do leabhar, foilseachán, scannán nó seó teilifíse, ní gá duit
         cead a iarraidh mar go bhfuil sonraí in OpenStreetMap oscailte do chách lena
@@ -2583,9 +2635,11 @@ ga:
         Le do thoil, %{contact_the_osmf_link}
         le haghaidh aon cheisteanna eile maidir le ceadúnú, cóipcheart nó dlí.
       legal_2_1_contact_the_osmf: déan teagmháil leis an OSMF
+      legal_2_1_contact_the_osmf_url: https://osmfoundation.org/Contact
       legal_2_2_html: Is %{registered_trademarks_link} iad OpenStreetMap, lógó an
         ghloine formhéadúcháin agus Staid an Léarscáile.
       legal_2_2_registered_trademarks: trádmharcanna cláraithe de chuid OSMF
+      legal_2_2_registered_trademarks_url: https://osmfoundation.org/wiki/Trademark_Policy
       partners_title: Comhpháirtithe
     copyright:
       title: Cóipcheart agus Ceadúnas
@@ -2611,10 +2665,15 @@ ga:
           Faigh mapálaithe eile i do %{osm_community_link} áitiúil.
           Tacaigh leis an tionscadal trí bheith páirteach sa %{osm_foundation_link} agus %{making_donation_link}.
         lead_2_learn_more_about_osm: Foghlaim tuilleadh faoi OpenStreetMap
+        lead_2_learn_more_about_osm_url: https://wiki.openstreetmap.org/wiki/About_OpenStreetMap
         lead_2_get_started_mapping: tús a chur le mapáil
         lead_2_osm_blog: Blag OpenStreetMap
+        lead_2_osm_blog_url: https://blog.openstreetmap.org/
+        lead_2_weeklyosm: weeklyOSM
+        lead_2_weeklyosm_url: https://weeklyosm.eu/
         lead_2_osm_community: Pobal OSM
         lead_2_osm_foundation: Fondúireacht OSM
+        lead_2_osm_foundation_url: https://osmfoundation.org/
         lead_2_making_donation: ag déanamh síntiús
         licensing_title: Ceadúnú OpenStreetMap
         licensing_1_html: |-
@@ -2622,13 +2681,16 @@ ga:
           %{odc_odbl_link} (ODbL) ag an %{osm_foundation_link} (OSMF). Mar achoimre:
         licensing_1_open: oscailte
         licensing_1_odc_odbl: Ceadúnas Bunachar Sonraí Oscailte Commons Sonraí Oscailte
+        licensing_1_odc_odbl_url: https://opendatacommons.org/licenses/odbl/
         licensing_1_osm_foundation: Fondúireacht OpenStreetMap
+        licensing_1_osm_foundation_url: https://osmfoundation.org/
         licensing_2_html: Tá cead agat ár sonraí a chóipeáil, a dháileadh, a tharchur
           agus a oiriúnú, fad is a thugann tú creidiúint d'OpenStreetMap agus a chuid
           rannpháirtithe. Má athraíonn tú ár sonraí nó má chuireann tú leo, ní fhéadfaidh
           tú an toradh a dháileadh ach amháin faoin gceadúnas céanna. Míníonn an %{legal_code_link}
           do chearta agus do fhreagrachtaí.
         licensing_2_legal_code: cód dlíthiúil iomlán ag Open Data Commons
+        licensing_2_legal_code_url: https://opendatacommons.org/licenses/odbl/1-0/
         licensing_3_html: Tá ár ndoiciméadacht ceadúnaithe faoin %{creative_commons_license_link}
           (CC BY-SA 2.0).
         licensing_3_creative_commons_license: Ceadúnas Creative Commons Attribution-ShareAlike
@@ -2636,6 +2698,7 @@ ga:
         licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
         licensing_4_html: Léigh tuilleadh faoi úsáid ár sonraí ag an %{osmf_license_page_link}.
         licensing_4_osmf_license_page: Leathanach Ceadúnais OSMF
+        licensing_4_osmf_license_page_url: https://osmfoundation.org/Licence
         credit_title_html: Conas OpenStreetMap a lua
         credit_1_html: 'I gcás ina n-úsáideann tú sonraí OpenStreetMap, ní mór duit
           an dá rud seo a leanas a dhéanamh:'
@@ -2649,8 +2712,11 @@ ga:
           Is féidir tuilleadh sonraí a fháil sa chuid %{attribution_guidelines_link} de %{licensing_requirements_link}.
         credit_3_v2025_requirements_on_how_displayed: ceanglais maidir le conas ba
           chóir é seo a thaispeáint
+        credit_3_v2025_requirements_on_how_displayed_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_attribution_guidelines: treoirlínte leithdháilte
+        credit_3_v2025_attribution_guidelines_url: https://osmfoundation.org/wiki/Licence/Attribution_Guidelines
         credit_3_v2025_licensing_requirements: na ceanglais cheadúnaithe
+        credit_3_v2025_licensing_requirements_url: https://osmfoundation.org/wiki/Licence
         credit_4_v2025_html: |-
           Go ginearálta,
           chun a shoiléiriú go bhfuil na sonraí ar fáil faoin gCeadúnas Bunachar Sonraí Oscailte, féadfaidh tú nasc a dhéanamh le %{this_copyright_page_link}.
@@ -2671,19 +2737,25 @@ ga:
           Má chreideann tú gur cuireadh ábhar cóipchirt leis an mbunachar sonraí OpenStreetMap nó leis an suíomh seo go míchuí, féach ar ár %{takedown_procedure_link} nó comhdaigh go díreach ag ár
           %{online_filing_page_link}.
         infringement_2_1_takedown_procedure: nós imeachta bainte síos
+        infringement_2_1_takedown_procedure_url: https://osmfoundation.org/wiki/Takedown_procedure
         infringement_2_1_online_filing_page: leathanach comhdaithe ar líne
+        infringement_2_1_online_filing_page_url: https://dmca.openstreetmap.org/
         trademarks_title: Trádmharcanna
         trademarks_1_1_html: |-
           Is trádmharcanna cláraithe de chuid Fhondúireacht OpenStreetMap iad OpenStreetMap, lógó an ghloine formhéadúcháin, agus State of the Map. Má tá ceisteanna agat faoi d'úsáid de na marcanna, féach ar ár
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Polasaí Trádmharcanna
+        trademarks_1_1_trademark_policy_url: https://osmfoundation.org/wiki/Trademark_Policy
         services_title_html: Seirbhísí breise
         services_1_html: Cé gur sonraí oscailte é OpenStreetMap, ní féidir linn API
           léarscáile saor in aisce ná tíleanna léarscáile a sholáthar do thríú páirtithe.
           Féach ar ár %{api_usage_policy_link}, %{tile_usage_policy_link} agus %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Polasaí Úsáide API
+        services_1_api_usage_policy_url: https://operations.osmfoundation.org/policies/api/
         services_1_tile_usage_policy: Polasaí Úsáide Tíleanna
+        services_1_tile_usage_policy_url: https://operations.osmfoundation.org/policies/tiles/
         services_1_nominatim_usage_policy: Polasaí Úsáide Nominatim
+        services_1_nominatim_usage_policy_url: https://operations.osmfoundation.org/policies/nominatim/
         contributors_title_html: Ár rannchuiditheoirí
         contributors_intro_html: 'Is iad na mílte daoine aonair ár rannpháirtithe.
           Cuirimid san áireamh freisin sonraí atá ceadúnaithe go hoscailte ó ghníomhaireachtaí
@@ -2693,15 +2765,22 @@ ga:
           agus Land Tirol (faoi %{cc_by_at_with_amendments_link}) ann.
         contributors_at_austria: An Ostair
         contributors_at_stadt_wien: Stadt Wien
+        contributors_at_stadt_wien_url: https://data.wien.gv.at/
+        contributors_at_cc_by: CC BY
+        contributors_at_cc_by_url: https://creativecommons.org/licenses/by/3.0/at/deed.de
         contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_land_vorarlberg_url: https://www.vorarlberg.at/vorarlberg/bauen_wohnen/bauen/vermessung_geoinformation/weitereinformationen/services/wmsdienste.htm
         contributors_at_cc_by_at_with_amendments: CC BY AT le leasuithe
+        contributors_at_cc_by_at_with_amendments_url: https://www.tirol.gv.at/data/nutzungsbedingungen/
         contributors_au_credit_html: |-
           %{australia}: Ionchorpraíonn nó forbraíonn sé ag baint úsáide as Teorainneacha Riaracháin &copy; %{geoscape_australia_link}
           ceadúnaithe ag Comhlathas na hAstráile faoi %{cc_licence_link}.
         contributors_au_australia: An Astráil
         contributors_au_geoscape_australia: Geoscape na hAstráile
+        contributors_au_geoscape_australia_url: https://geoscape.com.au/legal/data-copyright-and-disclaimer/
         contributors_au_cc_licence: Ceadúnas Idirnáisiúnta Attribution Creative Commons
           4.0 (CC BY 4.0)
+        contributors_au_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_ca_credit_html: |-
           %{canada}: Tá sonraí ó
           GeoBase®, GeoGratis (©Roinn Acmhainní Nádúrtha
@@ -2714,12 +2793,14 @@ ga:
         contributors_cz_czechia: an tSeicia
         contributors_cz_cc_licence: Ceadúnas Idirnáisiúnta Attribution Creative Commons
           4.0 (CC BY 4.0)
+        contributors_cz_cc_licence_url: https://creativecommons.org/licenses/by/4.0/
         contributors_fi_credit_html: |-
           %{finland}: Tá sonraí ó
           Bhunachar Sonraí Topagrafach Suirbhéireacht Talún Náisiúnta na Fionlainne
           agus tacair sonraí eile ann, faoin %{nlsfi_license_link}.
         contributors_fi_finland: An Fhionlainn
         contributors_fi_nlsfi_license: Ceadúnas NLSFI
+        contributors_fi_nlsfi_license_url: https://www.maanmittauslaitos.fi/en/opendata-licence-version1
         contributors_fr_credit_html: |-
           %{france}: Tá sonraí a fuarthas ó
           Treo Générale des Impôts.
@@ -2728,7 +2809,9 @@ ga:
           (faisnéis phoiblí na Cróite) ann.'
         contributors_hr_croatia: An Chróit
         contributors_hr_dgu: Riarachán Geodéiseach Stáit na Cróite
+        contributors_hr_dgu_url: https://dgu.gov.hr/
         contributors_hr_open_data_portal: Tairseach Náisiúnta Sonraí Oscailte
+        contributors_hr_open_data_portal_url: https://data.gov.hr/
         contributors_nl_credit_new_html: '%{netherlands}: Tá &copy; AGUS sonraí ann,
           2007'
         contributors_nl_netherlands: An Ísiltír
@@ -2737,26 +2820,40 @@ ga:
           agus atá ceadúnaithe lena n-athúsáid faoi %{cc_by_link}.
         contributors_nz_new_zealand: An Nua-Shéalainn
         contributors_nz_linz_data_service: Seirbhís Sonraí LINZ
+        contributors_nz_linz_data_service_url: https://data.linz.govt.nz/
+        contributors_nz_cc_by: CC BY 4.0
+        contributors_nz_cc_by_url: https://creativecommons.org/licenses/by/4.0/
         contributors_rs_credit_html: '%{serbia}: Tá sonraí ó %{rgz_link} agus %{open_data_portal}
           (faisnéis phoiblí na Seirbia), 2018, ann.'
         contributors_rs_serbia: An tSeirbia
         contributors_rs_rgz: Údarás Geodéiseach na Seirbe
+        contributors_rs_rgz_url: https://geosrbija.rs/
         contributors_rs_open_data_portal: Tairseach Náisiúnta Sonraí Oscailte
+        contributors_rs_open_data_portal_url: https://data.gov.rs/sr/
         contributors_si_credit_html: '%{slovenia}: Tá sonraí ó %{gu_link} agus %{mkgp_link}
           (faisnéis phoiblí na Slóivéine) ann.'
         contributors_si_slovenia: An tSlóivéin
         contributors_si_gu: Údarás Suirbhéireachta agus Mapála
+        contributors_si_gu_url: https://www.gov.si/en/state-authorities/bodies-within-ministries/surveying-and-mapping-authority/
         contributors_si_mkgp: Aireacht Talmhaíochta, Foraoiseachta agus Bia
+        contributors_si_mkgp_url: https://www.gov.si/en/state-authorities/ministries/ministry-of-agriculture-forestry-and-food/
         contributors_es_credit_html: |-
           %{spain}: Tá sonraí ann a foinsíodh ó
           Institiúid Náisiúnta Geografach na Spáinne (%{ign_link}) agus ón
           gCóras Cartagrafach Náisiúnta (%{scne_link})
           atá ceadúnaithe lena n-athúsáid faoi %{cc_by_link}.
         contributors_es_spain: An Spáinn
+        contributors_es_ign: IGN
+        contributors_es_ign_url: https://www.ign.es/
+        contributors_es_scne: SCNE
+        contributors_es_scne_url: https://www.scne.es/
+        contributors_es_cc_by: CC BY 4.0
+        contributors_es_cc_by_url: https://creativecommons.org/licenses/by/4.0/
         contributors_za_credit_html: '%{south_africa}: Tá sonraí ann a foinsíodh ó
           %{ngi_link}, cóipcheart Stáit ar cosaint.'
         contributors_za_south_africa: An Afraic Theas
         contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
+        contributors_za_ngi_url: https://ngi.dalrrd.gov.za/
         contributors_gb_credit_html: |-
           %{united_kingdom}: Tá Ordanáis ann
           Sonraí suirbhéireachta &cóip; cóipcheart na Corónach agus ceart bunachar sonraí
@@ -2766,6 +2863,7 @@ ga:
           foinsí eile a úsáideadh chun cabhrú le OpenStreetMap a fheabhsú, féach ar
           an %{contributors_page_link} ar Vicí OpenStreetMap.
         contributors_2_contributors_page: Leathanach na rannpháirtithe
+        contributors_2_contributors_page_url: https://wiki.openstreetmap.org/wiki/Contributors
         contributors_footer_2_html: Ní hionann sonraí a bheith san áireamh in OpenStreetMap
           agus a rá go dtacaíonn an soláthraí sonraí bunaidh le OpenStreetMap, go
           soláthraíonn sé aon bharántas, nó go nglacann sé le haon dliteanas.
@@ -2783,6 +2881,8 @@ ga:
         mura ndéanfaidh tú sin. Is féidir leat do chuid athruithe a shocrú mar athruithe
         poiblí ar do %{user_page}.
       user_page_link: leathanach úsáideora
+      anon_edits_html: (%{link})
+      anon_edits_link: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       anon_edits_link_text: Faigh amach cén fáth ar amhlaidh atá.
     export:
       title: Easportáil
@@ -2791,6 +2891,7 @@ ga:
       licence_details_html: Tá ceadúnas ag sonraí OpenStreetMap faoin %{odbl_link}
         (ODbL).
       odbl: Ceadúnas Bunachar Sonraí Oscailte Commons Sonraí Oscailte
+      odbl_url: https://opendatacommons.org/licenses/odbl/1.0/
       too_large:
         advice: 'Má theipeann ar an easpórtáil thuas, smaoinigh ar cheann de na foinsí
           sa liosta thíos a úsáid:'
@@ -2838,6 +2939,7 @@ ga:
           %{copyright_link} le haghaidh tuilleadh eolais dhlíthiúil, nó déan teagmháil leis an %{working_group_link} cuí.
         copyright: leathanach cóipchirt
         working_group: Grúpa oibre OSMF
+        working_group_url: https://osmfoundation.org/wiki/Working_Groups
     help:
       title: Cabhair a Fháil
       introduction: Tá roinnt acmhainní ag OpenStreetMap chun foghlaim faoin tionscadal,
@@ -2853,6 +2955,7 @@ ga:
         title: Treoir do Thosaitheoirí
         description: Treoir do thosaitheoirí atá faoi stiúir an phobail.
       community:
+        url: https://community.openstreetmap.org/
         title: Fóram Cabhrach & Pobail
         description: Áit chomhroinnte chun cabhair a lorg agus comhráite a bheith
           againn faoi OpenStreetMap.
@@ -2869,10 +2972,12 @@ ga:
         description: Cabhair do chuideachtaí agus eagraíochtaí atá ag athrú chuig
           léarscáileanna agus seirbhísí eile atá bunaithe ar OpenStreetMap.
       welcomemat:
+        url: https://welcome.openstreetmap.org/
         title: Do Eagraíochtaí
         description: Ag déanamh pleananna le haghaidh OpenStreetMap le heagraíocht?
           Faigh amach an méid atá uait sa Welcome Mat.
       wiki:
+        url: https://wiki.openstreetmap.org/
         title: Vicí OpenStreetMap
         description: Brabhsáil an vicí le haghaidh doiciméadú mionsonraithe OpenStreetMap.
     potlatch:
@@ -2881,6 +2986,7 @@ ga:
         a thuilleadh le húsáid i mbrabhsálaí gréasáin.
       desktop_application_html: Is féidir leat Potlatch a úsáid fós faoi %{download_link}.
       download: an feidhmchlár deisce le haghaidh Mac agus Windows a íoslódáil
+      download_url: https://www.systemed.net/potlatch/
       id_editor_html: Nó is féidir leat d’eagarthóir réamhshocraithe a shocrú go iD,
         a ritheann i do bhrabhsálaí gréasáin mar a rinne Potlatch roimhe seo. %{change_preferences_link}.
       change_preferences: Athraigh do chuid roghanna anseo
@@ -2891,6 +2997,7 @@ ga:
         %{help_link}. An bhfuil eagraíocht ag déanamh pleananna do OpenStreetMap? %{welcome_mat_link}.
       get_help_here: Faigh cabhair anseo
       welcome_mat: Féach ar an Welcome Mat
+      welcome_mat_url: https://welcome.openstreetmap.org/
     sidebar:
       search_results: Torthaí an chuardaigh
     search:
@@ -2908,6 +3015,9 @@ ga:
         foot: Ag Siúl
       providers:
         description: Seirbhísí treoracha
+        fossgis_osrm: OSRM
+        graphhopper: GraphHopper
+        fossgis_valhalla: Valhalla
     welcome:
       title: Fáilte!
       introduction: Fáilte go OpenStreepMap, léarscáil den Domhan atá saor in aisce
@@ -2946,7 +3056,9 @@ ga:
           Níl mórán rialacha foirmiúla ag OpenStreetMap ach táimid ag súil go gcomhoibreoidh agus go gcuirfidh na rannpháirtithe uile cumarsáid leis an bpobal. Má tá tú ag smaoineamh ar aon ghníomhaíochtaí seachas eagarthóireacht de láimh, léigh agus lean na treoirlínte ar
           %{imports_link} agus %{automated_edits_link}.
         imports: Allmhairí
+        imports_url: https://wiki.openstreetmap.org/wiki/Import/Guidelines
         automated_edits: Eagarthóireacht Uathoibrithe
+        automated_edits_url: https://wiki.openstreetmap.org/wiki/Automated_Edits_code_of_conduct
       start_mapping: Téigh i mbun Léarscáilithe
       continue_authorization: Lean ar aghaidh leis an Údarú
     add_a_note:
@@ -2982,6 +3094,7 @@ ga:
           Níl aon ghá grúpa a bhunú go foirmiúil ar an gcaoi chéanna leis na Caibidlí Áitiúla.
           Go deimhin, maireann go leor grúpaí go han-rathúil mar chruinniú neamhfhoirmiúil daoine nó mar ghrúpa pobail. Is féidir le duine ar bith iad seo a bhunú nó páirt a ghlacadh iontu. Léigh tuilleadh ar an %{communities_wiki_link}.
         communities_wiki: Leathanach vicí na bpobal
+        communities_wiki_url: https://wiki.openstreetmap.org/wiki/User_group
   social_links:
     show:
       website: suíomh gréasáin
@@ -3122,7 +3235,9 @@ ga:
     new:
       upload_trace: Uaslódáil Rian GPS
       visibility_help: céard a chiallaíonn seo?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
       help: Cabhair
+      help_url: https://wiki.openstreetmap.org/wiki/Upload
     create:
       upload_trace: Lorg GPS a Uaslódáil
       trace_uploaded: Tá do chomhad GPX uaslódáilte agus tá sé ag fanacht le cur isteach
@@ -3151,6 +3266,7 @@ ga:
       title: Lorg %{name} á chur in eagar
       heading: Lorg %{name} á chur in eagar
       visibility_help: céard a chiallaíonn seo?
+      visibility_help_url: https://wiki.openstreetmap.org/wiki/Visibility_of_GPS_traces
     update:
       updated: Rian nuashonraithe
     show:
@@ -3203,6 +3319,7 @@ ga:
         %{wiki_link}.'
       upload_new: Uaslódáil rian nua
       wiki_page: leathanach vicí
+      wiki_page_url: https://wiki.openstreetmap.org/wiki/Beginners_Guide_1.2
       upload_trace: Lorg a uaslódáil
       all_traces: Gach Rian
       my_traces: Mo Rianta
@@ -3316,6 +3433,7 @@ ga:
         úsáid linn ag baint úsáide as an gcaighdeán %{oauth2}? Ní mór duit d'fheidhmchlár
         a chlárú sula bhféadfaidh sé iarratais OAuth a dhéanamh chuig an tseirbhís
         seo.
+      oauth_2: OAuth 2
       new: Cláraigh iarratas nua
       name: Ainm
       permissions: Ceadanna
@@ -3357,6 +3475,7 @@ ga:
       permissions: Ceadanna
       last_authorized: Údaraithe Deiridh
       no_applications_html: Níl aon fheidhmchláir %{oauth2} údaraithe agat go fóill.
+      oauth_2: OAuth 2
     application:
       revoke: Cealaigh Rochtain
       confirm_revoke: An bhfuil tú ag iarraidh rochtain a chúlghairm don fheidhmchlár
@@ -3390,12 +3509,15 @@ ga:
           %{contributor_terms_link}.
         tou: Téarmaí Úsáide
         privacy_policy: polasaí príobháideachais
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Polasaí príobháideachta OSMF lena n-áirítear an chuid
           faoi sheoltaí ríomhphoist
+        contributor_terms_url: https://osmfoundation.org/wiki/Licence/Contributor_Terms
         contributor_terms: téarmaí ranníocóra
       continue: Cláraigh
       email_help:
         privacy_policy: polasaí príobháideachais
+        privacy_policy_url: https://osmfoundation.org/wiki/Privacy_Policy
         privacy_policy_title: Polasaí príobháideachta OSMF lena n-áirítear an chuid
           faoi sheoltaí ríomhphoist
         html: Ní thaispeántar do sheoladh go poiblí, féach ar ár %{privacy_policy_link}
@@ -3464,13 +3586,29 @@ ga:
       change_image: Athraigh Íomhá
       edit_company: Cuir Comhlacht in Eagar
       edit_location: Cuir Suíomh in Eagar
-      edit_heatmap: Cumraigh Léarscáil Teasa
+      edit_contribution_calendar: Cumraigh Féilire Ranníocaíochta
       contributions:
         one: '%{count} ranníocaíocht sa bhliain seo caite '
         two: '{count} ranníocaíochtaí sa bhliain seo caite'
         few: '%{count} ranníocaíochtaí sa bhliain seo caite'
         many: '%{count} ranníocaíochtaí sa bhliain seo caite'
         other: '%{count} ranníocaíochtaí sa bhliain seo caite'
+      title:
+        administrator: Is riarthóir é an t-úsáideoir seo
+        moderator: Is áisitheoir é an t-úsáideoir seo
+        importer: Is allmhaireoir an t-úsáideoir seo
+      grant:
+        administrator: Deonaigh rochtain riarthóra
+        moderator: Deonaigh rochtain modhnóra
+        importer: Deonaigh rochtain d'allmhaireoir
+        are_you_sure: An bhfuil tú cinnte gur mian leat an ról '%{role}' a bhronnadh
+          ar an úsáideoir '%{name}'?
+      revoke:
+        administrator: Cealaigh rochtain riarthóra
+        moderator: Cealaigh rochtain an mhodhnóra
+        importer: Cealaigh rochtain an allmhaireora
+        are_you_sure: An bhfuil tú cinnte gur mian leat an ról '%{role}' a chúlghairm
+          ón úsáideoir '%{name}'?
     sidebar_section:
       home_location: Suíomh baile
       company: Comhlacht
@@ -3575,23 +3713,6 @@ ga:
       option_2: Má tá cuntas agat cheana féin, is féidir leat logáil isteach i do
         chuntas ag baint úsáide as d'ainm úsáideora agus do phasfhocal agus ansin
         an cuntas a cheangal le d'aitheantas i do shocruithe úsáideora.
-    role_icons:
-      title:
-        administrator: Is riarthóir é an t-úsáideoir seo
-        moderator: Is áisitheoir é an t-úsáideoir seo
-        importer: Is allmhaireoir an t-úsáideoir seo
-      grant:
-        administrator: Deonaigh rochtain riarthóra
-        moderator: Deonaigh rochtain modhnóra
-        importer: Deonaigh rochtain d'allmhaireoir
-        are_you_sure: An bhfuil tú cinnte gur mian leat an ról '%{role}' a bhronnadh
-          ar an úsáideoir '%{name}'?
-      revoke:
-        administrator: Cealaigh rochtain riarthóra
-        moderator: Cealaigh rochtain an mhodhnóra
-        importer: Cealaigh rochtain an allmhaireora
-        are_you_sure: An bhfuil tú cinnte gur mian leat an ról '%{role}' a chúlghairm
-          ón úsáideoir '%{name}'?
   user_role:
     filter:
       not_a_role: Ní ról bailí é an teaghrán '%{role}'.
@@ -3771,6 +3892,7 @@ ga:
       event_reopened_by_anonymous_html: Athghníomhachtaithe ag %{time_ago} gan ainm
       event_hidden_by_html: Folaithe ag %{user} %{time_ago}
       report: tuairiscigh an nóta seo
+      coordinates_html: '%{latitude}, %{longitude}'
       anonymous_warning: Tá tuairimí ó úsáideoirí gan ainm sa nóta seo agus ba cheart
         iad a fhíorú go neamhspleách.
       discussion: Plé
@@ -3809,8 +3931,10 @@ ga:
         other: '%{count} nótaí gan ainm'
       counter_warning_guide_link:
         text: ranníocaíocht a dhéanamh leat féin
+        url: https://wiki.openstreetmap.org/wiki/Beginners%27_guide
       counter_warning_forum_link:
         text: is féidir leis an bpobal cabhrú leat
+        url: https://community.openstreetmap.org/
       advice: Tá do nóta poiblí agus féadfar í a úsáid chun an léarscáil a nuashonrú,
         mar sin ná cuir isteach faisnéis phearsanta, ná faisnéis ó léarscáileanna
         cóipchirtithe ná ó liostaí eolaire.
@@ -3839,6 +3963,10 @@ ga:
       tooltip: Finscéal
       tooltip_disabled: Níl finscéal ar fáil don chiseal seo
     map:
+      map:
+        title: Léarscáil
+        marker:
+          title: Marcóir léarscáile
       popup:
         close: Dún
       navigation_control:
@@ -3859,8 +3987,11 @@ ga:
           few: Tá tú laistigh de %{count} troigh ón bpointe seo
           many: Tá tú laistigh de %{count} troigh ón bpointe seo
           other: Tá tú laistigh de %{count} troigh ón bpointe seo
+      attribution_control:
+        toggle_attribution: Athraigh an tAttribution
       base:
         standard: Caighdeánach
+        cyclosm: CyclOSM
         cycle_map: Léarscáil Rothaíochta
         transport_map: Léarscáil Iompair
         tracestracktop_topo: Tracestrack Topo
@@ -3874,18 +4005,23 @@ ga:
         gps: Rianta GPS Poiblí
         overlays: Cumasaigh forleagan chun fabhtcheartú a dhéanamh ar an léarscáil
         title: Sraitheanna
+      copyright_text: © %{copyright_link}
       openstreetmap_contributors: Rannpháirtithe OpenStreetMap
       make_a_donation: Déan Síntiús
       website_and_api_terms: Téarmaí suíomh Gréasáin agus API
       cyclosm_credit: Stíl tíleanna le %{cyclosm_link} arna óstáil ag %{osm_france_link}
+      cyclosm_name: CyclOSM
       osm_france: OpenStreetMap na Fraince
       thunderforest_credit: Tíleanna le caoinchead %{thunderforest_link}
       andy_allan: Andy Allan
       tracestrack_credit: Tíleanna le caoinchead %{tracestrack_link}
+      tracestrack: Tracestrack
       hotosm_credit: Stíl tíleanna le %{hotosm_link} arna óstáil ag %{osm_france_link}
       hotosm_name: Foireann Dhaonnúil OpenStreetMap
       openmaptiles_credit: Tíleanna veicteora ó %{openmaptiles_link} arna óstáil ag
         %{maptiler_link}
+      openmaptiles_name: OpenMapTiles
+      maptiler_name: MapTiler
     site:
       edit_tooltip: Cuir an léarscáil in eagar
       edit_disabled_tooltip: Zúmáil isteach chun an léarscáil a chur in eagar
@@ -4005,7 +4141,7 @@ ga:
     home:
       marker_title: Mo shuíomh baile
       not_set: Níl suíomh baile socraithe do do chuntas
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Gan aon ranníocaíochtaí ar %{date}
         contributions:

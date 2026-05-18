@@ -669,8 +669,6 @@ th:
       comments:
         other: '%{count} ความคิดเห็น'
       title_label: รายการบันทึก
-      comments_label: ความคิดเห็น
-      date_label: วันที่
   diary_comments:
     new:
       heading: เพิ่มความคิดเห็นในการสนทนารายการบันทึกนี้?
@@ -1638,16 +1636,15 @@ th:
       other_issues_against_this_user: รายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
       no_other_issues: ไม่มีรายงานอื่น ๆ เกี่ยวกับผู้ใช้นี้
       comments_on_this_issue: ความคิดเห็นที่มีต่อปัญหานี้
+      comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
+      reassign_to_moderators: มอบหมายปัญหาใหม่ให้กับผู้ดูแล
+      reassign_to_administrators: มอบหมายปัญหาใหม่ให้กับผู้ดูแลระบบ
     resolve:
       resolved: สถานะปัญหาได้ถูกตั้งค่าเป็น 'แก้ไขแล้ว'
     ignore:
       ignored: สถานะปัญหาได้ถูกตั้งค่าเป็น 'ละเว้น'
     reopen:
       reopened: สถานะปัญหาได้ถูกตั้งค่าเป็น 'เปิด'
-    comments:
-      comment_from_html: ความคิดเห็นจาก %{user_link} เมื่อ %{comment_created_at}
-      reassign_to_moderators: มอบหมายปัญหาใหม่ให้กับผู้ดูแล
-      reassign_to_administrators: มอบหมายปัญหาใหม่ให้กับผู้ดูแลระบบ
     reports:
       reported_by_html: รายงานเป็น %{category} โดย %{user} เมื่อ %{updated_at}
     helper:
@@ -1841,7 +1838,6 @@ th:
       history: ประวัติ
       home: กลับไปที่ตำแหน่งบ้าน
       issues: ปัญหา
-      loading: กำลังโหลด...
       log_out: ออกจากระบบ
       log_in: ลงชื่อเข้าใช้
       more: เพิ่มเติม
@@ -2894,6 +2890,17 @@ th:
       activate_user: เปิดใช้งานผู้ใช้นี้
       confirm: ยืนยัน
       report: แจ้งปัญหาเกี่ยวกับผู้ใช้คนนี้
+      title:
+        administrator: คนนี้เป็นผู้ดูแลระบบ
+        moderator: ผู้ใช้นี้เป็นผู้ดูแล
+      grant:
+        administrator: ให้สิทธิ์ผู้ดูแลระบบ
+        moderator: ให้สิทธิ์ผู้ควบคุม
+        are_you_sure: แน่ใจว่าต้องการแต่งตั้งบทบาท `%{role}' แก่ผู้ใช้ `%{name}'?
+      revoke:
+        administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
+        moderator: เพิกถอนสิทธิ์ผู้ควบคุม
+        are_you_sure: แน่ใจว่าต้องการถอดถอนบทบาท `%{role}' จากผู้ใช้ `%{name}'?
     sidebar_section:
       home_location: ตำแหน่งบ้าน
       company: บริษัท
@@ -2955,18 +2962,6 @@ th:
       option_1: ถ้าท่านเป็นผู้ใช้ OpenStreetMap ใหม่ โปรดใช้แบบฟอร์มข้างล่างสร้างบัญชีผู้ใช้
       option_2: หากมีบัญชีอยู่แล้ว สามารถเข้าสู่ระบบด้วยชื่อผู้ใช้และรหัสผ่าน จากนั้นจึงเชื่อมโยงบัญชีกับ
         ID ในการตั้งค่าผู้ใช้
-    role_icons:
-      title:
-        administrator: คนนี้เป็นผู้ดูแลระบบ
-        moderator: ผู้ใช้นี้เป็นผู้ดูแล
-      grant:
-        administrator: ให้สิทธิ์ผู้ดูแลระบบ
-        moderator: ให้สิทธิ์ผู้ควบคุม
-        are_you_sure: แน่ใจว่าต้องการแต่งตั้งบทบาท `%{role}' แก่ผู้ใช้ `%{name}'?
-      revoke:
-        administrator: เพิกถอนสิทธิ์ผู้ดูแลระบบ
-        moderator: เพิกถอนสิทธิ์ผู้ควบคุม
-        are_you_sure: แน่ใจว่าต้องการถอดถอนบทบาท `%{role}' จากผู้ใช้ `%{name}'?
   user_role:
     filter:
       not_a_role: ข้อความ `%{role}' ไม่ใช่บทบาทที่ถูกต้อง
@@ -3290,7 +3285,7 @@ th:
     home:
       marker_title: ตำแหน่งบ้านของฉัน
       not_set: ตำแหน่งบ้านไม่ได้ถูกตั้งค่าสำหรับบัญชีของคุณ
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: ไม่มีส่วนร่วมใน %{date}
         contributions:

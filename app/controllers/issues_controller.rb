@@ -41,14 +41,14 @@ class IssuesController < ApplicationController
     @issues = @issues.where(:reportable_type => params[:issue_type]) if params[:issue_type].present?
 
     if params[:last_updated_by].present?
-      last_updated_by = params[:last_updated_by].to_s == "nil" ? nil : params[:last_updated_by].to_i
+      last_updated_by = params.expect(:last_updated_by).to_s == "nil" ? nil : params.expect(:last_updated_by).to_i
       @issues = @issues.where(:updated_by => last_updated_by)
     end
 
-    @issues, @newer_issues_id, @older_issues_id = get_page_items(@issues, :limit => @params[:limit])
+    @issues = get_page_items(@issues, :limit => @params[:limit])
 
     @unique_reporters_limit = 3
-    @unique_reporters = @issues.each_with_object({}) do |issue, reporters|
+    @unique_reporters = @issues.items.each_with_object({}) do |issue, reporters|
       user_ids = issue.reports.reorder(:created_at => :desc).pluck(:user_id).uniq
       reporters[issue.id] = {
         :count => user_ids.size,
@@ -100,7 +100,7 @@ class IssuesController < ApplicationController
   private
 
   def find_issue
-    @issue = Issue.visible_to(current_user).find(params[:id])
+    @issue = Issue.visible_to(current_user).find(params.expect(:id))
   rescue ActiveRecord::RecordNotFound
     redirect_to :controller => "errors", :action => "not_found"
   end

@@ -70,10 +70,9 @@ $(function () {
     map.on("click", function (e) {
       if (!$("#updatehome").is(":checked")) return;
 
-      const [lat, lon] = OSM.cropLocation(e.lngLat, map.getZoom() + 1);
-
+      const { lat, lng } = OSM.cropLocation(L.latLng(e.lngLat.lat, e.lngLat.lng), map.getZoom() + 1);
       $("#home_lat").val(lat);
-      $("#home_lon").val(lon);
+      $("#home_lon").val(lng);
 
       clearDeletedText();
       respondToHomeLatLonUpdate();

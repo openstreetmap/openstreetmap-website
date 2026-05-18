@@ -6,7 +6,6 @@ class IssuesHelperTest < ActionView::TestCase
   attr_accessor :current_user
 
   def test_reportable_heading_diary_comment
-    create(:language, :code => "en")
     diary_entry = create(:diary_entry, :title => "A Discussion")
     diary_comment = create(:diary_comment, :diary_entry => diary_entry, :created_at => "2020-03-15", :updated_at => "2021-05-17")
 
@@ -20,7 +19,6 @@ class IssuesHelperTest < ActionView::TestCase
   end
 
   def test_reportable_heading_diary_entry
-    create(:language, :code => "en")
     diary_entry = create(:diary_entry, :title => "Important Subject", :created_at => "2020-03-24", :updated_at => "2021-05-26")
 
     heading = reportable_heading diary_entry

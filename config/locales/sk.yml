@@ -9,6 +9,7 @@
 # Author: Gravitystorm
 # Author: Helix84
 # Author: Jose1711
+# Author: KormiSK
 # Author: KuboF
 # Author: Kusavica
 # Author: Lesny skriatok
@@ -37,7 +38,7 @@
 sk:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y o %H:%M'
@@ -784,8 +785,6 @@ sk:
         many: '%{count} komentárov}'
         other: '%{count} komentárov'
       title_label: Záznam denníka
-      comments_label: Komentáre
-      date_label: Dátum
   diary_comments:
     new:
       heading: Pridať komentár k diskusii v denníku sledujúceho?
@@ -1234,7 +1233,7 @@ sk:
           reservoir_watershed: Povodie nádrže
           residential: Obytná oblasť
           retail: Maloobchodná zóna
-          village_green: Verejná zeleň
+          village_green: Centrálna zeleň osídlenia
           vineyard: Vinica
           "yes": Využitie krajiny
         leisure:
@@ -1247,7 +1246,7 @@ sk:
           bowling_alley: Bowlingová dráha
           common: Verejné priestranstvo
           dance: Tančiareň
-          dog_park: Psí park
+          dog_park: Psí park/výbeh
           firepit: Ohnisko
           fishing: Rybolov (športový)
           fitness_centre: Fitnescentrum
@@ -1418,20 +1417,20 @@ sk:
         place:
           allotments: Záhradkárska osada
           archipelago: Súostrovie
-          city: Mesto nad 100 tis.
+          city: Veľkomesto
           city_block: Mestský blok
-          country: Štát
+          country: Krajina
           county: Okres
           farm: Farma
-          hamlet: Osada do 200
+          hamlet: Osada
           house: Budova
           houses: Budovy
           island: Ostrov
           islet: Ostrovček
           isolated_dwelling: Samota
           locality: Oblasť
-          municipality: Obecný úrad
-          neighbourhood: Štvrť
+          municipality: Obec
+          neighbourhood: Miestna časť
           plot: Pozemok
           postcode: PSČ
           quarter: Štvrť
@@ -1440,9 +1439,9 @@ sk:
           square: Námestie
           state: Štát
           subdivision: Pododdelenie
-          suburb: Mestský obvod
-          town: Mesto 10 tis.-100 tis.
-          village: Obec 200-10 tis.
+          suburb: Mestská časť
+          town: Mesto
+          village: Dedina
           "yes": Miesto
         railway:
           abandoned: Zrušená železničná trať
@@ -1662,7 +1661,7 @@ sk:
         arrondissement: Hranica arrondissementu
         borough: Hranica mestskej časti
         cercle: Hranica kruhu
-        city: Hranica mesta
+        city: Hranica veľkomesta
         comarca: Hranica komarky
         county: Hranica okresu
         departement: Hranica oddelenia
@@ -1676,15 +1675,15 @@ sk:
         município: Hranice obce
         nation: Štátna hranica
         national: Štátna hranica
-        neighbourhood: Hranica susedstva
+        neighbourhood: Hranica miestnej časti
         parish: Hranica farnosti
         province: Hranica provincie
         região: Hranica regiónu
         region: Hranica regiónu
-        state: Hranica kraja (state)
+        state: Hranica štátu
         town: Hranica mesta
         township: Hranica mesta
-        village: Hranica obce
+        village: Hranica dediny
   searches:
     show:
       title:
@@ -1766,16 +1765,15 @@ sk:
       other_issues_against_this_user: Iné problémy proti tomuto používateľovi
       no_other_issues: Žiadne ďalšie problémy proti tomuto používateľovi.
       comments_on_this_issue: Komentáre k problému
+      comment_from_html: Komentár od používateľa %{user_link} z %{comment_created_at}
+      reassign_to_moderators: Prideliť problém moderátorom
+      reassign_to_administrators: Prideliť problém administrátorom
     resolve:
       resolved: Stav problému bol nastavený na „Vyriešené“
     ignore:
       ignored: Stav problému bol nastavený na „Ignorované“
     reopen:
       reopened: Stav problému bol nastavený na „Otvorené“
-    comments:
-      comment_from_html: Komentár od používateľa %{user_link} z %{comment_created_at}
-      reassign_to_moderators: Prideliť problém moderátorom
-      reassign_to_administrators: Prideliť problém administrátorom
     reports:
       reported_by_html: Nahlásené ako %{category} používateľom %{user} o %{updated_at}
     helper:
@@ -1896,6 +1894,7 @@ sk:
   layouts:
     logo:
       alt_text: Logo OpenStreetMap
+    main_navigation: Hlavný
     layer_info: Informácie o vrstve
     start_mapping: Začať mapovať
     intro_header: Vitajte v OpenStreetMap!
@@ -1905,6 +1904,9 @@ sk:
       a ďalší %{partners}.
     partners_corpmembers: firemní členovia OSMF
     partners_partners: partneri
+    welcome_tou_notice_html: Používaním tejto webovej stránky alebo inej infraštruktúry
+      poskytovanej nadáciou OpenStreetMap Foundation súhlasíte s %{terms_link}.
+    terms_of_use: Podmienky používania
     tou: Podmienky používania
     nothing_to_preview: Nič k náhľadu.
     learn_more: Viac info
@@ -1921,7 +1923,6 @@ sk:
       history: História
       home: Prejsť na domovskú polohu
       issues: Problémy
-      loading: Načítava sa...
       log_out: Odhlásiť sa
       log_in: Prihláste sa
       more: Ďalšie
@@ -2266,7 +2267,7 @@ sk:
         image: Obrázok
         company: Spoločnosť
         location: Poloha
-        heatmap: Teplotná mapa
+        contribution_calendar: Kalendár príspevkov
     descriptions:
       show:
         title: Upraviť profil
@@ -2327,13 +2328,14 @@ sk:
         failure: Nepodarilo sa aktualizovať polohu v profile.
     heatmaps:
       show:
-        title: Nastaviť teplotnú mapu
-        show_heatmap_in_public: Zobraziť teplotnú mapu na vašej profilovej stránke
-        save: Aktualizovať nastavenie teplotnej mapy
+        title: Konfigurácia kalendára príspevkov
+        show_contribution_calendar_in_public: Zobraziť kalendár príspevkov na vašom
+          profile
+        save: Aktualizovať konfiguráciu kalendára príspevkov
         cancel: Zrušiť
       update:
-        success: Teplotná mapa aktualizovaná.
-        failure: Nepodarilo sa aktualizovať teplotnú mapu.
+        success: Kalendár príspevkov bol aktualizovaný.
+        failure: Nepodarilo sa aktualizovať kalendár príspevkov.
   sessions:
     new:
       tab_title: Prihlásenie
@@ -2351,6 +2353,8 @@ sk:
       login_button: Prihlásiť
       with external: alebo použite na prihlásenie služby tretích strán
       or: alebo
+      reset_to_login: Ospravedlňujeme sa, vášmu heslu skončila platnosť. Prosím vykonajte
+        reset hesla pre prihlásenie.
       auth failure: Ľutujeme, s uvedenými údajmi sa nie je možné prihlásiť.
     destroy:
       title: Odhlásenie
@@ -2907,7 +2911,7 @@ sk:
         apron: Letisková odbavovacia plocha
         admin: Administratívne hranice
         capital: Hlavné mesto
-        city: Mesto
+        city: Veľkomesto
         orchard: Sad
         vineyard: Vinica
         forest: Les (udržiavaný)
@@ -3335,12 +3339,26 @@ sk:
       change_image: Zmeniť obrázok
       edit_company: Upraviť spoločnosť
       edit_location: Upraviť polohu
-      edit_heatmap: Nastaviť teplotnú mapu
+      edit_contribution_calendar: Konfigurácia kalendára príspevkov
       contributions:
         one: '%{count} príspevok za posledný rok'
         few: '%{count} príspevky za posledný rok'
         many: '%{count} príspevkov za posledný rok'
         other: '%{count} príspevkov za posledný rok'
+      title:
+        administrator: Tento používateľ je administrátor
+        moderator: Tento používateľ je moderátor
+        importer: Tento používateľ je importér
+      grant:
+        administrator: Povoliť prístup administrátora
+        moderator: Povoliť prístup moderátora
+        importer: Udeliť prístup importéra
+        are_you_sure: Naozaj chcete prideliť rolu „%{role}“ používateľovi „%{name}“?
+      revoke:
+        administrator: Zrušiť prístup administrátora
+        moderator: Zrušiť prístup moderátora
+        importer: Odobrať prístup importéra
+        are_you_sure: Naozaj chcete odobrať rolu „%{role}“ používateľovi „%{name}“?
     sidebar_section:
       home_location: Domovská poloha
       company: Spoločnosť
@@ -3445,21 +3463,6 @@ sk:
         Ak už máte účet, môžete sa prihlásiť do svojho účtu
         pomocou svojho používateľského mena a hesla a potom priradiť účet
         k svojmu ID v používateľských nastaveniach.
-    role_icons:
-      title:
-        administrator: Tento používateľ je administrátor
-        moderator: Tento používateľ je moderátor
-        importer: Tento používateľ je importér
-      grant:
-        administrator: Povoliť prístup administrátora
-        moderator: Povoliť prístup moderátora
-        importer: Udeliť prístup importéra
-        are_you_sure: Naozaj chcete prideliť rolu „%{role}“ používateľovi „%{name}“?
-      revoke:
-        administrator: Zrušiť prístup administrátora
-        moderator: Zrušiť prístup moderátora
-        importer: Odobrať prístup importéra
-        are_you_sure: Naozaj chcete odobrať rolu „%{role}“ používateľovi „%{name}“?
   user_role:
     filter:
       not_a_role: Reťazec „%{role}“ nie je platnou rolou.
@@ -3701,6 +3704,10 @@ sk:
       tooltip: Legenda
       tooltip_disabled: Legenda nie je dostupná pre túto vrstvu
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Značka na mape
       popup:
         close: Zatvoriť
       navigation_control:
@@ -3719,6 +3726,8 @@ sk:
           few: Ste menej než %{count} stopy od tohto bodu
           many: Ste menej než %{count} stôp od tohto bodu
           other: Ste menej než %{count} stôp od tohto bodu
+      attribution_control:
+        toggle_attribution: Prepnúť uvádzanie pôvodu
       base:
         standard: Štandardná
         cycle_map: Cyklomapa
@@ -3864,7 +3873,7 @@ sk:
     home:
       marker_title: Moja domovská poloha
       not_set: Vo vašom účte nie je nastavená domovská poloha
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Žiadne príspevky dňa %{date}
         contributions:

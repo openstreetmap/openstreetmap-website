@@ -11,7 +11,7 @@
 fur:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e di %B %Y a lis %H:%M'
@@ -213,8 +213,8 @@ fur:
         full: Note complete
   accounts:
     show:
-      title: Modifiche profîl
-      my_account: Il gno profîl
+      title: Modifiche il cont
+      my_account: Il gno cont
       current email address: Direzion di pueste eletroniche atuâl
       external auth: Autenticazion esterne
       contributor_terms:
@@ -226,7 +226,7 @@ fur:
       terms_of_use:
         heading: Cundizions pal ûs
       save changes button: Salve cambiaments
-      delete_account: Elimine profîl...
+      delete_account: Elimine il cont...
     go_public:
       heading: Cambiaments publics
       make_edits_public_button: Rint publics ducj i miei cambiaments
@@ -235,11 +235,11 @@ fur:
         la tô pueste par confermâ la tô gnove direzion di pueste eletroniche.
       success: Informazions dal utent inzornadis cun sucès.
     destroy:
-      success: Profîl eliminât.
+      success: Cont eliminât.
     deletions:
       show:
-        title: Elimine il gno profîl
-        delete_account: Elimine profîl
+        title: Elimine il gno cont
+        delete_account: Elimine cont
         confirm_delete: Sêstu sigûr?
         cancel: Scancele
     terms:
@@ -253,7 +253,7 @@ fur:
         cancel: Scancele
         you need to accept or decline: Par plasê lei e po acete o refude i gnûfs Tiermins
           par Contribuî par lâ indevant.
-        legale_select: 'Sielç il stât dulà che tu âs la residences:'
+        legale_select: 'Sielç il stât dulà che tu âs la residence:'
         legale_names:
           france: France
           italy: Italie
@@ -462,11 +462,14 @@ fur:
     popup:
       your location: La tô posizion
       nearby mapper: Mapadôr dongje
+      following: Daûr a seguî
     show:
       title: La mê pagjine iniziâl
       no_home_location_html: '%{edit_profile_link} e impueste il to lûc iniziâl par
         viodi utents dongje di te.'
       edit_your_profile: Cambie il to profîl
+      followings: Utents che tu seguissis
+      no followings: No tu seguissis ancjemò nissun utent.
       nearby users: Altris utents dongje
       no nearby users: Nol è ancjemò nissun utent che al declare di mapâ dongje di
         te.
@@ -552,13 +555,13 @@ fur:
         one: '%{count} coment'
         other: '%{count} coments'
       title_label: Vôs dal diari
-      comments_label: Coments
-      date_label: Date
   doorkeeper:
     flash:
       applications:
         create:
           notice: Aplicazion regjistrade.
+    scopes:
+      openid: Autentiche il to cont
   errors:
     contact:
       contact: contat
@@ -571,7 +574,17 @@ fur:
   follows:
     show:
       follow:
+        heading: Vuelistu seguî %{user}?
         button: Seguî l'utent
+      unfollow:
+        heading: Vuelistu no seguî plui %{user}?
+        button: No sta plui seguî l'utent
+    create:
+      success: Cumò tu seguissis %{name}ǃ
+      already_followed: Tu seguissis za %{name}.
+    destroy:
+      success: Cumò no tu seguissis plui %{name}.
+      not_followed: No tu seguissis %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -685,6 +698,7 @@ fur:
           stable: Stale
           train_station: Edifici di une stazion de ferade
           university: Edifici universitari
+          warehouse: Magazen
           "yes": Edifici
         club:
           sport: Circul sportîf
@@ -700,6 +714,7 @@ fur:
           tailor: Sartôr
         emergency:
           access_point: Pont di acès
+          defibrillator: Defibriladôr
           fire_extinguisher: Estintôr
           phone: Telefon di emergjence
         highway:
@@ -765,6 +780,7 @@ fur:
           "yes": Lûc storic
         information:
           map: Mape
+          office: Ufizi turistic
         junction:
           "yes": Crosade
         landuse:
@@ -799,7 +815,7 @@ fur:
           sports_centre: Centri sportîf
           stadium: Stadi
           swimming_pool: Pissine
-          track: Piste pe corse
+          track: Piste pe corse (no pes machinis)
           water_park: Parc acuatic
         man_made:
           advertising: Publicitât
@@ -1049,16 +1065,24 @@ fur:
       languages:
         ast: Asturian
         ca: Catalan
+        da: Danês
         de: Todesc
         en: Inglês
         en-GB: Inglês (Ream Unît)
         es: Spagnûl
+        eu: Basc
         fr: Francês
         fur: Furlan
+        hr: Cravuat
         it: Talian
+        oc: Ocitan
         pl: Polac
+        scn: Sicilian
+        sl: Sloven
+        tr: Turc
         el: Grec
         ru: Rus
+        ar: Arap
         ja: Gjaponês
         ko: Corean
   layouts:
@@ -1076,6 +1100,7 @@ fur:
       about: Informazions
       communities: Comunitâts
       copyright: Copyright
+      donate: Fâs une donazion
       edit: Cambie
       edit_with: Cambie cun %{editor}
       export: Espuarte
@@ -1084,7 +1109,6 @@ fur:
       history: Storic
       home: Va al lûc iniziâl
       issues: Problemis
-      loading: Daûr a cjamâ...
       log_out: Jes
       log_in: Jentre
       more: Plui
@@ -1147,12 +1171,12 @@ fur:
     confirm:
       heading: Controle la tô pueste!
       introduction_1: Ti vin mandât un messaç di conferme.
-      introduction_2: Conferme il to profîl fracant sul leam tal messaç di pueste
-        e tu podarâs scomençâ a mapâ daurman.
-      press confirm button: Frache il boton Conferme par ativâ il to profîl.
+      introduction_2: Conferme il to cont fracant sul leam tal messaç di pueste e
+        tu podarâs scomençâ a mapâ daurman.
+      press confirm button: Frache il boton Conferme par ativâ il to cont.
       button: Conferme
-      success: Profîl confermât, graziis par jessiti regjistrât!
-      already active: Chest profîl al è za stât confermât.
+      success: Cont confermât, graziis par jessiti regjistrât!
+      already active: Chest cont al è za stât confermât.
       unknown token: Chest codiç di conferme al è scjadût o nol esist.
     confirm_resend:
       failure: L'utent %{name} nol è stât cjatât.
@@ -1272,7 +1296,11 @@ fur:
     profile_sections:
       navigation:
         description: Descrizion
+        links: Leams
         image: Figure
+        company: Aziende
+        location: Lûc
+        contribution_calendar: Calendari dai contribûts
     descriptions:
       show:
         title: Cambie il profîl
@@ -1283,8 +1311,19 @@ fur:
     links:
       show:
         title: Cambie il profîl
+        save: Inzorne il profîl
+        cancel: Scancele
+        social_links:
+          title: Leams dai profîi sociâi
+          remove: Gjave
+          add: Zonte un leam sociâl
+      update:
+        success: Leams dal profîl inzornâts.
     images:
       show:
+        title: Cambie il profîl
+        save: Inzorne il profîl
+        cancel: Scancele
         gravatar:
           gravatar: Dopre Gravatar
           what_is_gravatar: Ce isal Gravatar?
@@ -1293,13 +1332,26 @@ fur:
         delete image: Gjave la figure di cumò
         replace image: Sostituìs la figure atuâl
         image size hint: (figuris cuadris di almancul 100x100 a van miôr)
+    companies:
+      show:
+        title: Cambie il profîl
+        save: Inzorne il profîl
+        cancel: Scancele
     locations:
       show:
+        title: Cambie il profîl
+        save: Inzorne il profîl
+        cancel: Scancele
         no home location: No tu âs configurât il lûc iniziâl.
         update home location on click: Aio di inzornâ il lûc iniziâl cuant che o frachi
           parsore de mape?
         show: Mostre
         delete: Elimine
+    heatmaps:
+      show:
+        title: Configurâ il calendari dai contribûts
+        show_contribution_calendar_in_public: Mostre il calendari dai contribûts te
+          tô pagjine dal profîl
   sessions:
     new:
       tab_title: Jentre
@@ -1325,6 +1377,7 @@ fur:
     richtext_field:
       edit: Cambie
       preview: Anteprime
+      help: Jutori
     pagination:
       changeset_comments:
         older: Coments plui vecjos
@@ -1400,6 +1453,8 @@ fur:
           title: Altris sorzints
           description: Altris sorzints elencadis su la wiki di OpenStreetMap
       export_button: Espuarte
+      confirmation:
+        download: Discjame
     fixthemap:
       title: Segnale un probleme / Comede la mape
       how_to_help:
@@ -1549,13 +1604,13 @@ fur:
       points: 'Ponts:'
       start_coordinates: 'Coordenadis iniziâls:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mape
-      edit: cambie
+      map: viôt il lûc te mape
+      edit: vierç tal editôr
       owner: 'Paron:'
       description: 'Descrizion:'
       tags: 'Etichetis:'
       none: Nissun
-      edit_trace: Cambie chest percors
+      edit_trace: Cambie i detais dal percors
       delete_trace: Elimine chest percors
       trace_not_found: Percors no cjatât!
       visibility: 'Visibilitât:'
@@ -1567,8 +1622,8 @@ fur:
         other: '%{count} ponts'
       more: plui
       trace_details: Cjale i detais dal percors
-      view_map: Viôt mape
-      edit_map: Cambie mape
+      view_map: Viôt il lûc te mape
+      edit_map: Vierç tal editôr
       public: PUBLIC
       identifiable: IDENTIFICABIL
       private: PRIVÂT
@@ -1592,7 +1647,7 @@ fur:
         description_without_count: File GPS di %{user}
   application:
     settings_menu:
-      account_settings: Impostazions dal profîl
+      account_settings: Impostazions dal cont
       oauth2_applications: Aplicazions OAuth 2
       oauth2_authorizations: Autorizazions OAuth 2
     auth_providers:
@@ -1679,6 +1734,7 @@ fur:
       my notes: Lis mês notis
       my messages: I miei messaçs
       my profile: Il gno profîl
+      my_account: Il gno cont
       my comments: I mei coments
       my_preferences: Preferencis
       my_dashboard: La mê pagjine iniziâl
@@ -1689,8 +1745,10 @@ fur:
       edits: Cambiaments
       traces: Percors
       notes: Notis ae mape
+      follow: Seguìs
       mapper since: 'Al mape dai:'
       last map edit: Ultin cambiament ae mapeː
+      no activity yet: Ancjemò nissune ativitât
       ct status: 'Tiermins par contribuî:'
       ct undecided: Nol à decidût
       ct declined: Refudâts
@@ -1712,6 +1770,11 @@ fur:
       contributions:
         one: '%{count} contribût tal ultin an'
         other: '%{count} contribûts tal ultin an'
+      title:
+        administrator: Chest utent al è un aministradôr
+        moderator: Chest utent al è un moderatôr
+      revoke:
+        administrator: Revoche l'acès come aministradôr
     go_public:
       flash success: Ducj i tiei cambiaments a son cumò publics e tu puedis za scomençâ
         a lavorâ.
@@ -1729,6 +1792,7 @@ fur:
       show:
         title: Utents
         heading: Utents
+        search: Cîr
       page:
         confirm: Conferme i utents selezionâts
       user:
@@ -1750,16 +1814,14 @@ fur:
         title: Coments ai diaris zontâts par %{user}
       page:
         post: Messaç
+        when: Cuant
+        comment: Coment
     suspended:
+      title: Cont suspindût
+      heading: Cont suspindût
       support: assistence
     auth_failure:
       unknown_error: Autenticazion falide
-    role_icons:
-      title:
-        administrator: Chest utent al è un aministradôr
-        moderator: Chest utent al è un moderatôr
-      revoke:
-        administrator: Revoche l'acès come aministradôr
   user_blocks:
     not_found:
       back: Torne al somari
@@ -1816,6 +1878,7 @@ fur:
       description: Descrizion
       created_at: Creade ai
       last_changed: Ultin cambiament
+      status: Stât
     show:
       title: 'Note: %{id}'
       description: Descrizion
@@ -1836,6 +1899,7 @@ fur:
       report: segnale cheste note
       anonymous_warning: Cheste note e inclût coments di utents anonims che a varessin
         di jessi verificâts in mût indipendent.
+      discussion: Discussion
       hide: Plate
       resolve: Risolf
       reactivate: Torne a ativâ
@@ -1857,6 +1921,7 @@ fur:
     share:
       title: Condivît
       view_larger_map: Viôt une mape plui grande
+      filename: mape
     embed:
       report_problem: Segnale un probleme
     legend:
@@ -1864,6 +1929,10 @@ fur:
       tooltip: Leiende
       tooltip_disabled: La leiende no je disponibile par chest nivel
     map:
+      map:
+        title: Mape
+      popup:
+        close: Siere
       navigation_control:
         zoom_in: Aumente zoom
         zoom_out: Diminuìs zoom
@@ -2000,7 +2069,7 @@ fur:
       show_address: Mostre l'indiriç
       query_features: Domande ce ch'al è intun lûc
       centre_map: Centre la mape culì
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Nissun contribût ai %{date}
         contributions:

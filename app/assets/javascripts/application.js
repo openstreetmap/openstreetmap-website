@@ -1,6 +1,5 @@
 //= require jquery3
 //= require jquery_ujs
-//= require jquery.throttle-debounce
 //= require js-cookie/dist/js.cookie
 //= require popper
 //= require bootstrap-sprockets
@@ -10,6 +9,7 @@
 //= require maplibre-gl/dist/maplibre-gl
 //= require leaflet.maplibre
 //= require leaflet.shortbread
+//= require leaflet.thunderforest
 //= require i18n
 //= require leaflet.maptiler
 //= require leaflet.map
@@ -192,9 +192,12 @@ $(function () {
     $(document).on("turbo:render", updateHeader);
   }, 0);
 
-  $("#menu-icon").on("click", function (e) {
+  const menuIcon = $("#menu-icon");
+  const header = $("header");
+  menuIcon.on("click", function (e) {
     e.preventDefault();
-    $("header").toggleClass("closed");
+    header.toggleClass("closed");
+    menuIcon.prop("ariaExpanded", !header.hasClass("closed"));
   });
 
   $("nav.primary li a").on("click", function () {
@@ -213,7 +216,11 @@ $(function () {
           const query = $(this).val().toLowerCase();
           $(".language-item").each(function () {
             const text = $(this).text().toLowerCase();
-            $(this).toggle(text.indexOf(query) > -1);
+            // Get languageCode from link_to data attribute
+            const code = $(this).find("a").data("languageCode").toLowerCase();
+            // Show the item if the query matches either the language name or code
+            const matches = text.indexOf(query) > -1 || code.indexOf(query) > -1;
+            $(this).toggle(matches);
           });
         });
       }

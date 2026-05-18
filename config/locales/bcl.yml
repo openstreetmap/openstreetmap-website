@@ -8,7 +8,7 @@
 bcl:
   date:
     formats:
-      heatmap: '%B %-d'
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%e %B %Y at %H:%M'
@@ -723,8 +723,6 @@ bcl:
         one: '%{count} komento'
         other: '%{count} mga komento'
       title_label: Entrada sa Talaaldawan
-      comments_label: Mga komento
-      date_label: Petsa
   diary_comments:
     new:
       heading: Magdugang nin komento sa minasunod na pag-urolay sa entrada sa talaarawan?
@@ -1588,16 +1586,15 @@ bcl:
       other_issues_against_this_user: Iba pang mga isyu laban sa paragamit na ini
       no_other_issues: Mayo nang ibang isyu laban sa paragamit na ini.
       comments_on_this_issue: Mga komento sa isyung ini
+      comment_from_html: Komento gikan ki %{user_link} sa %{comment_created_at}
+      reassign_to_moderators: Italaga giraray an Isyu sa mga Moderator
+      reassign_to_administrators: Italaga giraray an Isyu sa mga Administrador
     resolve:
       resolved: An kamugtakan kan isyu itinalaga sa 'Naresolberan'.
     ignore:
       ignored: An kamugtakan kan isyu itinalaga sa 'Dai pagmangnuhon'.
     reopen:
       reopened: An kamugtakan kan isyu itinalaga sa 'Bukas'.
-    comments:
-      comment_from_html: Komento gikan ki %{user_link} sa %{comment_created_at}
-      reassign_to_moderators: Italaga giraray an Isyu sa mga Moderator
-      reassign_to_administrators: Italaga giraray an Isyu sa mga Administrador
     reports:
       reported_by_html: Sinumbong bilang %{category} ni %{user} sa %{updated_at}
     helper:
@@ -1798,7 +1795,6 @@ bcl:
       history: Kasaysayan
       home: Magduman sa Kinamumugtakan kan Irukan
       issues: Mga Isyu
-      loading: Nagkakarga...
       log_out: Magluwas
       log_in: Maglaog
       more: Labi pa
@@ -2152,7 +2148,6 @@ bcl:
         image: Ladawan
         company: Kompanya
         location: Kinamumugtakan
-        heatmap: Heatmap
     descriptions:
       show:
         title: Liwaton an Profile
@@ -3205,10 +3200,25 @@ bcl:
       change_image: Ribayan an Ladawan
       edit_company: Liwaton an Kompanya
       edit_location: Liwaton an Kinamumugtakan
-      edit_heatmap: I-configure an Heatmap
       contributions:
         one: '%{count} kontribusyon sa nakaaging taon'
         other: '%{count} mga kontribusyon sa nakaaging taon'
+      title:
+        administrator: An paragamit na ini sarong administrador
+        moderator: An paragamit na ini sarong moderator
+        importer: An paragamit na ini sarong para-import
+      grant:
+        administrator: Tawan nin akses an administrador
+        moderator: Tawan nin akses an moderator
+        importer: Tawan nin akses an parapaluwas
+        are_you_sure: Sigurado ka daw na gusto mong itao an papel na '%{role}' sa
+          paragamit na si '%{name}'?
+      revoke:
+        administrator: Bawion an pag-akses sa administrador
+        moderator: Bawion an pag-akses sa moderator
+        importer: Bawion an pag-akses sa parapaluwas
+        are_you_sure: Sigurado ka daw na gusto mong bawion an papel na '%{role}' gikan
+          sa paragamit na si '%{name}'?
     sidebar_section:
       home_location: Kinamumugtakan kan Iniirukan
       company: Kompanya
@@ -3310,23 +3320,6 @@ bcl:
         Kun igwa ka nang account, pwede kang maglaog sa saimong account
         gamit an saimong pangaran nin paragamit asin sekretong panlaog dangan i-asosyar an account
         sa saimong ID sa saimong mga panuytoy nin paragamit.
-    role_icons:
-      title:
-        administrator: An paragamit na ini sarong administrador
-        moderator: An paragamit na ini sarong moderator
-        importer: An paragamit na ini sarong para-import
-      grant:
-        administrator: Tawan nin akses an administrador
-        moderator: Tawan nin akses an moderator
-        importer: Tawan nin akses an parapaluwas
-        are_you_sure: Sigurado ka daw na gusto mong itao an papel na '%{role}' sa
-          paragamit na si '%{name}'?
-      revoke:
-        administrator: Bawion an pag-akses sa administrador
-        moderator: Bawion an pag-akses sa moderator
-        importer: Bawion an pag-akses sa parapaluwas
-        are_you_sure: Sigurado ka daw na gusto mong bawion an papel na '%{role}' gikan
-          sa paragamit na si '%{name}'?
   user_role:
     filter:
       not_a_role: An istring na '%{role}' bakong balidong papel.
@@ -3549,6 +3542,8 @@ bcl:
       tooltip: Pananda
       tooltip_disabled: An pananda dai makukua para sa patong na ini
     map:
+      map:
+        title: Mapa
       popup:
         close: Isara
       navigation_control:
@@ -3706,7 +3701,7 @@ bcl:
     home:
       marker_title: An kinamumugtakan kan sakuyang irukan
       not_set: An kinamumugtakan kan iniirukan dai nakabugtak para sa saimong account
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Mayo nin mga kontribusyon kan %{date}
         contributions:

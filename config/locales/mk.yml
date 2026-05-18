@@ -12,7 +12,7 @@
 mk:
   date:
     formats:
-      heatmap: '%-d %B'
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y г. во %H:%M ч.'
@@ -79,7 +79,7 @@ mk:
       relation: Однос
       relation_member: Член на однос
       relation_tag: Ознака за однос
-      report: Пријави
+      report: Пријава
       session: Седница
       trace: Трага
       tracepoint: Точка на трага
@@ -717,8 +717,6 @@ mk:
         one: '%{count} коментар'
         other: '%{count} коментари'
       title_label: Ставка во дневник
-      comments_label: Коментари
-      date_label: Датум
   diary_comments:
     new:
       heading: Ставате коментар во следниов разговор за дневничка ставка?
@@ -1697,16 +1695,15 @@ mk:
       other_issues_against_this_user: Други проблеми со овој корисник
       no_other_issues: Нема други проблеми со овој корисник.
       comments_on_this_issue: Коментари за проблемов
+      comment_from_html: Коментар од %{user_link} на %{comment_created_at}
+      reassign_to_moderators: Преназначете го проблемот на модераторите
+      reassign_to_administrators: Преназначете го проблемот на администраторите
     resolve:
       resolved: Состојбата на проблемот е поставена како „Решено“
     ignore:
       ignored: Состојбата на проблемот е поставена како „Занемарено“
     reopen:
       reopened: Состојбата на проблемот е поставена како „Отворено“
-    comments:
-      comment_from_html: Коментар од %{user_link} на %{comment_created_at}
-      reassign_to_moderators: Преназначете го проблемот на модераторите
-      reassign_to_administrators: Преназначете го проблемот на администраторите
     reports:
       reported_by_html: Пријавено како %{category} од %{user} на %{updated_at}
     helper:
@@ -1801,6 +1798,7 @@ mk:
         ia: интерлингва
         is: исландски
         it: италијански
+        kw: корнски
         gcf: гваделупски креолски
         ku-Latn: курдски (латиница)
         lv: латвиски
@@ -1881,6 +1879,7 @@ mk:
   layouts:
     logo:
       alt_text: Лого на OpenStreetMap
+    main_navigation: Главна
     layer_info: Инфо за слојот
     start_mapping: Почнете да ги работите картите
     intro_header: Добре дојдовте на OpenStreetMap!
@@ -1890,6 +1889,9 @@ mk:
       и други %{partners}.
     partners_corpmembers: Корпоративни членови на OSMF
     partners_partners: партнери
+    welcome_tou_notice_html: Користејќи го ова мрежно место и другата инфраструктура
+      овозможена од Задолжбината OpenStreetMap, се согласувате со %{terms_link}.
+    terms_of_use: Условите на употреба
     tou: Услови на употреба
     nothing_to_preview: Нема што да се прегледа.
     learn_more: Дознајте повеќе
@@ -1906,7 +1908,6 @@ mk:
       history: Историја
       home: Оди на матичната местоположба
       issues: Проблеми
-      loading: Вчитувам...
       log_out: Одјава
       log_in: Најава
       more: Повеќе
@@ -2247,7 +2248,7 @@ mk:
         image: Слика
         company: Фирма
         location: Местоположба
-        heatmap: Топлинска карта
+        contribution_calendar: Календар на придонеси
     descriptions:
       show:
         title: Уреди профил
@@ -2309,14 +2310,14 @@ mk:
         failure: Не можев да ја подновам местоположбата на профилот.
     heatmaps:
       show:
-        title: Намести топлинска карта
-        show_heatmap_in_public: Прикажувај ја топлинската карта на мојата профилна
-          страница
-        save: Измени поставки за топлинска карта
+        title: Постави календар на придонеси
+        show_contribution_calendar_in_public: Прикажувај календар на придонеси во
+          профилната страница
+        save: Измени поставеност на календарот на придонеси
         cancel: Откажи
       update:
-        success: Топлинската карта е подновена.
-        failure: Не можев да ја подновам топлинската карта.
+        success: Календарот на придонеси е подновен.
+        failure: Не можев да го подновам календарот на придонеси.
   sessions:
     new:
       tab_title: Најава
@@ -2334,6 +2335,7 @@ mk:
       login_button: Најава
       with external: или најавете преку надворешно место
       or: или
+      reset_to_login: За жал, вашата лозинка е истечена. Ставете друга за да се најавите.
       auth failure: Жалиме, не можевме да ве најавиме со тие податоци.
     destroy:
       title: Одјава
@@ -3314,10 +3316,26 @@ mk:
       change_image: Смени слика
       edit_company: Уреди фирма
       edit_location: Уреди местоположба
-      edit_heatmap: Намести топлинска карта
+      edit_contribution_calendar: Постави го Календарот на придонеси
       contributions:
         one: '%{count} придонес во минатата година'
         other: '%{count} придонеси во минатата година'
+      title:
+        administrator: Овој корисник е администратор
+        moderator: Овој корисник е модератор
+        importer: Овој корисник е увозник
+      grant:
+        administrator: Додели администраторски пристап
+        moderator: Додели модераторски пристап
+        importer: Дај увознички пристап
+        are_you_sure: Дали сигурно сакае да му ја доделите улогата „%{role}“ на корисникот
+          „%{name}“?
+      revoke:
+        administrator: Лиши од администраторски пристап
+        moderator: Лиши од модераторски пристап
+        importer: Одземи увознички пристап
+        are_you_sure: Дали сигурно сакате да го лишите корисникот „%{name}“ од улогата
+          „%{role}“?
     sidebar_section:
       home_location: Матична местоположба
       company: Фирма
@@ -3415,23 +3433,6 @@ mk:
       option_2: Ако веќе имате сметка, можете да се најавите на неа користејќи го
         вашето презиме и лозинка, па во корисничките нагодувања да ја здружите сметката
         со вашата назнака.
-    role_icons:
-      title:
-        administrator: Овој корисник е администратор
-        moderator: Овој корисник е модератор
-        importer: Овој корисник е увозник
-      grant:
-        administrator: Додели администраторски пристап
-        moderator: Додели модераторски пристап
-        importer: Дај увознички пристап
-        are_you_sure: Дали сигурно сакае да му ја доделите улогата „%{role}“ на корисникот
-          „%{name}“?
-      revoke:
-        administrator: Лиши од администраторски пристап
-        moderator: Лиши од модераторски пристап
-        importer: Одземи увознички пристап
-        are_you_sure: Дали сигурно сакате да го лишите корисникот „%{name}“ од улогата
-          „%{role}“?
   user_role:
     filter:
       not_a_role: Низата „%{role}“ не претставува важечка улога.
@@ -3656,6 +3657,10 @@ mk:
       tooltip: Легенда
       tooltip_disabled: Легендата не е достапна за овој слој
     map:
+      map:
+        title: Карта
+        marker:
+          title: Обележувач на карта
       popup:
         close: Затвори
       navigation_control:
@@ -3670,6 +3675,8 @@ mk:
         feetPopup:
           one: Се наоѓате на  %{count} стапка од оваа точка
           other: Се наоѓате на %{count} стапки од оваа точка
+      attribution_control:
+        toggle_attribution: Вкл./Искл. припис
       base:
         standard: Стандардна
         cycle_map: Велосипедска
@@ -3814,7 +3821,7 @@ mk:
     home:
       marker_title: Моја домашна местоположба
       not_set: На вашата сметка нема зададено домашна местоположба
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Нема придонеси на %{date}
         contributions:

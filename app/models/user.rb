@@ -156,34 +156,33 @@ class User < ApplicationRecord
     display_name
   end
 
-  def self.authenticate(options)
-    if options[:username] && options[:password]
-      user = find_by("email = ? OR display_name = ?", options[:username].strip, options[:username])
+  def self.lookup(username)
+    user = find_by("email = ? OR display_name = ?", username.strip, username)
 
-      if user.nil?
-        users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", options[:username].strip, options[:username])
+    if user.nil?
+      users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username)
 
-        user = users.first if users.one?
-      end
-
-      if user && PasswordHash.check(user.pass_crypt, user.pass_salt, options[:password])
-        if PasswordHash.upgrade?(user.pass_crypt, user.pass_salt)
-          user.pass_crypt, user.pass_salt = PasswordHash.create(options[:password])
-          user.save
-        end
-      else
-        user = nil
-      end
+      user = users.first if users.one?
     end
 
-    if user &&
-       (user.status == "deleted" ||
-         (user.status == "pending" && !options[:pending]) ||
-         (user.status == "suspended" && !options[:suspended]))
-      user = nil
-    end
+    user if user && user.status != "deleted"
+  end
 
-    user
+  def password_expired?
+    !PasswordHash.valid?(pass_crypt, pass_salt)
+  end
+
+  def password_matches?(password)
+    if PasswordHash.check(pass_crypt, pass_salt, password)
+      if PasswordHash.upgrade?(pass_crypt, pass_salt)
+        self.pass_crypt, self.pass_salt = PasswordHash.create(password)
+        save
+      end
+
+      true
+    else
+      false
+    end
   end
 
   aasm :column => :status, :no_direct_assignment => true do
@@ -293,6 +292,10 @@ class User < ApplicationRecord
   def default_diary_language=(language)
     preference = preferences.find_or_create_by(:k => "diary.default_language")
     preference.update!(:v => language)
+  end
+
+  def notification_preferences
+    @notification_preferences ||= UserNotificationPreferences.new(self)
   end
 
   def home_location?

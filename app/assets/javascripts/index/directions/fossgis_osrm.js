@@ -1,3 +1,5 @@
+//= require polyline_decoder
+
 // OSRM engine
 // Doesn't yet support hints
 
@@ -154,7 +156,7 @@
         ICON_MAP[step.maneuverId],
         getInstructionText(step),
         step.distance,
-        L.PolylineUtil.decode(step.geometry, { precision: 5 })
+        OSM.decodePolyline(step.geometry, { precision: 5 })
       ]);
 
       return {

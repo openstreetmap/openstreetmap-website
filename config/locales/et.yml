@@ -20,7 +20,7 @@
 et:
   date:
     formats:
-      heatmap: '%-d. %B'
+      contribution_calendar: '%-d. %B'
   time:
     formats:
       friendly: '%e. %B %Y, kell %H:%M'
@@ -1415,7 +1415,7 @@ et:
           pet: Lemmikloomapood
           pet_grooming: Ilusalong lemmikloomadele
           photo: Fotopood
-          seafood: Mereandide pood
+          seafood: Mereannid
           second_hand: Taaskasutuspood
           sewing: Õmblustarvikute pood
           shoes: Kingapood
@@ -1631,6 +1631,7 @@ et:
         ku-Latn: kurdi (ladina)
         lv: läti
         lb: letseburgi
+        lkt: lakota
         lt: leedu
         hu: ungari
         fit: meä
@@ -1715,6 +1716,9 @@ et:
       ja muud %{partners}.
     partners_corpmembers: OSMF-i äriühingutest liikmed
     partners_partners: partnerid
+    welcome_tou_notice_html: Kasutades seda veebisaiti või OpenStreetMap Foundationi
+      hallatava taristu teisi osi, nõustud %{terms_link}.
+    terms_of_use: kasutustingimustega
     tou: Kasutustingimused
     nothing_to_preview: Eelvaates pole midagi näidata.
     learn_more: Lisateave
@@ -1738,6 +1742,11 @@ et:
       user_diaries: Kasutajate päevikud
     select_language_button:
       title: Vali keel
+    offline_flash:
+      osm_offline: OpenStreetMapi andmebaas ei ole hetkel juurdepääsetav, sest käimas
+        on oluline hooldustöö.
+      osm_read_only: OpenStreetMapi andmebaas on hetkel oluliste hooldustööde tõttu
+        ligipääsetav ainult lugemiseks.
   user_mailer:
     diary_comment_notification:
       description: 'OpenStreetMapi päevikusissekanne #%{id}'
@@ -2058,7 +2067,7 @@ et:
         image: Pilt
         company: Ettevõte
         location: Asukoht
-        heatmap: Intensiivsuskaart
+        contribution_calendar: Kaastöökalender
     descriptions:
       show:
         title: Profiili muutmine
@@ -2118,13 +2127,13 @@ et:
         failure: Ei õnnestunud profiili asukohta uuendada.
     heatmaps:
       show:
-        title: Intensiivsuskaardi häälestamine
-        show_heatmap_in_public: Näita enda profiilileheküljel intensiivsuskaarti
-        save: Uuenda intensiivsuskaardi häälestust
+        title: Kaastöökalendri häälestamine
+        show_contribution_calendar_in_public: Näita enda profiilileheküljel kaastöökalendrit
+        save: Uuenda kaastöökalendri häälestust
         cancel: Loobu
       update:
-        success: Intensiivsuskaart uuendatud.
-        failure: Ei õnnestunud intensiivsuskaarti uuendada.
+        success: Kaastöökalender uuendatud
+        failure: Ei õnnestunud kaastöökalendrit uuendada.
   sessions:
     new:
       tab_title: Logi sisse
@@ -2991,6 +3000,7 @@ et:
           aadresside kohta
         html: Sinu aadressi ei kuvata avalikult, tutvu meie %{privacy_policy_link}.
       use external auth: või registreeru kolmanda osapoole kaudu
+      verify_human: Kinnita, et oled inimene
     no_such_user:
       title: Sellist kasutajat ei ole
       heading: Kasutajat %{user}  pole olemas
@@ -3044,10 +3054,23 @@ et:
       change_image: Muuda pilti
       edit_company: Muuda ettevõtet
       edit_location: Muuda asukohta
-      edit_heatmap: Häälesta intensiivsuskaart
+      edit_contribution_calendar: Häälesta kaastöökalender
       contributions:
         one: '%{count} kaastöö viimase aasta jooksul'
         other: '%{count} kaastööd viimase aasta jooksul'
+      title:
+        administrator: See kasutaja on administraator
+        moderator: See kasutaja on moderaator
+        importer: See kasutaja on importija
+      grant:
+        administrator: Määra administraatori õigused
+        moderator: Määra moderaatori õigused
+        are_you_sure: Kas oled kindel, et soovid anda rolli '%{role}' kasutajale '%{name}'?
+      revoke:
+        administrator: Eemalda administraatori õigused
+        moderator: Eemalda moderaatori õigused
+        are_you_sure: Kas oled kindel, et soovid tühistada kasutaja '%{name}' rolli
+          '%{role}'?
     sidebar_section:
       home_location: Kodu asukoht
       company: Ettevõte
@@ -3122,20 +3145,6 @@ et:
         täites allpool oleva vormi.
       option_2: Kui sul juba on kasutajakonto, saad sisse logida, kasutades oma kasutajanime
         ja parooli ning siduda seejärel kasutajasätetes konto oma ID-ga.
-    role_icons:
-      title:
-        administrator: See kasutaja on administraator
-        moderator: See kasutaja on moderaator
-        importer: See kasutaja on importija
-      grant:
-        administrator: Määra administraatori õigused
-        moderator: Määra moderaatori õigused
-        are_you_sure: Kas oled kindel, et soovid anda rolli '%{role}' kasutajale '%{name}'?
-      revoke:
-        administrator: Eemalda administraatori õigused
-        moderator: Eemalda moderaatori õigused
-        are_you_sure: Kas oled kindel, et soovid tühistada kasutaja '%{name}' rolli
-          '%{role}'?
   user_role:
     filter:
       not_a_role: String '%{role}' ei ole kehtiv roll.
@@ -3477,7 +3486,7 @@ et:
     home:
       marker_title: Minu kodu asukoht
       not_set: Sinu konto kodu asukoht on määramata.
-    heatmap:
+    contribution_calendar:
       tooltip:
         no_contributions: Kaastöö puudub – %{date}
         contributions:

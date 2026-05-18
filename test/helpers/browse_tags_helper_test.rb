@@ -77,6 +77,12 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
 
+    html = format_value("opening_hours", "Mo-Fr 09:00-12:00;Sa 09:00-17:00")
+    dom = parse_html html
+    assert_select dom, "a", 1
+    assert_select dom, "a[rel='nofollow']",
+                  :text => "Mo-Fr 09:00-12:00;Sa 09:00-17:00"
+
     html = format_value("website", "https://example.com")
     assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>", html
 

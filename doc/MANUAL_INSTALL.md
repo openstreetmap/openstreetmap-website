@@ -1,34 +1,34 @@
 # Manual Installation Guide
 
-These instructions are based on Ubuntu 24.04 LTS, though the OSMF servers are currently running Debian 12. The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and macOS.
+These instructions are based on Ubuntu 26.04 LTS, though the OSMF servers are currently running Debian 12. The instructions also work, with only minor amendments, for all other current Ubuntu releases, Fedora and macOS.
 
 ## Prerequisites
 
 Many of the dependencies are managed through the standard Ruby on Rails mechanisms - i.e. Ruby gems specified in the Gemfile and installed using Bundler. Some system packages are also required before you can get the various gems installed.
 
 **Minimum requirements:**
-* Ruby 3.2+
+* Ruby 3.3+
 * PostgreSQL 13+
 * Bundler (see note below about [developer Ruby setup](#ruby-version-manager-optional))
 * JavaScript Runtime
 
 ## Step 1: Install System Dependencies
 
-### Ubuntu 24.04 LTS
+### Ubuntu 26.04 LTS
 
 ```bash
 sudo apt-get update
 sudo apt-get install ruby ruby-dev ruby-bundler \
                      libvips-dev libxml2-dev libxslt1-dev \
                      nodejs build-essential git-core \
-                     postgresql postgresql-contrib libpq-dev \
+                     postgresql postgresql-contrib postgresql-postgis libpq-dev \
                      libsasl2-dev libffi-dev libgd-dev \
                      libarchive-dev libyaml-dev libbz2-dev npm
 sudo npm install --global yarn
 ```
 
 > [!TIP]
-> On Ubuntu 24.04, you may need to start PostgreSQL:
+> On Ubuntu 26.04, you may need to start PostgreSQL:
 >
 > ```bash
 > sudo systemctl start postgresql.service
@@ -40,7 +40,7 @@ sudo npm install --global yarn
 sudo dnf install ruby ruby-devel rubygem-rdoc rubygem-bundler \
                  rubygems libxml2-devel nodejs gcc gcc-c++ git \
                  postgresql postgresql-server \
-                 postgresql-contrib libpq-devel \
+                 postgresql-contrib postgis libpq-devel \
                  perl-podlators libffi-devel gd-devel \
                  libarchive-devel libyaml-devel bzip2-devel \
                  nodejs-yarn vips-devel

@@ -52,43 +52,53 @@ class UserMailer < ApplicationMailer
   end
 
   def gpx_success
-    trace, possible_points = params.fetch_values(:trace, :possible_points)
+    trace, possible_points, recipient = params.fetch_values(:record, :possible_points, :recipient)
 
-    with_recipient_locale trace.user do
-      @to_user = trace.user.display_name
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @trace_url = show_trace_url(trace.user, trace)
       @trace_name = trace.name
       @trace_points = trace.size
       @trace_description = trace.description
-      @trace_tags = trace.tags
+      @trace_tags = trace.tags.map(&:tag)
       @possible_points = possible_points
       @my_traces_url = url_for(:controller => "traces", :action => "mine")
 
-      mail :to => trace.user.email,
+      mail :to => recipient.email,
            :subject => t(".subject")
     end
   end
 
   def gpx_failure
-    trace, error = params.fetch_values(:trace, :error)
+    trace_name,
+    trace_description,
+    trace_tags,
+    error,
+    recipient = params.fetch_values(
+      :trace_name,
+      :trace_description,
+      :trace_tags,
+      :error,
+      :recipient
+    )
 
-    with_recipient_locale trace.user do
-      @to_user = trace.user.display_name
-      @trace_name = trace.name
-      @trace_description = trace.description
-      @trace_tags = trace.tags
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
+      @trace_name = trace_name
+      @trace_description = trace_description
+      @trace_tags = trace_tags
       @error = error
 
-      mail :to => trace.user.email,
+      mail :to => recipient.email,
            :subject => t(".subject")
     end
   end
 
   def message_notification
-    message = params.fetch(:message)
+    message, recipient = params.fetch_values(:record, :recipient)
 
-    with_recipient_locale message.recipient do
-      @to_user = message.recipient.display_name
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
       @from_user = message.sender.display_name
       @text = message.body
       @title = message.title
@@ -99,13 +109,13 @@ class UserMailer < ApplicationMailer
       attach_user_avatar(message.sender)
 
       mail :from => from_address(message.sender.display_name, "m", message.id, message.notification_token),
-           :to => message.recipient.email,
+           :to => recipient.email,
            :subject => t(".subject", :message_title => message.title)
     end
   end
 
   def diary_comment_notification
-    comment, recipient = params.fetch_values(:comment, :recipient)
+    comment, recipient = params.fetch_values(:record, :recipient)
 
     with_recipient_locale recipient do
       @to_user = recipient.display_name
@@ -137,22 +147,22 @@ class UserMailer < ApplicationMailer
   end
 
   def follow_notification
-    follow = params.fetch(:follow)
+    follow, recipient = params.fetch_values(:record, :recipient)
 
-    with_recipient_locale follow.following do
+    with_recipient_locale recipient do
       @follow = follow
       @viewurl = user_url(@follow.follower)
       @followurl = follow_url(@follow.follower)
       @author = @follow.follower.display_name
 
       attach_user_avatar(@follow.follower)
-      mail :to => follow.following.email,
+      mail :to => recipient.email,
            :subject => t(".subject", :user => follow.follower.display_name)
     end
   end
 
   def note_comment_notification
-    comment, recipient = params.fetch_values(:comment, :recipient)
+    comment, recipient = params.fetch_values(:record, :recipient)
 
     with_recipient_locale recipient do
       @noteurl = note_url(comment.note)

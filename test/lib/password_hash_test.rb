@@ -4,16 +4,18 @@ require "test_helper"
 
 class PasswordHashTest < ActiveSupport::TestCase
   def test_md5_without_salt
-    assert PasswordHash.check("5f4dcc3b5aa765d61d8327deb882cf99", nil, "password")
+    assert_not PasswordHash.check("5f4dcc3b5aa765d61d8327deb882cf99", nil, "password")
     assert_not PasswordHash.check("5f4dcc3b5aa765d61d8327deb882cf99", nil, "wrong")
     assert PasswordHash.upgrade?("5f4dcc3b5aa765d61d8327deb882cf99", nil)
+    assert_not PasswordHash.valid?("5f4dcc3b5aa765d61d8327deb882cf99", nil)
   end
 
   def test_md5_with_salt
-    assert PasswordHash.check("67a1e09bb1f83f5007dc119c14d663aa", "salt", "password")
+    assert_not PasswordHash.check("67a1e09bb1f83f5007dc119c14d663aa", "salt", "password")
     assert_not PasswordHash.check("67a1e09bb1f83f5007dc119c14d663aa", "salt", "wrong")
     assert_not PasswordHash.check("67a1e09bb1f83f5007dc119c14d663aa", "wrong", "password")
     assert PasswordHash.upgrade?("67a1e09bb1f83f5007dc119c14d663aa", "salt")
+    assert_not PasswordHash.valid?("67a1e09bb1f83f5007dc119c14d663aa", "salt")
   end
 
   def test_pbkdf2_1000_32_sha512
@@ -21,6 +23,7 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert_not PasswordHash.check("ApT/28+FsTBLa/J8paWfgU84SoRiTfeY8HjKWhgHy08=", "sha512!1000!HR4z+hAvKV2ra1gpbRybtoNzm/CNKe4cf7bPKwdUNrk=", "wrong")
     assert_not PasswordHash.check("ApT/28+FsTBLa/J8paWfgU84SoRiTfeY8HjKWhgHy08=", "sha512!1000!HR4z+hAvKV2ra1gwrongtoNzm/CNKe4cf7bPKwdUNrk=", "password")
     assert PasswordHash.upgrade?("ApT/28+FsTBLa/J8paWfgU84SoRiTfeY8HjKWhgHy08=", "sha512!1000!HR4z+hAvKV2ra1gpbRybtoNzm/CNKe4cf7bPKwdUNrk=")
+    assert PasswordHash.valid?("ApT/28+FsTBLa/J8paWfgU84SoRiTfeY8HjKWhgHy08=", "sha512!1000!HR4z+hAvKV2ra1gpbRybtoNzm/CNKe4cf7bPKwdUNrk=")
   end
 
   def test_pbkdf2_10000_32_sha512
@@ -28,6 +31,7 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert_not PasswordHash.check("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=", "wrong")
     assert_not PasswordHash.check("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtMwronguvanFT5/WtWaCwdOdrir8QOtFwxhO0A=", "password")
     assert PasswordHash.upgrade?("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=")
+    assert PasswordHash.valid?("3wYbPiOxk/tU0eeIDjUhdvi8aDP3AbFtwYKKxF1IhGg=", "sha512!10000!OUQLgtM7eD8huvanFT5/WtWaCwdOdrir8QOtFwxhO0A=")
   end
 
   def test_argon2_t2_m16_p1
@@ -35,6 +39,7 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "wrong")
     assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvwrong5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil, "password")
     assert PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil)
+    assert PasswordHash.valid?("$argon2id$v=19$m=65536,t=2,p=1$b2E7zSvjT6TC5DXrqvfxwg$P4hly807ckgYc+kfvaf3rqmJcmKStzw+kV14oMaz8PQ", nil)
   end
 
   def test_argon2_t3_m16_p4
@@ -42,6 +47,7 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil, "wrong")
     assert_not PasswordHash.check("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYwrongr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil, "password")
     assert_not PasswordHash.upgrade?("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil)
+    assert PasswordHash.valid?("$argon2id$v=19$m=65536,t=3,p=4$uxzL4aYTEDTRr2+KNA1qNQ$yuNOtH+IsCwWUbE4OGu+hIC0e4iyZ2wGhaCsQY1mJpI", nil)
   end
 
   def test_default
@@ -56,6 +62,8 @@ class PasswordHashTest < ActiveSupport::TestCase
     assert_not PasswordHash.check(hash2, salt2, "wrong")
     assert_not PasswordHash.upgrade?(hash1, salt1)
     assert_not PasswordHash.upgrade?(hash2, salt2)
+    assert PasswordHash.valid?(hash1, salt1)
+    assert PasswordHash.valid?(hash2, salt2)
   end
 
   def test_format

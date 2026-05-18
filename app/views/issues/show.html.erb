@@ -78,4 +78,33 @@
 </div>
 
 <h3><%= t ".comments_on_this_issue" %></h3>
-<%= render "comments", :comments => @comments %>
+
+<div>
+  <% @comments.each do |comment| %>
+    <div class="row">
+      <div class="col-auto">
+        <%= link_to user_thumbnail(comment.user), comment.user %>
+      </div>
+      <div class="col">
+        <p class="text-body-secondary">
+          <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, comment.user),
+                                      :comment_created_at => tag.time(l(comment.created_at.to_datetime, :format => :friendly),
+                                                                      :datetime => comment.created_at.xmlschema) %>
+        </p>
+        <div class="richtext text-break"><%= comment.body.to_html %></div>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>
+
+<div>
+  <%= bootstrap_form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
+    <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+    <%= f.form_group do %>
+      <%= f.check_box :reassign, { :label => @issue.assigned_role == "administrator" ? t(".reassign_to_moderators") : t(".reassign_to_administrators"),
+                                   :id => "reassign", :name => "reassign", :checked => false }, true, false %>
+    <% end %>
+    <%= f.primary %>
+  <% end %>
+</div>

@@ -12,7 +12,7 @@ xml.rss("version" => "2.0",
     xml.link url_for(:controller => "/traces", :action => :index, :only_path => false)
 
     xml.image do
-      xml.url image_url("mag_map-rss2.0.png")
+      xml.url image_url("osm_logo_100.png")
       xml.title t(".title")
       xml.width 100
       xml.height 100

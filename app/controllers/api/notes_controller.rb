@@ -60,7 +60,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Find the note and check it is valid
-      @note = Note.find(params[:id])
+      @note = Note.find(params.expect(:id))
       raise OSM::APINotFoundError unless @note
       raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
 
@@ -88,6 +88,8 @@ module Api
       lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
       description = params[:text]
+
+      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
 
       # Get note's author info (for logged in users - user_id, for logged out users - IP address)
       note_author_info = author_info
@@ -119,7 +121,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -150,8 +152,8 @@ module Api
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
       # Extract the arguments
-      id = params[:id].to_i
-      comment = params[:text]
+      id = params.expect(:id).to_i
+      comment = params.expect(:text)
 
       # Find the note and check it is valid
       Note.transaction do
@@ -178,7 +180,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -208,7 +210,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Extract the arguments
-      id = params[:id].to_i
+      id = params.expect(:id).to_i
       comment = params[:text]
 
       # Find the note and check it is valid
@@ -263,7 +265,10 @@ module Api
 
       # Add any text filter
       if params[:q]
-        @notes = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?) OR to_tsvector('english', notes.description) @@ plainto_tsquery('english', ?)", params[:q], params[:q])
+        matched_notes = @notes.where("to_tsvector('english', notes.description) @@ plainto_tsquery('english', ?)", params[:q])
+        matched_note_comments = @notes.joins(:comments).where("to_tsvector('english', note_comments.body) @@ plainto_tsquery('english', ?)", params[:q])
+
+        @notes = matched_notes.union_all(matched_note_comments)
       end
 
       # Add any date filter
@@ -313,7 +318,7 @@ module Api
     # on their status and the user's request parameters
     def closed_condition(notes)
       closed_since = if params[:closed]
-                       params[:closed].to_i.days
+                       params.expect(:closed).to_i.days
                      else
                        Note::DEFAULT_FRESHLY_CLOSED_LIMIT
                      end
@@ -376,11 +381,7 @@ module Api
 
       comment = note.comments.create!(attributes)
 
-      if notify
-        note.subscribers.visible.each do |user|
-          UserMailer.with(:comment => comment, :recipient => user).note_comment_notification.deliver_later if current_user != user
-        end
-      end
+      NoteCommentNotifier.with(:record => comment).deliver_later if notify
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user
     end

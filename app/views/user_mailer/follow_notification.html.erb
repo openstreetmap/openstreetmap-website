@@ -2,7 +2,7 @@
 
 <p><%= t ".followed_you", :user => @follow.follower.display_name %></p>
 
-<%= message_body do %>
+<%= message_body :author => @author, :avatar => @avatar do %>
   <p><%= t ".see_their_profile_html", :userurl => link_to(@viewurl, @viewurl) %></p>
 
   <% unless @follow.following.follows?(@follow.follower) -%>

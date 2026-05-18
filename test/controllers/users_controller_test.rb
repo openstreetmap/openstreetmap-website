@@ -372,7 +372,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_profile_diaries
     user = create(:user)
-    create(:language, :code => "en")
     create(:diary_entry, :user => user, :title => "First Entry", :body => "First body")
     create(:diary_entry, :user => user, :title => "Second Entry", :body => "Second body")
     create(:diary_entry, :user => user, :title => "Third Entry", :body => "Third body")
@@ -393,7 +392,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   def test_show_profile_diaries_with_comments
     user = create(:user)
-    create(:language, :code => "en")
     entry = create(:diary_entry, :user => user, :title => "Entry with Comments")
     create(:diary_comment, :diary_entry => entry)
     create(:diary_comment, :diary_entry => entry)

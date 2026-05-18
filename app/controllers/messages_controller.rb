@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
   # Show a message
   def show
     @title = t ".title"
-    @message = Message.find(params[:id])
+    @message = Message.find(params.expect(:id))
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user
@@ -45,12 +45,12 @@ class MessagesController < ApplicationController
     @message.sender = current_user
     @message.sent_on = Time.now.utc
 
-    if current_user.sent_messages.where(:sent_on => (Time.now.utc - 1.hour)..).count >= current_user.max_messages_per_hour
+    if Message.where(:sender => current_user, :sent_on => (Time.now.utc - 1.hour)..).count >= current_user.max_messages_per_hour
       flash.now[:error] = t ".limit_exceeded"
       render :action => "new"
     elsif @message.save
       flash[:notice] = t ".message_sent"
-      UserMailer.with(:message => @message).message_notification.deliver_later if @message.notify_recipient?
+      DirectMessageNotifier.with(:record => @message).deliver_later if @message.notify_recipient?
       redirect_to messages_outbox_path
     else
       @title = t "messages.new.title"
@@ -60,7 +60,7 @@ class MessagesController < ApplicationController
 
   # Destroy the message.
   def destroy
-    @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user.id)).find(params[:id])
+    @message = Message.where(:recipient => current_user).or(Message.where(:sender => current_user.id)).find(params.expect(:id))
     @message.from_user_visible = false if @message.sender == current_user
     @message.to_user_visible = false if @message.recipient == current_user
     if @message.save

@@ -4,7 +4,7 @@
 pr_number = github.pr_json["number"]
 
 # Report if number of changed lines is > 500
-if git.lines_of_code > 500
+if git.lines_of_code > 500 && github.pr_author != "translatewiki"
   warn("Number of updated lines of code is too large to be in one PR. Perhaps it should be separated into two or more?")
   auto_label.set(pr_number, "big-pr", "FBCA04")
 else
@@ -17,7 +17,7 @@ modified_yml_files = git.modified_files.select do |file|
 end
 
 # Report if some translation file (except en.yml) is modified
-if modified_yml_files.empty?
+if modified_yml_files.empty? || github.pr_author == "translatewiki"
   auto_label.remove("inappropriate-translations")
 else
   modified_files_str = modified_yml_files.map { |file| "`#{file}`" }.join(", ")

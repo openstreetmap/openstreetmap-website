@@ -41,8 +41,8 @@ module ApplicationHelper
 
   def secondary_nav_items
     items = [
-      [history_path, t("layouts.header.history")],
-      [export_path, t("layouts.header.export")],
+      [history_path, t("layouts.header.history"), { :class => ["geolink"] }],
+      [export_path, t("layouts.header.export"), { :class => ["geolink"] }],
       [traces_path, t("layouts.header.gps_traces")],
       [diary_entries_path, t("layouts.header.user_diaries")],
       [communities_path, t("layouts.header.communities")],

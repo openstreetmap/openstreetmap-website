@@ -22,7 +22,7 @@ module Users
 
       user_blocks = UserBlock.where(:creator => @user)
 
-      @user_blocks, @newer_user_blocks_id, @older_user_blocks_id = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
+      @user_blocks = get_page_items(user_blocks, :includes => [:user, :creator, :revoker])
 
       @show_user_name = true
       @show_creator_name = false
