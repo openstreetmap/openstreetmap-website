@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: gpx_files
+# Database name: gps
 #
 #  id          :bigint           not null, primary key
 #  user_id     :bigint           not null
@@ -21,10 +22,6 @@
 #  gpx_files_timestamp_idx            (timestamp)
 #  gpx_files_visible_visibility_idx   (visible,visibility)
 #  index_gpx_files_on_user_id_and_id  (user_id,id)
-#
-# Foreign Keys
-#
-#  gpx_files_user_id_fkey  (user_id => users.id)
 #
 
 class Trace < GpsRecord

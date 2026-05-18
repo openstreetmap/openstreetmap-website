@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: diary_entries
+# Database name: primary
 #
 #  id            :bigint           not null, primary key
 #  user_id       :bigint           not null

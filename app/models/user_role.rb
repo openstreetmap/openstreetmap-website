@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: user_roles
+# Database name: primary
 #
 #  id         :integer          not null, primary key
 #  user_id    :bigint           not null

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: gps_points
+# Database name: gps
 #
 #  altitude  :float
 #  trackid   :integer          not null
@@ -16,10 +17,6 @@
 #
 #  points_gpxid_idx  (gpx_id)
 #  points_tile_idx   (tile)
-#
-# Foreign Keys
-#
-#  gps_points_gpx_id_fkey  (gpx_id => gpx_files.id)
 #
 
 class Tracepoint < GpsRecord

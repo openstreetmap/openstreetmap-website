@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: languages
+# Database name: primary
 #
 #  code         :string           not null, primary key
 #  english_name :string           not null

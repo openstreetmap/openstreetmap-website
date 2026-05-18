@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: user_mutes
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  owner_id   :bigint           not null

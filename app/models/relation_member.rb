@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: current_relation_members
+# Database name: primary
 #
 #  relation_id :bigint           not null, primary key
 #  member_type :enum             not null

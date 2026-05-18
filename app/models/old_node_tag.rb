@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: node_tags
+# Database name: primary
 #
 #  node_id :bigint           not null, primary key
 #  version :bigint           not null, primary key

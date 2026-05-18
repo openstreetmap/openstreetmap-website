@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: reports
+# Database name: primary
 #
 #  id         :integer          not null, primary key
 #  issue_id   :integer          not null

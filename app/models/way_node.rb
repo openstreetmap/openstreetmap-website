@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: current_way_nodes
+# Database name: primary
 #
 #  way_id      :bigint           not null, primary key
 #  node_id     :bigint           not null

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: redactions
+# Database name: primary
 #
 #  id                 :integer          not null, primary key
 #  title              :string           not null

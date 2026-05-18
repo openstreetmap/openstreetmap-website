@@ -3,19 +3,16 @@
 # == Schema Information
 #
 # Table name: gpx_file_tags
+# Database name: gps
 #
+#  id     :bigint           not null, primary key
 #  gpx_id :bigint           not null
 #  tag    :string           not null
-#  id     :bigint           not null, primary key
 #
 # Indexes
 #
 #  gpx_file_tags_gpxid_idx  (gpx_id)
 #  gpx_file_tags_tag_idx    (tag)
-#
-# Foreign Keys
-#
-#  gpx_file_tags_gpx_id_fkey  (gpx_id => gpx_files.id)
 #
 
 class Tracetag < GpsRecord

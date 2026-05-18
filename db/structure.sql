@@ -10,13 +10,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: public; Type: SCHEMA; Schema: -; Owner: -
---
-
--- *not* creating schema, since initdb creates it
-
-
---
 -- Name: btree_gist; Type: EXTENSION; Schema: -; Owner: -
 --
 
@@ -52,18 +45,6 @@ CREATE TYPE public.format_enum AS ENUM (
     'html',
     'markdown',
     'text'
-);
-
-
---
--- Name: gpx_visibility_enum; Type: TYPE; Schema: public; Owner: -
---
-
-CREATE TYPE public.gpx_visibility_enum AS ENUM (
-    'private',
-    'public',
-    'trackable',
-    'identifiable'
 );
 
 
@@ -809,89 +790,6 @@ CREATE SEQUENCE public.friends_id_seq
 --
 
 ALTER SEQUENCE public.friends_id_seq OWNED BY public.friends.id;
-
-
---
--- Name: gps_points; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.gps_points (
-    altitude double precision,
-    trackid integer NOT NULL,
-    latitude integer NOT NULL,
-    longitude integer NOT NULL,
-    gpx_id bigint NOT NULL,
-    "timestamp" timestamp without time zone,
-    tile bigint
-);
-
-
---
--- Name: gpx_file_tags; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.gpx_file_tags (
-    gpx_id bigint NOT NULL,
-    tag character varying NOT NULL,
-    id bigint NOT NULL
-);
-
-
---
--- Name: gpx_file_tags_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.gpx_file_tags_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: gpx_file_tags_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.gpx_file_tags_id_seq OWNED BY public.gpx_file_tags.id;
-
-
---
--- Name: gpx_files; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.gpx_files (
-    id bigint NOT NULL,
-    user_id bigint NOT NULL,
-    visible boolean DEFAULT true NOT NULL,
-    name character varying DEFAULT ''::character varying NOT NULL,
-    size bigint,
-    latitude double precision,
-    longitude double precision,
-    "timestamp" timestamp without time zone NOT NULL,
-    description character varying DEFAULT ''::character varying NOT NULL,
-    inserted boolean NOT NULL,
-    visibility public.gpx_visibility_enum DEFAULT 'public'::public.gpx_visibility_enum NOT NULL
-);
-
-
---
--- Name: gpx_files_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.gpx_files_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: gpx_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.gpx_files_id_seq OWNED BY public.gpx_files.id;
 
 
 --
@@ -1869,20 +1767,6 @@ ALTER TABLE ONLY public.friends ALTER COLUMN id SET DEFAULT nextval('public.frie
 
 
 --
--- Name: gpx_file_tags id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_file_tags ALTER COLUMN id SET DEFAULT nextval('public.gpx_file_tags_id_seq'::regclass);
-
-
---
--- Name: gpx_files id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_files ALTER COLUMN id SET DEFAULT nextval('public.gpx_files_id_seq'::regclass);
-
-
---
 -- Name: issue_comments id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2188,22 +2072,6 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 ALTER TABLE ONLY public.friends
     ADD CONSTRAINT friends_pkey PRIMARY KEY (id);
-
-
---
--- Name: gpx_file_tags gpx_file_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_file_tags
-    ADD CONSTRAINT gpx_file_tags_pkey PRIMARY KEY (id);
-
-
---
--- Name: gpx_files gpx_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_files
-    ADD CONSTRAINT gpx_files_pkey PRIMARY KEY (id);
 
 
 --
@@ -2589,34 +2457,6 @@ CREATE INDEX diary_entry_user_id_created_at_index ON public.diary_entries USING 
 
 
 --
--- Name: gpx_file_tags_gpxid_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX gpx_file_tags_gpxid_idx ON public.gpx_file_tags USING btree (gpx_id);
-
-
---
--- Name: gpx_file_tags_tag_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX gpx_file_tags_tag_idx ON public.gpx_file_tags USING btree (tag);
-
-
---
--- Name: gpx_files_timestamp_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX gpx_files_timestamp_idx ON public.gpx_files USING btree ("timestamp");
-
-
---
--- Name: gpx_files_visible_visibility_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX gpx_files_visible_visibility_idx ON public.gpx_files USING btree (visible, visibility);
-
-
---
 -- Name: index_acls_on_address; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -2733,13 +2573,6 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 --
 
 CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btree (user_id, created_at);
-
-
---
--- Name: index_gpx_files_on_user_id_and_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_gpx_files_on_user_id_and_id ON public.gpx_files USING btree (user_id, id);
 
 
 --
@@ -3048,20 +2881,6 @@ CREATE INDEX notes_tile_status_idx ON public.notes USING btree (tile, status);
 --
 
 CREATE INDEX notes_updated_at_idx ON public.notes USING btree (updated_at);
-
-
---
--- Name: points_gpxid_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX points_gpxid_idx ON public.gps_points USING btree (gpx_id);
-
-
---
--- Name: points_tile_idx; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX points_tile_idx ON public.gps_points USING btree (tile);
 
 
 --
@@ -3467,30 +3286,6 @@ ALTER TABLE ONLY public.friends
 
 
 --
--- Name: gps_points gps_points_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gps_points
-    ADD CONSTRAINT gps_points_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id);
-
-
---
--- Name: gpx_file_tags gpx_file_tags_gpx_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_file_tags
-    ADD CONSTRAINT gpx_file_tags_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id);
-
-
---
--- Name: gpx_files gpx_files_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.gpx_files
-    ADD CONSTRAINT gpx_files_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
-
-
---
 -- Name: issue_comments issue_comments_issue_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3781,6 +3576,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20260413000001'),
 ('20260223105922'),
 ('20260218183352'),
 ('20260113144310'),

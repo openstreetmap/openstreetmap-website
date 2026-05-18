@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: note_subscriptions
+# Database name: primary
 #
 #  user_id :bigint           not null, primary key
 #  note_id :bigint           not null, primary key

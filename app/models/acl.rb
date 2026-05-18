@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: acls
+# Database name: primary
 #
 #  id      :bigint           not null, primary key
 #  address :inet

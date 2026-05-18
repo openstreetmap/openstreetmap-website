@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: changeset_tags
+# Database name: primary
 #
 #  changeset_id :bigint           not null, primary key
 #  k            :string           default(""), not null, primary key

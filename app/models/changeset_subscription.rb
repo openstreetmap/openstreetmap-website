@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: changesets_subscribers
+# Database name: primary
 #
 #  subscriber_id :bigint           not null
 #  changeset_id  :bigint           not null

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: current_nodes
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  latitude     :integer          not null

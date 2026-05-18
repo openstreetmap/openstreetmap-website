@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: issues
+# Database name: primary
 #
 #  id               :integer          not null, primary key
 #  reportable_type  :string           not null
