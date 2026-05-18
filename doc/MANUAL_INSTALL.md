@@ -138,7 +138,7 @@ bundle install
 We use [Yarn](https://yarnpkg.com/) to manage the Node.js modules required for the project.
 
 ```bash
-bundle exec bin/yarn install
+bin/yarn install
 ```
 
 ## Step 4: Prepare Configuration Files

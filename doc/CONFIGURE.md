@@ -212,7 +212,7 @@ We use [ActionMailer Previews](https://guides.rubyonrails.org/action_mailer_basi
 >
 > - **Update Node.js modules:** If Node.js modules have been updated, run:
 >   ```bash
->   bundle exec bin/yarn install
+>   bin/yarn install
 >   ```
 >
 > - **Run database migrations:** The OSM database schema is changed periodically. To keep up with improvements:

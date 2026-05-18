@@ -58,11 +58,11 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run herb linter
-      run: bundle exec bin/yarn run herb-lint
+      run: bin/yarn run herb-lint
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run eslint
@@ -122,7 +122,7 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Install packages
       run: |
         sudo apt-get -yqq update
@@ -160,7 +160,7 @@ jobs:
       with:
         cache: yarn
     - name: Install node modules
-      run: bundle exec bin/yarn install
+      run: bin/yarn install
     - name: Install packages
       run: |
         sudo apt-get -yqq update

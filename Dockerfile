@@ -52,7 +52,7 @@ RUN bundle install
 # Install NodeJS packages using yarn
 COPY package.json yarn.lock /app/
 COPY bin/yarn /app/bin/
-RUN bundle exec bin/yarn install
+RUN bin/yarn install
 
 # Copy and set entrypoint
 COPY docker/entrypoint.sh /entrypoint.sh
