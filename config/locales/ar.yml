@@ -24,6 +24,7 @@
 # Author: Hubaishan
 # Author: Karim185.3
 # Author: Kassem7899
+# Author: Kopmil
 # Author: Kuwaity26
 # Author: LaMagiaaa
 # Author: Lolekek
@@ -79,9 +80,9 @@ ar:
       issue_comment:
         create: إضافة تعليق
       message:
-        create: أرسل
+        create: إرسال
       oauth2_application:
-        create: سجِّل
+        create: تسجيل
         update: تحديث
       redaction:
         create: إنشاء تنقيح
@@ -95,22 +96,22 @@ ar:
   activerecord:
     errors:
       messages:
-        display_name_is_user_n: لا يمكن أن يكون user_n إلا إذا كان n هو معرف المستخدم
+        display_name_is_user_n: لا يمكن أن يكون user_n إلا إذا كان n هو معرّف المستخدم
           الخاص بك
       models:
         user_mute:
-          is_already_muted: تمت كتم الصوت بالفعل
+          is_already_muted: كُتم بالفعل
         social_link:
           attributes:
             url:
-              http_parse_error: يجب أن يبدأ URL مع http:// أو https://
+              http_parse_error: يجب أن يبدأ عنوان URL بـ http://، أو https://
     models:
-      acl: لائحة التحكم بالوصول
+      acl: قائمة التحكُّم بالوصول
       changeset: حزمة التغييرات
       changeset_tag: وسم حزمة التغييرات
-      country: الدولة
-      diary_comment: تعليق يومية
-      diary_entry: مدخلة يومية
+      country: البلد
+      diary_comment: تعليق على اليوميات
+      diary_entry: مدخلة في اليوميات
       friend: صديق
       issue: قضية
       language: اللغة
@@ -133,7 +134,7 @@ ar:
       session: جلسة
       trace: أثر
       tracepoint: نقطة أثر
-      tracetag: سمة الأثر
+      tracetag: وسم الأثر
       user: المستخدم
       user_preference: تفضيل المستخدم
       user_token: رمز المستخدم
@@ -312,6 +313,7 @@ ar:
       none: لا شيء
       openid: هوية مفتوحة
       google: جوجل
+      apple: آبل
       facebook: فيسبوك
       microsoft: مايكروسوفت
       github: جيت هب
@@ -344,12 +346,24 @@ ar:
   accounts:
     show:
       title: عدل الحساب
+      my_account: حسابي
       current email address: عنوان البريد الإلكرتروني الحالي
       external auth: مصادقة خارجية
       contributor_terms:
         heading: شروط المساهم
         agreed: لقد وافقت على شروط المساهم في %{date}.
+        not_agreed: لم توافق بعد على شروط المساهمة.
         agreed_with_pd: وقد أعلنت أيضًا أنك تعتبر تعديلاتك ملكية عامة.
+        not_agreed_with_pd: لم تصرّح بأنك تعتبر تعديلاتك ملكًا عامًّا.
+        review: مراجعة الشروط
+        review_and_accept: المراجعة والموافقة على الشروط
+        consider_pd: اعتبار تعديلاتي ملكًا عامًّا
+      terms_of_use:
+        heading: شروط الاستخدام
+        agreed: لقد وافقت على شروط الاستخدام في %{date}.
+        not_agreed: لم توافق بعد على شروط الاستخدام.
+        review: مراجعة الشروط
+        review_and_accept: المراجعة والموافقة على الشروط
       save changes button: حفظ التغييرات
       delete_account: حذف الحساب...
     go_public:
@@ -402,16 +416,22 @@ ar:
         title: شروط
         heading: شروط
         heading_ct: شروط المساهمة
-        read and accept with tou: تُرجَى قراءة اتفاقية المساهم وشروط الاستخدام، والتحقق
-          من خانتي الاختيار عند الانتهاء، ثم اضغط على زر "متابعة".
+        read and accept with tou: يُرجى قراءة شروط المساهمة وشروط الاستخدام، وتحديد
+          كلا المربّعين عند الانتهاء، ثم الضغط على ”متابعة“.
         contributor_terms_explain: هذا الاتفاق يحكم شروط مساهماتك الحالية والمستقبلية
         read_ct: قرأت شروط المساهمة المعطاة في الأعلى وأوافق عليها
         tou_explain:
           html: هذا ال%{tou_link} يحكم استخدام موقع الويب والبنية الأساسية الأخرى
             التي يوفرها مؤسسة خريطة الشارع المفتوحة، يُرجَى النقر على الرابط، وقراءة
             والموافقة على النص.
+          tou: شروط الاستخدام
         read_tou: قرأت شروط الاستخدام وأوافق عليها.
+        guidance_info_html: 'معلومات تساعد على فهم هذه المصطلحات: %{readable_summary_link}
+          وبعض %{informal_translations_link}'
+        readable_summary: ملخّص يمكن قراءته من قِبل البشر
+        informal_translations: ترجمات غير رسمية
         continue: استمرار
+        cancel: إلغاء
         you need to accept or decline: الرجاء القراءة ومن ثم قبول أو رفض شروط المساهمة
           الجديدة للمتابعة.
         legale_select: 'بلد الإقامة:'
@@ -421,6 +441,20 @@ ar:
           rest_of_world: بقية العالم
       update:
         terms accepted: نشكرك على قبول شروط المساهم الجديدة!
+      terms_declined_flash:
+        terms_declined_html: نأسف لقرارك بعدم قبول شروط المساهمة الجديدة. لمزيد من
+          المعلومات، يُرجى الاطّلاع على %{terms_declined_link}
+        terms_declined_link: صفحة الويكي هذه
+    pd_declarations:
+      show:
+        title: اعتبار مساهماتي ملكًا عامًا
+        consider_pd: أعتبر مساهماتي ملكًا عامًّا
+        consider_pd_why: لماذا أرغب في أن تكون مساهماتي ملكًا عامًّا؟
+        confirm: تأكيد
+      create:
+        successfully_declared: لقد أعلنت بنجاح أنك تعتبر تعديلاتك ملكًا عامًّا.
+        already_declared: لقد أعلنت بالفعل أنك تعتبر تعديلاتك ملكًا عامًّا.
+        did_not_confirm: لم تؤكّد أنك تعتبر تعديلاتك ملكًا عامًّا.
   browse:
     deleted_ago_by_html: تم حذف %{time_ago} بواسطة %{user}
     edited_ago_by_html: تم تحرير %{time_ago} بواسطة %{user}
@@ -430,6 +464,13 @@ ar:
     anonymous: مجهول
     no_comment: (لا تعليق)
     part_of: جزء من
+    part_of_relations:
+      zero: لا علاقات
+      one: علاقة واحدة
+      two: علاقتان
+      few: '%{count} علاقات'
+      many: '%{count} علاقة'
+      other: '%{count} علاقة'
     part_of_ways:
       zero: ""
       one: طريق واحد
@@ -445,12 +486,26 @@ ar:
     way:
       title_html: 'طريق: %{name}'
       nodes: العقد
+      nodes_count:
+        zero: لا عُقد
+        one: عقدة واحدة
+        two: عقدتان
+        few: '%{count} عُقد'
+        many: '%{count} عقدة'
+        other: '%{count} عقدة'
       also_part_of_html:
         one: جزء من طريق %{related_ways}
         other: جزء من طرق %{related_ways}
     relation:
       title_html: 'صلة: %{name}'
       members: الأعضاء
+      members_count:
+        zero: لا أعضاء
+        one: عضو واحد
+        two: عضوان
+        few: '%{count} أعضاء'
+        many: '%{count} عضو'
+        other: '%{count} عضو'
     relation_member:
       entry_role_html: '%{type} %{name} كــ%{role}'
       type:
@@ -482,6 +537,7 @@ ar:
     start_rjs:
       feature_warning: جارٍ تحميل %{num_features} من الميزات، مما قد يؤدي إلى بطء
         متصفحك أو عدم استجابته. هل أنت متأكد من أنك تريد عرض هذه البيانات؟
+      feature_error: 'تعذّر تحميل الميّزات: %{message}'
       load_data: تحميل البيانات
       loading: جارٍ التحميل...
     tag_details:
@@ -1368,7 +1424,7 @@ ar:
           pet: متجر حيوانات أليفة
           pet_grooming: العناية بالحيوانات الأليفة
           photo: متجر صور
-          seafood: أكلات بحرية
+          seafood: المأكولات البحرية
           second_hand: متجر أغراض مستعملة
           sewing: محل خياطة
           shoes: متجر أحذية
@@ -1850,8 +1906,8 @@ ar:
       update_success_flash:
         message: تم تحديث التفضيلات.
       navigation:
-        preferences: تفضيلات
-        advanced_preferences: التفضيلات المتقدمة
+        preferences: الواجهة
+        advanced_preferences: متقدّم
     basic_preferences:
       show:
         title: تفضيلاتي
