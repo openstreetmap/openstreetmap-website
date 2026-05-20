@@ -14,6 +14,10 @@
 #  gpx_file_tags_gpxid_idx  (gpx_id)
 #  gpx_file_tags_tag_idx    (tag)
 #
+# Foreign Keys
+#
+#  gpx_file_tags_gpx_id_fkey  (gpx_id => gpx_files.id)
+#
 
 class Tracetag < GpsRecord
   self.table_name = "gpx_file_tags"
