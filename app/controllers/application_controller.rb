@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   check_authorization
 
   rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
-  
+
   rescue_from ActiveRecord::ConnectionNotEstablished,
               ActiveRecord::DatabaseConnectionError,
               ActiveRecord::NoDatabaseError, :with => :gps_database_unavailable

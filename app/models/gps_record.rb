@@ -2,5 +2,5 @@
 
 class GpsRecord < ApplicationRecord
   self.abstract_class = true
-  connects_to database: { writing: :gps, reading: :gps }
+  connects_to :database => { :writing => :gps, :reading => :gps }
 end
