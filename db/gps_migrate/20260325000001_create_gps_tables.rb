@@ -28,6 +28,7 @@ class CreateGpsTables < ActiveRecord::Migration[8.1]
 
     add_index :gpx_file_tags, :gpx_id, :name => "gpx_file_tags_gpxid_idx"
     add_index :gpx_file_tags, :tag, :name => "gpx_file_tags_tag_idx"
+    add_foreign_key :gpx_file_tags, :gpx_files, :column => :gpx_id
 
     create_table :gps_points, :id => false do |t|
       t.float :altitude
@@ -41,5 +42,6 @@ class CreateGpsTables < ActiveRecord::Migration[8.1]
 
     add_index :gps_points, :gpx_id, :name => "points_gpxid_idx"
     add_index :gps_points, :tile, :name => "points_tile_idx"
+    add_foreign_key :gps_points, :gpx_files, :column => :gpx_id
   end
 end
