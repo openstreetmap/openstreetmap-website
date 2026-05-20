@@ -229,7 +229,7 @@ CREATE INDEX points_tile_idx ON public.gps_points USING btree (tile);
 --
 
 ALTER TABLE ONLY public.gps_points
-    ADD CONSTRAINT gps_points_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id);
+    ADD CONSTRAINT gps_points_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id) NOT VALID;
 
 
 --
@@ -237,7 +237,7 @@ ALTER TABLE ONLY public.gps_points
 --
 
 ALTER TABLE ONLY public.gpx_file_tags
-    ADD CONSTRAINT gpx_file_tags_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id);
+    ADD CONSTRAINT gpx_file_tags_gpx_id_fkey FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id) NOT VALID;
 
 
 --
