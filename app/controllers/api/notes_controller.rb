@@ -74,9 +74,7 @@ module Api
     end
 
     def allowed
-      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
-      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
-
+      lon, lat = read_lon_lat_params
       raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
 
       head :ok
@@ -94,8 +92,7 @@ module Api
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
       # Extract the arguments
-      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
-      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+      lon, lat = read_lon_lat_params
       description = params[:text]
 
       raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
@@ -393,6 +390,13 @@ module Api
       NoteCommentNotifier.with(:record => comment).deliver_later if notify
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user
+    end
+
+    def read_lon_lat_params
+      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+
+      [lon, lat]
     end
   end
 end
