@@ -204,6 +204,31 @@ module Api
       assert_response :bad_request
     end
 
+    def test_allowed_outside_moderation_zone_as_anonymous
+      point = coordinates_outside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+
+      get allowed_api_notes_path(:lat => point.lat, :lon => point.lon)
+
+      assert_response :ok
+    end
+
+    def test_allowed_within_moderation_zone_as_anonymous
+      point = coordinates_inside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+
+      get allowed_api_notes_path(:lat => point.lat, :lon => point.lon)
+
+      assert_response :forbidden
+      assert_equal "You don't have permissions to make changes in this zone, as it is currently protected by moderators", response.headers["Error"]
+    end
+
+    def test_allowed_garbage_as_anonymous
+      get allowed_api_notes_path(:lat => "abc", :lon => 0)
+
+      assert_response :bad_request
+    end
+
     def test_create_anonymous_in_moderation_zone
       point = coordinates_inside_seville_cathedral
       create(:moderation_zone, :seville_cathedral)
@@ -214,6 +239,37 @@ module Api
       end
       assert_response :forbidden
       assert_equal "You don't have permissions to make changes in this zone, as it is currently protected by moderators", response.headers["Error"]
+    end
+
+    def test_allowed_outside_moderation_zone_as_authenticated
+      user = create(:user)
+      auth_header = bearer_authorization_header(user)
+      point = coordinates_outside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+
+      get allowed_api_notes_path(:lat => point.lat, :lon => point.lon), :headers => auth_header
+
+      assert_response :ok
+    end
+
+    def test_allowed_within_moderation_zone_as_authenticated
+      user = create(:user)
+      auth_header = bearer_authorization_header(user)
+      point = coordinates_inside_seville_cathedral
+      create(:moderation_zone, :seville_cathedral)
+
+      get allowed_api_notes_path(:lat => point.lat, :lon => point.lon), :headers => auth_header
+
+      assert_response :ok
+    end
+
+    def test_allowed_garbage_as_authenticated
+      user = create(:user)
+      auth_header = bearer_authorization_header(user)
+
+      get allowed_api_notes_path(:lat => "abc", :lon => 0), :headers => auth_header
+
+      assert_response :bad_request
     end
 
     def test_create_success
@@ -1284,6 +1340,10 @@ module Api
 
     def coordinates_inside_seville_cathedral
       Struct.new(:lat, :lon).new(37.385972, -5.993149)
+    end
+
+    def coordinates_outside_seville_cathedral
+      Struct.new(:lat, :lon).new(37.386769, -5.994185)
     end
   end
 end

@@ -7,7 +7,7 @@ class ApiAbility
     can :read, [:version, :capability, :permission, :map]
 
     if Settings.status != "database_offline"
-      can [:read, :feed, :search], Note
+      can [:read, :feed, :search, :allowed], Note
       can :create, Note unless user
 
       can :read, Changeset

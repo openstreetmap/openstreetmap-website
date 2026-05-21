@@ -5,7 +5,7 @@ module Api
     include QueryMethods
 
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-    before_action :setup_user_auth, :only => [:create, :show]
+    before_action :setup_user_auth, :only => [:create, :show, :allowed]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
@@ -71,6 +71,15 @@ module Api
         format.json
         format.gpx
       end
+    end
+
+    def allowed
+      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+
+      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
+
+      head :ok
     end
 
     ##

@@ -120,6 +120,7 @@ OpenStreetMap::Application.routes.draw do
       collection do
         get "search"
         get "feed", :defaults => { :format => "rss" }
+        get "allowed"
       end
 
       member do
