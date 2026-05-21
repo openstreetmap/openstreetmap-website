@@ -81,6 +81,10 @@ jobs:
         cache: yarn
     - name: Install node modules
       run: bin/yarn install
+    - name: Install packages
+      run: |
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install libvips-dev
     - name: Create dummy database configuration
       run: cp config/example.database.yml config/database.yml
     - name: Run eslint
@@ -126,7 +130,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get -yqq update
-        sudo apt-get -yqq install postgresql-postgis
+        sudo apt-get -yqq install postgresql-postgis libvips-dev
     - name: Setup database
       run: |
         sudo systemctl start postgresql
@@ -164,7 +168,7 @@ jobs:
     - name: Install packages
       run: |
         sudo apt-get -yqq update
-        sudo apt-get -yqq install postgresql-postgis
+        sudo apt-get -yqq install postgresql-postgis libvips-dev
     - name: Setup database
       run: |
         sudo systemctl start postgresql
