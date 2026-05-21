@@ -74,8 +74,7 @@ module Api
     end
 
     def allowed
-      lon, lat = read_lon_lat_params
-      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
+      check_for_moderation_zones
 
       head :ok
     end
@@ -95,7 +94,7 @@ module Api
       lon, lat = read_lon_lat_params
       description = params[:text]
 
-      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
+      check_for_moderation_zones
 
       # Get note's author info (for logged in users - user_id, for logged out users - IP address)
       note_author_info = author_info
@@ -397,6 +396,11 @@ module Api
       lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
 
       [lon, lat]
+    end
+
+    def check_for_moderation_zones
+      lon, lat = read_lon_lat_params
+      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
     end
   end
 end
