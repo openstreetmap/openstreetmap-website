@@ -79,7 +79,7 @@ class Oauth2AuthorizationsControllerTest < ActionDispatch::IntegrationTest
                                  :scope => "write_api")
     assert_response :bad_request
     assert_template "oauth2_authorizations/error"
-    assert_select "p", "The requested redirect uri is malformed or doesn't match client redirect URI."
+    assert_select "p", "The requested redirect URI is malformed or doesn't match the client redirect URI."
   end
 
   def test_new_bad_scope
