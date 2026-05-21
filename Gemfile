@@ -138,6 +138,7 @@ gem "aws-sdk-s3"
 
 # Used to resize user images
 gem "image_processing"
+gem "ruby-vips"
 
 # Used to manage svg files
 gem "inline_svg"
