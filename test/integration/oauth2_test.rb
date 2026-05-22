@@ -158,8 +158,12 @@ class OAuth2Test < ActionDispatch::IntegrationTest
       :scope => "read_prefs"
     }.merge(options)
 
-    get oauth_authorization_path(options)
-    assert_redirected_to login_path(:referer => request.fullpath)
+    oauth_path = oauth_authorization_path(options)
+    login_for_oauth_path = login_path(:referer => oauth_path)
+    cookies["_osm_session"] = "reassure the backend that cookies are enabled"
+    get oauth_path
+    assert_redirected_to login_for_oauth_path
+    get login_for_oauth_path
 
     post login_path(:username => user.email, :password => "s3cr3t")
     follow_redirect!

@@ -91,6 +91,9 @@ gem "doorkeeper"
 gem "doorkeeper-i18n"
 gem "doorkeeper-openid_connect"
 
+# To parse complex referers for OAuth login
+gem "cgi"
+
 # Markdown formatting support
 gem "kramdown"
 
