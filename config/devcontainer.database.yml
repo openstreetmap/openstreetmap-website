@@ -1,20 +1,39 @@
 # This configuration is tailored for use with devcontainers. See doc/DEVCONTAINER.md for more information.
 
 development:
-  adapter: postgresql
-  database: openstreetmap
-  username: openstreetmap
-  password: openstreetmap
-  host: <%= ENV["DB_HOST"] %>
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  primary:
+    adapter: postgresql
+    database: openstreetmap
+    username: openstreetmap
+    password: openstreetmap
+    host: <%= ENV["DB_HOST"] %>
+    encoding: utf8
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  gps:
+    adapter: postgresql
+    database: openstreetmap_gps
+    username: openstreetmap
+    password: openstreetmap
+    host: <%= ENV["DB_HOST"] %>
+    encoding: utf8
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    migrations_paths: db/gps_migrate
 
 test:
-  adapter: postgresql
-  database: osm_test
-  username: openstreetmap
-  password: openstreetmap
-  host: <%= ENV["DB_HOST"] %>
-  encoding: utf8
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
+  primary:
+    adapter: postgresql
+    database: osm_test
+    username: openstreetmap
+    password: openstreetmap
+    host: <%= ENV["DB_HOST"] %>
+    encoding: utf8
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  gps:
+    adapter: postgresql
+    database: osm_test_gps
+    username: openstreetmap
+    password: openstreetmap
+    host: <%= ENV["DB_HOST"] %>
+    encoding: utf8
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    migrations_paths: db/gps_migrate
