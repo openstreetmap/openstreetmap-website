@@ -1,0 +1,21 @@
+<%# locals: (moderation_zone:) %>
+
+<% content_for :head do %>
+  <%= javascript_include_tag "moderation_zone" %>
+<% end %>
+
+<%= bootstrap_form_with(:model => moderation_zone) do |form| %>
+  <%= form.text_field :name %>
+
+  <%= form.richtext_field :reason, :cols => 80, :rows => 20, :format => moderation_zone.reason_format %>
+
+  <%= form.text_area :zone %>
+
+  <%= form.select(
+        :period,
+        options_for_moderation_zone_period,
+        :selected => selected_option_for_moderation_zone_period(moderation_zone)
+      ) %>
+
+  <%= form.primary %>
+<% end %>

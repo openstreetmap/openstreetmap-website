@@ -62,6 +62,7 @@ class Ability
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
           can :update, UserBlock, :active? => true
+          can :manage, ModerationZone
         end
 
         if user.administrator?
