@@ -77,6 +77,7 @@ $(function () {
     const feature = readFormField(COORDINATES_FIELD_ID);
     if (feature) {
       startTerraDrawForEdit(draw, feature);
+      map.fitBounds(featureToBox(feature), { radius: 100 });
     } else {
       startTerraDrawForNew(draw);
     }
@@ -141,5 +142,11 @@ $(function () {
       .join(",\n");
     const target = document.getElementById(fieldId);
     target.value = `POLYGON((\n${coordinatesString}\n))`;
+  }
+
+  function featureToBox(feature) {
+    const points = feature.geometry.coordinates[0];
+    const seed = new maplibregl.LngLatBounds(points[0], points[0]);
+    return points.reduce((bounds, point) => bounds.extend(point), seed);
   }
 });
