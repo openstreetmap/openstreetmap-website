@@ -67,6 +67,7 @@
 # Author: Spixi
 # Author: Stojex
 # Author: Strebski
+# Author: Sunnyo59
 # Author: T11
 # Author: Teiron
 # Author: The Polish
@@ -101,9 +102,9 @@ pl:
         create: Skomentuj
       diary_entry:
         create: Opublikuj
-        update: Uaktualnij
+        update: Aktualizuj
       issue_comment:
-        create: Dodaj komentarz
+        create: Dodaj Komentarz
       message:
         create: Wyślij
       oauth2_application:
@@ -117,7 +118,7 @@ pl:
         update: Zapisz zmiany
       user_block:
         create: Utwórz blokadę
-        update: Uaktualnij blokadę
+        update: Aktualizuj blokadę
   activerecord:
     errors:
       messages:
@@ -131,14 +132,14 @@ pl:
             url:
               http_parse_error: Adres URL powinien zaczynać się od http:// lub https://
     models:
-      acl: Lista kontroli dostępu
+      acl: Lista Kontroli Dostępu
       changeset: Zestaw zmian
       changeset_tag: Znacznik zestawu zmian
       country: Państwo
       diary_comment: Komentarz do dziennika
       diary_entry: Wpis dziennika
       friend: Znajomy
-      issue: Sprawa
+      issue: Problem
       language: Język
       message: Wiadomość
       node: Węzeł
@@ -147,15 +148,15 @@ pl:
       old_node: Stary węzeł
       old_node_tag: Znacznik starego węzła
       old_relation: Stara relacja
-      old_relation_member: Człon starej relacji
+      old_relation_member: Członek Starej Relacji
       old_relation_tag: Znacznik starej relacji
-      old_way: Stara linia
+      old_way: Stara Droga
       old_way_node: Węzeł starej linii
       old_way_tag: Znacznik starej linii
       relation: Relacja
-      relation_member: Człon relacji
+      relation_member: Członek Relacji
       relation_tag: Znacznik relacji
-      report: zgłoszenie
+      report: Zgłoszenie
       session: Sesja
       trace: Ślad
       tracepoint: Punkt śladu
@@ -163,9 +164,9 @@ pl:
       user: Użytkownik
       user_preference: Preferencje użytkownika
       user_token: Token użytkownika
-      way: Linia
-      way_node: Węzeł linii
-      way_tag: Znacznik linii
+      way: Droga
+      way_node: Węzeł Drogi
+      way_tag: Znacznik Drogi
     attributes:
       diary_comment:
         body: Treść
@@ -242,7 +243,7 @@ pl:
   datetime:
     distance_in_words_ago:
       about_x_hours:
-        one: około godziny temu
+        one: około %{count} godzina temu
         few: około %{count} godziny temu
         many: około %{count} godzin temu
         other: około %{count} godziny temu
@@ -306,12 +307,12 @@ pl:
     with_name_html: '%{name} (%{id})'
     current_and_old_links_html: '%{current_link}, %{old_link}'
   editor:
-    default: edytorze domyślnym (obecnie %{name})
+    default: Domyślnie (obecnie %{name})
     id:
       name: iD
-      description: iD (w tej przeglądarce)
+      description: iD (edytor w przeglądarce)
     remote:
-      name: Zewnętrzny edytor
+      name: Zdalne Sterowanie
       description: zewnętrznym edytorze (JOSM, Potlatch lub Merkaartor)
   auth:
     providers:
@@ -337,16 +338,16 @@ pl:
       rss:
         title: Uwagi OpenStreetMap
         description_all: Lista zgłoszonych, skomentowanych lub zamkniętych uwag
-        description_area: Lista uwag stworzonych, skomentowanych lub zamkniętych w
-          twojej okolicy [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
-        description_item: Kanał RSS uwagi %{id}
-        opened: nowa uwaga (w pobliżu %{place})
+        description_area: Lista notatek, skomentowanych lub zamkniętych w twoim obszarze
+          [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: Kanał RSS dla notatki %{id}
+        opened: nowa notatka (w pobliżu %{place})
         commented: nowy komentarz (w pobliżu %{place})
-        closed: zamknięta uwaga (w pobliżu %{place})
-        reopened: ponownie aktywowana uwaga (w pobliżu %{place})
+        closed: zamknięta notatka (w pobliżu %{place})
+        reopened: ponownie aktywowana notatka (w pobliżu %{place})
       entry:
         comment: Komentarz
-        full: Pełna treść uwagi
+        full: Pełna treść notatki
   accounts:
     show:
       title: Zmiana ustawień konta
@@ -356,13 +357,13 @@ pl:
       contributor_terms:
         heading: Warunki Uczestnictwa
         agreed: Wyrażono zgodę na nowe Warunki Uczestnictwa %{date}.
-        not_agreed: Nie wyrażono zgodę na nowe Warunki Uczestnictwa.
+        not_agreed: Nie wyraziłeś jeszcze zgody na nowe Warunki Uczestnictwa.
         agreed_with_pd: Zadeklarowałeś, że swoje edycje publikujesz w domenie publicznej.
         not_agreed_with_pd: Nie zadeklarowałeś, że uznajesz swoje zmiany za należące
           do domeny publicznej.
         review: Przejrzyj Warunki
         review_and_accept: Przejrzyj i zaakceptuj Warunki
-        consider_pd: Rozważ domenę publiczną
+        consider_pd: Rozważ Domenę Publiczną
       terms_of_use:
         heading: Warunki Użytkowania
         agreed: Wyrażono zgodę na Warunki Użytkowania %{date}.
@@ -372,29 +373,29 @@ pl:
       save changes button: Zapisz zmiany
       delete_account: Usuń konto...
     go_public:
-      heading: Edycje publiczne
-      currently_not_public: Twoje edycje są obecnie anonimowe i inni nie mogą ci wysyłać
-        wiadomości ani zobaczyć twojej lokalizacji. Aby pokazać swoje edycje i umożliwić
-        innym kontakt z tobą przez stronę, kliknij przycisk poniżej.
+      heading: Edytowanie publiczne
+      currently_not_public: Obecnie Twoje zmiany są anonimowe, a inni nie mogą wysyłać
+        Ci wiadomości ani zobaczyć Twojej lokalizacji. Aby przejrzeć swoje edycje
+        i umożliwić kontakt przez stronę, kliknij przycisk poniżej.
       only_public_can_edit: Od czasu zmiany API na wersję 0.6 tylko użytkownicy publiczni
         mogą edytować dane mapy.
       find_out_why_html: (%{link}).
-      find_out_why: dowiedz się, dlaczego
+      find_out_why: dowiedz się dlaczego
       find_out_why_url: https://wiki.openstreetmap.org/wiki/Anonymous_edits
       email_not_revealed: Twój adres e-mail nie będzie wyświetlany publicznie.
       not_reversible: Tej akcji nie można cofnąć, a wszyscy nowi użytkownicy są teraz
         domyślnie publiczni.
-      make_edits_public_button: Niech wszystkie moje edycje będą publiczne.
+      make_edits_public_button: Opublikuj wszystkie moje zmiany
     update:
-      success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź, czy przyszedł
-        już e-mail potwierdzający nowy adres mailowy.
-      success: Zaktualizowano profil użytkownika.
+      success_confirm_needed: Zaktualizowano profil użytkownika. Sprawdź swojego emaila
+        z notatką, aby zaktualizować twój nowy adres email.
+      success: Informacje o użytkowniku zaktualizowane pomyślnie.
     destroy:
       success: Konto zostało usunięte.
     deletions:
       show:
-        title: Usuń moje konto
-        warning: Uwaga! Usunięcie konta jest ostateczne i nie można go cofnąć.
+        title: Usuń Moje Konto
+        warning: Uwaga! Proces usuwania konta jest ostateczny, i nie można go cofnąć.
         delete_account: Usuń konto
         delete_introduction: 'Możesz usunąć swoje konto OpenStreetMap używając poniższego
           przycisku. Zwróć uwagę na następujące szczegóły:'
@@ -405,7 +406,7 @@ pl:
         retain_caveats: 'Jednak niektóre informacje o tobie pozostaną zachowane na
           OpenStreetMap nawet po usunięciu konta:'
         retain_edits: Twoje ewentualne zmiany w bazie danych mapy zostaną zachowane.
-        retain_traces: Twoje przesłane ślady zostaną zachowane.
+        retain_traces: Twoje ewentualnie przesłane ślady, zostaną zachowane.
         retain_diary_entries: Twoje ewentualne wpisy do dziennika i komentarze pod
           wpisami do dzienników zostaną zachowane, ale ukryte.
         retain_notes: Twoje ewentualne uwagi i komentarze w uwagach zostaną zachowane,
@@ -439,22 +440,22 @@ pl:
         informal_translations: tłumaczenia nieformalne
         continue: Dalej
         cancel: Anuluj
-        you need to accept or decline: Prosimy przeczytać i następnie przyjąć lub
-          odrzucić nowe Warunki Uczestnictwa, żeby kontynuować.
+        you need to accept or decline: Aby kontynuować, przeczytaj, a następnie zaakceptuj
+          lub odrzuć nowe Warunki Uczestnictwa.
         legale_select: 'Kraj zamieszkania:'
         legale_names:
           france: Francja
           italy: Włochy
           rest_of_world: Reszta świata
       update:
-        terms accepted: Dziękujemy za przyjęcie nowych Warunków Uczestnictwa!
+        terms accepted: Dziękujemy za zaakceptowanie nowych Warunków Uczestnictwa!
       terms_declined_flash:
-        terms_declined_html: Jest nam przykro, że zdecydowałeś się nie przyjmować
-          nowych Warunków Uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
-        terms_declined_link: na tej stronie
+        terms_declined_html: Przykro nam, że zdecydowałeś się nie akceptować nowych
+          Warunków Uczestnictwa. Więcej informacji możesz znaleźć %{terms_declined_link}.
+        terms_declined_link: ta strona wiki
     pd_declarations:
       show:
-        title: Uznaj mój wkład za należący do domeny publicznej
+        title: Uznaj, że moje wkłady są w domenie publicznej.
         consider_pd: Uznaję swój wkład za należący do domeny publicznej
         consider_pd_why: Dlaczego miałbym chcieć, aby mój wkład był w domenie publicznej?
         confirm: Potwierdzam
@@ -473,24 +474,24 @@ pl:
     in_changeset: Zestaw zmian
     anonymous: Anonimowy użytkownik
     no_comment: (bez komentarza)
-    part_of: Wchodzi w skład
+    part_of: Część
     part_of_relations:
       one: 1 relacja
       few: '%{count} relacje'
       many: '%{count} relacji'
       other: '%{count} relacji'
     part_of_ways:
-      one: '%{count} linia'
-      few: '%{count} linie'
-      many: '%{count} linii'
-      other: '%{count} linii'
+      one: '%{count} droga'
+      few: '%{count} drogi'
+      many: '%{count} dróg'
+      other: '%{count} dróg'
     download_xml: Pobierz XML
     view_unredacted_history: Pokaż historię bez poprawek
-    location: 'Położenie:'
+    location: 'Miejsce:'
     node:
       title_html: 'Węzeł: %{name}'
     way:
-      title_html: 'Linia: %{name}'
+      title_html: 'Droga: %{name}'
       nodes: Węzły
       nodes_count:
         one: '%{count} węzeł'
@@ -502,18 +503,18 @@ pl:
         other: część linii %{related_ways}
     relation:
       title_html: 'Relacja: %{name}'
-      members: Człony relacji
+      members: Członkowie
       members_count:
-        one: '%{count} człon'
-        few: '%{count} człony'
-        many: '%{count} członów'
-        other: '%{count} członu'
+        one: '%{count} członek'
+        few: '%{count} członków'
+        many: '%{count} członków'
+        other: '%{count} członków'
     relation_member:
       entry_html: '%{type} %{name}'
       entry_role_html: '%{type} %{name} jako %{role}'
       type:
         node: Węzeł
-        way: Linia
+        way: Droga
         relation: Relacja
     containing_relation:
       entry_role_html: '%{relation_name} (jako %{relation_role})'
@@ -732,6 +733,7 @@ pl:
         button: Wypisz się z dyskusji
     heading:
       title: Zestaw zmian %{id}
+      created_by_html: Utworzono przez %{link_user} dnia %{created}.
     no_such_entry:
       heading: Brak wpisu o identyfikatorze %{id}
       body: Niestety nie odnaleziono zestawu zmian o identyfikatorze %{id}. Sprawdź
@@ -1069,9 +1071,13 @@ pl:
           aboriginal_lands: Rezerwat Indian
           administrative: Granica administracyjna
           census: Granica spisu ludności
+          low_emission_zone: Strefa Niskiej Emisji
           national_park: Park narodowy
           political: Granica okręgu wyborczego
+          postal_code: Kod Pocztowy
           protected_area: Obszar chroniony
+          public_transport: Obszar Transportu Publicznego
+          timezone: Strefa Czasowa
           "yes": Granica
         bridge:
           aqueduct: Akwedukt
@@ -1247,6 +1253,7 @@ pl:
           milestone: Historyczny słupek pikietażowy
           mine: Kopalnia
           mine_shaft: Szyb górniczy
+          monastery: Klasztor Historyczny
           monument: Pomnik (duży)
           railway: Historyczny obiekt kolejowy
           roman_road: Droga rzymska
@@ -1514,6 +1521,7 @@ pl:
           abandoned: Rozebrany tor
           buffer_stop: Kozioł oporowy
           construction: Kolej w budowie
+          crossing: Przejście Kolejowe
           disused: Nieużywany tor
           funicular: Kolej linowo-terenowa
           halt: Przystanek kolejowy
@@ -1937,6 +1945,7 @@ pl:
         ia: interlingua
         is: islandzki
         it: włoski
+        kw: Kornijski
         gcf: antylski
         ku-Latn: kurdyjski
         lv: łotewski
@@ -2019,6 +2028,7 @@ pl:
       title: OpenStreetMap
     logo:
       alt_text: Logo OpenStreetMap
+    main_navigation: Strona Główna
     layer_info: Informacje o warstwie
     start_mapping: Rozpocznij tworzenie mapy
     intro_header: Witamy w OpenStreetMap!
@@ -2365,8 +2375,9 @@ pl:
       update_success_flash:
         message: Zapisano preferencje.
       navigation:
-        preferences: Preferencje
-        advanced_preferences: Zaawansowane preferencje
+        preferences: Interfejs
+        notification_preferences: Powiadomienia
+        advanced_preferences: Zaawansowane
     basic_preferences:
       show:
         title: Moje preferencje
@@ -2387,6 +2398,19 @@ pl:
           light: jasna
           dark: ciemna
         save: Zapisz preferencje
+    notification_preferences:
+      show:
+        title: Preferencje Powiadomień
+        changeset_comment: Komentarze zestawów zmian
+        diary_comment: Komentarze do dzienników
+        direct_message: Wiadomości bezpośrednie
+        gpx_import_failure: 'Import śladu GPS: niepowodzenie'
+        gpx_import_success: 'Import śladu GPX: powodzenie'
+        new_follower: Nowi obserwujący
+        note_comment: Komentarze do notatek
+        save: Aktualizuj Preferencje
+        delivery_mechanisms:
+          email: Email
     advanced_preferences:
       show:
         title: Moje zaawansowane preferencje
@@ -2485,6 +2509,7 @@ pl:
       login_button: Zaloguj się
       with external: 'Alternatywnie, zaloguj się przez:'
       or: lub
+      reset_to_login: Ups! Twoje hasło wygasło. Zresetuj je, aby się zalogować.
       auth failure: Niestety, podane dane nie pozwoliły na zalogowanie.
     destroy:
       title: Wyloguj się
@@ -3866,6 +3891,10 @@ pl:
       tooltip: Legenda
       tooltip_disabled: Legenda nie jest dostępna do tej warstwy
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Znacznik mapy
       popup:
         close: Zamknij
       navigation_control:
@@ -3884,6 +3913,8 @@ pl:
           few: Jesteś w promieniu %{count} stóp od tego punktu
           many: Jesteś w promieniu %{count} stóp od tego punktu
           other: Jesteś w promieniu %{count} stopy od tego punktu
+      attribution_control:
+        toggle_attribution: Przełącz Atrybucję
       base:
         standard: Podstawowa
         cyclosm: CyclOSM
