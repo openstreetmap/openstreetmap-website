@@ -287,6 +287,9 @@ kab:
     way:
       title_html: 'Abrid: %{name}'
       nodes: Tikerras
+      nodes_count:
+        one: '%{count} n tkerrist'
+        other: '%{count} n tkerrisin'
       also_part_of_html:
         one: Aḥric n ubrid %{related_ways}
         other: Aḥric n iberdan %{related_ways}
@@ -369,6 +372,10 @@ kab:
         sorry: Suref-aɣ, tabdart n iygrawen n usnifel i d-tessutreḍ tettawi ddeqs
           n wakud akken ad d-tali.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} n uwennit'
+        other: '%{count} n iwenniten'
     index:
       title: Agraw n usnifel
       title_user: Igrawen n usnifel sɣur %{user}
@@ -388,8 +395,11 @@ kab:
         belongs_to: Ameskar
     show:
       title: 'Agraw n usnifel: %{id}'
+      created: 'Yennulfa-d: %{when}'
       closed: 'Yemdel: %{when}'
+      created_ago_html: Yesnulfa-d %{time_ago}
       closed_ago_html: Yemdel %{time_ago}
+      created_ago_by_html: Yennulfa-d %{time_ago} sɣur %{user}
       closed_ago_by_html: Yemdel %{time_ago} sɣur %{user}
       discussion: Asqerdec
       join_discussion: Qqen akken ad tedduḍ ar usqerdec
@@ -408,6 +418,7 @@ kab:
       ways_title: Iberdan
       ways_paginated: Iberdan (%{x}-%{y} si %{count})
       relations_paginated: Assaɣen (%{x}-%{y} si %{count})
+      range: '%{x}-%{y} seg %{count}'
     timeout:
       sorry: Suref-aɣ, tabdart n igrawen n usnifel i d-sutreḍ tettwai ddeqs n wakud
         akkena d d-ali.
@@ -805,13 +816,16 @@ kab:
           weir: Uggug
           "yes": Targa n waman
       admin_levels:
-        level2: Talast n tmurt
+        level2: Talast tagraɣlant
+        level3: Talast tadeblant (Aswir wis 3)
         level4: Talast n waɣirneɣ tawilayt
-        level5: Talast n temnaḍt
-        level6: Talast n waɣir
-        level8: Talast n temdint
-        level9: Talast n taddart
-        level10: Talast n ugmama
+        level5: Talast tadeblant (Aswir wis 5)
+        level6: Talast tadeblant (Aswir wis 6)
+        level7: Talast tadeblant (Aswir wis 7)
+        level8: Talast tadeblant (Aswir wis 8)
+        level9: Talast tadeblant (Aswir wis 9)
+        level10: Talast tadeblant (Aswir wis 10)
+        level11: Talast tadeblant (Aswir wis 11)
   searches:
     show:
       title:
@@ -837,13 +851,22 @@ kab:
       check_demo_html: Ugar n yisallen sɣur %{link}
   issues:
     index:
+      select_status: Fren addad
+      select_type: Fren anaw
       search: Nadi
       states:
         open: Yeldi
+        resolved: Yefra
     page:
       status: Addad
       states:
         open: Yeldi
+        resolved: Yefra
+    show:
+      title:
+        resolved: 'Yefra ugur wis #%{issue_id}'
+      last_resolved_at_html: Tifrat taneggarut %{datetime}
+      resolve: Fru
     helper:
       reportable_title:
         note: 'Tazmilt #%{note_id}'
@@ -1413,8 +1436,19 @@ kab:
     share:
       share:
         title: Bḍu
+      bluesky:
+        alt: Tignit n Bluesky
+      facebook:
+        alt: Tignit n Facebook
+      linkedin:
+        alt: Tignit n LinkedIn
       mastodon:
         title: Bḍu-t deg Mastodon
+        alt: Tignit n Mastodon
+      telegram:
+        alt: Tignit n Telegram
+      x:
+        alt: Tignit n X
   oauth:
     permissions:
       missing: Ur teǧǧiḍ ara asnas akken ad yeqqen ar usebdded-agi
@@ -1432,6 +1466,9 @@ kab:
     show:
       edit: Ẓreg
       delete: Kkes
+  oauth2_authorizations:
+    new:
+      authorize: Sireg
   oauth2_authorized_applications:
     index:
       application: Asnas
@@ -1523,6 +1560,10 @@ kab:
       user:
         summary_html: '%{name} yettwarna si %{ip_address} di %{date}'
         summary_no_ip_html: '%{name} yettwarna di  %{date}'
+    comments:
+      index:
+        heading_html: Iwenniten n %{user}
+        no_comments: Ulac iwenniten
     changeset_comments:
       page:
         when: Melmi
@@ -1545,6 +1586,22 @@ kab:
       time_future_html: Ad ifak di %{time}.
       until_login: D urmid arama yeqqen useqdac
       time_past_html: Ifuk %{time} aya.
+      block_duration:
+        hours:
+          one: '%{count} n wesrag'
+          other: '%{count} n yesragen'
+        days:
+          one: '%{count} n wass'
+          other: '%{count} n wussan'
+        weeks:
+          one: '%{count} n umalas'
+          other: '%{count} n yimalas'
+        months:
+          one: '%{count} n wayyur'
+          other: '%{count} n wayyuren'
+        years:
+          one: '%{count} n useggas'
+          other: '%{count} n yiseggasen'
     show:
       title: '%{block_on} isewḥel-it %{block_by}'
       heading_html: '%{block_on} isewḥel-it %{block_by}'
@@ -1587,15 +1644,22 @@ kab:
       hidden_title: 'Tazmilt yeffren #%{note_name}'
       description_when_author_is_deleted: yettwakkes
       description_when_there_is_no_opening_comment: arussin
+      event_closed_by_html: Yefra-t %{user} %{time_ago}
       report: Sillef tazmilt agi
+      discussion: Asqerdec
       hide: Ffer
       resolve: Fru
       reactivate: Rmed
       comment_and_resolve: Rnu awennit & Fru
       comment: Awennit
+      log_in_to_comment: Qqen akken ad twennteḍ tazmilt-a
     new:
       title: Tazmilt tamaynut
+      anonymous_warning_log_in: qqen
+      anonymous_warning_sign_up: jerred
       add: Rnu tazmilt
+    new_readonly:
+      title: Tazmilt tamaynut
     notes_paging_nav:
       showing_page: Asebter %{page}
       next: Uḍfir
@@ -1620,6 +1684,8 @@ kab:
         standard: Aslugan
         cycle_map: Takarḍa n tesnasɣalt
         transport_map: Takarḍa n umesni
+        hot: Amdanan
+        openmaptiles_osm: MapTiler OMT
       layers:
         header: Tissa n tkarḍa
         notes: Tizmilin n tkarḍa
@@ -1634,6 +1700,8 @@ kab:
       edit_disabled_tooltip: Semɣeṛ akken ad tẓergeḍ takarḍa
       createnote_tooltip: Rnu tazmilt ar tkarḍa
       queryfeature_tooltip: Isitar ɣef tmahilin
+    profile:
+      social_link_n: Aseɣen n umaɣnu ametti %{n}
     directions:
       distance_in_units:
         m: '%{distance}m'
@@ -1649,6 +1717,9 @@ kab:
         slight_right_without_exit: Bren am wacemma ɣer tama tayeffust ɣef %{name}
         offramp_right: Awi ufuɣ i yellan ar tama tayeffust
         offramp_right_with_exit: Ṭṭef uffuɣ %{exit} ɣef tama tayeffust
+        offramp_right_with_exit_name: Ṭṭef tuffɣa %{exit} ɣef tama tayeffust ɣef %{name}
+        offramp_right_with_exit_directions: Ṭṭef tuffɣa %{exit} ɣef tama tayeffust
+          twal %{directions}
         offramp_right_with_name: Awi ufuɣ i yellan ar tama tayeffust ɣef %{name}
         offramp_right_with_directions: Awi ufuɣ i yellan ar tama tayeffust twal %{directions}
         offramp_right_with_name_directions: Awi ufuɣ i yellan ar tama tayeffust ɣef
