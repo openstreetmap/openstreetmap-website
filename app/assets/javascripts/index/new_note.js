@@ -16,10 +16,12 @@ OSM.NewNote = function (map) {
         control = $(".control-note"),
         addNoteButton = control.find(".control-button");
   let newNoteMarker,
-      halo;
+      halo,
+      errorPanel,
+      errorPanelDetail;
 
-  function createNote(location, text, callback) {
-    fetch("/api/0.6/notes.json", {
+  function createNote(location, text) {
+    return fetch("/api/0.6/notes.json", {
       method: "POST",
       headers: { ...OSM.oauth },
       body: new URLSearchParams({
@@ -28,8 +30,10 @@ OSM.NewNote = function (map) {
         text
       })
     })
-      .then(response => response.json())
-      .then(callback);
+      .then(resp => {
+        if (resp.ok) return resp.json();
+        throw new Error(`Got response with status ${resp.status} ${resp.statusText}`);
+      });
   }
 
   function addCreatedNoteMarker(feature) {
@@ -141,20 +145,30 @@ OSM.NewNote = function (map) {
       const location = newNoteMarker.getLatLng().wrap();
       const text = content.find("textarea").val();
 
+      errorPanel = content.find(".new-note-error");
+      errorPanel.addClass("d-none");
+      errorPanelDetail = errorPanel.find(".new-note-error-detail");
+
       e.preventDefault();
       $(this).prop("disabled", true);
       newNoteMarker.options.draggable = false;
       newNoteMarker.dragging.disable();
 
-      createNote(location, text, (feature) => {
-        if (typeof OSM.user === "undefined") {
-          const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
-          OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
-        }
-        content.find("textarea").val("");
-        addCreatedNoteMarker(feature);
-        OSM.router.route("/note/" + feature.properties.id);
-      });
+      createNote(location, text)
+        .then(feature => {
+          if (typeof OSM.user === "undefined") {
+            const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
+            OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
+          }
+          content.find("textarea").val("");
+          addCreatedNoteMarker(feature);
+          OSM.router.route("/note/" + feature.properties.id);
+        })
+        .catch(err => {
+          errorPanel.removeClass("d-none");
+          errorPanelDetail.text(err.message || err);
+          updateControls();
+        });
     });
 
     map.on("click", moveNewNoteMarkerToClick);
