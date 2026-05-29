@@ -327,7 +327,10 @@ class ApplicationController < ActionController::Base
   end
 
   # Handle GPS database connection failures without affecting the main site
-  def gps_database_unavailable(_exception)
+  def gps_database_unavailable(exception)
+    # Only handle gps database errors, re-raise anything else
+    raise exception unless exception.connection_pool == GpsRecord.connection_pool
+
     respond_to do |format|
       format.html do
         flash.now[:warning] = t("traces.offline_warning.message")
