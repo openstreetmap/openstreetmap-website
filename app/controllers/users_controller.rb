@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   allow_thirdparty_images :only => :show
   allow_social_login :only => :new
 
-  content_security_policy(:only => :new) do |policy|
+  content_security_policy(:only => [:new, :create]) do |policy|
     if Settings.turnstile_site_key
       policy.frame_src(*policy.frame_src, "challenges.cloudflare.com")
       policy.script_src(*policy.script_src, "challenges.cloudflare.com")
