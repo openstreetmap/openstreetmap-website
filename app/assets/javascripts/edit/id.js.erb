@@ -42,7 +42,7 @@ $(function () {
     }
   });
 
-  let hashChangedAutomatically = false;
+  const pendingHashes = new Set();
   window.addEventListener("message", function (event) {
     if (event.source !== id[0].contentWindow || event.origin !== location.origin) return;
     const msg = event.data;
@@ -62,7 +62,8 @@ $(function () {
     const hash = OSM.formatHash(data);
     if (hash === location.hash) return;
 
-    hashChangedAutomatically = true;
+    if (pendingHashes.has(hash)) return;
+    pendingHashes.add(hash);
     location.replace(location.href.replace(/(#.*|$)/, hash));
   }
 
@@ -80,8 +81,9 @@ $(function () {
   });
 
   addEventListener("hashchange", function (e) {
-    if (hashChangedAutomatically) {
-      hashChangedAutomatically = false;
+    const hash = new URL(e.newURL).hash;
+    if (pendingHashes.has(hash)) {
+      pendingHashes.delete(hash);
       return;
     }
     e.preventDefault();
