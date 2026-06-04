@@ -39,7 +39,9 @@ class ModerationZone < ApplicationRecord
     point = factory.point(lon, lat)
 
     where(
-      arel_table[:zone].st_contains(point)
+      arel_table[:zone].st_contains(point).and(
+        arel_table[:ends_at].gt(Time.zone.now)
+      )
     ).exists?
   end
 end
