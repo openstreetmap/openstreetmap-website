@@ -42,6 +42,10 @@ class ModerationZone < ApplicationRecord
 
     where(
       arel_table[:zone].st_contains(point)
-    ).exists?
+    ).any?(&:active?)
+  end
+
+  def active?
+    ends_at.future?
   end
 end
