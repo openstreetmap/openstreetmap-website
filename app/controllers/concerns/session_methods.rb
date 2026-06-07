@@ -15,6 +15,8 @@ module SessionMethods
     preferred = ref_params["preferred_auth_provider"].first
     @preferred_auth_provider = preferred if preferred && Settings.key?(:"#{preferred}_auth_id")
     @client_app_name = Oauth2Application.where(:uid => ref_params["client_id"].first).pick(:name)
+
+    @hide_signup = ref_params["allow_signup"].first == "false"
   end
 
   ##
