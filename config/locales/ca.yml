@@ -365,7 +365,7 @@ ca:
         title: Termes
         heading: Termes
         heading_ct: Condicions de col·laboració
-        read and accept with tou: Llegiu l'acord de col·laborador i les condicions
+        read and accept with tou: Llegiu les condicions de col·laborador i les condicions
           d'ús i, en acabat, marqueu totes dues caselles i premeu el botó de continuar.
         contributor_terms_explain: Aquest acord regula els termes de les vostres contribucions
           actuals i futures.
@@ -992,6 +992,7 @@ ca:
           political: Frontera electoral
           postal_code: Codi postal
           protected_area: Àrea protegida
+          public_transport: Districte de transport públic
           timezone: Zona horària
           "yes": Frontera
         bridge:
@@ -1436,6 +1437,7 @@ ca:
           abandoned: Ferrocarril abandonat
           buffer_stop: Topall
           construction: Ferrocarril en construcció
+          crossing: Pas a nivell
           disused: Ferrocarril en desús
           funicular: Funicular
           halt: Parada de trens
@@ -1555,7 +1557,7 @@ ca:
           pet: Botiga d'animals
           pet_grooming: Perruqueria de mascotes
           photo: Fotògraf
-          seafood: Botiga de marisc
+          seafood: Marisc
           second_hand: Botiga de segona mà
           sewing: Merceria
           shoes: Sabateria
@@ -1854,10 +1856,12 @@ ca:
         ia: Interlingua
         is: Islandès
         it: Italià
+        kw: Còrnic
         gcf: Crioll guadalupè
         ku-Latn: Kurd (llatí)
         lv: Letó
         lb: Luxemburgès
+        lkt: Lakota
         lt: Lituà
         hu: Hongarès
         fit: Meänkieli
@@ -1933,6 +1937,7 @@ ca:
   layouts:
     logo:
       alt_text: Logotip de l'OpenStreetMap
+    main_navigation: Principal
     layer_info: Informació de la capa
     start_mapping: Comença a cartografiar
     intro_header: OpenStreetMap us dona la benvinguda
@@ -1942,6 +1947,9 @@ ca:
       i altres %{partners}.
     partners_corpmembers: membres corporatius OSMF
     partners_partners: socis
+    welcome_tou_notice_html: Fent servir aquest lloc web o altra infraestructura proporcionada
+      per la OpenStreetMap Foundation, accepteu les %{terms_link}
+    terms_of_use: condicions d'ús
     tou: Condicions d’ús
     nothing_to_preview: Res per previsualitzar.
     learn_more: Aprèn-ne més
@@ -2270,8 +2278,9 @@ ca:
       update_success_flash:
         message: S'han actualitzat les preferències.
       navigation:
-        preferences: Preferències
-        advanced_preferences: Preferències avançades
+        preferences: Interfície
+        notification_preferences: Notificacions
+        advanced_preferences: Avançat
     basic_preferences:
       show:
         title: Les meves preferències
@@ -2292,6 +2301,19 @@ ca:
           light: Clar
           dark: Fosc
         save: Actualitza les preferències
+    notification_preferences:
+      show:
+        title: Preferències de notificació
+        changeset_comment: Comentaris del conjunt de canvis
+        diary_comment: Comentaris al diari
+        direct_message: Missatges directes
+        gpx_import_failure: 'Importació de traça GPS: fallada'
+        gpx_import_success: 'Importació de traça GPX: èxit'
+        new_follower: Nous seguidors
+        note_comment: Comentaris de nota
+        save: Actualitza les preferències
+        delivery_mechanisms:
+          email: Correu electrònic
     advanced_preferences:
       show:
         title: Les meves preferències avançades
@@ -2304,6 +2326,7 @@ ca:
         image: Imatge
         company: Empresa
         location: Ubicació
+        contribution_calendar: Calendari de contribucions
     descriptions:
       show:
         title: Edita el perfil
@@ -2364,12 +2387,14 @@ ca:
         failure: No s'ha pogut actualitzar la ubicació del perfil.
     heatmaps:
       show:
-        title: Configura el mapa de calor
-        save: Actualitza la configuració del mapa de calor
+        title: Configura el calendari de contribucions
+        show_contribution_calendar_in_public: Mostra el calendari de contribucions
+          a la pàgina del vostre perfil
+        save: Actualitza la configuració del calendari de contribucions
         cancel: Cancel·la
       update:
-        success: Mapa de calor actualitzat.
-        failure: No s'ha pogut actualitzar el mapa de calor.
+        success: Calendari de contribucions actualitzat.
+        failure: No s'ha pogut actualitzar el calendari de contribucions.
   sessions:
     new:
       tab_title: Inicieu la sessió
@@ -2387,6 +2412,8 @@ ca:
       login_button: Inicieu la sessió
       with external: o inicieu la sessió mitjançant un tercer
       or: o
+      reset_to_login: Ho sentim, la vostra contrasenya ha caducat. Si us plau, reinicialitza-la
+        per iniciar la sessió.
       auth failure: No podeu iniciar la sessió amb aquesta informació.
     destroy:
       title: Surt
@@ -2648,6 +2675,7 @@ ca:
         contributors_hr_croatia: Croàcia
         contributors_hr_dgu: Administració Geodèsica Estatal de Croàcia
         contributors_hr_open_data_portal: Portal Nacional de Dades Obertes
+        contributors_nl_credit_new_html: '%{netherlands}: Conté &copy; AND data, 2007'
         contributors_nl_netherlands: Països Baixos
         contributors_nz_credit_html: '%{new_zealand}: Conté dades del %{linz_data_service_link}
           i amb llicència per a la seva reutilització sota %{cc_by_link}.'
@@ -3069,13 +3097,13 @@ ca:
       points: 'Punts:'
       start_coordinates: 'Coordenades d''inici:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: mapa
-      edit: edita
+      map: veure la ubicació al mapa
+      edit: obrir a l'editor
       owner: 'Propietari:'
       description: 'Descripció:'
       tags: 'Etiquetes:'
       none: Cap
-      edit_trace: Editar aquesta traça
+      edit_trace: Edita els detalls de la traça
       delete_trace: Esborra aquesta traça
       trace_not_found: No s'ha trobat la traça!
       visibility: 'Visibilitat:'
@@ -3087,8 +3115,8 @@ ca:
         other: '%{count} punts'
       more: més
       trace_details: Mostra els detalls de la traça
-      view_map: Mostra el mapa
-      edit_map: Edita el mapa
+      view_map: Veure la ubicació al mapa
+      edit_map: Obrir a l'editor
       public: PÚBLIC
       identifiable: IDENTIFICABLE
       private: PRIVAT
@@ -3298,6 +3326,10 @@ ca:
           per obtenir més informació.
       or: o
       use external auth: o inicieu la sessió mitjançant un tercer
+      verify_human: Verifiqueu que sou humà
+    create:
+      not_human: Ho sentim, no podem confirmar que sou humà. Això és necessari per
+        crear comptes nous.
     no_such_user:
       title: Aquest usuari no existeix
       heading: L'usuari %{user} no existeix
@@ -3356,6 +3388,7 @@ ca:
       change_image: Canviar la imatge
       edit_company: Editar l'empresa
       edit_location: Editar la ubicació
+      edit_contribution_calendar: Configura el calendari de contribucions
       contributions:
         one: '%{count} contribució en l''últim any'
         other: '%{count} contribucions en l''últim any'
@@ -3695,6 +3728,10 @@ ca:
       tooltip: Llegenda
       tooltip_disabled: La llegenda no és disponible per a aquesta capa
     map:
+      map:
+        title: Mapa
+        marker:
+          title: Marcador de mapa
       popup:
         close: Tanca
       navigation_control:
