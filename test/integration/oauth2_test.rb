@@ -148,6 +148,45 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     assert_equal Doorkeeper::OpenidConnect.signing_key.kid, key_info["keys"][0]["kid"]
   end
 
+  def test_allow_signup_not_set
+    client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "read_prefs write_api read_gpx")
+
+    options = {
+      :client_id => client.uid,
+      :redirect_uri => client.redirect_uri,
+      :response_type => "code",
+      :scope => "read_prefs"
+    }
+
+    oauth_path = oauth_authorization_path(options)
+    login_for_oauth_path = login_path(:referer => oauth_path)
+    cookies["_osm_session"] = "reassure the backend that cookies are enabled"
+    get oauth_path
+    assert_redirected_to login_for_oauth_path
+    get login_for_oauth_path
+    assert_match "Sign Up", response.body
+  end
+
+  def test_allow_signup_false
+    client = create(:oauth_application, :redirect_uri => "https://some.web.app.example.org/callback", :scopes => "read_prefs write_api read_gpx")
+
+    options = {
+      :client_id => client.uid,
+      :redirect_uri => client.redirect_uri,
+      :response_type => "code",
+      :scope => "read_prefs",
+      :allow_signup => "false"
+    }
+
+    oauth_path = oauth_authorization_path(options)
+    login_for_oauth_path = login_path(:referer => oauth_path)
+    cookies["_osm_session"] = "reassure the backend that cookies are enabled"
+    get oauth_path
+    assert_redirected_to login_for_oauth_path
+    get login_for_oauth_path
+    assert_no_match "Sign Up", response.body
+  end
+
   private
 
   def authorize_client(user, client, options = {})

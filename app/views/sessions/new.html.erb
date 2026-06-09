@@ -11,14 +11,16 @@
   <% end %>
 
   <div class="d-flex align-items-end">
-    <ul class="nav nav-tabs fs-6">
-      <li class="nav-item">
-        <%= link_to t("sessions.new.tab_title"), "#", :class => "nav-link active" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to t("users.new.tab_title"), url_for(:action => :new, :controller => :users, :referer => params[:referer]), :class => "nav-link" %>
-      </li>
-    </ul>
+    <% unless @hide_signup %>
+      <ul class="nav nav-tabs fs-6">
+        <li class="nav-item">
+          <%= link_to t("sessions.new.tab_title"), "#", :class => "nav-link active" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to t("users.new.tab_title"), url_for(:action => :new, :controller => :users, :referer => params[:referer]), :class => "nav-link" %>
+        </li>
+      </ul>
+    <% end %>
     <div class="flex-grow-1 header-illustration new-user-main"></div>
   </div>
 <% end %>
