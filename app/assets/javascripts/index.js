@@ -9,6 +9,7 @@
 //= require leaflet.share
 //= require leaflet.query
 //= require index/contextmenu
+//= require index/initializations
 //= require index/search
 //= require index/layers/data
 //= require index/export

@@ -1,14 +1,3 @@
-OSM.initializations.push(function () {
-  $(".control-note .control-button").on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if ($(this).hasClass("disabled")) return;
-
-    OSM.router.route("/note/new");
-  });
-});
-
 OSM.NewNote = function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
