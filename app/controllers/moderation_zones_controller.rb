@@ -37,7 +37,16 @@ class ModerationZonesController < ApplicationController
   def update
     check_revocation(@moderation_zone, moderation_zone_params)
 
-    if @moderation_zone.update(moderation_zone_params)
+    if cannot?(:update, @moderation_zone)
+      flash[:error] = @moderation_zone.revoker ? t(".only_creator_or_revoker_can_edit") : t(".only_creator_can_edit")
+      redirect_to moderation_zones_url
+    elsif current_user != @moderation_zone.creator && updating_without_revoking?(@moderation_zone, moderation_zone_params)
+      flash[:error] = t(".only_creator_can_edit_without_revoking")
+      redirect_to moderation_zones_url
+    elsif reactivating?(@moderation_zone, moderation_zone_params)
+      flash[:error] = t(".no_reactivation")
+      redirect_to moderation_zones_url
+    elsif @moderation_zone.update(moderation_zone_params)
       redirect_to moderation_zones_url, :notice => t(".success"), :status => :see_other
     else
       render :edit, :status => :unprocessable_content
@@ -61,5 +70,19 @@ class ModerationZonesController < ApplicationController
     previously_active = duplicate.active?
     duplicate.assign_attributes(modzone_params)
     modzone.revoker = current_user if previously_active && !duplicate.active?
+  end
+
+  def updating_without_revoking?(modzone, modzone_params)
+    duplicate = modzone.dup
+    previously_active = duplicate.active?
+    duplicate.assign_attributes(modzone_params)
+    previously_active && duplicate.active?
+  end
+
+  def reactivating?(modzone, modzone_params)
+    duplicate = modzone.dup
+    previously_active = duplicate.active?
+    duplicate.assign_attributes(modzone_params)
+    !previously_active && duplicate.active?
   end
 end
