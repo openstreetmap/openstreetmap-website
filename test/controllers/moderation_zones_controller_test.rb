@@ -146,6 +146,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
     moderation_zone.reload
     assert_in_delta moderation_zone.ends_at, 2.weeks.from_now, 10.seconds
+    assert_nil moderation_zone.revoker
   end
 
   test "update, with errors" do
@@ -166,5 +167,28 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_content
     assert_dom "option[selected]", :text => "4 days"
+  end
+
+  test "update to revoke" do
+    creator = create(:moderator_user)
+    revoker = create(:moderator_user)
+    moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)
+    session_for(revoker)
+
+    patch(
+      moderation_zone_url(moderation_zone),
+      :params => {
+        :moderation_zone => {
+          :name => moderation_zone.name,
+          :reason => moderation_zone.reason,
+          :zone => moderation_zone.zone,
+          :period => 0
+        }
+      }
+    )
+    assert_redirected_to moderation_zones_url
+
+    moderation_zone.reload
+    assert_equal revoker, moderation_zone.revoker
   end
 end

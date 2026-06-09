@@ -20,4 +20,12 @@ class ModerationZoneTest < ActiveSupport::TestCase
       assert_not ModerationZone.falls_within_any?(**dead_center)
     end
   end
+
+  def test_active?
+    modzone1 = create(:moderation_zone, :ends_at => 1.day.from_now)
+    assert_predicate modzone1, :active?
+
+    modzone2 = create(:moderation_zone, :ends_at => 1.day.ago)
+    assert_not_predicate modzone2, :active?
+  end
 end
