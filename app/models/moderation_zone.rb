@@ -44,4 +44,8 @@ class ModerationZone < ApplicationRecord
       )
     ).exists?
   end
+
+  def active?
+    ends_at.future?
+  end
 end

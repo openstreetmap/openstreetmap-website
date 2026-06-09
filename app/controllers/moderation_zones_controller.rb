@@ -35,6 +35,8 @@ class ModerationZonesController < ApplicationController
   end
 
   def update
+    check_revocation(@moderation_zone, moderation_zone_params)
+
     if @moderation_zone.update(moderation_zone_params)
       redirect_to moderation_zones_url, :notice => t(".success"), :status => :see_other
     else
@@ -52,5 +54,12 @@ class ModerationZonesController < ApplicationController
     params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
       safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
     end
+  end
+
+  def check_revocation(modzone, modzone_params)
+    duplicate = modzone.dup
+    previously_active = duplicate.active?
+    duplicate.assign_attributes(modzone_params)
+    modzone.revoker = current_user if previously_active && !duplicate.active?
   end
 end
