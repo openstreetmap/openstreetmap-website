@@ -26,7 +26,7 @@
   OSM.i18n.defaultLocale = OSM.DEFAULT_LOCALE;
   OSM.i18n.locale = application_data.locale;
 
-  import(OSM.MAKE_PLURAL_CARDINALS).then((plurals) => {
+  import(OSM.MODULE_PATHS.make_plural_cardinals).then((plurals) => {
     // '-' are replaced with '_' in https://github.com/eemeli/make-plural/tree/main/packages/plurals
     const pluralizer = plurals[locale.replace(/\W+/g, "_")] || plurals[locale.split("-")[0]];
     if (pluralizer) {
