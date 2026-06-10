@@ -9,9 +9,17 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "index" do
+    create(:moderation_zone, :ends_at => 1.week.ago)
+    create(:moderation_zone, :ends_at => 1.week.from_now)
+    revoker = create(:moderator_user, :display_name => "Revokator")
+    create(:moderation_zone, :ends_at => 1.week.ago, :revoker => revoker)
+
     session_for(create(:moderator_user))
     get moderation_zones_url
     assert_response :success
+    assert_dom "td", :text => "active"
+    assert_dom "td", :text => "ended"
+    assert_dom "td", :text => "revoked by Revokator"
   end
 
   test "new, unauthenticated" do
