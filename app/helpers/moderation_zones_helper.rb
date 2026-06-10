@@ -20,4 +20,22 @@ module ModerationZonesHelper
       end
     end
   end
+
+  def moderation_zone_short_status(moderation_zone)
+    if moderation_zone.active?
+      t("moderation_zones.helper.short.active")
+    elsif moderation_zone.revoker_id
+      t(
+        "moderation_zones.helper.short.revoked_html",
+        :name => link_to(
+          moderation_zone.revoker.display_name,
+          moderation_zone.revoker,
+          :class => "username d-inline-block text-truncate text-wrap align-bottom",
+          :dir => "auto"
+        )
+      )
+    else
+      t("moderation_zones.helper.short.ended")
+    end
+  end
 end
