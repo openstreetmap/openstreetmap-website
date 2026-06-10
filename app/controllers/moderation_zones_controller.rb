@@ -65,24 +65,21 @@ class ModerationZonesController < ApplicationController
     end
   end
 
-  def check_revocation(modzone, modzone_params)
-    duplicate = modzone.dup
-    previously_active = duplicate.active?
-    duplicate.assign_attributes(modzone_params)
-    modzone.revoker = current_user if previously_active && !duplicate.active?
+  def check_revocation(original, changes)
+    original.revoker = current_user if original.active? && !projected_record(original, changes).active?
   end
 
-  def updating_without_revoking?(modzone, modzone_params)
-    duplicate = modzone.dup
-    previously_active = duplicate.active?
-    duplicate.assign_attributes(modzone_params)
-    previously_active && duplicate.active?
+  def updating_without_revoking?(original, changes)
+    original.active? && projected_record(original, changes).active?
   end
 
-  def reactivating?(modzone, modzone_params)
-    duplicate = modzone.dup
-    previously_active = duplicate.active?
-    duplicate.assign_attributes(modzone_params)
-    !previously_active && duplicate.active?
+  def reactivating?(original, changes)
+    !original.active? && projected_record(original, changes).active?
+  end
+
+  def projected_record(original, changes)
+    original.dup.tap do |duplicate|
+      duplicate.assign_attributes(changes)
+    end
   end
 end
