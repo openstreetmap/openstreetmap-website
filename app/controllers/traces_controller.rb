@@ -103,6 +103,9 @@ class TracesController < ApplicationController
   def create
     @title = t ".upload_trace"
 
+    # New traces can only be trackable or identifiable.
+    return head :bad_request unless Trace.valid_visibility?(params[:trace][:visibility])
+
     logger.info(params[:trace][:gpx_file].class.name)
 
     if params[:trace][:gpx_file].respond_to?(:read)
@@ -211,15 +214,10 @@ class TracesController < ApplicationController
   end
 
   def default_visibility
-    visibility = current_user.preferences.find_by(:k => "gps.trace.visibility")
+    visibility = current_user.preferences.find_by(:k => "gps.trace.visibility")&.v
+    return visibility if Trace.valid_visibility?(visibility)
 
-    if visibility
-      visibility.v
-    elsif current_user.preferences.find_by(:k => "gps.trace.public", :v => "default").nil?
-      "private"
-    else
-      "public"
-    end
+    "trackable"
   end
 
   def trace_params
