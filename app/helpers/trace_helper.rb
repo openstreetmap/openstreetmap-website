@@ -18,4 +18,15 @@ module TraceHelper
   def trace_picture(trace, options = {})
     trace_image(trace, :animated => true, :size => 250, **options)
   end
+
+  # Options for the visibility dropdown. Keeps an old value in the list so
+  # editing the trace does not change it by mistake.
+  def trace_visibility_options(trace)
+    visibilities = Trace::VISIBILITIES.dup
+    # If the trace still has an old visibility (private or public), add it so it stays selected.
+    visibilities.unshift(trace.visibility) if Trace.legacy_visibility?(trace.visibility)
+    visibilities.map do |visibility|
+      [t("traces.visibility.#{visibility}"), visibility]
+    end
+  end
 end
