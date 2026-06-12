@@ -487,6 +487,17 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_dont_linkify_too_easily
+    # We used to allow this, but removed it because it
+    # caused issues in some languages.
+    # Eg: example below is Polish for "Reverted in 12345"
+    r = RichText.new("text", "Wycofane w 12345")
+
+    assert_html r do
+      assert_select "a", 0
+    end
+  end
+
   def test_deactivated_linkify_expansion_in_markdown
     t0 = "foo `surface=metal` bar"
 
