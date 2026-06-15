@@ -39,6 +39,7 @@ OSM.Search = function (map) {
 
   const markers = L.layerGroup().addTo(map);
   let processedResults = 0;
+  let searchIntersectionObserver;
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -55,6 +56,9 @@ OSM.Search = function (map) {
   function fetchReplace({ href }, $target) {
     return fetch(href, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
       body: new URLSearchParams(OSM.csrf)
     })
       .then(response => response.text())
@@ -62,7 +66,123 @@ OSM.Search = function (map) {
         const result = $(html);
         $target.replaceWith(result);
         result.filter("ul").children().each(showSearchResult);
+
+        enableSearchIntersectionObserver();
+
+        const params = new URLSearchParams(location.search);
+        const key = params.get("before") || params.get("after");
+
+        if (!key) return;
+
+        function tryRestore() {
+          let found = false;
+
+          $(".search_results_entry").each(function () {
+            const rowKey = getSearchResultKey(this);
+
+            if (rowKey === key) {
+              this.scrollIntoView();
+              found = true;
+              return false;
+            }
+          });
+
+          if (!found) {
+            const more = $(".search_more a:visible").first();
+
+            if (more.length) {
+              more.trigger("click");
+              setTimeout(tryRestore, 300);
+            }
+          }
+        }
+
+        tryRestore();
       });
+  }
+
+  function getSearchResultKey(element) {
+    const link = $(element).find("a.set_position");
+
+    const type = link.data("type");
+    const id = link.data("id");
+
+    if (type && id) {
+      return `${type}-${id}`;
+    }
+
+    const lat = link.data("lat");
+    const lon = link.data("lon");
+
+    if (lat && lon) {
+      return `latlon-${lat}-${lon}`;
+    }
+
+    return null;
+  }
+
+  function enableSearchIntersectionObserver() {
+    if (!window.IntersectionObserver) return;
+
+    let ignoreIntersectionEvents = true;
+
+    searchIntersectionObserver = new IntersectionObserver((entries) => {
+      if (ignoreIntersectionEvents) {
+        ignoreIntersectionEvents = false;
+        return;
+      }
+
+      let closestTargetToTop,
+          closestDistanceToTop = Infinity,
+          closestTargetToBottom,
+          closestDistanceToBottom = Infinity;
+
+      for (const entry of entries) {
+        if (entry.isIntersecting) continue;
+
+        const distanceToTop =
+          entry.rootBounds.top - entry.boundingClientRect.bottom;
+
+        const distanceToBottom =
+          entry.boundingClientRect.top - entry.rootBounds.bottom;
+
+        if (distanceToTop >= 0 && distanceToTop < closestDistanceToTop) {
+          closestDistanceToTop = distanceToTop;
+          closestTargetToTop = entry.target;
+        }
+
+        if (distanceToBottom >= 0 && distanceToBottom < closestDistanceToBottom) {
+          closestDistanceToBottom = distanceToBottom;
+          closestTargetToBottom = entry.target;
+        }
+      }
+
+      if (closestTargetToTop && closestDistanceToTop < closestDistanceToBottom) {
+        const key = getSearchResultKey(closestTargetToTop);
+
+        if (key) {
+          const params = new URLSearchParams(location.search);
+          params.set("before", key);
+          params.delete("after");
+
+          OSM.router.replace(
+            location.pathname + "?" + params.toString() + location.hash
+          );
+        }
+      } else if (closestTargetToBottom) {
+        const key = getSearchResultKey(closestTargetToBottom);
+
+        if (key) {
+          const params = new URLSearchParams(location.search);
+          params.set("after", key);
+          params.delete("before");
+
+          OSM.router.replace(
+            location.pathname + "?" + params.toString() + location.hash
+          );
+        }
+      }
+    }, { root: document.querySelector("#sidebar") });
   }
 
   function showSearchResult() {
@@ -81,6 +201,10 @@ OSM.Search = function (map) {
     markers.addLayer(marker);
     listItem.on("mouseover", () => $(marker.getElement()).addClass("active"));
     listItem.on("mouseout", () => $(marker.getElement()).removeClass("active"));
+
+    if (searchIntersectionObserver) {
+      searchIntersectionObserver.observe(listItem[0]);
+    }
   }
 
   function panToSearchResult(data) {
@@ -116,6 +240,8 @@ OSM.Search = function (map) {
   };
 
   page.load = function () {
+    enableSearchIntersectionObserver();
+
     $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);
       fetchReplace(this.dataset, entry.children().first())
@@ -129,6 +255,17 @@ OSM.Search = function (map) {
           }
         });
     });
+
+    const params = new URLSearchParams(location.search);
+
+    if (params.has("before")) {
+      const sidebar = document.querySelector("#sidebar");
+
+      // scroll roughly to middle of the list instead of top
+      requestAnimationFrame(() => {
+        sidebar.scrollTop = sidebar.scrollHeight * 0.5;
+      });
+    }
 
     return map.getState();
   };
