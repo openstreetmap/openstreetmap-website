@@ -132,6 +132,26 @@ class CreateNoteTest < ApplicationSystemTestCase
     check_no_encouragement_while_logging_out
   end
 
+  test "shows a message when there is an error creating a note" do
+    visit new_note_path(:anchor => "map=18/0/0")
+
+    execute_script <<~SCRIPT
+      window.fetch = (...args) => {
+        return Promise.reject("The test injected a forced error");
+      }
+    SCRIPT
+
+    within_sidebar do
+      fill_in "text", :with => "Some newly added note description"
+      click_on "Add Note"
+
+      assert_content "There was an error when creating the note"
+      find(".new-note-error summary").click
+      assert_content "The test injected a forced error"
+      assert_button "Add Note", :disabled => false
+    end
+  end
+
   private
 
   def check_encouragement_while_creating_notes(encouragement_threshold)
