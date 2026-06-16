@@ -38,4 +38,14 @@ module ModerationZonesHelper
       t("moderation_zones.helper.short.ended")
     end
   end
+
+  def available_map_styles_for_select
+    layers = MapLayers.full_definitions("config/layers.yml")
+    options = layers
+              .pluck("nameId", "layerId")
+              .map do |(name_id, layer_id)|
+                [t("javascripts.map.base.#{name_id}"), layer_id]
+              end
+    options_for_select(options)
+  end
 end
