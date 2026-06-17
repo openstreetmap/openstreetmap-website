@@ -11,5 +11,16 @@
 <% if @notifications.items.empty? %>
   <p><%= t(".no_notifications") %></p>
 <% else %>
-  <%= render "page", :notifications => @notifications, :params => @params %>
+  <%= form_with do |form| %>
+    <div class="row border-bottom pb-2">
+      <div class="col-1 text-center">
+        <%= tag.label "Select all notifications in this page", :for => "select_page", :class => "visually-hidden" %>
+      </div>
+      <div class="col-11">
+        <%= form.submit t(".mark_selected_read"), :class => "btn btn-primary mb-1", :formaction => notifications_reads_path %>
+        <%= form.submit t(".mark_selected_unread"), :class => "btn btn-secondary mb-1", :formaction => notifications_unreads_path %>
+      </div>
+    </div>
+    <%= render "page", :notifications => @notifications, :params => @params %>
+  <% end %>
 <% end %>

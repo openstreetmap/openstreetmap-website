@@ -43,6 +43,7 @@ class Ability
         can :create, :account_pd_declaration
         can :read, :dashboard
         can :index, :notification
+        can [:create], [:notification_read, :notification_unread]
         can [:read, :update], [:preferences, :profile]
         can [:create, :subscribe, :unsubscribe], DiaryEntry
         can [:update, :hide, :unhide], DiaryEntry, :user => user
