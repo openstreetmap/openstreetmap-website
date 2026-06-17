@@ -11,5 +11,8 @@
 <% if @notifications.items.empty? %>
   <p><%= t(".no_notifications") %></p>
 <% else %>
-  <%= render "page", :notifications => @notifications, :params => @params %>
+  <%= form_with :url => notifications_path, :method => :delete do |form| %>
+    <%= form.submit t(".delete_selected") %>
+    <%= render "page", :notifications => @notifications, :params => @params %>
+  <% end %>
 <% end %>
