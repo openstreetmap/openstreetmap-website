@@ -19,7 +19,7 @@ module Notifications
     private
 
     def update_notifications(update)
-      notifications = current_user.notifications.where(:id => params[:notification_ids])
+      notifications = current_user.web_notifications.where(:id => params[:notification_ids])
       notifications.update(update)
       redirect_back_or_to notifications_path
     end

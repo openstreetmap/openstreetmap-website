@@ -47,4 +47,13 @@ FactoryBot.define do
   end
 
   factory :gpx_import_failure_notifier, :class => "GpxImportFailureNotifier"
+
+  factory :direct_message_notification, :class => "DirectMessageNotifier::Notification" do
+    event :factory => :direct_message_notifier
+    recipient :factory => :user
+  end
+
+  factory :direct_message_notifier, :class => "DirectMessageNotifier" do
+    record :factory => :message
+  end
 end
