@@ -7,7 +7,8 @@ module Notifications
     before_action :check_database_writable
 
     def create
-      notifications = current_user.notifications.where(:id => params[:notification_ids])
+      notification_ids = Array.wrap(params[:notification_ids] || params[:notification_id])
+      notifications = current_user.web_notifications.where(:id => notification_ids)
       update_state(notifications)
       redirect_back_or_to notifications_path
     end
