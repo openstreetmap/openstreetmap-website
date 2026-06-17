@@ -11,5 +11,15 @@
 <% if @notifications.items.empty? %>
   <p><%= t(".no_notifications") %></p>
 <% else %>
-  <%= render "page", :notifications => @notifications, :params => @params %>
+  <div class="row border-bottom pb-2">
+    <div class="col-1 text-center">
+    </div>
+    <div class="col-11">
+      <%= button_tag t(".mark_selected_read"), :class => "btn btn-primary mb-1", :form => :notifications_form %>
+      <%= button_tag t(".mark_selected_unread"), :class => "btn btn-secondary mb-1", :form => :notifications_form, :name => :_method, :value => "delete" %>
+    </div>
+  </div>
+  <%= form_with :url => notifications_reads_path, :id => :notifications_form do |form| %>
+    <%= render "page", :notifications => @notifications, :params => @params %>
+  <% end %>
 <% end %>
