@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: --szabi--
+# Author: Almagyar
 # Author: Athoss
 # Author: Balint36
 # Author: BanKris
@@ -809,6 +810,9 @@ hu:
       title: A fájl nem található
       description: Nem található ilyen nevű fájl/könyvtár/API-művelet az OpenStreetMap
         szerveren (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap beágyazva
   follows:
     show:
       follow:
@@ -967,9 +971,13 @@ hu:
           aboriginal_lands: Őslakos-rezervátum
           administrative: Közigazgatási határ
           census: Népszámlálásikörzet-határ
+          low_emission_zone: Alacsony Kibocsátású Zóna
           national_park: Nemzeti park
           political: Választókerület-határ
+          postal_code: Irányítószám
           protected_area: Védett terület
+          public_transport: Közösségiközlekedési Körzet
+          timezone: Időzóna
           "yes": Határ
         bridge:
           aqueduct: Vízvezeték
@@ -1145,6 +1153,7 @@ hu:
           milestone: Történelmi mérföldkő
           mine: Történelmi bánya
           mine_shaft: Történelmi bányaakna
+          monastery: Történelmi kolostor
           monument: Monumentális, épületszerű emlékmű
           railway: Történelmi vasútvonal
           roman_road: Római út
@@ -1412,6 +1421,7 @@ hu:
           abandoned: Elhagyott vasútvonal
           buffer_stop: Ütközőbak
           construction: Épülő vasútvonal
+          crossing: Gyalogos vasúti átkelő
           disused: Használaton kívüli vasútvonal
           funicular: Sikló
           halt: Vasúti megállóhely
@@ -1531,7 +1541,7 @@ hu:
           pet: Állatkereskedés
           pet_grooming: Állatkozmetika
           photo: Fényképészeti bolt
-          seafood: Halbolt
+          seafood: Tenger gyümölcsei árus
           second_hand: Használtcikk-kereskedés
           sewing: Rövidáru
           shoes: Cipőbolt
@@ -1829,6 +1839,7 @@ hu:
         ia: interlingva
         is: izlandi
         it: olasz
+        kw: Cornwalli nyelv
         gcf: guadeloupe-i kreol
         ku-Latn: kurd (latin)
         lv: lett
@@ -1908,6 +1919,7 @@ hu:
   layouts:
     logo:
       alt_text: OpenStreetMap logó
+    main_navigation: Főoldal
     layer_info: Réteginformáció
     start_mapping: Térképezés indítása
     intro_header: Üdvözöljük az OpenStreetMap-en!
@@ -1917,6 +1929,9 @@ hu:
       támogatják.
     partners_corpmembers: OSMF társasági tagok
     partners_partners: partnerek
+    welcome_tou_notice_html: Ezen weboldal vagy más, az OpenStreetMap Alapítvány által
+      biztosított infrastruktúra használatával beleegyezel a(z) %{terms_link}-be.
+    terms_of_use: Felhasználási feltételek
     tou: Felhasználási feltételek
     nothing_to_preview: Nincs mit megtekinteni.
     learn_more: További info
@@ -1924,6 +1939,7 @@ hu:
       about: Névjegy
       communities: Közösségek
       copyright: Szerzői jog és licenc
+      donate: Adomány
       edit: Szerkesztés
       edit_with: 'Szerkesztés a következővel: %{editor}'
       export: Exportálás
@@ -2235,8 +2251,9 @@ hu:
       update_success_flash:
         message: Beállítások frissítve.
       navigation:
-        preferences: Beállítások
-        advanced_preferences: Speciális beállítások
+        preferences: Felhasználói felület
+        notification_preferences: Értesítések
+        advanced_preferences: Haladó
     basic_preferences:
       show:
         title: Megjelenési beállítások
@@ -2257,6 +2274,16 @@ hu:
           light: Világos
           dark: Sötét
         save: Beállítások frissítése
+    notification_preferences:
+      show:
+        title: Értesítések személyre szabása
+        diary_comment: Naplóhozzászólások
+        direct_message: Közvetlen üzenetek
+        new_follower: Új követők
+        note_comment: Jegyzetmegjegyzések
+        save: Frissítések személyre szabása
+        delivery_mechanisms:
+          email: Email
     advanced_preferences:
       show:
         title: Speciális beállításaim
@@ -2269,6 +2296,7 @@ hu:
         image: Kép
         company: Vállalat
         location: Hely
+        contribution_calendar: Hozzájárulási naptár
     descriptions:
       show:
         title: Profil szerkesztése
@@ -2329,12 +2357,13 @@ hu:
         failure: Nem sikerült frissíteni a profil helyét.
     heatmaps:
       show:
-        title: Hőtérkép konfigurálása
-        save: Hőtérkép konfigurációjának frissítése
+        title: Hozzájárulási naptár szerkesztése
+        show_contribution_calendar_in_public: Hozzájárulási naptár mutatása a profillapon
+        save: Hozzájárulási naptár beállításainak frissítése
         cancel: Mégse
       update:
-        success: Hőtérkép frissítve.
-        failure: Nem sikerült frissíteni a hőtérképet.
+        success: Hozzájárulási naptár frissítve.
+        failure: Nem sikerült frissíteni a hozzájárulási naptárat.
   sessions:
     new:
       tab_title: Bejelentkezés
@@ -2352,6 +2381,8 @@ hu:
       login_button: Bejelentkezés
       with external: vagy használj külső fiókot a bejelentkezéshez
       or: vagy
+      reset_to_login: Sajnáljuk, de jelszava lejárt. Kérjük, állítsa vissza jelszavát
+        a belépéshez.
       auth failure: Sajnáljuk, ilyen adatokkal nem tudsz bejelentkezni.
     destroy:
       title: Kijelentkezés
@@ -2460,6 +2491,7 @@ hu:
         hogy hivatkozz az OpenStreetMapre - további információkért lásd az %{attribution_guidelines_link}at
       legal_attribution_guidelines_title: megnevezési iránymutatások
       legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_example_tv_title: TV
       legal_2_1_html: Kérjük, %{contact_the_osmf_link}, ha licencekkel kapcsolatos,
         szerzői jogi vagy egyéb jogi kérdései vannak.
       legal_2_1_contact_the_osmf: lépj kapcsolatba az OSM Alapítvánnyal
@@ -2973,6 +3005,12 @@ hu:
         képpont méretben.
       download: Letöltés
       downloading: Letöltés...
+  webgl_error_panes:
+    show:
+      compact_message: A térképhez WebGL szükséges.
+      your_browser_does_not_support_webgl: a böngészője nem támogatja a WebGL-t
+      webgl_is_required_for_this_map: A térképhez WebGL szükséges.
+      read_more_about_webgl: Olvass tovább
   traces:
     visibility:
       private: Magán (megosztva csak névtelenül, rendezetlen pontok)
@@ -3017,8 +3055,8 @@ hu:
       points: 'Pontok száma:'
       start_coordinates: 'Kezdőkoordináta:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: térkép
-      edit: szerkesztés
+      map: tartózkodási hely megjelenítése a térképen
+      edit: szerkesztő megnyitása
       owner: 'Tulajdonos:'
       description: 'Leírás:'
       tags: 'Címkék:'
@@ -3035,7 +3073,7 @@ hu:
         other: '%{count} pont'
       more: tovább
       trace_details: Nyomvonal részleteinek megtekintése
-      view_map: Térkép megtekintése
+      view_map: tartózkodási hely megtekintése a térképen
       edit_map: Térkép szerkesztése
       public: NYILVÁNOS
       identifiable: AZONOSÍTHATÓ
