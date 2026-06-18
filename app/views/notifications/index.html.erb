@@ -12,7 +12,13 @@
   <p><%= t(".no_notifications") %></p>
 <% else %>
   <%= form_with :url => notifications_path, :method => :delete do |form| %>
-    <%= form.submit t(".delete_selected") %>
+    <div class="row">
+      <div class="col-1 text-center">
+        <%= check_box_tag "select_page", :class => "align-bottom" %>
+      </div>
+      <div class="col-11"><%= form.submit t(".delete_selected"), :class => "submit-read" %></div>
+    </div>
+    <hr>
     <%= render "page", :notifications => @notifications, :params => @params %>
   <% end %>
 <% end %>
