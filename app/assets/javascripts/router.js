@@ -111,32 +111,34 @@ OSM.Router = function (map, rts) {
     });
   }
 
+  function transition(action, path, route, beforeEnter = () => {}) {
+    if (!route) return false;
+    currentRoute.run("unload", null, route === currentRoute);
+    beforeEnter();
+    currentPath = path;
+    currentRoute = route;
+    currentRoute.run(action, currentPath);
+    updateSecondaryNav();
+    return true;
+  }
+
   $(window).on("popstate", function (e) {
     if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
     const path = location.pathname + location.search,
           route = routes.recognize(path);
     if (path === currentPath) return;
-    currentRoute.run("unload", null, route === currentRoute);
-    currentPath = path;
-    currentRoute = route;
-    currentRoute.run("popstate", currentPath);
-    updateSecondaryNav();
-    map.setState(e.originalEvent.state, { animate: false });
+    const done = transition("popstate", path, route);
+    if (done) map.setState(e.originalEvent.state, { animate: false });
   });
 
   router.route = function (url) {
     const path = url.replace(/#.*/, ""),
           route = routes.recognize(path);
-    if (!route) return false;
-    currentRoute.run("unload", null, route === currentRoute);
     const state = OSM.parseHash(url);
-    map.setState(state);
-    window.history.pushState(state, document.title, url);
-    currentPath = path;
-    currentRoute = route;
-    currentRoute.run("pushstate", currentPath);
-    updateSecondaryNav();
-    return true;
+    return transition("pushstate", path, route, () => {
+      map.setState(state);
+      window.history.pushState(state, document.title, url);
+    });
   };
 
   router.replace = function (url) {
