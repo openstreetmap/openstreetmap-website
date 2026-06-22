@@ -59,7 +59,7 @@ export default function (map) {
   });
 
   function setEngine(id) {
-    const engines = OSM.Directions.engines;
+    const engines = OSM.directionsEngines;
     const desired = engines.find(engine => engine.id === id);
 
     if (!desired || (chosenEngine && chosenEngine.id === id)) return;

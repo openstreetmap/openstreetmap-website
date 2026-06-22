@@ -101,7 +101,7 @@
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("car", "auto", "car"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("bicycle", "bicycle", "bicycle"), true);
-  OSM.Directions.addEngine(new FOSSGISValhallaEngine("foot", "pedestrian", "pedestrian"), true);
+  OSM.directionsEngines.add(new FOSSGISValhallaEngine("car", "auto", "car"), true);
+  OSM.directionsEngines.add(new FOSSGISValhallaEngine("bicycle", "bicycle", "bicycle"), true);
+  OSM.directionsEngines.add(new FOSSGISValhallaEngine("foot", "pedestrian", "pedestrian"), true);
 }());

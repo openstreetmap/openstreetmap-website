@@ -212,7 +212,7 @@
     };
   }
 
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("car", "car", "0"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("bicycle", "bike", "1"), true);
-  OSM.Directions.addEngine(new FOSSGISOSRMEngine("foot", "foot", "2"), true);
+  OSM.directionsEngines.add(new FOSSGISOSRMEngine("car", "car", "0"), true);
+  OSM.directionsEngines.add(new FOSSGISOSRMEngine("bicycle", "bike", "1"), true);
+  OSM.directionsEngines.add(new FOSSGISOSRMEngine("foot", "foot", "2"), true);
 }());
