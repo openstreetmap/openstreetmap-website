@@ -138,7 +138,8 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "trackable", trace.visibility
       assert trace.inserted
-      assert_equal File.new(fixture).read, trace.file.blob.download
+      # Plain GPX is gzipped on upload, so decompress before comparing.
+      assert_equal File.new(fixture).read, trace.xml_file.read
 
       # Validate tracepoints
       assert_equal 1, trace.points.size
@@ -167,7 +168,8 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "public", trace.visibility
       assert_not trace.inserted
-      assert_equal File.new(fixture).read, trace.file.blob.download
+      # Plain GPX is gzipped on upload, so decompress before comparing.
+      assert_equal File.new(fixture).read, trace.xml_file.read
       trace.destroy
       assert_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
 
@@ -186,7 +188,8 @@ module Api
       assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
       assert_equal "private", trace.visibility
       assert_not trace.inserted
-      assert_equal File.new(fixture).read, trace.file.blob.download
+      # Plain GPX is gzipped on upload, so decompress before comparing.
+      assert_equal File.new(fixture).read, trace.xml_file.read
       trace.destroy
       assert_equal "private", second_user.preferences.find_by(:k => "gps.trace.visibility").v
     end

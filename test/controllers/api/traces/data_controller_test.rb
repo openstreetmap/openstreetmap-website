@@ -29,15 +29,11 @@ module Api
         # Now with some other user, which should work since the trace is public
         auth_header = bearer_authorization_header
         get api_trace_data_path(public_trace_file), :headers => auth_header
-        follow_redirect!
-        follow_redirect!
         check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
         # And finally we should be able to do it with the owner of the trace
         auth_header = bearer_authorization_header public_trace_file.user
         get api_trace_data_path(public_trace_file), :headers => auth_header
-        follow_redirect!
-        follow_redirect!
         check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
       end
 
@@ -79,8 +75,6 @@ module Api
         # And finally we should be able to do it with the owner of the trace
         auth_header = bearer_authorization_header anon_trace_file.user
         get api_trace_data_path(anon_trace_file), :headers => auth_header
-        follow_redirect!
-        follow_redirect!
         check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
       end
 
