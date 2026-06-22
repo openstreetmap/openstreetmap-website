@@ -1,4 +1,4 @@
-OSM.Note = function (map) {
+export default function (map) {
   const content = $("#sidebar_content"),
         page = {};
 
@@ -99,4 +99,4 @@ OSM.Note = function (map) {
   };
 
   return page;
-};
+}

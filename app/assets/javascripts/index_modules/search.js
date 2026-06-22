@@ -1,4 +1,4 @@
-OSM.Search = function (map) {
+export default function (map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult);
@@ -105,4 +105,4 @@ OSM.Search = function (map) {
   };
 
   return page;
-};
+}

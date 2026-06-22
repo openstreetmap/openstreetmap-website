@@ -68,7 +68,7 @@ OSM.Router = function (map, rts) {
       return regexp.test(path);
     };
 
-    route.run = function (action, path, ...args) {
+    route.run = async function (action, path, ...args) {
       let params = [];
 
       if (path) {
@@ -77,7 +77,11 @@ OSM.Router = function (map, rts) {
         });
       }
 
-      if (!controllerInstance) controllerInstance = controller(map);
+      if (!controllerInstance) {
+        const moduleName = typeof controller === "string" ? "index_" + controller : controller.module;
+        const select = controller.part || (m => m.default);
+        controllerInstance = await import(OSM.MODULE_PATHS[moduleName]).then(select).then(m => m(map));
+      }
 
       return controllerInstance[action]?.(...params, ...args);
     };
@@ -97,6 +101,7 @@ OSM.Router = function (map, rts) {
   let currentPath = location.pathname.replace(/(.)\/$/, "$1") + location.search,
       currentRoute = routes.recognize(currentPath),
       currentHash = location.hash || OSM.formatHash(map);
+  let routingInProgress = Promise.resolve();
 
   const router = {};
 
@@ -113,13 +118,17 @@ OSM.Router = function (map, rts) {
 
   function transition(action, path, route, beforeEnter = () => {}) {
     if (!route) return false;
-    currentRoute.run("unload", null, route === currentRoute);
-    beforeEnter();
-    currentPath = path;
-    currentRoute = route;
-    currentRoute.run(action, currentPath);
-    updateSecondaryNav();
-    return true;
+    routingInProgress = routingInProgress
+      .catch(() => {})
+      .then(async () => {
+        await currentRoute.run("unload", null, route === currentRoute);
+        beforeEnter();
+        currentPath = path;
+        currentRoute = route;
+        await currentRoute.run(action, currentPath);
+        updateSecondaryNav();
+      });
+    return routingInProgress;
   }
 
   $(window).on("popstate", function (e) {
@@ -128,17 +137,17 @@ OSM.Router = function (map, rts) {
           route = routes.recognize(path);
     if (path === currentPath) return;
     const done = transition("popstate", path, route);
-    if (done) map.setState(e.originalEvent.state, { animate: false });
+    if (done) done.then(() => map.setState(e.originalEvent.state, { animate: false }));
   });
 
   router.route = function (url) {
     const path = url.replace(/#.*/, ""),
           route = routes.recognize(path);
     const state = OSM.parseHash(url);
-    return transition("pushstate", path, route, () => {
+    return Boolean(transition("pushstate", path, route, () => {
       map.setState(state);
       window.history.pushState(state, document.title, url);
-    });
+    }));
   };
 
   router.replace = function (url) {
@@ -179,8 +188,8 @@ OSM.Router = function (map, rts) {
     map.off("movestart", disableMoveListener);
   };
 
-  router.load = function () {
-    const loadState = currentRoute.run("load", currentPath);
+  router.load = async function () {
+    const loadState = await currentRoute.run("load", currentPath);
     router.stateChange(loadState || {});
   };
 

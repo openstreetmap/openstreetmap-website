@@ -1,9 +1,9 @@
-//= require ./directions-endpoint
-//= require ./directions-route-output
+//= require ./../index/directions-endpoint
+//= require ./../index/directions-route-output
 //= require_self
-//= require_tree ./directions
+//= require_tree ./../index/directions
 
-OSM.Directions = function (map) {
+export default function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
   let lastLocation = null;
   let chosenEngine;
@@ -288,9 +288,9 @@ OSM.Directions = function (map) {
   };
 
   return page;
-};
+}
 
-OSM.Directions.engines = [];
+OSM.Directions = { engines: [] };
 
 OSM.Directions.addEngine = function (engine, supportsHTTPS) {
   if (location.protocol === "http:" || supportsHTTPS) {

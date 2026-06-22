@@ -168,6 +168,16 @@ export default [
     }
   },
   {
+    // Additional configuration for index modules
+    files: ["app/**/index_modules/*.js"],
+    languageOptions: {
+      sourceType: "module"
+    },
+    rules: {
+      "no-invalid-this": "off"
+    }
+  },
+  {
     files: ["config/eslint.config.mjs"],
     languageOptions: {
       sourceType: "module"

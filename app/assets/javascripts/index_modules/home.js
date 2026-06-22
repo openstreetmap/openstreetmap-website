@@ -1,4 +1,4 @@
-OSM.Home = function (map) {
+export default function (map) {
   let marker;
 
   function clearMarker() {
@@ -35,4 +35,4 @@ OSM.Home = function (map) {
   };
 
   return page;
-};
+}

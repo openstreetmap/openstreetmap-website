@@ -1,4 +1,4 @@
-OSM.NewNote = function (map) {
+export default function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
         page = {},
@@ -175,4 +175,4 @@ OSM.NewNote = function (map) {
   };
 
   return page;
-};
+}

@@ -33,10 +33,15 @@ OSM = {
 
   LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/legend.yml").to_json %>,
 
-  MODULE_PATHS: <%= {
-    :mapbox_rtl_text => "@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js",
-    :make_plural_cardinals => "make-plural/cardinals.js"
-  }.transform_values { |path| javascript_path(path) }.to_json %>,
+  MODULE_PATHS: <%=
+    %i[changeset directions element export history home index new_note note query search]
+      .each_with_object({}) { |module_name, hash| hash[:"index_#{module_name}"] = "index_modules/#{module_name}" }
+      .merge(
+        :mapbox_rtl_text => "@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js",
+        :make_plural_cardinals => "make-plural/cardinals.js"
+      )
+      .transform_values { |path| javascript_path(path) }
+      .to_json %>,
 
   apiUrl: function (object) {
     const apiType = object.type === "note" ? "notes" : object.type;

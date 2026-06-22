@@ -1,4 +1,4 @@
-OSM.Query = function (map) {
+export default function (map) {
   const uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
 
@@ -276,4 +276,4 @@ OSM.Query = function (map) {
   };
 
   return page;
-};
+}
