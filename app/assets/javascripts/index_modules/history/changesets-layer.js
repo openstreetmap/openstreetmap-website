@@ -1,4 +1,4 @@
-OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
+const ChangesetBboxLayer = L.FeatureGroup.extend({
   getLayerId: function (layer) {
     return layer.id;
   },
@@ -38,7 +38,7 @@ OSM.HistoryChangesetBboxLayer = L.FeatureGroup.extend({
   }
 });
 
-OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxAreaLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       stroke: false,
@@ -48,7 +48,7 @@ OSM.HistoryChangesetBboxAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
   }
 });
 
-OSM.HistoryChangesetBboxOutlineLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxOutlineLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       weight: 4,
@@ -59,7 +59,7 @@ OSM.HistoryChangesetBboxOutlineLayer = OSM.HistoryChangesetBboxLayer.extend({
   }
 });
 
-OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxBorderLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       weight: 2,
@@ -70,7 +70,7 @@ OSM.HistoryChangesetBboxBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
   }
 });
 
-OSM.HistoryChangesetBboxHighlightAreaLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxHighlightAreaLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
@@ -82,7 +82,7 @@ OSM.HistoryChangesetBboxHighlightAreaLayer = OSM.HistoryChangesetBboxLayer.exten
   }
 });
 
-OSM.HistoryChangesetBboxHighlightOutlineLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxHighlightOutlineLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
@@ -94,7 +94,7 @@ OSM.HistoryChangesetBboxHighlightOutlineLayer = OSM.HistoryChangesetBboxLayer.ex
   }
 });
 
-OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.extend({
+const ChangesetBboxHighlightBorderLayer = ChangesetBboxLayer.extend({
   _getChangesetStyle: function (changeset) {
     return {
       interactive: false,
@@ -106,7 +106,7 @@ OSM.HistoryChangesetBboxHighlightBorderLayer = OSM.HistoryChangesetBboxLayer.ext
   }
 });
 
-OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
+const ChangesetsLayer = L.FeatureGroup.extend({
   updateChangesets: function (map, changesets) {
     this._changesets = new Map(changesets.map(changeset => [changeset.id, changeset]));
     this.updateChangesetsGeometry(map);
@@ -224,15 +224,15 @@ OSM.HistoryChangesetsLayer = L.FeatureGroup.extend({
   }
 });
 
-OSM.HistoryChangesetsLayer.addInitHook(function () {
+ChangesetsLayer.addInitHook(function () {
   this._changesets = new Map;
 
   this._bboxLayers = [
-    this._areaLayer = new OSM.HistoryChangesetBboxAreaLayer().addTo(this),
-    this._outlineLayer = new OSM.HistoryChangesetBboxOutlineLayer().addTo(this),
-    this._borderLayer = new OSM.HistoryChangesetBboxBorderLayer().addTo(this),
-    this._highlightAreaLayer = new OSM.HistoryChangesetBboxHighlightAreaLayer().addTo(this),
-    this._highlightOutlineLayer = new OSM.HistoryChangesetBboxHighlightOutlineLayer().addTo(this),
-    this._highlightBorderLayer = new OSM.HistoryChangesetBboxHighlightBorderLayer().addTo(this)
+    this._areaLayer = new ChangesetBboxAreaLayer().addTo(this),
+    this._outlineLayer = new ChangesetBboxOutlineLayer().addTo(this),
+    this._borderLayer = new ChangesetBboxBorderLayer().addTo(this),
+    this._highlightAreaLayer = new ChangesetBboxHighlightAreaLayer().addTo(this),
+    this._highlightOutlineLayer = new ChangesetBboxHighlightOutlineLayer().addTo(this),
+    this._highlightBorderLayer = new ChangesetBboxHighlightBorderLayer().addTo(this)
   ];
 });

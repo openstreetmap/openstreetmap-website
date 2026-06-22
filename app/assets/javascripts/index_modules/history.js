@@ -1,4 +1,5 @@
 //= require ./history/changesets-layer
+/* global ChangesetsLayer */
 
 export default function (map) {
   const page = {};
@@ -16,7 +17,7 @@ export default function (map) {
   map.on("zoomstart", () => inZoom = true);
   map.on("zoomend", () => inZoom = false);
 
-  const changesetsLayer = new OSM.HistoryChangesetsLayer()
+  const changesetsLayer = new ChangesetsLayer()
     .on("mouseover", function (e) {
       if (inZoom) return;
       toggleChangesetHighlight(e.layer.id, true);
