@@ -1,4 +1,5 @@
-OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, changeCallback) {
+/* exported Endpoint */
+function Endpoint(map, input, marker, dragCallback, changeCallback) {
   const endpoint = {};
 
   endpoint.marker = L.marker([0, 0], {

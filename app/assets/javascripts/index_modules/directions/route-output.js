@@ -1,4 +1,5 @@
-OSM.DirectionsRouteOutput = function (map) {
+/* exported RouteOutput */
+function RouteOutput(map) {
   const popup = L.popup({ autoPanPadding: [100, 100] });
 
   const polyline = L.polyline([], {

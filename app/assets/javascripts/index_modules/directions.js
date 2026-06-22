@@ -1,6 +1,7 @@
 //= require ./directions/endpoint
 //= require ./directions/engines
 //= require ./directions/route-output
+/* global RouteOutput, Endpoint */
 
 export default function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
@@ -9,7 +10,7 @@ export default function (map) {
 
   let sidebarReadyPromise = null;
 
-  const routeOutput = OSM.DirectionsRouteOutput(map);
+  const routeOutput = RouteOutput(map);
 
   const endpointDragCallback = function (dragging) {
     if (!routeOutput.isVisible()) return;
@@ -20,8 +21,8 @@ export default function (map) {
   };
 
   const endpoints = [
-    OSM.DirectionsEndpoint(map, $("input[name='route_from']"), { icon: "start", color: "var(--marker-green)" }, endpointDragCallback, getRoute),
-    OSM.DirectionsEndpoint(map, $("input[name='route_to']"), { icon: "destination", color: "var(--marker-red)" }, endpointDragCallback, getRoute)
+    Endpoint(map, $("input[name='route_from']"), { icon: "start", color: "var(--marker-green)" }, endpointDragCallback, getRoute),
+    Endpoint(map, $("input[name='route_to']"), { icon: "destination", color: "var(--marker-red)" }, endpointDragCallback, getRoute)
   ];
 
   const expires = new Date();
