@@ -1,38 +1,4 @@
-OSM.initializations.push(function (map) {
-  $(".search_form a.btn.switch_link").on("click", function (e) {
-    e.preventDefault();
-    const query = $(this).closest("form").find("input[name=query]").val();
-    let search = "";
-    if (query) search = "?" + new URLSearchParams({ to: query });
-    OSM.router.route("/directions" + search + OSM.formatHash(map));
-  });
-
-  $(".search_form").on("submit", function (e) {
-    e.preventDefault();
-    $("header").addClass("closed");
-    const params = new URLSearchParams({
-      query: this.elements.query.value,
-      zoom: map.getZoom(),
-      minlon: map.getBounds().getWest(),
-      minlat: map.getBounds().getSouth(),
-      maxlon: map.getBounds().getEast(),
-      maxlat: map.getBounds().getNorth()
-    });
-    const search = params.get("query") ? `/search?${params}` : "/";
-    OSM.router.route(search + OSM.formatHash(map));
-  });
-
-  $(".describe_location").on("click", function (e) {
-    e.preventDefault();
-    $("header").addClass("closed");
-    const zoom = map.getZoom();
-    const { lat, lng } = OSM.cropLocation(map.getCenter(), zoom);
-
-    OSM.router.route("/search?" + new URLSearchParams({ lat, lon: lng, zoom }));
-  });
-});
-
-OSM.Search = function (map) {
+export default function (map) {
   $("#sidebar_content")
     .on("click", ".search_more a", clickSearchMore)
     .on("click", ".search_results_entry a.set_position", clickSearchResult);
@@ -139,4 +105,4 @@ OSM.Search = function (map) {
   };
 
   return page;
-};
+}

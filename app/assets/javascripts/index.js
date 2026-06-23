@@ -9,18 +9,9 @@
 //= require leaflet.share
 //= require leaflet.query
 //= require index/contextmenu
-//= require index/search
+//= require index/initializations
 //= require index/layers/data
-//= require index/export
 //= require index/layers/notes
-//= require index/history
-//= require index/note
-//= require index/new_note
-//= require index/directions
-//= require index/changeset
-//= require index/query
-//= require index/home
-//= require index/element
 //= require router
 
 OSM.initializations = [];
@@ -269,45 +260,26 @@ $(function () {
     });
   }
 
-  OSM.Index = function (map) {
-    const page = {};
-
-    page.pushstate = page.popstate = function () {
-      map.setSidebarOverlaid(true);
-      document.title = OSM.i18n.t("layouts.project_name.title");
-    };
-
-    page.load = function () {
-      const params = new URLSearchParams(location.search);
-      if (params.has("query")) {
-        $("#sidebar .search_form input[name=query]").value(params.get("query"));
-      }
-      return map.getState();
-    };
-
-    return page;
-  };
-
   OSM.router = OSM.Router(map, {
-    "/": OSM.Index,
-    "/search": OSM.Search,
-    "/directions": OSM.Directions,
-    "/export": OSM.Export,
-    "/note/new": OSM.NewNote,
-    "/history/friends": OSM.History,
-    "/history/nearby": OSM.History,
-    "/history": OSM.History,
-    "/user/:display_name/history": OSM.History,
-    "/note/:id": OSM.Note,
-    "/node/:id(/history)": OSM.MappedElement("node"),
-    "/node/:id/history/:version": OSM.MappedElement("node"),
-    "/way/:id(/history)": OSM.MappedElement("way"),
-    "/way/:id/history/:version": OSM.Element("way"),
-    "/relation/:id(/history)": OSM.MappedElement("relation"),
-    "/relation/:id/history/:version": OSM.Element("relation"),
-    "/changeset/:id": OSM.Changeset,
-    "/query": OSM.Query,
-    "/account/home": OSM.Home
+    "/": "index",
+    "/search": "search",
+    "/directions": "directions",
+    "/export": "export",
+    "/note/new": "new_note",
+    "/history/friends": "history",
+    "/history/nearby": "history",
+    "/history": "history",
+    "/user/:display_name/history": "history",
+    "/note/:id": "note",
+    "/node/:id(/history)": { module: "index_element", part: m => m.mappedElement("node") },
+    "/node/:id/history/:version": { module: "index_element", part: m => m.mappedElement("node") },
+    "/way/:id(/history)": { module: "index_element", part: m => m.mappedElement("way") },
+    "/way/:id/history/:version": { module: "index_element", part: m => m.element("way") },
+    "/relation/:id(/history)": { module: "index_element", part: m => m.mappedElement("relation") },
+    "/relation/:id/history/:version": { module: "index_element", part: m => m.element("relation") },
+    "/changeset/:id": "changeset",
+    "/query": "query",
+    "/account/home": "home"
   });
 
   if (OSM.preferred_editor === "remote" && location.pathname === "/edit") {

@@ -1,6 +1,6 @@
 //= require download_util
 
-OSM.Export = function (map) {
+export default function (map) {
   const page = {};
 
   const locationFilter = new L.LocationFilter({
@@ -124,4 +124,4 @@ OSM.Export = function (map) {
   };
 
   return page;
-};
+}

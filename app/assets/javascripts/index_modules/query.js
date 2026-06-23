@@ -1,50 +1,4 @@
-OSM.initializations.push(function (map) {
-  const control = $(".control-query"),
-        queryButton = control.find(".control-button");
-
-  queryButton.on("click", function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (control.hasClass("active")) {
-      disableQueryMode();
-    } else if (!queryButton.hasClass("disabled")) {
-      enableQueryMode();
-    }
-  }).on("disabled", function () {
-    if (control.hasClass("active")) {
-      map.off("click", clickHandler);
-      $(map.getContainer()).removeClass("query-active").addClass("query-disabled");
-      $(this).tooltip("show");
-    }
-  }).on("enabled", function () {
-    if (control.hasClass("active")) {
-      map.on("click", clickHandler);
-      $(map.getContainer()).removeClass("query-disabled").addClass("query-active");
-      $(this).tooltip("hide");
-    }
-  });
-
-  function clickHandler(e) {
-    const { lat, lng } = OSM.cropLocation(e.latlng, map.getZoom());
-
-    OSM.router.route("/query?" + new URLSearchParams({ lat, lon: lng }));
-  }
-
-  function enableQueryMode() {
-    $(".control-query").addClass("active");
-    map.on("click", clickHandler);
-    $(map.getContainer()).addClass("query-active");
-  }
-
-  function disableQueryMode() {
-    $(map.getContainer()).removeClass("query-active").removeClass("query-disabled");
-    map.off("click", clickHandler);
-    $(".control-query").removeClass("active");
-  }
-});
-
-OSM.Query = function (map) {
+export default function (map) {
   const uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
 
@@ -322,4 +276,4 @@ OSM.Query = function (map) {
   };
 
   return page;
-};
+}

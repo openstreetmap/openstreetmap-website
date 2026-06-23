@@ -1,6 +1,6 @@
-//= require ./history-changesets-layer
+//= require ./../index/history-changesets-layer
 
-OSM.History = function (map) {
+export default function (map) {
   const page = {};
 
   $("#sidebar_content")
@@ -305,4 +305,4 @@ OSM.History = function (map) {
   };
 
   return page;
-};
+}

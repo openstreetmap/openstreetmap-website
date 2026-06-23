@@ -1,12 +1,10 @@
-(function () {
-  let abortController = null;
-  const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
-  const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
-  const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
+let abortController = null;
+const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
+const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
+const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
 
-  $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
-
-  OSM.Element = type => function () {
+export function element(type) {
+  return function () {
     const page = {};
 
     page.pushstate = page.popstate = function (path, id, version) {
@@ -34,9 +32,11 @@
 
     return page;
   };
+};
 
-  OSM.MappedElement = type => function (map) {
-    const page = OSM.Element(type)(map);
+export function mappedElement(type) {
+  return function (map) {
+    const page = element(type)(map);
 
     page._addObject = function (type, id, version, center) {
       const hashParams = OSM.parseHash();
@@ -56,6 +56,10 @@
 
     return page;
   };
+};
+
+{
+  $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.currentTarget)));
 
   function previewWikidataValue($btn) {
     if (!OSM.WIKIDATA_API_URL) return;
@@ -164,4 +168,4 @@
     }
     return $("<tr>").append(cell);
   }
-}());
+}

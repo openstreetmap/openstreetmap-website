@@ -1,4 +1,4 @@
-OSM.Changeset = function (map) {
+export default function (map) {
   const page = {},
         content = $("#sidebar_content");
 
@@ -88,4 +88,4 @@ OSM.Changeset = function (map) {
   };
 
   return page;
-};
+}
