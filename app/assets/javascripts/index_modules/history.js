@@ -1,4 +1,4 @@
-//= require ./../index/history-changesets-layer
+//= require ./history/changesets-layer
 
 export default function (map) {
   const page = {};

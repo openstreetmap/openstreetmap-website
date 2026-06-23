@@ -1,7 +1,6 @@
-//= require ./../index/directions-endpoint
-//= require ./../index/directions-route-output
-//= require_self
-//= require_tree ./../index/directions
+//= require ./directions/endpoint
+//= require ./directions/engines
+//= require ./directions/route-output
 
 export default function (map) {
   let controller = null; // the AbortController for the current route request if a route request is in progress
@@ -289,12 +288,3 @@ export default function (map) {
 
   return page;
 }
-
-OSM.Directions = { engines: [] };
-
-OSM.Directions.addEngine = function (engine, supportsHTTPS) {
-  if (location.protocol === "http:" || supportsHTTPS) {
-    engine.id = engine.provider + "_" + engine.mode;
-    OSM.Directions.engines.push(engine);
-  }
-};
