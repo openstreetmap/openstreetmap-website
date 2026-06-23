@@ -88,7 +88,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
   def stub_routing(callback_code)
     execute_script <<~SCRIPT
       $(() => {
-        for (const engine of OSM.Directions.engines) {
+        for (const engine of OSM.directionsEngines) {
           engine.getRoute = function(points, signal) {
               #{callback_code}
           };

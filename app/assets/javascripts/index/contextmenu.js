@@ -100,7 +100,7 @@ OSM.initializations.push(function (map) {
   map.on("zoomend", updateContextMenuState);
 });
 
-class ContextMenu {
+OSM.ContextMenu = class {
   constructor(map, $element) {
     this._map = map;
     this._$element = $element;
@@ -208,6 +208,4 @@ class ContextMenu {
   _createSeparator() {
     return $("<li>").append($("<hr>").addClass("dropdown-divider"));
   }
-}
-
-OSM.ContextMenu = ContextMenu;
+};
