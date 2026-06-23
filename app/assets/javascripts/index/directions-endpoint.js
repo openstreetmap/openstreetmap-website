@@ -180,5 +180,9 @@ OSM.DirectionsEndpoint = function Endpoint(map, input, marker, dragCallback, cha
     input.val(latlng.lat + ", " + latlng.lng);
   }
 
+  endpoint.focusInput = function () {
+    input.trigger("focus");
+  };
+
   return endpoint;
 };
