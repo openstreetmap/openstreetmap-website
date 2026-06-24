@@ -14,7 +14,7 @@
 #  timestamp   :datetime         not null
 #  description :string           default(""), not null
 #  inserted    :boolean          not null
-#  visibility  :enum             default("public"), not null
+#  visibility  :enum             default("trackable"), not null
 #
 # Indexes
 #
@@ -53,6 +53,7 @@ class Trace < ApplicationRecord
   validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => VISIBILITIES + LEGACY_VISIBILITIES
+  validate :visibility_not_changed_to_legacy, :on => :update
 
   after_save :set_filename
 
@@ -311,5 +312,13 @@ class Trace < ApplicationRecord
 
   def set_filename
     file.blob.update(:filename => "#{id}#{extension_name}") if file.attached?
+  end
+
+  # Prevent an existing trace from changing its visibility from a current value back to a legacy one.
+  def visibility_not_changed_to_legacy
+    return unless visibility_changed?
+    return unless Trace.legacy_visibility?(visibility) && Trace.valid_visibility?(visibility_was)
+
+    errors.add(:visibility, :cannot_change_to_legacy)
   end
 end

@@ -75,6 +75,26 @@ class TraceTest < ActiveSupport::TestCase
     trace_valid({ :visibility => "foo" }, :valid => false)
   end
 
+  def test_visibility_cannot_change_to_legacy
+    trace = create(:trace, :visibility => "trackable")
+    trace.visibility = "public"
+    assert_not_predicate trace, :valid?
+
+    trace = create(:trace, :visibility => "identifiable")
+    trace.visibility = "private"
+    assert_not_predicate trace, :valid?
+  end
+
+  def test_visibility_can_change_from_legacy
+    trace = create(:trace, :visibility => "public")
+    trace.visibility = "trackable"
+    assert_predicate trace, :valid?
+
+    trace = create(:trace, :visibility => "private")
+    trace.visibility = "public"
+    assert_predicate trace, :valid?
+  end
+
   def test_tagstring_handles_space_separated_tags
     trace = build(:trace)
     trace.tagstring = "foo bar baz"
