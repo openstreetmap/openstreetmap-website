@@ -28,6 +28,16 @@ class GpxS3ServiceTest < ActiveSupport::TestCase
     assert_nil find_latest_put_object_request[:params][:content_encoding]
   end
 
+  def test_keeps_metadata_flag
+    custom_metadata = { "server_gzipped" => true }
+    @service.upload("key", StringIO.new("data"),
+                    :content_type => "application/gpx+xml",
+                    :custom_metadata => custom_metadata)
+
+    # The blob keeps the flag for the download, so the upload must not remove it.
+    assert custom_metadata["server_gzipped"]
+  end
+
   def test_serves_content_encoding
     assert_predicate @service, :serves_content_encoding?
   end
