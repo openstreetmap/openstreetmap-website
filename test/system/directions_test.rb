@@ -5,9 +5,9 @@ require "application_system_test_case"
 class DirectionsSystemTest < ApplicationSystemTestCase
   test "updates route output on mode change" do
     visit directions_path
-    stub_straight_routing(:start_instruction => "Start popup text")
 
     find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing(:start_instruction => "Start popup text")
     find_by_id("route_to").set("61 31").send_keys :enter
 
     within "#sidebar" do
@@ -23,10 +23,10 @@ class DirectionsSystemTest < ApplicationSystemTestCase
 
   test "swaps route endpoints on reverse button click" do
     visit directions_path
-    stub_straight_routing(:start_instruction => "Start popup text")
-    stub_disable_reverse_geocoding
 
     find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing(:start_instruction => "Start popup text")
+    stub_disable_reverse_geocoding
     find_by_id("route_to").set("61 31").send_keys :enter
 
     click_on :class => "reverse_directions"
@@ -42,9 +42,9 @@ class DirectionsSystemTest < ApplicationSystemTestCase
 
   test "removes popup on sidebar close" do
     visit directions_path
-    stub_straight_routing(:start_instruction => "Start popup text")
 
     find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing(:start_instruction => "Start popup text")
     find_by_id("route_to").set("61 31").send_keys :enter
 
     within "#map" do
