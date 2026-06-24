@@ -13,6 +13,23 @@ module RichText
     end
   end
 
+  def self.reset_state
+    @gsub_pairs_for_linkify_detection = nil
+  end
+
+  def self.gsub_pairs_for_linkify_detection
+    @gsub_pairs_for_linkify_detection ||=
+      Array
+      .wrap(Settings.linkify&.detection_rules)
+      .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
+      .flat_map do |rule|
+        expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
+        rule.patterns
+            .grep(String)
+            .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE, :timeout => 1), expanded_path] }
+      end
+  end
+
   class SimpleFormat
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::OutputSafetyHelper
@@ -104,20 +121,9 @@ module RichText
 
     private
 
-    def gsub_pairs_for_linkify_detection
-      Array
-        .wrap(Settings.linkify&.detection_rules)
-        .select { |rule| rule.path_template && rule.patterns.is_a?(Array) }
-        .flat_map do |rule|
-          expanded_path = "#{rule.host || "#{Settings.server_protocol}://#{Settings.server_url}"}/#{rule.path_template}"
-          rule.patterns
-              .grep(String)
-              .map { |pattern| [Regexp.new("(?<=^|#{URL_UNSAFE_CHARS})#{pattern}", Regexp::IGNORECASE, :timeout => 1), expanded_path] }
-        end
-    end
-
     def expand_link_shorthands(text)
-      gsub_pairs_for_linkify_detection
+      RichText
+        .gsub_pairs_for_linkify_detection
         .reduce(text) { |text, (pattern, replacement)| text.gsub(pattern, replacement) }
     end
 
