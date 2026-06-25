@@ -5,6 +5,10 @@ require "test_helper"
 class RichTextTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
+  def setup
+    RichText.reset_state
+  end
+
   def test_html_to_html
     r = RichText.new("html", "foo http://example.com/ bar")
     assert_html r do
@@ -368,7 +372,7 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
-  def test_text_to_html_linkify_recognize_wiki_path
+  def test_text_to_html_linkify_recognize_wiki_key_value_path
     with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"], :path_template => "Tag:\\k<key>=\\k<value>", :host => "http://example.wiki" }] }) do
       r = RichText.new("text", "foo surface=metal bar")
       assert_html r do
@@ -378,6 +382,9 @@ class RichTextTest < ActiveSupport::TestCase
         end
       end
     end
+  end
+
+  def test_text_to_html_linkify_recognize_wiki_key_path
     with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=\\*?"], :path_template => "Key:\\k<key>", :host => "http://example.wiki" }] }) do
       r = RichText.new("text", "foo surface=* bar")
       assert_html r do
