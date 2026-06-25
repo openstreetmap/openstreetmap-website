@@ -956,6 +956,47 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_with_previous_and_next_links
+    user = create(:user)
+
+    entry1 = create(:diary_entry, :user => user)
+    entry2 = create(:diary_entry, :user => user)
+    entry3 = create(:diary_entry, :user => user)
+
+    get diary_entry_path(user.display_name, entry2)
+
+    assert_response :success
+
+    assert_select "nav.diary-entry-navigation a[href=?]", diary_entry_path(user.display_name, entry1)
+    assert_select "nav.diary-entry-navigation a[href=?]", diary_entry_path(user.display_name, entry3)
+  end
+
+  def test_show_without_previous_link_for_first_entry
+    user = create(:user)
+
+    entry1 = create(:diary_entry, :user => user)
+    entry2 = create(:diary_entry, :user => user)
+
+    get diary_entry_path(user.display_name, entry1)
+
+    assert_response :success
+
+    assert_select "nav.diary-entry-navigation a[href=?]", diary_entry_path(user.display_name, entry2)
+  end
+
+  def test_show_without_next_link_for_last_entry
+    user = create(:user)
+
+    entry1 = create(:diary_entry, :user => user)
+    entry2 = create(:diary_entry, :user => user)
+
+    get diary_entry_path(user.display_name, entry2)
+
+    assert_response :success
+
+    assert_select "nav.diary-entry-navigation a[href=?]", diary_entry_path(user.display_name, entry1)
+  end
+
   private
 
   def check_diary_index(*entries)
