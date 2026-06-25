@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: way_tags
+# Database name: primary
 #
 #  way_id  :bigint           not null, primary key
 #  k       :string           not null, primary key

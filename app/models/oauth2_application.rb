@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: oauth_applications
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  owner_type   :string           not null

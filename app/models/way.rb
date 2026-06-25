@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: current_ways
+# Database name: primary
 #
 #  id           :bigint           not null, primary key
 #  changeset_id :bigint           not null

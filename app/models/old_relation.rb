@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: relations
+# Database name: primary
 #
 #  relation_id  :bigint           not null, primary key
 #  changeset_id :bigint           not null

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: user_preferences
+# Database name: primary
 #
 #  user_id :bigint           not null, primary key
 #  k       :string           not null, primary key

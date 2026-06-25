@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: gpx_files
+# Database name: gps
 #
 #  id          :bigint           not null, primary key
 #  user_id     :bigint           not null
@@ -22,12 +23,8 @@
 #  gpx_files_visible_visibility_idx   (visible,visibility)
 #  index_gpx_files_on_user_id_and_id  (user_id,id)
 #
-# Foreign Keys
-#
-#  gpx_files_user_id_fkey  (user_id => users.id)
-#
 
-class Trace < ApplicationRecord
+class Trace < GpsRecord
   self.table_name = "gpx_files"
 
   belongs_to :user, :counter_cache => true
@@ -254,8 +251,12 @@ class Trace < ApplicationRecord
 
         self.latitude = f_lat
         self.longitude = f_lon
-        image.attach(:io => gpx.picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points), :filename => "#{id}.gif", :content_type => "image/gif")
-        icon.attach(:io => gpx.icon(min_lat, min_lon, max_lat, max_lon), :filename => "#{id}_icon.gif", :content_type => "image/gif")
+        image.attach(:io => gpx.picture(min_lat, min_lon, max_lat, max_lon, gpx.actual_points),
+                     :filename => "#{id}.gif", :content_type => "image/gif",
+                     :metadata => { :analyzed => true, :identified => true })
+        icon.attach(:io => gpx.icon(min_lat, min_lon, max_lat, max_lon),
+                    :filename => "#{id}_icon.gif", :content_type => "image/gif",
+                    :metadata => { :analyzed => true, :identified => true })
         self.size = gpx.actual_points
         self.inserted = true
         save!

@@ -12,6 +12,10 @@ class ApplicationController < ActionController::Base
 
   rescue_from RailsParam::InvalidParameterError, :with => :invalid_parameter
 
+  rescue_from ActiveRecord::ConnectionNotEstablished,
+              ActiveRecord::DatabaseConnectionError,
+              ActiveRecord::NoDatabaseError, :with => :gps_database_unavailable
+
   after_action :close_body
 
   attr_accessor :current_user, :oauth_token
@@ -319,6 +323,20 @@ class ApplicationController < ActionController::Base
       end
     else
       head :bad_request
+    end
+  end
+
+  # Handle GPS database connection failures without affecting the main site
+  def gps_database_unavailable(exception)
+    # Only handle gps database errors, re-raise anything else
+    raise exception unless exception.connection_pool == GpsRecord.connection_pool
+
+    respond_to do |format|
+      format.html do
+        flash.now[:warning] = t("traces.offline_warning.message")
+        render "traces/offline", :status => :service_unavailable
+      end
+      format.any { report_error "GPS database unavailable", :service_unavailable }
     end
   end
 

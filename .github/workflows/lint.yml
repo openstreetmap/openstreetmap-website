@@ -136,6 +136,7 @@ jobs:
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
+        createdb openstreetmap_gps
         bundle exec rails db:schema:load
     - name: Run Annotate Models
       run: bundle exec annotaterb models
@@ -174,6 +175,7 @@ jobs:
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
+        createdb openstreetmap_gps
         bundle exec rails db:schema:load
     - name: Run Database Consistency
       run: bundle exec database_consistency

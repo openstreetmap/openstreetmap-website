@@ -11,7 +11,10 @@ module Traces
     def show
       @traces = Trace.visible_to_all.visible
 
-      @traces = @traces.joins(:user).where(:users => { :display_name => params[:display_name] }) if params[:display_name]
+      if params[:display_name]
+        target_user = User.active.find_by(:display_name => params[:display_name])
+        @traces = target_user ? target_user.traces.visible_to_all.visible : Trace.none
+      end
 
       @traces = @traces.tagged(params[:tag]) if params[:tag]
       @traces = @traces.order(:timestamp => :desc)

@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: spammy_phrases
+# Database name: primary
 #
 #  id         :bigint           not null, primary key
 #  phrase     :string

@@ -42,6 +42,7 @@ jobs:
         sudo systemctl start postgresql
         sudo -u postgres createuser -s $(id -un)
         createdb openstreetmap
+        createdb openstreetmap_gps
     - name: Configure rails
       run: |
         cp config/github.database.yml config/database.yml
@@ -52,10 +53,13 @@ jobs:
     - name: Populate database
       run: |
         sed -f script/normalise-structure db/structure.sql > db/structure.expected
-        rm -f db/structure.sql
+        sed -f script/normalise-structure db/gps_structure.sql > db/gps_structure.expected
+        rm -f db/structure.sql db/gps_structure.sql
         bundle exec rails db:migrate
         sed -f script/normalise-structure db/structure.sql > db/structure.actual
+        sed -f script/normalise-structure db/gps_structure.sql > db/gps_structure.actual
         diff -uw db/structure.expected db/structure.actual
+        diff -uw db/gps_structure.expected db/gps_structure.actual
     - name: Export javascript strings
       run: bundle exec i18n export
     - name: Compile assets

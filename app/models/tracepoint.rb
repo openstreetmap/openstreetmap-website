@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: gps_points
+# Database name: gps
 #
 #  altitude  :float
 #  trackid   :integer          not null
@@ -22,7 +23,7 @@
 #  gps_points_gpx_id_fkey  (gpx_id => gpx_files.id)
 #
 
-class Tracepoint < ApplicationRecord
+class Tracepoint < GpsRecord
   include GeoRecord
 
   self.table_name = "gps_points"

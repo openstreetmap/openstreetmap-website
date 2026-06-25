@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: messages
+# Database name: primary
 #
 #  id                :bigint           not null, primary key
 #  from_user_id      :bigint           not null

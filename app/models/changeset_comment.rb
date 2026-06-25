@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: changeset_comments
+# Database name: primary
 #
 #  id           :integer          not null, primary key
 #  changeset_id :bigint           not null

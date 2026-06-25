@@ -3,6 +3,7 @@
 # == Schema Information
 #
 # Table name: relation_tags
+# Database name: primary
 #
 #  relation_id :bigint           not null, primary key
 #  k           :string           default(""), not null, primary key
