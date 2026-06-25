@@ -39,8 +39,8 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("phone", "+1 (234) 567-890 ;  +22334455")
     assert_dom_equal "<a href=\"tel:+1(234)567-890\" title=\"Call +1 (234) 567-890\">+1 (234) 567-890</a>; <a href=\"tel:+22334455\" title=\"Call +22334455\">+22334455</a>", html
 
-    html = format_value("wikipedia", "Test")
-    assert_dom_equal "<a title=\"The Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">Test</a>", html
+    html = format_value("wikipedia", "en:Test")
+    assert_dom_equal "<a title=\"The en:Test article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/Test?uselang=en\">en:Test</a>", html
 
     html = format_value("wikipedia", "de:Berlin;en:London")
     assert_dom_equal "<a title=\"The de:Berlin article on Wikipedia\" href=\"https://de.wikipedia.org/wiki/Berlin?uselang=en\">de:Berlin</a>;<a title=\"The en:London article on Wikipedia\" href=\"https://en.wikipedia.org/wiki/London?uselang=en\">en:London</a>",
@@ -160,16 +160,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     ### Prefixed wikidata-tags
 
-    # Not anything is accepted as prefix (only limited set)
-    links = wikidata_links("anything:wikidata", "Q13")
-    assert_nil links
-
-    # This for example is an allowed key
+    # examples for secondary wikidata keys
     links = wikidata_links("operator:wikidata", "Q24")
     assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
 
-    # This verified buried is working
     links = wikidata_links("buried:wikidata", "Q24")
     assert_equal "//www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
     assert_equal "Q24", links[0][:title]
@@ -178,7 +173,11 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//www.wikidata.org/entity/Q26899?uselang=en", links[0][:url]
     assert_equal "Q26899", links[0][:title]
 
-    # Another allowed key, this time with multiple values and I18n
+    links = wikidata_links("name:etymology:wikidata", "Q121745508")
+    assert_equal "//www.wikidata.org/entity/Q121745508?uselang=en", links[0][:url]
+    assert_equal "Q121745508", links[0][:title]
+
+    # Another one with multiple values and I18n
     I18n.with_locale "dsb" do
       links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
       assert_equal 3, links.length
@@ -201,6 +200,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "\rQ364\t\n\r ", links[2][:title]
     assert_equal "//www.wikidata.org/entity/Q4006?uselang=en", links[3][:url]
     assert_equal "\nQ4006", links[3][:title]
+
+    links = wikidata_links("source:species:wikidata", "PlantNet.org AI")
+    assert_nil links
   end
 
   def test_wikipedia_links
@@ -211,9 +213,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_nil links
 
     links = wikipedia_links("wikipedia", "Test")
-    assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Test?uselang=en", links[0][:url]
-    assert_equal "Test", links[0][:title]
+    assert_nil links
 
     links = wikipedia_links("wikipedia", "de:Test")
     assert_equal 1, links.length
@@ -282,11 +282,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     # Multiple values separated by ;
     links = wikipedia_links("wikipedia", "Test;Hello")
-    assert_equal 2, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Test?uselang=en", links[0][:url]
-    assert_equal "Test", links[0][:title]
-    assert_equal "https://en.wikipedia.org/wiki/Hello?uselang=en", links[1][:url]
-    assert_equal "Hello", links[1][:title]
+    assert_nil links
 
     links = wikipedia_links("wikipedia", "de:Berlin;en:London;fr:Paris")
     assert_equal 3, links.length
@@ -296,6 +292,9 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "en:London", links[1][:title]
     assert_equal "https://fr.wikipedia.org/wiki/Paris?uselang=en", links[2][:url]
     assert_equal "fr:Paris", links[2][:title]
+
+    links = wikipedia_links("fixme:wikipedia", "The wikipedia tag links to a list article, not an article about this specific feature.")
+    assert_nil links
   end
 
   def test_wikimedia_commons_link
