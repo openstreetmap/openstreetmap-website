@@ -1844,6 +1844,7 @@ hu:
         ku-Latn: kurd (latin)
         lv: lett
         lb: luxemburgi
+        lkt: Lakota
         lt: litván
         hu: magyar
         fit: meänkieli
@@ -2277,10 +2278,13 @@ hu:
     notification_preferences:
       show:
         title: Értesítések személyre szabása
+        changeset_comment: Módosításcsomaghoz fűzött megjegyzés
         diary_comment: Naplóhozzászólások
         direct_message: Közvetlen üzenetek
+        gpx_import_failure: GPS nyomvonal importálása sikertelen
+        gpx_import_success: GPX nyomvonal importálása sikerült
         new_follower: Új követők
-        note_comment: Jegyzetmegjegyzések
+        note_comment: Jegyzethez fűzött megjegyzések
         save: Frissítések személyre szabása
         delivery_mechanisms:
           email: Email
@@ -2491,6 +2495,7 @@ hu:
         hogy hivatkozz az OpenStreetMapre - további információkért lásd az %{attribution_guidelines_link}at
       legal_attribution_guidelines_title: megnevezési iránymutatások
       legal_attribution_guidelines_url: https://wiki.osmfoundation.org/wiki/Licence/Attribution_Guidelines
+      legal_attribution_example_film_title: Film
       legal_attribution_example_tv_title: TV
       legal_2_1_html: Kérjük, %{contact_the_osmf_link}, ha licencekkel kapcsolatos,
         szerzői jogi vagy egyéb jogi kérdései vannak.
@@ -3008,6 +3013,8 @@ hu:
   webgl_error_panes:
     show:
       compact_message: A térképhez WebGL szükséges.
+      description_html: Sajnáljuk, de úgy tűnik, hogy %{your_browser_does_not_support_webgl}
+        (a 3D grafikák webes megjelenítését lehetővé tevő technológiát).
       your_browser_does_not_support_webgl: a böngészője nem támogatja a WebGL-t
       webgl_is_required_for_this_map: A térképhez WebGL szükséges.
       read_more_about_webgl: Olvass tovább
@@ -3061,7 +3068,7 @@ hu:
       description: 'Leírás:'
       tags: 'Címkék:'
       none: nincsenek
-      edit_trace: Nyomvonal szerkesztése
+      edit_trace: Nyomvonal adatainak szerkesztése
       delete_trace: Nyomvonal törlése
       trace_not_found: Nem található nyomvonal!
       visibility: 'Láthatóság:'
@@ -3074,7 +3081,7 @@ hu:
       more: tovább
       trace_details: Nyomvonal részleteinek megtekintése
       view_map: tartózkodási hely megtekintése a térképen
-      edit_map: Térkép szerkesztése
+      edit_map: Megnyitás szerkesztőben
       public: NYILVÁNOS
       identifiable: AZONOSÍTHATÓ
       private: NEM NYILVÁNOS
@@ -3252,9 +3259,8 @@ hu:
         eléréséhez.
       no_auto_account_create: Sajnos jelenleg nem tudunk neked létrehozni automatikusan
         egy felhasználói fiókot.
-      please_contact_support_html: Kérjük, lépj kapcsolatba velünk (%{support_link}),
-        hogy elrendezhessük a fiók létrehozását. Kérésedet igyekszünk a lehető leggyorsabban
-        feldolgozni.
+      please_contact_support_html: Kérjük, a segítséghez lépj kapcsolatba velünk (%{support_link}).
+        Kérésedet igyekszünk a lehető leggyorsabban feldolgozni.
       support: támogatás
       about:
         header: Szabad és szerkeszthető.
@@ -3284,6 +3290,10 @@ hu:
           a %{privacy_policy_link} oldalunkat.
       or: vagy
       use external auth: vagy használhatsz külső fiókokat a bejelentkezéshez
+      verify_human: Annak ellenőrzése, hogy ön ember-e
+    create:
+      not_human: Sajnos nem sikerült meggyőződnünk az ember mivoltodról, amihez szükség
+        lenne új fiók létrehozásához.
     no_such_user:
       title: Nincs ilyen felhasználó
       heading: '%{user} felhasználó nem létezik'
@@ -3331,7 +3341,9 @@ hu:
       activate_user: Felhasználó aktiválása
       confirm_user: Felhasználó megerősítése
       unconfirm_user: Felhasználó megerősítésének visszavonása
+      suspend_user: Felhasználó felfüggesztése
       unsuspend_user: Felhasználó felfüggesztésének visszavonása
+      undelete_user: Felhasználó törlésének visszavonása
       confirm: Megerősítés
       report: Felhasználó bejelentése
       edit_profile_details: Profil részleteinek szerkesztése
@@ -3340,6 +3352,7 @@ hu:
       change_image: Kép megváltoztatása
       edit_company: Vállalat szerkesztése
       edit_location: Hely szerkesztése
+      edit_contribution_calendar: Közreműködési naptár beállítása
       contributions:
         one: '%{count} közreműködés az elmúlt évben'
         other: '%{count} közreműködés az elmúlt évben'
@@ -3407,6 +3420,7 @@ hu:
           one: '%{count} felhasználó található'
           other: '%{count} felhasználó található'
         confirm: Kijelölt felhasználók megerősítése
+        suspend: Kijelölt felhasználók felfüggesztése
         empty: Nem találtam egyező felhasználót
       user:
         summary_html: '%{name} létrejött innen: %{ip_address}, ekkor: %{date}'
@@ -3654,6 +3668,7 @@ hu:
         adj meg személyes adatokat vagy jogvédett térképről vagy katalógusokból származó
         információkat.
       add: Jegyzet hozzáadása
+      error: Hiba történt a jegyzet létrehozásakor
     new_readonly:
       title: Új jegyzet
       warning: Nem hozható létre új jegyzet, mert az OpenStreetMap API jelenleg csak
@@ -3678,17 +3693,26 @@ hu:
       tooltip: Jelmagyarázat
       tooltip_disabled: A jelkulcs nem érhető el ezen a rétegen
     map:
+      map:
+        title: Térkép
+        marker:
+          title: Térképjelölő
+      popup:
+        close: Bezárás
       navigation_control:
         zoom_in: Nagyítás
         zoom_out: Kicsinyítés
       geolocate_control:
         find_my_location: Helyzetem megjelenítése
+        location_not_available: Hely nem érhető el
         metersPopup:
           one: '%{count} méternél is közelebb vagy ehhez a ponthoz'
           other: '%{count} méternél közelebb vagy ehhez a ponthoz'
         feetPopup:
           one: '%{count} lábnál is közelebb vagy ehhez a ponthoz'
           other: '%{count} lábnál közelebb vagy ehhez a ponthoz'
+      attribution_control:
+        toggle_attribution: Hozzárendelés be-/kikapcsolása
       base:
         standard: Alapértelmezett
         cycle_map: Kerékpártérkép
