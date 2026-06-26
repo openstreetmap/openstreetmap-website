@@ -1,0 +1,17 @@
+<%# locals: (moderation_zone:) %>
+
+<tr>
+  <td><%= moderation_zone.name %></td>
+  <td><%= moderation_zone.reason %></td>
+  <td><%= moderation_zone.creator.display_name %></td>
+  <td><%= block_short_time_in_past(moderation_zone.created_at) %></td>
+  <td>
+    <% if moderation_zone.ends_at.future? %>
+      <%= block_short_time_in_future(moderation_zone.ends_at) %>
+    <% else %>
+      <%= block_short_time_in_past(moderation_zone.ends_at) %>
+    <% end %>
+  </td>
+  <td><%= moderation_zone_short_status(moderation_zone) %></td>
+  <td><%= link_to t(".edit"), edit_moderation_zone_path(moderation_zone) %></td>
+</tr>

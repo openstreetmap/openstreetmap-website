@@ -5,6 +5,19 @@ FactoryBot.define do
     sequence(:name) { |n| "Moderation Zone #{n}" }
     sequence(:reason) { |n| "Reason #{n}" }
     creator { association :user }
+    ends_at { 1.week.from_now }
+
+    zone do
+      <<~GEOMETRY
+        POLYGON((
+          -1 -1,
+          -1  1,
+           1  1,
+           1 -1,
+          -1 -1
+        ))
+      GEOMETRY
+    end
 
     trait :seville_cathedral do
       zone do
