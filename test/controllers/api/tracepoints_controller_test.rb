@@ -27,6 +27,13 @@ module Api
       )
     end
 
+    def test_tracepoints_disabled
+      with_settings(:traces_disabled => true) do
+        get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1")
+        assert_response :not_found
+      end
+    end
+
     def test_tracepoints
       point = create(:trace, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
         create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)

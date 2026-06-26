@@ -18,6 +18,16 @@ module Api
         )
       end
 
+      def test_index_disabled
+        user = create(:user)
+        auth_header = bearer_authorization_header user
+
+        with_settings(:traces_disabled => true) do
+          get api_user_traces_path, :headers => auth_header
+          assert_response :not_found
+        end
+      end
+
       def test_index
         user = create(:user)
         trace1 = create(:trace, :user => user) do |trace|

@@ -13,6 +13,15 @@ module Traces
       )
     end
 
+    def test_show_disabled
+      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+
+      with_settings(:traces_disabled => true) do
+        get trace_picture_path(public_trace_file.user, public_trace_file)
+        assert_response :not_found
+      end
+    end
+
     # Test downloading the picture for a trace
     def test_show
       public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
