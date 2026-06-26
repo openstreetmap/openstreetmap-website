@@ -5,7 +5,7 @@ module Api
     include QueryMethods
 
     before_action :check_api_writable, :only => [:create, :comment, :close, :reopen, :destroy]
-    before_action :setup_user_auth, :only => [:create, :show]
+    before_action :setup_user_auth, :only => [:create, :show, :allowed]
     before_action :authorize, :only => [:close, :reopen, :destroy, :comment]
 
     authorize_resource
@@ -73,6 +73,12 @@ module Api
       end
     end
 
+    def allowed
+      check_for_moderation_zones
+
+      head :ok
+    end
+
     ##
     # Create a new note
     def create
@@ -85,11 +91,10 @@ module Api
       raise OSM::APIBadUserInput, "No text was given" if params[:text].blank?
 
       # Extract the arguments
-      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
-      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+      lon, lat = read_lon_lat_params
       description = params[:text]
 
-      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
+      check_for_moderation_zones
 
       # Get note's author info (for logged in users - user_id, for logged out users - IP address)
       note_author_info = author_info
@@ -384,6 +389,18 @@ module Api
       NoteCommentNotifier.with(:record => comment).deliver_later if notify
 
       NoteSubscription.find_or_create_by(:note => note, :user => current_user) if current_user
+    end
+
+    def read_lon_lat_params
+      lon = OSM.parse_float(params[:lon], OSM::APIBadUserInput, "lon was not a number")
+      lat = OSM.parse_float(params[:lat], OSM::APIBadUserInput, "lat was not a number")
+
+      [lon, lat]
+    end
+
+    def check_for_moderation_zones
+      lon, lat = read_lon_lat_params
+      raise OSM::APIModerationZoneError if current_user.nil? && ModerationZone.falls_within_any?(:lon => lon, :lat => lat)
     end
   end
 end
