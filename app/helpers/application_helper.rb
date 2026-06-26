@@ -43,7 +43,6 @@ module ApplicationHelper
     items = [
       [history_path, t("layouts.header.history"), { :class => ["geolink"] }],
       [export_path, t("layouts.header.export"), { :class => ["geolink"] }],
-      [traces_path, t("layouts.header.gps_traces")],
       [diary_entries_path, t("layouts.header.user_diaries")],
       [communities_path, t("layouts.header.communities")],
       [copyright_path, t("layouts.header.copyright")],
@@ -51,6 +50,8 @@ module ApplicationHelper
       [Settings.donation_url, t("layouts.header.donate"), { :target => :new }],
       [about_path, t("layouts.header.about")]
     ]
+
+    items.insert(2, [traces_path, t("layouts.header.gps_traces")]) unless Settings.traces_disabled
 
     if Settings.status != "database_offline" && can?(:index, Issue)
       items.prepend([

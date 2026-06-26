@@ -87,11 +87,8 @@ OpenStreetMap::Application.routes.draw do
 
     resource :map, :only => :show
 
-    resources :tracepoints, :path => "trackpoints", :only => :index
-
     resources :users, :only => :index
     resources :users, :path => "user", :id => /\d+/, :only => :show
-    resources :user_traces, :path => "user/gpx_files", :module => :users, :controller => :traces, :only => :index
     get "user/details" => "users#details"
 
     resources :user_preferences, :except => [:new, :create, :edit], :param => :preference_key, :path => "user/preferences" do
@@ -107,13 +104,17 @@ OpenStreetMap::Application.routes.draw do
     end
     post "/user/messages/:id" => "messages#update", :as => nil
 
-    resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
-      scope :module => :traces do
-        resource :data, :only => :show
+    constraints(->(_req) { !Settings.traces_disabled }) do
+      resources :tracepoints, :path => "trackpoints", :only => :index
+      resources :user_traces, :path => "user/gpx_files", :module => :users, :controller => :traces, :only => :index
+      resources :traces, :path => "gpx", :only => [:create, :show, :update, :destroy], :id => /\d+/ do
+        scope :module => :traces do
+          resource :data, :only => :show
+        end
       end
+      post "gpx/create" => "traces#create", :id => /\d+/, :as => :trace_create
+      get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
     end
-    post "gpx/create" => "traces#create", :id => /\d+/, :as => :trace_create
-    get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
 
     # Map notes API
     resources :notes, :except => [:new, :edit, :update], :id => /\d+/, :controller => "notes" do
@@ -244,32 +245,34 @@ OpenStreetMap::Application.routes.draw do
   post "/preview/:type" => "site#preview", :as => :preview
 
   # traces
-  resources :traces, :id => /\d+/, :except => [:show] do
-    resource :data, :module => :traces, :only => :show
-  end
-  get "/user/:display_name/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces/tag/%{tag}")
-  get "/user/:display_name/traces/tag/:tag" => "traces#index"
-  get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
-  get "/user/:display_name/traces" => "traces#index"
-  get "/user/:display_name/traces/:id" => "traces#show", :id => /\d+/, :as => "show_trace"
-  scope "/user/:display_name/traces/:trace_id", :module => :traces, :trace_id => /\d+/ do
-    get "picture" => "pictures#show", :as => "trace_picture"
-    get "icon" => "icons#show", :as => "trace_icon"
-  end
-  get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
-  get "/traces/tag/:tag" => "traces#index"
-  get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")
-  get "/traces/mine/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine/tag/%{tag}")
-  get "/traces/mine/tag/:tag" => "traces#mine"
-  get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
-  get "/traces/mine" => "traces#mine"
-  get "/trace/create", :to => redirect(:path => "/traces/new")
-  get "/trace/:id/data", :format => false, :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data")
-  get "/trace/:id/data.:format", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data.%{format}")
-  get "/trace/:id/edit", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/edit")
+  constraints(->(_req) { !Settings.traces_disabled }) do
+    resources :traces, :id => /\d+/, :except => [:show] do
+      resource :data, :module => :traces, :only => :show
+    end
+    get "/user/:display_name/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces/tag/%{tag}")
+    get "/user/:display_name/traces/tag/:tag" => "traces#index"
+    get "/user/:display_name/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/user/%{display_name}/traces")
+    get "/user/:display_name/traces" => "traces#index"
+    get "/user/:display_name/traces/:id" => "traces#show", :id => /\d+/, :as => "show_trace"
+    scope "/user/:display_name/traces/:trace_id", :module => :traces, :trace_id => /\d+/ do
+      get "picture" => "pictures#show", :as => "trace_picture"
+      get "icon" => "icons#show", :as => "trace_icon"
+    end
+    get "/traces/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/tag/%{tag}")
+    get "/traces/tag/:tag" => "traces#index"
+    get "/traces/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces")
+    get "/traces/mine/tag/:tag/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine/tag/%{tag}")
+    get "/traces/mine/tag/:tag" => "traces#mine"
+    get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
+    get "/traces/mine" => "traces#mine"
+    get "/trace/create", :to => redirect(:path => "/traces/new")
+    get "/trace/:id/data", :format => false, :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data")
+    get "/trace/:id/data.:format", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data.%{format}")
+    get "/trace/:id/edit", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/edit")
 
-  namespace :traces, :path => "" do
-    resource :feed, :path => "(/user/:display_name)/traces(/tag/:tag)/rss", :only => :show, :defaults => { :format => :rss }
+    namespace :traces, :path => "" do
+      resource :feed, :path => "(/user/:display_name)/traces(/tag/:tag)/rss", :only => :show, :defaults => { :format => :rss }
+    end
   end
 
   # diary pages

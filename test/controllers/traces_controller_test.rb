@@ -77,6 +77,13 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to "/traces/mine/tag/tagname"
   end
 
+  def test_index_disabled
+    with_settings(:traces_disabled => true) do
+      get traces_path
+      assert_response :not_found
+    end
+  end
+
   # Check that the index of traces is displayed
   def test_index
     user = create(:user)

@@ -37,6 +37,16 @@ module Api
       )
     end
 
+    def test_show_disabled
+      public_trace_file = create(:trace, :visibility => "public")
+      auth_header = bearer_authorization_header public_trace_file.user
+
+      with_settings(:traces_disabled => true) do
+        get api_trace_path(public_trace_file), :headers => auth_header
+        assert_response :not_found
+      end
+    end
+
     # Check getting a specific trace through the api
     def test_show
       public_trace_file = create(:trace, :visibility => "public")

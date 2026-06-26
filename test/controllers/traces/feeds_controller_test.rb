@@ -25,6 +25,13 @@ module Traces
       )
     end
 
+    def test_show_disabled
+      with_settings(:traces_disabled => true) do
+        get traces_feed_path(:format => :rss)
+        assert_response :not_found
+      end
+    end
+
     def test_show
       user = create(:user)
       # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
