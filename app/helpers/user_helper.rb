@@ -6,13 +6,15 @@ module UserHelper
   def user_image(user, options = {})
     options[:class] ||= "user_image border border-secondary-subtle bg-body"
     options[:alt] ||= ""
+    width = options.fetch(:width, 100)
+    height = options.fetch(:height, 100)
 
     if user.image_use_gravatar
       user_gravatar_tag(user, options)
     elsif user.avatar.attached?
-      user_avatar_variant_tag(user, { :resize_to_limit => [100, 100] }, options)
+      user_avatar_variant_tag(user, { :resize_to_limit => [width, height] }, options)
     else
-      image_tag "avatar.svg", options.merge(:width => 100, :height => 100)
+      image_tag "avatar.svg", options.merge(:width => width, :height => height)
     end
   end
 

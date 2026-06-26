@@ -19,6 +19,9 @@ class UserHelperTest < ActionView::TestCase
 
     image = user_image(gravatar_user, :class => "foo")
     assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+
+    image = user_image(user, :width => 150, :height => 150)
+    assert_match %r{^<img width="150" height="150" .* />$}, image
   end
 
   def test_user_thumbnail

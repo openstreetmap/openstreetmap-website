@@ -1,0 +1,29 @@
+<%# locals: (notification:) %>
+
+<article class="user-notification">
+  <div class="row align-items-center">
+    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
+      <%= link_to t(".headline"), show_trace_path(notification.user, notification.record) %>
+    </h2>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+  </div>
+
+  <div class="row">
+    <div class="col-1 text-center">
+      <% if Settings.status != "gpx_offline" %>
+        <% if notification.record.inserted %>
+          <%= link_to trace_icon(notification.record),
+                      show_trace_path(notification.record.user, notification.record),
+                      :class => "d-inline-block" %>
+        <% else %>
+          <span class="text-danger"><%= t ".pending" %></span>
+        <% end %>
+      <% end %>
+    </div>
+    <div class="col-11">
+      <%= render "notifications/gpx_details", :notification => notification %>
+    </div>
+  </div>
+  <p class="col-3 text-center">
+  </p>
+</article>
