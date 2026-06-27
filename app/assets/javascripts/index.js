@@ -156,7 +156,7 @@ $(function () {
   const thisYear = expires.getFullYear();
   expires.setFullYear(thisYear + 10);
 
-  map.on("moveend baselayerchange overlayadd overlayremove", function () {
+  const updateCookieAndLinks = function () {
     updateLinks(
       map.getCenter().wrap(),
       map.getZoom(),
@@ -164,7 +164,10 @@ $(function () {
       map._object);
 
     OSM.cookies.set("_osm_location", OSM.locationCookie(map), { expires });
-  });
+  };
+  for (const e of ["moveend", "baselayerchange", "overlayadd", "overlayremove"]) {
+    map.on(e, updateCookieAndLinks);
+  }
 
   if (OSM.cookies.get("_osm_welcome") !== "hide") {
     $(".welcome").addClass("d-md-block");
@@ -187,7 +190,7 @@ $(function () {
   });
 
   if (OSM.MATOMO) {
-    map.on("baselayerchange overlayadd", function (e) {
+    const matomoLayerHandler = function (e) {
       if (e.layer.options) {
         const goal = OSM.MATOMO.goals[e.layer.options.layerId];
 
@@ -195,7 +198,9 @@ $(function () {
           $("body").trigger("matomogoal", goal);
         }
       }
-    });
+    };
+    map.on("baselayerchange", matomoLayerHandler);
+    map.on("overlayadd", matomoLayerHandler);
   }
 
   if (params.bounds) {
