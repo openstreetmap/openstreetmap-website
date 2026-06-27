@@ -396,6 +396,23 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "fr", preference.v
   end
 
+  def test_default_trace_visibility_undefined
+    user = create(:user)
+    assert_equal "trackable", user.default_trace_visibility
+  end
+
+  def test_default_trace_visibility_known
+    user = create(:user)
+    create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "identifiable")
+    assert_equal "identifiable", user.default_trace_visibility
+  end
+
+  def test_default_trace_visibility_unsupported
+    user = create(:user)
+    create(:user_preference, :user => user, :k => "gps.trace.visibility", :v => "public")
+    assert_equal "trackable", user.default_trace_visibility
+  end
+
   def test_visible?
     assert_predicate build(:user, :pending), :visible?
     assert_predicate build(:user, :active), :visible?
