@@ -1,3 +1,5 @@
+//= require feature_label
+
 export default function (map) {
   const uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
@@ -36,60 +38,6 @@ export default function (map) {
     }
 
     return false;
-  }
-
-  function featurePrefix(feature) {
-    const tags = feature.tags;
-    let prefix = "";
-
-    if (tags.boundary === "administrative" && (tags.border_type || tags.admin_level)) {
-      prefix = OSM.i18n.t("geocoder.search_osm_nominatim.border_types." + tags.border_type, {
-        defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.admin_levels.level" + tags.admin_level, {
-          defaultValue: OSM.i18n.t("geocoder.search_osm_nominatim.prefix.boundary.administrative")
-        })
-      });
-    } else {
-      const prefixes = OSM.i18n.t("geocoder.search_osm_nominatim.prefix");
-
-      for (const key in tags) {
-        const value = tags[key];
-
-        if (prefixes[key]) {
-          if (prefixes[key][value]) {
-            return prefixes[key][value];
-          }
-        }
-      }
-
-      for (const key in tags) {
-        const value = tags[key];
-
-        if (prefixes[key]) {
-          const first = value.slice(0, 1).toUpperCase(),
-                rest = value.slice(1).replace(/_/g, " ");
-
-          return first + rest;
-        }
-      }
-    }
-
-    if (!prefix) {
-      prefix = OSM.i18n.t("javascripts.query." + feature.type);
-    }
-
-    return prefix;
-  }
-
-  function featureName(feature) {
-    const tags = feature.tags,
-          localeKeys = OSM.preferred_languages.map(locale => `name:${locale}`);
-
-    for (const key of [...localeKeys, "name", "ref", "addr:housename"]) {
-      if (tags[key]) return tags[key];
-    }
-    if (tags["addr:housenumber"] && tags["addr:street"]) return `${tags["addr:housenumber"]} ${tags["addr:street"]}`;
-
-    return "#" + feature.id;
   }
 
   function featureGeometry(feature) {
@@ -161,14 +109,14 @@ export default function (map) {
 
           const $li = $("<li>")
             .addClass("list-group-item list-group-item-action")
-            .text(featurePrefix(element) + " ")
+            .text(OSM.featurePrefix(element) + " ")
             .appendTo($ul);
 
           $("<a>")
             .addClass("stretched-link")
             .attr("href", "/" + element.type + "/" + element.id)
             .data("geometry", featureGeometry(element))
-            .text(featureName(element))
+            .text(OSM.featureName(element))
             .appendTo($li);
         }
 

@@ -209,7 +209,9 @@ OSM.Router = function (map, rts) {
     document.body.removeChild(link);
   };
 
-  map.on("moveend baselayerchange overlayadd overlayremove", router.updateHash);
+  for (const e of ["moveend", "baselayerchange", "overlayadd", "overlayremove"]) {
+    map.on(e, router.updateHash);
+  }
   $(window).on("hashchange", router.hashUpdated);
 
   return router;

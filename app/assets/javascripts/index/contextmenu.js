@@ -106,7 +106,9 @@ OSM.ContextMenu = class {
     this._$element = $element;
     this._popperInstance = null;
 
-    this._map.on("click movestart", this.hide, this);
+    const hide = this.hide.bind(this);
+    this._map.on("click", hide);
+    this._map.on("movestart", hide);
     $(document).on("click", (e) => {
       if (!$(e.target).closest(this._$element).length) {
         this.hide();
