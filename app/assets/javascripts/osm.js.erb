@@ -233,6 +233,13 @@ OSM = {
     return [lng, lat, zoom, map.getLayersCode()].join("|");
   },
 
+  isDark: function (subject) {
+    const data = `${subject}-theme`,
+          theme = $(`[data-${data}]`).first().data(data);
+    if (theme) return theme === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  },
+
   showAlert: function (title, message) {
     const modalTitle = document.getElementById("osm_alert_title");
     modalTitle.textContent = title;

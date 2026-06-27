@@ -400,13 +400,6 @@ L.OSM.Map = L.Map.extend({
   }
 });
 
-OSM.isDark = function (subject) {
-  const data = `${subject}-theme`,
-        theme = $(`[data-${data}]`).first().data(data);
-  if (theme) return theme === "dark";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches;
-};
-
 OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
   const html = `<svg viewBox="0 0 25 40" class="pe-none" overflow="visible"><use href="#pin-shadow" /><use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
   return L.divIcon({
