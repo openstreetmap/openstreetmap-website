@@ -23,12 +23,20 @@ OSM.MapLibre.CombinedControlGroup = class CombinedControlGroup {
       };
 
       buttons.forEach(button => {
-      // Find the type of button (zoom-in, zoom-out, etc.) from its class name
+        // Find the type of button (zoom-in, zoom-out, etc.) from its class name
         const match = button.className.match(/maplibregl-ctrl-([\w-]+)/);
         if (match) {
           const type = match[1]; // e.g., "zoom-in"
-          const icon = iconMap[type];
 
+          if (type === "zoom-in" || type === "zoom-out") {
+            button.addEventListener("click", (e) => {
+              if (!e.shiftKey) return;
+              const delta = type === "zoom-in" ? 3 : -3;
+              map.zoomTo(Math.round(map.getZoom()) + delta);
+            });
+          }
+
+          const icon = iconMap[type];
           if (icon) {
             const iconElement = document.createElement("i");
             iconElement.className = `maplibregl-ctrl-icon fs-5 bi bi-${icon}`;
