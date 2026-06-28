@@ -24,7 +24,7 @@ module PaginationMethods
 
     page_items = page_items.limit(limit)
     page_items = page_items.includes(includes)
-    page_items = page_items.sort.reverse
+    page_items = page_items.sort_by(&cursor_column).reverse
 
     newer_items_cursor = page_items.first&.send cursor_column
     older_items_cursor = page_items.last&.send cursor_column
