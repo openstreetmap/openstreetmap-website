@@ -8,6 +8,7 @@ OSM.MapLibre.AttributionControl = class extends maplibregl.AttributionControl {
     this._container = null;
     this._includeReportLink = Boolean(includeReportLink);
     this._credit = credit;
+    this._boundUpdateReportLink = this._updateReportLink.bind(this);
   }
 
   _updateAttributions() {
@@ -91,7 +92,7 @@ OSM.MapLibre.AttributionControl = class extends maplibregl.AttributionControl {
 
     if (this._includeReportLink) {
       map.once("load", this._updateAttributions.bind(this));
-      map.on("moveend", this._updateReportLink.bind(this));
+      map.on("moveend", this._boundUpdateReportLink);
     }
 
     return super.onAdd(map);
@@ -101,7 +102,7 @@ OSM.MapLibre.AttributionControl = class extends maplibregl.AttributionControl {
     if (!this._map) return;
 
     if (this._includeReportLink) {
-      this._map.off("moveend", this._updateReportLink.bind(this));
+      this._map.off("moveend", this._boundUpdateReportLink);
     }
     this._map = null;
     super.onRemove();
