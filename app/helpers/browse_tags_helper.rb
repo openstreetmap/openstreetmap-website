@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 module BrowseTagsHelper
-  # https://wiki.openstreetmap.org/wiki/Key:wikipedia#Secondary_Wikipedia_links
-  # https://wiki.openstreetmap.org/wiki/Key:wikidata#Secondary_Wikidata_links
-  SECONDARY_WIKI_PREFIXES = "architect|artist|brand|buried|flag|genus|manufacturer|model|(?:official_|old_)?name:etymology|network|(?:heritage:|old_)?operator|owner|species|subject|taxon"
+  SECONDARY_WIKI_PREFIX_PATTERN = /[a-z:_-]+:/
+  QID_PATTERN = /[Qq][1-9][0-9]*/
+
+  # regex to match all wikipedia locale project identifiers
+  WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
   def format_key(key)
     if url = wiki_link("key", key)
@@ -80,10 +82,7 @@ module BrowseTagsHelper
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if %r{^https?://}.match?(value)
 
-    case key
-    when "wikipedia", /^(#{SECONDARY_WIKI_PREFIXES}):wikipedia/o
-      lang = "en"
-    when /^wikipedia:(\S+)$/
+    if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikipedia(?::(#{WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN}))?$/o
       lang = Regexp.last_match(1)
     else
       return nil
@@ -93,13 +92,13 @@ module BrowseTagsHelper
     value.split(";").map do |wiki_value|
       wiki_value = wiki_value.strip
 
-      # This regex should match Wikipedia language codes, everything
-      # from de to zh-classical
-      if wiki_value =~ /^([a-z-]{2,12}):(.+)$/i
+      if wiki_value =~ /^(#{WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN}):(.+)$/oi
         page_lang = Regexp.last_match(1)
         title_section = Regexp.last_match(2)
       else
         page_lang = lang
+        return nil unless page_lang
+
         title_section = wiki_value
       end
 
@@ -117,15 +116,14 @@ module BrowseTagsHelper
 
   def wikidata_links(key, value)
     # The simple wikidata-tag (this is limited to only one value)
-    if key == "wikidata" && value =~ /^[Qq][1-9][0-9]*$/
+    if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
       return [{
         :url => "//www.wikidata.org/entity/#{value}?uselang=#{I18n.locale}",
         :title => value
       }]
-    # Key has to be one of the accepted wikidata-tags
-    elsif key =~ /(#{SECONDARY_WIKI_PREFIXES}):wikidata/o &&
+    elsif key =~ /^#{SECONDARY_WIKI_PREFIX_PATTERN}wikidata$/o &&
           # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
-          value =~ /^[Qq][1-9][0-9]*(\s*;\s*[Qq][1-9][0-9]*)*$/
+          value =~ /^#{QID_PATTERN}(?:\s*;\s*#{QID_PATTERN})*$/o
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
       return value.split(";").map do |id|
         { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{I18n.locale}" }
