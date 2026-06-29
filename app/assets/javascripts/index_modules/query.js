@@ -77,7 +77,7 @@ export default function (map) {
         if (response.ok) {
           return response.json();
         }
-        throw new Error(response.statusText || response.status);
+        throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
       })
       .then(function (results) {
         let elements = results.elements;

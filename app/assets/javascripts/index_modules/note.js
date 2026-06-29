@@ -38,7 +38,7 @@ export default function (map) {
         .then(response => {
           if (response.ok) return response;
           return response.text().then(text => {
-            throw new Error(text);
+            throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
         .then(() => {
