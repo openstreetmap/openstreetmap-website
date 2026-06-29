@@ -360,6 +360,9 @@ fur:
         title_html: 'Storic de relazion: %{name}'
       older_versions: Versions plui vecjis
       newer_versions: Versions plui gnovis
+  nodes:
+    not_found_message:
+      sorry: 'Nus displâs, nol è stât pussibil cjatâ il grop cun id #%{id}.'
   changeset_comments:
     feeds:
       comment:
@@ -1074,6 +1077,7 @@ fur:
         fr: Francês
         fur: Furlan
         hr: Cravuat
+        is: Islandês
         it: Talian
         oc: Ocitan
         pl: Polac
@@ -1266,8 +1270,8 @@ fur:
       update_success_flash:
         message: Preferencis inzornadis.
       navigation:
-        preferences: Preferencis
-        advanced_preferences: Preferencis avanzadis
+        preferences: Interface
+        advanced_preferences: Avanzadis
     basic_preferences:
       show:
         title: Preferencis
@@ -1666,6 +1670,31 @@ fur:
       wikipedia:
         title: Jentre cun Vichipedie
         alt: Logo de Vichipedie
+    share:
+      share:
+        title: Condivît
+        alt: Icone di condivision
+      email:
+        title: Condivît par pueste eletroniche
+        alt: Icone pueste eletroniche
+      bluesky:
+        title: Condivît par Bluesky
+        alt: Icone Bluesky
+      facebook:
+        title: Condivît par Facebook
+        alt: Icone Facebook
+      linkedin:
+        title: Condivît par LinkedIn
+        alt: Icone LinkedIn
+      mastodon:
+        title: Condivît par Mastodon
+        alt: Icone Mastodon
+      telegram:
+        title: Condivît par Telegram
+        alt: Icone Telegram
+      x:
+        title: Condivît par X
+        alt: Icone X
   oauth:
     scopes:
       read_prefs: Lei lis preferencis dal utent
@@ -1674,6 +1703,7 @@ fur:
       write_api: Modificâ la mape
       write_changeset_comments: Comentâ i grups di cambiaments
       write_notes: Cambiâ lis notis
+      write_blocks: Cree e revoche i blocs di utents
   oauth2_applications:
     index:
       no_applications_html: Âstu une aplicazion che tu volaressis regjistrâ par doprâ
@@ -1739,7 +1769,7 @@ fur:
       my_preferences: Preferencis
       my_dashboard: La mê pagjine iniziâl
       blocks on me: Blocs su di me
-      blocks by me: Blocs aplicâts di me
+      blocks by me: Blocs creâts di me
       send message: Mande messaç
       diary: Diari
       edits: Cambiaments
@@ -1756,10 +1786,11 @@ fur:
       created from: 'Creât di:'
       status: 'Stât:'
       spam score: 'Ponts di spam:'
-      block_history: blocs ricevûts
-      moderator_history: blocs aplicâts
+      block_history: Blocs atifs
+      moderator_history: Blocs creâts
+      revoke_all_blocks: Revoche ducj i blocs
       comments: Coments
-      create_block: bloche chest utent
+      create_block: Bloche chest utent
       activate_user: ative chest utent
       confirm_user: Conferme chest utent
       confirm: Conferme
@@ -1780,18 +1811,34 @@ fur:
         a lavorâ.
     issued_blocks:
       show:
-        title: Blocs fats di %{name}
-        heading_html: Liste dai blocs di %{name}
+        title: Blocs creâts di %{name}
+        heading_html: Liste dai blocs creâts di %{name}
         empty: '%{name} nol à ancjemò metût blocs.'
     received_blocks:
       show:
         title: Blocs su %{name}
         heading_html: Liste dai blocs su %{name}
         empty: '%{name} nol è ancjemò stât blocât.'
+      edit:
+        title: Revocant ducj i blocs su %{block_on}
+        heading_html: Revocant ducj i blocs su %{block_on}
+        empty: '%{name} nol à blocs atîfs.'
+        active_blocks:
+          one: '%{count} bloc atîf'
+          other: '%{count} blocs atîfs'
+      destroy:
+        flash: Ducj i blocs atîfs a son stâts revocâts.
     lists:
       show:
         title: Utents
         heading: Utents
+        states:
+          active: Atîf
+          confirmed: Confermât
+          suspended: Suspindût
+          deleted: Eliminât
+        name_or_email: Non o Email
+        ip_address: Direzion IP
         search: Cîr
       page:
         confirm: Conferme i utents selezionâts
@@ -1802,6 +1849,7 @@ fur:
       index:
         changesets: Grups di cambiaments
         diary_entries: Vôs dal diari
+        no_comments: Nissun coment
     changeset_comments:
       index:
         title: Coments al grup di cambiaments zontâts di %{user}
@@ -1828,6 +1876,12 @@ fur:
     new:
       title: Cree un bloc par %{name}
       heading_html: Cree un bloc par %{name}
+    edit:
+      title: Modifiche dal bloc par %{name}
+      heading_html: Modifiche dal bloc par %{name}
+      revoke: Revoche bloc
+    create:
+      flash: Creât un bloc par l'utent %{name}
     update:
       success: Bloc inzornât.
     index:
@@ -1836,11 +1890,30 @@ fur:
       empty: No son stâts metûts blocs fin cumò.
     helper:
       time_future_html: Finìs ca di %{time}.
-      time_past_html: Finît %{time} indaûr.
+      until_login: Atîf fin cuant che l'utent al jentre.
+      time_past_html: Finît %{time}.
       block_duration:
         hours:
           one: '%{count} ore'
           other: '%{count} oris'
+        days:
+          one: '%{count} zornade'
+          other: '%{count} zornadis'
+        weeks:
+          one: '%{count} setemane'
+          other: '%{count} setemanis'
+        months:
+          one: '%{count} mês'
+          other: '%{count} mês'
+        years:
+          one: '%{count} an'
+          other: '%{count} agns'
+      short:
+        ended: finît
+        revoked_html: revocât di %{name}
+        active: atîf
+        active_until_read: atîf fin ae leture
+        read_html: let ai %{time}
     show:
       title: '%{block_on} blocât di %{block_by}'
       heading_html: '%{block_on} blocât di %{block_by}'
@@ -1857,7 +1930,17 @@ fur:
       display_name: Utent blocât
       creator_name: Creadôr
       reason: Reson dal bloc
+      start: Inizi
+      end: Fin
       status: Stât
+    navigation:
+      all_blocks: Ducj i blocs
+      blocks_on_me: Blocs par me
+      blocks_on_user_html: Blocs par %{user}
+      blocks_by_me: Blocs creâts di me
+      blocks_by_user_html: Blocs creâts di %{user}
+      block: 'Bloc #%{id}'
+      new_block: Gnûf bloc
   user_mutes:
     index:
       table:
@@ -1914,8 +1997,14 @@ fur:
         par cui no sta zontâ informazions personâls o di mapis cuviertis dal copyright
         o listis.
       add: Zonte une note
+    new_readonly:
+      title: Gnove note
     notes_paging_nav:
       showing_page: Pagjine %{page}
+      next: Prossim
+      previous: Precedent
+    not_found_message:
+      sorry: 'Nus displâs, nol è stât pussibil cjatâ la note cun id #%{id}.'
   javascripts:
     close: Siere
     share:
@@ -1980,6 +2069,8 @@ fur:
         km: '%{distance}km'
       errors:
         no_route: No si à rivât a cjatâ une strade tra chescj doi puescj.
+        no_place:
+          title: Ricercje falide
       instructions:
         continue_without_exit: Continue su %{name}
         slight_right_without_exit: Volte un ninin a diestre su %{name}
@@ -2041,6 +2132,7 @@ fur:
         roundabout_with_exit: Ae taronde cjape la jessude %{exit} su %{name}
         roundabout_with_exit_ordinal: Ae taronde cjape la %{exit} jessude su %{name}
         exit_roundabout: Jes de taronde su %{name}
+        ferry_without_exit: Cjape il traghet %{name}
         unnamed: cence non
         exit_counts:
           first: 1e

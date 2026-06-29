@@ -86,8 +86,8 @@ fi:
         create: Rekisteröidy
         update: Päivitä
       redaction:
-        create: Luo redaktio
-        update: Tallenna redaktio
+        create: Luo sensurointi
+        update: Tallenna sensurointi
       trace:
         create: Lataa
         update: Tallenna muutokset
@@ -210,7 +210,7 @@ fi:
         reason: Syy käyttäjän estoon. Ole mahdollisimman rauhallinen ja asiallinen
           ja kuvaile tilannetta mahdollisimman yksityiskohtaisesti. Pidä mielessä,
           että viesti tulee olemaan julkisesti näkyvillä. Muista myös, että kaikki
-          käyttäjät eivät ymmärrä yhteisön erikoissanastoa, joten pyri sen sijaan
+          käyttäjät eivät ymmärrä yhteisön erikoissanastoa, joten pyri mieluummin
           käyttämään yleiskielen käsitteitä.
         needs_view: Pitääkö tämän käyttäjän kirjautua sisään ennen kuin esto poistetaan?
       user:
@@ -258,10 +258,10 @@ fi:
     default: Oletus (tällä hetkellä %{name})
     id:
       name: iD
-      description: iD (selainkäyttöinen muokkain)
+      description: iD (selaimessa toimiva editori)
     remote:
-      name: Kauko-ohjaus
-      description: Kauko-ohjaus (JOSM, Potlatch tai Merkaartor)
+      name: Etäohjaus
+      description: Etäohjaus (JOSM, Potlatch tai Merkaartor)
   auth:
     providers:
       none: Ei mitään
@@ -418,8 +418,9 @@ fi:
     deleted_ago_by_html: Poistanut %{user}, %{time_ago}
     edited_ago_by_html: Muokannut %{time_ago} %{user}
     version: Versio
+    redacted_version: Sensuroitu versio
     in_changeset: Muutoskokoelma
-    anonymous: tuntematon
+    anonymous: anonyymi
     no_comment: (ei kommenttia)
     part_of: Osana seuraavia
     part_of_relations:
@@ -429,6 +430,7 @@ fi:
       one: '%{count} viiva'
       other: '%{count} viivaa'
     download_xml: Lataa XML-tiedostona
+    view_unredacted_history: Näytä sensuroimaton historia
     location: 'Sijainti:'
     node:
       title_html: 'Piste: %{name}'
@@ -467,9 +469,9 @@ fi:
         changeset: muutoskokoelma
         note: karttailmoitus
     redacted:
-      redaction: Redaktio %{id}
-      message_html: Tämän %{type}-tyypin versiota %{version} ei voi näyttää koska
-        se on relaatoitu. Katso lisätietoja %{redaction_link}.
+      redaction: Sensuroinnin %{id}
+      message_html: Tämän %{type}-tyypin versiota %{version} ei voida näyttää, koska
+        se on sensuroitu. Katso lisätietoja %{redaction_link}.
       type:
         node: piste
         way: viiva
@@ -486,6 +488,9 @@ fi:
         key: Wikisivu tunnisteelle %{key}
         tag: Wikisivu tunnisteelle %{key}=%{value}
       wikidata_link: '%{page} Wikidata-sivustolla'
+      wikidata_preview:
+        one: Wikidata-kohteen esikatselu
+        other: Wikidata-kohteiden esikatselu
       wikipedia_link: Artikkeli %{page} Wikipediassa
       wikimedia_commons_link: '%{page} Wikimedia Commonsissa'
       telephone_link: Soita numeroon %{phone_number}
@@ -514,6 +519,9 @@ fi:
         title_html: Relaation %{name} historia
       older_versions: Vanhemmat versiot
       newer_versions: Uudemmat versiot
+    actions:
+      view_redacted_data: Näytä sensuroitu data
+      view_redaction_message: Näytä sensurointiviesti
   nodes:
     not_found_message:
       sorry: 'Valitettavasti pistettä #%{id} ei löydy'
@@ -954,7 +962,7 @@ fi:
           taxi: Taksi
           telephone: Puhelinkoppi
           theatre: Teatteri
-          toilets: Käymälä
+          toilets: Vessat
           townhall: Kaupungintalo
           training: Koulutuslaitos
           university: Yliopisto
@@ -1246,7 +1254,7 @@ fi:
           sports_centre: Urheilukeskus
           stadium: Stadioni
           swimming_pool: Uima-allas
-          track: Kilparata (Ei-moottoriurheilun)
+          track: Kilparata (ei moottoriurheilun)
           water_park: Vesipuisto
           "yes": Vapaa-aika
         lock:
@@ -1602,6 +1610,7 @@ fi:
           lagoon: Laguuni
           wastewater: Jätevesiallas
           oxbow: Juolua
+          stream_pool: Jyrhämä
           lock: Sulku
         waterway:
           artificial: Kanava
@@ -1652,6 +1661,7 @@ fi:
         nation: Kansainvälinen raja
         national: Kansainvälinen raja
         neighbourhood: Naapuruston raja
+        parish: Kuntaraja
         province: Provinssin raja
         região: Alueen raja
         region: Alueen raja
@@ -1773,7 +1783,7 @@ fi:
       disclaimer:
         intro: 'Varmista ennen ilmiantoa seuraavat asiat:'
         not_just_mistake: Ongelma ei ole vain väärinkäsitys
-        unable_to_fix: Et voi ratkaista ongelmaa itse tai muun yhteisön tuella
+        unable_to_fix: Et pysty ratkaisemaan ongelmaa itse tai muun yhteisön tuella
         resolve_with_user: Kyseinen käyttäjä ei ole ollut halukas yhteistyöhön
       categories:
         diary_entry:
@@ -1838,6 +1848,7 @@ fi:
         ia: Interlingua
         is: islanti
         it: italia
+        kw: korni
         gcf: guadeloupen kreoli
         ku-Latn: kurdi (latinalainen)
         lv: latvia
@@ -1919,7 +1930,7 @@ fi:
     logo:
       alt_text: OpenStreetMap-logo
     main_navigation: Päävalikko
-    layer_info: Tasotiedot
+    layer_info: Tietoa karttatasosta
     start_mapping: Aloita kartoittaminen
     intro_header: Tervetuloa OpenStreetMapiin!
     intro_text: OpenStreetMap on vapaaehtoisten luoma maailmankartta, jota voi käyttää
@@ -2079,7 +2090,7 @@ fi:
         subject_own: '[OpenStreetMap] %{commenter} on uudelleenavannut karttailmoituksesi'
         subject_other: '[OpenStreetMap] %{commenter} on uudelleenavannut sinua kiinnostavan
           karttailmoituksen'
-        your_note: '%{commenter} on uudelleenavannut karttamerkintäsi lähellä paikkaa
+        your_note: '%{commenter} on uudelleenavannut karttailmoituksesi lähellä paikkaa
           %{place}.'
         your_note_html: '%{commenter} on uudelleenavannut karttailmoituksesi lähellä
           paikkaa %{place}.'
@@ -2300,6 +2311,7 @@ fi:
         image: Kuva
         company: Yritys
         location: Sijainti
+        contribution_calendar: Muokkauskalenteri
     descriptions:
       show:
         title: Muokkaa profiilia
@@ -2360,7 +2372,13 @@ fi:
         failure: Profiilin sijainnin päivittäminen epäonnistui.
     heatmaps:
       show:
+        title: Muokkauskalenterin asetukset
+        show_contribution_calendar_in_public: Näytä muokkauskalenteri käyttäjäsivullasi
+        save: Päivitä muokkauskalenterin asetukset
         cancel: Peruuta
+      update:
+        success: Muokkauskalenterin asetukset päivitetty.
+        failure: Muokkauskalenterin asetuksia ei voitu päivittää.
   sessions:
     new:
       tab_title: Kirjaudu
@@ -2599,6 +2617,9 @@ fi:
         contributors_at_cc_by: CC BY -lisenssillä
         contributors_at_land_vorarlberg: Land Vorarlbergistä
         contributors_at_cc_by_at_with_amendments: CC-BY AT -lisenssillä tietyin muutoksin
+        contributors_au_credit_html: '%{australia}: Sisältää tai on kehitetty käyttäen
+          hallinnollisia rajoja &copy; %{geoscape_australia_link}, Australian liittovaltion
+          lisensoimia lisenssin %{cc_licence_link} alla.'
         contributors_au_australia: Australia
         contributors_au_geoscape_australia: Geoscape Australia
         contributors_au_cc_licence: Creative Commons Nimeä 4.0 Kansainvälinen (CC
@@ -2620,10 +2641,15 @@ fi:
           Générale des Impôtsista.'
         contributors_fr_france: Ranska
         contributors_hr_croatia: Kroatia
+        contributors_hr_dgu: Kroatian geodeettinen hallinto
+        contributors_hr_open_data_portal: Kansallinen avoimen datan portaali
         contributors_nl_netherlands: Alankomaat
         contributors_nz_new_zealand: Uusi-Seelanti
+        contributors_nz_linz_data_service: LINZ-aineistopalvelu
         contributors_nz_cc_by: CC BY 4.0
         contributors_rs_serbia: Serbia
+        contributors_rs_rgz: Serbian geodeettinen hallinto
+        contributors_rs_open_data_portal: Kansallinen avoimen datan portaali
         contributors_si_credit_html: '%{slovenia}: Sisältää %{gu_link} sekä %{mkgp_link}
           tuottamia karttatietoja (Slovenian julkista karttamateriaalia).'
         contributors_si_slovenia: Slovenia
@@ -2700,8 +2726,11 @@ fi:
             ja lisätä tai korjata kohta itse.
       other_concerns:
         title: Muut huolenaiheet
-        copyright: tekijänoikeussivu
-        working_group: OSM-säätiön työryhmä
+        concerns_html: Jos sinulla on huolenaiheita sisällöstämme tai tietojemme käytöstä,
+          katso lisätietoja oikeudellisesta tiedosta %{copyright_link} tai ota yhteyttä
+          asianmukaiseen %{working_group_link}.
+        copyright: tekijänoikeussivulla
+        working_group: OSM-säätiön työryhmään
     help:
       title: Ohjekeskus
       introduction: Ohjeita ja vinkkejä OpenStreetMapin käyttöön on saatavilla useista
@@ -2739,13 +2768,13 @@ fi:
         description: Tutustu syvällisemmin OpenStreetMapiin wikikirjastossa. Osittain
           englanninkielinen.
     potlatch:
-      removed: OpenStreetMapin oletusmuokkausohjelmaksi on valittu Potlatch. Adoben
+      removed: OpenStreetMapin oletusmuokkausohjelmaksesi on valittu Potlatch. Adoben
         Flash Player -lisäosan tuki on päättynyt, minkä vuoksi Potlatch ei ole enää
         saatavilla verkkoselaimessa.
       desktop_application_html: Voit edelleen käyttää Potlatchia %{download_link}.
       download: lataamalla työpöytäsovelluksen Macille ja Windowsille
-      id_editor_html: Vaihtoehtoisesti voit asettaa oletusmuokkaimeksi iD:n, joka
-        toimii verkkoselaimessasi kuten Potlatch aiemmin. %{change_preferences_link}.
+      id_editor_html: Vaihtoehtoisesti voit asettaa oletuseditoriksi iD:n, joka toimii
+        verkkoselaimessasi, kuten Potlatch aiemmin. %{change_preferences_link}.
       change_preferences: Muuta asetuksiasi täällä
     any_questions:
       title: Kysyttävää?
@@ -2798,7 +2827,7 @@ fi:
         a_way_html: '%{way} on viiva tai alue, kuten tie, puro, järvi tai rakennus.'
         a_tag_html: '%{tag} sisältää tietoa pisteestä tai viivasta. Tällaista tietoa
           voi olla vaikkapa ravintolan nimi tai tien nopeusrajoitus.'
-        editor: Muokkain
+        editor: Editori
         node: Piste
         way: viiva
         tag: tunniste
@@ -2830,18 +2859,19 @@ fi:
       local_chapters:
         title: Paikalliset osastot
         about_text: Paikalliset osastot ovat maa- tai aluetason ryhmiä, jotka ovat
-          perustaneet muodollisesti päteviä voittoa tavoittelemattomia oikeushenkilöitä.
+          perustaneet muodollisesti tunnistetun voittoa tavoittelemattoman oikeushenkilön.
           Ne edustavat alueensa karttaa ja kartoittajia paikallishallinnon, yritysten
-          ja median suuntaan. Ne ovat sopineet yhteydestä OpenStreetMap-säätiöön (OSMF),
+          ja median suuntaan. Ne ovat sopineet kuuluvansa OpenStreetMap-säätiöön (OSMF),
           mikä antaa niille yhteyden laki- ja tekijänoikeuselimeen.
-        list_text: 'Seuraavat yhteisöt on virallisesti tunnustettu paikallisiksi osastoiksi:'
+        list_text: 'Seuraavat yhteisöt on muodollisesti tunnustettu paikallisiksi
+          osastoiksi:'
       other_groups:
         title: Muut ryhmät
         other_groups_html: |-
-          Ryhmää ei ole tarvetta tunnustaa virallisesti kuten paikallisosastoja.
+          Ryhmää ei ole tarvetta tunnustaa muodollisesti kuten paikallisosastoja.
           Monet ryhmät toimivat erittäin menestyksekkäästi epävirallisina ihmisten kokoontumisina tai
           yhteisöryhminä. Kuka tahansa voi perustaa näitä tai liittyä niihin. Lue lisää osoitteesta %{communities_wiki_link}.
-        communities_wiki: Yhteisöjen wiki-sivu
+        communities_wiki: yhteisöjen wiki-sivulla
   social_links:
     show:
       website: verkkosivu
@@ -2932,10 +2962,10 @@ fi:
         bridge: Musta kehys = silta
         private: Yksityinen
         destination: Ei läpikulkua
-        construction: Rakenteilla olevia teitä
+        construction: Rakenteilla olevat tiet
         bus_stop: Bussipysäkki
         bicycle_shop: Pyöräkauppa
-        bicycle_rental: Polkupyörän vuokraus
+        bicycle_rental: Kaupunkipyöräasema
         bicycle_parking: Pyöräpysäköinti
         bicycle_parking_small: Pieni pyöräpysäköinti
         toilets: Vessat
@@ -3014,7 +3044,7 @@ fi:
       start_coordinates: 'Alkupisteen koordinaatit:'
       coordinates_html: '%{latitude}; %{longitude}'
       map: näytä paikka kartalla
-      edit: avaa muokkaimessa
+      edit: avaa editorissa
       owner: 'Käyttäjä:'
       description: 'Kuvaus:'
       tags: 'Tunnisteet:'
@@ -3032,7 +3062,7 @@ fi:
       more: tiedot
       trace_details: Näytä jäljen tiedot
       view_map: Näytä sijainti kartalla
-      edit_map: Avaa muokkaimessa
+      edit_map: Avaa editorissa
       public: JULKINEN
       identifiable: TUNNISTETTAVA
       private: YKSITYINEN
@@ -3143,7 +3173,7 @@ fi:
       read_gpx: Yksityisten GPS-jälkien käsittely
       write_gpx: GPS-jälkien tallentaminen
       write_notes: Karttailmoitusten muokkaaminen
-      write_redactions: Aineiston toimittaminen
+      write_redactions: Sensuroida kartta-aineistoa
       write_blocks: Käyttäjäestojen määrääminen ja kumoaminen
       read_email: Lue käyttäjän sähköpostiosoite
       consume_messages: Käyttäjäviestien lukeminen, tilan päivittäminen ja poistaminen
@@ -3220,6 +3250,9 @@ fi:
           ilmaiseksi.
         paragraph_2: Rekisteröidy ostallistuaksesi kartoittamiseen.
         welcome: Tervetuloa OpenStreetMapiin
+      duplicate_social_email: Jos sinulla on jo OpenStreetMap-tili ja haluat käyttää
+        kolmannen osapuolen identiteetintarjoajaa, kirjaudu sisään salasanallasi ja
+        muokkaa tilisi asetuksia.
       display name description: Julkisesti näkyvä käyttäjänimi. Tätä voi myöhemmin
         muuttaa asetuksista.
       by_signing_up:
@@ -3298,6 +3331,7 @@ fi:
       change_image: Vaihda kuvaa
       edit_company: Muokkaa yritystä
       edit_location: Muokkaa sijaintia
+      edit_contribution_calendar: Muokkauskalenterin asetukset
       contributions:
         one: '%{count} muokkaus viimeisen vuoden aikana'
         other: '%{count} muokkausta viimeisen vuoden aikana'
@@ -3336,6 +3370,9 @@ fi:
         heading_html: Peruutetaan kaikki %{block_on} estot
         empty: Käyttäjällä %{name} ei ole aktiivisia estoja.
         confirm: 'Haluatko varmasti poistaa seuraavat: %{active_blocks}?'
+        active_blocks:
+          one: '%{count} aktiivinen esto'
+          other: '%{count} aktiivista estoa'
         revoke: Peruuta esto!
       destroy:
         flash: Kaikki aktiiviset estot on peruttu.
@@ -3566,8 +3603,8 @@ fi:
       event_reopened_by_anonymous_html: Anonyymi käyttäjä uudelleenavannut %{time_ago}
       event_hidden_by_html: Piilottanut %{user}, %{time_ago}
       report: ilmiantaa karttailmoituksen
-      anonymous_warning: Suhtaudu varauksella tunnistautumattomien käyttäjien karttailmoituksiin
-        ja kommentteihin.
+      anonymous_warning: Tämä karttailmoitus sisältää anonyymien käyttäjien kommentteja,
+        jotka tulisi vahvistaa erikseen.
       discussion: Keskustelu
       subscribe: Tilaa päivitykset
       unsubscribe: Peruuta tilaus
@@ -3596,8 +3633,8 @@ fi:
         Kiitos panoksestasi! Kannustamme sinua %{contribute_by_yourself}, sillä se
         ei ole monimutkaista ja %{community_can_help}.
       x_anonymous_notes:
-        one: '%{count} tunnistautumattoman karttailmoituksen'
-        other: '%{count} tunnistautumattoman karttailmoitusta'
+        one: '%{count} nimettömän karttailmoituksen'
+        other: '%{count} nimetöntä karttailmoitusta'
       counter_warning_guide_link:
         text: osallistumaan muokkaukseen itse
       counter_warning_forum_link:
@@ -3664,7 +3701,7 @@ fi:
         data: Kartta-aineisto
         gps: Julkiset GPS-jäljet
         overlays: Nämä toiminnot on tarkoitettu karttavirheiden korjaamiseen
-        title: Tasot
+        title: Karttatasot
       openstreetmap_contributors: OpenStreetMap-kartoittajat
       make_a_donation: Lahjoita
       website_and_api_terms: Verkkosivusto ja API-ehdot
@@ -3675,6 +3712,8 @@ fi:
       tracestrack_credit: 'Laatat: %{tracestrack_link}'
       hotosm_credit: 'Laattojen tyyli: %{osm_france_link} ylläpitämä %{hotosm_link}'
       hotosm_name: Humanitarian OpenStreetMap -tiimi
+      openmaptiles_credit: Vektorilaatat osoitteesta %{openmaptiles_link}, palvelun
+        ylläpitäjä on %{maptiler_link}
     site:
       edit_tooltip: Muokkaa karttaa
       edit_disabled_tooltip: Lähennä karttaa muokataksesi sitä
@@ -3804,37 +3843,41 @@ fi:
     remote_edit:
       failed:
         title: Muokkaaminen epäonnistui
+        body: Varmista, että JOSM tai Merkaartor on ladattu, ja että etäohjausasetus
+          on käytössä
     edit:
       id_not_configured:
         title: iD-ohjelmaa ei ole asetettu
+        body: 'Lisätietoja: katso CONFIGURE.md'
   redactions:
     edit:
-      heading: Muokkaa relaatiota
-      title: Muokkaa relaatiota
+      heading: Muokkaa sensurointia
+      title: Muokkaa sensurointia
     index:
-      empty: Ei ole näytettävää relaatiota
-      heading: Relaatioiden luettelo
-      title: Relaatioiden luettelo
+      empty: Ei näytettäviä sensurointeja.
+      heading: Sensurointien luettelo
+      title: Sensurointien luettelo
+      new: Uusi sensurointi
     new:
-      heading: Kirjoita tietoja uudesta laitoksesta
-      title: Luodaan uusi redaktio
+      heading: Kirjoita lisätietoja uudesta sensuroinnista
+      title: Luodaan uusi sensurointi
     show:
       description: 'Kuvaus:'
-      heading: Näytetään redaktio ”%{title}”
-      title: Näytetään redaktio
+      heading: Näytetään sensurointi ”%{title}”
+      title: Näytetään sensurointi
       user: 'Luoja:'
-      edit: Muokkaa tätä relaatiota
-      destroy: Poista tämä redaktio
+      edit: Muokkaa tätä sensurointia
+      destroy: Poista tämä sensurointi
       confirm: Oletko varma?
     create:
-      flash: Redaktio luotu.
+      flash: Sensurointi luotu.
     update:
       flash: Muutokset on tallennettu.
     destroy:
-      not_empty: Redaktio ei ole tyhjä. Poista redaktiotiedot kaikista tähän redaktioon
-        liittyvistä versioista ennen sen tuhoamista.
-      flash: Redaktio tuhottu.
-      error: Relaatiota tuhottaessa tapahtui virhe.
+      not_empty: Sensurointi ei ole tyhjä. Palauta sensuroidut tiedot kaikista tähän
+        sensurointiin liittyvistä versioista ennen sen tuhoamista.
+      flash: Sensurointi tuhottu.
+      error: Sensurointia tuhottaessa tapahtui virhe.
   validations:
     leading_whitespace: tyhjää tilaa alussa
     trailing_whitespace: tyhjää tilaa lopussa
