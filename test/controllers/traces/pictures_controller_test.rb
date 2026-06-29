@@ -65,6 +65,16 @@ module Traces
       assert_response :not_found
     end
 
+    # Check that trace pictures can't be downloaded when the traces feature is disabled
+    def test_show_disabled
+      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+
+      with_settings(:traces_disabled => true) do
+        get trace_picture_path(public_trace_file.user, public_trace_file)
+        assert_response :not_found
+      end
+    end
+
     private
 
     def check_trace_picture(trace)

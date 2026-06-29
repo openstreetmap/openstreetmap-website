@@ -52,6 +52,8 @@ module ApplicationHelper
       [about_path, t("layouts.header.about")]
     ]
 
+    items.delete_at(2) if Settings.traces_disabled
+
     if Settings.status != "database_offline" && can?(:index, Issue)
       items.prepend([
                       issues_path(:status => "open"),
