@@ -323,6 +323,15 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_equal "//commons.wikimedia.org/wiki/File:Corsica-vizzavona-abri-southwell.jpg?uselang=en", link[:url]
     assert_equal "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg", link[:title]
 
+    # Reject namespaces other than File and Category
+    link = wikimedia_commons_link("wikimedia_commons", "Commons:Featured pictures")
+    assert_nil link
+
+    # Secondary Wikimedia Commons links
+    link = wikimedia_commons_link("artist:wikimedia_commons", "File:Unknown Artist Portrait.jpg")
+    assert_equal "//commons.wikimedia.org/wiki/File:Unknown%20Artist%20Portrait.jpg?uselang=en", link[:url]
+    assert_equal "File:Unknown Artist Portrait.jpg", link[:title]
+
     I18n.with_locale "pt-BR" do
       link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
       assert_equal "//commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
