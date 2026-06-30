@@ -1,0 +1,53 @@
+<%# locals: (notification:) %>
+
+<article class="user-notification">
+  <div class="row align-items-center">
+    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
+      <%= link_to(
+            t(".headline"),
+            changeset_path(
+              notification.changeset,
+              :anchor => "c#{notification.comment_id}"
+            )
+          ) %>
+    </h2>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+  </div>
+
+  <div class="row">
+    <div class="col-1 text-center">
+      <%= link_to(
+            user_thumbnail(notification.commenter, :class => "img-fluid"),
+            user_url(notification.commenter),
+            :target => "_blank", :rel => "noopener"
+          ) %>
+    </div>
+    <div class="col-11">
+      <p class="text-body-secondary mb-1 event-description">
+        <% if notification.changeset_summary %>
+          <%= t(
+                ".description_with_summary_html",
+                :commenter_name_with_link => link_to(
+                  notification.commenter.display_name,
+                  notification.commenter
+                ),
+                :changeset_id_with_link => link_to("##{notification.changeset_id}", notification.changeset),
+                :changeset_summary => notification.changeset_summary
+              ) %>
+        <% else %>
+          <%= t(
+                ".description_without_summary_html",
+                :commenter_name_with_link => link_to(
+                  notification.commenter.display_name,
+                  notification.commenter
+                ),
+                :changeset_id_with_link => link_to("##{notification.changeset_id}", notification.changeset)
+              ) %>
+        <% end %>
+      </p>
+      <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
+        <%= notification.comment_body.to_html %>
+      </blockquote>
+    </div>
+  </div>
+</article>

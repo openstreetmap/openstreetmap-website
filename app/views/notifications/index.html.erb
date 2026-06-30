@@ -1,0 +1,15 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <p class="mb-0">
+    <%= t(
+          ".point_to_preferences_html",
+          :cta_with_link => link_to(t(".cta"), notification_preferences_path)
+        ) %>
+  </p>
+<% end %>
+
+<% if @notifications.items.empty? %>
+  <p><%= t(".no_notifications") %></p>
+<% else %>
+  <%= render "page", :notifications => @notifications, :params => @params %>
+<% end %>
