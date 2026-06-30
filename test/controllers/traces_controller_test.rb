@@ -430,15 +430,19 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal File.new(fixture).read, trace.file.blob.download
     trace.destroy
     assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
+  end
 
-    # Rewind the file
-    file.rewind
+  # A legacy visibility (public or private) is no longer accepted on upload
+  def test_create_post_with_legacy_visibility
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+    file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+    user = create(:user)
+    session_for(user)
 
-    # The legacy public and private values are no longer accepted on upload
     assert_no_difference "Trace.count" do
       post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "public" } }
     end
-    assert_response :bad_request
+    assert_template :new
   end
 
   # Test creating a trace with validation errors

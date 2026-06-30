@@ -53,6 +53,7 @@ class Trace < ApplicationRecord
   validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => VISIBILITIES + LEGACY_VISIBILITIES
+  validates :visibility, :inclusion => { :in => VISIBILITIES }, :on => :create
   validate :visibility_not_changed_to_legacy, :on => :update
 
   after_save :set_filename

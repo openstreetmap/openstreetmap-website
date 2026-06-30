@@ -28,9 +28,6 @@ module Api
       description = params[:description] || ""
       visibility = params[:visibility]
 
-      # New traces can only be trackable or identifiable.
-      return head :bad_request unless Trace.valid_visibility?(visibility)
-
       if params.expect(:file).respond_to?(:read)
         trace = do_create(params[:file], tags, description, visibility)
 

@@ -103,9 +103,6 @@ class TracesController < ApplicationController
   def create
     @title = t ".upload_trace"
 
-    # New traces can only be trackable or identifiable.
-    return head :bad_request unless Trace.valid_visibility?(params[:trace][:visibility])
-
     logger.info(params[:trace][:gpx_file].class.name)
 
     if params[:trace][:gpx_file].respond_to?(:read)
