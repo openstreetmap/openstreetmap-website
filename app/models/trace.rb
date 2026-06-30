@@ -67,6 +67,11 @@ class Trace < ApplicationRecord
     LEGACY_VISIBILITIES.include?(visibility)
   end
 
+  # Visibility for new uploads when the user has no preference.
+  def self.default_visibility
+    "trackable"
+  end
+
   def tagstring
     tags.collect(&:tag).join(", ")
   end

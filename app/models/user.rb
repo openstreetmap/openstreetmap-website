@@ -299,7 +299,7 @@ class User < ApplicationRecord
     if Trace.valid_visibility?(visibility)
       visibility
     else
-      "trackable"
+      Trace.default_visibility
     end
   end
 
