@@ -152,22 +152,37 @@ module Api
 
       trace.destroy
       assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
+    end
 
-      # Rewind the file
-      file.rewind
-
-      # The legacy public flag is no longer supported, test returns bad request
+    # The legacy public flag is no longer supported and returns bad request
+    def test_create_legacy_public_flag
+      fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+      file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+      user = create(:user)
       auth_header = bearer_authorization_header user
+
       assert_no_difference "Trace.count" do
         post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
       end
       assert_response :bad_request
 
-      # Rewind the file
       file.rewind
 
       assert_no_difference "Trace.count" do
         post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
+      end
+      assert_response :bad_request
+    end
+
+    # A legacy visibility (public or private) is no longer accepted on upload
+    def test_create_legacy_visibility
+      fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+      file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+
+      assert_no_difference "Trace.count" do
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "public" }, :headers => auth_header
       end
       assert_response :bad_request
     end
