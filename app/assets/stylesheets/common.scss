@@ -238,14 +238,14 @@ nav.primary, nav.secondary {
 
   #sidebar, #map {
     position: relative;
-    height: 100%;
+    width: 100%;
+    height: 50%;
     overflow-x: hidden;
     overflow-y: auto;
   }
 
   #sidebar {
     float: left;
-    width: $sidebarWidth;
   }
 
   .overlay-sidebar #sidebar {
@@ -260,6 +260,19 @@ nav.primary, nav.secondary {
     }
   }
 
+  .overlay-sidebar.overlay-right-sidebar {
+    #sidebar {
+      position: absolute;
+      width: 350px;
+      height: auto;
+      overflow: hidden;
+    }
+
+    #map {
+      height: 100%;
+    }
+  }
+
   #content:not(.overlay-sidebar) :is(.welcome, #banner) {
     @extend .d-none;
   }
@@ -269,7 +282,6 @@ nav.primary, nav.secondary {
   }
 
   #map {
-    height: 100%;
     overflow: hidden;
 
     &.query-active {
@@ -297,38 +309,33 @@ nav.primary, nav.secondary {
     display: none;
     position: relative;
     float: right;
-    width: 250px;
-    height: 100%;
-    overflow: auto;
+    width: 100%;
+    height: 50%;
+    overflow-x: auto;
+    overflow-y: scroll;
   }
-}
 
-@include media-breakpoint-down(md) {
-  body.map-layout {
+  @include media-breakpoint-up(md) {
     #sidebar, #map {
-      position: relative;
-      overflow-x: hidden;
-      width: 100%;
-      height: 50%;
+      height: 100%;
+    }
+
+    #sidebar {
+      width: $sidebarWidth;
+    }
+
+    #map {
+      width: auto;
+    }
+
+    .overlay-sidebar.overlay-right-sidebar #sidebar {
+      width: $sidebarWidth;
     }
 
     #map-ui {
-      width: 100%;
-      height: 50%;
-      overflow-y: scroll;
-    }
-
-    .overlay-sidebar.overlay-right-sidebar {
-      #sidebar {
-        position: absolute;
-        width: 350px;
-        height: auto;
-        overflow: hidden;
-      }
-
-      #map {
-        height: 100%;
-      }
+      width: 250px;
+      height: 100%;
+      overflow-y: auto;
     }
   }
 }
