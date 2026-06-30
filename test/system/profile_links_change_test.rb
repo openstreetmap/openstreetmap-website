@@ -168,4 +168,30 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
       assert_link "example.com/d"
     end
   end
+
+  test "can remove invalid link after validation error and resubmit" do
+    user = create(:user)
+
+    sign_in_as(user)
+    visit user_path(user)
+
+    within_content_body do
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
+      click_on "Add Social Link"
+      fill_in "Social Profile Link 1", :with => "https://example.com/valid"
+      click_on "Add Social Link"
+      click_on "Update Profile"
+
+      assert_field "Social Profile Link 2"
+
+      click_on "Remove Social Profile Link 2"
+
+      assert_no_field "Social Profile Link 2"
+
+      click_on "Update Profile"
+
+      assert_link "example.com/valid"
+    end
+  end
 end
