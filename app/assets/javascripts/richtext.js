@@ -73,5 +73,18 @@
         container.find("button[data-bs-target$='_edit']").tab("show");
       }
     });
+
+    $(".richtext_container").each(function () {
+      const container = $(this);
+      const helpSidebar = container.find(".richtext_help_sidebar");
+      const helpTab = container.find("button[data-bs-target$='_help']");
+
+      if (helpSidebar.is(":visible")) {
+        // Desktop layout uses the sidebar, so the hidden help tab should not be keyboard-targetable.
+        helpTab.prop("disabled", true).addClass("disabled").attr("aria-disabled", "true");
+      } else {
+        helpTab.prop("disabled", false).removeClass("disabled").removeAttr("aria-disabled");
+      }
+    });
   }
 }());
