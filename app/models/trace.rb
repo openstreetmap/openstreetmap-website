@@ -76,10 +76,33 @@ class Trace < ApplicationRecord
   def file=(attachable)
     case attachable
     when ActionDispatch::Http::UploadedFile, Rack::Test::UploadedFile
-      super(:io => attachable,
-            :filename => attachable.original_filename,
-            :content_type => content_type(attachable.path),
-            :identify => false)
+      type = content_type(attachable.path)
+
+      if type == Mime[:gpx]
+        # Gzip plain GPX before S3 to save storage.
+        gz = Tempfile.new(["trace", ".gpx.gz"])
+        gz.binmode
+
+        writer = Zlib::GzipWriter.new(gz)
+        File.open(attachable.path, "rb") { |source| IO.copy_stream(source, writer) }
+        writer.finish
+        gz.rewind
+        # Delete the temp file from disk now, but keep gz open. Active Storage still
+        # reads this open handle to upload on save same as xml_file.
+        gz.unlink
+
+        # Flag server_gzipped=true, so the download and xml_file know the server gzipped it.
+        super(:io => gz,
+              :filename => attachable.original_filename,
+              :content_type => "application/gpx+xml",
+              :metadata => { "custom" => { "server_gzipped" => true } },
+              :identify => false)
+      else
+        super(:io => attachable,
+              :filename => attachable.original_filename,
+              :content_type => type,
+              :identify => false)
+      end
     else
       super
     end
@@ -166,7 +189,8 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    gzipped = file.content_type.end_with?("gzip")
+    # Gzipped if the user sent a .gz or the server gzipped it.
+    gzipped = file.content_type.end_with?("gzip") || file.custom_metadata["server_gzipped"]
     bzipped = file.content_type.end_with?("bzip2")
     zipped = file.content_type.start_with?("application/zip")
     tarred = file.content_type.start_with?("application/x-tar")

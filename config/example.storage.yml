@@ -5,3 +5,11 @@ test:
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
+
+# GpxS3 stores plain GPX gzipped on S3 and serves it with Content-Encoding: gzip.
+# gps_traces:
+#   service: GpxS3
+#   access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
+#   secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+#   region: eu-west-1
+#   bucket: openstreetmap-gps-traces
