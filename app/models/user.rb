@@ -294,6 +294,15 @@ class User < ApplicationRecord
     preference.update!(:v => language)
   end
 
+  def default_trace_visibility
+    visibility = preferences.find_by(:k => "gps.trace.visibility")&.v
+    if Trace.valid_visibility?(visibility)
+      visibility
+    else
+      Trace.default_visibility
+    end
+  end
+
   def notification_preferences
     @notification_preferences ||= UserNotificationPreferences.new(self)
   end

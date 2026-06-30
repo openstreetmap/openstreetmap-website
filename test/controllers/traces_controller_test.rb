@@ -198,7 +198,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check a multi-page index
   def test_index_paged
     # Create several pages worth of traces
-    create_list(:trace, 50)
+    create_list(:trace, 50, :visibility => "identifiable")
     next_path = traces_path
 
     # Try and get the index
@@ -250,7 +250,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check a multi-page index of tagged traces
   def test_index_tagged_paged
     # Create several pages worth of traces
-    create_list(:trace, 100) do |trace, index|
+    create_list(:trace, 100, :visibility => "identifiable") do |trace, index|
       create(:tracetag, :trace => trace, :tag => "London") if index.even?
     end
     next_path = traces_path :tag => "London"
@@ -379,22 +379,25 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_template :new
     assert_select "select#trace_visibility option[value=identifiable][selected]", 1
 
-    # Now authenticated as a user with gps.trace.public set
+    # Now authenticated as a user with the legacy gps.trace.public preference,
+    # which is no longer supported and falls back to trackable
     second_user = create(:user)
     create(:user_preference, :user => second_user, :k => "gps.trace.public", :v => "default")
     session_for(second_user)
     get new_trace_path
     assert_response :success
     assert_template :new
-    assert_select "select#trace_visibility option[value=public][selected]", 1
+    assert_select "select#trace_visibility option[value=trackable][selected]", 1
 
-    # Now authenticated as a user with no preferences
+    # Now authenticated as a user with no preferences, defaults to trackable
     third_user = create(:user)
     session_for(third_user)
     get new_trace_path
     assert_response :success
     assert_template :new
-    assert_select "select#trace_visibility option[value=private][selected]", 1
+    assert_select "select#trace_visibility option[value=trackable][selected]", 1
+    # New uploads only offer the two supported visibilities
+    assert_select "select#trace_visibility option", 2
   end
 
   # Test creating a trace
@@ -427,6 +430,19 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal File.new(fixture).read, trace.file.blob.download
     trace.destroy
     assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
+  end
+
+  # A legacy visibility (public or private) is no longer accepted on upload
+  def test_create_post_with_legacy_visibility
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+    file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+    user = create(:user)
+    session_for(user)
+
+    assert_no_difference "Trace.count" do
+      post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "public" } }
+    end
+    assert_template :new
   end
 
   # Test creating a trace with validation errors
@@ -473,6 +489,18 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     session_for(public_trace_file.user)
     get edit_trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)
     assert_response :success
+  end
+
+  # An old visibility stays selected in the edit form, so changing other fields
+  # does not change it by mistake.
+  def test_edit_get_keeps_legacy_visibility
+    trace = create(:trace, :visibility => "private")
+
+    session_for(trace.user)
+    get edit_trace_path(:display_name => trace.user.display_name, :id => trace)
+    assert_response :success
+    assert_select "select#trace_visibility option", 3
+    assert_select "select#trace_visibility option[value=private][selected]", 1
   end
 
   # Test saving edits to a trace

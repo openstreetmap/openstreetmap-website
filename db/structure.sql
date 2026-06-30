@@ -871,7 +871,7 @@ CREATE TABLE public.gpx_files (
     "timestamp" timestamp without time zone NOT NULL,
     description character varying DEFAULT ''::character varying NOT NULL,
     inserted boolean NOT NULL,
-    visibility public.gpx_visibility_enum DEFAULT 'public'::public.gpx_visibility_enum NOT NULL
+    visibility public.gpx_visibility_enum DEFAULT 'trackable'::public.gpx_visibility_enum NOT NULL
 );
 
 
@@ -3781,6 +3781,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20260624101500'),
 ('20260223105922'),
 ('20260218183352'),
 ('20260113144310'),
