@@ -784,24 +784,34 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_hide
-    user = create(:user)
-    diary_entry = create(:diary_entry, :user => user)
+    author = create(:user)
+    diary_entry = create(:diary_entry, :user => author)
 
     # Try without logging in
-    post hide_diary_entry_path(user, diary_entry)
+    post hide_diary_entry_path(author, diary_entry)
     assert_response :forbidden
     assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    session_for(user)
-    post hide_diary_entry_path(user, diary_entry)
+    session_for(create(:user))
+    post hide_diary_entry_path(author, diary_entry)
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert DiaryEntry.find(diary_entry.id).visible
 
+    # Now try as the author
+    session_for(author)
+    post hide_diary_entry_path(:display_name => author.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => author.display_name
+    assert_not DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
+
     # Now try as a moderator
     session_for(create(:moderator_user))
-    post hide_diary_entry_path(user, diary_entry)
-    assert_redirected_to :action => :index, :display_name => user.display_name
+    post hide_diary_entry_path(author, diary_entry)
+    assert_redirected_to :action => :index, :display_name => author.display_name
     assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Reset
@@ -809,30 +819,40 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    post hide_diary_entry_path(user, diary_entry)
-    assert_redirected_to :action => :index, :display_name => user.display_name
+    post hide_diary_entry_path(author, diary_entry)
+    assert_redirected_to :action => :index, :display_name => author.display_name
     assert_not DiaryEntry.find(diary_entry.id).visible
   end
 
   def test_unhide
-    user = create(:user)
+    author = create(:user)
 
     # Try without logging in
-    diary_entry = create(:diary_entry, :user => user, :visible => false)
-    post unhide_diary_entry_path(user, diary_entry)
+    diary_entry = create(:diary_entry, :user => author, :visible => false)
+    post unhide_diary_entry_path(author, diary_entry)
     assert_response :forbidden
     assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Now try as a normal user
-    session_for(user)
-    post unhide_diary_entry_path(user, diary_entry)
+    session_for(create(:user))
+    post unhide_diary_entry_path(author, diary_entry)
     assert_redirected_to :controller => :errors, :action => :forbidden
     assert_not DiaryEntry.find(diary_entry.id).visible
 
+    # Now try as the author
+    session_for(author)
+    post unhide_diary_entry_path(:display_name => author.display_name, :id => diary_entry)
+    assert_response :redirect
+    assert_redirected_to :action => :index, :display_name => author.display_name
+    assert DiaryEntry.find(diary_entry.id).visible
+
+    # Reset
+    diary_entry.reload.update(:visible => true)
+
     # Now try as a moderator
     session_for(create(:moderator_user))
-    post unhide_diary_entry_path(user, diary_entry)
-    assert_redirected_to :action => :index, :display_name => user.display_name
+    post unhide_diary_entry_path(author, diary_entry)
+    assert_redirected_to :action => :index, :display_name => author.display_name
     assert DiaryEntry.find(diary_entry.id).visible
 
     # Reset
@@ -840,8 +860,8 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
 
     # Finally try as an administrator
     session_for(create(:administrator_user))
-    post unhide_diary_entry_path(user, diary_entry)
-    assert_redirected_to :action => :index, :display_name => user.display_name
+    post unhide_diary_entry_path(author, diary_entry)
+    assert_redirected_to :action => :index, :display_name => author.display_name
     assert DiaryEntry.find(diary_entry.id).visible
   end
 

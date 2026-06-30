@@ -6,7 +6,7 @@ class UserAbilityTest < ActiveSupport::TestCase
   test "Diary permissions" do
     ability = Ability.new create(:user)
 
-    [:index, :rss, :show, :create, :edit, :subscribe, :unsubscribe].each do |action|
+    [:index, :rss, :show, :create, :edit, :subscribe, :unsubscribe, :hide, :unhide].each do |action|
       assert ability.can?(action, DiaryEntry), "should be able to #{action} DiaryEntries"
     end
 
@@ -15,7 +15,6 @@ class UserAbilityTest < ActiveSupport::TestCase
     end
 
     [:hide, :unhide].each do |action|
-      assert ability.cannot?(action, DiaryEntry), "should not be able to #{action} DiaryEntries"
       assert ability.cannot?(action, DiaryComment), "should not be able to #{action} DiaryComment"
     end
 
