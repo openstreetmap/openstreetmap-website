@@ -9,13 +9,15 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
   });
 
   endpoint.enableListeners = function () {
-    endpoint.marker.on("drag dragend", markerDragListener);
+    endpoint.marker.on("drag", markerDragListener);
+    endpoint.marker.on("dragend", markerDragListener);
     input.on("keydown", inputKeydownListener);
     input.on("change", inputChangeListener);
   };
 
   endpoint.disableListeners = function () {
-    endpoint.marker.off("drag dragend", markerDragListener);
+    endpoint.marker.off("drag", markerDragListener);
+    endpoint.marker.off("dragend", markerDragListener);
     input.off("keydown", inputKeydownListener);
     input.off("change", inputChangeListener);
   };
