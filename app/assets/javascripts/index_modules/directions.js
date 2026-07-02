@@ -185,7 +185,7 @@ export default function (map) {
     }
   });
 
-  function sendStartingLocation({ lat, lng }) {
+  function sendStartingLocation({ latlng: { lat, lng } }) {
     map.fire("startinglocation", { lat, lng });
   }
 
