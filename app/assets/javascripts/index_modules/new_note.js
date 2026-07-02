@@ -62,11 +62,10 @@ export default function (map) {
       draggable: true
     });
 
-    newNoteMarker.on("dragstart dragend", function (a) {
+    newNoteMarker.on("dragstart", removeHalo);
+    newNoteMarker.on("dragend", function () {
       removeHalo();
-      if (a.type === "dragend") {
-        addHalo(newNoteMarker.getLatLng());
-      }
+      addHalo(newNoteMarker.getLatLng());
     });
 
     newNoteMarker.addTo(map);
