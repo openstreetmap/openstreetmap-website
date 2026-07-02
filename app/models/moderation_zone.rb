@@ -9,7 +9,7 @@
 #  reason        :string           not null
 #  reason_format :enum             default("markdown")
 #  zone          :st_polygon       not null, polygon, 4326
-#  ends_at       :datetime
+#  ends_at       :datetime         not null
 #  creator_id    :bigint           not null
 #  revoker_id    :bigint
 #  created_at    :datetime         not null
@@ -32,13 +32,20 @@ class ModerationZone < ApplicationRecord
   validates :name, :presence => true
   validates :reason, :presence => true
   validates :zone, :presence => true
+  validates :ends_at, :presence => true
 
   def self.falls_within_any?(lon:, lat:)
     factory = RGeo::Cartesian.simple_factory(:srid => 4326)
     point = factory.point(lon, lat)
 
     where(
-      arel_table[:zone].st_contains(point)
+      arel_table[:zone].st_contains(point).and(
+        arel_table[:ends_at].gt(Time.zone.now)
+      )
     ).exists?
+  end
+
+  def active?
+    ends_at.future?
   end
 end
