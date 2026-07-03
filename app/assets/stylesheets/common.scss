@@ -234,6 +234,8 @@ nav.primary, nav.secondary {
     top: $headerHeight;
     bottom: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   #sidebar, #map, #map-ui {
@@ -243,7 +245,6 @@ nav.primary, nav.secondary {
   }
 
   #sidebar {
-    float: left;
     overflow-x: hidden;
     overflow-y: auto;
   }
@@ -299,11 +300,14 @@ nav.primary, nav.secondary {
 
   #map-ui {
     display: none;
-    float: right;
     overflow: auto;
   }
 
   @include media-breakpoint-up(md) {
+    #content {
+      flex-direction: row;
+    }
+
     #sidebar, #map, #map-ui {
       height: 100%;
     }
