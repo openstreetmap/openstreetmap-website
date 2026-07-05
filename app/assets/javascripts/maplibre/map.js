@@ -1,5 +1,6 @@
 //= require maplibre/controls
-//= require maplibre/dom_util
+//= require maplibre/marker
+//= require maplibre/popup
 
 maplibregl.Map.prototype._getUIString = function (key) {
   const snakeCaseKey = key.replaceAll(/(?<=\w)[A-Z]/g, "_$&").toLowerCase();
