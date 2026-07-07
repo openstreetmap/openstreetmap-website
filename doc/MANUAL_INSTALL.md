@@ -160,6 +160,14 @@ touch config/settings.local.yml
 cp config/example.storage.yml config/storage.yml
 ```
 
+### Generate i18n files
+
+This step runs automatically as part of some of the following steps. Still there will be circumstances where you skip some of those, for example if you already have a DB in place and don't need to create/migrate. Then you will see the tests fail with `The asset "i18n/en.js" is not present in the asset pipeline` or similar. Just in case, run this to generate those expected files:
+
+```bash
+bundle exec i18n export
+```
+
 ## Step 5: Database Setup
 
 `openstreetmap-website` uses three databases - one for development, one for testing, and one for production. The database-specific configuration options are stored in `config/database.yml`, which we need to create from the example template.
