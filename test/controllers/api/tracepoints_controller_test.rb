@@ -101,6 +101,13 @@ module Api
       end
     end
 
+    def test_tracepoints_disabled
+      with_settings(:traces_disabled => true) do
+        get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1")
+        assert_response :not_found
+      end
+    end
+
     def test_index_without_bbox
       get api_tracepoints_path
       assert_response :bad_request

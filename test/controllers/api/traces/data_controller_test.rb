@@ -103,6 +103,17 @@ module Api
         assert_response :not_found
       end
 
+      # Check that trace data can't be downloaded through the api when the traces feature is disabled
+      def test_show_disabled
+        public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+        auth_header = bearer_authorization_header public_trace_file.user
+
+        with_settings(:traces_disabled => true) do
+          get api_trace_data_path(public_trace_file), :headers => auth_header
+          assert_response :not_found
+        end
+      end
+
       private
 
       def check_trace_data(trace, digest, content_type = "application/gpx+xml", extension = "gpx")

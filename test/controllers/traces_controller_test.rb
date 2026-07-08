@@ -312,6 +312,14 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  # Check that the traces index is not displayed when the traces feature is disabled
+  def test_index_disabled
+    with_settings(:traces_disabled => true) do
+      get traces_path
+      assert_response :not_found
+    end
+  end
+
   # Test showing a trace
   def test_show
     public_trace_file = create(:trace, :visibility => "public")

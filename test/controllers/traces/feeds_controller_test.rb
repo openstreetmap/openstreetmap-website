@@ -78,6 +78,13 @@ module Traces
       check_trace_feed []
     end
 
+    def test_show_disabled
+      with_settings(:traces_disabled => true) do
+        get traces_feed_path(:format => :rss)
+        assert_response :not_found
+      end
+    end
+
     private
 
     def check_trace_feed(traces)

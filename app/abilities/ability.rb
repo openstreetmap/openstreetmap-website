@@ -23,7 +23,7 @@ class Ability
       can [:create, :update], :password
       can :read, Redaction
       can [:create, :destroy], :session
-      can [:read, :data], Trace
+      can [:read, :data], Trace unless Settings.traces_disabled
       can [:read, :create, :suspended, :auth_success, :auth_failure], User
       can :read, UserBlock
     end
@@ -49,7 +49,7 @@ class Ability
         can [:read, :create, :destroy], Message
         can [:close, :reopen], Note
         can :create, Report
-        can [:mine, :create, :update, :destroy], Trace
+        can [:mine, :create, :update, :destroy], Trace unless Settings.traces_disabled
         can [:account, :go_public], User
         can [:read, :create, :destroy], UserMute
 
