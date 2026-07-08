@@ -53,6 +53,11 @@ OSM.MapLibre.Map = class extends maplibregl.Map {
     }
     return map;
   }
+
+  getZoom() {
+    // Convert MapLibre's 512px based zoom to OSM's 256px based zoom.
+    return super.getZoom() + 1;
+  }
 };
 
 OSM.MapLibre.SecondaryMap = class extends OSM.MapLibre.Map {

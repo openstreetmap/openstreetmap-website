@@ -70,7 +70,7 @@ $(function () {
     map.on("click", function (e) {
       if (!$("#updatehome").is(":checked")) return;
 
-      const { lat, lng } = OSM.cropLocation(L.latLng(e.lngLat.lat, e.lngLat.lng), map.getZoom() + 1);
+      const { lat, lng } = OSM.cropLocation(L.latLng(e.lngLat.lat, e.lngLat.lng), map.getZoom());
       $("#home_lat").val(lat);
       $("#home_lon").val(lng);
 
