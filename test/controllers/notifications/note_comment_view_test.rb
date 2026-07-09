@@ -55,7 +55,7 @@ module Notifications
         :event => "closed",
         :body => ""
       )
-      notification = Struct.new(:record).new(note_comment)
+      notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
       render "notifications/note_comment", :notification => notification_wrapper
@@ -78,7 +78,7 @@ module Notifications
         :event => "reopened",
         :body => ""
       )
-      notification = Struct.new(:record).new(note_comment)
+      notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
       render "notifications/note_comment", :notification => notification_wrapper
