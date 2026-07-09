@@ -154,8 +154,6 @@ class UserNotifications
     end
   end
 
-  include Enumerable
-
   LISTABLE_NOTIFICATIONS = %w[
     ChangesetCommentNotifier::Notification
     DiaryCommentNotifier::Notification
@@ -167,19 +165,5 @@ class UserNotifications
 
   def self.wrap(notification_records)
     notification_records.map { |record| Notification.from(record) }
-  end
-
-  def initialize(user)
-    @user = user
-  end
-
-  def notification_records(&)
-    @user
-      .notifications
-      .where(:type => LISTABLE_NOTIFICATIONS)
-  end
-
-  def empty?
-    none?
   end
 end
