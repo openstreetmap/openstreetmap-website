@@ -204,6 +204,7 @@ OSM.Router = function (map, rts) {
     const clickEvent = new (event.constructor)("click", eventOptions);
     const link = document.createElement("a");
     link.href = href;
+    link.hash = location.hash;
     document.body.appendChild(link);
     link.dispatchEvent(clickEvent);
     document.body.removeChild(link);
