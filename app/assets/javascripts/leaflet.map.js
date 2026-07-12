@@ -304,7 +304,7 @@ L.OSM.Map = L.Map.extend({
             throw new ElementGoneError();
           }
 
-          const status = response.statusText || response.status;
+          const status = `HTTP Error ${response.status} ${response.statusText}`;
           if (response.status !== 400 && response.status !== 509) {
             throw new Error(status);
           }

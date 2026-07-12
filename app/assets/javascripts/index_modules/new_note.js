@@ -21,7 +21,7 @@ export default function (map) {
     })
       .then(resp => {
         if (resp.ok) return resp.json();
-        throw new Error(`Got response with status ${resp.status} ${resp.statusText}`);
+        throw new Error(`HTTP Error ${resp.status} ${resp.statusText}`);
       });
   }
 
