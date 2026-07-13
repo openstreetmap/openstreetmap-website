@@ -43,13 +43,13 @@ $(function () {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
 
-        const title = response.headers.get("X-Page-Title");
-        if (title) document.title = decodeURIComponent(title);
-
         return response.text().then(html => ({ response, html }));
       })
       .then(({ response, html }) => {
         const content = $($.parseHTML(html));
+
+        const title = response.headers.get("X-Page-Title");
+        if (title) document.title = decodeURIComponent(title);
 
         $("head").find(atomSelector).remove();
 
