@@ -9,14 +9,15 @@ module Notifications
       notification = build_stubbed(:notification, :record => diary_comment)
 
       render(
-        "notifications/diary_comment",
-        :notification => notification,
-        :record => diary_comment
+        "notifications/notification",
+        :notification => notification
       )
 
-      assert_dom ".user-notification h2", "Diary comment"
-      assert_dom ".user-notification time", "less than 1 minute ago"
-      assert_dom ".user-notification blockquote", diary_comment.body
+      assert_dom ".web-notification" do
+        assert_dom "h2", "Diary comment"
+        assert_dom "time", "less than 1 minute ago"
+        assert_dom "blockquote", diary_comment.body
+      end
     end
   end
 end

@@ -1,44 +1,33 @@
 <%# locals: (notification:, record:) %>
 
-<article class="user-notification">
-  <div class="row align-items-center">
-    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
-      <%= link_to(
-            t(".headline.#{record.event}"),
-            note_path(
-              record.note,
-              :anchor => "c#{record.id}"
-            )
-          ) %>
-    </h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(record.created_at) %></p>
-  </div>
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline.#{record.event}"),
+      :uri => note_path(
+        record.note,
+        :anchor => "c#{record.id}"
+      ),
+      :timestamp => record.created_at
+    ) %>
 
-  <div class="row">
-    <div class="col-1 text-center">
-      <%= link_to(
-            user_thumbnail(record.author, :class => "img-fluid"),
-            user_url(record.author),
-            :target => "_blank", :rel => "noopener"
-          ) %>
-    </div>
-    <div class="col-11">
-      <p class="text-body-secondary mb-1">
-      <%= t(
-            ".description.#{record.event}_html",
-            :commenter_name_with_link => link_to(
-              record.author.display_name,
-              record.author
-            ),
-            :note_id_with_link => link_to("##{record.note_id}", record.note),
-            :note_text => record.note.description
-          ) %>
-      </p>
-      <% if record.body.present? %>
-        <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-          <%= record.body.to_html %>
-        </blockquote>
-      <% end %>
-    </div>
-  </div>
-</article>
+<%= render(
+      "notifications/notification_body",
+      :author => record.author
+    ) do %>
+  <p class="text-body-secondary mb-1">
+    <%= t(
+          "notifications.note_comment.description.#{record.event}_html",
+          :commenter_name_with_link => link_to(
+            record.author.display_name,
+            record.author
+          ),
+          :note_id_with_link => link_to("##{record.note_id}", record.note),
+          :note_text => record.note.description
+        ) %>
+  </p>
+  <% if record.body.present? %>
+    <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
+      <%= record.body.to_html %>
+    </blockquote>
+  <% end %>
+<% end %>

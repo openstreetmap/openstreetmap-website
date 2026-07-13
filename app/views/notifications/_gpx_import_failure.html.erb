@@ -1,23 +1,19 @@
 <%# locals: (notification:, record:) %>
 
-<article class="user-notification">
-  <div class="row align-items-center">
-    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
-      <%= t(".headline") %>
-    </h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.created_at) %></p>
-  </div>
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :timestamp => notification.created_at
+    ) %>
 
+<%= render("notifications/notification_body") do %>
   <div class="row">
-    <div class="col-1 text-center">
-      <span class="text-danger"></span>
-    </div>
     <div class="col-4">
       <%= render "notifications/gpx_details", :details => GpxImportNotificationDetails::Failure.new(notification) %>
     </div>
-    <dl class="col-7">
-      <dt><%= t(".error_message") %></dt>
+    <dl class="col-8">
+      <dt><%= t("notifications.gpx_import_failure.error_message") %></dt>
       <dd><pre><%= notification.params[:error] %></pre></dd>
     </dl>
   </div>
-</article>
+<% end %>

@@ -2,11 +2,7 @@
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <% notifications.items.each do |notification| %>
-    <%= render(
-          partial_path_for_notification(notification),
-          :notification => notification,
-          :record => notification.record
-        ) %>
+    <%= render "notification", :notification => notification %>
     <hr>
   <% end %>
 
