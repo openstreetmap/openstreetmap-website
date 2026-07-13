@@ -55,6 +55,7 @@ export default function (map) {
   }
 
   function runQuery(query, $section, merge, compare) {
+    if (!$section.length) return;
     const $ul = $section.find("ul");
 
     $ul.empty();
