@@ -3,7 +3,7 @@ export default function (map) {
         page = {};
 
   page.pushstate = page.popstate = function (path, id) {
-    OSM.loadSidebarContent(path, function () {
+    OSM.loadSidebarContent(path).then(function () {
       const data = $(".details").data();
       if (!data) return;
       const [lat, lng] = data.coordinates.split(",").map(parseFloat);
@@ -42,9 +42,8 @@ export default function (map) {
           });
         })
         .then(() => {
-          OSM.loadSidebarContent(path, () => {
-            initialize(path, id, false);
-          });
+          OSM.loadSidebarContent(path)
+            .then(() => initialize(path, id, false));
         })
         .catch(error => {
           content.find("#comment-error")

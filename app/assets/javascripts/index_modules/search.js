@@ -78,7 +78,8 @@ export default function (map) {
     } else if (params.has("lat") && params.has("lon")) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
-    OSM.loadSidebarContent(path, page.load);
+    OSM.loadSidebarContent(path)
+      .then(page.load);
   };
 
   page.load = function () {

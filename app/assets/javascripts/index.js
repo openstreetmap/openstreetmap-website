@@ -24,7 +24,7 @@ $(function () {
     worldCopyJump: true
   });
 
-  OSM.loadSidebarContent = function (path, callback) {
+  OSM.loadSidebarContent = function (path) {
     const atomSelector = "link[type=\"application/atom+xml\"]";
 
     map.setSidebarOverlaid(false);
@@ -38,7 +38,7 @@ $(function () {
     $("#sidebar_content")
       .empty();
 
-    fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+    return fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
       .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
@@ -56,10 +56,6 @@ $(function () {
         $("head").append(content.filter(atomSelector));
 
         $("#sidebar_content").html(content.not(atomSelector));
-
-        if (callback) {
-          callback();
-        }
       });
   };
 

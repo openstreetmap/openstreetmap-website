@@ -81,7 +81,8 @@ export default function (map) {
   }
 
   page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path, page.load);
+    OSM.loadSidebarContent(path)
+      .then(page.load);
   };
 
   page.load = function () {
