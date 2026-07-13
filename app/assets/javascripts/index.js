@@ -46,16 +46,20 @@ $(function () {
         const title = response.headers.get("X-Page-Title");
         if (title) document.title = decodeURIComponent(title);
 
-        return response.text();
+        return response.text().then(html => ({ response, html }));
       })
-      .then(html => {
-        const content = $(html);
+      .then(({ response, html }) => {
+        const content = $($.parseHTML(html));
 
         $("head").find(atomSelector).remove();
 
         $("head").append(content.filter(atomSelector));
 
         $("#sidebar_content").html(content.not(atomSelector));
+
+        if (!response.ok) {
+          throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
+        }
       });
   };
 
