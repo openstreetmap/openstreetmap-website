@@ -25,6 +25,7 @@ $(function () {
   });
 
   OSM.loadSidebarContent = function (path, callback) {
+    const atomSelector = "link[type=\"application/atom+xml\"]";
     let content_path = path;
 
     map.setSidebarOverlaid(false);
@@ -55,14 +56,11 @@ $(function () {
       .then(html => {
         const content = $(html);
 
-        $("head")
-          .find("link[type=\"application/atom+xml\"]")
-          .remove();
+        $("head").find(atomSelector).remove();
 
-        $("head")
-          .append(content.filter("link[type=\"application/atom+xml\"]"));
+        $("head").append(content.filter(atomSelector));
 
-        $("#sidebar_content").html(content.not("link[type=\"application/atom+xml\"]"));
+        $("#sidebar_content").html(content.not(atomSelector));
 
         if (callback) {
           callback();
