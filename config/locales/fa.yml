@@ -263,7 +263,7 @@ fa:
     notes:
       comment:
         opened_at_html: '%{when} ایجاد شد'
-        opened_at_by_html: '%{when} %{user} ایجادش کرد'
+        opened_at_by_html: '%{when} توسط %{user} ایجاد شد'
         commented_at_html: '%{when} روزآمد شد'
         commented_at_by_html: '%{when} %{user} روزآمدش کرد'
         closed_at_html: '%{when} حل شد'
@@ -402,7 +402,7 @@ fa:
           نکرده‌اید.
   browse:
     deleted_ago_by_html: '%{time_ago} %{user} حذفش کرد'
-    edited_ago_by_html: '%{time_ago} %{user} ویرایشش کرد'
+    edited_ago_by_html: '%{time_ago} توسط %{user} ویرایش شد'
     version: نسخهٔ
     redacted_version: نسخهٔ ویرایش‌شده
     in_changeset: بستهٔ تغییر
@@ -526,6 +526,19 @@ fa:
         sorry: شوربختانه بازیابی نظرات بستهٔ تغییر که درخواست نموده‌اید، خیلی طولانی
           شد.
   changesets:
+    changeset_line:
+      comments:
+        one: '%{count} نظر'
+        other: '%{count} نظر'
+      n_elements_created:
+        one: '%{count} المان ایجاد شد'
+        other: '%{count} المان ایجاد شد'
+      n_elements_modified:
+        one: '%{count} المان اصلاح شد'
+        other: '%{count} المان اصلاح شد'
+      n_elements_deleted:
+        one: '%{count} المان حذف شد'
+        other: '%{count} المان حذف شد'
     index:
       title: بسته‌های تغییر
       title_user: بسته‌های تغییر %{user}
@@ -547,7 +560,7 @@ fa:
       title: 'بستهٔ تغییر: %{id}'
       created_ago_html: ایجاد شد %{time_ago}
       closed_ago_html: بسته شد %{time_ago}
-      created_ago_by_html: '%{time_ago} %{user} ایجادش کرد'
+      created_ago_by_html: '%{time_ago} توسط %{user} ایجاد شد'
       closed_ago_by_html: '%{time_ago} %{user} بستش'
       discussion: بحث
       join_discussion: وارد شوید تا به بحث بپیوندید
@@ -567,6 +580,9 @@ fa:
       relations_paginated: رابطه‌ها (%{x}-%{y} از %{count})
     timeout:
       sorry: شوربختانه بازیابی بسته‌های تغییر که درخواست نموده‌اید، خیلی طولانی شد.
+  changeset_subscriptions:
+    heading:
+      created_by_html: ایجادشده توسط %{link_user} در %{created}.
   dashboards:
     contact:
       km away: ‏%{count} کیلومتر فاصله
@@ -606,6 +622,7 @@ fa:
     show:
       title: روزنوشت %{user} |‏ %{title}
       user_title: روزنوشت‌های %{user}
+      discussion: بحث
       leave_a_comment: نظرتان را بنویسید
       login_to_leave_a_comment_html: برای نظردادن %{login_link}
       login: ورود
@@ -654,11 +671,20 @@ fa:
       my_diary: روزنوشت‌های من
       new: روزنوشت تازه
       new_title: ساخت روزنوشت تازه در روزنوشت‌های کاربری من
+    profile_diaries:
+      comments:
+        one: '%{count} نظر'
+        other: '%{count} نظر'
   doorkeeper:
     flash:
       applications:
         create:
           notice: برنامه ثبت شد.
+    scopes:
+      address: مشاهدهٔ آدرس فیزیکی شما
+      email: مشاهدهٔ آدرس ایمیل شما
+      phone: مشاهدهٔ شمارهٔ تلفن شما
+      profile: مشاهدهٔ اطلاعات نمایهٔ شما
   errors:
     contact:
       contact_url: https://wiki.openstreetmap.org/wiki/fa:Contact
@@ -666,6 +692,8 @@ fa:
       contact: تماس بگیرید
       contact_the_community_html: اگر متوجه پیوند شکسته یا اشکالی شده‌اید لطفاً با
         جامعهٔ OpenStreetMap %{contact_link}. نشانی دقیق درخواست خود را یادداشت کنید.
+    bad_request:
+      title: درخواست بد
     forbidden:
       title: ممنوع
       description: عملیاتی که در سرور OpenStreetMap درخواست کردید فقط برای مدیران
@@ -681,10 +709,15 @@ fa:
   follows:
     show:
       follow:
+        heading: آیا می‌خواهید %{user} را دنبال کنید؟
         button: دنبال کردن کاربر
       unfollow:
         heading: آیا می‌خواهید دنبال کردن %{user} را لغو کنید؟
         button: لغو دنبال کردن کاربر
+    create:
+      success: شما اکنون %{name} را دنبال می‌کنید!
+      failed: متاسفیم، درخواست شما برای دنبال کردن %{name} با شکست مواجه شد.
+      already_followed: شما از قبل %{name} را دنبال می‌کنید.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -825,7 +858,9 @@ fa:
           census: مرز آماری
           national_park: پارک ملی
           political: مرز الکترال
+          postal_code: کد پستی
           protected_area: منطقه حفاظت‌شده
+          public_transport: منطقهٔ حمل‌ونقل عمومی
           timezone: منطقهٔ زمانی
           "yes": مرز
         bridge:
@@ -1567,6 +1602,11 @@ fa:
       user_diaries: روزنوشت‌های کاربر
     select_language_button:
       title: انتخاب زبان
+    offline_flash:
+      osm_offline: پایگاه دادهٔ اوپن‌استریت‌مپ در حال حاضر آفلاین است تا کارهای تعمیر
+        و نگهداری ضروری انجام شود.
+      osm_read_only: پایگاه دادهٔ اوپن‌استریت‌مپ در حال حاضر در حالت فقط خواندنی است
+        تا کارهای تعمیر و نگهداری ضروری انجام شود.
   user_mailer:
     diary_comment_notification:
       subject: '[OpenStreetMap] ‫%{user} روی روزنوشت نظر داد‬'
@@ -1963,9 +2003,15 @@ fa:
       preview: پیش‌نمایش
       help: راهنما
     pagination:
+      changeset_comments:
+        older: نظرات قدیمی‌تر
+        newer: نظرات جدیدتر
+        oldest: قدیمی‌ترین نظرات
+        newest: جدیدترین نظرات
       diary_comments:
         older: نظرات قدیمی‌تر
         newer: نظرات جدیدتر
+        oldest: قدیمی‌ترین نظرات
         newest: جدیدترین نظرات
       diary_entries:
         older: روزنوشت‌های قدیمی‌تر
@@ -2069,6 +2115,8 @@ fa:
       title: برون‌ریزی
       manually_select: به‌صورت دستی منطقهٔ دیگری انتخاب کنید
       licence: پروانه
+      licence_details_html: داده‌های اوپن‌استریت‌مپ تحت مجوز %{odbl_link} (ODbL) منتشر
+        می‌شوند.
       too_large:
         advice: 'اگر برون‌ریزی بالا انجام نشد، لطفاً یکی از منابع زیر را استفاده کنید:'
         body: این محدوده برای برون‌ریزی در قالب OpenStreetMap XML خیلی بزرگ است. لطفاً
@@ -2118,6 +2166,8 @@ fa:
         url: https://wiki.openstreetmap.org/wiki/Fa:Beginners%27_guide
         title: راهنمای مبتدیان
         description: راهنمایی برای تازه‌واردان که اعضای جامعه آماده کرده‌اند.
+      community:
+        title: تالار انجمن و راهنما
       mailing_lists:
         title: فهرست‌های پستی
         description: در فهرست‌های پستی متنوعِ موضوعی یا منطقه‌ای سوال بپرسید یا دربارهٔ
@@ -2175,6 +2225,26 @@ fa:
         یک یادداشت بنویسید.
     communities:
       title: جوامع
+      lede_text: |-
+        مردم از سراسر جهان در OpenStreetMap مشارکت می‌کنند یا از آن استفاده می‌کنند. در حالی که بسیاری به صورت فردی مشارکت می‌کنند، برخی دیگر جوامعی را تشکیل داده‌اند.
+
+        این گروه‌ها در اندازه‌های مختلفی هستند و نماینده جغرافیاهایی از شهرهای کوچک تا مناطق بزرگ چند کشوری می‌باشند. آنها همچنین می‌توانند رسمی یا غیررسمی باشند.
+      local_chapters:
+        title: شاخه‌های محلی
+        about_text: شاخه‌های محلی، گروه‌هایی در سطح کشور یا منطقه هستند که رسماً اقدام
+          به تأسیس نهادهای حقوقی غیرانتفاعی کرده‌اند. آن‌ها نماینده نقشه و نقشه‌برداران
+          منطقه در تعامل با دولت محلی، کسب‌وکارها و رسانه‌ها هستند. آن‌ها همچنین با
+          بنیاد اوپن‌استریت‌مپ (OSMF) همکاری می‌کنند که به آن‌ها پیوندی با نهاد قانونی
+          و ناظر بر حق نشر می‌دهد.
+        list_text: 'جوامع زیر رسماً به عنوان شعب محلی تأسیس شده‌اند:'
+      other_groups:
+        title: سایر گروه‌ها
+        other_groups_html: نیازی به تشکیل رسمی یک گروه به اندازه‌ی شعب محلی نیست.
+          در واقع بسیاری از گروه‌ها به عنوان یک گردهمایی غیررسمی از مردم یا به عنوان
+          یک گروه اجتماعی با موفقیت بسیار زیادی وجود دارند. هر کسی می‌تواند این گروه‌ها
+          را تشکیل دهد یا به آنها بپیوندد. برای اطلاعات بیشتر به %{communities_wiki_link}
+          مراجعه کنید.
+        communities_wiki: صفحهٔ ویکی جوامع
   social_links:
     show:
       website: وبگاه
@@ -2202,6 +2272,8 @@ fa:
         footway: راه پیاده
         rail: راه‌آهن
         subway: مترو
+        light_rail: راه‌آهن سبک
+        tram: تراموا
         bus: اتوبوس
         cable_car: تله‌فریک
         chair_lift: صندلی بالابر
@@ -2227,10 +2299,11 @@ fa:
         retail: منطقه خرده فروشی
         industrial: منطقه صنعتی
         commercial: منطقه تجاری
-        heathland: Heathland
+        heathland: خلنگزار
         scrubland: درختچه‌زار
         lake: دریاچه
         reservoir: مخزن
+        intermittent_water: آبراه متناوب
         glacier: یخچال طبیعی
         reef: آب‌سنگ
         wetland: تالاب
@@ -2248,7 +2321,9 @@ fa:
         hospital: بیمارستان
         building: ساختمان مهم
         station: ایستگاه راه آهن
+        railway_halt: توقفگاه راه‌آهن
         subway_station: ایستگاه مترو
+        tram_stop: ایستگاه تراموا
         summit: چکاد
         peak: قله
         tunnel: لبهٔ خط‌چین‌دار = تونل
@@ -2260,6 +2335,7 @@ fa:
         bicycle_shop: فروشگاه دوچرخه
         bicycle_parking: پارکینگ دوچرخه
         toilets: سرویس‌های بهداشتی
+      see_external_legend: راهنمای بیرونی نقشه را ببینید
   share_panes:
     show:
       link: پیوند یا HTML
@@ -2485,15 +2561,25 @@ fa:
       support: پشتیبانی
       about:
         header: آزاد و قابل‌ویرایش.
+        paragraph_1: برخلاف نقشه‌های دیگر، OpenStreetMap کاملاً توسط افرادی مانند
+          شما ایجاد شده است و اصلاح، به‌روزرسانی، بارگیری و استفاده از آن برای همه
+          رایگان است.
+        paragraph_2: برای شروع مشارکت، ثبت نام کنید.
       display name description: نام کاربری شما که دیگران آن را می‌بینند. می‌توانید
         بعداً آن را در تنظیمات تغییر دهید.
       by_signing_up:
+        html: با ثبت نام، شما با %{tou_link}، %{privacy_policy_link} و %{contributor_terms_link}
+          ما موافقت می‌کنید.
         tou: شرایط استفاده
         privacy_policy: سیاست محرمانگی
+        contributor_terms: شرایط مشارکت‌کننده
       continue: ثبت نام
       email_help:
         privacy_policy: سیاست محرمانگی
+        html: آدرس شما به صورت عمومی نمایش داده نمی‌شود، برای اطلاعات بیشتر به %{privacy_policy_link}
+          ما مراجعه کنید.
       use external auth: به‌جای ثبت نام، از روش شخص ثالث استفاده کنید
+      verify_human: تأیید کنید که انسان هستید
     no_such_user:
       title: چنین کاربری وجود ندارد
       heading: کاربر %{user} وجود ندارد
@@ -2585,6 +2671,7 @@ fa:
     comments:
       index:
         diary_entries: مدخل‌های روزنوشت
+        no_comments: بدون نظر
     changeset_comments:
       page:
         when: زمان
@@ -2594,6 +2681,8 @@ fa:
         title: نظراتی که %{user} به روزنوشت‌ها داده است
       page:
         post: فرسته
+        when: زمان
+        comment: نظر
     suspended:
       title: حساب معلق شده است
       heading: تعلیق حساب
@@ -2710,6 +2799,8 @@ fa:
       closed_title: 'یادداشت حل‌شده #%{note_name}'
       hidden_title: 'یادداشت پنهان #%{note_name}'
       description_when_there_is_no_opening_comment: ناشناخته
+      event_opened_by_html: ایجادشده توسط %{user} %{time_ago}
+      event_opened_by_anonymous_html: ایجادشده توسط ناشناس %{time_ago}
       report: این یادداشت را گزارش کنید
       anonymous_warning: این یادداشت حاوی نظر کاربران گمنام است و باید به‌طور مستقل
         راستی‌آزمایی شود.
@@ -2778,7 +2869,9 @@ fa:
         gps: ردهای GPS عمومی
         overlays: برای اشکال‌زدایی از نقشه رولایه‌ها را فعال کنید
         title: لایه‌ها
+      openstreetmap_contributors: مشارکت‌کنندگان OpenStreetMap
       make_a_donation: کمک مالی کنید
+      website_and_api_terms: شرایط وبسایت و API
     site:
       edit_tooltip: ویرایش نقشه
       edit_disabled_tooltip: برای ویرایش نقشه بزرگ‌نمایی کنید
