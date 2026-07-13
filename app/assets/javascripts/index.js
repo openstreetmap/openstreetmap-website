@@ -26,7 +26,6 @@ $(function () {
 
   OSM.loadSidebarContent = function (path, callback) {
     const atomSelector = "link[type=\"application/atom+xml\"]";
-    let content_path = path;
 
     map.setSidebarOverlaid(false);
 
@@ -34,16 +33,12 @@ $(function () {
 
     // Prevent caching the XHR response as a full-page URL
     // https://github.com/openstreetmap/openstreetmap-website/issues/5663
-    if (content_path.indexOf("?") >= 0) {
-      content_path += "&xhr=1";
-    } else {
-      content_path += "?xhr=1";
-    }
+    const xhrPath = path + `${path.includes("?") ? "&" : "?"}xhr=1`;
 
     $("#sidebar_content")
       .empty();
 
-    fetch(content_path, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+    fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
       .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
