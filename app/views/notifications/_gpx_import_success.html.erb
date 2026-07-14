@@ -13,13 +13,11 @@
 <div class="row">
   <div class="col-1 text-center">
     <% if Settings.status != "gpx_offline" %>
-      <% if record.inserted %>
-        <%= link_to trace_icon(record),
-                    show_trace_path(record.user, record),
-                    :class => "d-inline-block" %>
-      <% else %>
-        <span class="text-danger"><%= t ".pending" %></span>
-      <% end %>
+      <%= link_to(
+            trace_icon(record),
+            show_trace_path(record.user, record),
+            :class => "d-inline-block"
+          ) %>
     <% end %>
   </div>
   <div class="col-11">

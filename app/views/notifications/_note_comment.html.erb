@@ -26,8 +26,6 @@
         ) %>
   </p>
   <% if record.body.present? %>
-    <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-      <%= record.body.to_html %>
-    </blockquote>
+    <%= render "notifications/notification_quote", :body => record.body.to_html %>
   <% end %>
 <% end %>

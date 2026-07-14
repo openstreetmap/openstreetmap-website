@@ -15,7 +15,7 @@
       "notifications/notification_body",
       :author => record.user
     ) do %>
-  <p class="text-body-secondary mb-1">
+  <p class="text-body-secondary">
     <%= t(
           "notifications.diary_comment.description_html",
           :commenter_name_with_link => link_to(
@@ -31,7 +31,5 @@
           )
         ) %>
   </p>
-  <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-    <%= record.body.to_html %>
-  </blockquote>
+  <%= render "notifications/notification_quote", :body => record.body.to_html %>
 <% end %>

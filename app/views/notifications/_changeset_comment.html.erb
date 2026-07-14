@@ -14,7 +14,7 @@
       "notifications/notification_body",
       :author => record.author
     ) do %>
-  <p class="text-body-secondary mb-1 event-description">
+  <p class="text-body-secondary event-description">
     <% if record.changeset.comment %>
       <%= t(
             "notifications.changeset_comment.description_with_summary_html",
@@ -36,7 +36,5 @@
           ) %>
     <% end %>
   </p>
-  <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-    <%= record.body.to_html %>
-  </blockquote>
+  <%= render "notifications/notification_quote", :body => record.body.to_html %>
 <% end %>
