@@ -423,5 +423,9 @@ module ActiveSupport
     def parse_html(html)
       Rails::Dom::Testing.html_document_fragment.parse(html)
     end
+
+    def read_fixture_file(relpath)
+      Rails.root.join("test", "fixtures", relpath).read
+    end
   end
 end
