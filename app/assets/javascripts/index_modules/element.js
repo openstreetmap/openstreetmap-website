@@ -8,7 +8,7 @@ export function element(type) {
     const page = {};
 
     page.pushstate = page.popstate = function (path, id, version) {
-      OSM.loadSidebarContent(path, function () {
+      OSM.loadSidebarContent(path).then(function () {
         page._addObject(type, id, version);
         $(".numbered_pagination").trigger("numbered_pagination:enable");
         abortController = new AbortController();

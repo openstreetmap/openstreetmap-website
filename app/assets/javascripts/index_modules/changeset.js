@@ -11,9 +11,8 @@ export default function (map) {
   });
 
   page.pushstate = page.popstate = function (path) {
-    OSM.loadSidebarContent(path, function () {
-      page.load();
-    });
+    OSM.loadSidebarContent(path)
+      .then(() => page.load());
   };
 
   page.load = function () {
@@ -54,7 +53,8 @@ export default function (map) {
         });
       })
       .then(() => {
-        OSM.loadSidebarContent(location.pathname, page.load);
+        OSM.loadSidebarContent(location.pathname)
+          .then(page.load);
       })
       .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);

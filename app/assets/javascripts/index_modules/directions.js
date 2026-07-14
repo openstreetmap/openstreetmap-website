@@ -252,7 +252,7 @@ export default function (map) {
 
     if (sidebarReadyPromise) return sidebarReadyPromise;
 
-    sidebarReadyPromise = new Promise(resolve => OSM.loadSidebarContent("/directions", resolve));
+    sidebarReadyPromise = OSM.loadSidebarContent("/directions");
 
     return sidebarReadyPromise;
   }

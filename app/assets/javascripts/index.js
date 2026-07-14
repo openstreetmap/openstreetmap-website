@@ -24,8 +24,8 @@ $(function () {
     worldCopyJump: true
   });
 
-  OSM.loadSidebarContent = function (path, callback) {
-    let content_path = path;
+  OSM.loadSidebarContent = function (path) {
+    const atomSelector = "link[type=\"application/atom+xml\"]";
 
     map.setSidebarOverlaid(false);
 
@@ -33,39 +33,32 @@ $(function () {
 
     // Prevent caching the XHR response as a full-page URL
     // https://github.com/openstreetmap/openstreetmap-website/issues/5663
-    if (content_path.indexOf("?") >= 0) {
-      content_path += "&xhr=1";
-    } else {
-      content_path += "?xhr=1";
-    }
+    const xhrPath = path + `${path.includes("?") ? "&" : "?"}xhr=1`;
 
     $("#sidebar_content")
       .empty();
 
-    fetch(content_path, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+    return fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
       .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
 
+        return response.text().then(html => ({ response, html }));
+      })
+      .then(({ response, html }) => {
+        const content = $($.parseHTML(html));
+
         const title = response.headers.get("X-Page-Title");
         if (title) document.title = decodeURIComponent(title);
 
-        return response.text();
-      })
-      .then(html => {
-        const content = $(html);
+        $("head").find(atomSelector).remove();
 
-        $("head")
-          .find("link[type=\"application/atom+xml\"]")
-          .remove();
+        $("head").append(content.filter(atomSelector));
 
-        $("head")
-          .append(content.filter("link[type=\"application/atom+xml\"]"));
+        $("#sidebar_content").html(content.not(atomSelector));
 
-        $("#sidebar_content").html(content.not("link[type=\"application/atom+xml\"]"));
-
-        if (callback) {
-          callback();
+        if (!response.ok) {
+          throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
         }
       });
   };
