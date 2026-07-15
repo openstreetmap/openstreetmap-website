@@ -27,8 +27,8 @@ module Api
       )
     end
 
-    def test_tracepoints
-      point = create(:trace, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
+    def test_tracepoints_public
+      point = create(:trace, :without_validations, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
         create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
       end
       minlon = point.longitude - 0.001

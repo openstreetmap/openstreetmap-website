@@ -81,16 +81,16 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   def test_index
     user = create(:user)
     # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
-    trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
+    trace_a = create(:trace, :visibility => "identifiable", :timestamp => 4.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
-    trace_b = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
+    trace_b = create(:trace, :visibility => "identifiable", :timestamp => 3.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
-    trace_c = create(:trace, :visibility => "private", :user => user, :timestamp => 2.seconds.ago) do |trace|
+    trace_c = create(:trace, :visibility => "trackable", :user => user, :timestamp => 2.seconds.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
-    trace_d = create(:trace, :visibility => "private", :user => user, :timestamp => 1.second.ago) do |trace|
+    trace_d = create(:trace, :visibility => "trackable", :user => user, :timestamp => 1.second.ago) do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
 
@@ -116,10 +116,10 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check that I can get mine
   def test_index_mine
     user = create(:user)
-    create(:trace, :visibility => "public") do |trace|
+    create(:trace, :visibility => "identifiable") do |trace|
       create(:tracetag, :trace => trace, :tag => "Birmingham")
     end
-    trace_b = create(:trace, :visibility => "private", :user => user) do |trace|
+    trace_b = create(:trace, :visibility => "trackable", :user => user) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
 
@@ -145,8 +145,8 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     second_user = create(:user)
     third_user = create(:user)
     create(:trace)
-    trace_b = create(:trace, :visibility => "public", :user => user)
-    trace_c = create(:trace, :visibility => "private", :user => user) do |trace|
+    trace_b = create(:trace, :visibility => "identifiable", :user => user)
+    trace_c = create(:trace, :visibility => "trackable", :user => user) do |trace|
       create(:tracetag, :trace => trace, :tag => "London")
     end
 
@@ -322,7 +322,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   # Test showing a trace
   def test_show
-    public_trace_file = create(:trace, :visibility => "public")
+    public_trace_file = create(:trace, :visibility => "identifiable")
 
     # First with no auth, which should work since the trace is public
     get show_trace_path(public_trace_file.user, public_trace_file)
@@ -341,7 +341,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   # Check an anonymous trace can't be viewed by another user
   def test_show_anon
-    anon_trace_file = create(:trace, :visibility => "private")
+    anon_trace_file = create(:trace, :visibility => "trackable")
 
     # First with no auth
     get show_trace_path(anon_trace_file.user, anon_trace_file)
@@ -387,22 +387,25 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_template :new
     assert_select "select#trace_visibility option[value=identifiable][selected]", 1
 
-    # Now authenticated as a user with gps.trace.public set
+    # Now authenticated as a user with the legacy gps.trace.public preference,
+    # which is no longer supported and falls back to trackable
     second_user = create(:user)
     create(:user_preference, :user => second_user, :k => "gps.trace.public", :v => "default")
     session_for(second_user)
     get new_trace_path
     assert_response :success
     assert_template :new
-    assert_select "select#trace_visibility option[value=public][selected]", 1
+    assert_select "select#trace_visibility option[value=trackable][selected]", 1
 
-    # Now authenticated as a user with no preferences
+    # Now authenticated as a user with no preferences, defaults to trackable
     third_user = create(:user)
     session_for(third_user)
     get new_trace_path
     assert_response :success
     assert_template :new
-    assert_select "select#trace_visibility option[value=private][selected]", 1
+    assert_select "select#trace_visibility option[value=trackable][selected]", 1
+    # New uploads only offer the two supported visibilities
+    assert_select "select#trace_visibility option", 2
   end
 
   # Test creating a trace
@@ -437,6 +440,19 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
   end
 
+  # A legacy visibility (public or private) is no longer accepted on upload
+  def test_create_post_with_legacy_visibility
+    fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+    file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+    user = create(:user)
+    session_for(user)
+
+    assert_no_difference "Trace.count" do
+      post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "new,trace", :visibility => "public" } }
+    end
+    assert_template :new
+  end
+
   # Test creating a trace with validation errors
   def test_create_post_with_validation_errors
     # Get file to use
@@ -455,7 +471,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   # Test fetching the edit page for a trace using GET
   def test_edit_get
-    public_trace_file = create(:trace, :visibility => "public")
+    public_trace_file = create(:trace, :visibility => "identifiable")
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth
@@ -483,13 +499,25 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  # An old visibility stays selected in the edit form, so changing other fields
+  # does not change it by mistake.
+  def test_edit_get_keeps_legacy_visibility
+    trace = create(:trace, :without_validations, :visibility => "private")
+
+    session_for(trace.user)
+    get edit_trace_path(:display_name => trace.user.display_name, :id => trace)
+    assert_response :success
+    assert_select "select#trace_visibility option", 3
+    assert_select "select#trace_visibility option[value=private][selected]", 1
+  end
+
   # Test saving edits to a trace
   def test_update
-    public_trace_file = create(:trace, :visibility => "public")
+    public_trace_file = create(:trace, :visibility => "identifiable")
     deleted_trace_file = create(:trace, :deleted)
 
     # New details
-    new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "private" }
+    new_details = { :description => "Changed description", :tagstring => "new_tag", :visibility => "trackable" }
 
     # First with no auth
     put trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file, :trace => new_details)
@@ -533,7 +561,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   # Test destroying a trace
   def test_destroy
-    public_trace_file = create(:trace, :visibility => "public")
+    public_trace_file = create(:trace, :visibility => "identifiable")
     deleted_trace_file = create(:trace, :deleted)
 
     # First with no auth
@@ -563,7 +591,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_not trace.visible
 
     # Finally with a trace that is destroyed by an admin
-    public_trace_file = create(:trace, :visibility => "public")
+    public_trace_file = create(:trace, :visibility => "identifiable")
     admin = create(:administrator_user)
     session_for(admin)
     delete trace_path(:display_name => public_trace_file.user.display_name, :id => public_trace_file)

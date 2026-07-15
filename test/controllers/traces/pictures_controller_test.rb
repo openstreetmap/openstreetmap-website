@@ -15,7 +15,7 @@ module Traces
 
     # Test downloading the picture for a trace
     def test_show
-      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+      public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
 
       # First with no auth, which should work since the trace is public
       get trace_picture_path(public_trace_file.user, public_trace_file)
@@ -34,7 +34,7 @@ module Traces
 
     # Check the picture for an anonymous trace can't be downloaded by another user
     def test_show_anon
-      anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
+      anon_trace_file = create(:trace, :visibility => "trackable", :fixture => "b")
 
       # First with no auth
       get trace_picture_path(anon_trace_file.user, anon_trace_file)
@@ -67,7 +67,7 @@ module Traces
 
     # Check that trace pictures can't be downloaded when the traces feature is disabled
     def test_show_disabled
-      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+      public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
 
       with_settings(:traces_disabled => true) do
         get trace_picture_path(public_trace_file.user, public_trace_file)
