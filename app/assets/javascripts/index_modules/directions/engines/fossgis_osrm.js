@@ -24,7 +24,8 @@
         "turn slight right": "slight_right",
         "turn right": "turn_right",
         "turn sharp right": "sharp_right",
-        "turn uturn": "uturn",
+        "turn uturn from left": "uturn",
+        "turn uturn from right": "uturn",
         "turn sharp left": "sharp_left",
         "turn left": "turn_left",
         "turn slight left": "slight_left",
@@ -93,10 +94,11 @@
     }
 
     function _processDirections(leg) {
-      function getManeuverId({ maneuver: { type, modifier }, mode, intersections }) {
+      function getManeuverId({ maneuver: { type, modifier }, mode, intersections, driving_side }) {
         // special case handling
         if (mode === "ferry") return "ferry";
         if (intersections.some(i => i.classes?.includes("ferry"))) return "ferry";
+        if (modifier === "uturn") return "turn uturn from " + driving_side;
 
         switch (type) {
           case "on ramp":
@@ -137,7 +139,8 @@
         "turn slight right": "slight-right",
         "turn right": "right",
         "turn sharp right": "sharp-right",
-        "turn uturn": "u-turn-left",
+        "turn uturn from right": "u-turn-left",
+        "turn uturn from left": "u-turn-right",
         "turn slight left": "slight-left",
         "turn left": "left",
         "turn sharp left": "sharp-left",
