@@ -234,42 +234,29 @@ nav.primary, nav.secondary {
     top: $headerHeight;
     bottom: 0;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
-  #sidebar, #map {
+  #sidebar, #map, #map-ui {
     position: relative;
-    width: 100%;
-    height: 50%;
+    flex-basis: 50%;
+  }
+
+  #sidebar {
     overflow-x: hidden;
     overflow-y: auto;
   }
 
-  #sidebar {
-    float: left;
-  }
-
   .overlay-sidebar #sidebar {
     position: absolute;
-    height: auto;
+    width: $sidebarWidth;
     overflow: hidden;
 
     .sidebar-close-controls,
     #sidebar_loader,
     #sidebar_content {
       display: none;
-    }
-  }
-
-  .overlay-sidebar.overlay-right-sidebar {
-    #sidebar {
-      position: absolute;
-      width: 350px;
-      height: auto;
-      overflow: hidden;
-    }
-
-    #map {
-      height: 100%;
     }
   }
 
@@ -307,35 +294,24 @@ nav.primary, nav.secondary {
 
   #map-ui {
     display: none;
-    position: relative;
-    float: right;
-    width: 100%;
-    height: 50%;
-    overflow-x: auto;
-    overflow-y: scroll;
+    overflow: auto;
   }
 
   @include media-breakpoint-up(md) {
-    #sidebar, #map {
-      height: 100%;
+    #content {
+      flex-direction: row;
     }
 
     #sidebar {
-      width: $sidebarWidth;
+      flex-basis: $sidebarWidth;
     }
 
     #map {
-      width: auto;
-    }
-
-    .overlay-sidebar.overlay-right-sidebar #sidebar {
-      width: $sidebarWidth;
+      flex-basis: auto;
     }
 
     #map-ui {
-      width: 250px;
-      height: 100%;
-      overflow-y: auto;
+      flex-basis: 250px;
     }
   }
 }
