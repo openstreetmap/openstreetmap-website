@@ -76,8 +76,8 @@ class UserLogoutTest < ApplicationSystemTestCase
   end
 
   test "Sign out after navigating traces with Turbo pagination" do
-    create(:trace, :fixture => "a", :name => "First Trace")
-    create_list(:trace, 20, :fixture => "a") # rubocop:disable FactoryBot/ExcessiveCreateList
+    create(:trace, :fixture => "a", :name => "First Trace", :visibility => "identifiable")
+    create_list(:trace, 20, :fixture => "a", :visibility => "identifiable") # rubocop:disable FactoryBot/ExcessiveCreateList
 
     check_sign_out_after_turbo_pagination traces_path do
       assert_no_link "First Trace"

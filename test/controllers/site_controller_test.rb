@@ -345,7 +345,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
   # Test editing a specific GPX trace
   def test_edit_with_gpx
     user = create(:user)
-    gpx = create(:trace, :latitude => 1, :longitude => 1)
+    gpx = create(:trace, :user => user, :latitude => 1, :longitude => 1)
     session_for(user)
 
     get edit_path(:gpx => gpx.id)
