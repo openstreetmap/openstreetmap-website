@@ -14,7 +14,7 @@
 #  timestamp   :datetime         not null
 #  description :string           default(""), not null
 #  inserted    :boolean          not null
-#  visibility  :enum             default("public"), not null
+#  visibility  :enum             default("trackable"), not null
 #
 # Indexes
 #
@@ -51,6 +51,11 @@ class Trace < ApplicationRecord
   validates :visibility, :inclusion => %w[private public trackable identifiable]
 
   after_save :set_filename
+
+  # Visibility for new uploads when the user has no preference.
+  def self.default_visibility
+    "trackable"
+  end
 
   def tagstring
     tags.collect(&:tag).join(", ")

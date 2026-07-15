@@ -198,7 +198,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check a multi-page index
   def test_index_paged
     # Create several pages worth of traces
-    create_list(:trace, 50)
+    create_list(:trace, 50, :visibility => "identifiable")
     next_path = traces_path
 
     # Try and get the index
@@ -250,7 +250,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
   # Check a multi-page index of tagged traces
   def test_index_tagged_paged
     # Create several pages worth of traces
-    create_list(:trace, 100) do |trace, index|
+    create_list(:trace, 100, :visibility => "identifiable") do |trace, index|
       create(:tracetag, :trace => trace, :tag => "London") if index.even?
     end
     next_path = traces_path :tag => "London"
