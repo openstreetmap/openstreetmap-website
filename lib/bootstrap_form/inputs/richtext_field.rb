@@ -17,7 +17,7 @@ module BootstrapForm
           type = options.delete(:format) || "markdown"
 
           form_group_builder(name, options) do
-            @template.render(:partial => "shared/richtext_field",
+            @template.render(:partial => "richtext_field",
                              :locals => { :object => @object,
                                           :attribute => name,
                                           :object_name => @object_name,
