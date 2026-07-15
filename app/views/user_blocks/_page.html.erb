@@ -1,8 +1,8 @@
 <%# locals: (user_blocks:, show_user_name:, show_creator_name:, params:) %>
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
-  <%= render "shared/pagination",
-             :translation_scope => "shared.pagination.user_blocks",
+  <%= render "pagination",
+             :translation_scope => "application.pagination.user_blocks",
              :paginator => user_blocks, :params => params %>
 
   <table id="block_list" class="table table-borderless table-striped table-sm">
@@ -27,7 +27,7 @@
                :locals => { :show_user_name => show_user_name, :show_creator_name => show_creator_name } %>
   </table>
 
-  <%= render "shared/pagination",
-             :translation_scope => "shared.pagination.user_blocks",
+  <%= render "pagination",
+             :translation_scope => "application.pagination.user_blocks",
              :paginator => user_blocks, :params => params %>
 </turbo-frame>

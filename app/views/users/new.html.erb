@@ -34,7 +34,7 @@
 
   <% unless @preferred_auth_provider.nil? %>
     <%= render :partial => "auth_providers", :locals => { :preferred_auth_provider => @preferred_auth_provider } %>
-    <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+    <%= render :partial => "section_divider", :locals => { :text => t(".or") } %>
   <% end %>
 <% else %>
   <h4><%= t ".about.welcome" %></h4>
@@ -95,6 +95,6 @@
 <% end %>
 
 <% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? and !Auth.providers.empty? %>
-  <%= render :partial => "shared/section_divider", :locals => { :text => t(".use external auth") } %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".use external auth") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>

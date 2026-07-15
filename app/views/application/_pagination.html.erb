@@ -2,7 +2,7 @@
 
 <% if paginator.older_items_cursor || paginator.newer_items_cursor %>
 
-<% translation_scope ||= "shared.pagination.#{controller.controller_name}" %>
+<% translation_scope ||= "application.pagination.#{controller.controller_name}" %>
 <nav class="d-flex justify-content-between gap-2">
   <ul class="pagination">
     <%= pagination_item(paginator.newer_items_cursor && params.merge(:before => nil, :after => nil),

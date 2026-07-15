@@ -27,7 +27,7 @@
 
 <% if @preferred_auth_provider %>
   <%= render :partial => "auth_providers", :locals => { :preferred_auth_provider => @preferred_auth_provider } %>
-  <%= render :partial => "shared/section_divider", :locals => { :text => t(".or") } %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".or") } %>
 <% end %>
 
 <% if current_user %>
@@ -63,6 +63,6 @@
 <% end %>
 
 <% unless @preferred_auth_provider or Auth.providers.empty? %>
-  <%= render :partial => "shared/section_divider", :locals => { :text => t(".with external") } %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".with external") } %>
   <%= render :partial => "auth_providers" %>
 <% end %>

@@ -1,6 +1,6 @@
 <% if @changesets.newer_items_cursor %>
   <div class="changeset_more my-3">
-    <div class="text-center position-absolute start-0 end-0" hidden><%= render "shared/loader" %></div>
+    <div class="text-center position-absolute start-0 end-0" hidden><%= render "loader" %></div>
     <ul class="pagination justify-content-center">
       <li class="page-item">
         <%= link_to t(".newer_changesets"), url_for(:after => @changesets.newer_items_cursor), :class => "page-link" %>
@@ -21,7 +21,7 @@
 <% end %>
 <% if @changesets.older_items_cursor -%>
   <div class="changeset_more my-3">
-    <div class="text-center position-absolute start-0 end-0" hidden><%= render "shared/loader" %></div>
+    <div class="text-center position-absolute start-0 end-0" hidden><%= render "loader" %></div>
     <ul class="pagination justify-content-center">
       <li class="page-item">
         <%= link_to t(".older_changesets"), url_for(:before => @changesets.older_items_cursor), :class => "page-link" %>
