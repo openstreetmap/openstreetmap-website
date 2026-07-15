@@ -7,11 +7,7 @@
                               :help => ".gpx, .tar.gz, .tar.bz2, .tar, .zip, .gpx.gz, .gpx.bz2" %>
   <%= f.text_field :description, :maxlength => 255 %>
   <%= f.text_field :tagstring %>
-  <%= f.select :visibility,
-               [[t("traces.visibility.private"), "private"],
-                [t("traces.visibility.public"), "public"],
-                [t("traces.visibility.trackable"), "trackable"],
-                [t("traces.visibility.identifiable"), "identifiable"]],
+  <%= f.select :visibility, trace_visibility_options(@trace),
                :help => link_to(t(".visibility_help"), t(".visibility_help_url")) %>
   <%= f.primary %>
   <%= link_to t(".help"), t(".help_url"), :class => "btn btn-link" %>
