@@ -103,7 +103,7 @@ $(function () {
   Turbo.session.drive = false;
   Turbo.session.history.stop();
 
-  const $expandedSecondaryMenu = $("header nav.secondary > ul"),
+  const $expandedSecondaryMenu = $("header nav ul.nav"),
         $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
         secondaryMenuItems = [],
         breakpointWidth = 768;
@@ -201,7 +201,7 @@ $(function () {
     menuIcon.prop("ariaExpanded", !header.hasClass("closed"));
   });
 
-  $("nav.primary li a").on("click", function () {
+  $("#edit_tab li a").on("click", function () {
     $("header").toggleClass("closed");
   });
 

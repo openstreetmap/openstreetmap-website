@@ -106,7 +106,7 @@ OSM.Router = function (map, rts) {
   const router = {};
 
   function updateSecondaryNav() {
-    $("header nav.secondary > ul > li > a").each(function () {
+    $("header ul.nav > li > a").each(function () {
       const active = new URL($(this).attr("href"), location.href).pathname === location.pathname;
 
       $(this)
