@@ -12,7 +12,7 @@ export default function (map) {
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path)
-      .then(() => page.load());
+      .then(page.load);
   };
 
   page.load = function () {
@@ -52,10 +52,8 @@ export default function (map) {
           throw new Error(text);
         });
       })
-      .then(() => {
-        OSM.loadSidebarContent(location.pathname)
-          .then(page.load);
-      })
+      .then(() => OSM.loadSidebarContent(location.pathname))
+      .then(page.load)
       .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")

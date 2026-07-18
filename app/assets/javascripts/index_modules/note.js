@@ -41,10 +41,8 @@ export default function (map) {
             throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
-        .then(() => {
-          OSM.loadSidebarContent(path)
-            .then(() => initialize(path, id, false));
-        })
+        .then(() => OSM.loadSidebarContent(path))
+        .then(() => initialize(path, id, false))
         .catch(error => {
           content.find("#comment-error")
             .text(error.message)
