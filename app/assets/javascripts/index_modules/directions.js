@@ -100,7 +100,7 @@ export default function (map) {
 
     if (!points[0] || !points[1]) return;
 
-    $("header").addClass("closed");
+    $(".navbar-toggler:not(.collapsed)").trigger("click");
 
     OSM.router.replace("/directions?" + new URLSearchParams({
       engine: chosenEngine.id,

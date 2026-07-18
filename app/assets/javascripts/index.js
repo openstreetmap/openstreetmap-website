@@ -311,7 +311,7 @@ $(function () {
     if (OSM.router.route(url.pathname + url.search + url.hash)) {
       e.preventDefault();
       if (url.pathname !== "/directions") {
-        $("header").addClass("closed");
+        $(".navbar-toggler:not(.collapsed)").trigger("click");
       }
     }
   });
