@@ -101,6 +101,7 @@ $(function () {
   // NB: Turns Turbo Drive off by default. Turbo Drive must be opt-in on a per-link and per-form basis
   // See https://turbo.hotwired.dev/reference/drive#turbo.session.drive
   Turbo.session.drive = false;
+  Turbo.session.history.stop();
 
   const $expandedSecondaryMenu = $("header nav.secondary > ul"),
         $collapsedSecondaryMenu = $("#compact-secondary-nav > ul"),
