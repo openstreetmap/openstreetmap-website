@@ -167,6 +167,15 @@ class TraceTest < ActiveSupport::TestCase
     check_xml_file("i", "a7c05d676c77dc14369c21be216a3713")
   end
 
+  def test_file_flags_server_gzipped_without_encoding_store
+    trace = create(:trace, :inserted => false, :fixture => "a")
+
+    # The test store doesn't set a Content-Encoding header, so the file only
+    # gets the server_gzipped flag.
+    assert trace.file.custom_metadata["server_gzipped"]
+    assert_nil trace.file.custom_metadata["gzip_content_encoding"]
+  end
+
   def test_large_picture
     picture = Rails.root.join("test/gpx/fixtures/a.gif").read(:mode => "rb")
     trace = create(:trace, :fixture => "a")
