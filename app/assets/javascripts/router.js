@@ -125,12 +125,12 @@ OSM.Router = function (map, rts) {
     return routingInProgress;
   }
 
-  $(window).on("popstate", function (e) {
-    if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
+  addEventListener("popstate", function ({ state }) {
+    if (!state) return; // Is it a real popstate event or just a hash change?
     const path = location.pathname + location.search;
     if (path === currentPath) return;
     const done = transition(path);
-    if (done) done.then(() => map.setState(e.originalEvent.state, { animate: false }));
+    if (done) done.then(() => map.setState(state, { animate: false }));
   });
 
   router.route = function (url) {
