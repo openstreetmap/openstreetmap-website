@@ -89,11 +89,7 @@ OSM.Router = function (map, rts) {
   const routes = Object.entries(rts)
     .map(([path, controller]) => new Route(path, controller));
 
-  routes.recognize = function (path) {
-    for (const route of this) {
-      if (route.match(path)) return route;
-    }
-  };
+  routes.recognize = path => routes.find(route => route.match(path));
 
   let currentPath = location.pathname.replace(/(.)\/$/, "$1") + location.search,
       currentRoute = routes.recognize(currentPath),
