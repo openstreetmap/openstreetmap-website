@@ -1,7 +1,7 @@
 export default function (map) {
   const page = {};
 
-  page.pushstate = page.popstate = function () {
+  page.load = function () {
     map.setSidebarOverlaid(true);
     document.title = OSM.i18n.t("layouts.project_name.title");
   };

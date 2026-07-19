@@ -10,7 +10,7 @@ export default function (map) {
     $(this).find(".numbered_pagination").trigger("numbered_pagination:enable");
   });
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
       .then(page.init);
   };

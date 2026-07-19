@@ -287,7 +287,7 @@ export default function (map) {
     }
   }
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
       .then(page.init);
   };

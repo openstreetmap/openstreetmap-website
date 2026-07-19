@@ -8,7 +8,7 @@ export default function (map) {
 
   const page = {};
 
-  page.pushstate = page.popstate = page.init = function () {
+  page.load = page.init = function () {
     map.setSidebarOverlaid(true);
     clearMarker();
 

@@ -71,7 +71,7 @@ export default function (map) {
 
   const page = {};
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
     if (params.has("query")) {
       $(".search_form input[name=query]").val(params.get("query"));

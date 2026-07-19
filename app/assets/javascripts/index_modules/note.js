@@ -2,7 +2,7 @@ export default function (map) {
   const content = $("#sidebar_content"),
         page = {};
 
-  page.pushstate = page.popstate = function (path, id) {
+  page.load = function (path, id) {
     OSM.loadSidebarContent(path).then(function () {
       const data = $(".details").data();
       if (!data) return;

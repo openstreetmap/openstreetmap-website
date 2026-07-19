@@ -7,7 +7,7 @@ export function element(type) {
   return function () {
     const page = {};
 
-    page.pushstate = page.popstate = function (path, id, version) {
+    page.load = function (path, id, version) {
       OSM.loadSidebarContent(path)
         .then(() => page.init(path, id, version, true));
     };
