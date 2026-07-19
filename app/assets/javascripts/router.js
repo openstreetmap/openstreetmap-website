@@ -113,7 +113,8 @@ OSM.Router = function (map, rts) {
     });
   }
 
-  function transition(path, route, beforeEnter = () => {}) {
+  function transition(path, beforeEnter = () => {}) {
+    const route = routes.recognize(path);
     if (!route) return false;
     routingInProgress = routingInProgress
       .catch(() => {})
@@ -130,18 +131,16 @@ OSM.Router = function (map, rts) {
 
   $(window).on("popstate", function (e) {
     if (!e.originalEvent.state) return; // Is it a real popstate event or just a hash change?
-    const path = location.pathname + location.search,
-          route = routes.recognize(path);
+    const path = location.pathname + location.search;
     if (path === currentPath) return;
-    const done = transition(path, route);
+    const done = transition(path);
     if (done) done.then(() => map.setState(e.originalEvent.state, { animate: false }));
   });
 
   router.route = function (url) {
-    const path = url.replace(/#.*/, ""),
-          route = routes.recognize(path);
+    const path = url.replace(/#.*/, "");
     const state = OSM.parseHash(url);
-    return Boolean(transition(path, route, () => {
+    return Boolean(transition(path, () => {
       map.setState(state);
       window.history.pushState(state, document.title, url);
     }));
