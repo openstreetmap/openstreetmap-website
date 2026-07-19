@@ -99,10 +99,10 @@ export default function (map) {
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path)
-      .then(() => page.load(path));
+      .then(() => page.init(path));
   };
 
-  page.load = function (path) {
+  page.init = function (path) {
     control.addClass("active");
 
     map.addLayer(noteLayer);

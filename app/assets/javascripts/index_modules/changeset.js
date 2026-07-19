@@ -12,10 +12,10 @@ export default function (map) {
 
   page.pushstate = page.popstate = function (path) {
     OSM.loadSidebarContent(path)
-      .then(page.load);
+      .then(page.init);
   };
 
-  page.load = function () {
+  page.init = function () {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
@@ -53,7 +53,7 @@ export default function (map) {
         });
       })
       .then(() => OSM.loadSidebarContent(location.pathname))
-      .then(page.load)
+      .then(page.init)
       .catch(error => {
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")

@@ -11,7 +11,7 @@ export default function (map) {
     });
   };
 
-  page.load = function (path, id) {
+  page.init = function (path, id) {
     initialize(path, id);
   };
 

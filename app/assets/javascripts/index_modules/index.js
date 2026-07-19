@@ -6,7 +6,7 @@ export default function (map) {
     document.title = OSM.i18n.t("layouts.project_name.title");
   };
 
-  page.load = function () {
+  page.init = function () {
     const params = new URLSearchParams(location.search);
     if (params.has("query")) {
       $("#sidebar .search_form input[name=query]").value(params.get("query"));

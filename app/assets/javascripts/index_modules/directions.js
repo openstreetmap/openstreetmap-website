@@ -253,7 +253,7 @@ export default function (map) {
     return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions");
   }
 
-  page.pushstate = page.popstate = page.load = function () {
+  page.pushstate = page.popstate = page.init = function () {
     initializeFromParams();
 
     $(".search_form").hide();

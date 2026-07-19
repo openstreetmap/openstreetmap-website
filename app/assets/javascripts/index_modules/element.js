@@ -9,10 +9,10 @@ export function element(type) {
 
     page.pushstate = page.popstate = function (path, id, version) {
       OSM.loadSidebarContent(path)
-        .then(() => page.load(path, id, version, true));
+        .then(() => page.init(path, id, version, true));
     };
 
-    page.load = function (path, id, version, keepViewport) {
+    page.init = function (path, id, version, keepViewport) {
       page._addObject(type, id, version, keepViewport);
       $(".numbered_pagination").trigger("numbered_pagination:enable");
       abortController = new AbortController();

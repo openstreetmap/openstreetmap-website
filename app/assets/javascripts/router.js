@@ -13,13 +13,13 @@
   Route controller objects can define four methods that are called at defined
   times during routing:
 
-     * The `load` method is called by the router when a path which matches the
+     * The `init` method is called by the router when a path which matches the
        route's path template is loaded via a normal full page load. It is passed
        as arguments the URL path plus any matching arguments for placeholders
        in the path template.
 
      * The `pushstate` method is called when a page which matches the route's path
-       template is loaded via pushState. It is passed the same arguments as `load`.
+       template is loaded via pushState. It is passed the same arguments as `init`.
 
      * The `popstate` method is called when returning to a previously
        pushState-loaded page via popstate (i.e. browser back/forward buttons).
@@ -27,7 +27,7 @@
      * The `unload` method is called on the exiting route controller when navigating
        via pushState or popstate to another route.
 
-   Note that while `load` is not called by the router for pushState-based loads,
+   Note that while `init` is not called by the router for pushState-based loads,
    it's frequently useful for route controllers to call it manually inside their
    definition of the `pushstate` and `popstate` methods.
 
@@ -189,7 +189,7 @@ OSM.Router = function (map, rts) {
   };
 
   router.load = async function () {
-    const loadState = await currentRoute.run("load", currentPath);
+    const loadState = await currentRoute.run("init", currentPath);
     router.stateChange(loadState || {});
   };
 
