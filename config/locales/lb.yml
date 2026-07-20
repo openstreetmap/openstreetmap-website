@@ -141,6 +141,7 @@ lb:
         company: Firma
         home_lat: Breedegrad
         home_lon: Längegrad
+        home_location_name: Numm vum Wunnuert
         languages: Preferéiert Sproochen
         preferred_editor: Preferéierten Editeur
         pass_crypt: Passwuert
@@ -261,10 +262,12 @@ lb:
     go_public:
       heading: Ëffentlecht Beaarbechten
       find_out_why: fannt eraus firwat
+      not_reversible: Dës Aktioun kann net réckgängeg gemaach ginn an all nei Benotzer
+        sinn elo standardméisseg ëffentlech.
       make_edits_public_button: All meng Ännerunge ëffentlech maachen
     update:
-      success_confirm_needed: Benotzerinformatioun erfollegräich aktualiséiert. Iwwerpréift
-        Är E-Mailen op eng Noriicht, fir Är nei E-Mail-Adress ze confirméieren.
+      success_confirm_needed: Benotzerinformatiounen erfollegräich aktualiséiert.
+        Iwwerpréift Är E-Mailen op eng Noriicht, fir Är nei E-Mail-Adress ze confirméieren.
       success: Benotzerinformatioun ass elo aktualiséiert.
     destroy:
       success: Benotzerkont geläscht.
@@ -276,8 +279,8 @@ lb:
         delete_account: Benotzerkont läschen
         delete_introduction: 'Dir kënnt Ären OpenStreetMap-Kont mam Knäppchen hei
           drënner läschen. Bedenkt wgl. déi follgend Detailer:'
-        delete_profile: Är Profilinformatiounen, wéi Ären Avatar, Beschreiwung an
-          Heemplaz ginn geläscht.
+        delete_profile: Är Profilinformatiounen, dorënner Ären Avatar, Är Beschreiwung
+          an Äre Wunnuert gi geläscht.
         delete_display_name: Ären affichéierten Numm gëtt geläscht, a ka vun anere
           Konte benotzt ginn.
         retain_caveats: 'E puer Informatiounen iwwer Iech ginn awer op OpenStreetMap
@@ -562,8 +565,8 @@ lb:
       nearby mapper: Mapper an der Emgéigend
     show:
       title: Meng Iwwersiichtssäit
-      no_home_location_html: '%{edit_profile_link} a lee deng Heemecht fest, fir Benotzer
-        an der Noperschaft ze gesinn.'
+      no_home_location_html: '%{edit_profile_link} a leet Äre Wunnuert fest, fir Benotzer
+        an der Ëmgéigend ze gesinn.'
       edit_your_profile: Äre Profil änneren
       nearby users: Aner Benotzer nobäi
       no nearby users: Et gi keng aner Benotzer déi hiren Standort an der Géigend
@@ -1498,6 +1501,7 @@ lb:
       kilometers: Kilometer
       download: Streck als GeoJSON eroflueden
       filename: Streck
+      directions_courtesy_html: Streckebeschreiwunge stame vu(n) %{link}
       check_demo_html: Méi Detailer vu(n) %{link}
   issues:
     index:
@@ -1718,7 +1722,7 @@ lb:
       gps_traces: GPS-Spueren
       help: Hëllef
       history: Versiounen
-      home: Op déi Plaz zréckgoen déi als Doheem definéiert ass
+      home: Op de Wunnuert goen
       issues: Problemer
       log_out: Ofmellen
       log_in: Aloggen
@@ -2039,11 +2043,12 @@ lb:
           dark: Däischter
         preferred_map_color_scheme: Preferéiert Faarfscheema fir d'Kaarten
         map_color_schemes:
-          auto: Automatesch
+          auto: Wéi d'Websäit
           light: Hell
           dark: Däischter
         preferred_editor_color_scheme: Preferéiert Faarfscheema fir den Editeur
         editor_color_schemes:
+          auto: Wéi d'Websäit
           light: Hell
           dark: Däischter
         save: Benotzerastellungen aktualiséieren
@@ -2067,6 +2072,8 @@ lb:
         links: Linken
         image: Bild
         company: Firma
+        location: Standuert
+        contribution_calendar: Kontributiounskalenner
     descriptions:
       show:
         title: Profil änneren
@@ -2081,7 +2088,9 @@ lb:
         save: Profil aktualiséieren
         cancel: Ofbriechen
         social_links:
+          title: Linken op Profiller vu Soziale Medien
           remove: Ewechhuelen
+          add: Link op Sozial Medien derbäisetzen
       update:
         success: Profillinken aktualiséiert.
         failure: D'Profillinke konnten net aktualiséiert ginn.
@@ -2116,18 +2125,27 @@ lb:
         title: Profil änneren
         save: Profil aktualiséieren
         cancel: Ofbriechen
-        no home location: Dir hutt nach keng Heemechtsplaz aginn.
-        update home location on click: Heemechtsplaz beim Klicken op d'Kaart aktualiséieren?
+        no home location: Dir hutt nach kee Wunnuert aginn.
+        update home location on click: Wunnuert beim Klicken op d'Kaart aktualiséieren?
         show: Weisen
         delete: Läschen
         undelete: Läsche réckgängeg maachen
     heatmaps:
       show:
+        title: Kontributiounskalenner konfiguréieren
+        show_contribution_calendar_in_public: De Kontributiounskalenner op Ärer Profilsäit
+          weisen
+        save: Konfiguratioun vum Kontributiounskalenner aktualiséieren
         cancel: Ofbriechen
+      update:
+        success: Kontributiounskalenner aktualiséiert.
+        failure: De Kontributiounskalenner konnt net aktualiséiert ginn.
   sessions:
     new:
       tab_title: Aloggen
       login_to_authorize_html: Op OpenStreetMap alogge fir op %{client_app_name} zouzegräifen.
+      already_logged_in_html: Dir sidd schonn als %{user} ageloggt. Wann Dir Iech
+        nach eng Kéier aloggt, gëtt Ären aktuelle Kont gewiesselt.
       email or username: E-Mail-Adress oder Benotzernumm
       password: Passwuert
       remember: Sech u mech erënneren
@@ -2203,7 +2221,14 @@ lb:
         credit_1_html: 'Wann Dir Donnéeë vun OpenStreetMap benotzt, muss Dir dës zwou
           Saache respektéieren:'
         infringement_title_html: Copyright-Verletzung
+        trademarks_1_1_trademark_policy: Markerichtlinnen
         services_title_html: Zousätzlech Servicer
+        services_1_html: |-
+          Obwuel OpenStreetMap Open Data ass, kënne mir keng gratis Kaarten-API oder Kaartekachele fir Drëttubidder zur Verfügung stellen.
+          Kuckt eis %{api_usage_policy_link}, %{tile_usage_policy_link} an %{nominatim_usage_policy_link}.
+        services_1_api_usage_policy: API-Benotzungsrichtlinnen
+        services_1_tile_usage_policy: Kachelbenotzungsrichtlinnen
+        services_1_nominatim_usage_policy: Nominatim-Benotzungsrichtlinnen
         contributors_title_html: Eis Matwierkend
         contributors_intro_html: 'Eis Matwierkend sinn dausende vun eenzele Mënschen.
           Mir bezéien och oppe lizenzéiert Donnéeë vu nationale Kaartenagenturen an
@@ -2287,10 +2312,13 @@ lb:
         title: IRC
         description: Interaktiven Chat op ville verschiddene Sproochen an iwwer vill
           Theemen.
+      switch2osm:
+        title: Op OSM wiesselen
       welcomemat:
         title: Fir Organisatiounen
       wiki:
-        title: OpenStreetMap Wiki
+        title: OpenStreetMap-Wiki
+        description: Duerchsicht d'Wiki fir eng ausféierlech OpenStreetMap-Dokumentatioun.
     potlatch:
       change_preferences: Ännert Är Benotzerastellungen hei
     any_questions:
@@ -2300,15 +2328,19 @@ lb:
       search_results: Sichresultater
     search:
       search: Sichen
+      get_directions_title: Fannt de Wee tëscht zwou Plazen
       from: Vun
       to: Op
-      where_am_i: Wou ass dat?
+      where_am_i: Wou läit dat?
+      where_am_i_title: Déi aktuell Positioun mat der Sichmaschinn beschreiwen
       submit_text: Lass
       reverse_directions_text: Richtung ëmdréinen
       modes:
         bicycle: Mam Vëlo
         car: Mam Auto
         foot: Zu Fouss
+      providers:
+        description: Naviagtiounsservicer
     welcome:
       title: Wëllkomm!
       whats_on_the_map:
@@ -2464,6 +2496,7 @@ lb:
       identifiable: Identifizéierbar (gëtt an der Spuerlëscht als identifizéierbar,
         sortéiert Punktfolleg mat Zäitstempel ugewisen)
     new:
+      upload_trace: GPS-Spuer eroplueden
       visibility_help: wat heescht dat?
       help: Hëllef
     create:
@@ -2475,7 +2508,8 @@ lb:
           bis dës fäerdeg sinn, fir d'Veraarbechtung net fir aner Benotzer ze blockéieren.
     edit:
       cancel: Ofbriechen
-      heading: Spuer %{name} beaarbechten
+      title: Spuer %{name} änneren
+      heading: Spuer %{name} änneren
       visibility_help: wat heescht dat?
     update:
       updated: Spuer aktualiséiert
@@ -2590,6 +2624,7 @@ lb:
         title: Op X deelen
         alt: X-Symbol
     markdown_help:
+      heading_html: Geparst mat %{kramdown_link}
       headings: Iwwerschrëften
       heading: Iwwerschrëft
       subheading: Ënneriwwerschrëft
@@ -2602,12 +2637,15 @@ lb:
       url: URL
       codeblock: Code-Block
     richtext_field:
+      edit: Änneren
       preview: Virschau
     pagination:
       changeset_comments:
+        newer: Méi nei Kommentaren
         newest: Neist Kommentaren
       diary_comments:
         older: Méi al Kommentaren
+        newer: Méi nei Kommentaren
         oldest: Eelst Kommentaren
         newest: Neist Kommentaren
       diary_entries:
@@ -2623,8 +2661,10 @@ lb:
         oldest: Eelst Spueren
         newest: Neist Spueren
       user_blocks:
+        older: Méi al Spären
         newer: Méi nei Spären
         oldest: Eelst Spären
+        newest: Neist Spären
       users:
         older: Eeler Benotzer
         newer: Méi nei Benotzer
@@ -2654,6 +2694,8 @@ lb:
       confirm_delete: Dës Applikatioun läschen?
     new:
       title: Eng nei Applikatioun registréieren
+    edit:
+      title: Är Applikatioun änneren
     show:
       edit: Änneren
       delete: Läschen
@@ -2679,7 +2721,10 @@ lb:
       revoke: Zougrëff ewechhuelen
   users:
     new:
-      title: Mellt Iech un
+      title: Umellen
+      tab_title: Umellen
+      signup_to_authorize_html: Mellt Iech mat OpenStreetMap un, fir op %{client_app_name}
+        zouzegräifen.
       no_auto_account_create: Leider kënne mir den Ament kee Benotzerkont automatesch
         fir Iech opmaachen.
       about:
@@ -2690,7 +2735,11 @@ lb:
       by_signing_up:
         tou: Benotzungs-Bedingungen
         privacy_policy: Dateschutzrichtlinnen
+        privacy_policy_title: OSMF-Dateschutzrichtlinne mat Abschnitt iwwer E-Mail-Adressen
       continue: Mellt Iech un
+      email_help:
+        privacy_policy: Dateschutzrichtlinnen
+        privacy_policy_title: OSMF-Dateschutzrichtlinne mat Abschnitt iwwer E-Mail-Adressen
       or: oder
     no_such_user:
       title: Sou e Benotzer gëtt et net
@@ -2723,6 +2772,7 @@ lb:
       status: 'Status:'
       block_history: Aktiv Spären
       moderator_history: Vergi Spären
+      revoke_all_blocks: All Spären ophiewen
       comments: Bemierkungen
       create_block: Dëse Benotzer spären
       activate_user: Dëse Benotzer aktivéieren
@@ -2735,6 +2785,8 @@ lb:
       edit_links: Linken änneren
       change_image: Bild änneren
       edit_company: Firma änneren
+      edit_location: Standuert änneren
+      edit_contribution_calendar: Kontributiounskalenner konfiguréieren
       contributions:
         one: '%{count} Kontributioun am leschte Joer'
         other: '%{count} Kontributiounen am leschte Joer'
@@ -2752,7 +2804,7 @@ lb:
         are_you_sure: Sidd Dir sécher, datt Dir dem Benotzer '%{name}' d'Roll '%{role}'
           ofhuele wëllt?
     sidebar_section:
-      home_location: Doheem
+      home_location: Wunnuert
       company: Firma
       company_tooltip: D'Zougehéieregkeet zur Firma gouf vum Benotzer selwer uginn
         a gouf net verifizéiert
@@ -2769,10 +2821,16 @@ lb:
         heading_html: Lëscht vun de Späre vum %{name}
         empty: De Benotzer %{name} gouf bis elo nach net gespaart.
       edit:
+        title: All Späre vum %{block_on} ophiewen
+        heading_html: All Späre vum %{block_on} ophiewen
         empty: De Benotzer %{name} huet keng aktiv Spären.
+        confirm: Sidd Dir sécher, datt Dir %{active_blocks} ophiewe wëllt?
         active_blocks:
           one: '%{count} aktiv Spär'
           other: '%{count} aktiv Spären'
+        revoke: Ophiewen!
+      destroy:
+        flash: All d'aktiv Späre goufen opgehuewen.
     lists:
       show:
         title: Benotzer
@@ -2831,12 +2889,28 @@ lb:
         ewechzehuelen.
   user_blocks:
     not_found:
+      sorry: Pardon, d'Benotzerspär mat der ID %{id} gouf net fonnt.
       back: Zeréck op d'Iwwersiicht
+    new:
+      period: Wéi laang, ab elo gekuckt, de Benotzer fir d'API gespaart wäert sinn.
+    edit:
+      title: Spär vum %{name} änneren
+      heading_html: Spär vum %{name} änneren
+      period: Wéi laang, ab elo gekuckt, de Benotzer fir d'API gespaart wäert sinn.
+      revoke: Spär ophiewen
     update:
-      success: Spär aktualiséiert
+      only_creator_can_edit: Nëmmen de Moderator, deen d'Spär gemaach huet, ka se
+        änneren.
+      only_creator_can_edit_without_revoking: Nëmmen de Moderator, deen d'Spär gemaach
+        huet, ka se änneren ouni se opzehiewen.
+      only_creator_or_revoker_can_edit: Nëmmen de Moderator, deen d'Spär gemaach oder
+        opgehuewen huet, ka se änneren.
+      inactive_block_cannot_be_reactivated: Dës Spär ass inaktiv a kann net reaktivéiert
+        ginn.
+      success: Spär aktualiséiert.
     index:
       title: Benotzerspären
-      heading: Lëscht vu gespaarte Benotzer
+      heading: Lëscht vu Benotzerspären
       empty: Et goufe nach keng Späre gemaach.
     helper:
       time_future_html: Leeft a(n) %{time} of.
@@ -2860,9 +2934,12 @@ lb:
           other: '%{count} Joren'
       short:
         ended: eriwwer
+        revoked_html: opgehuewe vum %{name}
         active: aktiv
         active_until_read: aktiv bis gelies
         read_html: gelies de(n) %{time}
+        time_in_future_title: '%{time_absolute}; a(n) %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} gespaart vum %{block_by}'
       heading_html: '%{block_on} gespaart vum %{block_by}'
@@ -3002,6 +3079,10 @@ lb:
       tooltip: Legend
       tooltip_disabled: D'Legend ass fir dës Kusch net verfügbar
     map:
+      map:
+        title: Kaart
+        marker:
+          title: Kaartemarkéierung
       popup:
         close: Zoumaachen
       navigation_control:
@@ -3027,7 +3108,14 @@ lb:
         gps: Ëffentlech GPS Spueren
         overlays: Overlayë fir d’Feelersich aktivéieren
         title: Niveauen
+      make_a_donation: En Don maachen
+      cyclosm_credit: Kachelstil vu(n) %{cyclosm_link}, gehost vu(n) %{osm_france_link}
+      thunderforest_credit: Kachele stame vu(n) %{thunderforest_link}
       andy_allan: Andy Allan
+      tracestrack_credit: Kachele stame vu(n) %{tracestrack_link}
+      hotosm_credit: Kachelstil vu(n) %{hotosm_link}, gehost vu(n) %{osm_france_link}
+      openmaptiles_credit: Vektorkachele vu(n) %{openmaptiles_link}, gehost vu(n)
+        %{maptiler_link}
     site:
       edit_tooltip: Kaart änneren
       edit_disabled_tooltip: Vergréissere fir d'Kaart z'änneren
@@ -3036,16 +3124,23 @@ lb:
         derbäizesetzen
       queryfeature_tooltip: Objetsoffro
       queryfeature_disabled_tooltip: Fir Objetsoffro vergréisseren
+    profile:
+      social_link_n: Link op de Sozial-Medie-Profil %{n}
+      remove_social_link_n: Link op de Sozial-Medie-Profil %{n} ewechhuelen
     edit_help: Réckelt d'Kaart a vergréissert op eng Plaz, déi Dir ännere wëllt, a
       klickt dann hei.
     directions:
       distance_in_units:
-        m: '%{distance}&nbsp;m'
-        km: '%{distance}&nbsp;km'
-        ft: '%{distance}&nbsp;ft'
-        mi: '%{distance}&nbsp;mi'
+        m: '%{distance} m'
+        km: '%{distance} km'
+        ft: '%{distance} ft'
+        yd: '%{distance} yd'
+        mi: '%{distance} mi'
       errors:
         no_route: Konnt keng Streck tëscht deenen zwou Plaze fannen.
+        no_place:
+          title: Sich schifgaangen
+          body: „%{place}“ gouf net fonnt.
       instructions:
         continue_without_exit: Virun op %{name}
         slight_right_without_exit: Liicht riets op %{name}
@@ -3106,7 +3201,8 @@ lb:
         start_without_exit: Bei %{name} ufänken
         destination_without_exit: Zil erreecht
         roundabout_with_exit: Am Rond-point huelt d'Ausfaart %{exit} op %{name}
-        roundabout_with_exit_ordinal: Am Rond-point huelt déi %{exit} exit op %{name}
+        roundabout_with_exit_ordinal: Am Rond-point huelt déi %{exit} Ausfaart op
+          %{name}
         exit_roundabout: Am Kreesverkéier d'Ausfaart op %{name} huelen
         ferry_without_exit: D'Fär %{name} huelen
         unnamed: Strooss ouni Numm
@@ -3125,6 +3221,7 @@ lb:
       node: Knuet
       way: Wee
       relation: Relatioun
+      error: 'Feeler beim Kontaktéiere vu(n) %{server}: %{error}'
     element:
       wikipedia: Wikipedia
     context:
@@ -3135,14 +3232,17 @@ lb:
       query_features: Objetsoffro
       centre_map: Kaart hei zentréieren
     home:
-      marker_title: Mäin Doheem
-      not_set: Fir Äre Kont ass keen Doheem definéiert
+      marker_title: Mäi Wunnuert
+      not_set: Fir Äre Kont ass kee Wunnuert definéiert
     contribution_calendar:
       tooltip:
         no_contributions: Keng Kontributioune vum %{date}
         contributions:
           one: '%{count} Kontributioun vum %{date}'
           other: '%{count} Konstributioune vum %{date}'
+    remote_edit:
+      failed:
+        title: Ännerung schifgaangen
     edit:
       id_not_configured:
         title: iD gouf net konfiguréiert
@@ -3154,6 +3254,8 @@ lb:
     update:
       flash: Ännerunge gespäichert.
   validations:
-    leading_whitespace: huet en Espace am Ufank
+    leading_whitespace: huet en Espace vir
+    trailing_whitespace: huet en Espace hannen
     invalid_characters: enthält ongülteg Zeechen
+    url_characters: enthält speziell URL-Zeechen (%{characters})
 ...
