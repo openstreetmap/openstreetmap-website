@@ -25,44 +25,36 @@ $(function () {
   });
 
   OSM.loadSidebarContent = function (path) {
-    const atomSelector = "link[type=\"application/atom+xml\"]";
-
     map.setSidebarOverlaid(false);
 
-    $("#sidebar_loader").prop("hidden", false).addClass("delayed-fade-in");
+    return new Promise((resolve, reject) => {
+      $("#sidebar_content_frame")
+        .one("turbo:frame-render", event => {
+          const response = event.originalEvent.detail.fetchResponse.response;
 
-    // Prevent caching the XHR response as a full-page URL
-    // https://github.com/openstreetmap/openstreetmap-website/issues/5663
-    const queryParamSeparator = path.includes("?") ? "&" : "?";
-    const xhrPath = `${path}${queryParamSeparator}xhr=1`;
+          const title = response.headers.get("X-Page-Title");
+          if (title) document.title = decodeURIComponent(title);
 
-    $("#sidebar_content")
-      .empty();
-
-    return fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
-      .then(response => {
-        $("#flash").empty();
-        $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
-
-        return response.text().then(html => ({ response, html }));
-      })
-      .then(({ response, html }) => {
-        const content = $($.parseHTML(html));
-
-        const title = response.headers.get("X-Page-Title");
-        if (title) document.title = decodeURIComponent(title);
-
-        $("head").find(atomSelector).remove();
-
-        $("head").append(content.filter(atomSelector));
-
-        $("#sidebar_content").html(content.not(atomSelector));
-
-        if (!response.ok) {
-          throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
-        }
-      });
+          if (response.ok) {
+            resolve();
+          } else {
+            reject(new Error(`HTTP Error ${response.status} ${response.statusText}`));
+          }
+        })
+        .prop("src", path);
+    });
   };
+
+  $("#sidebar_content_frame")
+    .on("turbo:before-fetch-response", () => $("#flash").empty())
+    .on("turbo:before-frame-render", event => {
+      const atomSelector = "link[type='application/atom+xml']";
+      $("head").find(atomSelector).remove();
+      $("head").append(
+        $(event.originalEvent.detail.newFrame)
+          .find(atomSelector)
+          .detach());
+    });
 
   const token = $("head").data("oauthToken");
   if (token) OSM.oauth = { authorization: "Bearer " + token };

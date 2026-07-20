@@ -126,6 +126,7 @@ OSM.Router = function (map, rts) {
   }
 
   addEventListener("popstate", function ({ state }) {
+    if (!document.body.classList.contains("map-layout")) return false;
     if (!state) return; // Is it a real popstate event or just a hash change?
     const path = location.pathname + location.search;
     if (path === currentPath) return;
@@ -134,6 +135,7 @@ OSM.Router = function (map, rts) {
   });
 
   router.route = function (url) {
+    if (!document.body.classList.contains("map-layout")) return false;
     const path = url.replace(/#.*/, "");
     const state = OSM.parseHash(url);
     return Boolean(transition(path, () => {

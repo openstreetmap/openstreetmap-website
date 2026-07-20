@@ -404,7 +404,7 @@ module ActiveSupport
       assert_template "browse/not_found"
       assert_template :layout => "map"
 
-      get path_method.call(:id => 0), :xhr => true
+      get path_method.call(:id => 0), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
       assert_response :not_found
       assert_template "browse/not_found"
       assert_template :layout => "xhr"
@@ -414,7 +414,7 @@ module ActiveSupport
       assert_template template
       assert_template :layout => "map"
 
-      get path_method.call(:id => id), :xhr => true
+      get path_method.call(:id => id), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
       assert_response :success
       assert_template template
       assert_template :layout => "xhr"
