@@ -342,7 +342,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_in_delta lat, @controller.params[:lat].to_f
     assert_in_delta lon, @controller.params[:lon].to_f
 
-    get search_path(:query => query), :xhr => true
+    get search_path(:query => query), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template :show
     assert_template :layout => "xhr"
@@ -361,7 +361,7 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
     assert_equal sources, assigns(:sources).pluck(:name)
 
-    get search_path(:query => query), :xhr => true
+    get search_path(:query => query), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template :show
     assert_template :layout => "xhr"
