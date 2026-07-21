@@ -9,7 +9,7 @@ OSM.initializations.push(function (map) {
 
   $(".search_form").on("submit", function (e) {
     e.preventDefault();
-    $("header").addClass("closed");
+    $(".navbar-toggler:not(.collapsed)").trigger("click");
     const bounds = map.getBounds();
     const params = new URLSearchParams({
       query: this.elements.query.value,
@@ -25,7 +25,7 @@ OSM.initializations.push(function (map) {
 
   $(".describe_location").on("click", function (e) {
     e.preventDefault();
-    $("header").addClass("closed");
+    $(".navbar-toggler:not(.collapsed)").trigger("click");
     const zoom = map.getZoom();
     const { lat, lng } = OSM.cropLocation(map.getCenter(), zoom);
 

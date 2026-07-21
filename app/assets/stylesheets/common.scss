@@ -69,15 +69,11 @@ time[title] {
 
 /* Rules for the header */
 
-#menu-icon i.bi {
-  font-size: 30px;
-}
-
-header {
+header.navbar {
   font-size: 14px;
 
-  > .d-flex,
-  #edit_tab {
+  h1,
+  nav {
     padding: $lineheight * 0.5;
   }
 
@@ -90,14 +86,9 @@ header {
   .btn {
     font-size: 14px;
   }
-
-  &.closed nav {
-    @extend .d-none;
-    @extend .d-md-flex;
-  }
 }
 
-nav.primary {
+header nav {
   #edit_tab .btn-outline-primary {
     @include button-outline-variant($green, $color-hover: $white, $active-color: $white);
   }
@@ -123,15 +114,7 @@ nav.primary {
       box-shadow: 0 0 0 0.2rem fade-out($green, 0.5);
     }
   }
-}
 
-nav.secondary {
-  .user-menu, .login-menu {
-    width: 100%;
-  }
-}
-
-nav.primary, nav.secondary {
   .dropdown-item {
     &:hover, &:active {
       background-color: $green;
@@ -143,16 +126,6 @@ nav.primary, nav.secondary {
 @include media-breakpoint-up(md) {
   header .username {
     max-width: 12em;
-  }
-
-  nav.secondary {
-    > ul {
-      height: 1.5em;
-    }
-
-    .user-menu, .login-menu {
-      width: auto;
-    }
   }
 }
 
@@ -452,7 +425,7 @@ legend {
 }
 
 .search_form {
-  .describe_location {
+  .describe_location.btn {
     font-size: 10px;
   }
 
