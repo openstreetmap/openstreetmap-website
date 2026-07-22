@@ -54,7 +54,7 @@ module Accounts
 
       post auth_deletions_path(:provider => "facebook"), :params => { :signed_request => signed_request }
       assert_response :success
-      puts @response.body
+
       js = ActiveSupport::JSON.decode(@response.body)
       assert_not_nil js
       assert_not_nil js["confirmation_code"]
