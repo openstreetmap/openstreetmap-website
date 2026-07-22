@@ -20,7 +20,7 @@ module Api
 
       # Test downloading a trace through the api
       def test_show
-        public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+        public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
 
         # First with no auth
         get api_trace_data_path(public_trace_file)
@@ -65,7 +65,7 @@ module Api
 
       # Check an anonymous trace can't be downloaded by another user through the api
       def test_data_anon
-        anon_trace_file = create(:trace, :visibility => "private", :fixture => "b")
+        anon_trace_file = create(:trace, :visibility => "trackable", :fixture => "b")
 
         # First with no auth
         get api_trace_data_path(anon_trace_file)
@@ -105,7 +105,7 @@ module Api
 
       # Check that trace data can't be downloaded through the api when the traces feature is disabled
       def test_show_disabled
-        public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+        public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
         auth_header = bearer_authorization_header public_trace_file.user
 
         with_settings(:traces_disabled => true) do
