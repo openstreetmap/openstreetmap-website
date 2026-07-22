@@ -4,6 +4,8 @@ module Accounts
   class AuthDeletionsController < ApplicationController
     layout :site_layout
 
+    skip_before_action :verify_authenticity_token
+
     before_action :set_locale
 
     authorize_resource :class => :auth_deletion
