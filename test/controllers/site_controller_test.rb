@@ -470,7 +470,7 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_template "export"
     assert_template :layout => "map"
 
-    get export_path, :xhr => true
+    get export_path, :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template "export"
     assert_template :layout => "xhr"

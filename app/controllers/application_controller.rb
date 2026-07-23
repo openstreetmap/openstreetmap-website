@@ -208,7 +208,7 @@ class ApplicationController < ActionController::Base
 
     I18n.locale = Locale.available.preferred(preferred_languages)
 
-    response.headers["Vary"] = "Accept-Language"
+    response.headers["Vary"] = response.headers["Vary"].present? ? "#{response.headers['Vary']}, Accept-Language" : "Accept-Language"
     response.headers["Content-Language"] = I18n.locale.to_s
   end
 
@@ -263,7 +263,8 @@ class ApplicationController < ActionController::Base
 
     flash.now[:warning] = { :partial => "layouts/offline_flash" } unless api_status == "online"
 
-    request.xhr? ? "xhr" : "map"
+    response.headers["Vary"] = response.headers["Vary"].present? ? "#{response.headers['Vary']}, Turbo-Frame" : "Turbo-Frame"
+    turbo_frame_request? ? "xhr" : "map"
   end
 
   def preferred_editor
