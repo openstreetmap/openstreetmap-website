@@ -1,0 +1,26 @@
+<% @title = t(".title") %>
+
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= t(".heading") %></h1>
+  <%= render "navigation" %>
+<% end %>
+
+<table class="table table-borderless table-striped table-sm">
+  <thead>
+    <tr>
+      <th><%= t(".name") %></th>
+      <th><%= t(".reason") %></th>
+      <th><%= t(".creator") %></th>
+      <th><%= t(".start") %></th>
+      <th><%= t(".end") %></th>
+      <th><%= t(".status") %></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @moderation_zones.each do |moderation_zone| %>
+      <%= render "row", :moderation_zone => moderation_zone %>
+    <% end %>
+  </tbody>
+</table>

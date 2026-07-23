@@ -432,6 +432,9 @@ OpenStreetMap::Application.routes.draw do
   # redactions
   resources :redactions
 
+  # moderation zones
+  resources :moderation_zones, :only => [:index, :new, :create, :edit, :update]
+
   # errors
   match "/400", :to => "errors#bad_request", :via => :all
   match "/403", :to => "errors#forbidden", :via => :all

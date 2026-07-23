@@ -26,6 +26,8 @@
 #  fk_rails_...  (revoker_id => users.id)
 #
 class ModerationZone < ApplicationRecord
+  PERIODS = Settings.user_block_periods.excluding(0).freeze
+
   belongs_to :creator, :class_name => "User"
   belongs_to :revoker, :class_name => "User", :optional => true
 
@@ -40,6 +42,10 @@ class ModerationZone < ApplicationRecord
 
     where(
       arel_table[:zone].st_contains(point)
-    ).exists?
+    ).any?(&:active?)
+  end
+
+  def active?
+    ends_at.future?
   end
 end
