@@ -33,7 +33,8 @@ $(function () {
 
     // Prevent caching the XHR response as a full-page URL
     // https://github.com/openstreetmap/openstreetmap-website/issues/5663
-    const xhrPath = path + `${path.includes("?") ? "&" : "?"}xhr=1`;
+    const queryParamSeparator = path.includes("?") ? "&" : "?";
+    const xhrPath = `${path}${queryParamSeparator}xhr=1`;
 
     $("#sidebar_content")
       .empty();

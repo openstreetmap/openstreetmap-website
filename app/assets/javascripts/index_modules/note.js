@@ -2,7 +2,7 @@ export default function (map) {
   const content = $("#sidebar_content"),
         page = {};
 
-  page.pushstate = page.popstate = function (path, id) {
+  page.load = function (path, id) {
     OSM.loadSidebarContent(path).then(function () {
       const data = $(".details").data();
       if (!data) return;
@@ -11,7 +11,7 @@ export default function (map) {
     });
   };
 
-  page.load = function (path, id) {
+  page.init = function (path, id) {
     initialize(path, id);
   };
 
@@ -41,10 +41,8 @@ export default function (map) {
             throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
-        .then(() => {
-          OSM.loadSidebarContent(path)
-            .then(() => initialize(path, id, false));
-        })
+        .then(() => OSM.loadSidebarContent(path))
+        .then(() => initialize(path, id, false))
         .catch(error => {
           content.find("#comment-error")
             .text(error.message)

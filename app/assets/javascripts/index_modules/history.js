@@ -287,12 +287,12 @@ export default function (map) {
     }
   }
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(page.load);
+      .then(page.init);
   };
 
-  page.load = function () {
+  page.init = function () {
     map.addLayer(changesetsLayer);
     map.on("moveend", moveEndListener);
     map.on("zoomend", zoomEndListener);

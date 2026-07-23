@@ -97,12 +97,12 @@ export default function (map) {
     if (newNoteMarker) newNoteMarker.setOpacity(zoomedOut ? 0.5 : 0.9);
   }
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(() => page.load(path));
+      .then(() => page.init(path));
   };
 
-  page.load = function (path) {
+  page.init = function (path) {
     control.addClass("active");
 
     map.addLayer(noteLayer);

@@ -71,7 +71,7 @@ export default function (map) {
 
   const page = {};
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
     if (params.has("query")) {
       $(".search_form input[name=query]").val(params.get("query"));
@@ -79,10 +79,10 @@ export default function (map) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
     OSM.loadSidebarContent(path)
-      .then(page.load);
+      .then(page.init);
   };
 
-  page.load = function () {
+  page.init = function () {
     $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);
       fetchReplace(this.dataset, entry.children().first())

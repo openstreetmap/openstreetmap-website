@@ -7,16 +7,13 @@ export function element(type) {
   return function () {
     const page = {};
 
-    page.pushstate = page.popstate = function (path, id, version) {
-      OSM.loadSidebarContent(path).then(function () {
-        page._addObject(type, id, version);
-        $(".numbered_pagination").trigger("numbered_pagination:enable");
-        abortController = new AbortController();
-      });
+    page.load = function (path, id, version) {
+      OSM.loadSidebarContent(path)
+        .then(() => page.init(path, id, version, true));
     };
 
-    page.load = function (path, id, version) {
-      page._addObject(type, id, version, true);
+    page.init = function (path, id, version, keepViewport) {
+      page._addObject(type, id, version, keepViewport);
       $(".numbered_pagination").trigger("numbered_pagination:enable");
       abortController = new AbortController();
     };
@@ -38,11 +35,11 @@ export function mappedElement(type) {
   return function (map) {
     const page = element(type)(map);
 
-    page._addObject = function (type, id, version, center) {
+    page._addObject = function (type, id, version, keepViewport) {
       const hashParams = OSM.parseHash();
       map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
-            (center || !map.getBounds().contains(bounds))) {
+            (!keepViewport || !map.getBounds().contains(bounds))) {
           OSM.router.withoutMoveListener(function () {
             map.fitBounds(bounds);
           });

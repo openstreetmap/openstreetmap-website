@@ -80,12 +80,12 @@ export default function (map) {
     if (getBounds().getSize() > OSM.MAX_REQUEST_AREA) e.preventDefault();
   }
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(page.load);
+      .then(page.init);
   };
 
-  page.load = function () {
+  page.init = function () {
     map
       .addLayer(locationFilter)
       .on("moveend", update);

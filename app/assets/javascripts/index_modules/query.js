@@ -198,12 +198,12 @@ export default function (map) {
 
   const page = {};
 
-  page.pushstate = page.popstate = function (path) {
+  page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(() => page.load(path, true));
+      .then(() => page.init(path, true));
   };
 
-  page.load = function (path, noCentre) {
+  page.init = function (path, noCentre) {
     const params = new URLSearchParams(path.substring(path.indexOf("?"))),
           latlng = L.latLng(params.get("lat"), params.get("lon"));
 
