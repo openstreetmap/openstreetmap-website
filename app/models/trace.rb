@@ -76,10 +76,36 @@ class Trace < ApplicationRecord
   def file=(attachable)
     case attachable
     when ActionDispatch::Http::UploadedFile, Rack::Test::UploadedFile
-      super(:io => attachable,
-            :filename => attachable.original_filename,
-            :content_type => content_type(attachable.path),
-            :identify => false)
+      type = content_type(attachable.path)
+
+      if type == Mime[:gpx]
+        # Gzip plain GPX before sending to storage service to save space.
+        gz = Tempfile.new(["trace", ".gpx.gz"])
+        gz.binmode
+
+        writer = Zlib::GzipWriter.new(gz)
+        File.open(attachable.path, "rb") { |source| IO.copy_stream(source, writer) }
+        writer.finish
+        gz.rewind
+        # Delete the temp file from disk now, but keep gz open. Active Storage still
+        # reads this open handle to upload on save same as xml_file.
+        gz.unlink
+
+        # Mark the file as gzipped by the server, so the download and xml_file
+        # know to decompress it.
+        metadata = { "server_gzipped" => true }
+
+        super(:io => gz,
+              :filename => attachable.original_filename,
+              :content_type => "application/gpx+xml",
+              :metadata => { "custom" => metadata },
+              :identify => false)
+      else
+        super(:io => attachable,
+              :filename => attachable.original_filename,
+              :content_type => type,
+              :identify => false)
+      end
     else
       super
     end
@@ -91,6 +117,12 @@ class Trace < ApplicationRecord
 
   def trackable?
     %w[trackable identifiable].include?(visibility)
+  end
+
+  # True when the server stored this GPX gzipped. Only new files, old traces
+  # return false.
+  def gzipped_by_server?
+    file.custom_metadata["server_gzipped"].present?
   end
 
   def identifiable?
@@ -166,7 +198,8 @@ class Trace < ApplicationRecord
   end
 
   def xml_file
-    gzipped = file.content_type.end_with?("gzip")
+    # Gzipped if the user sent a .gz or the server gzipped it.
+    gzipped = file.content_type.end_with?("gzip") || gzipped_by_server?
     bzipped = file.content_type.end_with?("bzip2")
     zipped = file.content_type.start_with?("application/zip")
     tarred = file.content_type.start_with?("application/x-tar")
