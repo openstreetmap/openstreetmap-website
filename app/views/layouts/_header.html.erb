@@ -21,7 +21,7 @@
                     :id => "editanchor",
                     :data => { :editor => preferred_editor } %>
         <button class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split flex-grow-0" type="button" data-bs-toggle="dropdown"></button>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu position-absolute">
           <% Editors::RECOMMENDED_EDITORS.each do |editor| %>
             <li>
               <%= link_to t(".edit_with", :editor => t("editor.#{editor}.description")),
@@ -57,7 +57,7 @@
               <%= current_user.display_name_was %>
             </span>
           </button>
-          <div class="dropdown-menu dropdown-menu-end">
+          <div class="dropdown-menu dropdown-menu-end position-absolute">
             <%= link_to t("users.show.my_dashboard"), dashboard_path, :class => "dropdown-item" %>
             <%= link_to messages_inbox_path, :class => "dropdown-item" do %>
               <%= t("users.show.my messages") %>
