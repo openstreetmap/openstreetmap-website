@@ -2,11 +2,20 @@
 
 require "test_helper"
 
+$t_total ||= 0
+
 class RichTextTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   def setup
     RichText.reset_state
+    @t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  end
+
+  def teardown
+    t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    $t_total += (t1 - @t0)
+    puts $t_total
   end
 
   def test_html_to_html
