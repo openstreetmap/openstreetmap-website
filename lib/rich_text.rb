@@ -105,13 +105,11 @@ module RichText
     end
 
     def linkify(text, mode = :urls, hosts: true, paths: true)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
       html = ERB::Util.html_escape(text)
 
       html = expand_link_shorthands(html) if paths
       html = expand_host_shorthands(html) if hosts
-
-      Rinku.auto_link(html, mode, link_attr) do |url|
+      auto_link(html, mode) do |url|
         url = shorten_hosts(url) if hosts
         url = shorten_link(url) if paths
 
@@ -120,6 +118,28 @@ module RichText
     end
 
     private
+
+    def auto_link(...)
+      auto_link_with_rails_autolink(...)
+      # auto_link_with_rinku(...)
+    end
+
+    def auto_link_with_rails_autolink(html, mode = :urls, &)
+      options = {
+        :html => {
+          :rel => "nofollow noopener noreferrer",
+          :dir => "auto"
+        },
+        :link => mode,
+        :sanitize => false
+      }
+      ActionController::Base.helpers.auto_link(html, options, &)
+    end
+
+    def auto_link_with_rinku(html, mode = :urls, &)
+      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+      Rinku.auto_link(html, mode, link_attr, &)
+    end
 
     def expand_link_shorthands(text)
       RichText
