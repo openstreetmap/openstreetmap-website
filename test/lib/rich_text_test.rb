@@ -716,6 +716,16 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "#{'x' * (t - o)}...", r.description
   end
 
+  def test_autolinking_edge_cases
+    text = "This changeset contains edits near Caldecott (way/23019437)… and a road in Turkey (way/25705231)."
+    r = RichText.new("text", text)
+    assert_html r do
+      assert_dom "a", :count => 1, :text => "http://test.host/way/23019437" do
+        assert_dom "> @rel", "nofollow noopener noreferrer"
+      end
+    end
+  end
+
   private
 
   def assert_html(richtext, &block)
