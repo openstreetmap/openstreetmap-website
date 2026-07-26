@@ -24,7 +24,7 @@ $(function () {
     worldCopyJump: true
   });
 
-  OSM.loadSidebarContent = function (path) {
+  OSM.loadSidebarContent = function (path, signal) {
     const atomSelector = "link[type=\"application/atom+xml\"]";
 
     map.setSidebarOverlaid(false);
@@ -39,7 +39,10 @@ $(function () {
     $("#sidebar_content")
       .empty();
 
-    return fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+    return fetch(xhrPath, {
+      headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" },
+      signal
+    })
       .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
