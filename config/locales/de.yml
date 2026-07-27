@@ -491,6 +491,11 @@ de:
           veröffentlichst (unter Public Domain stellst).
         did_not_confirm: Du hast nicht bestätigt, dass du deine Bearbeitungen als
           gemeinfrei betrachtest.
+    auth_deletions:
+      show:
+        title: Datenlöschungsantrag
+        body: Die Daten für %{provider} ID %{id} wurden um %{time} entfernt und vom
+          zugehörigen OpenStreetMap-Konto getrennt.
   browse:
     deleted_ago_by_html: Gelöscht %{time_ago} von %{user}
     edited_ago_by_html: Bearbeitet %{time_ago} von %{user}
@@ -773,6 +778,52 @@ de:
       followed_diaries: Blogeinträge
       nearby_changesets: Änderungssätze von Benutzern in der Nähe
       nearby_diaries: Blogs von Benutzern in der Nähe
+  notifications:
+    index:
+      title: Benachrichtigungen
+      no_notifications: Du hast momentan keine Benachrichtigungen
+      point_to_preferences_html: Du kannst in %{link} anpassen, wie du Benachrichtigungen
+        erhältst.
+      link_text: den Benutzereinstellungen
+    changeset_comment:
+      headline: Änderungssatzkommentar
+      description_with_summary_html: Benutzer %{commenter_name_with_link} hat einen
+        Kommentar zum Changeset %{changeset_id_with_link} ("%{changeset_summary}")
+        hinterlassen
+      description_without_summary_html: Benutzer %{commenter_name_with_link} hat einen
+        Kommentar zum Changeset %{changeset_id_with_link} hinterlassen
+    gpx_details:
+      filename: Dateiname
+      description: Beschreibung
+      tags: Tags
+      total_points: Gesamtzahl der Punkte
+      imported_points: Anzahl der importierten Punkte
+    gpx_import_failure:
+      headline: GPS-Track konnte nicht importiert werden
+      error_message: Fehlermeldung
+    gpx_import_success:
+      headline: GPS-Track erfolgreich importiert
+    new_follower:
+      headline: Neuer Follower
+      description_html: Nutzer %{follower_name_with_link} ist dir gefolgt. Du kannst
+        %{link}, wenn du möchtest.
+      link_text: zurückfolgen
+    note_comment:
+      headline:
+        commented: Hinweiskommentar
+        closed: Hinweis erledigt
+        reopened: Hinweis wiedereröffnet
+      description:
+        commented_html: Benutzer %{commenter_name_with_link} hat einen Kommentar zu
+          Hinweis %{note_id_with_link} ("%{note_text}") hinterlassen
+        closed_html: Benutzer %{commenter_name_with_link} hat den Hinweis %{note_id_with_link}
+          ("%{note_text}") gelöst
+        reopened_html: Benutzer %{commenter_name_with_link} hat den Hinweis %{note_id_with_link}
+          ("%{note_text}") wieder geöffnet
+    diary_comment:
+      headline: Blog-Kommentar
+      description_html: Benutzer %{commenter_name_with_link} hat einen Kommentar zum
+        Blogeintrag "%{diary_entry_title_with_link}" hinterlassen
   diary_entries:
     new:
       title: Neuer Blogeintrag
@@ -3313,37 +3364,55 @@ de:
       heading: Überschrift
       subheading: Zwischenüberschrift
       unordered: Unsortierte Liste
+      ordered: Sortiere Liste
       first: Erstes Element
       second: Zweites Element
       link: Link
       text: Text
       image: Bild
+      alt: Alternativer Text
       url: URL
       codeblock: Code-Block
     richtext_field:
+      edit: Bearbeiten
       preview: Vorschau
+      help: Hilfe
     pagination:
       changeset_comments:
+        older: Ältere Kommentare
+        newer: Neuere Kommentare
+        oldest: Älteste Kommentare
         newest: Neueste Kommentare
       diary_comments:
         older: Ältere Kommentare
+        newer: Neuere Kommentare
         oldest: Älteste Kommentare
         newest: Neueste Kommentare
       diary_entries:
+        older: Älteste Einträge
         newer: Neuere
         oldest: Älteste Einträge
         newest: Neueste Einträge
+      notifications:
+        older: Ältere Benachrichtigungen
+        newer: Neuere Benachrichtigungen
+        oldest: Älteste Benachrichtigungen
+        newest: Neueste Benachrichtigungen
       issues:
+        older: Ältere Probleme
         newer: Neuere Probleme
         oldest: Älteste Probleme
         newest: Neueste Probleme
       traces:
+        older: Ältere Tracks
         newer: Neuere Tracks
         oldest: Älteste Tracks
         newest: Neueste Tracks
       user_blocks:
+        older: Ältere Sperren
         newer: Neuere Sperren
         oldest: Älteste Sperren
+        newest: Neueste Sperren
       users:
         older: Ältere Benutzer
         newer: Neuere Benutzer
@@ -3477,6 +3546,7 @@ de:
       my traces: Meine Tracks
       my notes: Meine Hinweise
       my messages: Nachrichten
+      my_notifications: Meine Benachrichtigungen
       my profile: Profil
       my_account: Benutzerkonto
       my comments: Meine Kommentare

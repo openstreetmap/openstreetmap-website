@@ -437,6 +437,11 @@ it:
           fossero di pubblico dominio.
         did_not_confirm: Non hai confermato di considerare le tue modifiche come fossero
           di pubblico dominio.
+    auth_deletions:
+      show:
+        title: Richiesta di cancellazione dei dati
+        body: I dati di %{provider} ID %{id} sono stati rimossi in data %{time} e
+          sono stati scollegati dall'utenza OpenStreetMap associata.
   browse:
     deleted_ago_by_html: Cancellato %{time_ago} da %{user}
     edited_ago_by_html: Modificato %{time_ago} da %{user}
@@ -716,6 +721,51 @@ it:
       followed_diaries: voci del diario
       nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
       nearby_diaries: note dei diari degli utenti nelle vicinanze
+  notifications:
+    index:
+      title: Notifiche
+      no_notifications: Al momento non hai notifiche
+      point_to_preferences_html: È possibile personalizzare la ricezione delle notifiche
+        nella %{link}.
+      link_text: sezione delle preferenze
+    changeset_comment:
+      headline: Commenti ai gruppi di modifica
+      description_with_summary_html: L'utente %{commenter_name_with_link} ha lasciato
+        un commento sul gruppo di modifiche %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: L'utente %{commenter_name_with_link} ha lasciato
+        un commento sul gruppo di modifiche %{changeset_id_with_link}
+    gpx_details:
+      filename: Nome del file
+      description: Descrizione
+      tags: Etichette
+      total_points: Numero totale di punti
+      imported_points: Numero di punti importati
+    gpx_import_failure:
+      headline: Impossibile importare la traccia GPS
+      error_message: Messaggio d'errore
+    gpx_import_success:
+      headline: Traccia GPS importata con successo
+    new_follower:
+      headline: Nuovo follower
+      description_html: L'utente %{follower_name_with_link} ha iniziato a seguirti.
+        Se vuoi puoi %{link}.
+      link_text: seguirli a tua volta
+    note_comment:
+      headline:
+        commented: Commenti alle note
+        closed: Note risolte
+        reopened: Note riaperte
+      description:
+        commented_html: L'utente %{commenter_name_with_link} ha lasciato un commento
+          alla nota %{note_id_with_link} ("%{note_text}")
+        closed_html: L'utente %{commenter_name_with_link} ha chiuso la nota %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: L'utente %{commenter_name_with_link} ha riaperto la nota %{note_id_with_link}
+          ("%{note_text}")
+    diary_comment:
+      headline: Commenti ai diari
+      description_html: L'utente %{commenter_name_with_link} ha lasciato un commento
+        sulla voce del diario "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Nuova voce del diario
@@ -3218,42 +3268,60 @@ it:
       heading: Intestazione
       subheading: Sottotitolo
       unordered: Elenco puntato
+      ordered: Elenco ordinato
       first: Primo elemento
       second: Secondo elemento
       link: Collegamento
       text: Testo
       image: Immagine
+      alt: Testo alt
       url: URL
       codeblock: Blocco di codice
     richtext_field:
+      edit: Modifica
       preview: Anteprima
+      help: Aiuto
     pagination:
       changeset_comments:
-        newest: Commenti più recenti
+        older: Commenti meno recenti
+        newer: Commenti più recenti
+        oldest: I commenti più vecchi
+        newest: I commenti più recenti
       diary_comments:
         older: Commenti più vecchi
-        oldest: Commenti più vecchi
-        newest: Commenti più recenti
+        newer: Commenti più recenti
+        oldest: I commenti più vecchi
+        newest: I commenti più recenti
       diary_entries:
+        older: Voci meno recenti
         newer: Voci più recenti
-        oldest: Voci più vecchie
-        newest: Voci più recenti
+        oldest: Le voci più vecchie
+        newest: Le voci più recenti
+      notifications:
+        older: Notifiche meno recenti
+        newer: Notifiche più recenti
+        oldest: Le notifiche più vecchie
+        newest: Le notifiche più recenti
       issues:
+        older: Problemi meno recenti
         newer: Problemi più recenti
-        oldest: Problemi più vecchi
-        newest: Problemi più recenti
+        oldest: I problemi più vecchi
+        newest: I problemi più recenti
       traces:
+        older: Tracce meno recenti
         newer: Tracce più recenti
-        oldest: Tracce più vecchie
-        newest: Tracce più recenti
+        oldest: Le tracce più vecchie
+        newest: Le tracce più recenti
       user_blocks:
+        older: Blocchi meno recenti
         newer: Blocchi più recenti
-        oldest: Blocchi più vecchi
+        oldest: I blocchi più vecchi
+        newest: I blocchi più recenti
       users:
         older: Utenti più vecchi
         newer: Utenti più recenti
-        oldest: Utenti più vecchi
-        newest: Utenti più recenti
+        oldest: Gli utenti più vecchi
+        newest: Gli utenti più recenti
   oauth:
     permissions:
       missing: Non hai autorizzato l'applicazione ad accedere a questa funzione
@@ -3379,6 +3447,7 @@ it:
       my traces: I miei tracciati
       my notes: Le mie note
       my messages: I miei messaggi
+      my_notifications: Le mie notifiche
       my profile: Il mio profilo
       my_account: La mia utenza
       my comments: I miei commenti

@@ -370,6 +370,10 @@ zh-TW:
         successfully_declared: 你已成功宣稱將你的編輯視為是公共領域了。
         already_declared: 你已宣稱將你的編輯視為是公共領域了。
         did_not_confirm: 你尚未宣稱將你的編輯視為是公共領域。
+    auth_deletions:
+      show:
+        title: 資料刪除請求
+        body: '%{provider} ID %{id} 的資料已於 %{time} 刪除，並已與相關的開放街圖帳號解除連結。'
   browse:
     deleted_ago_by_html: 由 %{user} 在 %{time_ago} 刪除
     edited_ago_by_html: 由 %{user} 在 %{time_ago} 編輯
@@ -630,6 +634,44 @@ zh-TW:
       followed_diaries: 日記條目
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
+  notifications:
+    index:
+      title: 通知
+      no_notifications: 您目前沒有任何通知
+      point_to_preferences_html: 您可以在 %{link} 中調整接收通知的方式。
+      link_text: 偏好設定區塊
+    changeset_comment:
+      headline: 變更集評論
+      description_with_summary_html: 使用者 %{commenter_name_with_link} 在變更集 %{changeset_id_with_link}（「%{changeset_summary}」）上發表了評論
+      description_without_summary_html: 使用者 %{commenter_name_with_link} 在變更集 %{changeset_id_with_link}
+        上發表了評論
+    gpx_details:
+      filename: 檔案名稱
+      description: 描述
+      tags: 標籤
+      total_points: 點總數
+      imported_points: 匯入的點數量
+    gpx_import_failure:
+      headline: 無法匯入 GPS 軌跡
+      error_message: 錯誤訊息
+    gpx_import_success:
+      headline: GPS 軌跡匯入成功
+    new_follower:
+      headline: 新關注者
+      description_html: 使用者 %{follower_name_with_link} 開始關注您。如果您願意，可以 %{link}。
+      link_text: 關注他們
+    note_comment:
+      headline:
+        commented: 註記評論
+        closed: 註記已解決
+        reopened: 註記已重新開啟
+      description:
+        commented_html: 使用者 %{commenter_name_with_link} 在註記 %{note_id_with_link}（「%{note_text}」）上留下了評論
+        closed_html: 使用者 %{commenter_name_with_link} 已解決評論 %{note_id_with_link}（「%{note_text}」）
+        reopened_html: 使用者 %{commenter_name_with_link} 重新開啟了註記 %{note_id_with_link}（「%{note_text}」）
+    diary_comment:
+      headline: 日記評論
+      description_html: 使用者 %{commenter_name_with_link} 在日記項目「%{diary_entry_title_with_link}」上留下了評論
   diary_entries:
     new:
       title: 新日記項目
@@ -2926,21 +2968,32 @@ zh-TW:
       help: 說明
     pagination:
       changeset_comments:
+        older: 較舊的評論
+        newer: 較新的評論
+        oldest: 較舊的評論
         newest: 最新評論
       diary_comments:
         older: 較舊的評論
+        newer: 較新的評論
         oldest: 最早評論
         newest: 最新評論
       diary_entries:
+        older: 較舊的項目
         newer: 較新的項目
         oldest: 最舊項目
         newest: 最新項目
+      notifications:
+        older: 較舊的通知
+        newer: 較新的通知
+        oldest: 最舊的通知
+        newest: 最新的通知
       issues:
         older: 舊問題
         newer: 新問題
         oldest: 最早問題
         newest: 最新問題
       traces:
+        older: 較舊的軌跡
         newer: 較新軌跡
         oldest: 最早軌跡
         newest: 最新軌跡
@@ -3065,6 +3118,7 @@ zh-TW:
       my traces: 我的軌跡
       my notes: 我的註記
       my messages: 我的訊息
+      my_notifications: 我的通知
       my profile: 我的基本資料
       my_account: 我的帳號
       my comments: 我的評論

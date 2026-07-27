@@ -429,6 +429,11 @@ nl:
           beschouwt.
         did_not_confirm: U hebt niet bevestigd dat u uw bewerkingen als publiek domein
           beschouwt.
+    auth_deletions:
+      show:
+        title: Verzoek om gegevensverwijdering
+        body: De gegevens voor %{provider} ID %{id} zijn verwijderd op %{time} en
+          de koppeling met het bijbehorende OpenStreetMap-account is verbroken.
   browse:
     deleted_ago_by_html: '%{time_ago} verwijderd door %{user}'
     edited_ago_by_html: '%{time_ago} bewerkt door %{user}'
@@ -704,6 +709,50 @@ nl:
       followed_diaries: dagboekberichten
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
+  notifications:
+    index:
+      title: Meldingen
+      no_notifications: U hebt momenteel geen meldingen
+      point_to_preferences_html: U kunt in %{link} aanpassen hoe u meldingen ontvangt.
+      link_text: de voorkeuren
+    changeset_comment:
+      headline: Opmerking bij wijzigingenset
+      description_with_summary_html: Gebruiker %{commenter_name_with_link} heeft een
+        reactie achtergelaten op wijzigingenset %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: Gebruiker %{commenter_name_with_link} heeft
+        een reactie achtergelaten op wijzigingenset %{changeset_id_with_link}
+    gpx_details:
+      filename: Bestandsnaam
+      description: Beschrijving
+      tags: Tags
+      total_points: Totaal aantal punten
+      imported_points: Aantal geïmporteerde punten
+    gpx_import_failure:
+      headline: GPS-traject kon niet worden geïmporteerd
+      error_message: Foutmelding
+    gpx_import_success:
+      headline: GPS-traject geïmporteerd
+    new_follower:
+      headline: Nieuwe volger
+      description_html: Gebruiker %{follower_name_with_link} is u gaan volgen. U kunt
+        %{link} als je wilt.
+      link_text: die gebruiker ook volgen
+    note_comment:
+      headline:
+        commented: Reactie op notitie
+        closed: Notitie opgelost
+        reopened: Notitie opnieuw geopend
+      description:
+        commented_html: Gebruiker %{commenter_name_with_link} heeft een reactie achtergelaten
+          op notitie %{note_id_with_link} ("%{note_text}")
+        closed_html: Gebruiker %{commenter_name_with_link} heeft notitie %{note_id_with_link}
+          opgelost ("%{note_text}")
+        reopened_html: Gebruiker %{commenter_name_with_link} heeft notitie %{note_id_with_link}
+          opnieuw geopend ("%{note_text}")
+    diary_comment:
+      headline: Dagboekreactie
+      description_html: Gebruiker %{commenter_name_with_link} heeft een reactie achtergelaten
+        op dagboekbericht "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Nieuw dagboekbericht
@@ -2330,7 +2379,7 @@ nl:
     notification_preferences:
       show:
         title: Meldingsvoorkeuren
-        changeset_comment: Opmerkingen bij de wijzigingsset
+        changeset_comment: Opmerkingen bij de wijzigingenset
         diary_comment: Dagboekreacties
         direct_message: Directe berichten
         gpx_import_failure: 'GPS-trace importeren: mislukt'
@@ -3203,41 +3252,61 @@ nl:
         alt: X-pictogram
     markdown_help:
       heading_html: Verwerkt met %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Kopjes
       heading: Kopje
       subheading: Onderkop
       unordered: Ongeordende lijst
+      ordered: Geordende lijst
       first: Eerste item
       second: Tweede item
       link: Koppeling
       text: Tekst
       image: Afbeelding
+      alt: Alternatieve tekst
       url: Url
       codeblock: Codeblok
     richtext_field:
+      edit: Bewerken
       preview: Voorvertoning
+      help: Hulp
     pagination:
       changeset_comments:
+        older: Oudere reacties
+        newer: Nieuwere reacties
+        oldest: Oudste reacties
         newest: Nieuwste reacties
       diary_comments:
         older: Oudere reacties
+        newer: Nieuwere reacties
         oldest: Oudste reacties
         newest: Nieuwste reacties
       diary_entries:
+        older: Oudere berichten
         newer: Nieuwere berichten
         oldest: Oudste berichten
         newest: Nieuwste berichten
+      notifications:
+        older: Oudere meldingen
+        newer: Nieuwere meldingen
+        oldest: Oudste melding
+        newest: Nieuwste meldingen
       issues:
+        older: Oudere problemen
         newer: Nieuwere meldingen
         oldest: Oudste problemen
         newest: Nieuwste problemen
       traces:
+        older: Oudere trajecten
         newer: Nieuwere trajecten
         oldest: Oudste trajecten
         newest: Nieuwste trajecten
       user_blocks:
+        older: Oudere blokkades
         newer: Nieuwere blokkades
         oldest: Oudste blokkades
+        newest: Nieuwste blokkades
       users:
         older: Oudere gebruikers
         newer: Nieuwere gebruikers
@@ -3369,6 +3438,7 @@ nl:
       my traces: Mijn trajecten
       my notes: Mijn opmerkingen
       my messages: Mijn berichten
+      my_notifications: Mijn meldingen
       my profile: Mijn profiel
       my_account: Mijn account
       my comments: Mijn reacties
