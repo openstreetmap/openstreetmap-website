@@ -54,6 +54,9 @@
 fa:
   html:
     dir: rtl
+  date:
+    formats:
+      contribution_calendar: '%-d %B'
   time:
     formats:
       friendly: '%e %B %Y ساعت %H:%M'
@@ -72,7 +75,7 @@ fa:
         create: ارسال
       oauth2_application:
         create: نام‌نویسی
-        update: به‌روز رسانی
+        update: به‌روزرسانی
       redaction:
         create: ایجاد پاک‌سازی
         update: ذخیرهٔ پاک‌سازی
@@ -122,9 +125,9 @@ fa:
       relation_tag: برچسب رابطه
       report: گزارش
       session: جلسه
-      trace: رد
-      tracepoint: نقطهٔ رد
-      tracetag: برچسب رد
+      trace: ردیابی
+      tracepoint: نقطهٔ ردیابی
+      tracetag: برچسب ردیابی
       user: کاربر
       user_preference: ترجیحات کاربر
       user_token: توکن کاربر
@@ -340,7 +343,7 @@ fa:
         retain_caveats: 'اگرچه، حتی پس از حذف شدن حسابتان برخی اطلاعات شما در اوپن‌استریت‌مپ
           حفظ خواهد شد:'
         retain_edits: همهٔ ویرایش‌های شما در پایگاه دادهٔ نقشه حفظ خواهد شد.
-        retain_traces: همهٔ ردهایی که بارگذاری کرده‌اید حفظ خواهد شد.
+        retain_traces: همهٔ ردیابی‌هایی که بارگذاری کرده‌اید حفظ خواهد شد.
         retain_diary_entries: همهٔ روزنوشت‌ها و نظرات شما به روزنوشت‌ها حفظ خواهد
           شد اما نمایش داده نمی‌شود.
         retain_notes: همهٔ یادداشت‌های نقشه و نظرات شما به یادداشت‌های نقشه حفظ خواهد
@@ -357,8 +360,8 @@ fa:
         title: شرایط
         heading: شرایط
         heading_ct: شرایط مشارکت‌کننده
-        read and accept with tou: لطفاً توافق‌نامهٔ مشارکت‌کننده و شرایط استفاده را
-          مطالعه کنید و هر دو گزینه را علامت بزنید و سپس روی دکمهٔ ادامه کلیک کنید.
+        read and accept with tou: لطفاً شرایط مشارکت‌کننده و شرایط استفاده را مطالعه
+          کنید، پس از اتمام، هر دو کادر را علامت بزنید و سپس روی «ادامه» کلیک کنید.
         contributor_terms_explain: به‌موجب این توافقنامه، این شرایط مشارکت‌کننده برای
           مشارکت‌های گذشته و آیندهٔ شما نافذ است.
         read_ct: شرایط مشارکت‌کننده را که در بالا آمده، خوانده‌ام و آن را می‌پذیرم
@@ -400,6 +403,9 @@ fa:
           عمومی در نظر می‌گیرید.
         did_not_confirm: شما این که مشارکت‌هایتان در مالکیت عمومی قرار گیرد را تأیید
           نکرده‌اید.
+    auth_deletions:
+      show:
+        title: درخواست حذف داده‌ها
   browse:
     deleted_ago_by_html: '%{time_ago} %{user} حذفش کرد'
     edited_ago_by_html: '%{time_ago} توسط %{user} ویرایش شد'
@@ -575,12 +581,20 @@ fa:
       changesetxml: Changeset XML
       osmchangexml: osmChange XML
     paging_nav:
+      nodes_title: گره‌ها
       nodes_paginated: گره‌ها (%{x}-%{y} از %{count})
+      ways_title: راه‌ها
       ways_paginated: راه‌ها (%{x}-%{y} از %{count})
+      relations_title: ارتباط‌ها
       relations_paginated: رابطه‌ها (%{x}-%{y} از %{count})
     timeout:
       sorry: شوربختانه بازیابی بسته‌های تغییر که درخواست نموده‌اید، خیلی طولانی شد.
   changeset_subscriptions:
+    show:
+      subscribe:
+        button: اشتراک در بحث
+      unsubscribe:
+        button: لغو اشتراک در بحث
     heading:
       created_by_html: ایجادشده توسط %{link_user} در %{created}.
   dashboards:
@@ -598,10 +612,34 @@ fa:
       no_home_location_html: '%{edit_profile_link} و موقعیت خانهٔ خود را تنظیم کنید
         تا کاربران نزدیک را ببینید.'
       edit_your_profile: ویرایش پروفایل
+      no followings: شما هنوز هیچ کاربری را دنبال نکرده‌اید.
       nearby users: دیگر کاربران نزدیک
       no nearby users: در این حوالی هیچ کاربری  نقشه  ترسیم نکرده است
       nearby_changesets: ویرایش‌های کاربران نزدیک
       nearby_diaries: روزنوشت‌های کاربران نزدیک
+  notifications:
+    index:
+      title: اعلان‌ها
+      no_notifications: در حال حاضر هیچ اعلانی ندارید
+      point_to_preferences_html: می‌توانید نحوه دریافت اعلان‌ها را در %{link} تنظیم
+        کنید.
+      link_text: بخش ترجیحات
+    gpx_details:
+      filename: نام پرونده
+      description: توضیحات
+      tags: برچسب‌ها
+      total_points: تعداد کل امتیازها
+      imported_points: تعداد نقاط درون‌ریزی شده
+    gpx_import_failure:
+      headline: ردیابی GPS قابل درون‌ریزی نیست
+      error_message: پیام خطا
+    gpx_import_success:
+      headline: ردیابی GPS با موفقیت درون‌ریزی شد
+    new_follower:
+      headline: دنبال‌کننده جدید
+      description_html: کاربر %{follower_name_with_link} شما را دنبال می‌کند. در صورت
+        تمایل می‌توانید او را %{link}.
+      link_text: دنبال کنید
   diary_entries:
     new:
       title: روزنوشت تازه
@@ -623,6 +661,8 @@ fa:
       title: روزنوشت %{user} |‏ %{title}
       user_title: روزنوشت‌های %{user}
       discussion: بحث
+      subscribe: اشتراک
+      unsubscribe: لغو اشتراک
       leave_a_comment: نظرتان را بنویسید
       login_to_leave_a_comment_html: برای نظردادن %{login_link}
       login: ورود
@@ -668,13 +708,16 @@ fa:
     unsubscribe:
       button: لغو اشتراک در بحث
     navigation:
+      in_language: روزنوشت‌های %{language}
       my_diary: روزنوشت‌های من
       new: روزنوشت تازه
       new_title: ساخت روزنوشت تازه در روزنوشت‌های کاربری من
     profile_diaries:
+      latest_diaries: آخرین روزنوشت‌ها
       comments:
         one: '%{count} نظر'
         other: '%{count} نظر'
+      title_label: روزنوشت
   doorkeeper:
     flash:
       applications:
@@ -851,6 +894,7 @@ fa:
           waste_dump_site: پایگاه تخلیهٔ زباله
           watering_place: مکان آبیاری
           water_point: منطقه دارای آب
+          weighbridge: باسکول
           "yes": تسهیلات
         boundary:
           aboriginal_lands: سرزمین بومی‌‌ها
@@ -993,7 +1037,7 @@ fa:
           street_lamp: چراغ خیابانی
           tertiary: راه درجه سه
           tertiary_link: راه درجه سه
-          track: رد
+          track: گذر
           traffic_mirror: آیینه ترافیک
           traffic_signals: چراغ راهنمایی
           trunk: بزرگراه
@@ -1036,6 +1080,7 @@ fa:
           "yes": مکان تاریخی
         information:
           map: نقشه
+          office: دفتر گردشگری
           terminal: اطلاعات پایانه
         junction:
           "yes": تقاطع
@@ -1076,7 +1121,9 @@ fa:
           adult_gaming_centre: مرکز بازی بزرگسالان
           beach_resort: تفریحگاه ساحلی
           bird_hide: محل مشاهدهٔ پرندگان
+          bowling_alley: سالن بولینگ
           common: سرزمین مشترک
+          dance: سالن رقص
           dog_park: پارک سگ
           firepit: مشعل آتش
           fishing: منطقهٔ ماهی‌گیری
@@ -1135,12 +1182,17 @@ fa:
           petroleum_well: چاه نفت
           pier: اسکله کوچک
           pipeline: خط لوله
+          pumping_station: ایستگاه پمپاژ
+          reservoir_covered: مخزن سرپوشیده
           silo: سیلو
+          snow_cannon: دستگاه برف‌ساز
           snow_fence: حفاظ برف
           storage_tank: مخازن سیال
+          street_cabinet: جعبه خیابانی
           surveillance: نظارت
           telescope: تلسکوپ
           tower: برج
+          utility_pole: دکل خدماتی
           wastewater_plant: کارخانه فاضلاب
           watermill: آسیاب آبی
           water_tap: شیر آب
@@ -1589,7 +1641,7 @@ fa:
       edit: ویرایش
       edit_with: ویرایش با %{editor}
       export: برون‌ریزی
-      gps_traces: ردهای GPS
+      gps_traces: ردیابی‌های GPS
       help: راهنما
       history: تاریخچه
       home: رفتن به محل خانه
@@ -2222,7 +2274,7 @@ fa:
         primary: جادهٔ درجه یک
         secondary: جادهٔ درجه دو
         unclassified: جاده
-        track: رد
+        track: گذر
         bridleway: راه حیوان رو
         cycleway: مسیر دوچرخه
         international_bike_route: مسیر دوچرخه‌سواری بین‌المللی
@@ -2320,10 +2372,10 @@ fa:
   traces:
     visibility:
       private: خصوصی (همرسانی فقط به‌صورت گمنام، نقاط نامرتب)
-      public: عمومی (نمایش در لیست ردها اما گمنام، نقاط نامرتب)
+      public: عمومی (نمایش در فهرست ردیابی اما ناشناس، نقاط نامرتب)
       trackable: قابل ردیابی (همرسانی فقط به‌صورت گمنام، نقاط مرتب همراه با مهر زمان)
-      identifiable: قابل شناسایی (نمایش در لیست ردها و قابل شناسایی، نقاط مرتب همراه
-        با مهر زمان)
+      identifiable: قابل شناسایی (نمایش در فهرست ردیابی و قابل شناسایی، نقاط منظم
+        با برچسب زمانی)
     new:
       upload_trace: بارگذاری رد GPS
       visibility_help: این چیست؟
@@ -2365,18 +2417,18 @@ fa:
       description: 'شرح:'
       tags: 'برچسب‌ها:'
       none: هیچ
-      edit_trace: ویرایش این رد
-      delete_trace: حذف این رد
-      trace_not_found: رد یافت نشد!
+      edit_trace: ویرایش جزئیات ردیابی
+      delete_trace: حذف این ردیابی
+      trace_not_found: ردیابی یافت نشد!
       visibility: 'پدیداری:'
-      confirm_delete: این رد حذف شود؟
+      confirm_delete: این ردیابی حذف شود؟
     trace:
       pending: در انتظار
       count_points:
         one: 1 نقطه
         other: '%{count} نقطه'
       more: بیشتر
-      trace_details: مشاهدهٔ جزئیات رد
+      trace_details: مشاهدهٔ جزئیات ردیابی
       view_map: نمایش نقشه
       edit_map: باز کردن در ویرایشگر
       public: عمومی
@@ -2384,14 +2436,14 @@ fa:
       private: خصوصی
       trackable: قابل ردیابی
     index:
-      public_traces: ردهای GPS عمومی
-      public_traces_from: ردهای GPS عمومی از %{user}
-      description: مرور آخرین ردهای GPS بارگذاری‌شده
+      public_traces: ردیابی‌های GPS عمومی
+      public_traces_from: ردیابی‌های GPS عمومی از %{user}
+      description: مرور آخرین ردیابی GPS بارگذاری‌شده
       tagged_with: ' با برچسب %{tags}'
       upload_trace: بارگذاری یک رد
-      all_traces: همهٔ ردها
-      my_traces: ردهای من
-      traces_from_html: ردهای عمومی %{user}
+      all_traces: همهٔ ردیابی‌ها
+      my_traces: ردیابی‌های من
+      traces_from_html: ردیابی‌های عمومی از %{user}
       remove_tag_filter: حذف پالایهٔ برچسب
     destroy:
       scheduled_for_deletion: این رد در زمان‌بندی حذف قرار گرفت
@@ -2474,8 +2526,13 @@ fa:
         newest: جدیدترین نظرات
       diary_entries:
         newer: روزنوشت‌های جدیدتر
+      notifications:
+        older: اعلان‌های قدیمی‌تر
+        newer: اعلان‌های جدیدتر
+        oldest: قدیمی‌ترین اعلان‌ها
+        newest: جدیدترین اعلان‌ها
       traces:
-        newer: ردهای تازه‌تر
+        newer: ردیابی‌های تازه‌تر
       user_blocks:
         oldest: قدیمی‌ترین قطع دسترسی‌ها
   oauth:
@@ -2486,8 +2543,8 @@ fa:
       write_prefs: تغییر ترجیحات کاربری
       write_diary: ایجاد روزنوشت و نظردهی
       write_api: اصلاح نقشه
-      read_gpx: خواندن ردهای جی‌پی‌اس خصوصی
-      write_gpx: بارگذاری ردهای جی‌پی‌اس
+      read_gpx: خواندن ردیابی‌های GPS خصوصی
+      write_gpx: بارگذاری ردیابی‌های GPS
       write_notes: اصلاح یادداشت‌ها
       write_blocks: ایجاد و برداشتن قطع دسترسی‌های کاربر
       read_email: خواندن نشانی رایانامهٔ کاربر
@@ -2577,9 +2634,10 @@ fa:
     show:
       my diary: روزنوشت‌های من
       my edits: ویرایش‌های من
-      my traces: ردهای من
+      my traces: ردیابی‌های من
       my notes: یادداشت‌های من
       my messages: پیام‌های من
+      my_notifications: اعلانات من
       my profile: نمایهٔ من
       my_account: حساب من
       my comments: نظرات من
@@ -2590,7 +2648,7 @@ fa:
       send message: ارسال پیام
       diary: روزنوشت
       edits: ویرایش‌ها
-      traces: ردها
+      traces: ردیابی‌ها
       notes: یادداشت‌های نقشه
       mapper since: 'آغاز نقشه‌کشی از:'
       ct status: 'شرایط مشارکت‌کننده:'
@@ -2769,6 +2827,10 @@ fa:
       block: |-
         Block #%{id}
         مسدود کردن یا بستن آی دی
+  user_mutes:
+    index:
+      user_mute_explainer: پیام‌های کاربران بی‌صدا به یک صندوق ورودی جداگانه منتقل
+        می‌شوند و شما اعلان‌های ایمیل دریافت نخواهید کرد.
   notes:
     index:
       title: یادداشت‌هایی که %{user} ارسال کرده یا روی آن‌ها نظر داده
@@ -2854,7 +2916,7 @@ fa:
         header: لایه‌های نقشه
         notes: یادداشت‌های نقشه
         data: دادهٔ نقشه
-        gps: ردهای GPS عمومی
+        gps: ردیابی‌های GPS عمومی
         overlays: برای اشکال‌زدایی از نقشه رولایه‌ها را فعال کنید
         title: لایه‌ها
       openstreetmap_contributors: مشارکت‌کنندگان OpenStreetMap

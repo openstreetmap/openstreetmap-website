@@ -414,6 +414,11 @@ fi:
         already_declared: Olet jo julistanut, että muokkauksesi ovat tekijänoikeudettomia.
         did_not_confirm: Et hyväksynyt, että muokkauksesi ovat tekijänoikeudettomia
           (Public Domain).
+    auth_deletions:
+      show:
+        title: Tietojen poistopyyntö
+        body: Palveluntarjoajan %{provider} ID %{id} tiedot poistettiin klo %{time}
+          ja ne irrotettiin siihen liittyvästä OpenStreetMap-tilistä.
   browse:
     deleted_ago_by_html: Poistanut %{user}, %{time_ago}
     edited_ago_by_html: Muokannut %{time_ago} %{user}
@@ -682,6 +687,51 @@ fi:
       followed_diaries: päiväkirjamerkinnät
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
+  notifications:
+    index:
+      title: Ilmoitukset
+      no_notifications: Sinulla ei ole ilmoituksia tällä hetkellä
+      point_to_preferences_html: Voit säätää ilmoitusten vastaanottotapaa sivulla
+        %{link}.
+      link_text: ilmoitusasetukset
+    changeset_comment:
+      headline: Muutoskokoelmakommentti
+      description_with_summary_html: Käyttäjä %{commenter_name_with_link} jätti kommentin
+        muutoskokoelmaan %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: Käyttäjä %{commenter_name_with_link} jätti
+        kommentin muutoskokoelmaan %{changeset_id_with_link}
+    gpx_details:
+      filename: Tiedostonimi
+      description: Kuvaus
+      tags: Tunnisteet
+      total_points: Pisteiden kokonaismäärä
+      imported_points: Tuotujen pisteiden määrä
+    gpx_import_failure:
+      headline: GPS-jälkeä ei voitu tuoda
+      error_message: Virheviesti
+    gpx_import_success:
+      headline: GPS-jälki tuotiin onnistuneesti
+    new_follower:
+      headline: Uusi seuraaja
+      description_html: Käyttäjä %{follower_name_with_link} alkoi seurata sinua. Voit
+        halutessasi %{link}.
+      link_text: seurata heitä
+    note_comment:
+      headline:
+        commented: Karttailmoituskommentti
+        closed: Karttailmoitus ratkaistu
+        reopened: Karttailmoitus uudelleenavattu
+      description:
+        commented_html: Käyttäjä %{commenter_name_with_link} jätti kommentin karttailmoitukseen
+          %{note_id_with_link} ("%{note_text}")
+        closed_html: Käyttäjä %{commenter_name_with_link} ratkaisi karttailmoituksen
+          %{note_id_with_link} ("%{note_text}")
+        reopened_html: Käyttäjä %{commenter_name_with_link} uuudelleenavasi karttailmoituksen
+          %{note_id_with_link} ("%{note_text}")
+    diary_comment:
+      headline: Päiväkirjakommentti
+      description_html: Käyttäjä %{commenter_name_with_link} jätti kommentin päiväkirjamerkintään
+        "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Uusi päiväkirjamerkintä
@@ -2292,8 +2342,8 @@ fi:
         changeset_comment: Muutoskokoelmakommentit
         diary_comment: Päiväkirjakommentit
         direct_message: Suorat viestit
-        gpx_import_failure: 'GPS-jäljen tuonti: epäonnistunut'
-        gpx_import_success: 'GPS-jäljen tuonti: onnistunut'
+        gpx_import_failure: 'GPS-jäljen tuonti: epäonnistui'
+        gpx_import_success: 'GPS-jäljen tuonti: onnistui'
         new_follower: Uudet seuraajat
         note_comment: Karttailmoituskommentit
         save: Päivitä asetukset
@@ -2573,6 +2623,8 @@ fi:
           Resources Canada), ja StatCanista (Geography Division,
           Statistics Canada).
         contributors_ca_canada: Kanada
+        contributors_cz_credit_html: '%{czechia}: Sisältää tietoja valtion maanmittaus-
+          ja kiinteistövirastolta, lisenssin %{cc_licence_link} mukaisesti.'
         contributors_cz_czechia: Tšekki
         contributors_cz_cc_licence: Creative Commons Nimeä 4.0 Kansainvälinen (CC
           BY 4.0)
@@ -2583,13 +2635,24 @@ fi:
         contributors_fr_credit_html: '%{france}: Sisältää karttatietoja Direction
           Générale des Impôtsista.'
         contributors_fr_france: Ranska
+        contributors_hr_credit_html: |-
+          %{croatia}: Sisältää tietoja %{dgu_link}- ja %{open_data_portal}
+          -palveluista (Kroatian julkinen tieto).
         contributors_hr_croatia: Kroatia
         contributors_hr_dgu: Kroatian geodeettinen hallinto
         contributors_hr_open_data_portal: Kansallinen avoimen datan portaali
+        contributors_nl_credit_new_html: '%{netherlands}: Sisältää &copy; JA aineistoja,
+          2007'
         contributors_nl_netherlands: Alankomaat
+        contributors_nz_credit_html: |-
+          %{new_zealand}: Sisältää %{linz_data_service_link}
+          -palvelusta peräisin olevia tietoja, jotka on lisensoitu uudelleenkäyttöön %{cc_by_link}-lisenssillä.
         contributors_nz_new_zealand: Uusi-Seelanti
         contributors_nz_linz_data_service: LINZ-aineistopalvelu
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: |-
+          %{serbia}: Sisältää tietoja %{rgz_link}- ja %{open_data_portal}
+          -palveluista (Serbian julkinen tieto), 2018.
         contributors_rs_serbia: Serbia
         contributors_rs_rgz: Serbian geodeettinen hallinto
         contributors_rs_open_data_portal: Kansallinen avoimen datan portaali
@@ -2598,6 +2661,10 @@ fi:
         contributors_si_slovenia: Slovenia
         contributors_si_gu: Maanmittaus- ja kartoitusviranomaisen
         contributors_si_mkgp: Maatalous-, metsä- ja ruokaministeriön
+        contributors_es_credit_html: '%{spain}: Sisältää tietoja, jotka on saatu Espanjan
+          kansallisesta maantieteellisestä instituutista (%{ign_link}) ja kansallisesta
+          kartografisesta järjestelmästä (%{scne_link}), ja jotka on lisensoitu uudelleenkäyttöön
+          %{cc_by_link}-lisenssillä.'
         contributors_es_spain: Espanja
         contributors_es_cc_by: CC BY 4.0
         contributors_za_credit_html: '%{south_africa}: Sisältää karttatietoja %{ngi_link},
@@ -3114,32 +3181,49 @@ fi:
       link: Linkki
       text: Teksti
       image: Kuva
+      alt: Vaihtoehtoinen teksti
       url: URL
       codeblock: Koodilohko
     richtext_field:
+      edit: Muokkaa
       preview: Esikatsele
+      help: Ohje
     pagination:
       changeset_comments:
+        older: Vanhemmat kommentit
+        newer: Uudemmat kommentit
+        oldest: Vanhimmat kommentit
         newest: Uusimmat kommentit
       diary_comments:
         older: Vanhemmat kommentit
+        newer: Uudemmat kommentit
         oldest: Vanhimmat kommentit
         newest: Uusimmat kommentit
       diary_entries:
+        older: Vanhemmat päiväkirjamerkinnät
         newer: Uudemmat päiväkirjamerkinnät
         oldest: Vanhimmat päiväkirjamerkinnät
         newest: Uusimmat päiväkirjamerkinnät
+      notifications:
+        older: Vanhemmat ilmoitukset
+        newer: Uudemmat ilmoitukset
+        oldest: Vanhimmat ilmoitukset
+        newest: Uusimmat ilmoitukset
       issues:
+        older: Vanhemmat tapaukset
         newer: Uudemmat tapaukset
         oldest: Vanhimmat tapaukset
         newest: Uusimmat tapaukset
       traces:
+        older: Vanhemmat jäljet
         newer: Uudet jäljet
         oldest: Vanhimmat jäljet
         newest: Uusimmat jäljet
       user_blocks:
+        older: Vanhemmat estot
         newer: Uudemmat estot
         oldest: Vanhimmat estot
+        newest: Uusimmat estot
       users:
         older: Vanhemmat käyttäjät
         newer: Uudemmat käyttäjät
@@ -3270,6 +3354,7 @@ fi:
       my traces: Omat jäljet
       my notes: Omat karttailmoitukset
       my messages: Viestit
+      my_notifications: Ilmoitukset
       my profile: Käyttäjäsivu
       my_account: Käyttäjätili
       my comments: Omat kommentit
