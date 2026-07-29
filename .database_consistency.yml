@@ -16,8 +16,49 @@ Changeset:
   id:
     ColumnPresenceChecker:
       enabled: false
+    NumericalityConstraintChecker:
+      enabled: false
+  max_lat:
+    NumericalityConstraintChecker:
+      enabled: false
+  min_lat:
+    NumericalityConstraintChecker:
+      enabled: false
+  min_lon:
+    NumericalityConstraintChecker:
+      enabled: false
   nodes:
     MissingIndexChecker:
+      enabled: false
+  num_changes:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_created_nodes:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_created_relations:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_created_ways:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_deleted_nodes:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_deleted_relations:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_deleted_ways:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_modified_nodes:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_modified_relations:
+    NumericalityConstraintChecker:
+      enabled: false
+  num_modified_ways:
+    NumericalityConstraintChecker:
       enabled: false
   relations:
     MissingIndexChecker:
@@ -37,6 +78,8 @@ ChangesetComment:
       enabled: false
   id:
     ColumnPresenceChecker:
+      enabled: false
+    NumericalityConstraintChecker:
       enabled: false
     PrimaryKeyTypeChecker:
       enabled: false
@@ -67,6 +110,12 @@ DiaryComment:
 DiaryEntry:
   language:
     MissingDependentDestroyChecker:
+      enabled: false
+  latitude:
+    NumericalityConstraintChecker:
+      enabled: false
+  longitude:
+    NumericalityConstraintChecker:
       enabled: false
   user:
     MissingDependentDestroyChecker:
@@ -145,11 +194,22 @@ Node:
   id:
     ColumnPresenceChecker:
       enabled: false
+    NumericalityConstraintChecker:
+      enabled: false
+  latitude:
+    NumericalityConstraintChecker:
+      enabled: false
+  longitude:
+    NumericalityConstraintChecker:
+      enabled: false
   old_nodes:
     MissingIndexChecker:
       enabled: false
   tile:
     NullConstraintChecker:
+      enabled: false
+  version:
+    NumericalityConstraintChecker:
       enabled: false
 NodeTag:
   node:
@@ -162,6 +222,14 @@ Note:
   id:
     ColumnPresenceChecker:
       enabled: false
+    NumericalityConstraintChecker:
+      enabled: false
+  latitude:
+    NumericalityConstraintChecker:
+      enabled: false
+  longitude:
+    NumericalityConstraintChecker:
+      enabled: false
   tile:
     NullConstraintChecker:
       enabled: false
@@ -171,6 +239,8 @@ NoteComment:
       enabled: false
   id:
     ColumnPresenceChecker:
+      enabled: false
+    NumericalityConstraintChecker:
       enabled: false
   note:
     MissingDependentDestroyChecker:
@@ -192,6 +262,12 @@ OldNode:
       enabled: false
   current_node:
     ForeignKeyChecker:
+      enabled: false
+  latitude:
+    NumericalityConstraintChecker:
+      enabled: false
+  longitude:
+    NumericalityConstraintChecker:
       enabled: false
   old_tags:
     MissingIndexChecker:
@@ -316,11 +392,16 @@ Relation:
   id:
     ColumnPresenceChecker:
       enabled: false
+    NumericalityConstraintChecker:
+      enabled: false
   old_relations:
     MissingIndexChecker:
       enabled: false
   relation_members:
     MissingIndexChecker:
+      enabled: false
+  version:
+    NumericalityConstraintChecker:
       enabled: false
 RelationMember:
   member_role:
@@ -360,8 +441,17 @@ Trace:
     MissingDependentDestroyChecker:
       enabled: false
 Tracepoint:
+  latitude:
+    NumericalityConstraintChecker:
+      enabled: false
+  longitude:
+    NumericalityConstraintChecker:
+      enabled: false
   timestamp:
     ColumnPresenceChecker:
+      enabled: false
+  trackid:
+    NumericalityConstraintChecker:
       enabled: false
 User:
   blocks_revoked:
@@ -372,6 +462,15 @@ User:
       enabled: false
   diary_entry_subscriptions:
     MissingIndexChecker:
+      enabled: false
+  home_lat:
+    NumericalityConstraintChecker:
+      enabled: false
+  home_lon:
+    NumericalityConstraintChecker:
+      enabled: false
+  home_zoom:
+    NumericalityConstraintChecker:
       enabled: false
   issue_comments:
     ForeignKeyTypeChecker:
@@ -444,8 +543,13 @@ Way:
   id:
     ColumnPresenceChecker:
       enabled: false
+    NumericalityConstraintChecker:
+      enabled: false
   old_ways:
     MissingIndexChecker:
+      enabled: false
+  version:
+    NumericalityConstraintChecker:
       enabled: false
   way_nodes:
     MissingIndexChecker:
