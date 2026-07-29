@@ -64,6 +64,10 @@ class Ability
           can :update, UserBlock, :creator => user
           can :update, UserBlock, :revoker => user
           can :update, UserBlock, :active? => true
+          can [:read, :create, :destroy], ModerationZone
+          can :update, ModerationZone, :creator => user
+          can :update, ModerationZone, :revoker => user
+          can :update, ModerationZone, :active? => true
         end
 
         if user.administrator?
