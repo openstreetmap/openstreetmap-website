@@ -3,14 +3,14 @@
 <article class="user-notification">
   <div class="row align-items-center">
     <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold"><%= t(".headline") %></h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(record.created_at) %></p>
   </div>
 
   <div class="row">
     <div class="col-1 text-center">
       <%= link_to(
-            user_thumbnail(notification.follower, :class => "img-fluid"),
-            user_url(notification.follower),
+            user_thumbnail(record.follower, :class => "img-fluid"),
+            user_url(record.follower),
             :target => "_blank", :rel => "noopener"
           ) %>
     </div>
@@ -19,12 +19,12 @@
         <%= t(
               ".description_html",
               :follower_name_with_link => link_to(
-                notification.follower.display_name,
-                notification.follower
+                record.follower.display_name,
+                record.follower
               ),
               :link => link_to(
                 t(".link_text"),
-                follow_url(notification.follower)
+                follow_url(record.follower)
               )
             ) %>
       </p>

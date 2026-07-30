@@ -39,7 +39,6 @@ class UserNotifications
   end
 
   class NewFollowerNotification < Notification
-    delegate :follower, :to => :record
   end
 
   class NoteCommentNotification < Notification
