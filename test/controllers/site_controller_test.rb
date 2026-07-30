@@ -476,6 +476,19 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "xhr"
   end
 
+  # Test that the export page lists a bulk download link for each source
+  def test_export_download_sources
+    get export_path
+    assert_response :success
+
+    %w[overpass planet geofabrik other].each do |source|
+      url = I18n.t("site.export.too_large.#{source}.url")
+      title = I18n.t("site.export.too_large.#{source}.title")
+
+      assert_select "dl dt a#export_#{source}[href='#{url}']", title
+    end
+  end
+
   # Test the offline page
   def test_offline
     get offline_path
