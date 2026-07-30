@@ -1,24 +1,24 @@
-<%# locals: (notification:) %>
+<%# locals: (details:) %>
 
 <dl>
   <dt><%= t(".filename") %></dt>
-  <dd><%= notification.trace_filename %></dd>
+  <dd><%= details.filename %></dd>
 
   <dt><%= t(".description") %></dt>
-  <dd><%= notification.trace_description %></dd>
+  <dd><%= details.description %></dd>
 
-  <% if notification.trace_tags.length.positive? %>
+  <% if details.num_tags.positive? %>
     <dt><%= t(".tags") %></dt>
-    <dd><%= notification.trace_tags.join(", ") %></dd>
+    <dd><%= details.tagstring %></dd>
   <% end %>
 
-  <% if notification.trace_possible_points %>
+  <% if details.possible_points %>
     <dt><%= t(".total_points") %></dt>
-    <dd><%= notification.trace_possible_points %></dd>
+    <dd><%= details.possible_points %></dd>
   <% end %>
 
-  <% if notification.trace_points %>
+  <% if details.trace_points %>
     <dt><%= t(".imported_points") %></dt>
-    <dd><%= notification.trace_points %></dd>
+    <dd><%= details.trace_points %></dd>
   <% end %>
 </dl>
