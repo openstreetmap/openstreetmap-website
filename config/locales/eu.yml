@@ -3,6 +3,7 @@
 # Export driver: phpyaml
 # Author: 9and3r
 # Author: A mento
+# Author: Alexgabi
 # Author: Amaia
 # Author: An13sa
 # Author: Asieriko
@@ -63,6 +64,10 @@ eu:
       models:
         user_mute:
           is_already_muted: dagoeneko isilduta dago
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URLak http:// edo https://-rekin hasi behar du
     models:
       acl: Kontrol zerrendara sartu
       changeset: Aldaketa multzoa
@@ -125,7 +130,7 @@ eu:
         longitude: Longitudea
         public: Publikoa
         description: Deskribapena
-        gpx_file: 'GPX fitxategia igo:'
+        gpx_file: Aukeratu GPS arrasto fitxategia
         visibility: Ikusgarritasuna
         tagstring: Etiketak
       message:
@@ -147,6 +152,7 @@ eu:
         active: Aktiboa
         display_name: Erakusteko izena
         description: Profilaren deskribapena
+        company: Enpresa
         home_lat: Latitudea
         home_lon: Longitudea
         languages: Hobetsitako hizkuntzak
@@ -252,12 +258,25 @@ eu:
   accounts:
     show:
       title: Kontua aldatu
+      my_account: Nire kontua
       current email address: Egungo posta helbidea
       external auth: Kanpoko Autentifikazioa
       contributor_terms:
         heading: Kolaboratzaile Terminoak
-        agreed: Kolaboratzaile-termino berriak onartu dituzu.
+        agreed: Kolaboratzaile baldintzak onartu dituzu %{date} egunean.
+        not_agreed: Oraindik ez dituzu onartu Kolaboratzaile baldintzak.
         agreed_with_pd: Zure aldaketak domeinu publikoan egongo direla adierazi duzu.
+        not_agreed_with_pd: Ez duzu adierazi zure aldaketak Domeinu Publikokotzat
+          hartzen dituzunik.
+        review: Berrikusi baldintzak
+        review_and_accept: Berrikusi eta onartu baldintzak
+        consider_pd: Kontuan hartu domeinu publikoa
+      terms_of_use:
+        heading: Erabilera-baldintzak
+        agreed: Erabilera baldintzak onartu zenituen %{date} egunean.
+        not_agreed: Oraindik ez dituzu Erabilera baldintzak onartu.
+        review: Berrikusi baldintzak
+        review_and_accept: Berrikusi eta onartu baldintzak
       save changes button: Aldaketak gorde
       delete_account: Kontua ezabatu
     go_public:
@@ -312,7 +331,7 @@ eu:
         title: Baldintzak
         heading: Baldintzak
         heading_ct: Kolaboratzaile terminoak
-        read and accept with tou: Mesedez, irakurri laguntzaile-akordioa eta erabilera-baldintzak,
+        read and accept with tou: Mesedez, irakurri Kolaboratzaile-akordioa eta Erabilera-baldintzak,
           markatu bi kontrol-laukiak amaitutakoan eta sakatu jarraitu botoia.
         contributor_terms_explain: Akordio honek zure oraingo eta etorkizuneko ekarpenen
           baldintzak arautzen ditu.
@@ -321,6 +340,7 @@ eu:
           html: '%{tou_link} hauek OSMFk eskaintzen dituen webgunearen eta beste azpiegituren
             erabilera arautzen du. Mesedez, egin klik estekan, irakurri eta onartu
             testua.'
+          tou: Erabilera baldintzak
         read_tou: Irakurri ditut eta onartzen ditut Erabilera Baldintzak
         guidance_info_html: 'Termino hauek ulertzen laguntzeko informazioa: %{readable_summary_link}
           eta %{informal_translations_link}'
@@ -339,6 +359,12 @@ eu:
         terms_declined_html: Sentitzen dugu Laguntzaile Baldintza berriak ez onartzea
           erabaki izana. Informazio gehiago lortzeko, ikusi %{terms_declined_link}.
         terms_declined_link: wiki orri hau
+    pd_declarations:
+      show:
+        title: Nire ekarpenak domeinu publikokoak direla kontsideratu
+        consider_pd: Nire ekarpenak domeinu publikokoak direla uste dut
+        consider_pd_why: Zergatik nahi nuke nire ekarpenak domeinu publikoa izatea?
+        confirm: Berretsi
   browse:
     deleted_ago_by_html: '%{user}-ek %{time_ago} ezabatua'
     edited_ago_by_html: '%{user}-ek %{time_ago} editatua'
