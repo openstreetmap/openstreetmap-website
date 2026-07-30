@@ -16,11 +16,9 @@ module Notifications
         }
       )
 
-      notification_wrapper = UserNotifications::GpxImportFailureNotification.new(notification)
-
       render(
         "notifications/gpx_import_failure",
-        :notification => notification_wrapper,
+        :notification => notification,
         :record => nil
       )
 

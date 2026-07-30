@@ -19,11 +19,9 @@ module Notifications
         }
       )
 
-      notification_wrapper = UserNotifications::GpxImportSuccessNotification.new(notification)
-
       render(
         "notifications/gpx_import_success",
-        :notification => notification_wrapper,
+        :notification => notification,
         :record => trace
       )
 
