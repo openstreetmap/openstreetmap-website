@@ -19,9 +19,11 @@ module Notifications
         }
       )
 
-      notification_wrapper = UserNotifications::GpxImportSuccessNotification.new(notification)
-
-      render "notifications/gpx_import_success", :notification => notification_wrapper
+      render(
+        "notifications/gpx_import_success",
+        :notification => notification,
+        :record => trace
+      )
 
       assert_dom ".user-notification h2", "GPS trace imported successfully"
       assert_dom ".user-notification time", "less than 1 minute ago"

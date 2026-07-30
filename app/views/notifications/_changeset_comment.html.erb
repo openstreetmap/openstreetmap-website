@@ -1,4 +1,4 @@
-<%# locals: (notification:) %>
+<%# locals: (notification:, record:) %>
 
 <article class="user-notification">
   <div class="row align-items-center">
@@ -6,47 +6,47 @@
       <%= link_to(
             t(".headline"),
             changeset_path(
-              notification.changeset,
-              :anchor => "c#{notification.comment_id}"
+              record.changeset,
+              :anchor => "c#{record.id}"
             )
           ) %>
     </h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(notification.timestamp) %></p>
+    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(record.created_at) %></p>
   </div>
 
   <div class="row">
     <div class="col-1 text-center">
       <%= link_to(
-            user_thumbnail(notification.commenter, :class => "img-fluid"),
-            user_url(notification.commenter),
+            user_thumbnail(record.author, :class => "img-fluid"),
+            user_url(record.author),
             :target => "_blank", :rel => "noopener"
           ) %>
     </div>
     <div class="col-11">
       <p class="text-body-secondary mb-1 event-description">
-        <% if notification.changeset_summary %>
+        <% if record.changeset.comment %>
           <%= t(
                 ".description_with_summary_html",
                 :commenter_name_with_link => link_to(
-                  notification.commenter.display_name,
-                  notification.commenter
+                  record.author.display_name,
+                  record.author
                 ),
-                :changeset_id_with_link => link_to("##{notification.changeset_id}", notification.changeset),
-                :changeset_summary => notification.changeset_summary
+                :changeset_id_with_link => link_to("##{record.changeset_id}", record.changeset),
+                :changeset_summary => record.changeset.comment
               ) %>
         <% else %>
           <%= t(
                 ".description_without_summary_html",
                 :commenter_name_with_link => link_to(
-                  notification.commenter.display_name,
-                  notification.commenter
+                  record.author.display_name,
+                  record.author
                 ),
-                :changeset_id_with_link => link_to("##{notification.changeset_id}", notification.changeset)
+                :changeset_id_with_link => link_to("##{record.changeset_id}", record.changeset)
               ) %>
         <% end %>
       </p>
       <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-        <%= notification.comment_body.to_html %>
+        <%= record.body.to_html %>
       </blockquote>
     </div>
   </div>
