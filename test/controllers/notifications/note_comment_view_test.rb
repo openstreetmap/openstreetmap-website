@@ -13,7 +13,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
-      render "notifications/note_comment", :notification => notification_wrapper
+      render "notifications/note_comment", :notification => notification_wrapper, :record => note_comment
 
       assert_dom ".user-notification h2", "Note comment"
       assert_dom ".user-notification time", "less than 1 minute ago"
@@ -35,7 +35,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
-      render "notifications/note_comment", :notification => notification_wrapper
+      render "notifications/note_comment", :notification => notification_wrapper, :record => note_comment
 
       assert_dom ".user-notification h2", "Note resolved"
       assert_dom ".user-notification time", "less than 1 minute ago"
@@ -58,7 +58,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
-      render "notifications/note_comment", :notification => notification_wrapper
+      render "notifications/note_comment", :notification => notification_wrapper, :record => note_comment
 
       assert_dom ".user-notification h2", "Note resolved"
       assert_dom ".user-notification time", "less than 1 minute ago"
@@ -81,7 +81,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => note_comment)
       notification_wrapper = UserNotifications::NoteCommentNotification.new(notification)
 
-      render "notifications/note_comment", :notification => notification_wrapper
+      render "notifications/note_comment", :notification => notification_wrapper, :record => note_comment
 
       assert_dom ".user-notification h2", "Note reopened"
       assert_dom ".user-notification time", "less than 1 minute ago"

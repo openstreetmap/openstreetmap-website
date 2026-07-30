@@ -19,11 +19,6 @@ class UserNotifications
 
     delegate :record, :to => :@notification
 
-    def to_partial_path
-      event_type_name = self.class.event_type_name_of(@notification)
-      "notifications/#{event_type_name.underscore}"
-    end
-
     def timestamp
       record.created_at
     end
@@ -162,8 +157,4 @@ class UserNotifications
     NewFollowerNotifier::Notification
     NoteCommentNotifier::Notification
   ].freeze
-
-  def self.wrap(notification_records)
-    notification_records.map { |record| Notification.from(record) }
-  end
 end

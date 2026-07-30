@@ -12,7 +12,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => changeset_comment)
       notification_wrapper = UserNotifications::ChangesetCommentNotification.new(notification)
 
-      render "notifications/changeset_comment", :notification => notification_wrapper
+      render "notifications/changeset_comment", :notification => notification_wrapper, :record => changeset_comment
 
       assert_dom ".user-notification" do
         assert_dom "h2", "Changeset comment"
@@ -37,7 +37,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => changeset_comment)
       notification_wrapper = UserNotifications::ChangesetCommentNotification.new(notification)
 
-      render "notifications/changeset_comment", :notification => notification_wrapper
+      render "notifications/changeset_comment", :notification => notification_wrapper, :record => changeset_comment
 
       assert_dom ".user-notification" do
         assert_dom "h2", "Changeset comment"

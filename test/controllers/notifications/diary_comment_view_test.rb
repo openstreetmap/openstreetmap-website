@@ -9,7 +9,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => diary_comment)
       notification_wrapper = UserNotifications::DiaryCommentNotification.new(notification)
 
-      render "notifications/diary_comment", :notification => notification_wrapper
+      render "notifications/diary_comment", :notification => notification_wrapper, :record => diary_comment
 
       assert_dom ".user-notification h2", "Diary comment"
       assert_dom ".user-notification time", "less than 1 minute ago"

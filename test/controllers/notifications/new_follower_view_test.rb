@@ -11,7 +11,7 @@ module Notifications
       notification = build_stubbed(:notification, :record => follow, :notifier_class => NewFollowerNotifier)
       notification_wrapper = UserNotifications::NewFollowerNotification.new(notification)
 
-      render "notifications/new_follower", :notification => notification_wrapper
+      render "notifications/new_follower", :notification => notification_wrapper, :record => follow
 
       assert_dom ".user-notification h2", "New follower"
       assert_dom ".user-notification time", "less than 1 minute ago"
