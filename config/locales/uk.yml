@@ -166,6 +166,11 @@ uk:
         gpx_file: Оберіть GPX-файл
         visibility: Видимість
         tagstring: Теґи
+      moderation_zone:
+        name: Ім'я
+        reason: Причина
+        zone: Зона
+        period: Період
       message:
         sender: Відправник
         title: Тема
@@ -441,6 +446,7 @@ uk:
         did_not_confirm: Ви не підтвердили, що вважаєте свої правки Суспільним Надбанням.
     auth_deletions:
       show:
+        title: Запит на видалення даних
         body: Дані для %{provider} з ідентифікатором %{id} було видалено о %{time},
           їх було від’єднано від пов’язаного облікового запису OpenStreetMap.
   browse:
@@ -743,6 +749,51 @@ uk:
       followed_diaries: щоденники
       nearby_changesets: набори змін від маперів, що знаходяться поруч
       nearby_diaries: дописи в щоденниках маперів, що знаходяться поруч з вами
+  notifications:
+    index:
+      title: Сповіщення
+      no_notifications: Наразі у вас немає сповіщень
+      point_to_preferences_html: Ви можете налаштувати спосіб отримання сповіщень
+        у %{link}.
+      link_text: розділ налаштувань
+    changeset_comment:
+      headline: Коментар до набору змін
+      description_with_summary_html: Користувач %{commenter_name_with_link} залишив
+        коментар до набору змін %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: Користувач %{commenter_name_with_link} залишив
+        коментар до набору змін %{changeset_id_with_link}
+    gpx_details:
+      filename: Ім'я файлу
+      description: Опис
+      tags: Теґи
+      total_points: Загальна кількість точок
+      imported_points: Кількість імпортованих точок
+    gpx_import_failure:
+      headline: Не вдалося імпортувати GPS-трек
+      error_message: Повідомлення про помилку
+    gpx_import_success:
+      headline: GPS-трек успішно імпортовано
+    new_follower:
+      headline: Новий підписник
+      description_html: Користувач %{follower_name_with_link} став вашим підписником.
+        Ви можете %{link}, якщо бажаєте.
+      link_text: підписатись навзаєм
+    note_comment:
+      headline:
+        commented: Коментар до нотатки
+        closed: Нотатка вирішена
+        reopened: Нотатку знову відкрито
+      description:
+        commented_html: Користувач %{commenter_name_with_link} залишив коментар до
+          нотатки %{note_id_with_link} ("%{note_text}")
+        closed_html: Користувач %{commenter_name_with_link} вирішив нотатку %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: Користувач %{commenter_name_with_link} знову відкрив нотатку
+          %{note_id_with_link} ("%{note_text}")
+    diary_comment:
+      headline: Коментар до щоденника
+      description_html: Користувач %{commenter_name_with_link} залишив коментар до
+        запису в щоденнику "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Створити новий допис в щоденнику
@@ -2382,7 +2433,7 @@ uk:
         gpx_import_failure: 'Імпорт GPS-треку: помилка'
         gpx_import_success: 'Імпорт GPX-треку: успішно'
         new_follower: Нові підписники
-        note_comment: Коментарі до приміток
+        note_comment: Коментарі до нотаток
         save: Оновлення налаштувань
         delivery_mechanisms:
           email: Електронна пошта
@@ -3262,33 +3313,49 @@ uk:
       link: Посилання
       text: Текст
       image: Зображення
+      alt: Інший текст
       url: URL
       codeblock: Блок коду
     richtext_field:
+      edit: Редагувати
       preview: Попередній перегляд
       help: Допомога
     pagination:
       changeset_comments:
+        older: Старіші коментарі
+        newer: Новіші коментарі
+        oldest: Найстаріші коментарі
         newest: Найновіші коментарі
       diary_comments:
         older: Старіші коментарі
+        newer: Новіші коментарі
         oldest: Найстаріші коментарі
         newest: Найновіші коментарі
       diary_entries:
+        older: Старіші записи
         newer: Новіші записи
         oldest: Найстаріші записи
         newest: Найновіші записи
+      notifications:
+        older: Старіші сповіщення
+        newer: Новіші сповіщення
+        oldest: Найстаріші сповіщення
+        newest: Найновіші сповіщення
       issues:
+        older: Старіші проблеми
         newer: Новіші повідомлення
         oldest: Найстаріші проблеми
         newest: Найновіші проблеми
       traces:
+        older: Старіші треки
         newer: Новіші треки
         oldest: Найновіші треки
         newest: Найстаріші треки
       user_blocks:
+        older: Старіші блокування
         newer: Новіші блокування
         oldest: Найстаріші блокування
+        newest: Найновіші блокування
       users:
         older: Раніше зареєстровані учасники
         newer: Нещодавно зареєстровані учасники
@@ -3423,6 +3490,7 @@ uk:
       my traces: Мої треки
       my notes: Мої нотатки
       my messages: Повідомлення
+      my_notifications: Мої сповіщення
       my profile: Профіль
       my_account: Обліковий запис
       my comments: Мої коментарі
@@ -3820,7 +3888,7 @@ uk:
       next: Далі
       previous: Назад
     not_found_message:
-      sorry: 'Вибачте, не вдалося знайти точку #%{id}.'
+      sorry: 'Вибачте, не вдалося знайти нотатку #%{id}.'
   javascripts:
     close: Закрити
     share:
@@ -4055,4 +4123,41 @@ uk:
     trailing_whitespace: має пробіл в кінці
     invalid_characters: містить неприпустимі символи
     url_characters: містить спеціальні символи URL (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Визначте нову зону модерації
+      new: Нова зона модерації
+    index:
+      title: Зони модерації
+      heading: Зони модерації
+      name: Ім'я
+      reason: Причина
+      creator: Автор
+      start: Початок
+      end: Кінець
+      status: Статус
+    row:
+      edit: Редагувати
+    new:
+      title: Нова зона модерації
+      heading: Нова зона модерації
+    create:
+      success: Зону модерації створено.
+    edit:
+      title: Редагування зони модерації %{name}
+      heading: Редагування зони модерації %{name}
+    update:
+      success: Зону модерації оновлено.
+      only_creator_can_edit: Редагувати цю зону модерації може лише модератор, який
+        створив її.
+      only_creator_can_edit_without_revoking: Тільки модератор, який створив цю зону
+        модерації, може редагувати її без скасування.
+      only_creator_or_revoker_can_edit: Редагувати цю зону модерації можуть лише модератори,
+        які створили або скасували її.
+      no_reactivation: Ця зона модерації неактивна і її не можна повторно активувати.
+    helper:
+      short:
+        ended: закінчено
+        active: активно
+        revoked_html: відкликано %{name}
 ...
