@@ -27,7 +27,7 @@ module Api
       )
     end
 
-    def test_tracepoints_public
+    def test_tracepoints_public_not_served
       point = create(:trace, :without_validations, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
         create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
       end
@@ -39,12 +39,23 @@ module Api
       get api_tracepoints_path(:bbox => bbox)
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
-        assert_select "trk" do
-          assert_select "name", :count => 0
-          assert_select "desc", :count => 0
-          assert_select "url", :count => 0
-          assert_select "trkseg", :count => 1
-        end
+        assert_select "trk", :count => 0
+      end
+    end
+
+    def test_tracepoints_private_not_served
+      point = create(:trace, :without_validations, :visibility => "private", :latitude => 1, :longitude => 1) do |trace|
+        create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
+      end
+      minlon = point.longitude - 0.001
+      minlat = point.latitude - 0.001
+      maxlon = point.longitude + 0.001
+      maxlat = point.latitude + 0.001
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+      get api_tracepoints_path(:bbox => bbox)
+      assert_response :success
+      assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
+        assert_select "trk", :count => 0
       end
     end
 
