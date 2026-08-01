@@ -129,9 +129,9 @@ L.OSM.share = function (options) {
 
       // Link / Embed
 
-      $("#long_link").attr("href", map.getUrl(marker));
-      $("#short_link").attr("href", map.getShortUrl(marker));
-      $("#embed_link").attr("href", map.getEmbedUrl(marker));
+      Object.assign($("#long_link")[0], map.getUrl(marker));
+      Object.assign($("#short_link")[0], map.getShortUrl(marker));
+      Object.assign($("#embed_link")[0], map.getEmbedUrl(marker));
 
       $("#long_input").val($("#long_link").prop("href"));
       $("#short_input").val($("#short_link").prop("href"));

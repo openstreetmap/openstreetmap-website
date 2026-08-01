@@ -146,12 +146,13 @@ L.OSM.Map = L.Map.extend({
       search.set("mlon", lng);
     }
 
-    const protocol = location.protocol,
-          hostname = OSM.SERVER_URL,
-          pathname = "/",
-          hash = OSM.formatHash(this);
-
-    return `${protocol}//${hostname}${pathname}${search.toString() ? "?" + search : ""}${hash || ""}`;
+    return {
+      protocol: location.protocol,
+      hostname: OSM.SERVER_URL,
+      pathname: "/",
+      search,
+      hash: OSM.formatHash(this)
+    };
   },
 
   getShortUrl: function (marker) {
@@ -209,7 +210,12 @@ L.OSM.Map = L.Map.extend({
       search.set(this._object.type, this._object.id);
     }
 
-    return `${protocol}//${hostname}${pathname}${search.toString() ? "?" + search : ""}`;
+    return {
+      protocol,
+      hostname,
+      pathname,
+      search
+    };
   },
 
   getEmbedUrl: function (marker) {
@@ -226,7 +232,12 @@ L.OSM.Map = L.Map.extend({
       search.set("marker", latLng.lat + "," + latLng.lng);
     }
 
-    return `${protocol}//${hostname}${pathname}?${search}`;
+    return {
+      protocol,
+      hostname,
+      pathname,
+      search
+    };
   },
 
   getGeoUri: function (marker) {
