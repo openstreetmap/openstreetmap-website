@@ -120,7 +120,6 @@ L.OSM.share = function (options) {
     function update() {
       const layer = map.getMapBaseLayer();
       const canEmbed = Boolean(layer && layer.options.canEmbed);
-      let bounds = map.getBounds();
 
       $("#link_marker")
         .prop("checked", map.hasLayer(marker));
@@ -130,20 +129,12 @@ L.OSM.share = function (options) {
 
       // Link / Embed
 
-      $("#short_input").val(map.getShortUrl(marker));
-      $("#long_input").val(map.getUrl(marker));
-      $("#short_link").attr("href", map.getShortUrl(marker));
       $("#long_link").attr("href", map.getUrl(marker));
+      $("#short_link").attr("href", map.getShortUrl(marker));
+      $("#embed_link").attr("href", map.getEmbedUrl(marker));
 
-      const params = new URLSearchParams({
-        bbox: bounds.toBBoxString(),
-        layer: map.getMapBaseLayerId()
-      });
-
-      if (map.hasLayer(marker)) {
-        const latLng = marker.getLatLng().wrap();
-        params.set("marker", latLng.lat + "," + latLng.lng);
-      }
+      $("#long_input").val($("#long_link").prop("href"));
+      $("#short_input").val($("#short_link").prop("href"));
 
       if (!canEmbed && $("#nav-embed").hasClass("active")) {
         bootstrap.Tab.getOrCreateInstance($("#long_link")).show();
@@ -155,9 +146,9 @@ L.OSM.share = function (options) {
 
       $("#embed_html").val(
         "<iframe width=\"425\" height=\"350\" src=\"" +
-          escapeHTML(OSM.SERVER_PROTOCOL + "://" + OSM.SERVER_URL + "/export/embed.html?" + params) +
+          escapeHTML($("#embed_link").prop("href")) +
           "\" style=\"border: 1px solid black\"></iframe><br/>" +
-          "<small><a href=\"" + escapeHTML(map.getUrl(marker)) + "\">" +
+          "<small><a href=\"" + escapeHTML($("#long_link").prop("href")) + "\">" +
           escapeHTML(OSM.i18n.t("javascripts.share.view_larger_map")) + "</a></small>");
 
       // Geo URI
@@ -168,9 +159,7 @@ L.OSM.share = function (options) {
 
       // Image
 
-      if (locationFilter.isEnabled()) {
-        bounds = locationFilter.getBounds();
-      }
+      const bounds = locationFilter.isEnabled() ? locationFilter.getBounds() : map.getBounds();
 
       let scale = $("#mapnik_scale").val();
       const size = L.bounds(L.CRS.EPSG3857.project(bounds.getSouthWest()),
