@@ -147,8 +147,6 @@ L.OSM.Map = L.Map.extend({
     }
 
     return {
-      protocol: location.protocol,
-      hostname: OSM.SERVER_URL,
       pathname: "/",
       search,
       hash: OSM.formatHash(this)
@@ -166,8 +164,6 @@ L.OSM.Map = L.Map.extend({
           // and drops the last 4 bits of the full 64 bit Morton code.
           c1 = interlace(x >>> 17, y >>> 17),
           c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
-    const protocol = location.protocol,
-          hostname = location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org");
     let pathname = "/go/";
 
     for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
@@ -211,17 +207,12 @@ L.OSM.Map = L.Map.extend({
     }
 
     return {
-      protocol,
-      hostname,
       pathname,
       search
     };
   },
 
   getEmbedUrl: function (marker) {
-    const protocol = OSM.SERVER_PROTOCOL + ":",
-          hostname = OSM.SERVER_URL,
-          pathname = "/export/embed.html";
     const search = new URLSearchParams({
       bbox: this.getBounds().toBBoxString(),
       layer: this.getMapBaseLayerId()
@@ -233,9 +224,6 @@ L.OSM.Map = L.Map.extend({
     }
 
     return {
-      protocol,
-      hostname,
-      pathname,
       search
     };
   },
