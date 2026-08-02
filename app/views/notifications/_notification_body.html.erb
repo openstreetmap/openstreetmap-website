@@ -1,0 +1,16 @@
+<%# locals: (author: nil) %>
+
+<div class="row">
+  <div class="col-1 text-center">
+    <% if author %>
+      <%= link_to(
+            user_thumbnail(author, :class => "img-fluid"),
+            user_url(author),
+            :target => "_blank", :rel => "noopener"
+          ) %>
+    <% end %>
+  </div>
+  <div class="col-11">
+    <%= yield %>
+  </div>
+</div>

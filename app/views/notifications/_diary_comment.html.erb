@@ -1,48 +1,35 @@
 <%# locals: (notification:, record:) %>
 
-<article class="user-notification">
-  <div class="row align-items-center">
-    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold">
-      <%= link_to(
-            t(".headline"),
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :uri => diary_entry_path(
+        record.diary_entry.user,
+        record.diary_entry,
+        :anchor => "c#{record.id}"
+      ),
+      :timestamp => record.created_at
+    ) %>
+
+<%= render(
+      "notifications/notification_body",
+      :author => record.user
+    ) do %>
+  <p class="text-body-secondary">
+    <%= t(
+          "notifications.diary_comment.description_html",
+          :commenter_name_with_link => link_to(
+            record.user.display_name,
+            record.user
+          ),
+          :diary_entry_title_with_link => link_to(
+            record.diary_entry.title,
             diary_entry_path(
               record.diary_entry.user,
-              record.diary_entry,
-              :anchor => "c#{record.id}"
+              record.diary_entry
             )
-          ) %>
-    </h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(record.created_at) %></p>
-  </div>
-
-  <div class="row">
-    <div class="col-1 text-center">
-      <%= link_to(
-            user_thumbnail(record.user, :class => "img-fluid"),
-            user_url(record.user),
-            :target => "_blank", :rel => "noopener"
-          ) %>
-    </div>
-    <div class="col-11">
-      <p class="text-body-secondary mb-1">
-        <%= t(
-              ".description_html",
-              :commenter_name_with_link => link_to(
-                record.user.display_name,
-                record.user
-              ),
-              :diary_entry_title_with_link => link_to(
-                record.diary_entry.title,
-                diary_entry_path(
-                  record.diary_entry.user,
-                  record.diary_entry
-                )
-              )
-            ) %>
-      </p>
-      <blockquote class="col-10 fst-italic border-start border-light-subtle border-3 ps-2">
-        <%= record.body.to_html %>
-      </blockquote>
-    </div>
-  </div>
-</article>
+          )
+        ) %>
+  </p>
+  <%= render "notifications/notification_quote", :body => record.body.to_html %>
+<% end %>

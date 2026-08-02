@@ -20,16 +20,17 @@ module Notifications
       )
 
       render(
-        "notifications/gpx_import_success",
-        :notification => notification,
-        :record => trace
+        "notifications/notification",
+        :notification => notification
       )
 
-      assert_dom ".user-notification h2", "GPS trace imported successfully"
-      assert_dom ".user-notification time", "less than 1 minute ago"
-      assert_dom ".user-notification dd", "test-trace-file.gpx"
-      assert_dom ".user-notification dd", "Test trace file"
-      assert_dom ".user-notification dd", "5"
+      assert_dom ".web-notification" do
+        assert_dom "h2", "GPS trace imported successfully"
+        assert_dom "time", "less than 1 minute ago"
+        assert_dom "dd", "test-trace-file.gpx"
+        assert_dom "dd", "Test trace file"
+        assert_dom "dd", "5"
+      end
     end
   end
 end

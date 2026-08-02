@@ -1,33 +1,26 @@
 <%# locals: (notification:, record:) %>
 
-<article class="user-notification">
-  <div class="row align-items-center">
-    <h2 class="col-8 fs-6 mb-3 lh-sm fw-bold"><%= t(".headline") %></h2>
-    <p class="col-4 lh-sm text-end"><%= friendly_date_ago(record.created_at) %></p>
-  </div>
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :timestamp => record.created_at
+    ) %>
 
-  <div class="row">
-    <div class="col-1 text-center">
-      <%= link_to(
-            user_thumbnail(record.follower, :class => "img-fluid"),
-            user_url(record.follower),
-            :target => "_blank", :rel => "noopener"
-          ) %>
-    </div>
-    <div class="col-11">
-      <p class="text-body-secondary mb-1">
-        <%= t(
-              ".description_html",
-              :follower_name_with_link => link_to(
-                record.follower.display_name,
-                record.follower
-              ),
-              :link => link_to(
-                t(".link_text"),
-                follow_url(record.follower)
-              )
-            ) %>
-      </p>
-    </div>
-  </div>
-</article>
+<%= render(
+      "notifications/notification_body",
+      :author => record.follower
+    ) do %>
+    <p>
+    <%= t(
+          "notifications.new_follower.description_html",
+          :follower_name_with_link => link_to(
+            record.follower.display_name,
+            record.follower
+          ),
+          :link => link_to(
+            t("notifications.new_follower.link_text"),
+            follow_url(record.follower)
+          )
+        ) %>
+    </p>
+<% end %>

@@ -50,9 +50,11 @@ class WebNotificationsTest < ApplicationSystemTestCase
     click_on changeset_author.display_name
     click_on "My Notifications"
 
+    assert_selector ".web-notification", :count => 20
     assert_text "This is comment number 30"
     assert_no_text "This is comment number 10"
     click_on "Older Notifications"
+    assert_selector ".web-notification", :count => 10
     assert_no_text "This is comment number 30"
     assert_text "This is comment number 10"
   end

@@ -9,15 +9,15 @@ module Notifications
         :changeset_comment,
         :body => "Insightful comment"
       )
+
       notification = build_stubbed(:notification, :record => changeset_comment)
 
       render(
-        "notifications/changeset_comment",
-        :notification => notification,
-        :record => changeset_comment
+        "notifications/notification",
+        :notification => notification
       )
 
-      assert_dom ".user-notification" do
+      assert_dom ".web-notification" do
         assert_dom "h2", "Changeset comment"
         assert_not_dom "p", /\("/
         assert_dom "time", "less than 1 minute ago"
@@ -40,12 +40,11 @@ module Notifications
       notification = build_stubbed(:notification, :record => changeset_comment)
 
       render(
-        "notifications/changeset_comment",
-        :notification => notification,
-        :record => changeset_comment
+        "notifications/notification",
+        :notification => notification
       )
 
-      assert_dom ".user-notification" do
+      assert_dom ".web-notification" do
         assert_dom "h2", "Changeset comment"
         assert_dom "time", "less than 1 minute ago"
         assert_dom ".event-description", /\("This is a summary"\)/
