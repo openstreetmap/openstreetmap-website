@@ -2,7 +2,6 @@
 
 export default function (map) {
   const page = {};
-  let sidebarContentLoader;
 
   const locationFilter = new L.LocationFilter({
     enableButton: false,
@@ -82,12 +81,8 @@ export default function (map) {
   }
 
   page.load = function (path) {
-    sidebarContentLoader = new AbortController();
-    OSM.loadSidebarContent(path, sidebarContentLoader.signal)
-      .then(page.init)
-      .catch(error => {
-        if (error.name !== "AbortError") throw error;
-      });
+    OSM.loadSidebarContent(path)
+      .then(page.init);
   };
 
   page.init = function () {
@@ -124,10 +119,6 @@ export default function (map) {
   };
 
   page.unload = function () {
-    sidebarContentLoader?.abort();
-    sidebarContentLoader = null;
-    $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
-
     map
       .removeLayer(locationFilter)
       .off("moveend", update);

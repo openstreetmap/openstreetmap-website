@@ -95,6 +95,7 @@ OSM.Router = function (map, rts) {
       currentRoute = routes.recognize(currentPath),
       currentHash = location.hash || OSM.formatHash(map);
   let routingInProgress = Promise.resolve();
+  let abortController = new AbortController();
 
   const router = {};
 
@@ -115,6 +116,8 @@ OSM.Router = function (map, rts) {
     routingInProgress = routingInProgress
       .catch(() => {})
       .then(async () => {
+        abortController.abort();
+        abortController = new AbortController();
         await currentRoute.run("unload", null, route === currentRoute);
         beforeEnter();
         currentPath = path;
@@ -144,6 +147,15 @@ OSM.Router = function (map, rts) {
 
   router.replace = function (url) {
     window.history.replaceState(OSM.parseHash(url), document.title, url);
+  };
+
+  router.withAbortSignal = function (callback) {
+    return callback(abortController.signal)
+      .catch(error => {
+        // Do not resolve aborted requests and run the exiting controller's callbacks.
+        if (error.name === "AbortError") return new Promise(() => {});
+        throw error;
+      });
   };
 
   router.stateChange = function (state) {

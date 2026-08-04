@@ -24,7 +24,7 @@ $(function () {
     worldCopyJump: true
   });
 
-  OSM.loadSidebarContent = function (path, signal) {
+  OSM.loadSidebarContent = function (path) {
     const atomSelector = "link[type=\"application/atom+xml\"]";
 
     map.setSidebarOverlaid(false);
@@ -39,7 +39,7 @@ $(function () {
     $("#sidebar_content")
       .empty();
 
-    return fetch(xhrPath, {
+    return OSM.router.withAbortSignal(signal => fetch(xhrPath, {
       headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" },
       signal
     })
@@ -64,7 +64,7 @@ $(function () {
         if (!response.ok) {
           throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
         }
-      });
+      }));
   };
 
   const token = $("head").data("oauthToken");
