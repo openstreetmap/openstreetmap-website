@@ -2,11 +2,20 @@
 
 require "test_helper"
 
+$t_total ||= 0
+
 class RichTextTest < ActiveSupport::TestCase
   include Rails::Dom::Testing::Assertions::SelectorAssertions
 
   def setup
     RichText.reset_state
+    @t0 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  end
+
+  def teardown
+    t1 = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+    $t_total += (t1 - @t0)
+    puts $t_total
   end
 
   def test_html_to_html
@@ -714,6 +723,16 @@ class RichTextTest < ActiveSupport::TestCase
 
     r = RichText.new("markdown", "#{'x' * (t - o)}  #{'y' * (m - (t - o - 1))}")
     assert_equal "#{'x' * (t - o)}...", r.description
+  end
+
+  def test_autolinking_edge_cases
+    text = "This changeset contains edits near Caldecott (way/23019437)… and a road in Turkey (way/25705231)."
+    r = RichText.new("text", text)
+    assert_html r do
+      assert_dom "a", :count => 1, :text => "http://test.host/way/23019437" do
+        assert_dom "> @rel", "nofollow noopener noreferrer"
+      end
+    end
   end
 
   private
