@@ -67,8 +67,7 @@ export default function (map) {
     $("#maxlon").val(ne.lng);
     $("#maxlat").val(ne.lat);
 
-    $("#export_overpass").attr("href",
-                               `https://overpass-api.de/api/map?bbox=${sw.lng},${sw.lat},${ne.lng},${ne.lat}`);
+    $("#export_overpass").prop("search", `?bbox=${sw.lng},${sw.lat},${ne.lng},${ne.lat}`);
   }
 
   function validateControls() {
