@@ -126,7 +126,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_template "browse/not_found"
     assert_template :layout => "map"
 
-    get note_path(hidden_note_with_comment), :xhr => true
+    get note_path(hidden_note_with_comment), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :not_found
     assert_template "browse/not_found"
     assert_template :layout => "xhr"

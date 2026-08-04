@@ -62,7 +62,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_index_xhr
     changesets = create_list(:changeset, 30, :num_changes => 1)
 
-    get history_path(:format => "html"), :xhr => true
+    get history_path(:format => "html"), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
@@ -351,7 +351,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     changeset1 = create(:changeset, :num_changes => 1)
     changeset2 = create(:changeset, :num_changes => 1)
 
-    get history_path(:format => "html", :before => changeset2.id), :xhr => true
+    get history_path(:format => "html", :before => changeset2.id), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"
@@ -368,7 +368,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     changeset1 = create(:changeset, :num_changes => 1)
     changeset2 = create(:changeset, :num_changes => 1)
 
-    get history_path(:format => "html", :after => changeset1.id), :xhr => true
+    get history_path(:format => "html", :after => changeset1.id), :headers => { "Turbo-Frame" => "sidebar_content_frame" }
     assert_response :success
     assert_template "history"
     assert_template :layout => "xhr"

@@ -237,6 +237,11 @@ header nav {
     }
   }
 
+  #sidebar_loader:has(+ #sidebar_content turbo-frame:not([busy])),
+  #sidebar_content turbo-frame[busy] {
+    display: none;
+  }
+
   #content:not(.overlay-sidebar) :is(.welcome, #banner) {
     @extend .d-none;
   }
