@@ -39,7 +39,10 @@ $(function () {
     $("#sidebar_content")
       .empty();
 
-    return fetch(xhrPath, { headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" } })
+    return OSM.router.withAbortSignal(signal => fetch(xhrPath, {
+      headers: { "accept": "text/html", "x-requested-with": "XMLHttpRequest" },
+      signal
+    })
       .then(response => {
         $("#flash").empty();
         $("#sidebar_loader").removeClass("delayed-fade-in").prop("hidden", true);
@@ -61,7 +64,7 @@ $(function () {
         if (!response.ok) {
           throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
         }
-      });
+      }));
   };
 
   const token = $("head").data("oauthToken");
