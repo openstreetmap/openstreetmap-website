@@ -537,11 +537,14 @@ module OSM
       "AND #{prefix}longitude BETWEEN #{bbox.min_lon} AND #{bbox.max_lon}"
   end
 
+  # The jurisdictions for which we have contributor terms
+  LEGALES = Rails.root.glob("config/legales/*.yml").map { |path| path.basename(".yml").to_s }.freeze
+
   # Return the terms and conditions text for a given country
   def self.legal_text_for_country(country_code)
-    file_name = Rails.root.join("config", "legales", "#{country_code}.yml")
-    file_name = Rails.root.join("config", "legales", "#{Settings.default_legale}.yml") unless File.exist? file_name
-    YAML.load_file(file_name).transform_values!(&:html_safe)
+    country_code = Settings.default_legale unless LEGALES.include?(country_code)
+
+    YAML.load_file(Rails.root.join("config/legales/#{country_code}.yml")).transform_values(&:html_safe)
   end
 
   # Return the HTTP client to use

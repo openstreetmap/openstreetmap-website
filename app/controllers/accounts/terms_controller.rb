@@ -13,7 +13,7 @@ module Accounts
     authorize_resource :class => :account_terms
 
     def show
-      param! :legale, String, :format => /^[A-Z]+$/
+      param! :legale, String, :format => /\A[A-Z]+\z/
 
       @legale = params[:legale] || OSM.ip_to_country(request.remote_ip) || Settings.default_legale
       @text = OSM.legal_text_for_country(@legale)
