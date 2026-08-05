@@ -50,6 +50,23 @@ module Accounts
       assert_response :success
     end
 
+    def test_show_in_french
+      user = create(:user, :terms_seen => true, :terms_agreed => Date.yesterday)
+      session_for(user)
+
+      get account_terms_path(:legale => "FR")
+      assert_response :success
+    end
+
+    def test_show_with_bogus_legale
+      user = create(:user, :terms_seen => true, :terms_agreed => Date.yesterday)
+      session_for(user)
+
+      get account_terms_path(:legale => "..")
+      assert_response :redirect
+      assert_redirected_to :controller => "/errors", :action => :bad_request
+    end
+
     def test_update_decline_by_not_checking_the_boxes
       freeze_time do
         user = create(:user, :terms_seen => false, :terms_agreed => nil, :tou_agreed => nil)
