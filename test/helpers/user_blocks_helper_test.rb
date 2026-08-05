@@ -73,6 +73,29 @@ class UserBlocksHelperTest < ActionView::TestCase
     end
   end
 
+  def test_block_short_time_in_future
+    freeze_time do
+      html = block_short_time_in_future(Time.now.utc + 1.hour)
+      assert_match(/title="[^"]*; in about 1 hour"/, html)
+
+      html = block_short_time_in_future(Time.now.utc + 1.year)
+      assert_match(/title="[^"]*; in about 1 year"/, html)
+
+      html = block_short_time_in_future(Time.now.utc + 20.seconds)
+      assert_match(/title="[^"]*; in less than 1 minute"/, html)
+    end
+  end
+
+  def test_block_short_time_in_past
+    freeze_time do
+      html = block_short_time_in_past(Time.now.utc - 1.hour)
+      assert_match(/title="[^"]*; about 1 hour ago"/, html)
+
+      html = block_short_time_in_past(Time.now.utc - 1.year)
+      assert_match(/title="[^"]*; about 1 year ago"/, html)
+    end
+  end
+
   def test_block_duration_in_words
     words = block_duration_in_words(364.days)
     assert_equal "11 months", words
