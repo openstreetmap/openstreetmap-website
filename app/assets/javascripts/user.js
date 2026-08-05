@@ -21,6 +21,7 @@ $(function () {
       if (destroyCheckbox) {
         destroyCheckbox.checked = true;
         row.addClass("d-none");
+        row.find("input[type='text']").removeAttr("required");
       } else {
         row.remove();
       }
@@ -29,7 +30,7 @@ $(function () {
     });
 
     $(".social_link_destroy input[type='checkbox']:checked").each(function () {
-      $(this).closest(".row").addClass("d-none");
+      $(this).closest(".row").addClass("d-none").find("input[type='text']").removeAttr("required");
     });
 
     renumberSocialLinks();
