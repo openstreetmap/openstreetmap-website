@@ -114,6 +114,9 @@ lkt:
         gpx_file: GPS Waóye Wópȟaȟta Kaȟníǧa yo/ye
         visibility: Thaŋíŋ
         tagstring: Ihóši
+      moderation_zone:
+        name: Čhažé
+        reason: Tákuwe
       message:
         sender: Tuwá yeyá kiŋ
         title: Wóiwoglake
@@ -132,6 +135,7 @@ lkt:
         new_email: Wakȟaƞgli wóyakapi makȟóčhažeyate théča
         active: Škéhaŋ Uŋ
         display_name: Čhažé tȟaŋíŋ
+        description: Oníwowapi-oyákapi
         company: Okȟólakičhiye
         home_lat: Oglákiŋyaŋ
         home_lon: Makȟáiphiyake Oíyutȟe
@@ -222,6 +226,8 @@ lkt:
         delete_account: Čhažé-oyáŋke Iháŋgya yo/ye
         delete_introduction: 'Čheškíkȟaŋ kiŋ le ogná OpenStreetMap čhažé-oyáŋke iháŋgyakiya
           oyákihi. Wíhoši kiŋ lená iyúkčaŋ yo/ye:'
+        delete_profile: Oníwowapi-ihóši iháŋgyakiye kté. Nakúŋ, makȟóčhažeyate, wóyakapi
+          na itówapi iháŋgyakiye kte.
         retain_traces: Waóye waŋkál oyékšu kiŋ égnake kte.
         retain_email: Wakȟáƞgli wóyakapi makȟóčhažeyate nitȟáwa égnake kte.
         recent_editing_html: Leháŋl čhažé-oyáŋke yaglutȟókeča, he uŋ he iháŋgyakiya
@@ -478,7 +484,7 @@ lkt:
     show:
       no_home_location_html: '%{edit_profile_link} na tuktél yathí kiŋ ékignaka kiŋháŋ,
         tuwá khiyéla uŋ kiŋ waŋláŋka oyákihi kte.'
-      edit_your_profile: Čhažé-oyáŋke yahdútȟókeča
+      edit_your_profile: Oníwowapi yaglútȟókeča
       followings: Tuwá otȟáyapȟa kiŋ
       no followings: Héčhena tuwéni otȟáyapȟa šni.
       nearby users: Tuwá khiyéla uŋ kiŋ uŋmá
@@ -580,6 +586,7 @@ lkt:
       address: Makȟóčhažeyate waŋgláka yo/ye
       email: Wakȟáƞgli wóyakapi makȟóčhažeyate waŋgláka yo/ye
       openid: Čhažé-oyáŋke gluwíčakȟa yo/ye
+      profile: Oníwowapi-ihóši waŋgláka yo/ye
   errors:
     bad_request:
       title: Wówala šíča
@@ -871,6 +878,7 @@ lkt:
           mud: Makȟá ȟliȟlíla
           peak: Ȟeípȟa
           peninsula: Makȟóčhe-ipúš'iŋ
+          point: Ipȟá
           ridge: Pahá-alíya
           rock: Íƞyaƞ
           sand: Čhasmú
@@ -878,6 +886,7 @@ lkt:
           stone: Íƞyaƞ
           strait: Ókhiyute
           tree: Čhaŋ
+          tree_row: Čhaŋ Óhiye
           valley: Makȟókhignake
           volcano: Ȟeíle
           water: Mni
@@ -898,6 +907,7 @@ lkt:
           city: Otȟúƞwahe-tȟáƞka
           country: Makȟóčhe
           farm: Wóžupi-makȟóčhe
+          hamlet: Wičhóthi Čístila
           house: Thípi
           houses: Thípi
           island: Wíta
@@ -1080,6 +1090,9 @@ lkt:
         diary_comment:
           other_label: Uƞmá kiƞ
         user:
+          spam_label: Oníwowapi kiŋ le héčhiya mas'wíčhaša šíča ihóši waŋ yaŋké.
+          offensive_label: Oníwowapi kiŋ le héčhiya wóšiča/igléb-phiča ihóši kiŋ yaŋké.
+          threat_label: Oníwowapi kiŋ le héčhiya wóčhokuŋ waŋ yaŋké.
           other_label: Uƞmá kiƞ
         note:
           other_label: Uƞmá kiƞ
@@ -1241,11 +1254,19 @@ lkt:
       hi: Hau/Haƞ %{to_user},
     follow_notification:
       hi: Hau/Haƞ %{to_user},
+      subject: '[OpenStreetMap] %{user} otȟánipȟa'
+      followed_you: Waŋná OpenStreetMap ektá %{user} otȟánipȟa.
+      see_their_profile: '%{userurl} ektá oníwowapi waŋyákiyaŋka oyákihi.'
+      see_their_profile_html: '%{userurl} ektá oníwowapi waŋyákiyaŋka oyákihi.'
+      follow_them: Nakúŋ, %{followurl} ektá he otȟáyapȟa oyákihi.
+      follow_them_html: Nakúŋ, %{followurl} ektá he otȟáyapȟa oyákihi.
     gpx_details:
       details: 'Wópȟaȟta ihóši nitȟáwa:'
       filename: Wópȟaȟta-čhažé
       url: URL
       description: Wóyakapi
+      tags: Ihóši
+      total_points: Waóye-owáŋka kiƞ iyúpȟaȟ wóiyawa
     gpx_failure:
       hi: Hau/Haƞ %{to_user},
       failed_to_import: Wópȟaȟta GPS waóye s’e yuthímahel iyékču oyákihi šni.
@@ -1400,34 +1421,75 @@ lkt:
         image: Itówapi
         company: Okȟólakičhiye
         location: Tuktél
+        contribution_calendar: Táku Kíč'uŋ Wíyawapi-Wówapi
     descriptions:
       show:
+        title: Oníwowapi Glutȟókeča
+        save: Oníwowapi Glutȟéča
         cancel: Yužúžu wo/we
+      update:
+        success: Waŋná oníwowapi-oyákapi yaglútȟeča.
+        failure: Oníwowapi-oyákapi yaglútȟeča oyákihi šni.
     links:
       show:
+        title: Oníwowapi Glutȟókeča
+        save: Oníwowapi Glutȟéča
         cancel: Yužúžu wo/we
         social_links:
+          title: Social Oníwowapi Wóičhikȟoyake Kiŋ
           remove: Yuȟéyab ičú wo/we
+          add: Social Oníwowapi Wóičhikȟoyake Yeyá yo/ye
+      update:
+        success: Waŋná oníwowapi wóičhikȟoyake kiŋ yaglútȟeča.
+        failure: Oníwowapi wóičhikȟoyake kiŋ yaglútȟeča oyákihi šni.
     images:
       show:
+        title: Oníwowapi Glutȟókeča
+        save: Oníwowapi Glutȟéča
         cancel: Yužúžu wo/we
         gravatar:
           gravatar: Gravatar Uŋ wo/we
           what_is_gravatar: Táku Gravatar he?
         new image: Itówapi yeyá yo/ye
+        keep image: Itówapi kiŋ le yuhá khuwá yo/ye
         delete image: Itówapi kiŋ le yuȟéyab ičú wo/we
+        replace image: Itówapi itȟókeča ikíkču wo/we
+        image size hint: (itówapi oblótȟuŋ 100x100 isáŋm kiŋ iyótaŋ wašté)
+      update:
+        success: Waŋná oníwowapi itówapi yaglútȟeča.
+        failure: Oníwowapi itówapi yaglútȟeča oyákihi šni.
     companies:
       show:
+        title: Oníwowapi Glutȟókeča
+        save: Oníwowapi Glutȟéča
         cancel: Yužúžu wo/we
+      update:
+        success: Waŋná oníwowapi okȟólakičhiye yaglútȟeča.
+        failure: Oníwowapi okȟólakičhiye yaglútȟeča oyákihi šni.
     locations:
       show:
+        title: Oníwowapi Glutȟókeča
+        save: Oníwowapi Glutȟéča
         cancel: Yužúžu wo/we
+        no home location: Makȟóčhažeyate yeyákiye šni.
+        update home location on click: Makȟówapi kiŋ ayakákpi eháŋtaŋš, makȟóčhažeyate
+          yaglútȟeča yačhíŋ he?
         show: Pazó wo/we
         delete: Iháƞgya yo/ye
         undelete: Yukíni yo/ye
+      update:
+        success: Waŋná oníwowapi makȟóčhažeyate yaglútȟeča.
+        failure: Oníwowapi makȟóčhažeyate yaglútȟeča oyákihi šni.
     heatmaps:
       show:
+        title: Táku Kíč'uŋ Wíyawapi-Wówapi Glutȟókeča
+        show_contribution_calendar_in_public: Oníwowapi oyúblaye héčhiya, táku kíč'uŋ
+          wíyawapi-wówapi kiŋ kpazó wo/we
+        save: Táku Kíč'uŋ Wíyawapi-Wówapi Glutȟéča
         cancel: Yužúžu wo/we
+      update:
+        success: Waŋná táku kíč'uŋ wíyawapi-wówapi kiŋ yaglutȟéča.
+        failure: Táku kíč'uŋ wíyawapi-wówapi kiŋ yaglutȟéča oyákihi šni.
   sessions:
     new:
       tab_title: Čhaž’óigwa yo/ye
@@ -1557,16 +1619,20 @@ lkt:
         advice: 'Yutȟáŋkal iyáču oyákihi šni eháŋtaŋš, ohútkȟaŋ kiŋ lená uŋ-wáčhiŋ
           yo/ye:'
         planet:
+          url: https://planet.openstreetmap.org/
           title: OSM Makȟá
           description: Átaya OpenStreetMap tȟawíhoši owógnake kiŋ etaŋhaŋ yuótapi-šna
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: OpenStreetMap tȟawíhoši owógnake kiŋ etáŋhaŋ oíčaǧo kiŋ le
             khulwókšu wo/we
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Geofabrik Khulókšupi Kiŋ
           description: Makȟáwita, makȟóčhe na otȟúŋwahe óta yutȟáŋkal ičúpi-šna
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Ohútkȟaŋ Uŋmá kiƞ
           description: OpenStreetMap Wiki héčhiya ohútkȟaŋ uŋmá kiƞ čhažéyatapi
       export_button: Yutȟáŋkal ičú wo/we
@@ -1902,6 +1968,7 @@ lkt:
       my traces: Waóye Mitȟáwa
       my notes: Wówapi čístila mitȟáwa
       my messages: Wónaȟ’uŋ mitȟáwa
+      my profile: Oníwowapi Mitȟáwa
       my_account: Čhažé-oyáŋke mitȟáwa
       my comments: Wóeye mitȟáwa
       my_preferences: Wóigluštaŋ mitȟáwa
@@ -1920,9 +1987,14 @@ lkt:
       undelete_user: Tuwá uŋ kiŋ Yukíni yo/ye
       confirm: Yasúta yo/ye
       report: Tuwá uŋ kiŋ le El Iglé yo/ye
-      edit_links: Wóičhikȟoyake Yutȟókča yo/ye
+      edit_profile_details: Oníwowapi-ihóši Glutȟókeča yo/ye
+      edit_description: Oníwowapi-Oyákapi Glutȟókeča
+      edit_links: Wóičhikȟoyake Glutȟókeča yo/ye
       change_image: Itówapi Yutȟókča yo/ye
-      edit_company: Okȟólakičhiye Yutȟókeča yo/ye
+      edit_company: Okȟólakičhiye Glutȟókeča yo/ye
+      edit_location: Makȟóčhažeyate Glutȟókečha yo/ye
+      contributions:
+        other: Hékta Ómakȟa héehaŋ, %{count} wóyutȟokča
       title:
         administrator: Tuwá uŋ kiŋ le oítȟaƞčhaƞ héčha
     sidebar_section:
@@ -2084,6 +2156,9 @@ lkt:
     site:
       edit_tooltip: Oyúblaye kiŋ lé yutȟókeča yo/ye
       createnote_tooltip: Makȟówapi akáŋn wówapi-čístila waŋ égnaka yo/ye
+    profile:
+      social_link_n: Social Oníwowapi Wóičhikȟoyake %{n}
+      remove_social_link_n: Social Oníwowapi Wóičhikȟoyake %{n} yuȟéyab ičú wo/we
     directions:
       distance_in_units:
         m: '%{distance}čha’íyutȟapi'

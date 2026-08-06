@@ -78,6 +78,9 @@
 # Author: 아라
 ---
 ja:
+  date:
+    formats:
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%Y年%m月%e日 %H:%M'
@@ -184,6 +187,10 @@ ja:
         gpx_file: GPSトレースファイルを選択
         visibility: 可視性
         tagstring: タグ
+      moderation_zone:
+        reason: 理由
+        zone: 地域
+        period: 期間
       message:
         sender: 送信者
         title: 件名
@@ -385,6 +392,11 @@ ja:
         successfully_declared: あなたは、自分の編集結果がパブリックドメインにあるとみなすと宣言しました。
         already_declared: あなたはすでに、自分の編集内容をパブリックドメインであるとみなしていることを宣言しています。
         did_not_confirm: あなたは自分の編集内容がパブリックドメインであるものとみなすと宣言していません。
+    auth_deletions:
+      show:
+        title: データ削除申請
+        body: Data for %{provider} ID %{id} に紐付けられたデータは %{time} 時点で削除済みで、関連する OpenStreetMap
+          アカウントから切り離しました。
   browse:
     deleted_ago_by_html: '%{user}が%{time_ago}に削除'
     edited_ago_by_html: '%{user}が%{time_ago}に編集'
@@ -622,6 +634,9 @@ ja:
   notifications:
     index:
       title: 通知
+    new_follower:
+      description_html: '%{follower_name_with_link} という利用者があなたをフォローしました。ご希望の場合は %{link}
+        できます。'
   diary_entries:
     new:
       title: 日記エントリの新規作成
@@ -1877,6 +1892,7 @@ ja:
       success: アカウントを確認しました。登録ありがとうございます！
       already active: このアカウントは確認済みです。
       unknown token: この確認コードは期限切れ、または存在しません。
+      if_need_resend: 確認メールの再送をご希望の場合は、下のボタンをクリックしてください。
     confirm_resend:
       failure: '%{name}というアカウントは登録されていません。'
     confirm_email:
@@ -2057,6 +2073,7 @@ ja:
     new:
       tab_title: ログイン
       login_to_authorize_html: '%{client_app_name} へのアクセスにはOpenStreetMapでのログインが必要です。'
+      access_another_page: 別のページにアクセスしようとしたのに、このページにたどり着きました。目当てのページに現在のアカウントでアクセスする場合は、下のボタンをクリックしてください。
       email or username: 'メールアドレスまたは利用者名:'
       password: 'パスワード:'
       remember: ログイン状態を保持
@@ -2098,6 +2115,8 @@ ja:
       legal_1_1_terms_of_use: 利用規約
       legal_1_1_aup: 利用規定
       legal_1_1_privacy_policy: プライバシー・ポリシー
+      legal_1_2_html: OpenStreetMap の地図やデータを使用する場合は、必ず帰属表示に OpenStreetMap と帰属表示をしていただきますので
+        — 詳細は、%{attribution_guidelines_link} をご参照願います。
       legal_2_1_html: |-
         ライセンス、著作権、その他の法的な問題については、%{contact_the_osmf_link}
         までお問い合わせください。
@@ -2118,13 +2137,24 @@ ja:
         native_link: 日本語版
         mapping_link: マッピングを開始
       legal_babble:
+        lead_1_html: OpenStreetMap は、数千、数万ものウェブサイトやモバイルアプリ、ハードウェア機器を対象にオープンな地図データを提供しています。OpenStreetMap
+          の作り手はあなたご自身のような人たちのコミュニティであり、世界中の道路やトレイル、カフェや鉄道駅などの地図データを提供・維持しています。
+        lead_2_html: '%{get_started_mapping_link} の前に、%{learn_more_about_osm_link}
+          に目を通しましょう！ もっと掘り下げたくなったら %{osm_blog_link} もあるし、%{weeklyosm_link} の購読もお勧めです。%{osm_community_link}
+          で他のマッパーを探しましょう。プロジェクトをサポートするには、%{osm_foundation_link} に参加して %{making_donation_link}
+          もよろしくご検討ください。'
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: OpenStreetMap財団
+        licensing_2_html: OpenStreetMap とその協力者をクレジットするという条件のもと、当方のデータは自由に複写し配布し送信し利用を認めています。当方のデータを改変もしくは翻案した場合は、元データと同じライセンスの適用によって配布が認められます。あなたの責任と権利は
+          %{legal_code_link} の解説をお読みください。
         licensing_4_osmf_license_page: OSMFライセンスページ
         credit_title_html: OpenStreetMap のクレジット表記の仕方
         credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
         credit_2_license: 配布されるデータがOpen Database Licenseの下で利用可能であることを明示してください。
         credit_3_v2025_attribution_guidelines: Attribution Guidelines
+        credit_4_v2025_html: 一般論として、%{this_copyright_page_link} にリンクすると、当該のデータが OpenDatabase
+          License の下で利用可能であると明確に示すことができます。OSM をデータ形式で配布する場合は、ライセンス名の明記とライセンス（複数の場合あり）の直接リンクを添えてください。（印刷物など）リンクが不可能なメディアの場合は、ページの完全な
+          URL をたとえば %{copyright_page_url} のように載せてください。
         credit_4_v2025_this_copyright_page: この著作権ページ
         attribution_example:
           alt: ウェブページに OpenStreetMap を記述する方法の例
@@ -2202,7 +2232,13 @@ ja:
         contributors_si_slovenia: スロベニア
         contributors_si_mkgp: 農林食品省
         contributors_es_spain: スペイン
+        contributors_za_credit_html: '%{south_africa}: %{ngi_link} から取得したデータを含み、著作権は国家に帰属します。'
         contributors_za_south_africa: 南アフリカ
+        contributors_za_ngi: 国家地理空間情報局長
+        contributors_gb_credit_html: |-
+          %{united_kingdom}: イギリス陸地測量
+          データ Ordnance
+          Survey &copy; クラウン・コピーライト及びデータベース権限 2010-2023 を含みます。
         contributors_gb_united_kingdom: イギリス
         contributors_2_html: 上記の詳細について、およびOpenStreetMapの改善を支援するために利用されたその他の情報源については、OpenStreetMap
           Wikiの %{contributors_page_link} を参照ください。
