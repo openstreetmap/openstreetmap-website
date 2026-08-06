@@ -138,22 +138,19 @@ L.OSM.Map = L.Map.extend({
   },
 
   getUrl: function (marker) {
-    const params = {};
+    const search = new URLSearchParams();
 
     if (marker && this.hasLayer(marker)) {
       const { lat, lng } = OSM.cropLocation(marker.getLatLng(), this.getZoom());
-      params.mlat = lat;
-      params.mlon = lng;
+      search.set("mlat", lat);
+      search.set("mlon", lng);
     }
 
-    let url = location.protocol + "//" + OSM.SERVER_URL + "/";
-    const query = new URLSearchParams(params),
-          hash = OSM.formatHash(this);
-
-    if (query) url += "?" + query;
-    if (hash) url += hash;
-
-    return url;
+    return {
+      pathname: "/",
+      search,
+      hash: OSM.formatHash(this)
+    };
   },
 
   getShortUrl: function (marker) {
@@ -167,17 +164,17 @@ L.OSM.Map = L.Map.extend({
           // and drops the last 4 bits of the full 64 bit Morton code.
           c1 = interlace(x >>> 17, y >>> 17),
           c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
-    let str = location.protocol + "//" + location.hostname.replace(/^www\.openstreetmap\.org/i, "osm.org") + "/go/";
+    let pathname = "/go/";
 
     for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
       const digit = (c1 >> (24 - (6 * i))) & 0x3f;
-      str += char_array.charAt(digit);
+      pathname += char_array[digit];
     }
     for (let i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
       const digit = (c2 >> (24 - (6 * (i - 5)))) & 0x3f;
-      str += char_array.charAt(digit);
+      pathname += char_array[digit];
     }
-    for (let i = 0; i < ((zoom + 8) % 3); ++i) str += "-";
+    for (let i = 0; i < ((zoom + 8) % 3); ++i) pathname += "-";
 
     // Called to interlace the bits in x and y, making a Morton code.
     function interlace(x, y) {
@@ -194,27 +191,41 @@ L.OSM.Map = L.Map.extend({
       return (interlaced_x << 1) | interlaced_y;
     }
 
-    const params = new URLSearchParams();
+    const search = new URLSearchParams();
     const layers = this.getLayersCode().replace("M", "");
 
     if (layers) {
-      params.set("layers", layers);
+      search.set("layers", layers);
     }
 
     if (marker && this.hasLayer(marker)) {
-      params.set("m", "");
+      search.set("m", "");
     }
 
     if (this._object) {
-      params.set(this._object.type, this._object.id);
+      search.set(this._object.type, this._object.id);
     }
 
-    const query = params.toString();
-    if (query) {
-      str += "?" + query;
+    return {
+      pathname,
+      search
+    };
+  },
+
+  getEmbedUrl: function (marker) {
+    const search = new URLSearchParams({
+      bbox: this.getBounds().toBBoxString(),
+      layer: this.getMapBaseLayerId()
+    });
+
+    if (this.hasLayer(marker)) {
+      const latLng = marker.getLatLng().wrap();
+      search.set("marker", latLng.lat + "," + latLng.lng);
     }
 
-    return str;
+    return {
+      search
+    };
   },
 
   getGeoUri: function (marker) {

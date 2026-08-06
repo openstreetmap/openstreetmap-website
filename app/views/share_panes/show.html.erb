@@ -5,11 +5,12 @@
       <%= label_tag "link_marker", t(".include_marker"), :class => "form-check-label" %>
       <%= check_box_tag "link_marker", nil, :class => "form-check-input" %>
     </div>
+    <% short_link_origin = "#{Settings.server_protocol}://#{Settings.server_url.sub(/\Awww\.openstreetmap\.org/i, 'osm.org')}" %>
     <div class="btn-group btn-group-sm mb-2 nav nav-pills" id="nav-tab" role="tablist">
-      <a class="btn btn-primary flex-grow-0 active" id="long_link" data-bs-toggle="tab" data-bs-target="#nav-long-link" type="button" role="tab" aria-controls="nav-long-link" aria-selected="true"><%= t ".long_link" %></a>
-      <a class="btn btn-primary flex-grow-0" id="short_link" data-bs-toggle="tab" data-bs-target="#nav-short-link" type="button" role="tab" aria-controls="nav-short-link" aria-selected="false"><%= t ".short_link" %></a>
+      <a class="btn btn-primary flex-grow-0 active" id="long_link" href="/" data-bs-toggle="tab" data-bs-target="#nav-long-link" type="button" role="tab" aria-controls="nav-long-link" aria-selected="true"><%= t ".long_link" %></a>
+      <a class="btn btn-primary flex-grow-0" id="short_link" href="<%= short_link_origin %>" data-bs-toggle="tab" data-bs-target="#nav-short-link" type="button" role="tab" aria-controls="nav-short-link" aria-selected="false"><%= t ".short_link" %></a>
       <span class="btn-group btn-group-sm" tabindex="0" data-bs-title="<%= t ".embed_html_disabled" %>" data-bs-toggle="tooltip">
-        <a class="btn btn-primary" id="embed_link" data-bs-toggle="tab" data-bs-target="#nav-embed" type="button" role="tab" aria-controls="nav-embed" aria-selected="false"><%= t ".embed" %></a>
+        <a class="btn btn-primary" id="embed_link" href="<%= export_embed_path %>" data-bs-toggle="tab" data-bs-target="#nav-embed" type="button" role="tab" aria-controls="nav-embed" aria-selected="false"><%= t ".embed" %></a>
       </span>
     </div>
     <div class="tab-content" id="nav-tabContent">
@@ -28,7 +29,7 @@
 </div>
 <div class="share-geo-uri p-3 border-bottom border-secondary-subtle">
   <h4><%= t ".geo_uri" %></h4>
-  <div><a id="geo_uri"></a></div>
+  <div><a id="geo_uri" href="geo:?q=+"><%# populated dynamically %></a></div>
 </div>
 <div class="share-image p-3">
   <h4><%= t ".image" %></h4>
