@@ -8,7 +8,7 @@ module BrowseTagsHelper
   WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
   def format_key(key)
-    if url = wiki_link("key", key)
+    if url = TagLinker.wiki_link("key", key)
       link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
     else
       h(key)
@@ -36,7 +36,7 @@ module BrowseTagsHelper
       svg + safe_join(wdt, ";")
     elsif wmc = wikimedia_commons_link(key, value)
       link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
-    elsif url = wiki_link("tag", "#{key}=#{value}")
+    elsif url = TagLinker.wiki_link("tag", "#{key}=#{value}")
       link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
     elsif email = email_link(key, value)
       mail_to(email, :title => t("browse.tag_details.email_link", :email => email))
@@ -60,23 +60,6 @@ module BrowseTagsHelper
   end
 
   private
-
-  def wiki_link(type, lookup)
-    locale = I18n.locale.to_s
-
-    # update-wiki-pages does s/ /_/g on keys before saving them, we
-    # have to replace spaces with underscore so we'll link
-    # e.g. `source=Isle of Man Government aerial imagery (2001)' to
-    # the correct page.
-    lookup_us = lookup.tr(" ", "_")
-
-    page = WIKI_PAGES.dig(locale, type, lookup_us) ||
-           WIKI_PAGES.dig("en", type, lookup_us)
-
-    url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
-
-    url
-  end
 
   def wikipedia_links(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
@@ -145,7 +128,7 @@ module BrowseTagsHelper
   end
 
   def tag2link_link(key, value)
-    link = Tag2link.link(key, value)
+    link = TagLinker.tag2link_link(key, value)
     return nil unless link
 
     link_to(h(value), link, :rel => "nofollow")
