@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 module TagLinker
+  SECONDARY_WIKI_PREFIX_PATTERN = /[a-z:_-]+:/
+  QID_PATTERN = /[Qq][1-9][0-9]*/
+
+  # regex to match all wikipedia locale project identifiers
+  WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
+
   def self.init(paths)
     @tag2link_dict = build_tag2link_dict(JSON.parse(paths[:tag2link].read)).freeze
     @wiki_pages_dict = YAML.load_file(paths[:wiki_pages]).freeze
@@ -21,6 +27,71 @@ module TagLinker
     url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
 
     url
+  end
+
+  def self.wikipedia_links(key, value)
+    locale = I18n.locale.to_s
+    # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
+    return nil if %r{^https?://}.match?(value)
+
+    if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikipedia(?::(#{WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN}))?$/o
+      lang = Regexp.last_match(1)
+    else
+      return nil
+    end
+
+    # Value could be a semicolon-separated list of Wikipedia pages
+    value.split(";").map do |wiki_value|
+      wiki_value = wiki_value.strip
+
+      if wiki_value =~ /^(#{WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN}):(.+)$/oi
+        page_lang = Regexp.last_match(1)
+        title_section = Regexp.last_match(2)
+      else
+        page_lang = lang
+        return nil unless page_lang
+
+        title_section = wiki_value
+      end
+
+      title, section = title_section.split("#", 2).map { |s| ERB::Util.u(s.tr(" ", "_")) }
+      url = "https://#{page_lang}.wikipedia.org/wiki/#{title}?uselang=#{locale}"
+      url += "##{section}" if section
+
+      { :url => url, :title => wiki_value }
+    end
+  end
+
+  def self.wikidata_links(key, value)
+    locale = I18n.locale.to_s
+    # The simple wikidata-tag (this is limited to only one value)
+    if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
+      return [{
+        :url => "//www.wikidata.org/entity/#{value}?uselang=#{locale}",
+        :title => value
+      }]
+    elsif key =~ /^#{SECONDARY_WIKI_PREFIX_PATTERN}wikidata$/o &&
+          # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
+          value =~ /^#{QID_PATTERN}(?:\s*;\s*#{QID_PATTERN})*$/o
+      # Splitting at every semicolon to get a separate hash for each wikidata-ID
+      return value.split(";").map do |id|
+        { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{locale}" }
+      end
+    end
+    nil
+  end
+
+  def self.wikimedia_commons_link(key, value)
+    locale = I18n.locale.to_s
+    if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikimedia_commons$/o && value =~ /^(file|category):([^#]+)/i
+      namespace = Regexp.last_match(1)
+      title = Regexp.last_match(2)
+      return {
+        :url => "//commons.wikimedia.org/wiki/#{namespace}:#{ERB::Util.u title}?uselang=#{locale}",
+        :title => value
+      }
+    end
+    nil
   end
 
   def self.tag2link_link(key, value)
