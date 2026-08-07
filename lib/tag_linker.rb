@@ -1,31 +1,49 @@
 # frozen_string_literal: true
 
-module Tag2link
-  def self.load(path)
-    @dict = build_dict(JSON.parse(path.read)).freeze
+module TagLinker
+  def self.init(paths)
+    @tag2link_dict = build_tag2link_dict(JSON.parse(paths[:tag2link].read)).freeze
+    @wiki_pages_dict = YAML.load_file(paths[:wiki_pages]).freeze
   end
 
-  def self.link(key, value)
+  def self.wiki_link(type, title)
+    locale = I18n.locale.to_s
+
+    # update-wiki-pages does s/ /_/g on keys before saving them, we
+    # have to replace spaces with underscore so we'll link
+    # e.g. `source=Isle of Man Government aerial imagery (2001)' to
+    # the correct page.
+    lookup = title.tr(" ", "_")
+
+    page = @wiki_pages_dict.dig(locale, type, lookup) ||
+           @wiki_pages_dict.dig("en", type, lookup)
+
+    url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
+
+    url
+  end
+
+  def self.tag2link_link(key, value)
     # skip if it's a full URL
     return nil if %r{\Ahttps?://}.match?(value)
 
-    url_template = @dict[key]
+    url_template = @tag2link_dict[key]
     return nil unless url_template
 
     url_template.gsub("$1", value.sub(/^#/, ""))
   end
 
-  def self.build_dict(data)
+  def self.build_tag2link_dict(data)
     data
       # exclude deprecated, third-party, and non-HTTP URLs
       .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" || !item["url"].match?(%r{\Ahttps?://[^$]}) }
       .group_by { |item| item["key"].sub(/^Key:/, "") }
-      .transform_values { |items| choose_best_item(items) }
+      .transform_values { |items| choose_best_tag2link_item(items) }
       .compact
       .transform_values { |items| items["url"] }
   end
 
-  def self.choose_best_item(items)
+  def self.choose_best_tag2link_item(items)
     return nil if items.blank?
 
     return items.first if items.size == 1
@@ -50,5 +68,5 @@ module Tag2link
     # exclude any that are ambiguous
     nil
   end
-  private_class_method :choose_best_item
+  private_class_method :choose_best_tag2link_item
 end
