@@ -5,5 +5,15 @@
 <%= f.form_group :confidential do %>
   <%= f.check_box :confidential %>
 <% end %>
-<%= f.collection_check_boxes :scopes, Oauth.scopes(:privileged => current_user.administrator?), :name, :description %>
+<label class="form-label"><%= t("activerecord.attributes.doorkeeper/application.scopes") %></label>
+<%= hidden_field_tag "oauth2_application[scopes][]", "" %>
+<% Oauth.scopes(:privileged => current_user.administrator?).each do |scope| %>
+  <div class="form-check">
+    <%= check_box_tag "oauth2_application[scopes][]", scope.name, @application.scopes.include?(scope.name),
+                      :id => "oauth2_application_scopes_#{scope.name}", :class => "form-check-input" %>
+    <%= label_tag "oauth2_application_scopes_#{scope.name}", :class => "form-check-label" do %>
+      <%= scope.description %> <code><%= scope.name %></code>
+    <% end %>
+  </div>
+<% end %>
 <%= f.primary %>
