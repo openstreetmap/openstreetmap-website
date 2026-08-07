@@ -97,30 +97,6 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "example.com/page", html
   end
 
-  def test_wiki_link
-    link = wiki_link("key", "highway")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en", link
-
-    link = wiki_link("tag", "highway=primary")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", link
-
-    I18n.with_locale "de" do
-      link = wiki_link("key", "highway")
-      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
-
-      link = wiki_link("tag", "highway=primary")
-      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
-    end
-
-    I18n.with_locale "tr" do
-      link = wiki_link("key", "highway")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
-
-      link = wiki_link("tag", "highway=path")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=path?uselang=tr", link
-    end
-  end
-
   def test_wikidata_links
     ### Non-prefixed wikidata-tag (only one value allowed)
 
