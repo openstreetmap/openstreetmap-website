@@ -248,6 +248,233 @@ class TagLinkerTest < ActiveSupport::TestCase
     assert_nil link
   end
 
+  def test_email_link
+    email = TagLinker.email_link("foo", "Test")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "123")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "Abc.example.com")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "a@b@c.com")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "just\"not\"right@example.com")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "123 abcdefg@space.com")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "test@ abc")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "using;semicolon@test.com")
+    assert_nil email
+
+    email = TagLinker.email_link("email", "x@example.com")
+    assert_equal "x@example.com", email
+
+    email = TagLinker.email_link("email", "other.email-with-hyphen@example.com")
+    assert_equal "other.email-with-hyphen@example.com", email
+
+    email = TagLinker.email_link("email", "user.name+tag+sorting@example.com")
+    assert_equal "user.name+tag+sorting@example.com", email
+
+    email = TagLinker.email_link("email", "dash-in@both-parts.com")
+    assert_equal "dash-in@both-parts.com", email
+
+    email = TagLinker.email_link("email", "example@s.example")
+    assert_equal "example@s.example", email
+
+    # Strips whitespace at ends
+    email = TagLinker.email_link("email", " test@email.com ")
+    assert_equal "test@email.com", email
+
+    email = TagLinker.email_link("contact:email", "example@example.com")
+    assert_equal "example@example.com", email
+
+    email = TagLinker.email_link("maxweight:conditional", "none@agricultural")
+    assert_nil email
+  end
+
+  def test_telephone_links
+    links = TagLinker.telephone_links("foo", "Test")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "+123")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "123")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "123 abcdefg")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "+1234567890 abc")
+    assert_nil links
+
+    # If multiple numbers are listed, all must be valid
+    links = TagLinker.telephone_links("phone", "+1234567890; +223")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "1234567890")
+    assert_nil links
+
+    links = TagLinker.telephone_links("phone", "+1234567890")
+    assert_equal 1, links.length
+    assert_equal "+1234567890", links[0][:phone_number]
+    assert_equal "tel:+1234567890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "+1234-567-890")
+    assert_equal 1, links.length
+    assert_equal "+1234-567-890", links[0][:phone_number]
+    assert_equal "tel:+1234-567-890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "+1234/567/890")
+    assert_equal 1, links.length
+    assert_equal "+1234/567/890", links[0][:phone_number]
+    assert_equal "tel:+1234/567/890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "+1234.567.890")
+    assert_equal 1, links.length
+    assert_equal "+1234.567.890", links[0][:phone_number]
+    assert_equal "tel:+1234.567.890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "   +1234 567-890	")
+    assert_equal 1, links.length
+    assert_equal "+1234 567-890", links[0][:phone_number]
+    assert_equal "tel:+1234567-890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "+1 234-567-890")
+    assert_equal 1, links.length
+    assert_equal "+1 234-567-890", links[0][:phone_number]
+    assert_equal "tel:+1234-567-890", links[0][:url]
+
+    links = TagLinker.telephone_links("phone", "+1 (234) 567-890")
+    assert_equal 1, links.length
+    assert_equal "+1 (234) 567-890", links[0][:phone_number]
+    assert_equal "tel:+1(234)567-890", links[0][:url]
+
+    # Multiple valid phone numbers separated by ;
+    links = TagLinker.telephone_links("phone", "+1234567890; +22334455667788")
+    assert_equal 2, links.length
+    assert_equal "+1234567890", links[0][:phone_number]
+    assert_equal "tel:+1234567890", links[0][:url]
+    assert_equal "+22334455667788", links[1][:phone_number]
+    assert_equal "tel:+22334455667788", links[1][:url]
+
+    links = TagLinker.telephone_links("phone", "+1 (234) 567-890 ;  +22(33)4455.66.7788 ")
+    assert_equal 2, links.length
+    assert_equal "+1 (234) 567-890", links[0][:phone_number]
+    assert_equal "tel:+1(234)567-890", links[0][:url]
+    assert_equal "+22(33)4455.66.7788", links[1][:phone_number]
+    assert_equal "tel:+22(33)4455.66.7788", links[1][:url]
+  end
+
+  def test_colour_preview
+    # basic positive tests
+    colour = TagLinker.colour_preview("colour", "red")
+    assert_equal "red", colour
+
+    colour = TagLinker.colour_preview("colour", "Red")
+    assert_equal "Red", colour
+
+    colour = TagLinker.colour_preview("colour", "darkRed")
+    assert_equal "darkRed", colour
+
+    colour = TagLinker.colour_preview("colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = TagLinker.colour_preview("colour", "#fF0000")
+    assert_equal "#fF0000", colour
+
+    # other tag variants:
+    colour = TagLinker.colour_preview("building:colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = TagLinker.colour_preview("ref:colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = TagLinker.colour_preview("int_ref:colour", "green")
+    assert_equal "green", colour
+
+    colour = TagLinker.colour_preview("roof:colour", "#f00")
+    assert_equal "#f00", colour
+
+    colour = TagLinker.colour_preview("seamark:beacon_lateral:colour", "#f00")
+    assert_equal "#f00", colour
+
+    # negative tests:
+    colour = TagLinker.colour_preview("colour", "")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "   ")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", nil)
+    assert_nil colour
+
+    # ignore US spelling variant
+    colour = TagLinker.colour_preview("color", "red")
+    assert_nil colour
+
+    # irrelevant tag names
+    colour = TagLinker.colour_preview("building", "red")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("ref:colour_no", "red")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("ref:colour-bg", "red")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("int_ref", "red")
+    assert_nil colour
+
+    # invalid hex codes
+    colour = TagLinker.colour_preview("colour", "#")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "#ff")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "#ffff")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "#fffffff")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "#ggg")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "#ff 00 00")
+    assert_nil colour
+
+    # invalid w3c color names:
+    colour = TagLinker.colour_preview("colour", "r")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "ffffff")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "f00")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "xxxred")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "dark red")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "dark_red")
+    assert_nil colour
+
+    colour = TagLinker.colour_preview("colour", "ADarkDummyLongColourNameWithAPurpleUndertone")
+    assert_nil colour
+  end
+
   def test_tag2link_link
     assert_nil TagLinker.tag2link_link("website", "https://example.com/page")
 
