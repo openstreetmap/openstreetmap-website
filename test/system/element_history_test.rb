@@ -314,6 +314,52 @@ class ElementHistoryTest < ApplicationSystemTestCase
     check_element_history_pages(->(v) { old_relation_path(relation, v) })
   end
 
+  test "shows tag diff in way history" do
+    way = create(:way, :with_history, :version => 2)
+    way_v1 = way.old_ways.find_by(:version => 1)
+    way_v2 = way.old_ways.find_by(:version => 2)
+
+    # 1. No change
+    create(:old_way_tag, :old_way => way_v1, :k => "ref", :v => "A1")
+    create(:old_way_tag, :old_way => way_v2, :k => "ref", :v => "A1")
+
+    # 2. Modification
+    create(:old_way_tag, :old_way => way_v1, :k => "highway", :v => "trunk")
+    create(:old_way_tag, :old_way => way_v2, :k => "highway", :v => "tertiary")
+
+    # 3. Addition
+    create(:old_way_tag, :old_way => way_v2, :k => "maxspeed", :v => "50")
+
+    # 4. Removal
+    create(:old_way_tag, :old_way => way_v1, :k => "operator", :v => "OldOp")
+
+    visit way_history_path(way)
+
+    within_sidebar do
+      assert_text "Tag changes from version #1 to #2"
+
+      find("details summary", :text => "Tag changes from version #1 to #2").click
+
+      within "details" do
+        # Modification
+        assert_css "th[rowspan='2']", :text => "highway"
+        assert_css "td.table-success", :text => "tertiary"
+        assert_css "td.table-danger", :text => "trunk"
+
+        # Addition
+        assert_css "th.table-success", :text => "maxspeed"
+        assert_css "td.table-success", :text => "50"
+
+        # Removal
+        assert_css "th.table-danger", :text => "operator"
+        assert_css "td.table-danger", :text => "OldOp"
+
+        # No change (should NOT be here)
+        assert_no_text "ref"
+      end
+    end
+  end
+
   private
 
   def check_element_history_pages(get_path)
