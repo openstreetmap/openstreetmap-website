@@ -51,5 +51,28 @@ module Notifications
         assert_dom "blockquote", "Insightful comment"
       end
     end
+
+    def test_render_with_long_text
+      comment_author = build_stubbed(
+        :user,
+        :display_name => "Helpful Commenter"
+      )
+      changeset = build_stubbed(:changeset)
+      changeset_comment = build_stubbed(
+        :changeset_comment,
+        :author => comment_author,
+        :changeset => changeset,
+        :body => read_fixture_file("lorem_ipsum.txt")
+      )
+
+      notification = build_stubbed(:notification, :record => changeset_comment)
+
+      render(
+        "notifications/notification",
+        :notification => notification
+      )
+
+      assert_dom ".web-notification blockquote p", :count => 3
+    end
   end
 end
