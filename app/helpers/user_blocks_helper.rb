@@ -54,7 +54,7 @@ module UserBlocksHelper
              :datetime => time.xmlschema,
              :title => t("user_blocks.helper.short.time_in_future_title",
                          :time_absolute => l(time, :format => :friendly),
-                         :time_relative => time_ago_in_words(time))
+                         :time_relative => time_ago_in_words(time, :scope => :"datetime.distance_in_words_in"))
   end
 
   def block_short_time_in_past(time)
