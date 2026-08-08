@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ApplicationJob < ActiveJob::Base
+class MailDeliveryJob < ActionMailer::MailDeliveryJob
   discard_on ActiveJob::DeserializationError
 end
