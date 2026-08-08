@@ -13,7 +13,7 @@ L.OSM.sidebarPane = function (options, uiClass, buttonTitle, paneTitle) {
 
     const iconMap = {
       layers: "stack",
-      legend: "info-lg",
+      legend: "list-task",
       share: "share-fill"
     };
     const iconName = iconMap[uiClass] || uiClass;
