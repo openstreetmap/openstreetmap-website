@@ -1,4 +1,4 @@
-<%# locals: (f:) %>
+<%# locals: (f:, application:) %>
 
 <%= f.text_field :name %>
 <%= f.text_area :redirect_uri, :autocorrect => "off", :autocapitalize => "off" %>
@@ -9,7 +9,7 @@
 <%= hidden_field_tag "oauth2_application[scopes][]", "" %>
 <% Oauth.scopes(:privileged => current_user.administrator?).each do |scope| %>
   <div class="form-check">
-    <%= check_box_tag "oauth2_application[scopes][]", scope.name, @application.scopes.include?(scope.name),
+    <%= check_box_tag "oauth2_application[scopes][]", scope.name, application.scopes.include?(scope.name),
                       :id => "oauth2_application_scopes_#{scope.name}", :class => "form-check-input" %>
     <%= label_tag "oauth2_application_scopes_#{scope.name}", :class => "form-check-label" do %>
       <%= scope.description %> <code><%= scope.name %></code>
