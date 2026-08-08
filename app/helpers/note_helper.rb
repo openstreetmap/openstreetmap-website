@@ -42,4 +42,8 @@ module NoteHelper
   def hard_anonymous_notes_limit_reached?(anonymous_notes_count)
     !current_user && anonymous_notes_count >= 10
   end
+
+  def can_resolve_without_comment?(current_user, note)
+    current_user.changesets_count.positive? || (note.comments.length > 1 && note.comments.last.author == current_user)
+  end
 end
