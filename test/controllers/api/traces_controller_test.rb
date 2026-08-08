@@ -39,7 +39,7 @@ module Api
 
     # Check getting a specific trace through the api
     def test_show
-      public_trace_file = create(:trace, :visibility => "public")
+      public_trace_file = create(:trace, :visibility => "identifiable")
 
       # First with no auth
       get api_trace_path(public_trace_file)
@@ -69,7 +69,7 @@ module Api
 
     # Check an anonymous trace can't be specifically fetched by another user
     def test_show_anon
-      anon_trace_file = create(:trace, :visibility => "private")
+      anon_trace_file = create(:trace, :visibility => "trackable")
 
       # First with no auth
       get api_trace_path(anon_trace_file)
@@ -107,7 +107,7 @@ module Api
 
     # Check that getting a trace through the api is not possible when the traces feature is disabled
     def test_show_disabled
-      public_trace_file = create(:trace, :visibility => "public")
+      public_trace_file = create(:trace, :visibility => "identifiable")
       auth_header = bearer_authorization_header public_trace_file.user
 
       with_settings(:traces_disabled => true) do
@@ -163,50 +163,53 @@ module Api
 
       trace.destroy
       assert_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
+    end
 
-      # Rewind the file
-      file.rewind
-
-      # Now authenticated, with the legacy public flag
-      assert_not_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
+    # The legacy public flag is no longer supported and returns bad request
+    def test_create_legacy_public_flag
+      fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+      file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+      user = create(:user)
       auth_header = bearer_authorization_header user
-      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
-      assert_response :success
-      trace = Trace.find(response.body.to_i)
-      assert_equal "a.gpx", trace.name
-      assert_equal "New Trace", trace.description
-      assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
-      assert_equal "public", trace.visibility
-      assert_not trace.inserted
-      assert_equal File.new(fixture).read, trace.file.blob.download
-      trace.destroy
-      assert_equal "public", user.preferences.find_by(:k => "gps.trace.visibility").v
 
-      # Rewind the file
+      assert_no_difference "Trace.count" do
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 1 }, :headers => auth_header
+      end
+      assert_response :bad_request
+
       file.rewind
 
-      # Now authenticated, with the legacy private flag
-      second_user = create(:user)
-      assert_nil second_user.preferences.find_by(:k => "gps.trace.visibility")
-      auth_header = bearer_authorization_header second_user
-      post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
-      assert_response :success
-      trace = Trace.find(response.body.to_i)
-      assert_equal "a.gpx", trace.name
-      assert_equal "New Trace", trace.description
-      assert_equal %w[new trace], trace.tags.order(:tag).collect(&:tag)
-      assert_equal "private", trace.visibility
-      assert_not trace.inserted
-      assert_equal File.new(fixture).read, trace.file.blob.download
-      trace.destroy
-      assert_equal "private", second_user.preferences.find_by(:k => "gps.trace.visibility").v
+      assert_no_difference "Trace.count" do
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :public => 0 }, :headers => auth_header
+      end
+      assert_response :bad_request
+    end
+
+    # A legacy visibility (public or private) is no longer accepted on upload
+    def test_create_legacy_visibility
+      fixture = Rails.root.join("test/gpx/fixtures/a.gpx")
+      file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+      user = create(:user)
+      auth_header = bearer_authorization_header user
+
+      assert_no_difference "Trace.count" do
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "public" }, :headers => auth_header
+      end
+      assert_response :bad_request
+
+      file.rewind
+
+      assert_no_difference "Trace.count" do
+        post api_traces_path, :params => { :file => file, :description => "New Trace", :tags => "new,trace", :visibility => "private" }, :headers => auth_header
+      end
+      assert_response :bad_request
     end
 
     # Check updating a trace through the api
     def test_update
-      public_trace_file = create(:trace, :visibility => "public", :fixture => "a")
+      public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
       deleted_trace_file = create(:trace, :deleted)
-      anon_trace_file = create(:trace, :visibility => "private")
+      anon_trace_file = create(:trace, :visibility => "trackable")
 
       # First with no auth
       put api_trace_path(public_trace_file), :params => create_trace_xml(public_trace_file)
@@ -237,7 +240,7 @@ module Api
       auth_header = bearer_authorization_header public_trace_file.user
       t = public_trace_file
       t.description = "Changed description"
-      t.visibility = "private"
+      t.visibility = "trackable"
       put api_trace_path(t), :params => create_trace_xml(t), :headers => auth_header
       assert_response :success
       nt = Trace.find(t.id)
@@ -263,7 +266,7 @@ module Api
 
     # Check deleting a trace through the api
     def test_destroy
-      public_trace_file = create(:trace, :visibility => "public")
+      public_trace_file = create(:trace, :visibility => "identifiable")
 
       # First with no auth
       delete api_trace_path(public_trace_file)

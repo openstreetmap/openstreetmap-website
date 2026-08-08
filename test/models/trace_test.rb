@@ -15,12 +15,12 @@ class TraceTest < ActiveSupport::TestCase
     second_user = create(:user)
     third_user = create(:user)
     fourth_user = create(:user)
-    public_trace_file = create(:trace, :visibility => "public", :user => first_user)
-    anon_trace_file = create(:trace, :visibility => "private", :user => second_user)
+    public_trace_file = create(:trace, :without_validations, :visibility => "public", :user => first_user)
+    anon_trace_file = create(:trace, :without_validations, :visibility => "private", :user => second_user)
     identifiable_trace_file = create(:trace, :visibility => "identifiable", :user => first_user)
-    pending_trace_file = create(:trace, :visibility => "public", :user => second_user, :inserted => false)
+    pending_trace_file = create(:trace, :without_validations, :visibility => "public", :user => second_user, :inserted => false)
     trackable_trace_file = create(:trace, :visibility => "trackable", :user => second_user)
-    _other_trace_file = create(:trace, :visibility => "private", :user => third_user)
+    _other_trace_file = create(:trace, :without_validations, :visibility => "private", :user => third_user)
 
     check_query(Trace.visible_to(first_user), [
                   public_trace_file, identifiable_trace_file, pending_trace_file
@@ -35,12 +35,12 @@ class TraceTest < ActiveSupport::TestCase
   end
 
   def test_visible_to_all
-    public_trace_file = create(:trace, :visibility => "public")
-    _private_trace_file = create(:trace, :visibility => "private")
+    public_trace_file = create(:trace, :without_validations, :visibility => "public")
+    _private_trace_file = create(:trace, :without_validations, :visibility => "private")
     identifiable_trace_file = create(:trace, :visibility => "identifiable")
     _trackable_trace_file = create(:trace, :visibility => "trackable")
-    deleted_trace_file = create(:trace, :deleted, :visibility => "public")
-    pending_trace_file = create(:trace, :visibility => "public", :inserted => false)
+    deleted_trace_file = create(:trace, :deleted, :without_validations, :visibility => "public")
+    pending_trace_file = create(:trace, :without_validations, :visibility => "public", :inserted => false)
 
     check_query(Trace.visible_to_all, [
                   public_trace_file, identifiable_trace_file,
@@ -68,11 +68,43 @@ class TraceTest < ActiveSupport::TestCase
     trace_valid({ :description => nil }, :valid => false)
     trace_valid({ :description => "a" * 255 })
     trace_valid({ :description => "a" * 256 }, :valid => false)
-    trace_valid({ :visibility => "private" })
-    trace_valid({ :visibility => "public" })
     trace_valid({ :visibility => "trackable" })
     trace_valid({ :visibility => "identifiable" })
+    # Legacy visibilities are no longer allowed on new traces
+    trace_valid({ :visibility => "private" }, :valid => false)
+    trace_valid({ :visibility => "public" }, :valid => false)
     trace_valid({ :visibility => "foo" }, :valid => false)
+  end
+
+  def test_visibility_cannot_change_to_legacy
+    trace = create(:trace, :visibility => "trackable")
+    trace.visibility = "public"
+    assert_not_predicate trace, :valid?
+
+    trace = create(:trace, :visibility => "identifiable")
+    trace.visibility = "private"
+    assert_not_predicate trace, :valid?
+  end
+
+  def test_visibility_can_change_from_legacy
+    trace = create(:trace, :without_validations, :visibility => "public")
+    trace.visibility = "trackable"
+    assert_predicate trace, :valid?
+
+    trace = create(:trace, :without_validations, :visibility => "private")
+    trace.visibility = "public"
+    assert_predicate trace, :valid?
+  end
+
+  def test_selectable_visibilities
+    trace = build(:trace, :visibility => "identifiable")
+    assert_equal %w[trackable identifiable], trace.selectable_visibilities
+
+    trace = build(:trace, :visibility => "public")
+    assert_equal %w[public trackable identifiable], trace.selectable_visibilities
+
+    trace = build(:trace, :visibility => "private")
+    assert_equal %w[private trackable identifiable], trace.selectable_visibilities
   end
 
   def test_tagstring_handles_space_separated_tags

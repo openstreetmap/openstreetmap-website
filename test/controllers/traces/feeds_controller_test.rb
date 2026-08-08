@@ -28,16 +28,16 @@ module Traces
     def test_show
       user = create(:user)
       # The fourth test below is surprisingly sensitive to timestamp ordering when the timestamps are equal.
-      trace_a = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago) do |trace|
+      trace_a = create(:trace, :visibility => "identifiable", :timestamp => 4.seconds.ago) do |trace|
         create(:tracetag, :trace => trace, :tag => "London")
       end
-      trace_b = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago) do |trace|
+      trace_b = create(:trace, :visibility => "identifiable", :timestamp => 3.seconds.ago) do |trace|
         create(:tracetag, :trace => trace, :tag => "Birmingham")
       end
-      create(:trace, :visibility => "private", :user => user, :timestamp => 2.seconds.ago) do |trace|
+      create(:trace, :visibility => "trackable", :user => user, :timestamp => 2.seconds.ago) do |trace|
         create(:tracetag, :trace => trace, :tag => "London")
       end
-      create(:trace, :visibility => "private", :user => user, :timestamp => 1.second.ago) do |trace|
+      create(:trace, :visibility => "trackable", :user => user, :timestamp => 1.second.ago) do |trace|
         create(:tracetag, :trace => trace, :tag => "Birmingham")
       end
 
@@ -55,11 +55,11 @@ module Traces
       second_user = create(:user)
       create(:user)
       create(:trace)
-      trace_b = create(:trace, :visibility => "public", :timestamp => 4.seconds.ago, :user => user)
-      trace_c = create(:trace, :visibility => "public", :timestamp => 3.seconds.ago, :user => user) do |trace|
+      trace_b = create(:trace, :visibility => "identifiable", :timestamp => 4.seconds.ago, :user => user)
+      trace_c = create(:trace, :visibility => "identifiable", :timestamp => 3.seconds.ago, :user => user) do |trace|
         create(:tracetag, :trace => trace, :tag => "London")
       end
-      create(:trace, :visibility => "private")
+      create(:trace, :visibility => "trackable")
 
       # Test a user with no traces
       get traces_feed_path(:display_name => second_user)
