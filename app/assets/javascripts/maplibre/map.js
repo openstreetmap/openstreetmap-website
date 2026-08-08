@@ -55,8 +55,36 @@ OSM.MapLibre.Map = class extends maplibregl.Map {
   }
 
   getZoom() {
-    // Convert MapLibre's 512px based zoom to OSM's 256px based zoom.
     return super.getZoom() + 1;
+  }
+
+  // maplibregl's zoomIn()/zoomOut() compute their target as
+  // `getZoom() +/- 1` and pass it straight to zoomTo(), which expects a
+  // raw zoom. Since getZoom() above already adds 1, that cancels out
+  // zoomOut()'s -1 and doubles zoomIn()'s +1. Delegate to the original
+  // implementation with getZoom() temporarily unshadowed instead of
+  // reimplementing its zoomSnap rounding ourselves.
+  zoomIn(options, eventData) {
+    return this._withRawZoom(() => super.zoomIn(options, eventData));
+  }
+
+  zoomOut(options, eventData) {
+    return this._withRawZoom(() => super.zoomOut(options, eventData));
+  }
+
+  _withRawZoom(fn) {
+    const hadOwnGetZoom = Object.prototype.hasOwnProperty.call(this, "getZoom");
+    const previousGetZoom = this.getZoom;
+    this.getZoom = () => super.getZoom();
+    try {
+      return fn();
+    } finally {
+      if (hadOwnGetZoom) {
+        this.getZoom = previousGetZoom;
+      } else {
+        delete this.getZoom;
+      }
+    }
   }
 };
 
