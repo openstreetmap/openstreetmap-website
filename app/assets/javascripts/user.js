@@ -20,8 +20,7 @@ $(function () {
 
       if (destroyCheckbox) {
         destroyCheckbox.checked = true;
-        row.addClass("d-none");
-        row.find("input[type='text']").removeAttr("required");
+        removeSocialLinkRow.bind(this)();
       } else {
         row.remove();
       }
@@ -29,11 +28,13 @@ $(function () {
       renumberSocialLinks();
     });
 
-    $(".social_link_destroy input[type='checkbox']:checked").each(function () {
-      $(this).closest(".row").addClass("d-none").find("input[type='text']").removeAttr("required");
-    });
+    $(".social_link_destroy input[type='checkbox']:checked").each(removeSocialLinkRow);
 
     renumberSocialLinks();
+  }
+
+  function removeSocialLinkRow() {
+    $(this).closest(".row").addClass("d-none").find("input[type='text']").removeAttr("required");
   }
 
   function renumberSocialLinks() {
