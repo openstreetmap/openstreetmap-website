@@ -29,22 +29,43 @@ module Traces
 
       # First with no auth, which should work since the trace is public
       get trace_data_path(public_trace_file)
-      follow_redirect!
-      follow_redirect!
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
       # Now with some other user, which should work since the trace is public
       session_for(create(:user))
       get trace_data_path(public_trace_file)
-      follow_redirect!
-      follow_redirect!
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
 
       # And finally we should be able to do it with the owner of the trace
       session_for(public_trace_file.user)
       get trace_data_path(public_trace_file)
-      follow_redirect!
-      follow_redirect!
+      check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
+    end
+
+    # A trace uploaded before GpxS3 was enabled is stored gzipped but has no
+    # gzip_content_encoding flag, so the server must unzip it even when the
+    # client accepts gzip.
+    def test_show_gzipped_by_server_without_store_header
+      public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
+
+      get trace_data_path(public_trace_file), :headers => { "Accept-Encoding" => "gzip" }
+
+      check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
+      assert_includes response.headers["Vary"].to_s, "Accept-Encoding"
+    end
+
+    # A trace stored with a Content-Encoding: gzip header goes out as a
+    # redirect when the client accepts gzip, and the server unzips it when
+    # the client doesn't.
+    def test_show_gzipped_by_server_with_store_header
+      public_trace_file = create(:trace, :visibility => "identifiable", :fixture => "a")
+      blob = public_trace_file.file.blob
+      blob.update!(:custom_metadata => blob.custom_metadata.merge("gzip_content_encoding" => true))
+
+      get trace_data_path(public_trace_file), :headers => { "Accept-Encoding" => "gzip" }
+      assert_response :redirect
+
+      get trace_data_path(public_trace_file), :headers => { "Accept-Encoding" => "identity" }
       check_trace_data public_trace_file, "848caa72f2f456d1bd6a0fdf228aa1b9"
     end
 
@@ -83,8 +104,6 @@ module Traces
       # And finally we should be able to do it with the owner of the trace
       session_for(anon_trace_file.user)
       get trace_data_path(anon_trace_file)
-      follow_redirect!
-      follow_redirect!
       check_trace_data anon_trace_file, "db4cb5ed2d7d2b627b3b504296c4f701"
     end
 
