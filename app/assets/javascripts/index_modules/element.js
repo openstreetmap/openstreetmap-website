@@ -93,9 +93,9 @@ function previewWikidataValue($btn) {
 
 function getLocalizedResponse(entity) {
   const siteScheme = OSM.isDark("bs") ? "Q6545942" : "Q101608434";
-  const scheme = ({ qualifiers }) => qualifiers?.P8798?.some(q => q?.datavalue?.value?.id === siteScheme) ?? 0;
-  const rank = ({ rank }) => ({ preferred: 2, normal: 0, deprecated: -2 })[rank] ?? 0;
-  const toBestClaim = (out, claim) => (rank(claim) + scheme(claim) > rank(out) + scheme(out)) ? claim : out;
+  const scheme = ({ qualifiers } = {}) => qualifiers?.P8798?.some(q => q?.datavalue?.value?.id === siteScheme) ?? 0;
+  const rank = ({ rank } = {}) => ({ preferred: 2, normal: 0 })[rank] ?? 0;
+  const toBestClaim = (out, claim) => (!out || rank(claim) + scheme(claim) > rank(out) + scheme(out)) ? claim : out;
   const toFirstOf = (property) => (out, localization) => out ?? property[localization];
   const data = {
     qid: entity.id,
@@ -104,7 +104,7 @@ function getLocalizedResponse(entity) {
       "P8972", // small logo or icon
       "P154", // logo image
       "P14" // traffic sign
-    ].reduce((out, prop) => out ?? entity.claims[prop]?.reduce(toBestClaim)?.mainsnak?.datavalue?.value, null),
+    ].reduce((out, prop) => out ?? entity.claims[prop]?.filter(claim => claim.rank !== "deprecated").reduce(toBestClaim, null)?.mainsnak?.datavalue?.value, null),
     description: languagesToRequest.reduce(toFirstOf(entity.descriptions), null),
     article: wikisToRequest.reduce(toFirstOf(entity.sitelinks), null)
   };
