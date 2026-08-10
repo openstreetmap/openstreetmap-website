@@ -118,6 +118,11 @@ cy:
         gpx_file: Dewiswch Ffeil Ôl GPS
         visibility: Gwelededd
         tagstring: Tagiau
+      moderation_zone:
+        name: Enw
+        reason: Rheswm
+        zone: Parth
+        period: Cyfnod
       message:
         sender: Anfonwr
         title: Pwnc
@@ -397,6 +402,9 @@ cy:
           bod eich golygiadau yn y Parth Cyhoeddus.
         already_declared: Rydych eisoes wedi datgan eich bod yn ystyried bod eich
           golygiadau yn y Parth Cyhoeddus.
+    auth_deletions:
+      show:
+        title: Cais dileu data
   browse:
     deleted_ago_by_html: Dilëwyd %{time_ago} gan %{user}
     edited_ago_by_html: Golygwyd %{time_ago} gan %{user}
@@ -714,12 +722,24 @@ cy:
   notifications:
     index:
       title: Hysbysiadau
+    changeset_comment:
+      headline: Sylw ar grŵp newid
+      description_with_summary_html: Rhoddodd defnyddiwr %{commenter_name_with_link}
+        sylw ar grŵp newid %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: Rhoddodd %{commenter_name_with_link} sylw
+        ar grŵp newid %{changeset_id_with_link}
     gpx_details:
       filename: Enw ffeil
       description: Disgrifiad
       tags: Tagiau
+      total_points: Cyfanswm nifer y pwyntiau
+      imported_points: Nifer y pwyntiau a fewnforiwyd
+    gpx_import_failure:
+      error_message: Neges gwall
     new_follower:
       headline: Dilynwr newydd
+    diary_comment:
+      headline: Sylwadau ar ddyddiadur
   diary_entries:
     new:
       title: Cofnod Dyddiadur Newydd
@@ -2663,10 +2683,12 @@ cy:
           title: Overpass API
           description: Lawrlwythwch y blwch ffiniol hwn o ddrych o gronfa ddata OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Lawrlwythiadau Geofabrik
           description: Rhannau o gyfandiroedd, gwledydd a dinasoedd dethol sy'n cael
             eu diweddaru'n rheolaidd
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Ffynonellau Eraill
           description: Nodir ffynonellau ychwanegol ar Wici OpenStreetMap
       export_button: Allforio
@@ -3595,7 +3617,7 @@ cy:
       error: Ni ellir dad-anwybyddu'r defnyddiwr hwn. Ceisiwch eto.
   notes:
     index:
-      title: Nodiadau ag agorwyd neu y gwnaed sylw arnynt gan %{user}
+      title: Nodiadau a agorwyd neu y rhoddwyd sylw arnynt gan %{user}
       heading: Nodiadau %{user}
       subheading_html: Nodiadau %{submitted} neu %{commented} arnynt gan %{user}
       subheading_submitted: a gyflwynwyd
@@ -3925,4 +3947,29 @@ cy:
     trailing_whitespace: ceir gofod gwyn llusg
     invalid_characters: ceir nodau annilys
     url_characters: ceir nodau URL arbennig (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Diffinio parth cymedroli newydd
+      new: Parth Cymedroli Newydd
+    index:
+      title: Parthau Cymedroli
+      heading: Parthau Cymedroli
+      name: Enw
+      reason: Rheswm
+      creator: Crëwr
+      start: Dechrau
+      end: Diwedd
+      status: Statws
+    row:
+      edit: Golygu
+    new:
+      title: Parth Cymedroli Newydd
+      heading: Parth Cymedroli Newydd
+    create:
+      success: Parth cymedroli wedi'i greu.
+    edit:
+      title: Golygu parth cymedroli %{name}
+      heading: Golygu parth cymedroli %{name}
+    update:
+      success: Parth cymedroli wedi'i ddiweddaru.
 ...

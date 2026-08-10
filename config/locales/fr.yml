@@ -214,7 +214,7 @@ fr:
       relation: Relation
       relation_member: Membre de la relation
       relation_tag: Attribut de la relation
-      report: Rapport
+      report: Signaler
       session: Session
       trace: Trace
       tracepoint: Point de la trace
@@ -259,6 +259,7 @@ fr:
         name: Nom
         reason: Motif
         zone: Zone
+        period: Durée
       message:
         sender: Expéditeur
         title: Sujet
@@ -516,6 +517,11 @@ fr:
           comme faisant partie du domaine public.
         did_not_confirm: Vous n’avez pas confirmé que vous considérez vos modifications
           comme faisant partie du domaine public.
+    auth_deletions:
+      show:
+        title: Demande de suppression de données
+        body: Les données pour %{provider} identifiant %{id} ont été supprimées à
+          %{time} et elles ont été déconnectées du compte OpenStreetMap associé.
   browse:
     deleted_ago_by_html: Supprimé %{time_ago} par %{user}
     edited_ago_by_html: Modifié %{time_ago} par %{user}
@@ -801,6 +807,51 @@ fr:
       followed_diaries: entrées de journal
       nearby_changesets: groupes de modifications des utilisateurs à proximité
       nearby_diaries: entrées de journal des utilisateurs à proximité
+  notifications:
+    index:
+      title: Notifications
+      no_notifications: Vous n'avez aucune notification pour le moment.
+      point_to_preferences_html: Vous pouvez modifier la façon dont vous recevez les
+        notifications dans %{link}.
+      link_text: la section « préférences »
+    changeset_comment:
+      headline: Commentaire sur les modifications
+      description_with_summary_html: L'utilisateur %{commenter_name_with_link} a laissé
+        un commentaire sur le changeset %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: L'utilisateur %{commenter_name_with_link}
+        a laissé un commentaire sur le changeset %{changeset_id_with_link}
+    gpx_details:
+      filename: Nom du fichier
+      description: Description
+      tags: Attributs
+      total_points: Nombre total de points
+      imported_points: Nombre de points importés
+    gpx_import_failure:
+      headline: Impossible d'importer la trace GPS
+      error_message: Message d’erreur
+    gpx_import_success:
+      headline: Trace GPS importé avec succès
+    new_follower:
+      headline: Nouvel abonné
+      description_html: L'utilisateur %{follower_name_with_link} a commencé à vous
+        suivre. Vous pouvez %{link} si vous le souhaitez.
+      link_text: les suivre en retour
+    note_comment:
+      headline:
+        commented: Commentaire de la note
+        closed: Note résolue
+        reopened: Note ré-ouverte
+      description:
+        commented_html: L'utilisateur %{commenter_name_with_link} a laissé un commentaire
+          sur la note %{note_id_with_link} ("%{note_text}")
+        closed_html: L'utilisateur %{commenter_name_with_link} a résolu la note %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: L'utilisateur %{commenter_name_with_link} a rouvert la note
+          %{note_id_with_link} ("%{note_text}")
+    diary_comment:
+      headline: Commentaire du journal
+      description_html: L'utilisateur %{commenter_name_with_link} a laissé un commentaire
+        sur l'entrée de journal "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Nouvelle entrée de journal
@@ -2855,18 +2906,22 @@ fr:
           XML. Veuillez zoomer ou sélectionner une zone plus petite ou utiliser une
           des sources suivantes pour le téléchargement massif de données.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planète OSM
           description: Copies régulièrement mises à jour de la base de données complète
             d’OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: API Overpass
           description: Télécharger ce cadre englobant depuis un miroir de la base
             de données OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Téléchargements de Geofabrik
           description: Extractions régulièrement mises à jour des continents, des
             pays et des villes sélectionnées
         other:
+          url: https://wiki.openstreetmap.org/wiki/FR:Downloading_data
           title: Autres sources
           description: Sources supplémentaires listées sur le wiki d’OpenStreetMap
       export_button: Exporter
@@ -2959,6 +3014,8 @@ fr:
       get_directions_title: Trouvez des itinéraires entre deux points
       from: De
       to: À
+      marker_from: Point de départ de l'itinéraire
+      marker_to: Point de fin de l'itinéraire
       where_am_i: Où est-ce ?
       where_am_i_title: Décrit la position actuelle en utilisant le moteur de recherche
       submit_text: Aller
@@ -3352,37 +3409,55 @@ fr:
       heading: Titre
       subheading: Sous-titre
       unordered: Liste non ordonnée
+      ordered: Liste ordonnée
       first: Premier élément
       second: Deuxième élément
       link: Lien
       text: Texte
       image: Image
+      alt: Texte alternatif
       url: URL
       codeblock: Bloc de code
     richtext_field:
+      edit: Modifier
       preview: Aperçu
+      help: Aide
     pagination:
       changeset_comments:
+        older: Commentaires plus anciens
+        newer: Commentaires plus récents
+        oldest: Commentaires les plus anciens
         newest: Commentaires les plus récents
       diary_comments:
         older: Commentaires plus anciens
+        newer: Commentaires plus récents
         oldest: Commentaires les plus anciens
         newest: Commentaires les plus récents
       diary_entries:
+        older: Entrées plus anciennes
         newer: Entrées plus récentes
         oldest: Entrées les plus anciennes
         newest: Entrées les plus récentes
+      notifications:
+        older: Notifications plus anciennes
+        newer: Notifications plus récentes
+        oldest: Notifications les plus anciennes
+        newest: Dernières notifications
       issues:
+        older: Problèmes plus anciens
         newer: Problèmes plus récents
         oldest: Problèmes les plus anciens
         newest: Problèmes les plus récents
       traces:
+        older: Traces plus anciennes
         newer: Traces plus récentes
         oldest: Traces les plus anciennes
         newest: Traces les plus récentes
       user_blocks:
+        older: Blocs plus anciens
         newer: Blocs plus récents
         oldest: Blocs les plus anciens
+        newest: Blocs les plus récents
       users:
         older: Utilisateurs plus anciens
         newer: Utilisateurs plus récents
@@ -3516,6 +3591,7 @@ fr:
       my traces: Mes traces
       my notes: Mes notes
       my messages: Mes messages
+      my_notifications: Mes notifications
       my profile: Mon profil
       my_account: Mon compte
       my comments: Mes commentaires
@@ -4130,21 +4206,36 @@ fr:
     url_characters: contient des caractères d’URL spéciaux (%{characters})
   moderation_zones:
     navigation:
+      new_title: Définir une nouvelle zone de modération
       new: Nouvelle zone de modération
     index:
       title: Zones de modération
       heading: Zones de modération
       name: Nom
       reason: Motif
+      creator: Créateur
       start: Démarrer
       end: Fin
+      status: État
     row:
       edit: Modifier
+    new:
+      title: Nouvelle zone de modération
+      heading: Nouvelle zone de modération
+    create:
+      success: Zone de modération créée.
     edit:
       title: Modification de la zone de modération %{name}
       heading: Modification de la zone de modération %{name}
     update:
       success: Zone de modération mise à jour.
+      only_creator_can_edit: Seul le modérateur qui a créé cette zone de modération
+        peut la modifier.
+      only_creator_can_edit_without_revoking: Seul le modérateur qui a créé cette
+        zone de modération peut la modifier sans l'annuler.
+      only_creator_or_revoker_can_edit: Seul les modérateurs qui ont créé cette zone
+        de modération ou l'ont révoquée peuvent la modifier.
+      no_reactivation: Cette zone de modération est inactive et ne peut pas être réactivée.
     helper:
       short:
         ended: terminé

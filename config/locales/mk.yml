@@ -122,6 +122,11 @@ mk:
         gpx_file: Изберете податотека со ГПС-траги
         visibility: Видливост
         tagstring: Ознаки
+      moderation_zone:
+        name: Име
+        reason: Причина
+        zone: Подрачје
+        period: Период
       message:
         sender: Испраќач
         title: Тема
@@ -644,6 +649,51 @@ mk:
       followed_diaries: дневнички ставки
       nearby_changesets: измени на соседните корисници
       nearby_diaries: дневнички ставки на сосед. корисн.
+  notifications:
+    index:
+      title: Известувања
+      no_notifications: Во моментов немате известувања
+      point_to_preferences_html: Можете да прилагодите како да ги добивате известувањата
+        во %{link}.
+      link_text: одделот за нагодувања
+    changeset_comment:
+      headline: Коментар за промените
+      description_with_summary_html: Корисникот %{commenter_name_with_link} даде коментар
+        за промените %{changeset_id_with_link} („%{changeset_summary}“)
+      description_without_summary_html: Корисникот %{commenter_name_with_link} даде
+        коментар за промените %{changeset_id_with_link}
+    gpx_details:
+      filename: Име на податотеката
+      description: Опис
+      tags: Ознаки
+      total_points: Вкупно точки
+      imported_points: Број на увезени точки
+    gpx_import_failure:
+      headline: Не може да се увезе ГПС-трагата
+      error_message: Известување за грешка
+    gpx_import_success:
+      headline: ГПС-трагата е успешно увезена
+    new_follower:
+      headline: Нов следбеник
+      description_html: Корисникот %{follower_name_with_link} почна да ве следи. Ако
+        сакате, можете %{link}.
+      link_text: и вие да го следите
+    note_comment:
+      headline:
+        commented: Коментар на белешка
+        closed: Белешката е решена
+        reopened: Белешката е повторно отворена
+      description:
+        commented_html: Корисникот %{commenter_name_with_link} даде коментар на белешката
+          %{note_id_with_link} („%{note_text}“)
+        closed_html: Корисникот %{commenter_name_with_link} ја разреши белешката %{note_id_with_link}
+          („%{note_text}“)
+        reopened_html: Корисникот %{commenter_name_with_link} повторно ја отвори белешката
+          %{note_id_with_link} („%{note_text}“)
+    diary_comment:
+      headline: Дневнички коментар
+      description_html: Корисникот %{commenter_name_with_link} даде коментар на дневничката
+        ставка „%{diary_entry_title_with_link}“
   diary_entries:
     new:
       title: Нова дневничка ставка
@@ -2655,16 +2705,20 @@ mk:
           или изберете помала површина. Можете и да се послужите со еден од следниве
           извори за крупно преземање:'
         planet:
+          url: https://planet.openstreetmap.org/
           title: Планетата на OSM
           description: Редовно подновувани примероци на целата база на OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Извршник „Надвозник“
           description: Преземете ја оваа рамка од огледална база на базата на OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Преземања на Geofabrik
           description: Редовно подновувани извадоци од континенти, земји и избрани
             градови
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Други извори
           description: Другите извори се наведени на викито на OpenStreetMap
       export_button: Извези
@@ -2750,6 +2804,8 @@ mk:
       get_directions_title: Добијте насоки за движење меѓу две точки
       from: Од
       to: До
+      marker_from: Ознака за почеток на патен правец
+      marker_to: Ознака за крај на патен правец
       where_am_i: Каде е ова?
       where_am_i_title: Опишете ја тековната местоположба со помош на пребарувачот
       submit_text: Дај
@@ -3157,6 +3213,11 @@ mk:
         newer: Понови ставки
         oldest: Најстари ставки
         newest: Најнови ставки
+      notifications:
+        older: Постари известувања
+        newer: Понови известувања
+        oldest: Најстари известувања
+        newest: Најнови известувања
       issues:
         older: Постари проблеми
         newer: Понови проблеми
@@ -3301,6 +3362,7 @@ mk:
       my traces: Мои траги
       my notes: Мои белешки
       my messages: Мои пораки
+      my_notifications: Мои известувања
       my profile: Мојот профил
       my_account: Моја сметка
       my comments: Мои коментари
@@ -3902,4 +3964,41 @@ mk:
     trailing_whitespace: има завршна белина
     invalid_characters: содржи неважечки знаци
     url_characters: содржи посебни знаци во URL-то (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Одреди ново подрачје на модерација
+      new: Ново подрачје на модерација
+    index:
+      title: Подрачја на модерација
+      heading: Подрачја на модерација
+      name: Име
+      reason: Причина
+      creator: Создавач
+      start: Почеток
+      end: Крај
+      status: Статус
+    row:
+      edit: Уреди
+    new:
+      title: Ново подрачје на модерација
+      heading: Ново подрачје на модерација
+    create:
+      success: Подрачјето на модерација е созадено.
+    edit:
+      title: Уредување на подрачјето на модерација %{name}
+      heading: Уредување на подрачјето на модерација %{name}
+    update:
+      success: Подрачјето на модерација е подновено.
+      only_creator_can_edit: Само модераторот кој го создал ова подрачје на модерација
+        може да го уредува.
+      only_creator_can_edit_without_revoking: Само модераторот кој го создал ова подрачје
+        на модерација може да го уредува без отповикување.
+      only_creator_or_revoker_can_edit: Само модераторите кои го создале или отповикале
+        ова подрачје на модерација можат да го уредуваат.
+      no_reactivation: Ова подрачје на модерација е неактивно и не може да се реактивира.
+    helper:
+      short:
+        ended: завршено
+        active: активно
+        revoked_html: отповикано од %{name}
 ...
