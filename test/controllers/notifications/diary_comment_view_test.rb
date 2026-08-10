@@ -19,5 +19,27 @@ module Notifications
         assert_dom "blockquote", diary_comment.body
       end
     end
+
+    def test_render_with_long_text
+      comment_user = build_stubbed(
+        :user,
+        :display_name => "Helpful Commenter"
+      )
+      diary_entry = build_stubbed(:diary_entry)
+      diary_comment = build_stubbed(
+        :diary_comment,
+        :user => comment_user,
+        :diary_entry => diary_entry,
+        :body => read_fixture_file("lorem_ipsum.txt")
+      )
+      notification = build_stubbed(:notification, :record => diary_comment)
+
+      render(
+        "notifications/notification",
+        :notification => notification
+      )
+
+      assert_dom ".web-notification blockquote p", :count => 3
+    end
   end
 end

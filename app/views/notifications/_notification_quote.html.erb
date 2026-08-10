@@ -1,5 +1,9 @@
 <%# locals: (body: nil) %>
 
 <blockquote class="col-10 border-start border-light-subtle border-3 ps-2">
-  <%= body %>
+  <% truncated_entry = body.truncate_html(1000) %>
+  <%= truncated_entry[:html] %>
+  <% if truncated_entry[:truncated] %>
+    <p>&hellip;</p>
+  <% end %>
 </blockquote>
