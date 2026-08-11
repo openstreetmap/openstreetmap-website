@@ -18,4 +18,10 @@ module TraceHelper
   def trace_picture(trace, options = {})
     trace_image(trace, :animated => true, :size => 250, **options)
   end
+
+  def trace_visibility_options(trace)
+    trace.selectable_visibilities.map do |visibility|
+      [t("traces.visibility.#{visibility}"), visibility]
+    end
+  end
 end

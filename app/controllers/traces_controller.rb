@@ -85,7 +85,7 @@ class TracesController < ApplicationController
 
   def new
     @title = t ".upload_trace"
-    @trace = Trace.new(:visibility => default_visibility)
+    @trace = Trace.new(:visibility => current_user.default_trace_visibility)
   end
 
   def edit
@@ -208,18 +208,6 @@ class TracesController < ApplicationController
 
   def offline_redirect
     render :action => :offline if Settings.status == "gpx_offline"
-  end
-
-  def default_visibility
-    visibility = current_user.preferences.find_by(:k => "gps.trace.visibility")
-
-    if visibility
-      visibility.v
-    elsif current_user.preferences.find_by(:k => "gps.trace.public", :v => "default").nil?
-      "private"
-    else
-      "public"
-    end
   end
 
   def trace_params
