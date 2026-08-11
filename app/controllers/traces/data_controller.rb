@@ -2,6 +2,8 @@
 
 module Traces
   class DataController < ApplicationController
+    include GpxDownloadMethods
+
     layout :site_layout
 
     before_action :authorize_web
@@ -23,7 +25,7 @@ module Traces
         elsif request.format == Mime[:gpx]
           send_data(trace.xml_file.read, :filename => "#{trace.id}.gpx", :type => request.format.to_s, :disposition => "attachment")
         elsif trace.file.attached?
-          redirect_to rails_blob_path(trace.file, :disposition => "attachment")
+          send_trace_file(trace)
         else
           send_file(trace.trace_name, :filename => "#{trace.id}#{trace.extension_name}", :type => trace.mime_type, :disposition => "attachment")
         end
