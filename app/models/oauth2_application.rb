@@ -41,6 +41,6 @@ class Oauth2Application < Doorkeeper::Application
   def allowed_scopes
     return if owner.administrator?
 
-    errors.add(:scopes) if scopes.any? { |scope| Oauth::PRIVILEGED_SCOPES.include?(scope) } # rubocop:disable Style/ArrayIntersect
+    errors.add(:scopes) if scopes.any? { |scope| Oauth::PRIVILEGED_SCOPES.include?(scope) }
   end
 end
