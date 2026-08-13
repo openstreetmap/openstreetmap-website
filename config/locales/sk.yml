@@ -71,7 +71,7 @@ sk:
         update: Uložiť zmeny
       user_block:
         create: Vytvoriť blokovanie
-        update: Aktualizovať blokáciu
+        update: Aktualizovať blokovanie
   activerecord:
     errors:
       messages:
@@ -83,6 +83,10 @@ sk:
           attributes:
             url:
               http_parse_error: URL adresa by mala začínať na http:// alebo https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: nedá sa zmeniť späť na starú hodnotu
     models:
       acl: Zoznam prístupových práv
       changeset: Sada zmien
@@ -260,6 +264,65 @@ sk:
         few: pred %{count} rokmi
         many: pred %{count} rokmi
         other: pred %{count} rokmi
+    distance_in_words_in:
+      about_x_hours:
+        one: o približne %{count} hodinu
+        few: o približne %{count} hodiny
+        many: o približne %{count} hodín
+        other: o približne %{count} hodín
+      about_x_months:
+        one: o približne %{count} mesiac
+        few: o približne %{count} mesiace
+        many: o približne %{count} mesiacov
+        other: o približne %{count} mesiacov
+      about_x_years:
+        one: o približne %{count} rok
+        few: o približne %{count} roky
+        many: o približne %{count} rokov
+        other: o približne %{count} rokov
+      almost_x_years:
+        one: o takmer %{count} rok
+        few: o takmer %{count} roky
+        many: o takmer %{count} rokov
+        other: o takmer %{count} rokov
+      half_a_minute: o pol minúty
+      less_than_x_seconds:
+        one: o menej ako %{count} sekundu
+        few: o menej ako %{count} sekundy
+        many: o menej ako %{count} sekúnd
+        other: o menej ako %{count} sekúnd
+      less_than_x_minutes:
+        one: o menej ako %{count} minútu
+        few: o menej ako %{count} minúty
+        many: o menej ako %{count} minút
+        other: o menej ako %{count} minút
+      over_x_years:
+        one: o menej ako %{count} rok
+        few: o menej ako %{count} roky
+        many: o menej ako %{count} rokov
+        other: o menej ako %{count} rokov
+      x_seconds:
+        one: o %{count} sekundu
+        few: o %{count} sekundy
+        many: o %{count} sekúnd
+        other: o %{count} sekúnd
+      x_minutes:
+        one: o {count} minútu
+        few: o %{count} minúty
+        many: o %{count} minút
+        other: o %{count} minút
+      x_days: '{{PLURAL|one=o {count} deň|few=o %{count} dni|many=o %{count} dní|o
+        %{count} dní}'
+      x_months:
+        one: o %{count} mesiac
+        few: o %{count} mesiace
+        many: o %{count} mesiacov
+        other: o %{count} mesiacov
+      x_years:
+        one: o %{count} rok
+        few: o %{count} roky
+        many: o %{count} rokov
+        other: o %{count} rokov
   printable_name:
     with_name_html: '%{name} (%{id})'
     current_and_old_links_html: '%{current_link}, %{old_link}'
@@ -3388,10 +3451,10 @@ sk:
         oldest: Najstaršie stopy
         newest: Najnovšie stopy
       user_blocks:
-        older: Staršie blokácie
-        newer: Novšie blokácie
+        older: Staršie blokovania
+        newer: Novšie blokovania
         oldest: Najstaršie blokovania
-        newest: Najnovšie blokácie
+        newest: Najnovšie blokovania
       users:
         older: Starší používatelia
         newer: Novší používatelia
@@ -3411,7 +3474,7 @@ sk:
       write_gpx: Nahrávať stopy GPS
       write_notes: Meniť poznámky
       write_redactions: Upravovať údaje mapy
-      write_blocks: Vytvárať a rušiť blokácie používateľov
+      write_blocks: Vytvárať a rušiť blokovania používateľov
       read_email: Čítať používateľovu emailovú adresu
       consume_messages: Čítať, aktualizovať stav a mazať správy používateľov
       send_messages: Posielať súkromné správy iným používateľom
@@ -3535,7 +3598,7 @@ sk:
       my_preferences: Moje predvoľby
       my_dashboard: Moja nástenka
       blocks on me: Blokovania na mňa
-      blocks by me: Mnou udelené blokácie
+      blocks by me: Mnou udelené blokovania
       create_mute: Stlmiť tohto používateľa
       destroy_mute: Zrušiť stlmenie tohto používateľa
       send message: Poslať správu
@@ -3556,9 +3619,9 @@ sk:
       created from: 'Vytvorené od:'
       status: 'Stav:'
       spam score: 'Spam skóre:'
-      block_history: Aktívne blokácie
-      moderator_history: Udelené blokácie
-      revoke_all_blocks: Odvolať všetky blokácie
+      block_history: Aktívne blokovania
+      moderator_history: Udelené blokovania
+      revoke_all_blocks: Odvolať všetky blokovania
       comments: Komentáre
       create_block: Blokovať tohoto používateľa
       activate_user: Aktivovať tohoto používateľa
@@ -3780,7 +3843,7 @@ sk:
         active: aktívne
         active_until_read: aktívne až do prečítania
         read_html: prečítané dňa %{time}
-        time_in_future_title: '%{time_absolute}; %{time_relative} uplynutými od teraz'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} zablokovaný používateľom %{block_by}'

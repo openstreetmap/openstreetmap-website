@@ -56,6 +56,10 @@ mk:
           attributes:
             url:
               http_parse_error: URL-адресата треба да почнува со http:// или https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: не може да се врати на стара вредност
     models:
       acl: Список за контрола на пристап
       changeset: Измени
@@ -209,6 +213,44 @@ mk:
       x_years:
         one: пред %{count} година
         other: пред %{count} години
+    distance_in_words_in:
+      about_x_hours:
+        one: за околу %{count} час
+        other: за околу %{count} часа
+      about_x_months:
+        one: за околу %{count} месец
+        other: за околу %{count} месеци
+      about_x_years:
+        one: за околу %{count} година
+        other: за околу %{count} години
+      almost_x_years:
+        one: за речиси %{count} година
+        other: за речиси %{count} години
+      half_a_minute: за половина минута
+      less_than_x_seconds:
+        one: за помалку од %{count} секунда
+        other: за помалку од %{count} секунди
+      less_than_x_minutes:
+        one: за помалку од %{count} минута
+        other: за помалку од %{count} минути
+      over_x_years:
+        one: за преку %{count} година
+        other: за преку %{count} години
+      x_seconds:
+        one: за %{count} секунда
+        other: за %{count} секунди
+      x_minutes:
+        one: за %{count} минута
+        other: за %{count} минути
+      x_days:
+        one: за %{count} ден
+        other: за %{count} дена
+      x_months:
+        one: за %{count} месец
+        other: за %{count} месеци
+      x_years:
+        one: за %{count} година
+        other: за %{count} години
   editor:
     default: По основно (моментално %{name})
     id:
@@ -3595,7 +3637,7 @@ mk:
         active: активен
         active_until_read: активно додека не се прочита
         read_html: порочитај во %{time}
-        time_in_future_title: '%{time_absolute}; за %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} блокиран од %{block_by}'
