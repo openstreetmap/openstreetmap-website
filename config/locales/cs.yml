@@ -105,6 +105,10 @@ cs:
           attributes:
             url:
               http_parse_error: URL by mělo začínat na http:// nebo https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: nelze nastavit zpět na zastaralou hodnotu
     models:
       acl: Seznam přístupových práv
       changeset: Sada změn
@@ -284,6 +288,68 @@ cs:
         few: před %{count} lety
         many: před %{count} roku
         other: před %{count} lety
+    distance_in_words_in:
+      about_x_hours:
+        one: asi za hodinu
+        few: asi za %{count} hodiny
+        many: asi za %{count} hodiny
+        other: asi za %{count} hodin
+      about_x_months:
+        one: asi za měsíc
+        few: asi za %{count} měsíce
+        many: asi za %{count} měsíce
+        other: asi za %{count} měsíců
+      about_x_years:
+        one: asi za rok
+        few: asi za %{count} roky
+        many: asi za %{count} roku
+        other: asi za %{count} let
+      almost_x_years:
+        one: za necelý rok
+        few: za necelé %{count} roky
+        many: za necelého %{count} roku
+        other: za necelých %{count} let
+      half_a_minute: za půl minuty
+      less_than_x_seconds:
+        one: za necelou sekundu
+        few: za necelé %{count} sekundy
+        many: za necelé %{count} sekundy
+        other: za necelých %{count} sekund
+      less_than_x_minutes:
+        one: za necelou minutu
+        few: za necelé %{count} minuty
+        many: za necelých %{count} minuty
+        other: za necelých %{count} minut
+      over_x_years:
+        one: za více než rok
+        few: za více než %{count} roky
+        many: za více než %{count} roku
+        other: za více než %{count} let
+      x_seconds:
+        one: za %{count} sekundu
+        few: za %{count} sekundy
+        many: za %{count} sekundy
+        other: za %{count} sekund
+      x_minutes:
+        one: za %{count} minutu
+        few: za %{count} minuty
+        many: za %{count} minuty
+        other: za %{count} minut
+      x_days:
+        one: za %{count} den
+        few: za %{count} dny
+        many: za %{count} dne
+        other: za %{count} dní
+      x_months:
+        one: za %{count} měsíc
+        few: za %{count} měsíce
+        many: za %{count} měsíce
+        other: za %{count} měsíců
+      x_years:
+        one: za %{count} rok
+        few: za %{count} roky
+        many: za %{count} roku
+        other: za %{count} let
   editor:
     default: Výchozí (aktuálně %{name})
     id:
@@ -2791,12 +2857,15 @@ cs:
           Přejděte na větší měřítko, zvolte menší oblast, nebo použijte jeden z následujících
           zdrojů pro stahování velkého množství dat:'
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planeta OSM
           description: Pravidelně aktualizované kopie kompletní databáze OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: Stažení této oblasti z databázového zrcadla OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Soubory Geofabrik
           description: Pravidelně aktualizované extrakty kontinentů zemí a vybraných
             měst
@@ -2886,6 +2955,8 @@ cs:
       get_directions_title: Najít trasu mezi dvěma body
       from: Odkud
       to: Kam
+      marker_from: Značka začátku trasy
+      marker_to: Značka konce trasy
       where_am_i: Kde je toto?
       where_am_i_title: Popsat právě zobrazované místo pomocí vyhledávače
       submit_text: Hledat
@@ -3694,7 +3765,7 @@ cs:
         active: aktivní
         active_until_read: aktivní dokud nepřečteno
         read_html: přečteno %{time}
-        time_in_future_title: '%{time_absolute}; za %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} zablokován uživatelem %{block_by}'

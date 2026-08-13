@@ -56,6 +56,10 @@ ga:
           attributes:
             url:
               http_parse_error: Ba chóir go dtosódh an URL le http:// nó https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: ní féidir é a athrú ar ais go luach oidhreachta
     models:
       acl: Liosta Rialaithe Rochtana
       changeset: Tacar athruithe
@@ -122,6 +126,11 @@ ga:
         gpx_file: Roghnaigh Comhad Rianaithe GPS
         visibility: Infheictheacht
         tagstring: Clibeanna
+      moderation_zone:
+        name: Ainm
+        reason: Cúis
+        zone: Crios
+        period: Tréimhse
       message:
         sender: Seoltóir
         title: Ábhar
@@ -241,6 +250,80 @@ ga:
         few: '%{count} bliain ó shin'
         many: '%{count} bliain ó shin'
         other: '%{count} bliain ó shin'
+    distance_in_words_in:
+      about_x_hours:
+        one: i thart ar %{count} uair an chloig
+        two: i thart ar %{count} uair an chloig
+        few: i thart ar %{count} uair an chloig
+        many: i thart ar %{count} uair an chloig
+        other: i thart ar %{count} uair an chloig
+      about_x_months:
+        one: i gceann thart ar %{count} mí
+        two: i gceann thart ar %{count} mí
+        few: i gceann thart ar %{count} mí
+        many: i gceann thart ar %{count} mí
+        other: i gceann thart ar %{count} mí
+      about_x_years:
+        one: i gceann thart ar %{count} bliain
+        two: i gceann thart ar %{count} bliain
+        few: i gceann thart ar %{count} bliain
+        many: i gceann thart ar %{count} bliain
+        other: i gceann thart ar %{count} bliain
+      almost_x_years:
+        one: i mbeagnach %{count} bliain
+        two: i mbeagnach %{count} bliain
+        few: i mbeagnach %{count} bliain
+        many: i mbeagnach %{count} bliain
+        other: i mbeagnach %{count} bliain
+      half_a_minute: i leathnóiméad
+      less_than_x_seconds:
+        one: i níos lú ná %{count} soicind
+        two: i níos lú ná %{count} soicind
+        few: i níos lú ná %{count} soicind
+        many: i níos lú ná %{count} soicind
+        other: i níos lú ná %{count} soicind
+      less_than_x_minutes:
+        one: i níos lú ná %{count} nóiméad
+        two: i níos lú ná %{count} nóiméad
+        few: i níos lú ná %{count} nóiméad
+        many: i níos lú ná %{count} nóiméad
+        other: i níos lú ná %{count} nóiméad
+      over_x_years:
+        one: i níos mó ná %{count} bliain
+        two: i níos mó ná %{count} bliain
+        few: i níos mó ná %{count} bliain
+        many: i níos mó ná %{count} bliain
+        other: i níos mó ná %{count} bliain
+      x_seconds:
+        one: i %{count} soicind
+        two: i %{count} soicind
+        few: i %{count} soicind
+        many: i %{count} soicind
+        other: i %{count} soicind
+      x_minutes:
+        one: i %{count} nóiméad
+        two: i %{count} nóiméad
+        few: i %{count} nóiméad
+        many: i %{count} nóiméad
+        other: i %{count} nóiméad
+      x_days:
+        one: i %{count} lá
+        two: i %{count} lá
+        few: i %{count} lá
+        many: i %{count} lá
+        other: i %{count} lá
+      x_months:
+        one: i %{count} mí
+        two: i %{count} mí
+        few: i %{count} mí
+        many: i %{count} mí
+        other: i %{count} mí
+      x_years:
+        one: i %{count} bliain
+        two: i %{count} bliain
+        few: i %{count} bliain
+        many: i %{count} bliain
+        other: i %{count} bliain
   printable_name:
     with_name_html: '%{name} (%{id})'
     current_and_old_links_html: '%{current_link}, %{old_link}'
@@ -415,6 +498,11 @@ ga:
           do chuid eagarthóireachtaí sa Fhearann ​​Poiblí.
         did_not_confirm: Níor dheimhnigh tú go measann tú go bhfuil do chuid eagarthóireachtaí
           sa Fhearann ​​Poiblí.
+    auth_deletions:
+      show:
+        title: Iarratas ar scriosadh sonraí
+        body: Baineadh sonraí le haghaidh %{provider} ID %{id} ag %{time} agus dícheanglaíodh
+          ón gcuntas OpenStreetMap gaolmhar é.
   browse:
     deleted_ago_by_html: Scriosta %{time_ago} ag %{user}
     edited_ago_by_html: Eagarthóireacht déanta %{time_ago} ag %{user}
@@ -732,6 +820,51 @@ ga:
       followed_diaries: iontrálacha dialainne
       nearby_changesets: tacair athruithe úsáideora in aice láimhe
       nearby_diaries: iontrálacha dialainne úsáideora in aice láimhe
+  notifications:
+    index:
+      title: Fógraí
+      no_notifications: Níl aon fhógraí agat faoi láthair
+      point_to_preferences_html: Is féidir leat an chaoi a bhfaigheann tú fógraí a
+        choigeartú i %{link}.
+      link_text: an chuid roghanna
+    changeset_comment:
+      headline: Trácht Athraithe
+      description_with_summary_html: D’fhág úsáideoir %{commenter_name_with_link}
+        trácht ar changeset %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: D’fhág úsáideoir %{commenter_name_with_link}
+        trácht ar changeset %{changeset_id_with_link}
+    gpx_details:
+      filename: Ainm comhaid
+      description: Cur síos
+      tags: Clibeanna
+      total_points: Líon iomlán na bpointí
+      imported_points: Líon na bpointí allmhairithe
+    gpx_import_failure:
+      headline: Níorbh fhéidir rian GPS a allmhairiú
+      error_message: Teachtaireacht earráide
+    gpx_import_success:
+      headline: Iompórtáladh rian GPS go rathúil
+    new_follower:
+      headline: Leantóir nua
+      description_html: Thosaigh an t-úsáideoir %{follower_name_with_link} ag leanúint
+        leat. Is féidir leat %{link} a úsáid más mian leat.
+      link_text: lean ar ais iad
+    note_comment:
+      headline:
+        commented: Tabhair faoi deara conas
+        closed: Nóta réitithe
+        reopened: Nóta athoscailte
+      description:
+        commented_html: D’fhág úsáideoir %{commenter_name_with_link} trácht ar nóta
+          %{note_id_with_link} ("%{note_text}")
+        closed_html: Réitigh úsáideoir %{commenter_name_with_link} nóta %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: D’athoscail úsáideoir %{commenter_name_with_link} nóta %{note_id_with_link}
+          ("%{note_text}")
+    diary_comment:
+      headline: Trácht dialainne
+      description_html: D’fhág úsáideoir %{commenter_name_with_link} trácht ar iontráil
+        dialainne "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Iontráil Nua Dialainne
@@ -2801,7 +2934,7 @@ ga:
           %{ngi_link}, cóipcheart Stáit ar cosaint.'
         contributors_za_south_africa: An Afraic Theas
         contributors_za_ngi: 'Chief Directorate: National Geo-Spatial Information'
-        contributors_za_ngi_url: https://ngi.dalrrd.gov.za/
+        contributors_za_ngi_url: https://ngi.dlrrd.gov.za/
         contributors_gb_credit_html: |-
           %{united_kingdom}: Tá Ordanáis ann
           Sonraí suirbhéireachta &cóip; cóipcheart na Corónach agus ceart bunachar sonraí
@@ -2847,18 +2980,22 @@ ga:
           Zúmáil isteach nó roghnaigh limistéar níos lú, nó bain triail as ceann de
           na foinsí atá sa liosta thíos chun bulc-íoslódálacha sonraí a dhéanamh.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: Cóipeanna a dhéantar a nuashonrú go rialta de bhunachar sonraí
             iomlán OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Comhéadan feidhmchláir Overpass
           description: Íoslódáil an bosca teorainn seo ó scáthán den bhunachar sonraí
             OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Íoslódálacha Geofabrik
           description: Asbhaintí a thugtar cothrom le dáta go rialta de mhór-ranna,
             tíortha agus cathracha roghnaithe
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Foinsí Eile
           description: Tá liosta de na foinsí breise ar vicí OpenStreetMap
       export_button: Easportáil
@@ -2953,6 +3090,8 @@ ga:
       get_directions_title: Treoracha a aimsiú idir dhá phointe
       from: Ó
       to: Chuig
+      marker_from: Marcóir tosaithe bealaigh
+      marker_to: Marcóir deiridh bealaigh
       where_am_i: Cá háit é seo?
       where_am_i_title: Cur síos a dhéanamh ar an suíomh reatha leis an inneall cuardaigh
       submit_text: Gabh
@@ -3356,41 +3495,60 @@ ga:
     markdown_help:
       heading_html: Parsáilte le %{kramdown_link}
       kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Ceannteidil
       heading: Ceannteideal
       subheading: Fo-cheannteideal
       unordered: Liosta gan ord
+      ordered: Liosta ordaithe
       first: An chéad mhír
       second: An dara mír
       link: Nasc
       text: Téacs
       image: Íomhá
+      alt: Téacs malartach
       url: URL
       codeblock: Bloc cóid
     richtext_field:
+      edit: Cuir in eagar
       preview: Réamhamharc
+      help: Cabhair
     pagination:
       changeset_comments:
+        older: Tráchtanna níos sine
+        newer: Tráchtanna níos nuaí
+        oldest: Na Tráchtanna is Sine
         newest: Na Tráchtanna is Déanaí
       diary_comments:
         older: Nótaí Tráchta Níos Sine
+        newer: Tráchtanna níos nuaí
         oldest: Na Tráchtanna is Sine
         newest: Na Tráchtanna is Déanaí
       diary_entries:
+        older: Iontrálacha Níos Sine
         newer: Iontrálacha Níos Nuaí
         oldest: Iontrálacha is Sine
         newest: Iontrálacha is Déanaí
+      notifications:
+        older: Fógraí Níos Sine
+        newer: Fógraí níos nuaí
+        oldest: Fógraí is Sine
+        newest: Fógraí is Déanaí
       issues:
+        older: Eisiúint Níos Sine
         newer: Eagráin níos nuaí
         oldest: Na hEagráin is Sine
         newest: Na hEagráin is Déanaí
       traces:
+        older: Rianta Níos Sine
         newer: Loirg Níos Úire
         oldest: Rianta is Sine
         newest: Rianta is Déanaí
       user_blocks:
+        older: Bloic Níos Sine
         newer: Bloic níos nuaí
         oldest: Bloic is Sine
+        newest: Bloic is Nuaí
       users:
         older: Úsáideoirí níos sine
         newer: Úsáideoirí níos nuaí
@@ -3531,6 +3689,7 @@ ga:
       my traces: Loirg uaimse
       my notes: Mo Nótaí
       my messages: Mo Theachtaireachtaí
+      my_notifications: Mo Fhógraí
       my profile: Mo Phróifíl
       my_account: Mo Chuntas
       my comments: Mo Nótaí Tráchta
@@ -3790,7 +3949,7 @@ ga:
         active: gníomhach
         active_until_read: gníomhach go dtí go léitear
         read_html: léite ag %{time}
-        time_in_future_title: '%{time_absolute}; i %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} blocáilte ag %{block_by}'
@@ -4185,4 +4344,42 @@ ga:
     trailing_whitespace: tá spás bán ina dhiaidh
     invalid_characters: tá carachtair neamhbhailí ann
     url_characters: ina bhfuil carachtair URL speisialta (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Sainmhínigh crios modhnóireachta nua
+      new: Crios Nua Modhnóireachta
+    index:
+      title: Criosanna Measarthachta
+      heading: Criosanna Measarthachta
+      name: Ainm
+      reason: Cúis
+      creator: Cruthaitheoir
+      start: Tosaigh
+      end: Deireadh
+      status: Stádas
+    row:
+      edit: Cuir in Eagar
+    new:
+      title: Crios Nua Modhnóireachta
+      heading: Crios Nua Modhnóireachta
+    create:
+      success: Cruthaíodh crios modhnóireachta.
+    edit:
+      title: Ag eagarthóireacht crios modhnóireachta %{name}
+      heading: Ag eagarthóireacht crios modhnóireachta %{name}
+    update:
+      success: Crios modhnóireachta nuashonraithe.
+      only_creator_can_edit: Ní féidir ach leis an modhnóir a chruthaigh an crios
+        modhnóireachta seo é a chur in eagar.
+      only_creator_can_edit_without_revoking: Ní féidir ach leis an modhnóir a chruthaigh
+        an crios modhnóireachta seo é a chur in eagar gan é a chúlghairm.
+      only_creator_or_revoker_can_edit: Ní féidir ach leis na modhnóirí a chruthaigh
+        nó a chúlghairm an crios modhnóireachta seo é a chur in eagar.
+      no_reactivation: Tá an crios modhnóireachta seo neamhghníomhach agus ní féidir
+        é a athghníomhachtú.
+    helper:
+      short:
+        ended: críochnaithe
+        active: gníomhach
+        revoked_html: cúlghairmthe ag %{name}
 ...

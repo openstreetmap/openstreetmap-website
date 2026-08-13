@@ -70,8 +70,8 @@ sl:
               http_parse_error: URL se mora začeti s http:// ali https://
     models:
       acl: Seznam nadzora dostopa
-      changeset: Nabor sprememb
-      changeset_tag: Oznaka nabora sprememb
+      changeset: Sklop sprememb
+      changeset_tag: Oznaka sklopa sprememb
       country: Država
       diary_comment: Dnevniški komentar
       diary_entry: Dnevniški zapis
@@ -134,6 +134,9 @@ sl:
         gpx_file: Izberi datoteko sledi GPS
         visibility: Vidnost
         tagstring: Oznake
+      moderation_zone:
+        name: Ime
+        reason: Razlog
       message:
         sender: Pošiljatelj
         title: Zadeva
@@ -247,7 +250,7 @@ sl:
       description: iD (urejevalnik v brskalniku)
     remote:
       name: Oddaljeni nadzor
-      description: Oddaljeni nadzor (JOSM, Potlatch, Merkaartor)
+      description: oddaljeni nadzor (JOSM, Potlatch, Merkaartor)
   auth:
     providers:
       none: Brez
@@ -345,7 +348,7 @@ sl:
           obstajajo, vendar si jih ne bo mogoče ogledati.
         retain_notes: Ohranjeni bodo morebitne opombe na zemljevidu in komentarji
           k opombam, vendar si jih ne bo mogoče ogledati.
-        retain_changeset_discussions: Ohranjeni bodo vaši pogovori o naborih sprememb,
+        retain_changeset_discussions: Ohranjeni bodo vaši pogovori o sklopih sprememb,
           če obstajajo.
         retain_email: Ohranjen bo vaš e-poštni naslov.
         recent_editing_html: Pred kratkim ste urejali, zato vašega računa trenutno
@@ -397,12 +400,15 @@ sl:
         successfully_declared: Uspešno ste izjavili, da so vaša urejana v javni domeni.
         already_declared: Ste že izjavili, da so vaša urejanja del javne domene.
         did_not_confirm: Niste potrdili, da so vaša urejanja del javne domene.
+    auth_deletions:
+      show:
+        title: Zahtevek za izbris podatkov
   browse:
     deleted_ago_by_html: Izbrisal %{user} %{time_ago}
     edited_ago_by_html: Uredil_a %{user} %{time_ago}
     version: Različica
     redacted_version: Skrita različica
-    in_changeset: Nabor sprememb
+    in_changeset: Sklop sprememb
     anonymous: brezimni
     no_comment: (brez komentarja)
     part_of: Del
@@ -457,7 +463,7 @@ sl:
         node: vozlišče
         way: pot
         relation: zveza
-        changeset: nabor sprememb
+        changeset: sklop sprememb
         note: opomba
     redacted:
       redaction: Redakcija %{id}
@@ -558,11 +564,11 @@ sl:
   changeset_comments:
     feeds:
       comment:
-        comment: 'Nov komentar o sklopu sprememb #%{changeset_id} uporabnika %{author}'
+        comment: 'Nov komentar k sklopu sprememb #%{changeset_id} uporabnika %{author}'
         commented_at_by_html: Posodobil_a %{user} %{when}
       show:
         title_all: Razprava o sklopu sprememb OpenStreetMap
-        title_particular: 'Razprava o naboru sprememb OpenStreetMap #%{changeset_id}'
+        title_particular: 'Razprava o sklopu sprememb OpenStreetMap #%{changeset_id}'
       timeout:
         sorry: Žal je trajalo pridobivanje seznama komentarjev sklopa sprememb, ki
           ste ga zahtevali, predolgo.
@@ -597,7 +603,7 @@ sl:
       title: Sklopi sprememb
       title_user: Sklopi sprememb od %{user}
       title_user_link_html: Sklopi sprememb uporabnika_ce %{user_link}
-      title_followed: Sklopi srememb uporabnikov, ki jim sledite.
+      title_followed: Sklopi sprememb uporabnikov, ki jim sledite
       title_nearby: Sklopi sprememb bližnjih uporabnikov
       empty: Ni najdenih sklopov sprememb.
       empty_area: Na tem območju ni sklopov sprememb.
@@ -623,8 +629,8 @@ sl:
       closed_ago_by_html: Zaprl_a %{time_ago} %{user}
       discussion: Razprava
       join_discussion: Prijavite se za pridružitev razpravi
-      still_open: Sklop sprememb je še vedno odprt – razprava se bo začela, ko bo
-        sklop sprememb zaprt.
+      still_open: Sklop sprememb je še vedno odprt – razprava bo mogoča, ko bo sklop
+        sprememb zaprt.
       subscribe: Naroči me
       unsubscribe: Odnaroči me
       comment_by_html: Komentar od %{user} %{time_ago}
@@ -656,11 +662,11 @@ sl:
         button: Odnaročilo od razprave
     heading:
       title: Sklop sprememb %{id}
-      created_by_html: Ustvaril %{link_user} dne %{created}.
+      created_by_html: Ustvaril_a %{link_user} dne %{created}.
     no_such_entry:
       heading: Zapisa z ID-jem %{id} ni
       body: Oprostite, sklopa sprememb z oznako %{id} ni. Prosimo, preverite črkovanje
-        in povezavo, ki ste jo kliknili.
+        in uporabljeno povezavo.
   dashboards:
     contact:
       km away: oddaljen %{count} km
@@ -683,9 +689,41 @@ sl:
       no nearby users: Ni drugih uporabnikov, ki bi razkrili, da kartirajo v vaši
         bližini.
       followed_changesets: sklopi sprememb
-      followed_diaries: dnevniški vpisi
+      followed_diaries: dnevniški zapisi
       nearby_changesets: sklopi sprememb bližnjih uporabnikov
       nearby_diaries: dnevniški vnosi bližnjih uporabnikov
+  notifications:
+    index:
+      title: Obvestila
+      no_notifications: Trenutno nimate nobenih sporočil
+      point_to_preferences_html: Nastavite lahko, kako želite prejemati obvestila
+        na %{link}.
+      link_text: razdelek nastavitev
+    changeset_comment:
+      headline: Komentar k sklopu sprememb
+      description_with_summary_html: Uporabnik_ca %{commenter_name_with_link} je komentiral_a
+        %{changeset_id_with_link} („%{changeset_summary}“)
+      description_without_summary_html: Uporabnik_ca %{commenter_name_with_link} je
+        komentiral_a %{changeset_id_with_link}
+    gpx_details:
+      filename: Ime datoteke
+      description: Opis
+      tags: Oznake
+      total_points: Skupno število točk
+      imported_points: Število uvoženih točk
+    gpx_import_failure:
+      headline: Sledi GPS ni bilo mogoče uvoziti
+      error_message: Sporočilo o napaki
+    gpx_import_success:
+      headline: Sled GPS je bila uspešno uvožena
+    new_follower:
+      headline: Nov spremljevalec
+    note_comment:
+      headline:
+        commented: Komentar opombe
+        closed: Razrešena opomba
+    diary_comment:
+      headline: Dnevniški komentar
   diary_entries:
     new:
       title: Nov dnevniški zapis
@@ -993,7 +1031,9 @@ sl:
           census: Popisna meja
           national_park: Nacionalni Park
           political: Meja volilnega okraja
+          postal_code: Poštna številka
           protected_area: Zavarovano območje
+          timezone: Časovni pas
           "yes": Meja
         bridge:
           aqueduct: Akvadukt
@@ -1048,7 +1088,7 @@ sl:
           temple: Tempelj
           terrace: Vrstne hiše
           train_station: Poslopje železniške postaje
-          university: Univerza
+          university: Univerzitetna zgradba
           warehouse: Skladišče
           "yes": Zgradba
         club:
@@ -1136,7 +1176,7 @@ sl:
           street_lamp: Ulična svetilka
           tertiary: Lokalna cesta
           tertiary_link: Priključek na lokalno cesto
-          track: Kolovoz
+          track: Kmetijska, gozdarska cesta
           traffic_mirror: Prometno ogledalo
           traffic_signals: Prometna signalizacija
           trailhead: Izhodišče poti
@@ -1169,6 +1209,7 @@ sl:
           milestone: Zgodovinski miljnik
           mine: Rudnik
           mine_shaft: Rudniški jašek
+          monastery: Zgodovinski samostan
           monument: Spomenik
           railway: Zgodovinska železnica
           roman_road: Rimska cesta
@@ -1256,7 +1297,7 @@ sl:
           resort: Letovišče
           sauna: Savna
           slipway: Rampa
-          sports_centre: Športni center
+          sports_centre: Športno središče
           stadium: Stadion
           swimming_pool: Bazen
           track: Dirkalna steza (nemotociklistična)
@@ -1436,6 +1477,7 @@ sl:
           abandoned: Opuščena železnica
           buffer_stop: Tirni zaključek
           construction: Železnica v izgradnji
+          crossing: Prehod pot-železnica
           disused: Opuščena železnica
           funicular: Žična vzpenjača
           halt: Železniško postajališče
@@ -1960,7 +2002,7 @@ sl:
       about: O projektu
       communities: Skupnosti
       copyright: Avtorske pravice
-      donate: Donirajte
+      donate: Darujte
       edit: Uredi
       edit_with: Za urejanje uporabi %{editor}
       export: Izvozi
@@ -2112,29 +2154,28 @@ sl:
       details: Več podatkov o opombi je na voljo na %{url}.
       details_html: Na opombo lahko odgovorite ali izveste več o njej na %{url}.
     changeset_comment_notification:
-      description: Nabor sprememb OpenStreetMap št. %{id}
+      description: Sklop sprememb OpenStreetMap %{id}
       hi: Pozdravljeni, %{to_user},
       commented:
-        subject_own: '[OpenStreetMap] %{commenter} je komentiral enega od vaših naborov
+        subject_own: '[OpenStreetMap] %{commenter} je komentiral enega od vaših sklopov
           sprememb'
-        subject_other: '[OpenStreetMap] %{commenter} je komentiral množico sprememb,
+        subject_other: '[OpenStreetMap] %{commenter} je komentiral sklop sprememb,
           ki vas zanima'
-        your_changeset: '%{commenter} je %{time} komentiral enega od vaših naborov
+        your_changeset: '%{commenter} je %{time} komentiral enega od vaših sklopov
           sprememb'
-        your_changeset_html: '%{commenter} je %{time} podal komentar na enega od vaših
-          naborov sprememb'
-        commented_changeset: '%{commenter} je %{time} komentiral nabor sprememb, ki
+        your_changeset_html: '%{commenter} je %{time} komentiral enega od vaših sklopov
+          sprememb'
+        commented_changeset: '%{commenter} je %{time} komentiral sklop sprememb, ki
           ga spremljate in ga je ustvaril %{changeset_author}'
-        commented_changeset_html: '%{commenter} je podal komentar na nabor sprememb,
-          ki ga opazujete in ki ga je %{time} ustvaril %{changeset_author}'
-        partial_changeset_with_comment: s komentarjem »%{changeset_comment}«
-        partial_changeset_with_comment_html: s komentarjem »%{changeset_comment}«
+        commented_changeset_html: '%{commenter} je komentiral sklop sprememb, ki ga
+          opazujete in ki ga je %{time} ustvaril %{changeset_author}'
+        partial_changeset_with_comment: s komentarjem „%{changeset_comment}“
+        partial_changeset_with_comment_html: s komentarjem „%{changeset_comment}“
         partial_changeset_without_comment: brez komentarja
-      details: Na nabor sprememb lahko odgovorite ali izveste več o njem na  %{url}.
-      details_html: Na nabor sprememb lahko odgovorite ali izveste več o njej na  %{url}.
-      unsubscribe: Od obveščanja o tem naboru sprememb se lahko odnaročite na %{url}.
-      unsubscribe_html: Od obveščanja o tem naboru sprememb se lahko odnaročite na
-        %{url}.
+      details: Na sklop sprememb lahko odgovorite ali izveste več o njem na %{url}.
+      details_html: Na sklop sprememb lahko odgovorite ali izveste več o njem na %{url}.
+      unsubscribe: Od tega sklopa sprememb se lahko odnaročite na %{url}.
+      unsubscribe_html: Od tega sklopa sprememb se lahko na %{url}.
   confirmations:
     confirm:
       heading: Preverite svojo e-pošto!
@@ -2315,7 +2356,7 @@ sl:
     notification_preferences:
       show:
         title: Nastavitve obveščanja
-        changeset_comment: Komentarji nabora sprememb
+        changeset_comment: Komentarji sklopa sprememb
         diary_comment: Dnevniški komentarji
         direct_message: Neposredna sporočila
         gpx_import_failure: 'Uvoz sledi GPS: napaka'
@@ -2420,7 +2461,7 @@ sl:
       remember: Zapomni si me
       lost password link: Ste pozabili geslo?
       login_button: Prijava
-      with external: ali pa se prijavite prek tretje osebe
+      with external: ali pa se prijavite prek tretjega ponudnika
       or: ali
       reset_to_login: Žal vam je geslo poteklo. Za prijavo ponastavite geslo.
       auth failure: Oprostite, prijava s temi podatki ni uspela.
@@ -2904,14 +2945,14 @@ sl:
         secondary: Regionalna cesta
         unclassified: Ostale ceste izven naselij
         pedestrian: Pot za pešce
-        track: Kolovoz
+        track: Kmetijska, gozdarska cesta
         bridleway: Jahalna pot
         cycleway: Kolesarska steza
-        international_bike_route: Mednarodna kolesarska pot
-        national_bike_route: Nacionalna kolesarska steza
-        regional_bike_route: Regionalna kolesarska steza
-        local_bike_route: Krajevna kolesarska steza
-        mountain_bike_route: Gorskokolesarska pot
+        international_bike_route: Mednarodna kolesarska povezava
+        national_bike_route: Državna kolesarska povezava
+        regional_bike_route: Pokrajinska kolesarska povezava
+        local_bike_route: Krajevna kolesarska povezava
+        mountain_bike_route: Gorskokolesarska povezava
         footway: Pešpot
         rail: Železnica
         train: Vlak
@@ -2926,7 +2967,7 @@ sl:
         runway: Vzletno-pristajalna steza
         taxiway: Vozna steza
         apron: Letališka ploščad
-        admin: Upravna razmejitev
+        admin: Upravna meja
         capital: Glavno mesto
         city: Mesto
         orchard: Sadovnjak
@@ -2943,10 +2984,10 @@ sl:
         common: Travniki
         built_up: Pozidano območje
         resident: Naselje
-        retail: Trgovinsko območje
+        retail: Trgovsko območje
         industrial: Industrijsko območje
         commercial: Poslovno območje
-        heathland: Grmičevje
+        heathland: Pritlikavo grmičevje, vresišče
         scrubland: Grmičevje
         lake: Jezero
         reservoir: Vodni zbiralnik
@@ -2959,16 +3000,16 @@ sl:
         cemetery: Pokopališče
         allotments: Vrtički
         pitch: Športno igrišče
-        centre: Športni center
+        centre: Športno središče
         beach: Plaža
         reserve: Naravni rezervat
         military: Vojaško območje
-        school: Šola; univerza
+        school: Šola
         university: Univerza
         hospital: Bolnišnica
         building: Pomembna stavba
         station: Železniška postaja
-        railway_halt: Železniško postajališče
+        railway_halt: Manjše železniško postajališče
         subway_station: Postaja podzemne železnice
         tram_stop: Tramvajsko postajališče
         summit: Vrh
@@ -2976,7 +3017,7 @@ sl:
         tunnel: Črtkana obroba = predor
         bridge: Krepka obroba = most
         private: Zasebni dostop
-        destination: Dostop za dostavo
+        destination: Dostop do cilja
         construction: Ceste v gradnji
         bus_stop: Avtobusno postajališče
         bicycle_shop: Kolesarska trgovina
@@ -3185,6 +3226,7 @@ sl:
       heading: Naslov
       subheading: Podnaslov
       unordered: Neoštevilčen seznam
+      ordered: Urejen seznam
       first: Prvi predmet
       second: Drugi predmet
       link: Povezava
@@ -3193,29 +3235,45 @@ sl:
       url: URL
       codeblock: Blok kode
     richtext_field:
+      edit: Uredi
       preview: Predogled
+      help: Pomoč
     pagination:
       changeset_comments:
+        older: Starejši komentarji
+        newer: Novejši komentarji
+        oldest: Najstarejši komentarji
         newest: Najnovejši komentarji
       diary_comments:
         older: Starejši komentarji
+        newer: Novejši komentarji
         oldest: Najstarejši komentarji
         newest: Najnovejši komentarji
       diary_entries:
+        older: Starejši zapisi
         newer: Novejši zapisi
         oldest: Najstarejši vnosi
         newest: Najnovejši vnosi
+      notifications:
+        older: Starejša obvestila
+        newer: Novejša obvestila
+        oldest: Najstarejša obvestila
+        newest: Najnovejša obvestila
       issues:
+        older: Starejše težave
         newer: Novejše težave
         oldest: Najstarejše težave
         newest: Najnovejše težave
       traces:
+        older: Starejše sledi
         newer: Novejše sledi
         oldest: Najstarejše sledi
         newest: Najnovejše sledi
       user_blocks:
+        older: Starejša blokiranja
         newer: Novejša blokiranja
         oldest: Najstarejša blokiranja
+        newest: Najnovejša blokiranja
       users:
         older: Starejši uporabniki
         newer: Novejši uporabniki
@@ -3230,7 +3288,7 @@ sl:
       write_prefs: Spreminjanje uporabniških nastavitev
       write_diary: Ustvarjajte dnevniške zapise in komentarje
       write_api: Spreminjanje zemljevida
-      write_changeset_comments: Komentar o naborih sprememb
+      write_changeset_comments: Komentar k sklopu sprememb
       read_gpx: Branje zasebnih sledi GPS
       write_gpx: Nalaganje sledi GPS
       write_notes: Spreminjanje opomb
@@ -3329,7 +3387,7 @@ sl:
           e-poštnih naslovih
         html: Vaš naslov ni javno prikazan, za več informacij glejte naš %{privacy_policy_link}.
       or: ali
-      use external auth: ali se prijavite prek tretje osebe
+      use external auth: ali se prijavite prek tretjega ponudnika
       verify_human: Potrdite, da ste človek
     create:
       not_human: Žal ne moremo potrditi, da ste človek. To je potrebno za ustvarjanje
@@ -3346,6 +3404,7 @@ sl:
       my traces: Moje sledi
       my notes: Moje opombe
       my messages: Sporočila
+      my_notifications: Moja obvestila
       my profile: Moj profil
       my_account: Moj račun
       my comments: Moji komentarji
@@ -3474,7 +3533,7 @@ sl:
       index:
         heading_html: Komentarji uporabnika %{user}
         changesets: Sklopi sprememb
-        diary_entries: Dnevniški vpisi
+        diary_entries: Dnevniški zapisi
         no_comments: Brez komentarjev
     changeset_comments:
       index:
@@ -3721,6 +3780,7 @@ sl:
         Ne vnašajte osebnih podatkov ali podatkov iz avtorsko varovanih zemljevidov
         ali imenikov.
       add: Dodaj opombo
+      error: Med ustvarjanjem opombe je prišlo do napake
     new_readonly:
       title: Nova opomba
       warning: Novih opomb ni mogoče ustvarjati, ker je API OpenStreetMap trenutno
@@ -3785,7 +3845,7 @@ sl:
         overlays: Za odpravljanje težav z zemljevidom omogočite prekrivke
         title: Sloji
       openstreetmap_contributors: Sodelavci OpenStreetMap
-      make_a_donation: Donirajte
+      make_a_donation: Darujte
       website_and_api_terms: Pogoji za spletno mesto in API
       cyclosm_credit: Slog ploščic %{cyclosm_link}, gosti jih %{osm_france_link}
       osm_france: OpenStreetMap France
@@ -3913,7 +3973,7 @@ sl:
       show_address: Prikaži naslov
       query_features: Preveri značilnosti
       centre_map: Osredini zemljevid tukaj
-      scroll_to_changeset: Pomaknite se do nabora sprememb
+      scroll_to_changeset: Pomakni se do nabora sprememb
     home:
       marker_title: Moja domača lokacija
       not_set: Domača lokacija za vaš račun ni nastavljena
@@ -3968,4 +4028,13 @@ sl:
     trailing_whitespace: ima končne presledke
     invalid_characters: vsebuje neveljavne znake
     url_characters: vsebuje posebne znake URL (%{characters})
+  moderation_zones:
+    index:
+      name: Ime
+      reason: Razlog
+      start: Začetek
+      end: Konec
+      status: Stanje
+    row:
+      edit: Uredi
 ...
