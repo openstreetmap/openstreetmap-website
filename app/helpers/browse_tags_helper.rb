@@ -47,18 +47,20 @@ module BrowseTagsHelper
       end
       svg + colour_value
     elsif %w[opening_hours collection_times service_times].include?(key)
-      tag2link_link(key, value) || linkify(h(value))
+      basic_link(key, value)
     else
-      safe_join(value.split(";", -1).map { |x| tag2link_link(key, x) || linkify(h(x)) }, ";")
+      safe_join(value.split(";", -1).map { |x| basic_link(key, x) }, ";")
     end
   end
 
   private
 
-  def tag2link_link(key, value)
+  def basic_link(key, value)
     link = TagLinker.tag2link_link(key, value)
-    return nil unless link
+    hv = h(value)
 
-    link_to(h(value), link, :rel => "nofollow")
+    return link_to(hv, link, :rel => "nofollow") if link
+
+    linkify(hv)
   end
 end
