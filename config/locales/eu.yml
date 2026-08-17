@@ -28,6 +28,9 @@
 # Author: Xabier Armendaritz
 ---
 eu:
+  date:
+    formats:
+      contribution_calendar: '%B-k %-d'
   time:
     formats:
       friendly: '%e %B %Y %H:%M-ean'
@@ -68,6 +71,10 @@ eu:
           attributes:
             url:
               http_parse_error: URLak http:// edo https://-rekin hasi behar du
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: ezin da balio zahar batera itzuli
     models:
       acl: Kontrol zerrendara sartu
       changeset: Aldaketa multzoa
@@ -81,6 +88,7 @@ eu:
       message: Mezua
       node: Nodoa
       node_tag: Nodoaren etiketa
+      note: Oharra
       old_node: Nodo zaharra
       old_node_tag: Nodo etiketa zaharra
       old_relation: Erlazio zaharra
@@ -133,6 +141,11 @@ eu:
         gpx_file: Aukeratu GPS arrasto fitxategia
         visibility: Ikusgarritasuna
         tagstring: Etiketak
+      moderation_zone:
+        name: Izena
+        reason: Arrazoia
+        zone: Zona
+        period: Epea
       message:
         sender: Igorlea
         title: Gaia
@@ -155,6 +168,7 @@ eu:
         company: Enpresa
         home_lat: Latitudea
         home_lon: Longitudea
+        home_location_name: Etxeko kokapenaren izena
         languages: Hobetsitako hizkuntzak
         preferred_editor: Editore hobetsia
         pass_crypt: Pasahitza
@@ -214,6 +228,19 @@ eu:
       x_years:
         one: duela urte %{count}
         other: duela %{count} urte
+    distance_in_words_in:
+      about_x_hours:
+        one: duela ordu %{count} inguru
+        other: duela %{count} ordu inguru
+      about_x_months:
+        one: duela hilabete inguru
+        other: duela %{count} hilabete inguru
+      about_x_years:
+        one: duela urte %{count} inguru
+        other: duela %{count} urte inguru
+      almost_x_years:
+        one: duela ia urte %{count}
+        other: duela ia %{count} urte
   editor:
     default: Lehenetsia (orain %{name})
     id:

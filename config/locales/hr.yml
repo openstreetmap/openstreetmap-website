@@ -69,6 +69,10 @@ hr:
           attributes:
             url:
               http_parse_error: URL treba početi s http:// ili https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: Ne može se vratiti na naslijeđenu vrijednost
     models:
       acl: Popis kontrole pristupa
       changeset: Skup promjena
@@ -233,6 +237,56 @@ hr:
         one: prije %{count} godine
         few: prije %{count} godine
         other: prije %{count} godina
+    distance_in_words_in:
+      about_x_hours:
+        one: prije otprilike %{count} sat
+        few: prije otprilike %{count} sata
+        other: prije otprilike %{count} sati
+      about_x_months:
+        one: prije otprilike %{count} mjesec
+        few: prije otprilike %{count} mjeseca
+        other: prije otprilike %{count} mjeseci
+      about_x_years:
+        one: prije otprilike %{count} godine
+        few: prije otprilike %{count} godine
+        other: prije otprilike %{count} godina
+      almost_x_years:
+        one: prije skoro %{count} godine
+        few: prije skoro %{count} godine
+        other: prije skoro %{count} godina
+      half_a_minute: za pola minute
+      less_than_x_seconds:
+        one: prije manje od %{count} sekunde
+        few: prije manje od %{count} sekunde
+        other: prije manje od %{count} sekundi
+      less_than_x_minutes:
+        one: prije manje od %{count} minute
+        few: prije manje od %{count} minute
+        other: prije manje od %{count} minuta
+      over_x_years:
+        one: prije otprilike %{count} godine
+        few: prije otprilike %{count} godine
+        other: prije otprilike %{count} godina
+      x_seconds:
+        one: prije %{count} sekunde
+        few: prije %{count} sekunde
+        other: prije %{count} sekundi
+      x_minutes:
+        one: prije %{count} minute
+        few: prije %{count} minute
+        other: prije %{count} minuta
+      x_days:
+        one: '%{count} dan'
+        few: '%{count} dana'
+        other: '%{count} dana'
+      x_months:
+        one: '%{count} mjesec'
+        few: '%{count} mjeseca'
+        other: '%{count} mjeseci'
+      x_years:
+        one: '%{count} godina'
+        few: '%{count} godine'
+        other: '%{count} godina'
   editor:
     default: Zadano (trenutno %{name})
     id:
@@ -2820,6 +2874,8 @@ hr:
       get_directions_title: Pronađite rutu između dvije točke
       from: Od
       to: Do
+      marker_from: Oznaka početka rute
+      marker_to: Oznaka kraja rute
       where_am_i: Gdje sam?
       where_am_i_title: Opišite trenutnu lokaciju koristeći pretraživač
       submit_text: Idi
@@ -3618,7 +3674,7 @@ hr:
         active: aktivan
         active_until_read: aktivan do čitanja
         read_html: pročitano u %{time}
-        time_in_future_title: '%{time_absolute}; u %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_by} je blokirao %{block_on}'
