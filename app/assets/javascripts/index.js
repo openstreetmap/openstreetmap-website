@@ -29,7 +29,8 @@ $(function () {
 
     return new Promise((resolve, reject) => {
       $("#sidebar_content_frame")
-        .one("turbo:frame-render", event => {
+        .off("turbo:frame-render.loadSidebarContent")
+        .one("turbo:frame-render.loadSidebarContent", event => {
           const response = event.originalEvent.detail.fetchResponse.response;
 
           const title = response.headers.get("X-Page-Title");
