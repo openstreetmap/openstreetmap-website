@@ -68,6 +68,10 @@ sl:
           attributes:
             url:
               http_parse_error: URL se mora začeti s http:// ali https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: ni mogoče nastaviti nazaj na staro vrednost
     models:
       acl: Seznam nadzora dostopa
       changeset: Sklop sprememb
@@ -137,6 +141,8 @@ sl:
       moderation_zone:
         name: Ime
         reason: Razlog
+        zone: Področje
+        period: Obdobje
       message:
         sender: Pošiljatelj
         title: Zadeva
@@ -203,6 +209,68 @@ sl:
         few: pred skoraj %{count} leti
         other: pred skoraj %{count} leti
       half_a_minute: pred pol minute
+      less_than_x_seconds:
+        one: pred manj kot %{count} sekundo
+        two: pred manj kot %{count} sekundama
+        few: pred manj kot %{count} sekundami
+        other: pred manj kot %{count} sekundami
+      less_than_x_minutes:
+        one: pred manj kot %{count} minuto
+        two: pred manj kot %{count} minutama
+        few: pred manj kot %{count} minutami
+        other: pred manj kot %{count} minutami
+      over_x_years:
+        one: pred več kot %{count} letom
+        two: pred več kot %{count} letoma
+        few: pred več kot %{count} leti
+        other: pred več kot %{count} leti
+      x_seconds:
+        one: pred %{count} sekundo
+        two: pred %{count} sekundama
+        few: pred %{count} sekundami
+        other: pred %{count} sekundami
+      x_minutes:
+        one: pred %{count} minuto
+        two: pred %{count} minutama
+        few: pred %{count} minutami
+        other: pred %{count} minutami
+      x_days:
+        one: pred %{count} dnem
+        two: pred %{count} dnevoma
+        few: pred %{count} dnevi
+        other: pred %{count} dnevi
+      x_months:
+        one: pred %{count} mesecem
+        two: pred %{count} mesecema
+        few: pred %{count} meseci
+        other: pred %{count} meseci
+      x_years:
+        one: pred %{count} letom
+        two: pred %{count} letoma
+        few: pred %{count} leti
+        other: pred %{count} leti
+    distance_in_words_in:
+      about_x_hours:
+        one: pred približno %{count} uro
+        two: pred približno %{count} urama
+        few: pred približno %{count} urami
+        other: pred približno %{count} urami
+      about_x_months:
+        one: pred približno %{count} mesecem
+        two: pred približno %{count} mesecema
+        few: pred približno %{count} meseci
+        other: pred približno %{count} meseci
+      about_x_years:
+        one: pred približno %{count} letom
+        two: pred približno %{count} letoma
+        few: pred približno %{count} leti
+        other: pred približno %{count} leti
+      almost_x_years:
+        one: pred skoraj %{count} letom
+        two: pred skoraj %{count} letoma
+        few: pred skoraj %{count} leti
+        other: pred skoraj %{count} leti
+      half_a_minute: v zadnje pol minute
       less_than_x_seconds:
         one: pred manj kot %{count} sekundo
         two: pred manj kot %{count} sekundama
@@ -360,8 +428,8 @@ sl:
         title: Pogoji
         heading: Pogoji
         heading_ct: Pogoji sodelovanja
-        read and accept with tou: Prosimo, preberite sporazum o prispevanju in pogoje
-          uporabe, obkljukajte obe potrditveni polji in nato pritisnite gumb za nadaljevanje.
+        read and accept with tou: Preberite pogoje za prispevanje in pogoje uporabe,
+          obkljukajte obe potrditveni polji in nato pritisnite gumb za nadaljevanje.
         contributor_terms_explain: Ta sporazum ureja pogoje za vaše obstoječe in prihodnje
           prispevke.
         read_ct: Prebral sem zgornje pogoje prispevanja in soglašam z njimi
@@ -403,6 +471,8 @@ sl:
     auth_deletions:
       show:
         title: Zahtevek za izbris podatkov
+        body: Podatki za %{provider} ID %{id} so bili odstranjeni ob %{time} in so
+          bili prekinjeni s povezanim računom OpenStreetMap.
   browse:
     deleted_ago_by_html: Izbrisal %{user} %{time_ago}
     edited_ago_by_html: Uredil_a %{user} %{time_ago}
@@ -665,8 +735,8 @@ sl:
       created_by_html: Ustvaril_a %{link_user} dne %{created}.
     no_such_entry:
       heading: Zapisa z ID-jem %{id} ni
-      body: Oprostite, sklopa sprememb z oznako %{id} ni. Prosimo, preverite črkovanje
-        in uporabljeno povezavo.
+      body: Sklopa sprememb z oznako %{id} ni. Preverite črkovanje in uporabljeno
+        povezavo.
   dashboards:
     contact:
       km away: oddaljen %{count} km
@@ -718,12 +788,25 @@ sl:
       headline: Sled GPS je bila uspešno uvožena
     new_follower:
       headline: Nov spremljevalec
+      description_html: Uporabnik %{follower_name_with_link} vas je začel spremljati.
+        Če želite, lahko %{link} tudi vi.
+      link_text: spremljate nazaj
     note_comment:
       headline:
         commented: Komentar opombe
         closed: Razrešena opomba
+        reopened: Opomba ponovno odprta
+      description:
+        commented_html: Uporabnik %{commenter_name_with_link} je pustil komentar k
+          opombi %{note_id_with_link} („%{note_text}“)
+        closed_html: Uporabnik %{commenter_name_with_link} je razrešil opombo %{note_id_with_link}
+          („%{note_text}“)
+        reopened_html: Uporabnik %{commenter_name_with_link} je ponovno odprl opombo
+          %{note_id_with_link} ("%{note_text}")
     diary_comment:
       headline: Dnevniški komentar
+      description_html: Uporabnik %{commenter_name_with_link} je pustil komentar k
+        dnevniškemu zapisu »%{diary_entry_title_with_link}«
   diary_entries:
     new:
       title: Nov dnevniški zapis
@@ -754,8 +837,8 @@ sl:
     no_such_entry:
       title: Ni takega dnevniškega zapisa
       heading: Zapisa z ID-jem %{id} ni
-      body: Oprostite, dnevniškega zapisa ali komentarja z ID-jem %{id} ni. Prosimo,
-        preverite črkovanje, ali pa ste morda sledili napačni povezavi.
+      body: Dnevniški zapis ali komentar s številko %{id} ne obstaja. Preverite črkovanje,
+        ali pa ste morda sledili napačni povezavi.
     diary_entry:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}.
       updated_at_html: Nazadnje posodobljeno %{updated}.
@@ -1029,10 +1112,12 @@ sl:
           aboriginal_lands: Ozemlje staroselcev
           administrative: Upravna meja
           census: Popisna meja
+          low_emission_zone: Območje zmanjšanih izpustov
           national_park: Nacionalni Park
           political: Meja volilnega okraja
           postal_code: Poštna številka
           protected_area: Zavarovano območje
+          public_transport: Okrožje javnega prevoza
           timezone: Časovni pas
           "yes": Meja
         bridge:
@@ -2464,13 +2549,13 @@ sl:
       with external: ali pa se prijavite prek tretjega ponudnika
       or: ali
       reset_to_login: Žal vam je geslo poteklo. Za prijavo ponastavite geslo.
-      auth failure: Oprostite, prijava s temi podatki ni uspela.
+      auth failure: Prijava s temi podatki ni uspela.
     destroy:
       title: Odjava
       heading: Odjava iz OpenStreetMap
       logout_button: Odjava
     suspended_flash:
-      suspended: Oprostite, vaš račun je bil blokiran zaradi sumljive dejavnosti.
+      suspended: Vaš račun je bil blokiran zaradi sumljive dejavnosti.
       contact_support_html: Če se želite o tem pogovoriti, se obrnite na %{support_link}.
       support: podporo
   site:
@@ -2752,16 +2837,20 @@ sl:
           Prosimo, da ga približate ali izberete manjše območje ali pa uporabite enega
           od naslednjih virov za obsežne prenose podatkov.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: Redno posodabljane kopije celotne podatkovne zbirke OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: Prenos izbranega omejevalnega polja iz zrcalnega strežnika
             podatkovne zbirke OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Prenosi Geofabrik
           description: Redno posodabljani izvlečki celin, držav in izbranih mest
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Drugi viri
           description: Dodatni viri, navedeni v vikiju OpenStreetMap
       export_button: Izvozi
@@ -2847,6 +2936,8 @@ sl:
       get_directions_title: Navodila za pot med dvema točkama
       from: Od
       to: Do
+      marker_from: Označevalnik začetka poti
+      marker_to: Označevalnik konca poti
       where_am_i: Kje je to?
       where_am_i_title: Opišite trenutno lokacijo z uporabo iskalnika
       submit_text: Išči
@@ -3232,6 +3323,7 @@ sl:
       link: Povezava
       text: besedilo
       image: Slika
+      alt: Nadomestno besedilo
       url: URL
       codeblock: Blok kode
     richtext_field:
@@ -3395,8 +3487,8 @@ sl:
     no_such_user:
       title: Ni tega uporabnika
       heading: Uporabnik %{user} ne obstaja
-      body: Oprostite, uporabnika z imenom %{user} ni. Prosimo, preverite črkovanje
-        in povezavo, ki ste jo kliknili.
+      body: Uporabnik z imenom %{user} ne obstaja. Preverite črkovanje in uporabljeno
+        povezavo.
       deleted: izbrisano
     show:
       my diary: Moj dnevnik
@@ -3646,7 +3738,7 @@ sl:
         active: aktivno
         active_until_read: aktivno do branja
         read_html: prebrano ob %{time}
-        time_in_future_title: '%{time_absolute}; v %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_by} je blokiral uporabnika %{block_on}'
@@ -4029,12 +4121,41 @@ sl:
     invalid_characters: vsebuje neveljavne znake
     url_characters: vsebuje posebne znake URL (%{characters})
   moderation_zones:
+    navigation:
+      new_title: Določite novo področje moderiranja
+      new: Novo področje moderiranja
     index:
+      title: Področja moderiranja
+      heading: Področja moderiranja
       name: Ime
       reason: Razlog
+      creator: Ustvarjalec
       start: Začetek
       end: Konec
       status: Stanje
     row:
       edit: Uredi
+    new:
+      title: Novo področje moderiranja
+      heading: Novo področje moderiranja
+    create:
+      success: Področje moderiranja je ustvarjeno.
+    edit:
+      title: Urejanje moderatorskega področja %{name}
+      heading: Urejanje moderatorskega področja %{name}
+    update:
+      success: Področje moderiranja je posodobljeno.
+      only_creator_can_edit: Ureja ga lahko samo moderator, ki je ustvaril to moderatorsko
+        področje.
+      only_creator_can_edit_without_revoking: Samo moderator, ki je ustvaril to področje
+        moderiranja, ga lahko ureja brez preklica.
+      only_creator_or_revoker_can_edit: Samo moderatorji, ki so ustvarili ali preklicali
+        to področje moderiranja, jo lahko urejajo.
+      no_reactivation: To področje moderiranja je neaktivno in ga ni mogoče ponovno
+        aktivirati.
+    helper:
+      short:
+        ended: končano
+        active: aktivno
+        revoked_html: preklical %{name}
 ...
