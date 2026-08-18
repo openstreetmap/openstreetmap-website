@@ -11,6 +11,11 @@
           <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :tag => nil } %>
         </li>
       <% end %>
+      <% if current_user && current_user == @target_user %>
+        <li>
+          <%= link_to t(".change_visibility"), change_visibility_traces_path %>
+        </li>
+      <% end %>
     </ul>
   </nav>
 

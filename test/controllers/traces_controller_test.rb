@@ -31,6 +31,14 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
       { :path => "/traces/mine/tag/tagname", :method => :get },
       { :controller => "traces", :action => "mine", :tag => "tagname" }
     )
+    assert_routing(
+      { :path => "/traces/mine/visibility", :method => :get },
+      { :controller => "traces", :action => "change_visibility" }
+    )
+    assert_routing(
+      { :path => "/traces/mine/visibility", :method => :patch },
+      { :controller => "traces", :action => "update_visibility" }
+    )
 
     assert_routing(
       { :path => "/user/username/traces/1", :method => :get },
@@ -598,6 +606,82 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible
+  end
+
+  def test_change_visibility_requires_login
+    get change_visibility_traces_path
+    assert_redirected_to login_path(:referer => change_visibility_traces_path)
+  end
+
+  def test_change_visibility
+    user = create(:user)
+    trackable = create(:trace, :visibility => "trackable", :user => user)
+    identifiable = create(:trace, :visibility => "identifiable", :user => user)
+    other_users_trace = create(:trace, :visibility => "trackable")
+
+    session_for(user)
+    get change_visibility_traces_path
+    assert_response :success
+    assert_select "table#trace_list tbody tr", :count => 2
+    assert_select "table#trace_list tbody tr a", trackable.name
+    assert_select "table#trace_list tbody tr a", identifiable.name
+
+    get change_visibility_traces_path(:visibility => "identifiable")
+    assert_response :success
+    assert_select "table#trace_list tbody tr", :count => 1
+    assert_select "table#trace_list tbody tr a", identifiable.name
+
+    get change_visibility_traces_path(:visibility => "public")
+    assert_response :success
+    assert_select "table#trace_list", :count => 0
+
+    assert_not_includes assigns(:traces).items, other_users_trace
+  end
+
+  def test_change_visibility_disabled
+    with_settings(:traces_disabled => true) do
+      get change_visibility_traces_path
+      assert_response :not_found
+    end
+  end
+
+  def test_update_visibility_requires_login
+    patch update_visibility_traces_path, :params => { :target => "identifiable" }
+    assert_response :forbidden
+  end
+
+  def test_update_visibility
+    user = create(:user)
+    old_public = create(:trace, :without_validations, :visibility => "public", :user => user, :timestamp => Date.new(2015, 6, 1))
+    old_private = create(:trace, :without_validations, :visibility => "private", :user => user, :timestamp => Date.new(2019, 6, 1))
+    recent_public = create(:trace, :without_validations, :visibility => "public", :user => user, :timestamp => Date.new(2022, 6, 1))
+    other_users_trace = create(:trace, :without_validations, :visibility => "public")
+
+    session_for(user)
+    patch update_visibility_traces_path, :params => { :visibility => "public", :to => "2020-01-01", :target => "identifiable" }
+    assert_redirected_to change_visibility_traces_path(:visibility => "public", :from => nil, :to => "2020-01-01")
+
+    assert_equal "identifiable", old_public.reload.visibility
+    assert_equal "private", old_private.reload.visibility
+    assert_equal "public", recent_public.reload.visibility
+    assert_equal "public", other_users_trace.reload.visibility
+  end
+
+  def test_update_visibility_invalid_target
+    user = create(:user)
+    trace = create(:trace, :visibility => "trackable", :user => user)
+
+    session_for(user)
+    patch update_visibility_traces_path, :params => { :target => "public" }
+    assert_redirected_to change_visibility_traces_path(:visibility => nil, :from => nil, :to => nil)
+    assert_equal "trackable", trace.reload.visibility
+  end
+
+  def test_update_visibility_disabled
+    with_settings(:traces_disabled => true) do
+      patch update_visibility_traces_path, :params => { :target => "identifiable" }
+      assert_response :not_found
+    end
   end
 
   private

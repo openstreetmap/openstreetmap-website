@@ -12,9 +12,9 @@ class TracesController < ApplicationController
 
   authorize_resource
 
-  before_action :check_database_writable, :only => [:new, :create, :edit, :destroy]
-  before_action :offline_warning, :only => [:mine, :show]
-  before_action :offline_redirect, :only => [:new, :create, :edit, :destroy]
+  before_action :check_database_writable, :only => [:new, :create, :edit, :destroy, :update_visibility]
+  before_action :offline_warning, :only => [:mine, :show, :change_visibility]
+  before_action :offline_redirect, :only => [:new, :create, :edit, :destroy, :update_visibility]
 
   # Counts and selects pages of GPX traces for various criteria (by user, tags, public etc.).
   #  target_user - if set, specifies the user to fetch traces for.  if not set will fetch all traces
@@ -170,7 +170,62 @@ class TracesController < ApplicationController
     redirect_to :action => :index, :display_name => current_user.display_name
   end
 
+  # Lets a user preview which of their own traces match a visibility/date filter,
+  # before changing all of them to a new visibility in bulk via #update_visibility.
+  def change_visibility
+    @title = t ".title"
+
+    traces = filtered_traces
+
+    @count = traces.count
+    @params = params.permit(:visibility, :from, :to, :target, :before, :after)
+    @traces = get_page_items(traces, :includes => [:user, :tags])
+  end
+
+  def update_visibility
+    target_visibility = params[:target]
+
+    if Trace.valid_visibility?(target_visibility)
+      count = 0
+      Trace.transaction do
+        filtered_traces.find_each do |trace|
+          trace.update!(:visibility => target_visibility)
+          count += 1
+        end
+      end
+      flash[:notice] = t ".updated", :count => count
+    else
+      flash[:error] = t ".invalid_target"
+    end
+
+    redirect_to :action => :change_visibility, :visibility => params[:visibility], :from => params[:from], :to => params[:to]
+  end
+
   private
+
+  # Traces belonging to the current user, narrowed down by the optional
+  # visibility/from/to filter params shared by #change_visibility and #update_visibility.
+  def filtered_traces
+    traces = current_user.traces
+    traces = traces.where(:visibility => params[:visibility]) if params[:visibility].present?
+    traces = traces.where(:timestamp => filter_from..) if filter_from
+    traces = traces.where(:timestamp => ...(filter_to + 1)) if filter_to
+    traces.visible
+  end
+
+  def filter_from
+    parse_filter_date(params[:from])
+  end
+
+  def filter_to
+    parse_filter_date(params[:to])
+  end
+
+  def parse_filter_date(value)
+    Date.parse(value) if value.present?
+  rescue ArgumentError
+    nil
+  end
 
   def do_create(file, tags, description, visibility)
     # Sanitise the user's filename

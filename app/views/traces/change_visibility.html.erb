@@ -1,0 +1,70 @@
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <p class="text-body-secondary"><%= t ".description" %></p>
+<% end %>
+
+<%= form_tag({ :action => :change_visibility }, :method => :get, :class => "row g-3 align-items-end mb-3") do %>
+  <div class="col-sm-4">
+    <%= label_tag :visibility, t(".filter.visibility"), :class => "form-label" %>
+    <%= select_tag :visibility,
+                   options_for_select([[t(".filter.any"), ""]] + (Trace::VISIBILITIES + Trace::LEGACY_VISIBILITIES).map { |v| [t("traces.visibility.#{v}"), v] }, params[:visibility]),
+                   :class => "form-select" %>
+  </div>
+  <div class="col-sm-3">
+    <%= label_tag :from, t(".filter.from"), :class => "form-label" %>
+    <%= date_field_tag :from, params[:from], :autocomplete => "off", :class => "form-control" %>
+  </div>
+  <div class="col-sm-3">
+    <%= label_tag :to, t(".filter.to"), :class => "form-label" %>
+    <%= date_field_tag :to, params[:to], :autocomplete => "off", :class => "form-control" %>
+  </div>
+  <div class="col-sm-2">
+    <%= submit_tag t(".filter.apply_filter"), :class => "btn btn-secondary w-100" %>
+  </div>
+<% end %>
+
+<% if @traces.items.empty? %>
+  <p><%= t ".empty" %></p>
+<% else %>
+  <%= form_tag({ :action => :update_visibility }, :method => :patch) do %>
+    <%= hidden_field_tag :visibility, params[:visibility] %>
+    <%= hidden_field_tag :from, params[:from] %>
+    <%= hidden_field_tag :to, params[:to] %>
+
+    <div class="row g-3 align-items-end mb-3">
+      <div class="col-sm-4">
+        <%= label_tag :target, t(".apply.target"), :class => "form-label" %>
+        <%= select_tag :target,
+                       options_for_select(Trace::VISIBILITIES.map { |v| [t("traces.visibility.#{v}"), v] }, params[:target]),
+                       :class => "form-select" %>
+      </div>
+      <div class="col-sm-4">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirm_visibility_change">
+          <%= t ".apply.button", :count => @count %>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal fade" tabindex="-1" id="confirm_visibility_change" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><%= t ".confirmation.header" %></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+          </div>
+          <div class="modal-body">
+            <p><%= t ".confirmation.body", :count => @count %></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <%= t ".confirmation.cancel" %>
+            </button>
+            <%= submit_tag t(".confirmation.confirm"), :class => "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%= render "page", :traces => @traces, :params => @params %>
+<% end %>

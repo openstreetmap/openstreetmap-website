@@ -273,6 +273,8 @@ OpenStreetMap::Application.routes.draw do
     get "/traces/mine/tag/:tag" => "traces#mine"
     get "/traces/mine/page/:page", :page => /[1-9][0-9]*/, :to => redirect(:path => "/traces/mine")
     get "/traces/mine" => "traces#mine"
+    get "/traces/mine/visibility" => "traces#change_visibility", :as => :change_visibility_traces
+    patch "/traces/mine/visibility" => "traces#update_visibility", :as => :update_visibility_traces
     get "/trace/create", :to => redirect(:path => "/traces/new")
     get "/trace/:id/data", :format => false, :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data")
     get "/trace/:id/data.:format", :id => /\d+/, :to => redirect(:path => "/traces/%{id}/data.%{format}")
