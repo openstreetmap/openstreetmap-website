@@ -10,11 +10,7 @@
     </ul>
   </td>
   <td class="align-middle">
-    <ul class="list-unstyled mb-0">
-      <% application.scopes.each do |scope| -%>
-        <li><%= authorization_scope(scope) %> <code class="text-body-secondary">(<%= scope %>)</code></li>
-      <% end -%>
-    </ul>
+    <%= scopes_list(application.scopes) %>
   </td>
   <td class="align-middle">
     <%= link_to t(".edit"), edit_oauth_application_path(application), :class => "btn btn-outline-primary" %>

@@ -5,5 +5,5 @@
 <%= f.form_group :confidential do %>
   <%= f.check_box :confidential %>
 <% end %>
-<%= f.collection_check_boxes :scopes, Oauth.scopes(:privileged => current_user.administrator?), :name, :description %>
+<%= f.collection_check_boxes :scopes, Oauth.scopes(:privileged => current_user.administrator?), :name, ->(scope) { authorization_scope(scope.name) } %>
 <%= f.primary %>

@@ -191,6 +191,7 @@ class Oauth2ApplicationsControllerTest < ActionDispatch::IntegrationTest
       assert_select "input#oauth2_application_confidential", 1
       Oauth.scopes.each do |scope|
         assert_select "input#oauth2_application_scopes_#{scope.name}", 1
+        assert_select "label[for='oauth2_application_scopes_#{scope.name}'] code", :text => "(#{scope.name})"
       end
     end
   end

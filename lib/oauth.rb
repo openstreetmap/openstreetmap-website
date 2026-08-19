@@ -15,10 +15,6 @@ module Oauth
     def initialize(name)
       @name = name
     end
-
-    def description
-      I18n.t("oauth.scopes.#{name}")
-    end
   end
 
   def self.scopes(privileged: false)
