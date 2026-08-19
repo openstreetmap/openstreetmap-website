@@ -21,7 +21,7 @@ module Accounts
       @text_legale = "GB" unless @legale == "FR" || @legale == "IT"
 
       if request.xhr?
-        render :partial => "terms"
+        render :partial => "terms", :locals => { :text => @text }
       else
         @title = t ".title"
       end
