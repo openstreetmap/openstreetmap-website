@@ -24,7 +24,8 @@
         "turn slight right": "slight_right",
         "turn right": "turn_right",
         "turn sharp right": "sharp_right",
-        "turn uturn": "uturn",
+        "turn uturn from left": "uturn",
+        "turn uturn from right": "uturn",
         "turn sharp left": "sharp_left",
         "turn left": "turn_left",
         "turn slight left": "slight_left",
@@ -93,31 +94,32 @@
     }
 
     function _processDirections(leg) {
-      function getManeuverId({ maneuver, mode, intersections }) {
+      function getManeuverId({ maneuver: { type, modifier }, mode, intersections, driving_side }) {
         // special case handling
         if (mode === "ferry") return "ferry";
         if (intersections.some(i => i.classes?.includes("ferry"))) return "ferry";
+        if (modifier === "uturn") return "turn uturn from " + driving_side;
 
-        switch (maneuver.type) {
+        switch (type) {
           case "on ramp":
           case "off ramp":
           case "merge":
           case "end of road":
           case "fork":
-            return maneuver.type + " " + (maneuver.modifier.indexOf("left") >= 0 ? "left" : "right");
+            return type + " " + (modifier.includes("left") ? "left" : "right");
           case "depart":
           case "arrive":
           case "roundabout":
           case "rotary":
           case "exit roundabout":
           case "exit rotary":
-            return maneuver.type;
+            return type;
           case "roundabout turn":
           case "turn":
-            return "turn " + maneuver.modifier;
+            return "turn " + modifier;
             // for unknown types the fallback is turn
           default:
-            return "turn " + maneuver.modifier;
+            return "turn " + modifier;
         }
       }
 
@@ -137,7 +139,8 @@
         "turn slight right": "slight-right",
         "turn right": "right",
         "turn sharp right": "sharp-right",
-        "turn uturn": "u-turn-left",
+        "turn uturn from right": "u-turn-left",
+        "turn uturn from left": "u-turn-right",
         "turn slight left": "slight-left",
         "turn left": "left",
         "turn sharp left": "sharp-left",
