@@ -12,7 +12,7 @@
     <%= check_box_tag "oauth2_application[scopes][]", scope.name, application.scopes.include?(scope.name),
                       :id => "oauth2_application_scopes_#{scope.name}", :class => "form-check-input" %>
     <%= label_tag "oauth2_application_scopes_#{scope.name}", :class => "form-check-label" do %>
-      <%= scope.description %> <code><%= scope.name %></code>
+      <%= authorization_scope(scope.name) %> <code class="text-body-secondary">(<%= scope.name %>)</code>
     <% end %>
   </div>
 <% end %>
