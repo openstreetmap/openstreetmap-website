@@ -56,9 +56,12 @@ class Oauth2AuthorizedApplicationsControllerTest < ActionDispatch::IntegrationTe
     assert_select "tbody tr", 1
     assert_select "tbody tr td ul" do
       assert_select "li", :count => 3
-      assert_select "li", :text => "Read user preferences"
-      assert_select "li", :text => "Modify user preferences"
-      assert_select "li", :text => "Create diary entries and comments"
+      assert_select "li", :text => /^Read user preferences/
+      assert_select "li", :text => /^Modify user preferences/
+      assert_select "li", :text => /^Create diary entries and comments/
+      assert_select "li code", :text => "(read_prefs)"
+      assert_select "li code", :text => "(write_prefs)"
+      assert_select "li code", :text => "(write_diary)"
     end
   end
 

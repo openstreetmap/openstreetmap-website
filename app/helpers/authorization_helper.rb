@@ -10,7 +10,17 @@ module AuthorizationHelper
       html << " "
       html << role_icon(:classes => "bi-star-fill role-moderator", :title => t("oauth.for_roles.moderator"))
     end
+    html << " "
+    html << tag.code("(#{scope})", :class => "text-body-secondary")
     safe_join(html)
+  end
+
+  def scopes_list(scopes)
+    tag.ul(:class => "list-unstyled mb-0") do
+      safe_join(scopes.map do |scope|
+        tag.li authorization_scope(scope)
+      end)
+    end
   end
 
   def role_icon(classes: "", title: "")

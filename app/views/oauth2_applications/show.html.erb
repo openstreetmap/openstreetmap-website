@@ -26,11 +26,7 @@
   <tr>
     <th><%= t ".permissions" %></th>
     <td>
-      <ul class="list-unstyled mb-0">
-        <% @application.scopes.each do |scope| -%>
-          <li><%= t "oauth.scopes.#{scope}" %> <code class="text-body-secondary">(<%= scope %>)</code></li>
-        <% end -%>
-      </ul>
+      <%= scopes_list(@application.scopes) %>
     </td>
   </tr>
   <tr>

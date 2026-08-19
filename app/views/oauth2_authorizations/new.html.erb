@@ -4,11 +4,7 @@
 
 <p><%= t ".introduction", :application => @pre_auth.client.name %></p>
 
-<ul>
-  <% @pre_auth.scopes.each do |scope| -%>
-    <li><%= authorization_scope(scope) %></li>
-  <% end -%>
-</ul>
+<%= scopes_list(@pre_auth.scopes) %>
 
 <div class="row justify-content-start g-0 mx-n1">
   <div class="col-auto mx-1">

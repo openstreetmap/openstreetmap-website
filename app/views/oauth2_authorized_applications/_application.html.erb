@@ -5,11 +5,7 @@
     <%= application.name %>
   </td>
   <td class="align-middle">
-    <ul class="list-unstyled mb-0">
-      <% application.authorized_scopes_for(current_user).each do |scope| -%>
-        <li><%= authorization_scope(scope) %></li>
-      <% end -%>
-    </ul>
+    <%= scopes_list(application.authorized_scopes_for(current_user)) %>
   </td>
   <td class="align-middle">
     <%= friendly_date_ago(application.authorized_tokens.where(:resource_owner_id => current_user).maximum(:created_at)) %>
