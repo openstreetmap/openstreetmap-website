@@ -33,7 +33,7 @@
           <% end %>
         <% end %>
       </h1>
-      <nav class="secondary-actions">
+      <nav class="secondary-actions" aria-label="<%= t ".actions" %>">
         <ul>
           <% if current_user and @user.id == current_user.id %>
             <!-- Displaying user's own profile page -->
@@ -187,7 +187,7 @@
       </div>
 
       <% if can?(:update, :user_status) %>
-        <nav class="secondary-actions">
+        <nav class="secondary-actions" aria-label="<%= t ".admin_actions" %>">
           <ul>
             <% if @user.may_activate? %>
               <li>
