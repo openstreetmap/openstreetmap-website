@@ -172,6 +172,11 @@ de:
           attributes:
             url:
               http_parse_error: Die URL sollte mit http:// oder https:// beginnen
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: kann nicht auf einen alten Wert zurückgesetzt
+                werden
     models:
       acl: Zugriffssteuerungsliste
       changeset: Änderungssatz
@@ -239,6 +244,7 @@ de:
         visibility: Sichtbarkeit
         tagstring: Tags
       moderation_zone:
+        name: Name
         reason: Grund
         zone: Zone
         period: Zeitraum
@@ -325,6 +331,44 @@ de:
       x_years:
         one: vor %{count} Jahr
         other: vor %{count} Jahren
+    distance_in_words_in:
+      about_x_hours:
+        one: in etwa einer Stunde
+        other: in etwa %{count} Stunden
+      about_x_months:
+        one: in etwa einem Monat
+        other: in etwa %{count} Monaten
+      about_x_years:
+        one: in etwa einem Jahr
+        other: in etwa %{count} Jahren
+      almost_x_years:
+        one: in fast %{count} Jahr
+        other: in fast %{count} Jahren
+      half_a_minute: in einer halben Minute
+      less_than_x_seconds:
+        one: in weniger als einer Sekunde
+        other: in weniger als %{count} Sekunden
+      less_than_x_minutes:
+        one: in weniger als %{count} Minute
+        other: in weniger als %{count} Minuten
+      over_x_years:
+        one: in über %{count} Jahr
+        other: in über %{count} Jahren
+      x_seconds:
+        one: in einer Sekunde
+        other: in %{count} Sekunden
+      x_minutes:
+        one: in einer Minute
+        other: in %{count} Minuten
+      x_days:
+        one: in einem Tag
+        other: in %{count} Tagen
+      x_months:
+        one: in einem Monat
+        other: in %{count} Monaten
+      x_years:
+        one: in einem Jahr
+        other: in %{count} Jahren
   editor:
     default: Voreinstellung (derzeit %{name})
     id:
@@ -2983,6 +3027,8 @@ de:
       get_directions_title: Routenberechnung zwischen zwei Orten
       from: Von
       to: Nach
+      marker_from: Routenstartmarkierung
+      marker_to: Routenendmarkierung
       where_am_i: Wo ist dies?
       where_am_i_title: Die momentane Position mit der Suchmaschine anzeigen
       submit_text: Los
@@ -3791,7 +3837,7 @@ de:
         active: Aktiv
         active_until_read: aktiv bis gelesen
         read_html: gelesen am %{time}
-        time_in_future_title: '%{time_absolute}; in %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} gesperrt durch  %{block_by}'

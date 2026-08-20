@@ -97,6 +97,10 @@ pt-PT:
           attributes:
             url:
               http_parse_error: O URL deve começar por http:// ou https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: não pode ser revertido para um valor antigo
     models:
       acl: Aceder à lista de controlo
       changeset: Conjunto de alterações
@@ -163,6 +167,11 @@ pt-PT:
         gpx_file: Escolher ficheiro GPX
         visibility: Visibilidade
         tagstring: Etiquetas
+      moderation_zone:
+        name: Nome
+        reason: Razão
+        zone: Zona
+        period: Período
       message:
         sender: Remetente
         title: Assunto
@@ -246,6 +255,44 @@ pt-PT:
       x_years:
         one: há 1 ano
         other: há %{count} anos
+    distance_in_words_in:
+      about_x_hours:
+        one: em cerca de %{count} hora
+        other: em cerca de %{count} horas
+      about_x_months:
+        one: em cerca de %{count} mês
+        other: em cerca de %{count} meses
+      about_x_years:
+        one: em cerca de %{count} ano
+        other: em cerca de %{count} anos
+      almost_x_years:
+        one: em quase %{count} ano
+        other: em quase %{count} anos
+      half_a_minute: em meio minuto
+      less_than_x_seconds:
+        one: em menos de %{count} segundo
+        other: em menos de %{count} segundos
+      less_than_x_minutes:
+        one: em menos de %{count} minuto
+        other: em menos de %{count} minutos
+      over_x_years:
+        one: em mais de %{count} ano
+        other: em mais de %{count} anos
+      x_seconds:
+        one: em %{count} segundo
+        other: em %{count} segundos
+      x_minutes:
+        one: em %{count} minuto
+        other: em %{count} minutos
+      x_days:
+        one: em %{count} dia
+        other: em %{count} dias
+      x_months:
+        one: em %{count} mês
+        other: em %{count} meses
+      x_years:
+        one: em %{count} ano
+        other: em %{count} anos
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -412,6 +459,11 @@ pt-PT:
           do Domínio Público.
         did_not_confirm: Não confirmaste que consideras as tuas edições como parte
           do Domínio Público.
+    auth_deletions:
+      show:
+        title: Pedido de eliminação de dados
+        body: Os dados de ID %{id} do %{provider} foram removidos às %{time} e foram
+          desassociados da conta do OpenStreetMap correspondente.
   browse:
     deleted_ago_by_html: Eliminado %{time_ago} por %{user}
     edited_ago_by_html: Editado %{time_ago} por %{user}
@@ -692,6 +744,51 @@ pt-PT:
       followed_diaries: entradas de diário
       nearby_changesets: conjuntos de alterações de mapeadores próximos
       nearby_diaries: publicações no diário de mapeadores próximos
+  notifications:
+    index:
+      title: Notificações
+      no_notifications: De momento, não tens notificações
+      point_to_preferences_html: Podes ajustar o método de receção das notificações
+        na %{link}.
+      link_text: secção de preferências
+    changeset_comment:
+      headline: Comentário ao conjunto de alterações
+      description_with_summary_html: O utilizador %{commenter_name_with_link} deixou
+        um comentário no conjunto de alterações %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: O utilizador %{commenter_name_with_link} deixou
+        um comentário no conjunto de alterações %{changeset_id_with_link}
+    gpx_details:
+      filename: Nome do ficheiro
+      description: Descrição
+      tags: Etiquetas
+      total_points: Número total de pontos
+      imported_points: Número de pontos importados
+    gpx_import_failure:
+      headline: Não foi possível importar a rota de GPS
+      error_message: Mensagem de erro
+    gpx_import_success:
+      headline: Rota de GPS importada com sucesso
+    new_follower:
+      headline: Novo seguidor
+      description_html: O utilizador %{follower_name_with_link} começou a seguir-te.
+        Se quiseres, podes %{link}.
+      link_text: retribuir o gesto
+    note_comment:
+      headline:
+        commented: Comentário à nota
+        closed: Nota resolvida
+        reopened: Nota reaberta
+      description:
+        commented_html: O utilizador %{commenter_name_with_link} deixou um comentário
+          na nota %{note_id_with_link} ("%{note_text}")
+        closed_html: O utilizador %{commenter_name_with_link} resolveu a nota %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: O utilizador %{commenter_name_with_link} reabriu a nota %{note_id_with_link}
+          ("%{note_text}")
+    diary_comment:
+      headline: Comentário ao diário
+      description_html: O utilizador %{commenter_name_with_link} deixou um comentário
+        na entrada do diário "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Criar nova publicação no diário
@@ -2719,18 +2816,22 @@ pt-PT:
           Por favor, amplia a vista ou seleciona uma área mais pequena. Para transferir
           dados em massa, usa uma das seguintes fontes.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planeta OSM
           description: Cópias atualizadas regularmente da base de dados completa do
             OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: API do Overpass
           description: Transferir dados desta caixa delimitadora através de um espelho
             da base de dados do OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Transferências do Geofabrik
           description: Extrações atualizadas regularmente de continentes, países e
             cidades selecionados
         other:
+          url: https://wiki.openstreetmap.org/wiki/Pt:Downloading_data
           title: Outras fontes
           description: Fontes adicionais listadas na wiki do OpenStreetMap
       export_button: Exportar
@@ -2815,6 +2916,8 @@ pt-PT:
       get_directions_title: Obter itinerário entre dois pontos
       from: De
       to: Para
+      marker_from: Marcador de início de rota
+      marker_to: Marcador de fim de rota
       where_am_i: Onde fica isto?
       where_am_i_title: Descreve a localização atual usando o motor de pesquisa
       submit_text: Ir
@@ -3195,41 +3298,61 @@ pt-PT:
         alt: Ícone do X
     markdown_help:
       heading_html: Processado com %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Títulos
       heading: Cabeçalho
       subheading: Subtítulo
       unordered: Lista não ordenada
+      ordered: Lista ordenada
       first: Primeiro item
       second: Segundo item
       link: Hiperligação
       text: Texto
       image: Imagem
+      alt: Texto alternativo
       url: URL
       codeblock: Bloco de código
     richtext_field:
+      edit: Editar
       preview: Pré-visualizar
+      help: Ajuda
     pagination:
       changeset_comments:
+        older: Comentários Anteriores
+        newer: Comentários Mais Recentes
+        oldest: Comentários Mais Antigos
         newest: Comentários mais recentes
       diary_comments:
         older: Comentários mais antigos
+        newer: Comentários Mais Recentes
         oldest: Comentários mais antigos
         newest: Comentários Mais Recentes
       diary_entries:
+        older: Entradas Antigas
         newer: Publicações mais recentes
         oldest: Publicações mais antigas
         newest: Publicações mais recentes
+      notifications:
+        older: Notificações Mais Antigas
+        newer: Notificações Mais Recentes
+        oldest: As Notificações Mais Antigas
+        newest: As Notificações Mais Recentes
       issues:
+        older: Problemas Mais Antigos
         newer: Problemas recentes
         oldest: Problemas mais antigos
         newest: Problemas Mais Recentes
       traces:
+        older: Rotas Mais Antigas
         newer: Rotas GPS mais recentes
         oldest: Rotas mais antigas
         newest: Rotas mais recentes
       user_blocks:
+        older: Bloqueios Mais Antigos
         newer: Bloqueios mais recentes
         oldest: Bloqueios Mais Antigos
+        newest: Bloqueios Mais Recentes
       users:
         older: Utilizadores mais antigos
         newer: Utilizadores mais recentes
@@ -3362,6 +3485,7 @@ pt-PT:
       my traces: Rotas
       my notes: Notas
       my messages: Mensagens
+      my_notifications: Notificações
       my profile: Perfil
       my_account: A minha conta
       my comments: Comentários
@@ -3597,7 +3721,7 @@ pt-PT:
         active: ativo
         active_until_read: ativo até ler
         read_html: Lido em %{time}
-        time_in_future_title: '%{time_absolute}; daqui a %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
@@ -3972,4 +4096,41 @@ pt-PT:
     trailing_whitespace: tem espaços no fim
     invalid_characters: contém caracteres inválidos
     url_characters: contém caracteres especiais dos URL (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Definir uma nova zona de moderação
+      new: Nova Zona de Moderação
+    index:
+      title: Zonas de Moderação
+      heading: Zonas de Moderação
+      name: Nome
+      reason: Razão
+      creator: Criada por
+      start: Início
+      end: Fim
+      status: Estado
+    row:
+      edit: Editar
+    new:
+      title: Nova Zona de Moderação
+      heading: Nova Zona de Moderação
+    create:
+      success: Zona de moderação criada.
+    edit:
+      title: A editar zona de moderação %{name}
+      heading: A editar zona de moderação %{name}
+    update:
+      success: Zona de moderação atualizada.
+      only_creator_can_edit: Só o moderador que criou esta zona de moderação pode
+        editá-la.
+      only_creator_can_edit_without_revoking: Só o moderador que criou esta zona de
+        moderação pode editá-la sem revogar.
+      only_creator_or_revoker_can_edit: Só os moderadores que criaram ou revogaram
+        esta zona de moderação podem editá-la.
+      no_reactivation: Esta zona de moderação está inativa e não pode ser reativada.
+    helper:
+      short:
+        ended: terminou
+        active: ativa
+        revoked_html: revogada por %{name}
 ...
