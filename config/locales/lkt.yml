@@ -178,6 +178,32 @@ lkt:
         other: hékta wi %{count}
       x_years:
         other: hékta ómakȟa %{count}
+    distance_in_words_in:
+      about_x_hours:
+        other: tȟokata oápȟe %{count} wahéhaƞyaƞ
+      about_x_months:
+        other: tȟokata wi %{count} wahéhaƞyaƞ
+      about_x_years:
+        other: tȟokata ómakȟa %{count} wahéhaƞyaƞ
+      almost_x_years:
+        other: tȟokata ómakȟa-kiníl %{count} wahéhaƞyaƞ
+      half_a_minute: tȟokáta oápȟe-čik'ála okhíse
+      less_than_x_seconds:
+        other: tȟokáta oápȟe-sáƞpȟa-čik'ála %{count} aóptetu
+      less_than_x_minutes:
+        other: tȟokáta oápȟe-čik'ála %{count} aóptetu
+      over_x_years:
+        other: tȟokáta ómakȟa %{count} isáƞm
+      x_seconds:
+        other: tȟokáta oápȟe-sáƞpȟa-čik'ála %{count} isáŋm
+      x_minutes:
+        other: tȟokáta oápȟe-čik'ála %{count}
+      x_days:
+        other: tȟokáta aŋpétu %{count}
+      x_months:
+        other: tȟokáta wi %{count}
+      x_years:
+        other: tȟokáta ómakȟa %{count}
   auth:
     providers:
       none: Waníča
@@ -197,6 +223,8 @@ lkt:
         title: OpenStreetMap Wówapi čístila
         opened: wówapi čístila tȟéča (%{place} khiléya)
         commented: wóeye tȟéča (%{place} khiléya)
+        closed: wóeye ečhél iyéyapi (%{place} khiléya)
+        reopened: wóeye yukínipi (%{place} khiléya)
       entry:
         comment: Wówapi
         full: Wówapi čístila átaya
@@ -209,8 +237,14 @@ lkt:
         heading: Kíč'uŋpi-Wóopȟe
         agreed: '%{date} he eháŋ Kíč''uŋpi-Wóopȟe kiŋ wicáyala.'
         not_agreed: Héčhena Kíč'uŋpi-Wóopȟe kiŋ wicáyala šni.
+        review: Kič'uƞpi-Wóopȟe kiŋ wíwaŋyaŋka
+        review_and_accept: Kič'uƞpi-Wóopȟe kiŋ wíwaŋyaŋka na wičála
       terms_of_use:
-        heading: Úƞpi-wóopȟe
+        heading: Úƞpi-Wóopȟe
+        agreed: '%{date} he eháŋ Úƞpi-Wóopȟe kiŋ wičáyala.'
+        not_agreed: Héčȟena Úƞpi-Wóopȟe kiŋ wičáyala šni.
+        review: Úƞpi-Wóopȟe kiŋ wíwaŋyaŋka
+        review_and_accept: Úƞpi-Wóopȟe kiŋ wíwaŋyaŋka na wičála
       save changes button: Wayútȟokčapi ékignaka yo/ye
       delete_account: Čhažé-oyáŋke Iháŋgya yo/ye...
     go_public:
@@ -236,13 +270,25 @@ lkt:
         cancel: Yužúžu
     terms:
       show:
-        title: Úƞpi-wóopȟe
-        heading: Úƞpi-wóopȟe
-        heading_ct: Kíč'uŋpi-wóopȟe
-        read_ct: Kíč'uŋpi-wóopȟe k’uŋ le wičáwala
+        title: Úƞpi-Wóopȟe
+        heading: Úƞpi-Wóopȟe
+        heading_ct: Kíč'uŋpi-Wóopȟe
+        read and accept with tou: Úƞpi-Wóopȟe na Kíč'uŋpi-Wóopȟe nuphíŋ yawá yo/ye.
+          Alúštaŋ kiŋháŋ, kȟoká kiŋ nuphíŋ akákpi, yuŋkȟáŋ "Wičála Ahíyaya" akákpi
+          yo/ye.
+        contributor_terms_explain: Wóopȟe kiŋ le táku yeč'uŋ na táku yeč'uŋ kta kiŋ
+          kičuŋze kte.
+        read_ct: Kíč'uŋpi-Wóopȟe k’uŋ le wičáwala
         tou_explain:
-          tou: Úƞpi-wóopȟe
-        read_tou: Úƞpi-wóopȟe bláwa na wicáwala
+          html: '%{tou_link} kiŋ lená otȟáwokaške na táku OSMF kpamnípi uŋma kiŋ kičúŋze.
+            Wóičhikȟoyake kiŋ akákpi yo/ye. Yuŋkȟáŋ, wówapi kiŋ yawá na wičála yo/ye.'
+          tou: Úƞpi-Wóopȟe
+        read_tou: Úƞpi-Wóopȟe bláwa na wicáwala
+        guidance_info_html: 'Úƞpi-Wóopȟe kiŋ oyakáȟniǧa uŋčhíŋpi. Táku tóna uŋpámnipi:
+          %{readable_summary_link} na %{informal_translations_link}.'
+        readable_summary: ikčé-iyápi (yawápȟiča) wówapi waŋ
+        informal_translations: wóyuiyeska wašákala tóna
+        continue: Wičála Ahíyaya
         cancel: Yužúžu
         legale_select: 'Makȟóčhe el yathí:'
         legale_names:
@@ -250,7 +296,7 @@ lkt:
           italy: Italy Makȟóčhe
           rest_of_world: Makȟóčhe uŋmá
       update:
-        terms accepted: Kíč'uŋpi-wóopȟe kiŋ wičáyala! Philámaye!
+        terms accepted: Kíč'uŋpi-Wóopȟe kiŋ wičáyala! Philámaye!
       terms_declined_flash:
         terms_declined_link: Wiki oyúblaye kiŋ le
     pd_declarations:
@@ -493,6 +539,10 @@ lkt:
       followed_diaries: aŋpél'okigwapi wówapi
       nearby_changesets: tuwá nikhíyela uŋ kiŋ tȟawóyutȟokča-opȟáȟte
       nearby_diaries: tuwá nikhíyela uŋ kiŋ tȟaáŋpel'okigwapi wówapi
+  notifications:
+    gpx_details:
+      filename: Wópȟaȟta-čhažé
+      description: Wahóši aú kiƞ ihóši
   diary_entries:
     new:
       title: Aŋpél'okigwapi Wówapi Théča
