@@ -27,7 +27,7 @@ module Api
       )
     end
 
-    def test_tracepoints_public
+    def test_tracepoints_public_not_served
       point = create(:trace, :without_validations, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
         create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
       end
@@ -39,12 +39,23 @@ module Api
       get api_tracepoints_path(:bbox => bbox)
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
-        assert_select "trk" do
-          assert_select "name", :count => 0
-          assert_select "desc", :count => 0
-          assert_select "url", :count => 0
-          assert_select "trkseg", :count => 1
-        end
+        assert_select "trk", :count => 0
+      end
+    end
+
+    def test_tracepoints_private_not_served
+      point = create(:trace, :without_validations, :visibility => "private", :latitude => 1, :longitude => 1) do |trace|
+        create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
+      end
+      minlon = point.longitude - 0.001
+      minlat = point.latitude - 0.001
+      maxlon = point.longitude + 0.001
+      maxlat = point.latitude + 0.001
+      bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
+      get api_tracepoints_path(:bbox => bbox)
+      assert_response :success
+      assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
+        assert_select "trk", :count => 0
       end
     end
 
@@ -99,6 +110,103 @@ module Api
           end
         end
       end
+    end
+
+    def test_tracepoints_cursor_pagination
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 2))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 3))
+      end
+
+      with_settings(:tracepoints_per_page => 3) do
+        get api_tracepoints_path(:bbox => "0.9,0.9,1.1,1.1")
+        assert_response :success
+        assert_select "trkpt", :count => 3
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        assert_not_nil next_url
+
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 1
+        assert_nil @response.headers["Link"]
+      end
+    end
+
+    def test_tracepoints_cursor_pagination_across_traces
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+      end
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :latitude => (1.05 * GeoRecord::SCALE).to_i, :timestamp => Time.utc(2026, 1, 2, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :latitude => (1.05 * GeoRecord::SCALE).to_i, :timestamp => Time.utc(2026, 1, 2, 0, 0, 1))
+      end
+
+      with_settings(:tracepoints_per_page => 2) do
+        # the first page has all the points of the newest trace
+        get api_tracepoints_path(:bbox => "0.9,0.9,1.1,1.1")
+        assert_response :success
+        assert_select "trkpt", :count => 2
+        assert_match(/lat="1.0500000"/, response.body)
+        assert_no_match(/lat="1.0000000"/, response.body)
+
+        # the second page continues with the older trace
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 2
+        assert_match(/lat="1.0000000"/, response.body)
+        assert_no_match(/lat="1.0500000"/, response.body)
+
+        # following the link once more returns an empty document
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 0
+        assert_nil @response.headers["Link"]
+      end
+    end
+
+    def test_tracepoints_cursor_pagination_across_track_segments
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :trackid => 1, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :trackid => 1, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+        create(:tracepoint, :trace => trace, :trackid => 2, :timestamp => Time.utc(2026, 1, 1, 0, 0, 2))
+        create(:tracepoint, :trace => trace, :trackid => 2, :timestamp => Time.utc(2026, 1, 1, 0, 0, 3))
+      end
+
+      with_settings(:tracepoints_per_page => 2) do
+        # the first page has the two points of the first track segment
+        get api_tracepoints_path(:bbox => "0.9,0.9,1.1,1.1")
+        assert_response :success
+        assert_select "trkseg", :count => 1
+        assert_select "trkpt", :count => 2
+
+        # the second page has the two points of the second track segment
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkseg", :count => 1
+        assert_select "trkpt", :count => 2
+      end
+    end
+
+    def test_tracepoints_invalid_cursor
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1", :cursor => "not a cursor")
+      assert_response :bad_request
+      assert_equal "The cursor parameter is invalid", @response.body
+    end
+
+    def test_tracepoints_cursor_with_invalid_values
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1", :cursor => Base64.urlsafe_encode64("hello"))
+      assert_response :bad_request
+      assert_equal "The cursor parameter is invalid", @response.body
+
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1", :cursor => Base64.urlsafe_encode64("1|2|not a time"))
+      assert_response :bad_request
+      assert_equal "The cursor parameter is invalid", @response.body
     end
 
     def test_tracepoints_disabled
