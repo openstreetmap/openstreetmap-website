@@ -105,13 +105,12 @@ module RichText
     end
 
     def linkify(text, mode = :urls, hosts: true, paths: true)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
       html = ERB::Util.html_escape(text)
 
       html = expand_link_shorthands(html) if paths
       html = expand_host_shorthands(html) if hosts
 
-      Rinku.auto_link(html, mode, link_attr) do |url|
+      Rinku.auto_link(html, mode, Linkify::LINK_ATTRIBUTES) do |url|
         url = shorten_hosts(url) if hosts
         url = shorten_link(url) if paths
 

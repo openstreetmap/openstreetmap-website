@@ -61,6 +61,6 @@ module BrowseTagsHelper
 
     return link_to(hv, link, :rel => "nofollow") if link
 
-    linkify(hv)
+    Linkify.call(hv)
   end
 end
