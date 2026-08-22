@@ -159,14 +159,17 @@ module TagLinker
     value
   end
 
-  def self.tag2link_link(key, value)
-    # skip if it's a full URL
-    return nil if %r{\Ahttps?://}.match?(value)
+  def self.basic_link(key, value)
+    hv = ERB::Util.h(value)
+    return { :text => Linkify.call(hv) } if %r{\Ahttps?://}.match?(value)
 
     url_template = @tag2link_dict[key]
-    return nil unless url_template
+    return { :text => Linkify.call(hv) } unless url_template
 
-    url_template.gsub("$1", value.sub(/^#/, ""))
+    link = url_template.gsub("$1", value.sub(/^#/, ""))
+    return { :text => Linkify.call(hv) } unless link
+
+    { :text => hv, :url => link, :type => :tag2link_link, :key => key }
   end
 
   def self.build_tag2link_dict(data)
