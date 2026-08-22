@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def linkify(text)
-    link_attr = 'rel="nofollow" dir="auto"'
-    if text.html_safe?
-      Rinku.auto_link(text, :urls, link_attr).html_safe
-    else
-      Rinku.auto_link(ERB::Util.h(text), :urls, link_attr).html_safe
-    end
-  end
-
   def rss_link_to(args = {})
     link_to tag.i(:class => "bi bi-rss-fill fs-6", :aria => { :hidden => "true" }), args
   end
