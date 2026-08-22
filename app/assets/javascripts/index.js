@@ -24,12 +24,18 @@ $(function () {
     worldCopyJump: true
   });
 
+  OSM.cancelSidebarContentLoad = function () {
+    $("#sidebar_content_frame")
+      .off("turbo:frame-render.loadSidebarContent")
+      .removeAttr("src");
+  };
+
   OSM.loadSidebarContent = function (path) {
     map.setSidebarOverlaid(false);
+    OSM.cancelSidebarContentLoad();
 
     return new Promise((resolve, reject) => {
       $("#sidebar_content_frame")
-        .off("turbo:frame-render.loadSidebarContent")
         .one("turbo:frame-render.loadSidebarContent", event => {
           const response = event.originalEvent.detail.fetchResponse.response;
 
