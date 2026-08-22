@@ -88,14 +88,15 @@ module TagLinker
     nil
   end
 
-  def self.tag2link_link(key, value)
-    # skip if it's a full URL
-    return nil if %r{\Ahttps?://}.match?(value)
+  def self.basic_link(key, value)
+    hv = ERB::Util.html_escape(value)
+    return { :text => RichText.auto_link(hv) } if %r{\Ahttps?://}.match?(value)
 
     url_template = @tag2link_dict[key]
-    return nil unless url_template
+    return { :text => RichText.auto_link(hv) } unless url_template
 
-    url_template.gsub("$1", value.sub(/^#/, ""))
+    link = url_template.gsub("$1", value.sub(/^#/, ""))
+    { :text => hv, :url => link, :type => :tag2link_link, :key => key }
   end
 
   def self.email_link(key, value)
