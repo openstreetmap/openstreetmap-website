@@ -629,7 +629,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
               else
                 assert_select "> xhtml|tr > xhtml|td > xhtml|table", :count => 1 do
                   changeset.tags.each_key do |key|
-                    assert_select "> xhtml|tr > xhtml|td", :text => /^#{key} = /
+                    assert_select "> xhtml|tr > xhtml|td", :visible_text => /^#{key} = /
                   end
                 end
               end
