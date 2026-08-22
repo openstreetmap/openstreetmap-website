@@ -475,15 +475,15 @@ class TagLinkerTest < ActiveSupport::TestCase
     assert_nil colour
   end
 
-  def test_tag2link_link
-    assert_nil TagLinker.tag2link_link("website", "https://example.com/page")
+  def test_basic_link
+    assert_nil TagLinker.basic_link("website", "https://example.com/page")[:url]
 
-    assert_nil TagLinker.tag2link_link("nonexistent_key", "SomeValue")
+    assert_nil TagLinker.basic_link("nonexistent_key", "SomeValue")[:url]
 
-    url = TagLinker.tag2link_link("wikidata", "Q936")
+    url = TagLinker.basic_link("wikidata", "Q936")[:url]
     assert_equal "https://www.wikidata.org/entity/Q936", url
 
-    url = TagLinker.tag2link_link("hashtags", "#maproulette")
+    url = TagLinker.basic_link("hashtags", "#maproulette")[:url]
     assert_equal "https://resultmaps.neis-one.org/osm-changesets?comment=maproulette", url
   end
 

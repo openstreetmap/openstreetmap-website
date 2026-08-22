@@ -47,20 +47,9 @@ module BrowseTagsHelper
       end
       svg + colour_value
     elsif %w[opening_hours collection_times service_times].include?(key)
-      basic_link(key, value)
+      TagLinker.basic_link(key, value)
     else
-      safe_join(value.split(";", -1).map { |x| basic_link(key, x) }, ";")
+      safe_join(value.split(";", -1).map { |x| TagLinker.basic_link(key, x) }, ";")
     end
-  end
-
-  private
-
-  def basic_link(key, value)
-    link = TagLinker.tag2link_link(key, value)
-    hv = h(value)
-
-    return link_to(hv, link, :rel => "nofollow") if link
-
-    Linkify.call(hv)
   end
 end
