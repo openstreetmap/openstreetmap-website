@@ -72,6 +72,46 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
+  def format_key(key)
+    TagLinker.format_key(key) do |hash|
+      title_options = hash.except(:text, :url, :type)
+      return hash[:text] unless hash[:url]
+
+      link_to(hash[:text], hash[:url], :title => t("browse.tag_details.#{hash[:type]}", **title_options))
+    end
+  end
+
+  def format_value(key, value, html_only: false)
+    html = []
+    TagLinker.format_value(key, value) do |hash|
+      title_options = hash.except(:text, :url, :type, :widget)
+      if hash[:widget] && html_only
+        if hash[:widget] == :wikidata_preview
+          html << button_tag(:type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) }) do
+            tag.svg :width => 27, :height => 16 do
+              concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
+              concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Z"
+            end
+          end
+        end
+        if hash[:widget] == :colour_preview
+          html << tag.svg(:width => 14, :height => 14, :class => "float-end m-1") do
+            concat tag.title t("browse.tag_details.colour_preview", :colour_value => colour_value)
+            concat tag.rect :x => 0.5, :y => 0.5, :width => 13, :height => 13, :fill => colour_value, :stroke => "#2222"
+          end
+        end
+        next
+      end
+
+      next html << hash[:text] unless hash[:url]
+
+      html << link_to(hash[:text], hash[:url], :title => t("browse.tag_details.#{hash[:type]}", **title_options))
+      html << ";"
+    end
+    html.pop if html.last == ";"
+    safe_join(html)
+  end
+
   private
 
   def feature_name(tags)
