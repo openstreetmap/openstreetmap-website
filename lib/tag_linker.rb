@@ -12,6 +12,54 @@ module TagLinker
     @wiki_pages_dict = YAML.load_file(paths[:wiki_pages]).freeze
   end
 
+  def self.format_key(key)
+    if url = TagLinker.wiki_link("key", key)
+      yield({ :text => ERB::Util.h(key), :url => url, :type => :"wiki_link.key", :key => key })
+    else
+      yield({ :text => ERB::Util.h(key) })
+    end
+  end
+
+  def self.format_value(key, value)
+    if wp = wikipedia_links(key, value)
+      wp.each do |w|
+        yield({ :text => ERB::Util.h(w[:title]), :url => w[:url], :type => :wikipedia_link, :page => w[:title] })
+      end
+    elsif wdt = wikidata_links(key, value)
+      yield({ :type => :html, :html => button_tag(:type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) }) do
+        tag.svg :width => 27, :height => 16 do
+          concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
+          concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Z"
+        end
+      end })
+      wdt.each do |w|
+        yield({ :text => w[:title], :url => w[:url], :type => :wikidata_link, :page => w[:title].strip })
+      end
+    elsif wmc = wikimedia_commons_link(key, value)
+      yield({ :text => ERB::Util.h(wmc[:title]), :url => wmc[:url], :type => :wikimedia_commons_link, :page => wmc[:title] })
+    elsif url = wiki_link("tag", "#{key}=#{value}")
+      yield({ :text => ERB::Util.h(value), :url => url, :type => :"wiki_link.tag", :key => key, :value => value })
+    elsif email = email_link(key, value)
+      yield({ :text => ERB::Util.h(email), :url => email, :type => :email_link, :email => email })
+    elsif phones = telephone_links(key, value)
+      phones.each do |p|
+        yield({ :text => ERB::Util.h(p[:phone_number]), :url => p[:url], :type => :telephone_link, :phone_number => p[:phone_number] })
+      end
+    elsif colour_value = colour_preview(key, value)
+      yield({ :type => :html, :html => tag.svg(:width => 14, :height => 14, :class => "float-end m-1") do
+        concat tag.title t("browse.tag_details.colour_preview", :colour_value => colour_value)
+        concat tag.rect :x => 0.5, :y => 0.5, :width => 13, :height => 13, :fill => colour_value, :stroke => "#2222"
+      end })
+      yield({ :text => colour_value })
+    elsif %w[opening_hours collection_times service_times].include?(key)
+      yield basic_link(key, value)
+    else
+      value.split(";", -1).each do |x|
+        yield basic_link(key, x)
+      end
+    end
+  end
+
   def self.wiki_link(type, title)
     locale = I18n.locale.to_s
 
