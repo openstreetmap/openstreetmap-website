@@ -66,7 +66,7 @@ class BrowseTagsHelperTest < ActionView::TestCase
     assert_dom_equal "<a title=\"The File:Test.jpg item on Wikimedia Commons\" href=\"https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=en\">File:Test.jpg</a>", html
 
     html = format_value("mapillary", "123;https://example.com")
-    assert_dom_equal "<a rel=\"nofollow\" href=\"https://www.mapillary.com/app/?pKey=123\">123</a>;<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>",
+    assert_dom_equal "<a rel=\"nofollow\" href=\"https://www.mapillary.com/app/?pKey=123\">123</a>;<a href=\"https://example.com\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://example.com</a>",
                      html
 
     html = format_value("colour", "#f00")
@@ -84,10 +84,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
                   :text => "Mo-Fr 09:00-12:00;Sa 09:00-17:00"
 
     html = format_value("website", "https://example.com")
-    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>", html
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://example.com</a>", html
 
     html = format_value("website", "https://example.com;hello;https://example.net")
-    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow\" dir=\"auto\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow\" dir=\"auto\">https://example.net</a>", html
+    assert_dom_equal "<a href=\"https://example.com\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://example.com</a>;hello;<a href=\"https://example.net\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://example.net</a>", html
 
     html = format_value("website", "https://routing.openstreetmap.de/routed-car/route/v1/driving/-3.68,57.63;-3.68,57.61")
     dom = parse_html html

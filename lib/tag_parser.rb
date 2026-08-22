@@ -88,14 +88,14 @@ module TagParser
     nil
   end
 
-  def self.tag2link_link(key, value)
-    # skip if it's a full URL
-    return nil if %r{\Ahttps?://}.match?(value)
+  def self.basic_link(key, value)
+    return { :text => RichText.auto_link(value) } if %r{\Ahttps?://}.match?(value)
 
     url_template = @tag2link_dict[key]
-    return nil unless url_template
+    return { :text => RichText.auto_link(value) } unless url_template
 
-    url_template.gsub("$1", value.sub(/^#/, ""))
+    link = url_template.gsub("$1", value.sub(/^#/, ""))
+    { :text => value, :url => link, :type => :tag2link_link, :key => key }
   end
 
   def self.email_link(key, value)

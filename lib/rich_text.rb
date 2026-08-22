@@ -30,6 +30,13 @@ module RichText
       end
   end
 
+  def self.auto_link(text, mode = :urls, before: nil, after: nil)
+    link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
+    html = ERB::Util.html_escape(text)
+    html = before.call(html) if before
+    Rinku.auto_link(html, mode, link_attr, &after).html_safe
+  end
+
   class SimpleFormat
     include ActionView::Helpers::TextHelper
     include ActionView::Helpers::OutputSafetyHelper
@@ -105,18 +112,17 @@ module RichText
     end
 
     def linkify(text, mode = :urls, hosts: true, paths: true)
-      link_attr = 'rel="nofollow noopener noreferrer" dir="auto"'
-      html = ERB::Util.html_escape(text)
+      RichText.auto_link(text, mode, :before => lambda { |html|
+        html = expand_link_shorthands(html) if paths
+        html = expand_host_shorthands(html) if hosts
 
-      html = expand_link_shorthands(html) if paths
-      html = expand_host_shorthands(html) if hosts
-
-      Rinku.auto_link(html, mode, link_attr) do |url|
+        html
+      }, :after => lambda { |url|
         url = shorten_hosts(url) if hosts
         url = shorten_link(url) if paths
 
         url
-      end.html_safe
+      })
     end
 
     private
