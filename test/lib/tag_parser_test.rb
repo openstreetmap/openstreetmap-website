@@ -489,15 +489,15 @@ class TagParserTest < ActiveSupport::TestCase
     assert_nil colour
   end
 
-  def test_tag2link_link
-    assert_nil TagParser.tag2link_link("website", "https://example.com/page")
+  def test_basic_link
+    assert_nil TagParser.basic_link("website", "https://example.com/page")[:url]
 
-    assert_nil TagParser.tag2link_link("nonexistent_key", "SomeValue")
+    assert_nil TagParser.basic_link("nonexistent_key", "SomeValue")[:url]
 
-    url = TagParser.tag2link_link("wikidata", "Q936")
+    url = TagParser.basic_link("wikidata", "Q936")[:url]
     assert_equal "https://www.wikidata.org/entity/Q936", url
 
-    url = TagParser.tag2link_link("hashtags", "#maproulette")
+    url = TagParser.basic_link("hashtags", "#maproulette")[:url]
     assert_equal "https://resultmaps.neis-one.org/osm-changesets?comment=maproulette", url
   end
 
