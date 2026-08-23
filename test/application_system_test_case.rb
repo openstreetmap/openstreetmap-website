@@ -63,6 +63,52 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
 
   private
 
+  def delay_next_api_response
+    execute_script <<~JAVASCRIPT
+      {
+        const nativeFetch = window.fetch.bind(window);
+        const loadSidebarContent = OSM.loadSidebarContent.bind(OSM);
+        window.testSidebarContentLoads = [];
+
+        OSM.loadSidebarContent = function (path) {
+          window.testSidebarContentLoads.push(path);
+          return loadSidebarContent(path);
+        };
+
+        window.fetch = function (...args) {
+          const input = args[0];
+          const url = input instanceof Request ? input.url : String(input);
+          const responsePromise = nativeFetch(...args);
+
+          if (!url.includes("/api/")) return responsePromise;
+
+          return responsePromise.then(response => new Promise(resolve => {
+            document.documentElement.dataset.delayedApiResponse = "ready";
+            window.releaseDelayedApiResponse = function () {
+              resolve(response);
+              setTimeout(function () {
+                document.documentElement.dataset.delayedApiResponse = "released";
+              }, 0);
+            };
+          }));
+        };
+      }
+    JAVASCRIPT
+  end
+
+  def wait_for_delayed_api_response
+    assert_selector "html[data-delayed-api-response='ready']"
+  end
+
+  def release_delayed_api_response
+    execute_script "window.releaseDelayedApiResponse()"
+    assert_selector "html[data-delayed-api-response='released']"
+  end
+
+  def recorded_sidebar_content_loads
+    evaluate_script "window.testSidebarContentLoads"
+  end
+
   def sign_in_as(user)
     visit login_path
     within "form", :text => "Email Address or Username" do

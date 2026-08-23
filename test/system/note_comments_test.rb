@@ -126,4 +126,28 @@ class NoteCommentsTest < ApplicationSystemTestCase
       assert_no_button "Unsubscribe"
     end
   end
+
+  test "does not reload a note after leaving while a subscription is pending" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+    delay_next_api_response
+
+    within_sidebar do
+      click_on "Subscribe"
+    end
+    wait_for_delayed_api_response
+
+    execute_script "OSM.router.route('/export')"
+    assert_current_path export_path
+    assert_selector ".export_form"
+    assert_equal [export_path], recorded_sidebar_content_loads
+
+    release_delayed_api_response
+
+    assert_equal [export_path], recorded_sidebar_content_loads
+    assert_current_path export_path
+    assert_selector ".export_form"
+  end
 end
