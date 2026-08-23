@@ -31,7 +31,8 @@ export default function (map) {
       item?.scrollIntoView({ block: "nearest", behavior: "smooth" });
     });
 
-  let changesetIntersectionObserver;
+  let changesetIntersectionObserver,
+      firstChangesetsController;
 
   function disableChangesetIntersectionObserver() {
     if (changesetIntersectionObserver) {
@@ -168,6 +169,10 @@ export default function (map) {
   }
 
   function loadFirstChangesets() {
+    firstChangesetsController?.abort();
+    const currentController = new AbortController();
+    firstChangesetsController = currentController;
+
     const data = new URLSearchParams();
     const isHistory = location.pathname === "/history";
 
@@ -182,9 +187,11 @@ export default function (map) {
 
     setListFetchData(data, location);
 
-    fetch(location.pathname + "?" + data)
+    fetch(location.pathname + "?" + data, { signal: currentController.signal })
       .then(response => response.text())
       .then(function (html) {
+        if (firstChangesetsController !== currentController) return;
+
         displayFirstChangesets(html);
         enableChangesetIntersectionObserver();
 
@@ -200,6 +207,12 @@ export default function (map) {
         }
 
         updateMap(isHistory);
+      })
+      .catch(error => {
+        if (error.name !== "AbortError") throw error;
+      })
+      .finally(() => {
+        if (firstChangesetsController === currentController) firstChangesetsController = null;
       });
   }
 
@@ -300,6 +313,8 @@ export default function (map) {
   };
 
   page.unload = function () {
+    firstChangesetsController?.abort();
+    firstChangesetsController = null;
     map.removeLayer(changesetsLayer);
     map.off("moveend", moveEndListener);
     map.off("zoomend", zoomEndListener);
