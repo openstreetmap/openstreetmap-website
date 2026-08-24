@@ -122,6 +122,10 @@ it:
           attributes:
             url:
               http_parse_error: L'URL dovrebbe iniziare con http:// o https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: non può essere riportato a un valore obsoleto
     models:
       acl: Lista di controllo degli accessi
       changeset: Gruppo di modifiche
@@ -277,6 +281,44 @@ it:
       x_years:
         one: '%{count} anno fa'
         other: '%{count} anni fa'
+    distance_in_words_in:
+      about_x_hours:
+        one: fra circa %{count} ora
+        other: fra circa %{count} ore
+      about_x_months:
+        one: fra circa %{count} mese
+        other: fra circa %{count} mesi
+      about_x_years:
+        one: fra circa %{count} anno
+        other: fra circa %{count} anni
+      almost_x_years:
+        one: fra quasi %{count} anno
+        other: fra quasi %{count} anni
+      half_a_minute: tra mezzo minuto
+      less_than_x_seconds:
+        one: tra meno di %{count} secondo
+        other: tra meno di %{count} secondi
+      less_than_x_minutes:
+        one: tra meno di %{count} minuto
+        other: tra meno di %{count} minuti
+      over_x_years:
+        one: tra più di %{count} anno
+        other: tra più di %{count} anni
+      x_seconds:
+        one: tra %{count} secondo
+        other: tra %{count} secondi
+      x_minutes:
+        one: tra %{count} minuto
+        other: tra %{count} minuti
+      x_days:
+        one: tra %{count} giorno
+        other: tra %{count} giorni
+      x_months:
+        one: tra %{count} mese
+        other: tra %{count} mesi
+      x_years:
+        one: tra %{count} anno
+        other: tra %{count} anni
   editor:
     default: Predefinito (al momento %{name})
     id:
@@ -532,6 +574,9 @@ it:
       colour_preview: Anteprima colore %{colour_value}
       email_link: Email %{email}
     versions_navigation:
+      node_versions: Versioni del nodo
+      way_versions: Versioni del percorso
+      relation_versions: Versioni della relazione
       node: Nodo
       way: Percorso
       relation: Relazione
@@ -548,10 +593,13 @@ it:
     index:
       node:
         title_html: 'Cronologia nodo: %{name}'
+        actions: Azioni sul nodo
       way:
         title_html: 'Cronologia percorso: %{name}'
+        actions: Azioni sul percorso
       relation:
         title_html: 'Cronologia relazione: %{name}'
+        actions: Azioni sulla relazione
       older_versions: Versioni precedenti
       newer_versions: Versioni più recenti
     actions:
@@ -708,6 +756,7 @@ it:
       latest_edit_html: 'Ultima modifica (%{ago}):'
       no_edits: (nessuna modifica)
       view_changeset_details: Visualizza i dettagli del gruppo di modifiche
+      actions: Azioni sull’utente
     popup:
       your location: Propria posizione
       nearby mapper: Mappatore vicino
@@ -722,8 +771,10 @@ it:
       nearby users: Altri utenti nelle vicinanze
       no nearby users: Non ci sono ancora altri utenti che ammettono di mappare nelle
         vicinanze.
+      followed_actions: Azioni sugli utenti che segui
       followed_changesets: gruppi di modifiche
       followed_diaries: voci del diario
+      nearby_actions: Azioni sugli utenti nelle vicinanze
       nearby_changesets: gruppi di modifiche da parte degli utenti nelle vicinanze
       nearby_diaries: note dei diari degli utenti nelle vicinanze
   notifications:
@@ -808,6 +859,7 @@ it:
       posted_by_html: Pubblicato da %{link_user} il %{created} in %{language_link}.
       updated_at_html: Ultimo aggiornamento il %{updated}.
       full_entry: Vedi la voce completa
+      actions: Azioni sulle voci del diario
       comment_link: Commenta questa voce
       reply_link: Invia un messaggio all'autore
       comment_count:
@@ -844,6 +896,7 @@ it:
       heading: Annullare l'iscrizione alla seguente discussione sul diario?
       button: Annulla l'iscrizione alla discussione
     navigation:
+      actions: Azioni sul diario
       in_language: Voci del diario in %{language}
       my_diary: Il mio diario
       new: Nuova voce del diario
@@ -1830,6 +1883,7 @@ it:
       report_created_at_html: Segnalato per la prima volta il %{datetime}
       last_resolved_at_html: Risolto per l’ultima volta il %{datetime}
       last_updated_at_html: Aggiornato per l’ultima volta il %{datetime} da %{displayname}
+      actions: Azioni relative ai problemi
       resolve: Risolvi
       ignore: Ignora
       reopen: Riapri
@@ -2059,6 +2113,7 @@ it:
       select_language: Seleziona lingua
       sign_up: Registrati
       user_diaries: Diari degli utenti
+      navigation: Navigazione principale
     meta:
       openstreetmap_search: Cerca OpenStreetMap
     select_language_button:
@@ -2883,6 +2938,8 @@ it:
       get_directions_title: Trova indicazioni tra due punti
       from: Da
       to: A
+      marker_from: Indicatore di inizio percorso
+      marker_to: Indicatore di fine percorso
       where_am_i: Dove si trova?
       where_am_i_title: Descrivi la posizione attuale usando il motore di ricerca
       submit_text: Vai
@@ -3165,6 +3222,7 @@ it:
         other: '%{count} punti'
       more: altri
       trace_details: Visualizza i dettagli del tracciato
+      trace_actions: Azioni sulla traccia
       view_map: Visualizza la posizione sulla mappa
       edit_map: Apri nell'editor
       public: PUBBLICO
@@ -3178,6 +3236,7 @@ it:
       my_gps_traces: Le mie tracce GPS
       public_traces_from: Tracciati GPS pubblici di %{user}
       description: Naviga fra i tracciati GPS caricati recentemente
+      actions: Azioni sulla lista delle tracce
       tagged_with: ' etichettati con %{tags}'
       empty_title: Per ora non c'è niente
       empty_upload_html: '%{upload_link} oppure scopri di più su come creare tracciati
@@ -3447,6 +3506,8 @@ it:
         o che il collegamento sul quale hai cliccato non sia errato.
       deleted: cancellato
     show:
+      actions: Azioni
+      admin_actions: Attività di amministrazione
       my diary: Il mio diario
       my edits: Le mie modifiche
       my traces: I miei tracciati
@@ -3686,7 +3747,7 @@ it:
         active: attivo
         active_until_read: attivo fino alla lettura
         read_html: letto alle %{time}
-        time_in_future_title: '%{time_absolute}; in %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloccato da %{block_by}'
@@ -3824,6 +3885,7 @@ it:
       warning: Non è possibile creare nuove note perché l'API di OpenStreetMap è attualmente
         in modalità di sola lettura.
     notes_paging_nav:
+      label: Navigazione della pagina
       showing_page: Pagina %{page}
       next: Successivo
       previous: Precedente
@@ -4061,6 +4123,7 @@ it:
     navigation:
       new_title: Definisci una nuova zona di moderazione
       new: Nuova zona di moderazione
+      actions: Azioni della zona di moderazione
     index:
       title: Zone di moderazione
       heading: Zone di moderazione
