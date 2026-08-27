@@ -121,6 +121,10 @@ ja:
           attributes:
             url:
               http_parse_error: URLの先頭は http:// または https:// でなければいけません
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: 古い値に戻すことは不可能です
     models:
       acl: アクセスコントロールリスト
       changeset: 変更セット
@@ -188,6 +192,7 @@ ja:
         visibility: 可視性
         tagstring: タグ
       moderation_zone:
+        name: 名前
         reason: 理由
         zone: 地域
         period: 期間
@@ -256,6 +261,32 @@ ja:
         other: '%{count}ヶ月前'
       x_years:
         other: '%{count}年前'
+    distance_in_words_in:
+      about_x_hours:
+        other: 約 %{count} 時間前
+      about_x_months:
+        other: 約%{count} ヵ月前
+      about_x_years:
+        other: 約%{count}年前
+      almost_x_years:
+        other: ほぼ%{count}年前
+      half_a_minute: 30秒後
+      less_than_x_seconds:
+        other: '%{count}秒以内'
+      less_than_x_minutes:
+        other: '%{count}分以内'
+      over_x_years:
+        other: 約%{count}年前
+      x_seconds:
+        other: '%{count}秒前'
+      x_minutes:
+        other: '%{count}分前'
+      x_days:
+        other: '%{count}日以内'
+      x_months:
+        other: '%{count}ヵ月以内'
+      x_years:
+        other: '%{count}年以内'
   editor:
     default: 既定 (現在は %{name})
     id:
@@ -616,6 +647,7 @@ ja:
       latest_edit_html: '最終編集 %{ago}:'
       no_edits: (編集がありません)
       view_changeset_details: 変更セットの詳細を閲覧
+      actions: 利用者の操作
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
@@ -634,6 +666,8 @@ ja:
   notifications:
     index:
       title: 通知
+    gpx_import_failure:
+      error_message: エラーのメッセージ
     new_follower:
       description_html: '%{follower_name_with_link} という利用者があなたをフォローしました。ご希望の場合は %{link}
         できます。'
@@ -910,9 +944,13 @@ ja:
           aboriginal_lands: 先住民地域
           administrative: 行政境界
           census: 国勢調査の境界
+          low_emission_zone: 低排出圏
           national_park: 国立公園
           political: 選挙区の境界
+          postal_code: 郵便番号
           protected_area: 保護区
+          public_transport: 公共交通の地区
+          timezone: 時間帯
           "yes": 境界
         bridge:
           aqueduct: 水道橋
@@ -1562,6 +1600,33 @@ ja:
         level9: 行政境界（レベル9）
         level10: 行政境界（レベル10）
         level11: 行政境界（レベル11）
+      border_types:
+        arrondissement: 地区界
+        borough: 区の境界線
+        cercle: セルクル境界線
+        city: 市界
+        comarca: コマルカ境界線
+        county: 郡部の境界線
+        departement: 地域の境界線
+        department: 地域の境界線
+        district: 地区の境界線
+        distrito: 地区の境界線
+        freguesia: フレグラシア境界線
+        local_authority: 地方自治体の境界線
+        municipality: 自治体の境界線
+        municipi: 自治体の境界線
+        município: 自治体の境界線
+        nation: 国や地域の境界線
+        national: 国や地域の境界線
+        neighbourhood: 集落の境界線
+        parish: 教区の境界線
+        province: 県の境界線
+        região: 地域の境界線
+        region: 地域の境界線
+        state: 州界
+        town: 都市の境界線
+        township: 町村の境界線
+        village: 村落の境界線
   searches:
     show:
       title:
@@ -1814,6 +1879,8 @@ ja:
     gpx_failure:
       hi: こんにちは、%{to_user} さん。
       failed_to_import: ファイルをGPSトレースとしてインポートできませんでした。
+      verify: 皆さんのファイルが対応済みのデータ形式（.tar.gz、.tar.bz2、.tar, .zip、.gpx.gz、.gpx.bz2）で記述してあり、有効な
+        GPX 形式のファイルもしくはアーカイブ版で GPX ファイル類を掲載しているかどうか明示願います。ファイルに形式や構文の問題がありそうですか？ インポートエラーの場合は右記のとおり：
       more_info: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       more_info_html: GPXインポートの失敗とその回避方法についての詳細は、%{url}に記載されています。
       subject: '[OpenStreetMap] GPX インポートに失敗'
@@ -2021,6 +2088,9 @@ ja:
           light: ライト
           dark: ダーク
         save: 設定の更新
+    notification_preferences:
+      show:
+        direct_message: ダイレクト・メッセージ
     advanced_preferences:
       show:
         save: 設定の更新
@@ -2030,6 +2100,8 @@ ja:
         links: リンク
         image: 画像
         company: 会社
+        location: 位置
+        contribution_calendar: 貢献カレンダー
     descriptions:
       show:
         title: プロフィールを編集
@@ -2060,15 +2132,26 @@ ja:
         cancel: キャンセル
     locations:
       show:
+        title: プロフィールを編集
+        save: プロフィールを更新
         cancel: キャンセル
         no home location: あなたはまだホーム地点を登録していません。
         update home location on click: ホーム地点を、地図上のクリックした地点に変更
         show: 表示
         delete: 削除
         undelete: 削除を取り消し
+      update:
+        success: プロフィール位置を更新済み。
+        failure: プロフィール位置の更新に失敗しました。
     heatmaps:
       show:
+        title: 貢献カレンダーを設定
+        show_contribution_calendar_in_public: 投稿カレンダーをプロフィール・ページに表示
+        save: 貢献カレンダーの設定更新
         cancel: キャンセル
+      update:
+        success: 貢献カレンダーは更新済み。
+        failure: 寄付のカレンダーの更新に失敗
   sessions:
     new:
       tab_title: ログイン
@@ -2148,15 +2231,29 @@ ja:
         lead_2_osm_blog: OpenStreetMap のブログ
         lead_2_osm_community: OSMコミュニティ
         lead_2_osm_foundation: OSM財団
+        licensing_title: OpenStreetMap ライセンス規定
+        licensing_1_html: OpenStreetMapは %{open} データであり、ライセンス要件は %{osm_foundation_link}（OSMF）の定める
+          %{odc_odbl_link}（ODbL）に準拠します。概要は以下のとおり：
+        licensing_1_open: オープン
         licensing_1_odc_odbl: Open Data Commons Open Database License
         licensing_1_osm_foundation: OpenStreetMap財団
         licensing_2_html: OpenStreetMap とその協力者をクレジットするという条件のもと、当方のデータは自由に複写し配布し送信し利用を認めています。当方のデータを改変もしくは翻案した場合は、元データと同じライセンスの適用によって配布が認められます。あなたの責任と権利は
           %{legal_code_link} の解説をお読みください。
+        licensing_2_legal_code: 法的規定の詳細は Open Data Commons を参照
+        licensing_3_html: 私たちの文書類にはライセンス要件として %{creative_commons_license_link}（CC
+          BY-SA 2.0）が適用されます。
+        licensing_3_creative_commons_license: クリエイティブ・コモンズ 表示-継承ライセンス（CC BY-SA）
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: 私たちのデータを利用する要件の詳細は、%{osmf_license_page_link} を参照。
         licensing_4_osmf_license_page: OSMFライセンスページ
         credit_title_html: OpenStreetMap のクレジット表記の仕方
         credit_1_html: OpenStreetMap を使う場所では、以下の2つの条件を必ず守ってください。
         credit_2_license: 配布されるデータがOpen Database Licenseの下で利用可能であることを明示してください。
+        credit_3_v2025_html: 継承の表明通知には、データ利用の方法に応じてそれぞれ個別の %{requirements_on_how_displayed_link}
+          をご用意しています。一例として、使用がブラウザで表示可能もしくは印刷可能な地図あるいは静的な画像を新作したなど、どのような使い方をするかによって異なる規定を適用します。詳細はリンク元
+          %{licensing_requirements_link} 内の %{attribution_guidelines_link} の項目をご参照ください。
         credit_3_v2025_attribution_guidelines: Attribution Guidelines
+        credit_3_v2025_licensing_requirements: ライセンスの諸要件
         credit_4_v2025_html: 一般論として、%{this_copyright_page_link} にリンクすると、当該のデータが OpenDatabase
           License の下で利用可能であると明確に示すことができます。OSM をデータ形式で配布する場合は、ライセンス名の明記とライセンス（複数の場合あり）の直接リンクを添えてください。（印刷物など）リンクが不可能なメディアの場合は、ページの完全な
           URL をたとえば %{copyright_page_url} のように載せてください。
@@ -2187,6 +2284,8 @@ ja:
         contributors_at_stadt_wien: Stadt Wien
         contributors_at_land_vorarlberg: Land Vorarlberg
         contributors_at_cc_by_at_with_amendments: CC BY AT with amendments
+        contributors_au_credit_html: "%{australia}：組み込みもしくは開発は行政区分の境界線を応用  &copy;
+          \nオーストラリア連邦ライセンス規定の %{cc_licence_link} に準拠済み %{geoscape_australia_link}"
         contributors_au_australia: オーストラリア
         contributors_au_geoscape_australia: ジオスケープ・オーストラリア
         contributors_au_cc_licence: クリエイティブ・コモンズ・ライセンス 表示 4.0 国際 (CC BY 4.0)
@@ -2218,6 +2317,7 @@ ja:
         contributors_hr_croatia: クロアチア
         contributors_hr_dgu: クロアチア共和国測地部
         contributors_hr_open_data_portal: 国立オープンデータポータル
+        contributors_nl_credit_new_html: '%{netherlands}：&copy; ''''''ならびに''''''データを含む、2007年時点'
         contributors_nl_netherlands: オランダ
         contributors_nz_credit_html: |-
           %{new_zealand}: Contains data sourced from the %{linz_data_service_link}
@@ -2235,7 +2335,11 @@ ja:
           %{slovenia}: %{gu_link}および %{mkgp_link}
           (public information of Slovenia)のデータが含まれます。
         contributors_si_slovenia: スロベニア
+        contributors_si_gu: 調査・地図作成当局
         contributors_si_mkgp: 農林食品省
+        contributors_es_credit_html: |-
+          %{spain}：スペイン国立地理研究所（Spanish National Geographic Institute %{ign_link}）ならびに国立地理情報システム（National Cartographic System %{scne_link}）に依拠するデータを含み、再利用には
+           %{cc_by_link} を適用。
         contributors_es_spain: スペイン
         contributors_za_credit_html: '%{south_africa}: %{ngi_link} から取得したデータを含み、著作権は国家に帰属します。'
         contributors_za_south_africa: 南アフリカ
@@ -2345,6 +2449,8 @@ ja:
       get_directions_title: 2点を結ぶルートを検索
       from: 出発点
       to: 目的地
+      marker_from: ルート始点のマーカ
+      marker_to: ルート終点のマーカ
       where_am_i: 現在表示中の位置情報
       where_am_i_title: 検索エンジンを使用して現在の場所を記述
       submit_text: 検索
@@ -2382,6 +2488,9 @@ ja:
     add_a_note:
       title: 編集する時間がないためメモを残す
       para_1: ちょっとした修正をしたいが、利用者登録して編集の仕方を勉強する時間がない場合は、簡単にメモを残せます。
+      para_2_html: |-
+        %{note_icon} もしくは類似のアイコンを %{map_link} 上でクリックするだけです。すると当該の地図にマーカを追加しますので、配置を変えるにはそれをドラッグしてください。メッセージ文を加筆したら
+        「保存」をクリック、すると他のマッパーの皆さんが審査できるようになります。
       the_map: 地図
     communities:
       title: コミュニティ
@@ -2675,6 +2784,7 @@ ja:
       write_gpx: GPSトレースをアップロードする
       write_notes: メモを変更する
       read_email: 利用者のメールアドレスを読む
+      consume_messages: 状況を閲覧し更新した後にユーザーメッセージを削除
       send_messages: 他の利用者にプライベートメッセージを送信する
       skip_authorization: 自動的に申請を承認する
     for_roles:
@@ -2805,6 +2915,10 @@ ja:
       edit_profile_details: プロフィール詳細の編集
       edit_description: 説明を編集
       change_image: 画像の変更
+      edit_location: 位置を編集
+      edit_contribution_calendar: 貢献カレンダーを設定
+      contributions:
+        other: 昨年1年間に貢献は %{count} 件
       title:
         administrator: この利用者は管理者です
         moderator: この利用者はモデレーターです
@@ -2818,6 +2932,8 @@ ja:
         administrator: 管理者権限を剥奪
         moderator: モデレーター権限を剥奪
         are_you_sure: 利用者「%{name}」の「%{role}」権限を本当に取り消しますか?
+    sidebar_section:
+      home_location: ホーム位置
     go_public:
       flash success: あなたの編集はすべて公開され、あなたは編集できるようになりました。
     issued_blocks:
@@ -3005,6 +3121,11 @@ ja:
         %{sign_up} してください。
       anonymous_warning_log_in: ログイン
       anonymous_warning_sign_up: 利用者登録
+      counter_warning_html: 現在までに少なくとも累計 %{x_anonymous_notes} 件と、コミュニティに多大なる貢献を痩せておられ、感謝にたえません！
+        ついては今後は %{contribute_by_yourself} をお勧めしたく、見た目ほど複雑ではありませんし、%{community_can_help}
+        ので安心してください。
+      counter_warning_guide_link:
+        text: 独力で貢献
       advice: 投稿したメモは公開され、地図の更新に利用されます。そのため、著作権保護された地図や一覧情報からの転用情報や、個人情報の入力は行わないでください。
       add: メモを追加
     notes_paging_nav:
@@ -3022,11 +3143,15 @@ ja:
       tooltip: 凡例
       tooltip_disabled: このレイヤーでは凡例が使えません
     map:
+      map:
+        marker:
+          title: 地図マーカ
       navigation_control:
         zoom_in: 拡大
         zoom_out: 縮小
       geolocate_control:
         find_my_location: 現在地を表示
+        location_not_available: 位置を利用できません
         metersPopup:
           other: この地点まで%{count}メートル
         feetPopup:
@@ -3071,6 +3196,8 @@ ja:
         mi: '%{distance}マイル'
       errors:
         no_route: ２点間のルートが見つかりません。
+        no_place:
+          body: 「%{place}」の位置が表示できません。
       instructions:
         continue_without_exit: '%{name}を続行'
         slight_right_without_exit: 道なりに右折して%{name}へ
@@ -3150,6 +3277,9 @@ ja:
       show_address: アドレスを表示
       query_features: 地物を検索
       centre_map: ここを地図の中心にする
+    home:
+      marker_title: 自身のホーム位置
+      not_set: ご自身のアカウントはホーム位置が未設定です
     edit:
       id_not_configured:
         title: iDが設定されていません。

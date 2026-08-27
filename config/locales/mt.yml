@@ -2,6 +2,7 @@
 # Exported from translatewiki.net
 # Export driver: phpyaml
 # Author: JiodoJ
+# Author: Marwin H.H.
 ---
 mt:
   date:
@@ -167,6 +168,11 @@ mt:
         new_email: (qatt mhu se jintwera pubblikament)
   datetime:
     distance_in_words_ago:
+      about_x_hours:
+        one: madwar siegħa ilu
+        few: madwar %{count} sigħat ilu
+        many: madwar %{count} il-siegħa ilu
+        other: madwar %{count} sigħat ilu
       half_a_minute: nofs minuta ilu
     distance_in_words_in:
       half_a_minute: f'nofs minuta
@@ -199,6 +205,8 @@ mt:
       rss:
         title: Noti tal-OpenStreetMap
         description_all: Lista ta' noti rrappurtati, ikkummentati jew magħluqa
+        description_area: Lista ta' noti irrappurtati, ikkummentati jew magħluqa fiż-żona
+          tiegħek [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
         description_item: RSS feed għan-nota %{id}
         opened: nota ġdida (ħdejn %{place})
         commented: kumment ġdid (ħdejn %{place})
@@ -635,6 +643,11 @@ mt:
       actions: Azzjonijiet tad-daħla
       comment_link: Ikkummenta fuq did-daħla
       reply_link: Ibgħat messaġġ lill-awtur
+      comment_count:
+        one: kumment
+        few: '%{count} kummenti'
+        many: '%{count} il-kumment'
+        other: '%{count} kumment'
       no_comments: L-ebda kumment
       edit_link: Immodifika did-daħla
       hide_link: Aħbi did-daħla
@@ -674,6 +687,11 @@ mt:
       new_title: Ikteb daħla ġdida fid-djarju tal-utent tiegħi
     profile_diaries:
       latest_diaries: L-Aħħar Djarji
+      comments:
+        one: kumment
+        few: '%{count} kummenti'
+        many: '%{count} il-kumment'
+        other: '%{count} kumment'
       title_label: Daħla tad-Djarju
   diary_comments:
     new:
@@ -1116,7 +1134,7 @@ mt:
           greenfield: Post għall-Iżvilupp Futur
           industrial: Żona Industrijali
           landfill: Miżbla
-          meadow: Mergħa
+          meadow: Marġ
           military: Żona Militari
           mine: Minjiera
           orchard: Masġar tal-Frott
@@ -1179,9 +1197,12 @@ mt:
           beacon: Xempju
           beam: Raġġ
           beehive: Doqqajs
+          breakwater: Taljamar
           bridge: Pont
           bunker_silo: Xelter
+          cairn: Tumbata
           chimney: Ċumnija
+          clearcut: Masġar Maqtugħ
           communications_tower: Torri tal-Komunikazzjoni
           crane: Krejn
           cross: Salib
@@ -1193,6 +1214,7 @@ mt:
           groyne: Grojn
           kiln: Forn
           lighthouse: Fanal
+          manhole: Tappiera
           mast: Arblu
           mine: Minjiera
           mineshaft: Xaft tal-Minjiera
@@ -1203,6 +1225,7 @@ mt:
           pipeline: Pajpijiet
           pumping_station: Stazzjon tal-Ippumpjar
           reservoir_covered: Riżerva Mgħottija
+          silo: Silo
           snow_cannon: Kanun tas-Silġ
           snow_fence: Ċint tas-Silġ
           storage_tank: Tank tal-Ħażna
@@ -1210,10 +1233,14 @@ mt:
           surveillance: Sorveljanza
           telescope: Teleskopju
           tower: Torri
+          utility_pole: Arblu tal-Utilità
+          wastewater_plant: Impjant tad-Drenaġġ
           watermill: Mitħna tal-Ilma
           water_tap: Vit
           water_tower: Torri tal-Ilma
           water_well: Bir
+          water_works: Servizzi tal-Ilma
+          windmill: Mitħna
           works: Fabbrika
           "yes": Manifatturat
         military:
@@ -1229,30 +1256,45 @@ mt:
           atoll: Atoll
           bare_rock: Blata Mikxufa
           bay: Bajja
+          beach: Plajja
           cape: Kap
+          cave_entrance: Daħla fl-Għar
+          cliff: Irdum
           coastline: Kosta
           crater: Kartiera
           dune: Għarma
+          fell: Fella
           fjord: Fjord
           forest: Foresta
           geyser: Ġajżer
           glacier: Glaċiera
+          grassland: Mergħa
           heath: Xagħri
           hill: Għolja
+          hot_spring: Għajn Termali
           island: Gżira
           isthmus: Istmu
           land: Art
           marsh: Marsa
+          moor: Xagħri
           mud: Tajn
+          peak: Quċċata
           peninsula: Peniżola
           point: Ponta
           reef: Sikka
+          ridge: Linja Fuqana
           rock: Ġebel
+          saddle: Sarġ
           sand: Ramel
+          scree: Radam
+          scrub: Makkja
+          shingle: Bajja taċ-Ċagħaq
+          spring: Għajn
           stone: Ġebel
           strait: Strett
           tree: Siġra
           tree_row: Ringiela tas-Siġar
+          tundra: Tundra
           valley: Wied
           volcano: Vulkan
           water: Ilma
@@ -1269,12 +1311,28 @@ mt:
           diplomatic: Uffiċċju Diplomatiku
           educational_institution: Stituzzjoni Edukattiva
           employment_agency: Aġenzija tal-Impjiegi
+          energy_supplier: Uffiċċju tal-Fornitur tal-Enerġija
+          estate_agent: Aġent tal-Proprjetà Immobbli
+          financial: Uffiċċju Finanzjarju
+          government: Uffiċċju Governattiv
+          insurance: Uffiċċju tal-Assigurazzjoni
+          it: Uffiċċju tal-Informatika
           lawyer: Avukat
+          logistics: Uffiċċju tal-Loġistika
+          newspaper: Uffiċċju tal-Gazzetti
+          ngo: Uffiċċju tal-Organizazzjonijiet Non-Governattivi
+          notary: Nutar
+          religion: Uffiċċju Reliġjuż
+          research: Uffiċċju tar-Riċerka
+          tax_advisor: Konsulent tat-Taxxa
+          telecommunication: Uffiċċju tat-Telekomunikazzjoni
+          travel_agent: Aġenzija tal-Ivvjaġġar
           "yes": Uffiċċju
         place:
           allotments: Allokazzjonijiet
           archipelago: Arkipelagu
           city: Belt
+          city_block: Blokk tal-Belt
           country: Pajjiż
           county: Kontea
           farm: Razzett
@@ -1301,6 +1359,7 @@ mt:
           "yes": Post
         railway:
           abandoned: Ferrovija Abbandunata
+          buffer_stop: Waqqaf tat-Tarf
           construction: Ferrovija taħt Kostruzzjoni
           crossing: Qsim Mogħdija-Ferrovjarja
           disused: Ferrovija mhux Użata
@@ -1308,9 +1367,1437 @@ mt:
           halt: Waqfa tal-Ferrovija
           junction: Ġunzjoni tal-Ferrovija
           level_crossing: Qsim Livell
+          light_rail: Ferrovija Ħafifa
+          miniature: Ferrovija Minjatura
           monorail: Monorotajja
+          platform: Pjattaforma tal-Ferrovija
+          preserved: Ferrovija Preservata
+          proposed: Ferrovija Proposta
           rail: Ferrovija
+          spur: Xprun tal-Ferrovija
+          station: Stazzjon tal-Ferrovija
+          stop: Waqfa tal-Ferrovija
           subway: Sottoterran
+          subway_entrance: Dħul tas-Sottoterran
+          switch: Punti Ferrovjarji
+          tram: Trammavija
+          tram_stop: Waqfa tat-Tramm
+          turntable: Dawwara Ferrovjarji
+          yard: Tarzna Ferrovjarja
         shop:
+          agrarian: Ħanut Agrarju
+          alcohol: Ħanut Alkaħoliku
           antiques: Antikitajiet
+          appliance: Ħanut tal-Elettrodomestiċi
+          art: Ħanut tal-Arti
+          baby_goods: Oġġetti tat-Trabi
+          bag: Ħanut tal-Basktijiet
+          bakery: Furnar
+          bathroom_furnishing: Għamara tal-Kamra tal-Banju
+          beauty: Ħanut tas-Sbuħija
+          bed: Prodotti tas-Sodda
+          beverages: Ħanut tax-Xorb
+          bicycle: Ħanut tar-Roti
+          bookmaker: Għażżiel l-Imħatri
+          books: Ħanut tal-Kotba
+          boutique: Butika
+          butcher: Biċċier
+          car: Ħanut tal-Karozzi
+          car_parts: Partijiet tal-Karozzi
+          car_repair: Tiswija tal-Karozzi
+          carpet: Ħanut tat-Twapet
+          charity: Ħanut tal-Karità
+          cheese: Ħanut tal-Ġobon
+          chemist: Kimiku
+          chocolate: Ċikkulata
+          clothes: Ħanut tal-Ħwejjeġ
+          coffee: Ħanut tal-Kafè
+          computer: Ħanut tal-Kompjuters
+          confectionery: Ħanut tal-Ħelu
+          convenience: Ħanut tal-Konvenjenza
+          copyshop: Ħanut tal-Kopji
+          cosmetics: Ħanut tal-Kożmetiċi
+          craft: Ħanut tal-Provvisti tal-Artiġjanat
+          curtain: Ħanut tal-Purtieri
+          dairy: Ħanut tal-Ħalib
+          deli: Gastronomija
+          department_store: Ħanut tad-Dipartiment
+          discount: Ħanut t'Oġġetti Skontati
+          doityourself: Ħanut Agħmilha-Int
+          e-cigarette: Ħanut tas-Sigaretti Elettroniċi
+          electronics: Ħanut tal-Elettronika
+          erotic: Ħanut Erotiku
+          estate_agent: Aġent tal-Proprjetà Immobbli
+          fabric: Ħanut tad-Drapp
+          farm: Ħanut tar-Razzett
+          fashion: Ħanut tal-Moda
+          fishing: Ħanut tas-Sajd
+          florist: Fjurist
+          food: Ħanut tal-Ikel
+          frame: Ħanut tal-Oqfsa
+          funeral_directors: Diretturi tal-Funerali
+          furniture: Għamara
+          garden_centre: Ċentru tal-Ġnien
+          gas: Ħanut tal-Gass
+          general: Ħanut Ġenerali
+          gift: Ħanut tar-Rigali
+          greengrocer: Merċa tal-Ħaxix
+          grocery: Merċa
+          hairdresser: Parrukkier
+          hardware: Ħanut tal-Għodda
+          health_food: Ħanut tal-Ikel Bnin
+          hearing_aids: Apparati tas-Smigħ
+          herbalist: Erbalista
+          hifi: Ħanut Hi-Fi
+          houseware: Ħanut tal-Oġġetti tad-Dar
+          ice_cream: Ġelaterija
+          interior_decoration: Dekorazzjoni Ġewwiena
+          jewelry: Ġojjellerija
+          kiosk: Kjosk
+          kitchen: Ħanut tal-Kċina
+          laundry: Maħsel
+          locksmith: Serratur
+          lottery: Lotterija
+          mall: Ċentru Kummerċjali
+          massage: Massaġġ
+          medical_supply: Ħanut tal-Provvisti Mediċi
+          mobile_phone: Ħanut tal-Mowbajls
+          money_lender: Sellief tal-Flus
+          motorcycle: Ħanut tal-Muturi
+          motorcycle_repair: Ħanut tat-Tiswija tal-Muturi
+          music: Ħanut tal-Mużika
+          musical_instrument: Strumenti Mużikali
+          newsagent: Ħanut tal-Gazzetti
+          nutrition_supplements: Supplimenti Nutrizzjonali
+          optician: Ottiku
+          organic: Ħanut tal-Ikel Organiku
+          outdoor: Ħanut tal-Beraħ
+          paint: Ħanut taż-Żebgħa
+          pastry: Ħanut tal-Pasti
+          pawnbroker: Sensar tar-Rahan
+          perfumery: Ħanut tal-Fwieħa
+          pet: Ħanut tal-Annimali Domestiċi
+          pet_grooming: Barbier tal-Annimali Domestiċi
+          photo: Ħanut tar-Ritratti
+          seafood: Frott tal-baħar
+          second_hand: Ħanut tat-Tieni Id
+          sewing: Ħanut tal-Ħjata
+          shoes: Ħanut taż-Żraben
+          sports: Ħanut tal-Isports
+          stationery: Kartolerija
+          storage_rental: Kiri tal-Ħażna
+          supermarket: Supermerkat
+          tailor: Ħajjat
+          tattoo: Ħanut tat-Tatwaġġ
+          tea: Ħanut tat-Te
+          ticket: Biljetterija
+          tobacco: Tabakkerija
+          toys: Ħanut tal-Ġugarelli
+          travel_agency: Aġenzija tal-Ivvjaġġar
+          tyres: Ħanut tat-Tajers
+          vacant: Ħanut Vojt
+          variety_store: Ħanut Varjat
+          video: Ħanut tal-Vidji
+          video_games: Ħanut tal-Logħob Vidjo
+          wholesale: Ingrossier
+          wine: Ħanut tal-Inbid
+          "yes": Ħanut
+        tourism:
+          alpine_hut: Kabina Alpina
+          apartment: Appartament tal-Vaganzi
+          artwork: Xogħol Artistiku
+          attraction: Ħajra
+          bed_and_breakfast: Alloġġ u Kolazzjon
+          cabin: Kabina Turistika
+          camp_pitch: Post tal-Kampeġġ
+          camp_site: Sit tal-Kampeġġ
+          caravan_site: Sit tal-Karavanni
+          chalet: Xalè
+          gallery: Gallerija
+          guest_house: Dar tal-Mistiedna
+          hostel: Ostell
+          hotel: Lukanda
+          information: Tagħrif
+          motel: Motel
+          museum: Mużew
+          picnic_site: Sit tal-Pikniks
+          theme_park: Park Tematiku
+          viewpoint: Punt ta' Vista
+          wilderness_hut: Għarix fis-Salvaġġ
+          zoo: Żu
+        tunnel:
+          building_passage: Passaġġ tal-Bini
+          culvert: Gandott
+          "yes": Mina
+        water:
+          lake: Lag
+          pond: Għadira
+          reservoir: Ġibjun
+          basin: Baċir tal-Ilma
+          fishpond: Għadira tal-Ħut
+          lagoon: Laguna
+          wastewater: Ilma Maħmuġ
+          oxbow: Nagħla tax-Xmara
+          stream_pool: Għadira f'Għajn
+          lock: Bieb tal-Ilma
+        waterway:
+          artificial: Passaġġ tal-Ilma Artifiċjali
+          boatyard: Tarzna
+          canal: Kanal
+          dam: Diga
+          derelict_canal: Kanal Mitluq
+          ditch: Fossa
+          dock: Moll
+          drain: Dranaġġ
+          lock: Bieb tal-Ilma
+          lock_gate: Kanċell tal-Bieb tal-Ilma
+          mooring: Irmiġġ
+          rapids: Rapidi
+          river: Xmara
+          stream: Nixxiegħa
+          wadi: Wadi
+          waterfall: Kaskata
+          weir: Diga Sommerġibbli
+          "yes": Passaġġ tal-Ilma
+      admin_levels:
+        level2: Konfina Internazzjonali
+        level3: Konfina Amministrattiva (Livell 3)
+        level4: Konfina Amministrattiva (Livell 4)
+        level5: Konfina Amministrattiva (Livell 5)
+        level6: Konfina Amministrattiva (Livell 6)
+        level7: Konfina Amministrattiva (Livell 7)
+        level8: Konfina Amministrattiva (Livell 8)
+        level9: Konfina Amministrattiva (Livell 9)
+        level10: Konfina Amministrattiva (Livell 10)
+        level11: Konfina Amministrattiva (Livell 11)
+      border_types:
+        arrondissement: Konfina tad-Distrett
+        borough: Konfina tal-Borg
+        cercle: Konfina taċ-Ċirku
+        city: Konfina tal-Belt
+        comarca: Konfina tal-Komarka
+        county: Konfina tal-Kontea
+        departement: Konfina Dipartimentali
+        department: Konfina Dipartimentali
+        district: Konfina tad-Distrett
+        distrito: Konfina tad-Distrett
+        freguesia: Konfina tal-Fregwesja
+        local_authority: Konfina tal-Awtorità Lokali
+        municipality: Konfini tal-Muniċipal
+        municipi: Konfina tal-Muniċipal
+        município: Konfina tal-Muniċipal
+        nation: Konfina Internazzjonali
+        national: Konfina Internazzjonali
+        neighbourhood: Konfina tal-Inħawi
+        parish: Konfina tal-Parroċċa
+        province: Konfina tal-Provinċja
+        região: Konfina Reġjonali
+        region: Konfina Reġjonali
+        state: Konfina Statali
+        town: Konfina tal-Belt
+        township: Konfini tal-Kanton
+        village: Konfina tal-Villaġġ
+  searches:
+    show:
+      title:
+        latlon: Intern
+        nominatim: Nominatima
+        nominatim_reverse: Nominatima
+    queries:
+      create:
+        no_results: L-ebda riżultat ma nstab
+        more_results: Aktar riżultati
+  directions:
+    show:
+      title: Direzzjoni
+      distance: Distanza
+      time: Ħin
+      ascend: Telgħa
+      descend: Niżla
+      kilometers: kilometri
+      miles_feet: mili, piedi
+      miles_yards: mili, jardi
+      distance_units_settings: Għaliet tal-Unitajiet tat-Tul
+      download: Niżżel ir-rotta bħala GeoJSON
+      filename: rotta
+      directions_courtesy_html: Direzzjonijiet korteżija ta' %{link}
+      check_demo_html: Aktar dettalji fi %{link}
+  issues:
+    index:
+      title: Kwistjonijiet
+      select_status: Agħżel l-Istat
+      select_type: Agħżel it-Tip
+      select_last_managed_by: Agħżel Immexxi l-Aħħar Minn
+      reported_user: Utent Irrapportat
+      not_managed: Mhux Immaniġġjat
+      search: Fittex
+      search_guidance: 'Kwistjonijiet tat-Tfittix:'
+      states:
+        ignored: Injorat
+        open: Miftuħ
+        resolved: Solvut
+    page:
+      user_not_found: Utent ma jeżistix
+      issues_not_found: L-ebda kwistjonijiet bħala m'instab
+      reported_user: Utent Irrapportat
+      status: Stat
+      reports: Rapporti
+      last_updated: Aġġornat l-Aħħar
+      last_managed: Immaniġġjat l-Aħħar
+      reporting_users: Utenti qed jiġu Rrapurtati
+      reported_item: Oġġett Irrapportat
+      states:
+        ignored: Injorat
+        open: Miftuħ
+        resolved: Solvut
+    show:
+      title:
+        open: 'Kwistjoni Miftuħa #%{issue_id}'
+        ignored: 'Kwistjoni Injorata #%{issue_id}'
+        resolved: 'Kwistjoni Solvuta #%{issue_id}'
+      no_reports: L-ebda rapport
+      report_created_at_html: L-ewwel rapportat fi %{datetime}
+      last_resolved_at_html: L-aħħar solvut fi %{datetime}
+      last_updated_at_html: Aġġornat l-aħħar fi %{datetime} minn %{displayname}
+      actions: Azzjonijiet tal-Kwistjoni
+      resolve: Solvi
+      ignore: Injora
+      reopen: Erġa' iftaħ
+      reports_of_this_issue: Rapporti ta' dil-Kwistjoni
+      read_reports: Aqra r-Rapporti
+      new_reports: Rapporti Ġodda
+      other_issues_against_this_user: Kwistjonijiet oħra kontra dal-utent
+      no_other_issues: M'hemm kwistjonijiet oħra kontra dal-utent.
+      comments_on_this_issue: Kummenti fuq dil-kwistjoni
+      comment_from_html: Kumment minn %{user_link} fi %{comment_created_at}
+      reassign_to_moderators: Erġa' Assenja l-Kwistjoni lill-Moderaturi
+      reassign_to_administrators: Erġa' Assenja l-Kwistjoni lill-Amministraturi
+    resolve:
+      resolved: L-istat tal-kwistjoni sar 'Solvut'
+    ignore:
+      ignored: L-istat tal-kwistjoni sar 'Injorat'
+    reopen:
+      reopened: L-istat tal-kwistjoni sar 'Miftuħ'
+    reports:
+      reported_by_html: Irrapportat bħala %{category} minn %{user} fuq %{updated_at}
+    helper:
+      reportable_title:
+        diary_comment: '%{entry_title}, kumment #%{comment_id}'
+        note: 'Nota #%{note_id}'
+      reportable_heading:
+        diary_comment_html: Kumment tad-Djarju %{title} maħluq fi %{datetime_created},
+          aġġornat fi %{datetime_updated}
+        diary_entry_html: Daħla tad-Djarju %{title} maħluq fi %{datetime_created},
+          aġġornat fi %{datetime_updated}
+        note_html: '%{title} maħluq fi %{datetime_created}, aġġornat fi %{datetime_updated}'
+        user_html: Utent %{title} maħluq fi %{datetime_created}
+    reporters:
+      index:
+        title: 'Kwistjoni #%{issue_id} Rappurtiera'
+      reporters:
+        more_reporters: u %{count} aktar
+  issue_comments:
+    create:
+      comment_created: Il-kumment tiegħek inħoloq
+      issue_reassigned: Il-kumment tiegħek inħoloq u l-kwistjoni reġgħek ġiet assenjata
+  reports:
+    new:
+      title_html: Irrapporta %{link}
+      disclaimer:
+        intro: 'Qabel ma tibgħat ir-rapport tiegħek lill-moderaturi tas-sit, jekk
+          jogħġbok ara li:'
+        not_just_mistake: Int ċert li l-problema mhix biss żball
+        unable_to_fix: M'intix kapaċi ssolvi l-problema int stess jew bl-għajnuna
+          tal-membri tal-komunità l-oħra
+        resolve_with_user: Diġà ppruvajt issolvi l-problema mal-utent ikkonċernat
+      categories:
+        diary_entry:
+          spam_label: Din id-daħla tad-djarju hija/fiha spemmjatura
+          offensive_label: Din id-daħla tad-djarju hija oxxena/offensiva
+          threat_label: Din id-daħla tad-djarju fiha theddida
+          other_label: Oħrajn
+        diary_comment:
+          spam_label: Dan il-kumment tad-djarju hija/fiha spemmjatura
+          offensive_label: Dan il-kumment tad-djarju hija oxxena/offensiva
+          threat_label: Dan il-kumment tad-djarju fiha theddida
+          other_label: Oħrajn
+        user:
+          spam_label: Dan il-profil tal-utent huwa/fih spemmjatura
+          offensive_label: Dan il-profil tal-utent huwa oxxen/offensiv
+          threat_label: Dan il-profil tal-utent fih theddida
+          vandal_label: Dan l-utent huwa vandalu
+          other_label: Oħrajn
+        note:
+          spam_label: Din in-nota hija spemmjatura
+          personal_label: Din in-nota fiha data personali
+          abusive_label: Din in-nota hija abbużiva
+          other_label: Oħrajn
+    create:
+      successful_report: Ir-rapport tiegħek ġie rreġistrat
+      provide_details: Jekk jogħġbok agħti d-dettalji meħtieġa
+  languages_panes:
+    select_language_list:
+      search_language: Fittex...
+      languages:
+        af: Afrikans
+        gsw: Alemanniku
+        frp: Arpitan
+        ast: Asturjan
+        az: Ażerbajġani
+        id: Indoneżjan
+        ms: Malajan
+        bcl: Bikol Ċentrali
+        bs: Bożnjan
+        br: Bretonniku
+        ca: Katalan
+        cs: Ċek
+        cy: Galliku
+        da: Daniż
+        de: Ġermaniż
+        dsb: Sorbjan t'Isfel
+        et: Estonjan
+        en: Ingliż
+        en-GB: Ingliż (Renju Unit)
+        es: Spanjol
+        eo: Esperanto
+        eu: Bask
+        fr: Franċiż
+        fy: Friżjan tal-Punent
+        fur: Frijuljan
+        ga: Irlandiż
+        gd: Galliku Skoċċiż
+        gl: Galizjan
+        aln: Albaniż Gega
+        hsb: Sorbjan ta' Fuq
+        hr: Kroat
+        ia: Interlingwa
+        is: Iżlandiż
+        it: Taljan
+        kw: Kornwaliż
+        gcf: Kreolu Gwadelupjan
+        ku-Latn: Kurd (Latin)
+        lv: Latvjan
+        lb: Lussemburgiż
+        lkt: Lakota
+        lt: Litwanjan
+        hu: Ungeriż
+        fit: Finlandiż tat-Tornedalen
+        nl: Olandiż
+        nb: Bokmal Norveġiż
+        nn: Ninorsk Norveġiż
+        oc: Oċċitan
+        nds: Ġermaniż Baxx
+        pl: Pollakk
+        pt-PT: Portugiż
+        pt: Portugiż (Brażil)
+        ksh: Kolonjan
+        ro: Rumen
+        sc: Sardinjan
+        sco: Skoċċiż
+        sq: Albaniż
+        scn: Sqalli
+        sk: Slovakk
+        sl: Sloven
+        sr-Latn: Serb (Latin)
+        sh: Serbo-Kroat (Latin)
+        fi: Finlandiż
+        sv: Żvediż
+        tl: Tagalog
+        kab: Kabiljan
+        vi: Vjetnamiż
+        tr: Tork
+        yo: Joruba
+        diq: Dimli
+        el: Grieg
+        ba: Baxkir
+        be: Belarussu
+        be-Tarask: Belarussu (Taraxkjan)
+        bg: Bulgaru
+        mk: Maċedonjan
+        mt: Malti
+        mo: Moldovan
+        ce: Ċeċen
+        ru: Russu
+        sr: Serb (Ċirilliku)
+        tt: Tatar (Ċirilliku)
+        uk: Ukrenjan
+        kk-cyrl: Każak (Ċirilliku)
+        yi: Jiddiż
+        he: Ebrajk
+        ar: Għarbi
+        skr-arab: Sarajki
+        fa: Persjan
+        arz: Għarbi Eġizzjan
+        pnb: Punġabi tal-Punent
+        ps: Paxto
+        nqo: Inko
+        ne: Nepaliż
+        mr: Marati
+        hi: Ħindi
+        bn: Bengali
+        pa: Punġabi
+        gu: Guġarati
+        ta: Tamil
+        te: Telugu
+        kn: Kannada
+        th: Tajlandiż
+        my: Burmiż
+        shn: Xan
+        xmf: Mingreljan
+        ka: Ġorġjan
+        km: Kimer
+        sat: Santali
+        zh-CN: Ċiniż (Simplifikat)
+        zh-TW: Ċiniż (Tradizzjonali)
+        zh-HK: Ċiniż (Ħong Kong)
+        ja: Ġappuniż
+        ko: Korean
+  layouts:
+    logo:
+      alt_text: Logo tal-OpenStreetMap
+    main_navigation: Ewlieni
+    layer_info: Tagħrif Saffija
+    start_mapping: Ibda l-Immappjar
+    intro_header: Merħba f'OpenStreetMap!
+    intro_text: OpenStreetMap hija mappa tad-dinja, maħluqa minn nies bħalek b'ebda
+      ħlas taħt liċenzja miftuħa.
+    hosting_partners_2024_html: Ostpitaġġ huwa appoġġjat minn %{fastly}, %{corpmembers},
+      u %{partners} oħra.
+    partners_corpmembers: membri korporattivi tal-OSMF
+    partners_partners: msieħba
+    welcome_tou_notice_html: Bl-użu ta' dan is-sit jew infrastruttura oħra pprovduta
+      mill-OpenStreetMap Foundation, inti taqbel mat-%{terms_link}.
+    terms_of_use: Termini tal-Użu
+    tou: Termini tal-Użu
+    nothing_to_preview: Xejn x'tipprevista.
+    learn_more: Aktar Tagħrif
+    header:
+      about: Dwarna
+      communities: Komunitajiet
+      copyright: Jedd tal-awtur
+      donate: Iddona
+      edit: Immodifika
+      edit_with: Editja bi %{editor}
+      export: Esporta
+      gps_traces: Traċċi tal-GPS
+      help: Għajnuna
+      history: Kronoloġija
+      home: Mur ħdejn Darek
+      issues: Kwistjonijiet
+      log_out: Oħroġ minn Kontok
+      log_in: Idħol f’Kontok
+      more: Aktar
+      select_language: Agħżel Lingwa
+      sign_up: Irreġistra
+      user_diaries: Djarji tal-Utenti
+      navigation: Navigazzjoni Ewlenija
+    meta:
+      openstreetmap_search: Tfittix fuq OpenStreetMap
+    select_language_button:
+      title: Agħżel Lingwa
+    offline_flash:
+      osm_offline: Id-databażi t'OpenStreetMap bħalissa mhix disponibbli waqt li qed
+        isir ix-xogħol ta' manutenzjoni.
+      osm_read_only: Id-databażi tal-OpenStreetMap bħalissa tinsab fil-mod tal-qari
+        waqt li qed isir ix-xogħol ta' manutenzjoni.
+      expected_restore_html: Is-servizzi huma mistennija li jiġu restawrati fi %{time}.
+      announcement: Tista' taqra t-tħabbira hawn.
+  user_mailer:
+    diary_comment_notification:
+      description: 'Daħla fid-Djarju t''OpenStreetMap #%{id}'
+      subject: '[OpenStreetMap] %{user} ikkummentaw fuq daħla tad-djarju'
+      hi: Bonġu %{to_user},
+      header: '%{from_user} ikkummentaw fuq id-daħla tad-djarju t''OpenStreetMap bis-suġġett
+        %{subject}:'
+      header_html: '%{from_user} ikkummentaw fuq id-daħla tad-djarju t''OpenStreetMap
+        bis-suġġett %{subject}:'
+      footer_unsubscribe_html: Tista' tneħħi l-abbonament mid-diskussjoni fil-%{unsubscribeurl}
+    message_notification:
+      subject: '[OpenStreetMap] %{message_title}'
+      hi: Bonġu %{to_user},
+      header: '%{from_user} bagħtulek messaġġ permezz t''OpenStreetMap bis-suġġett
+        %{subject}:'
+      header_html: '%{from_user} bagħtulek messaġġ permezz t''OpenStreetMap bis-suġġett
+        %{subject}:'
+      footer: Tista' wkoll taqra l-messaġġ fuq %{readurl} u tista' tibgħat messaġġ
+        lill-awtur fuq %{replyurl}
+      footer_html: Tista' wkoll taqra l-messaġġ fuq %{readurl} u tista' tibgħat messaġġ
+        lill-awtur fuq %{replyurl}
+    follow_notification:
+      hi: Bonġu %{to_user},
+      subject: '[OpenStreetMap] %{user} segwiek'
+      followed_you: '%{user} qed isegwik fuq OpenStreetMap.'
+      see_their_profile: Tista' tara profilhom fuq %{userurl}.
+      see_their_profile_html: Tista' tara profilhom fuq %{userurl}.
+      follow_them: Tista' wkoll issegwihom fuq %{followurl}.
+      follow_them_html: Tista' wkoll issegwihom fuq %{followurl}.
+    gpx_details:
+      details: 'Id-dettalji tal-fajl tiegħek:'
+      filename: Isem il-fajl
+      url: URL
+      description: Deskrizzjoni
+      tags: Tikketti
+      total_points: Numru ta’ punti totali
+      imported_points: Numru ta' punti importati
+    gpx_failure:
+      hi: Bonġu %{to_user},
+      failed_to_import: Jidher li l-fajl ma rnexxilux jiġi importat bħala traċċa tal-GPS.
+      verify: 'Ivverifika li l-fajl tiegħek huwa fajl GPX validu jew arkivju li fih
+        fajl(s) GPX fil-format appoġġjat (.tar.gz, .tar.bz2, .tar, .zip, .gpx.gz,
+        .gpx.bz2). Jista'' jkun hemm problema ta'' format jew sintassi bil-fajl tiegħek?
+        Dan hu l-iżball tal-importazzjoni:'
+      more_info: Aktar tagħrif dwar il-fallimenti fl-importazzjoni tal-GPX u kif tevitahom
+        jinstab fuq %{url}
+      more_info_html: Aktar tagħrif dwar il-fallimenti fl-importazzjoni tal-GPX u
+        kif tevitahom jinstab fuq %{url}.
+      subject: '[OpenStreetMap] Falliment tal-Importazzjoni tal-GPX'
+    gpx_success:
+      hi: Bonġu %{to_user},
+      imported_successfully: Jidher li l-fajl tiegħek ġie importat bħala traċċa tal-GPS.
+      all_your_traces: It-traċċi GPX kollha li tellajt jistgħu jinstabu fuq %{url}
+      all_your_traces_html: It-traċċi GPX imtella' kollha jistgħu jinstabu fuq %{url}.
+      subject: '[OpenStreetMap] GPX Importata'
+    signup_confirm:
+      subject: '[OpenStreetMap] Merħba f''OpenStreetMap'
+      greeting: Bonġu!
+      created: Xi ħadd (nittamaw li int) għadu kif ħoloq kont fuq %{site_url}.
+      confirm: 'Qabel ma nagħmlu xi ħaġa oħra, irridu nikkonfermaw li dir-rikjesta
+        ġiet mingħandek, allura jekk hi tiegħek, agħfas il-ħolqa t''hawn taħt biex
+        twettaq kontok:'
+      welcome: Wara li twettaq kontok, nagħtuk xi tagħrif addizzjonali biex tibda.
+    email_confirm:
+      subject: '[OpenStreetMap] Wettaq l-indirizz ittre tiegħek'
+      greeting: Bonġu,
+      hopefully_you: Xi ħadd (nittamaw li int) jixtieq jibdel l-indirizz ittre tiegħu
+        minn %{server_url} għal %{new_address}.
+      click_the_link: Jekk dan hu int, jekk jogħġbok agħfas il-ħolqa t'hawn taħt biex
+        twettaq l-bidla.
+    lost_password:
+      subject: '[OpenStreetMap] Talba għall-irġugħ tal-kelmaċċess'
+      greeting: Bonġu,
+      hopefully_you: Xi ħadd (jista' jkun int) talab biex il-kelmaċċess tinbidel fuq
+        il-kont openstreetmap.org ta' dal-indirizz ittre.
+      click_the_link: Jekk dan hu int, jekk jogħġbok agħfas il-ħolqa hawn taħt biex
+        treġġa' l-kelmaċċess tiegħek.
+    note_comment_notification:
+      description: 'Nota t''OpenStreetMap #%{id}'
+      anonymous: Utent anonimu
+      greeting: Bonġu,
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ikkummentaw fuq waħda min-noti
+          tiegħek'
+        subject_other: '[OpenStreetMap] %{commenter} ikkummentaw fuq nota li inti
+          interessat fiha'
+        your_note: '%{commenter} ħallew kumment fuq waħda min-noti tal-mappa tiegħek
+          ħdejn %{place}.'
+        your_note_html: '%{commenter} ħallew kumment fuq waħda min-noti tal-mappa
+          tiegħek ħdejn %{place}.'
+        commented_note: '%{commenter} ħallew kumment fuq nota tal-mappa li kkummentajt
+          fuqha. In-nota tinsab qrib %{place}.'
+        commented_note_html: '%{commenter} ħallew kumment fuq nota tal-mappa li kkummentajt
+          fuqha. In-nota tinsab qrib %{place}.'
+      closed:
+        subject_own: '[OpenStreetMap] %{commenter} solvew waħda min-noti tiegħek'
+        subject_other: '[OpenStreetMap] %{commenter} solvew nota li inti interessat
+          fiha'
+        your_note: '%{commenter} solvew waħda min-noti tal-mappa tiegħek ħdejn %{place}.'
+        your_note_html: '%{commenter} solvew waħda min-noti tal-mappa tiegħek ħdejn
+          %{place}.'
+        commented_note: '%{commenter} solvew nota tal-mappa li kkummentajt fuqha.
+          In-nota tinsab qrib %{place}.'
+        commented_note_html: '%{commenter} solvew nota tal-mappa li kkummentajt fuqha.
+          In-nota tinsab qrib %{place}.'
+      reopened:
+        subject_own: '[OpenStreetMap] %{commenter} rijattivaw waħda min-noti tiegħek'
+        subject_other: '[OpenStreetMap] %{commenter} rijattivaw nota li inti interessat
+          fiha'
+        your_note: '%{commenter} rijattivaw waħda min-noti tal-mappa tiegħek ħdejn
+          %{place}.'
+        your_note_html: '%{commenter} rijattivaw waħda min-noti tal-mappa tiegħek
+          ħdejn %{place}.'
+        commented_note: '%{commenter} rijattivaw nota tal-mappa li kkummentajt fuqha.
+          In-nota tinsab qrib %{place}.'
+        commented_note_html: '%{commenter} rijattivaw nota tal-mappa li kkummentajt
+          fuqha. In-nota tinsab qrib %{place}.'
+      details: Wieġeb jew skopri aktar dwar il-nota fuq %{url}.
+      details_html: Wieġeb jew skopri aktar dwar in-nota fuq %{url}.
+    changeset_comment_notification:
+      description: 'Bidliet t''OpenStreetMap #%{id}'
+      hi: Bonġu %{to_user},
+      commented:
+        subject_own: '[OpenStreetMap] %{commenter} ikkummentaw fuq waħda mill-bidliet
+          tiegħek'
+        subject_other: '[OpenStreetMap] %{commenter} ikkummentaw fuq bidla li inti
+          interessat fiha'
+        your_changeset: '%{commenter} ħalla kumment f''%{time} fuq wieħed mill-bidliet
+          tiegħek'
+        your_changeset_html: '%{commenter} ħallew kumment fi %{time} fuq wieħed mill-bidliet
+          tiegħek'
+        commented_changeset: '%{commenter} ħallew kumment fi %{time} fuq bidliet li
+          qed tara maħluq minn %{changeset_author}'
+        commented_changeset_html: '%{commenter} ħallew kumment fi %{time} fuq bidliet
+          li qed tara maħluq minn %{changeset_author}'
+        partial_changeset_with_comment: bil-kumment '%{changeset_comment}'
+        partial_changeset_with_comment_html: bil-kumment '%{changeset_comment}'
+        partial_changeset_without_comment: bla kumment
+      details: Wieġeb jew skopri aktar dwar il-bidliet fuq %{url}.
+      details_html: Wieġeb jew skopri aktar dwar il-bidliet fuq %{url}.
+      unsubscribe: Tista' tneħħi l-abbonament tiegħek minn aġġornamenti għal dawn
+        il-bidliet fuq %{url}.
+      unsubscribe_html: Tista' tneħħi l-abbonament tiegħek minn aġġornamenti għal
+        dawn il-bidliet fuq %{url}.
+  confirmations:
+    confirm:
+      heading: Ara l-ittre tiegħek!
+      introduction_1: Bgħatnielek ittre għat-twettiq.
+      introduction_2: Wettaq kontok billi tagħfas fuq il-ħolqa fl-email u mbagħad
+        tkun tista' tibda timmappa.
+      press confirm button: Agħfas il-buttuna 'Wettaq' t'hawn taħt biex tattiva kontok.
+      button: Wettaq
+      success: Wettaqt kontok, grazzi talli rreġistrajt!
+      already active: Dan il-kont diġà twettaq.
+      unknown token: Dak il-kodiċi wettieq skada jew ma jeżistix.
+      if_need_resend: Jekk trid nibagħtulek ittre wettieqa oħra, agħfas il-buttuna
+        hawn taħt.
+      resend_button: Erġa' ibgħat ittre wettieqa
+    confirm_resend:
+      failure: L-utent %{name} ma nstabx.
+    confirm_email:
+      heading: Wettaq bidla tal-indirizz ittre
+      press confirm button: Agħfas il-buttuna 'Wettaq' t'hawn taħt biex tikkonferma
+        l-indirizz ittre ġdid tiegħek.
+      button: Wettaq
+      success: Wettaqt il-bidla tal-indirizz ittre!
+      failure: Indirizz ittre diġà twettaq b'dan l-għelm.
+      unknown_token: Dak il-kodiċi wettieq skada jew ma jeżistix.
+    resend_success_flash:
+      confirmation_sent: Bgħatna nota twettiq ġdida lil %{email} u hekk kif twettaq
+        kontok tkun tista' tibda tuża l-immappjar.
+      whitelist: Jekk tuża sistema antispemmjatura li tibgħat talbiet wettieqa, jekk
+        jogħġbok ara li żżid %{sender} mal-aċċettata għax inkella ma nistgħux inwieġbu
+        għat-talbiet wettieqa.
+    gravatar:
+      disabled: Gravatar intefa.
+      enabled: Il-wiri tal-Gravatar tiegħek inxtegħel.
+  messages:
+    new:
+      title: Ibgħat messaġġ
+      send_message_to_html: Ibgħat messaġġ ġdid lil %{name}
+      back_to_inbox: Lura għall-posta
+    create:
+      message_sent: Messaġġ mibgħut
+      limit_exceeded: Bgħatt ħafna messaġġi dan l-aħħar. Jekk jogħġbok stenna ftit
+        qabel ma tipprova tibgħat aktar.
+    no_such_message:
+      title: L-ebda messaġġ bħal dan
+      heading: L-ebda messaġġ bħal dan
+      body: Jiddispjaċina, m'hemm l-ebda messaġġ b'dal-id.
+    show:
+      title: Aqra l-messaġġ
+      reply_button: Wieġeb
+      unread_button: Immarka bħala mhux moqri
+      destroy_button: Ħassar
+      back: Lura
+      wrong_user: Int dħalt bħala '%{user}' iżda l-messaġġ li tlabt biex taqra ma
+        ntbagħatx minn jew lil dak l-utent. Jekk jogħġbok idħol bħala l-utent xieraq
+        sabiex taqrah.
+    destroy:
+      destroyed: Messaġġ imħassar
+    read_marks:
+      create:
+        notice: Messaġġ immarkat bħala moqri
+      destroy:
+        notice: Messaġġ immarkat bħala mhux moqri
+    mutes:
+      destroy:
+        notice: Il-messaġġ ġie mċaqlaq għall-Posta
+        error: Il-messaġġ ma setax jiġi mċaqlaq għall-Posta.
+    mailboxes:
+      heading:
+        my_inbox: Il-Posta Tiegħi
+        my_outbox: Il-Posta għall-Bgħit Tiegħi
+        muted_messages: Messaġġi msikkta
+      messages_table:
+        from: Minn
+        to: Għal
+        subject: Suġġett
+        date: Data
+        actions: Azzjonijiet
+      message:
+        unread_button: Immarkah bħala moqri
+        read_button: Immarka bħala moqri
+        destroy_button: Ħassar
+        unmute_button: Mexxi għall-Posta
+    inboxes:
+      show:
+        title: Posta
+        messages: Għandek %{new_messages} u %{old_messages}
+        no_messages_yet_html: Għad m'għandekx messaġġi. Għaliex ma tikkuntattjax lil
+          xi wħud min-%{people_mapping_nearby_link}?
+        people_mapping_nearby: nies li qed jimmappaw qribek
+    muted_inboxes:
+      show:
+        title: Messaġġi Msikkta
+    outboxes:
+      show:
+        title: Posta għall-Bgħit
+        no_sent_messages_html: Għad ma bgħattx messaġġi. Għaliex ma tikkuntattjax
+          lil xi wħud min-%{people_mapping_nearby_link}?
+        people_mapping_nearby: nies li qed jimmappaw qribek
+      message:
+        destroy_button: Ħassar
+    replies:
+      new:
+        wrong_user: Int dħalt bħala '%{user}' iżda l-messaġġ li tlabt biex twieġeb
+          ma ntbagħatx minn jew lil dak l-utent. Jekk jogħġbok idħol bħala l-utent
+          xieraq sabiex taqrah.
+  passwords:
+    new:
+      title: Insejt il-kelmaċċess
+      heading: Insejt il-Kelmaċċess?
+      email address: Indirizz Ittre
+      new password button: Reġġa' l-kelmaċċess
+      help_text: Daħħal l-indirizz ittre li użajt biex tirreġistra, u nibagħtulu ħolqa
+        li tista' tuża biex treġġa' l-kelmaċċess tiegħek.
+    create:
+      send_paranoid_instructions: Jekk l-indirizz ittre tiegħek jeżisti fid-databażi
+        tagħna, tirċievi ħolqa għall-irkupru tal-kelmaċċess fl-indirizz ittre tiegħek
+        fi ftit minuti.
+    edit:
+      title: Reġġa' l-kelmaċċess
+      heading: Reġġa' l-Kelmaċċess għal %{user}
+      reset: Reġġa' l-kelmaċċess
+      flash token bad: Ma sibniex dak l-għelm, forsi ara li l-URL hu tajjeb?
+    update:
+      flash changed: Il-kelmaċċess nbiddlet.
+      flash token bad: Ma sibniex dak l-għelm, forsi ara li l-URL hu tajjeb?
+  preferences:
+    preferences:
+      update:
+        failure: Ma stajniex naġġornaw l-preferenzi.
+      update_success_flash:
+        message: Preferenzi aġġornati.
+      navigation:
+        preferences: Interfaċċja
+        notification_preferences: Notifiki
+        advanced_preferences: Avvanzati
+    basic_preferences:
+      show:
+        title: Preferenzi
+        preferred_language: Lingwa Preferuta
+        preferred_site_color_scheme: Skemakulur Preferut tas-Sit
+        site_color_schemes:
+          auto: Awtomatika
+          light: Ċar
+          dark: Skur
+        preferred_map_color_scheme: Skemakulur Preferut tal-Mappa
+        map_color_schemes:
+          auto: L-Istess bħas-Sit
+          light: Ċar
+          dark: Skur
+        preferred_editor_color_scheme: Skemakulur Preferut tal-Editur
+        editor_color_schemes:
+          auto: L-Istess bħas-Sit
+          light: Ċar
+          dark: Skur
+        save: Aġġorna Preferenzi
+    notification_preferences:
+      show:
+        title: Preferenzi tan-Notifiki
+        changeset_comment: Kummenti tal-bidla
+        diary_comment: Kummenti tad-djarju
+        direct_message: Messaġġi diretti
+        gpx_import_failure: 'Importazzjoni tat-traċċa GPS: falliment'
+        gpx_import_success: 'Importazzjoni tat-traċċa GPX: suċċess'
+        new_follower: Segwaċi ġodda
+        note_comment: Kumment tan-noti
+        save: Aġġorna Preferenzi
+        delivery_mechanisms:
+          email: Ittre
+    advanced_preferences:
+      show:
+        title: Preferenzi Avvanzati Tiegħi
+        save: Aġġorna Preferenzi
+  profiles:
+    profile_sections:
+      navigation:
+        description: Deskrizzjoni
+        links: Ħoloq
+        image: Stampa
+        company: Kumpanija
+        location: Post
+        contribution_calendar: Kalendarju tal-Kontribuzzjonijiet
+    descriptions:
+      show:
+        title: Immodifika l-Profil
+        save: Aġġorna l-Profil
+        cancel: Xejjen
+      update:
+        success: Id-deskrizzjoni tal-profil ġie aġġornat.
+        failure: Ma stajniex naġġornaw id-deskrizzjoni tal-profil.
+    links:
+      show:
+        title: Immodifika l-Profil
+        save: Aġġorna l-Profil
+        cancel: Xejjen
+        social_links:
+          title: Ħoloq tal-Profil Soċjali
+          remove: Neħħi
+          add: Żid Ħolqa Soċjali
+      update:
+        success: Il-ħoloq tal-profil ġew aġġornati.
+        failure: Ma stajniex naġġornaw il-ħoloq tal-profil.
+    images:
+      show:
+        title: Immodifika l-Profil
+        save: Aġġorna l-Profil
+        cancel: Xejjen
+        gravatar:
+          gravatar: Uża Gravatar
+          what_is_gravatar: X'inhu Gravatar?
+        new image: Żid stampa
+        keep image: Żomm l-istampa attwali
+        delete image: Neħħi l-istampa attwali
+        replace image: Biddel l-istampa attwali
+        image size hint: (stampi kwadri ta' mill-inqas 100x100 jaħdmu l-aħjar)
+      update:
+        success: L-istampa tal-profil aġġornat.
+        failure: Ma stajniex naġġornaw l-istampa tal-profil.
+    companies:
+      show:
+        title: Immodifika l-Profil
+        save: Aġġorna l-Profil
+        cancel: Xejjen
+      update:
+        success: L-kumpanija tal-profil aġġorna.
+        failure: Ma stajniex naġġornaw il-kumpanija tal-profil.
+    locations:
+      show:
+        title: Immodifika l-Profil
+        save: Aġġorna l-Profil
+        cancel: Xejjen
+        no home location: Ma daħħalt post darek.
+        update home location on click: Triq taġġorna post darek meta tagħfas fuq il-mappa?
+        show: Uri
+        delete: Ħassar
+        undelete: Neħħi t-tħassir
+      update:
+        success: Id-deskrizzjoni tal-profil aġġorna.
+        failure: Ma stajniex naġġornaw il-post tal-profil.
+    heatmaps:
+      show:
+        title: Ikkonfigura l-Kalendarju tal-Kontribuzzjonijiet
+        show_contribution_calendar_in_public: Uri l-kalendarju tal-kontribuzzjonijiet
+          fuq il-paġnet profilek
+        save: Aġġorna l-Konfigurazzjoni tal-Kalendarju tal-Kontribuzzjonijiet
+        cancel: Xejjen
+      update:
+        success: Kalendarju tal-kontribuzzjonijiet aġġornat.
+        failure: Ma stajniex naġġornaw il-kalendarju tal-kontribuzzjonijiet.
+  sessions:
+    new:
+      tab_title: Idħol f’Kontok
+      login_to_authorize_html: Idħol f'OpenStreetMap biex taċċessa %{client_app_name}.
+      already_logged_in_html: Inti diġà dħalt bħala %{user}. Jekk terġa' tidħol se
+        tbiddel il-kont attwali.
+      access_another_page: 'Wasalt hawn waqt li kont qed tipprova taċċessa paġna oħra.
+        Jekk trid taċċessa dik il-paġna bil-kont attwali tiegħek, agħfas il-buttuna
+        hawn taħt:'
+      visit_referring_page: Żur il-paġna tar-referenzi
+      email or username: Indirizz Ittre jew Isem Utenti
+      password: Kelmaċċess
+      remember: Ftakarni
+      lost password link: Insejt il-kelmaċċess?
+      login_button: Idħol f’kontok
+      with external: jew idħol b'partit terz
+      or: jew
+      reset_to_login: Jiddispjaċina, il-kelmaċċess tiegħek skadiet. Jekk jogħġbok
+        reġġa' l-kelmaċċess tiegħek biex tidħol f'kontok.
+      auth failure: Jiddispjaċina, ma stajniex nidħlu b'dawk id-dettalji.
+    destroy:
+      title: Oħroġ mill-Kont
+      heading: Oħroġ mill-Kont t'OpenStreetMap
+      logout_button: Oħroġ minn Kontok
+    suspended_flash:
+      suspended: Jiddispjaċina, il-kont tiegħek ġie sospiż minħabba attività suspettuża.
+      contact_support_html: Jekk jogħġbok ikkuntattja lil %{support_link} jekk tixtieq
+        tiddiskutiha.
+      support: l-appoġġiera
+  site:
+    about:
+      heading_html: Kontributuri t'%{copyright}OpenStreetMap %{br}
+      used_by_html: '%{name} jipprovdi data tal-mapep għal eluf ta'' siti, appi mobbli,
+        u apparati tal-ħardwer'
+      lede_text: |-
+        OpenStreetMap hija mibnija minn komunità ta' mappiera li jikkontribwixxu u jżommu data
+        dwar toroq, mogħdijiet, kaffejiet, stazzjonijiet tal-ferrovija, u ħafna aktar, madwar id-dinja kollha.
+    about_section:
+      local_knowledge_title: Għarfien Lokali
+      local_knowledge_html: OpenStreetMap jenfasizza l-għarfien lokali. Il-kontributuri
+        jużaw stampi arjali, GPSiet, u mapep tal-qasam tat-teknoloġija bażika biex
+        jivverifikaw li OSM huwa preċiż u aġġornat.
+      community_driven_title: Komunitarja
+      community_driven_1_html: |-
+        Il-komunità t'OpenStreetMap hija diversa, passjonata, u qed tikber kuljum.
+        Il-kontributuri tagħna jinkludu mappiera entużjasti, professjonisti tal-GIS, inġiniera
+        li jmexxu s-servituri t'OSM, umanitarji li jimmappaw żoni milquta minn diżastri,
+        u ħafna aktar.
+        Biex titgħallem aktar dwar il-komunità, ara l-%{osm_blog_link},
+        %{user_diaries_link}, %{community_blogs_link}, u s-sit ta'
+        %{osm_foundation_link}.
+      community_driven_osm_blog: Blogg t'OpenStreetMap
+      community_driven_user_diaries: Djarji tal-Utenti
+      community_driven_community_blogs: bloggijiet komunitarji
+      community_driven_osm_foundation: Fondazzjoni OSM
+      open_data_title: Data Miftuħa
+      open_data_1_html: |-
+        OpenStreetMap huwa ta' %{open_data}: tista' tużah għal kwalunkwe skop
+         jekk tagħti kreditu lil OpenStreetMap u l-kontributuri tiegħu. Jekk tbiddel jew
+         tibni fuq id-data b'ċerti modi, tista' tqassam ir-riżultat biss
+         taħt l-istess liċenzja. Ara l-%{copyright_license_link} għal aktar dettalji.
+      open_data_open_data: data miftuħa
+      open_data_copyright_license: Paġna tal-Jeddijiet tal-Awtur u l-Liċenzja
+      legal_title: Legali
+      legal_1_1_html: |-
+        Das-sit u ħafna servizzi oħra relatati huma formalment imħaddma mill-
+        %{openstreetmap_foundation_link} (OSMF)
+        f'isem il-komunità. L-użu tas-servizzi kollha mħaddma mill-OSMF huwa soġġett
+        għat-%{terms_of_use_link} tagħna, %{aup_link} u l-%{privacy_policy_link} tagħna.
+      legal_1_1_openstreetmap_foundation: Fondazzjoni OpenStreetMap
+      legal_1_1_terms_of_use: Termini tal-Użu
+      legal_1_1_aup: Politiki ta' Użu Aċċettabbli
+      legal_1_1_privacy_policy: Politika tal-Privatezza
+      legal_1_2_html: Jekk tixtieq tuża mapep jew data ta' OpenStreetMap, jekk jogħġbok
+        ara li tagħti l-attribuzzjoni lil OpenStreetMap—irreferi għal %{attribution_guidelines_link}
+        għal aktar informazzjoni.
+      legal_attribution_guidelines_title: Linji Gwida dwar l-Attribuzzjoni
+      legal_1_3_html: Speċifikament għall-użu ta' ritratt minn OpenStreetMap fil-ktieb,
+        pubblikazzjoni, film jew programm televiżiv tiegħek, m'għandekx bżonn titlob
+        permess peress li d-data f'OpenStreetMap hija miftuħa għall-użu minn kulħadd.
+        Irreferi għall-%{attribution_guidelines_link} u ara eżempji eżistenti fil-%{attribution_example_film}
+        u %{attribution_example_tv}.
+      legal_attribution_example_film_title: Film
+      legal_attribution_example_tv_title: Televiżjoni
+      legal_2_1_html: |-
+        Jekk jogħġbok %{contact_the_osmf_link}
+         għal kwalunkwe mistoqsija oħra dwar liċenzjar, jeddijiet tal-awtur jew mistoqsijiet legali oħra.
+      legal_2_1_contact_the_osmf: ikkuntattja l-OSMF
+      legal_2_2_html: OpenStreetMap, il-logo tal-lenti u l-Istat tal-Mappa huma %{registered_trademarks_link}.
+      legal_2_2_registered_trademarks: marki kummerċjali rreġistrati tal-OSMF
+      partners_title: Imsieħba
+    copyright:
+      title: Jeddijiet tal-Awtur u Liċenzja
+      foreign:
+        title: Fuq din it-traduzzjoni
+        html: F'każ ta' kunflitt bejn din il-paġna tradotta u %{english_original_link},
+          il-paġna bl-Ingliż għandha tieħu preċedenza.
+        english_link: l-oriġinal bl-Ingliż
+      native:
+        title: Dwar din il-paġna
+        html: Qed tara l-verżjoni bl-Ingliż tal-paġna tal-jeddijiet tal-awtur. Tista'
+          terġa' lura għall-%{native_link} ta' din il-paġna jew tista' tieqaf taqra
+          dwar il-jeddijiet tal-awtur u %{mapping_link}.
+        native_link: verżjoni Maltija
+        mapping_link: ibda l-immappjar
+      legal_babble:
+        lead_1_html: |-
+          OpenStreetMap jipprovdi data miftuħa tal-mapep għal eluf ta’ siti, appi mobbli, u apparati tal-ħardwer.
+          OpenStreetMap huwa mibni minn komunità ta’ nies bħalek li jikkontribwixxu u jżommu dejta tal-immappjar
+          dwar toroq, mogħdijiet, kaffejiet, stazzjonijiet tal-ferrovija, u ħafna aktar, madwar id-dinja kollha.
+        lead_2_html: |-
+          %{learn_more_about_osm_link} u %{get_started_mapping_link}!
+          Tista' taqra aktar fuq il-%{osm_blog_link}, u tabbona għal %{weeklyosm_link}.
+          Sib mappiera oħra fil-%{osm_community_link} lokali tiegħek.
+          Appoġġja l-proġett billi tingħaqad mal-%{osm_foundation_link} u %{making_donation_link}.
+        lead_2_learn_more_about_osm: Tgħallem aktar dwar OpenStreetMap
+        lead_2_get_started_mapping: ibda l-immappjar
+        lead_2_osm_blog: Blogg t'OpenStreetMap
+        lead_2_osm_community: Komunità tal-OSM
+        lead_2_osm_foundation: Fondazzjoni OSM
+        lead_2_making_donation: tagħti donazzjoni
+        licensing_title: Liċenzjar tal-OpenStreetMap
+        licensing_1_html: |-
+          OpenStreetMap hija dejta %{open}, liċenzjata taħt l-
+          %{odc_odbl_link} (ODbL) mill-%{osm_foundation_link} (OSMF). Fil-qosor:
+        licensing_1_open: miftuħ
+        licensing_1_odc_odbl: Liċenzja Komuni tad-Data Miftuħa tad-Databażi Miftuħa
+        licensing_1_osm_foundation: Fondazzjoni OpenStreetMap
+        licensing_2_html: Tista' tikkopja, tiddistribwixxi, tittrażmetti u tadatta
+          d-data tagħna, sakemm tagħti kreditu lil OpenStreetMap u lill-kontributuri
+          tagħha. Jekk tbiddel jew tibni fuq id-data tagħna, tista' tiddistribwixxi
+          r-riżultat biss taħt l-istess liċenzja. Il-%{legal_code_link} jispjega l-jeddijiet
+          u r-responsabbiltajiet tiegħek.
+        licensing_2_legal_code: kodiċi legali sħiħa fuq Komuni tad-Data Miftuħa
+        licensing_3_html: Id-dokumentazzjoni tagħna hija liċenzjata taħt il-%{creative_commons_license_link}
+          (CC BY-SA 2.0).
+        licensing_3_creative_commons_license: Liċenzja Komuni Kreattiva Attribuzzjoni-Qassama
+          2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/
+        licensing_4_html: Aqra aktar dwar l-użu tad-data tagħna fuq %{osmf_license_page_link}.
+        licensing_4_osmf_license_page: Paġna tal-Liċenzja tal-OSMF
+        credit_title_html: Kif tagħti kreditu lil OpenStreetMap
+        trademarks_title: Marki kummerċjali
+        trademarks_1_1_html: |-
+          OpenStreetMap, il-logo tal-lenti u l-istat tal-mappa huma marki kummerċjali irreġistrati tal-
+          Fondazzjoni OpenStreetMap. Jekk għandek domanda dwar l-użu tiegħek ta' dawn il-marki, jekk jogħġbok ara l-
+          %{trademark_policy_link} tagħna.
+        trademarks_1_1_trademark_policy: Politika tal-Marki Kummerċjali
+        services_title_html: Servizzi addizzjonali
+        services_1_html: |-
+          Għalkemm OpenStreetMap hija data miftuħa, ma nistgħux nipprovdu API tal-mapep jew madum tal-mapep bla ħlas lil partijiet terzi.
+          Ara l-%{api_usage_policy_link}, il-%{tile_usage_policy_link} u l-%{nominatim_usage_policy_link} tagħna.
+        services_1_api_usage_policy: Politika tal-Użu tal-API
+        services_1_tile_usage_policy: Politika tal-Użu tal-Madum
+        services_1_nominatim_usage_policy: Politika tal-Użu Nominativ
+        contributors_title_html: Il-kontributuri tagħna
+        contributors_intro_html: 'Il-kontributuri tagħna huma eluf ta'' individwi.
+          Aħna wkoll inżommu data li hija liċenzjata b''mod miftuħ mill-aġenziji nazzjonali
+          tal-immappjar u minn sorsi oħra, fost dawn:'
+        contributors_at_credit_html: |-
+          %{austria}: Fiha data minn %{stadt_wien_link} (taħt %{cc_by_link}), %{land_vorarlberg_link}
+           u Land Tirol (taħt %{cc_by_at_with_amendments_link}).
+        contributors_at_austria: L-Awstrija
+        contributors_at_stadt_wien: Stadt Wien
+        contributors_at_land_vorarlberg: Land Vorarlberg
+        contributors_at_cc_by_at_with_amendments: CC BY AT b'emendi
+        contributors_au_credit_html: |-
+          %{australia}: Jinkorpora jew żviluppat bl-użu ta' Konfini Amministrattivi © %{geoscape_australia_link}
+          liċenzjat mill-Commonwealth tal-Awstralja taħt %{cc_licence_link}.
+        contributors_au_australia: l-Awstralja
+        contributors_au_geoscape_australia: Geoscape Awstralja
+        contributors_au_cc_licence: Liċenzja Internazzjonali ta' Attribuzzjoni Komuni
+          Kreattivi 4.0 (CC BY 4.0)
+        contributors_ca_credit_html: "%{canada}: Fiha data minn \nGeoBase®, GeoGratis
+          (© Dipartiment tar-Riżorsi Naturali tal-Kanada), CanVec (© Dipartiment tar-Riżorsi
+          Naturali tal-Kanada), u StatCan (Diviżjoni tal-Ġeografija, \nStatistiċi
+          Kanadiżi)."
+        contributors_ca_canada: il-Kanada
+        contributors_cz_credit_html: |-
+          %{czechia}: Fiha data mill-Amministrazzjoni Statali tal-Istħarriġ tal-Art
+          u l-Katastru liċenzjat taħt %{cc_licence_link}
+        contributors_cz_czechia: Iċ-Ċekja
+        contributors_cz_cc_licence: Liċenzja Internazzjonali ta' Attribuzzjoni Komuni
+          Kreattivi 4.0 (CC BY 4.0)
+        contributors_fi_credit_html: |-
+          %{finland}: Fiha data mid-Databażi Topografika tal-
+          Istħarriġ Nazzjonali tal-Art tal-Finlandja
+          u settijiet ta' data oħra, taħt il-%{nlsfi_license_link}.
+        contributors_fi_finland: Il-Finlandja
+        contributors_fi_nlsfi_license: Liċenzja NLSFI
+        contributors_fr_credit_html: |-
+          %{france}: Fiha data miksuba minn
+          Direction Générale des Impôts.
+        contributors_fr_france: Franza
+    not_public_flash:
+      user_page_link: paġna tal-utent
+    export:
+      title: Esporta
+      licence: Liċenzja
+      too_large:
+        planet:
+          title: Pjaneta OSM
+      export_button: Esporta
+      export_download: Qed iniżżel...
+      confirmation:
+        header: Niżżel Data XML
+        cancel: Xejjen
+        download: Niżżel
+    fixthemap:
+      title: Irrapporta problema/Sewwi l-mappa
+      how_to_help:
+        title: Kif Tgħin
+        join_the_community:
+          title: Issieħeb mal-komunità
+      other_concerns:
+        title: Kwistjonijiet oħra
+        copyright: paġna tal-jedd tal-awtur
+        working_group: Grupp ta' ħidma tal-OSMF
+    help:
+      title: Kif Tikseb l-Għajnuna
+      welcome:
+        url: /welcome
+        title: Merħba f'OpenStreetMap!
+      beginners_guide:
+        title: Gwida Bidjiena
+        description: Il-gwida bidjiena miżmuma mill-Komunità.
+      community:
+        title: Forum tal-Għajnuna u Komunità
+    search:
+      where_am_i: Fejn hi?
+      submit_text: Vjaġġa
+      reverse_directions_text: Dawwar Direzzjoni
+      modes:
+        bicycle: Rota
+        car: Karozza
+        foot: Mixi
+      providers:
+        description: Servizzi ta' direzzjonijiet
+    welcome:
+      title: Merħba!
+      whats_on_the_map:
+        title: X'hemm fuq il-Mappa
+        real_and_current: reali u kurrenti
+        off_the_map_html: Li %{doesnt} hi data opinjonata bħal analiżi, karatteristiċi
+          storiċi jew ipotetiċi, u data protetta bil-jedd tal-awtur. Sakemm għandek
+          permess speċjali, tikkuppjax minn mapep onlajn jew tal-karti.
+        doesnt: ma tinxludix
+      basic_terms:
+        title: Termini Bażiċi għall-Immappjar
+        an_editor_html: '%{editor} huwa programm jew sit li tista'' tuża biex timmodifika
+          l-mappa.'
+        a_node_html: '%{node} huwa punt fuq il-mappa, bħal ristorant wieħed jew siġra.'
+        a_way_html: '%{way} hija linja jew żona, bħal triq, xmara, baħar jew bini.'
+        a_tag_html: '%{tag} huwa ftit ta'' data dwar nodu jew mogħdija, bħal isem
+          ta'' ristorant jew limitu ta'' veloċità ta'' triq.'
+        editor: editur
+        node: nodu
+        way: mogħdija
+        tag: tikketta
+      rules:
+        title: Regoli!
+        para_1_html: OpenStreetMap għandu ftit regoli formali iżda nistennew li l-parteċipanti
+          kollha jikkooperaw, u jikkomunikaw mal-komunità. Jekk qed tikkunsidra xi
+          attivitajiet oħra minbarra l-modifika manwali, jekk jogħġbok aqra u segwi
+          l-linji gwida dwar %{imports_link} u %{automated_edits_link}.
+        imports: Importi
+        automated_edits: Modifiki Awtomatiċi
+      start_mapping: Ibda l-Immappjar
+      continue_authorization: Kompli l-Awtorizzazzjoni
+    add_a_note:
+      title: M'għandekx ħin biex timmodifika? Żid Nota!
+      para_1: Jekk trid tirranġa xi ħaġa żgħira biss u m'għandekx il-ħin biex tirreġistra
+        u titgħallem kif timmodifika, sempliċi żżid nota.
+      para_2_html: Jekk jogħġbok agħfas fuq %{note_icon} jew l-istess ikona fuq %{map_link}.
+        Din se jżid marka għall-mappa, li tista' ċċaqlaq. Żid il-messaġġ tiegħek,
+        agħfas salva, u mappiera oħra se jinvestigawha.
+      the_map: il-mappa
+    communities:
+      title: Komunitajiet
+      local_chapters:
+        title: Kapitli Lokali
+  social_links:
+    show:
+      website: sit
+  layers_panes:
+    show:
+      map_notes_zoom_in_tooltip: Kabbar biex tara noti tal-mappa
+      map_data_zoom_in_tooltip: Kabbar biex tara data tal-mappa
+  legend_panes:
+    show:
+      entries:
+        motorway: Awtostrada
+        main_road: Triq ewlenija
+        trunk: Triq arterjali
+        primary: Triq primarja
+        secondary: Triq sekondarja
+        unclassified: Triq mhux klassifikata
+        pedestrian: Triq pedonali
+        track: Trakka
+        bridleway: Mogħdija taż-żwiemel
+        cycleway: Passaġġ għar-roti
+        international_bike_route: Rotta internazzjonali għar-roti
+        national_bike_route: Rotta nazzjonali għar-roti
+        regional_bike_route: Rotta reġjonali għar-roti
+        local_bike_route: Rotta lokali għar-roti
+        mountain_bike_route: Rotta tar-rota tal-muntanji
+        footway: Bankina
+        rail: Ferrovija
+        train: Trenu
+        subway: Sottoterran
+        ferry: Lanċa
+        light_rail: Ferrovija ħafifa
+        tram: Tramm
+        trolleybus: Filobus
+        bus: Karozza tal-Linja
+        cable_car: Funikular
+        chair_lift: Seġġiera
+        runway: Pistarun tal-ajruport
+        taxiway: Rullaġiera
+        apron: Rampa tal-ajruport
+        admin: Konfina amministrattiva
+        capital: Kapitali
+        city: Belt
+        orchard: Masġar tal-Frott
+        vineyard: Vinja
+        forest: Foresta
+        wood: Injam
+        farmland: Raba'
+        grass: Ħaxix
+        meadow: Merġ
+        bare_rock: Blata mikxufa
+        sand: Ramel
+        golf: Korsa tal-golf
+        park: Park
+        common: Komuni
+        built_up: Żona mibnija
+        resident: Żona residenzjali
+        retail: Żona tal-imnut
+        industrial: Żona industrijali
+        commercial: Żona kummerċjali
+        lake: Lag
+        reservoir: Ġibjun
+        glacier: Glaċiera
+        reef: Sikka
+        wetland: Mistagħdra
+        farm: Razzett
+        cemetery: Ċimiterju
+        allotments: Allokazzjonijiet
+        pitch: Grawnd sportiv
+        centre: Ċentru sportiv
+        beach: Plajja
+        reserve: Riżerva naturali
+        military: Żona militari
+        school: Skola
+        university: Università
+        hospital: Sptar
+        building: Bini sinifikanti
+        station: Stazzjon tal-ferrovija
+        railway_halt: Waqfetta tal-ferrovija
+        subway_station: Stazzjon tas-sottoterran
+        tram_stop: Waqfa tat-tramm
+        summit: Summit
+        peak: Quċċata
+        private: Aċċess privat
+        destination: Aċċess għad-destinazzjoni
+        construction: Toroq taħt kostruzzjoni
+        bus_stop: Waqfa tal-karozza tal-linja
+        bicycle_shop: Ħanut tar-roti
+        bicycle_rental: Kiri tar-roti
+        bicycle_parking: Parkeġġ tar-roti
+        bicycle_parking_small: Parkeġġ żgħir għar-roti
+        toilets: Kmamar tal-banju
+      see_external_legend: Ara l-leġġenda tal-mappa esterna
+  share_panes:
+    show:
+      link: Ħolqa jew HTML
+      include_marker: Inkludi l-markatur
+      long_link: Ħolqa
+      short_link: Ħolqa Żgħira
+      embed: HTML
+      image: Stampa
+      format: 'Format:'
+      scale: 'Skala:'
+      custom_dimensions: Agħżel qisien personalizzati
+      download: Niżżel
+      downloading: Qed iniżżel...
+  webgl_error_panes:
+    show:
+      your_browser_does_not_support_webgl: il-brawżer tiegħek ma jappoġġjax WebGL
+      webgl_is_required_for_this_map: WebGL huwa meħtieġ biex turi din il-mappa.
+      read_more_about_webgl: Aqra iżjed
+  traces:
+    new:
+      help: Għajnuna
+    show:
+      filename: 'Isem il-fajl:'
+      download: niżżel
+      uploaded: Mtella'
+      points: 'Punti:'
+      start_coordinates: 'Koordinazzjoni tal-bidu:'
+      coordinates_html: '%{latitude}; %{longitude}'
+      map: ara l-post fuq il-mappa
+      edit: iftaħ fl-editur
+      owner: 'Sid:'
+      description: Deskrizzjoni
+      tags: 'Tikketti:'
+      none: Xejn
+      edit_trace: Immodifika d-dettalji tat-traċċa
+      delete_trace: Ħassar din it-traċċa
+      trace_not_found: Traċċa mhux misjuba!
+      visibility: 'Viżibilità:'
+      confirm_delete: Ħassar din it-traċċa?
+    trace:
+      pending: PENDENTI
+      more: aktar
+      trace_details: Ara Dettalji tat-Traċċa
+      trace_actions: Azzjonijiet ta' traċċar
+      view_map: Ara l-post fuq il-mappa
+      edit_map: Iftaħ fl-editur
+      public: PUBBLIKA
+      identifiable: IDENTIFIKABBLI
+      private: PRIVAT
+      trackable: TRAĊĊABLI
+    index:
+      public_traces: Traċċi GPS Pubbliċi
+      my_gps_traces: Traċċi tal-GPS Tiegħi
+      actions: Azzjonijiet tal-lista ta' traċċar
+      tagged_with: ' ittikkettjati b''%{tags}'
+      empty_title: Għad m'hemm xejn hawn
+      upload_new: Tella' traċċa ġdida
+      wiki_page: paġna wiki
+      upload_trace: Tella' traċċa
+      all_traces: Traċċi kollha
+      my_traces: It-Traċċi Tiegħi
+      traces_from_html: Traċċi pubbliċi minn %{user}
+      remove_tag_filter: Neħħi Filtru tat-Tikketta
+  application:
+    settings_menu:
+      account_settings: Għażliet tal-Kont
+      oauth2_applications: Applikazzjonijiet Awt. Oper. 2
+      oauth2_authorizations: Awtorizzazzjonijiet Awt. Oper. 2
+      muted_users: Utenti Msikkta
+    auth_providers:
+      google:
+        title: Idħol bil-kont ta' Google
+        alt: Logo ta' Google
+      apple:
+        title: Idħol bil-kont t'Apple
+        alt: Logo t'Apple
+      facebook:
+        title: Idħol bil-kont ta' Facebook
+        alt: Logo ta' Facebook
+      microsoft:
+        title: Idħol bil-kont ta' Microsoft
+        alt: Logo ta' Microsoft
+      github:
+        title: Idħol bil-kont ta' GitHub
+        alt: Logo ta' GitHub
+      wikipedia:
+        title: Idħol bil-kont ta' Wikipedija
+        alt: Logo tal-Wikipedija
+    share:
+      share:
+        title: Aqsam
+        alt: Ikona tal-Qsim
+      email:
+        title: Aqsam bl-Ittre
+        alt: Ikona ittre
+      bluesky:
+        title: Aqsam b'Bluesky
+        alt: Ikona ta' Bluesky
+      facebook:
+        title: Aqsam b'Facedbook
+        alt: Ikona ta' Facebook
+      linkedin:
+        title: Aqsam b'LinkedIn
+        alt: Ikona ta' LinkedIn
+      mastodon:
+        title: Aqsam b'Mastodom
+        alt: Ikona ta' Mastodon
+      telegram:
+        title: Aqsam b'Telegram
+        alt: Ikona ta' Telegram
+      x:
+        title: Aqsam fuq X
+        alt: Ikona ta' X
+    markdown_help:
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
+      headings: Intestatura
+      heading: Intestatura
+      subheading: Sottointestatura
+      unordered: Lista mhux ordinata
+      ordered: Lista ordinata
+      first: L-ewwel element
+      second: It-tieni element
+      link: Ħolqa
+      text: Test
+      image: Stampa
+      alt: Test alternattiv
+      url: URL
+      codeblock: Blokka kodiċi
+    richtext_field:
+      edit: Immodifika
+      preview: Dehra proviżorja
+      help: Għajnuna
 ...
