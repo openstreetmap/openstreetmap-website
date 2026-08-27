@@ -431,6 +431,12 @@ Trace:
   description:
     ColumnPresenceChecker:
       enabled: false
+  gpx_tracks:
+    # The primary key (gpx_id, trackid, segment) already indexes gpx_id. The checker
+    # looks for indexes with ActiveRecord connection.indexes, and that method leaves
+    # primary keys out of its list, so it cannot see this one and the check fails.
+    MissingIndexChecker:
+      enabled: false
   inserted:
     NullConstraintChecker:
       enabled: false

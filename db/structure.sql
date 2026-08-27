@@ -895,6 +895,19 @@ ALTER SEQUENCE public.gpx_files_id_seq OWNED BY public.gpx_files.id;
 
 
 --
+-- Name: gpx_tracks; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.gpx_tracks (
+    gpx_id bigint NOT NULL,
+    trackid integer NOT NULL,
+    segment integer NOT NULL,
+    geom public.geometry(GeometryZM,4326) NOT NULL,
+    CONSTRAINT gpx_tracks_geom_line_or_point CHECK ((public.st_geometrytype(geom) = ANY (ARRAY['ST_LineString'::text, 'ST_Point'::text])))
+);
+
+
+--
 -- Name: issue_comments; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2207,6 +2220,14 @@ ALTER TABLE ONLY public.gpx_files
 
 
 --
+-- Name: gpx_tracks gpx_tracks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gpx_tracks
+    ADD CONSTRAINT gpx_tracks_pkey PRIMARY KEY (gpx_id, trackid, segment);
+
+
+--
 -- Name: issue_comments issue_comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -2740,6 +2761,13 @@ CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btr
 --
 
 CREATE INDEX index_gpx_files_on_user_id_and_id ON public.gpx_files USING btree (user_id, id);
+
+
+--
+-- Name: index_gpx_tracks_on_geom; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_gpx_tracks_on_geom ON public.gpx_tracks USING gist (geom);
 
 
 --
@@ -3331,6 +3359,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 
 --
+-- Name: gpx_tracks fk_rails_0423063716; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gpx_tracks
+    ADD CONSTRAINT fk_rails_0423063716 FOREIGN KEY (gpx_id) REFERENCES public.gpx_files(id);
+
+
+--
 -- Name: note_subscriptions fk_rails_2c1913f293; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3781,6 +3817,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20260810150000'),
 ('20260624101500'),
 ('20260604105008'),
 ('20260604103822'),
