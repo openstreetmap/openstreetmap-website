@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module BrowseHelper
+  include BrowseTagsHelper
+
   def element_icon(type, object)
     selected_icon_data = { :filename => "#{type}.svg", :priority => 1 }
 
@@ -70,6 +72,18 @@ module BrowseHelper
 
   def link_follow(object)
     "nofollow" if object.tags.empty?
+  end
+
+  def browse_tag_value_cell(tag)
+    content_tag :td,
+                format_value(tag[0], tag[1]),
+                :class => "py-1 border-secondary-subtle border-start",
+                :dir => "auto",
+                :lang => tag_language(tag[0])
+  end
+
+  def tag_language(key)
+    key[/\Aname:([a-z]{2,3}(?:-[A-Za-z0-9]+)*)\z/, 1]
   end
 
   private
