@@ -1,0 +1,11 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<p><%= t ".no_active_blocks" %></p>
+
+<% if current_user.blocks.exists? %>
+  <div class="mb-3">
+    <%= link_to t(".review_button"), user_received_blocks_path(current_user), :class => "btn btn-outline-primary" %>
+  </div>
+<% end %>
