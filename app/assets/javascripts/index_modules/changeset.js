@@ -20,55 +20,38 @@ export default function (map) {
     changesetData.type = "changeset";
 
     const hashParams = OSM.parseHash();
-    initialize();
-    map.addObject(changesetData, function (bounds) {
-      if (!hashParams.center && bounds.isValid()) {
-        OSM.router.withoutMoveListener(function () {
-          map.fitBounds(bounds);
-        });
-      }
-    });
-    $(".numbered_pagination").trigger("numbered_pagination:enable");
-  };
-
-  function updateChangeset(method, url, include_data) {
-    const data = new URLSearchParams();
-
-    content.find("#comment-error").prop("hidden", true);
-    content.find("button[data-method][data-url]").prop("disabled", true);
-
-    if (include_data) {
-      data.set("text", content.find("textarea").val());
-    }
-
-    fetch(url, {
-      method: method,
-      headers: { ...OSM.oauth },
-      body: data
-    })
-      .then(response => {
-        if (response.ok) return response;
-        return response.text().then(text => {
-          throw new Error(text);
-        });
-      })
-      .then(() => OSM.loadSidebarContent(location.pathname))
-      .then(page.init)
-      .catch(error => {
-        content.find("button[data-method][data-url]").prop("disabled", false);
-        content.find("#comment-error")
-          .text(error.message)
-          .prop("hidden", false)
-          .get(0).scrollIntoView({ block: "nearest" });
-      });
-  }
-
-  function initialize() {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
-      const data = $(e.target).data();
-      const include_data = e.target.name === "comment";
-      updateChangeset(data.method, data.url, include_data);
+      const { method, url } = $(e.target).data();
+      const data = new URLSearchParams();
+
+      content.find("#comment-error").prop("hidden", true);
+      content.find("button[data-method][data-url]").prop("disabled", true);
+
+      if (e.target.name === "comment") {
+        data.set("text", content.find("textarea").val());
+      }
+
+      fetch(url, {
+        method: method,
+        headers: { ...OSM.oauth },
+        body: data
+      })
+        .then(response => {
+          if (response.ok) return response;
+          return response.text().then(text => {
+            throw new Error(text);
+          });
+        })
+        .then(() => OSM.loadSidebarContent(location.pathname))
+        .then(page.init)
+        .catch(error => {
+          content.find("button[data-method][data-url]").prop("disabled", false);
+          content.find("#comment-error")
+            .text(error.message)
+            .prop("hidden", false)
+            .get(0).scrollIntoView({ block: "nearest" });
+        });
     });
 
     content.find("textarea").on("input", function (e) {
@@ -78,7 +61,15 @@ export default function (map) {
     });
 
     content.find("textarea").val("").trigger("input");
-  }
+    map.addObject(changesetData, function (bounds) {
+      if (!hashParams.center && bounds.isValid()) {
+        OSM.router.withoutMoveListener(function () {
+          map.fitBounds(bounds);
+        });
+      }
+    });
+    $(".numbered_pagination").trigger("numbered_pagination:enable");
+  };
 
   page.unload = function () {
     map.removeObject();
