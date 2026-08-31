@@ -196,31 +196,29 @@ export default function (map) {
     runQuery(isin, $("#query-isin"), true, (feature1, feature2) => size(feature1.bounds) - size(feature2.bounds));
   }
 
-  const page = {};
+  return {
+    load(path) {
+      OSM.loadSidebarContent(path)
+        .then(() => this.init(path, true));
+    },
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(() => this.init(path, true));
-  };
+    init(path, noCentre) {
+      const params = new URLSearchParams(path.substring(path.indexOf("?"))),
+            latlng = L.latLng(params.get("lat"), params.get("lon"));
 
-  page.init = function (path, noCentre) {
-    const params = new URLSearchParams(path.substring(path.indexOf("?"))),
-          latlng = L.latLng(params.get("lat"), params.get("lon"));
+      if (!location.hash && !noCentre && !map.getBounds().contains(latlng)) {
+        OSM.router.withoutMoveListener(function () {
+          map.setView(latlng, 15);
+        });
+      }
 
-    if (!location.hash && !noCentre && !map.getBounds().contains(latlng)) {
-      OSM.router.withoutMoveListener(function () {
-        map.setView(latlng, 15);
-      });
+      queryOverpass([params.get("lat"), params.get("lon")]);
+    },
+
+    unload(sameController) {
+      if (!sameController) {
+        $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
+      }
     }
-
-    queryOverpass([params.get("lat"), params.get("lon")]);
   };
-
-  page.unload = function (sameController) {
-    if (!sameController) {
-      $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
-    }
-  };
-
-  return page;
 }

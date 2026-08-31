@@ -1,7 +1,6 @@
 export default function (map) {
   const noteLayer = map.noteLayer,
         content = $("#sidebar_content"),
-        page = {},
         control = $(".control-note"),
         addNoteButton = control.find(".control-button");
   let newNoteMarker,
@@ -98,80 +97,80 @@ export default function (map) {
     if (newNoteMarker) newNoteMarker.setOpacity(zoomedOut ? 0.5 : 0.9);
   }
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(() => this.init(path));
-  };
+  return {
+    load(path) {
+      OSM.loadSidebarContent(path)
+        .then(() => this.init(path));
+    },
 
-  page.init = function (path) {
-    control.addClass("active");
+    init(path) {
+      control.addClass("active");
 
-    map.addLayer(noteLayer);
+      map.addLayer(noteLayer);
 
-    const params = new URLSearchParams(path.substring(path.indexOf("?")));
-    let markerLatlng;
+      const params = new URLSearchParams(path.substring(path.indexOf("?")));
+      let markerLatlng;
 
-    if (params.has("lat") && params.has("lon")) {
-      markerLatlng = { lat: params.get("lat"), lng: params.get("lon") };
-    } else {
-      markerLatlng = map.getCenter();
+      if (params.has("lat") && params.has("lon")) {
+        markerLatlng = { lat: params.get("lat"), lng: params.get("lon") };
+      } else {
+        markerLatlng = map.getCenter();
+      }
+
+      map.panInside(markerLatlng, {
+        padding: [50, 50]
+      });
+
+      addNewNoteMarker(markerLatlng);
+
+      content.find("textarea")
+        .on("input", updateControls)
+        .attr("readonly", "readonly") // avoid virtual keyboard popping up on focus
+        .trigger("focus")
+        .removeAttr("readonly");
+
+      content.find("input[type=submit]").on("click", function (e) {
+        const location = newNoteMarker.getLatLng().wrap();
+        const text = content.find("textarea").val();
+
+        errorPanel = content.find(".new-note-error");
+        errorPanel.addClass("d-none");
+        errorPanelDetail = errorPanel.find(".new-note-error-detail");
+
+        e.preventDefault();
+        $(this).prop("disabled", true);
+        newNoteMarker.options.draggable = false;
+        newNoteMarker.dragging.disable();
+
+        createNote(location, text)
+          .then(feature => {
+            if (typeof OSM.user === "undefined") {
+              const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
+              OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
+            }
+            content.find("textarea").val("");
+            addCreatedNoteMarker(feature);
+            OSM.router.route("/note/" + feature.properties.id);
+          })
+          .catch(err => {
+            errorPanel.removeClass("d-none");
+            errorPanelDetail.text(err.message || err);
+            updateControls();
+          });
+      });
+
+      map.on("click", moveNewNoteMarkerToClick);
+      addNoteButton.on("disabled enabled", updateControls);
+      updateControls();
+
+      return map.getState();
+    },
+
+    unload() {
+      map.off("click", moveNewNoteMarkerToClick);
+      addNoteButton.off("disabled enabled", updateControls);
+      removeNewNoteMarker();
+      control.removeClass("active");
     }
-
-    map.panInside(markerLatlng, {
-      padding: [50, 50]
-    });
-
-    addNewNoteMarker(markerLatlng);
-
-    content.find("textarea")
-      .on("input", updateControls)
-      .attr("readonly", "readonly") // avoid virtual keyboard popping up on focus
-      .trigger("focus")
-      .removeAttr("readonly");
-
-    content.find("input[type=submit]").on("click", function (e) {
-      const location = newNoteMarker.getLatLng().wrap();
-      const text = content.find("textarea").val();
-
-      errorPanel = content.find(".new-note-error");
-      errorPanel.addClass("d-none");
-      errorPanelDetail = errorPanel.find(".new-note-error-detail");
-
-      e.preventDefault();
-      $(this).prop("disabled", true);
-      newNoteMarker.options.draggable = false;
-      newNoteMarker.dragging.disable();
-
-      createNote(location, text)
-        .then(feature => {
-          if (typeof OSM.user === "undefined") {
-            const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
-            OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
-          }
-          content.find("textarea").val("");
-          addCreatedNoteMarker(feature);
-          OSM.router.route("/note/" + feature.properties.id);
-        })
-        .catch(err => {
-          errorPanel.removeClass("d-none");
-          errorPanelDetail.text(err.message || err);
-          updateControls();
-        });
-    });
-
-    map.on("click", moveNewNoteMarkerToClick);
-    addNoteButton.on("disabled enabled", updateControls);
-    updateControls();
-
-    return map.getState();
   };
-
-  page.unload = function () {
-    map.off("click", moveNewNoteMarkerToClick);
-    addNoteButton.off("disabled enabled", updateControls);
-    removeNewNoteMarker();
-    control.removeClass("active");
-  };
-
-  return page;
 }

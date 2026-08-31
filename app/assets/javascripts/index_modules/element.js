@@ -5,53 +5,51 @@ const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(
 
 export function element(type) {
   return function () {
-    const page = {};
+    return {
+      load(path, id, version) {
+        OSM.loadSidebarContent(path)
+          .then(() => this.init(path, id, version, true));
+      },
 
-    page.load = function (path, id, version) {
-      OSM.loadSidebarContent(path)
-        .then(() => this.init(path, id, version, true));
+      init(path, id, version, keepViewport) {
+        this._addObject(type, id, version, keepViewport);
+        $(".numbered_pagination").trigger("numbered_pagination:enable");
+        abortController = new AbortController();
+      },
+
+      unload() {
+        this._removeObject();
+        $(".numbered_pagination").trigger("numbered_pagination:disable");
+        abortController?.abort();
+      },
+
+      _addObject() {},
+      _removeObject() {}
     };
-
-    page.init = function (path, id, version, keepViewport) {
-      this._addObject(type, id, version, keepViewport);
-      $(".numbered_pagination").trigger("numbered_pagination:enable");
-      abortController = new AbortController();
-    };
-
-    page.unload = function () {
-      this._removeObject();
-      $(".numbered_pagination").trigger("numbered_pagination:disable");
-      abortController?.abort();
-    };
-
-    page._addObject = function () {};
-    page._removeObject = function () {};
-
-    return page;
   };
 };
 
 export function mappedElement(type) {
   return function (map) {
-    const page = element(type)(map);
+    return {
+      ...element(type)(map),
 
-    page._addObject = function (type, id, version, keepViewport) {
-      const hashParams = OSM.parseHash();
-      map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
-        if (!hashParams.center && bounds.isValid() &&
-            (!keepViewport || !map.getBounds().contains(bounds))) {
-          OSM.router.withoutMoveListener(function () {
-            map.fitBounds(bounds);
-          });
-        }
-      });
+      _addObject(type, id, version, keepViewport) {
+        const hashParams = OSM.parseHash();
+        map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
+          if (!hashParams.center && bounds.isValid() &&
+              (!keepViewport || !map.getBounds().contains(bounds))) {
+            OSM.router.withoutMoveListener(function () {
+              map.fitBounds(bounds);
+            });
+          }
+        });
+      },
+
+      _removeObject() {
+        map.removeObject();
+      }
     };
-
-    page._removeObject = function () {
-      map.removeObject();
-    };
-
-    return page;
   };
 };
 

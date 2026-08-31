@@ -69,41 +69,39 @@ export default function (map) {
     e.stopPropagation();
   }
 
-  const page = {};
+  return {
+    load(path) {
+      const params = new URLSearchParams(path.substring(path.indexOf("?")));
+      if (params.has("query")) {
+        $(".search_form input[name=query]").val(params.get("query"));
+      } else if (params.has("lat") && params.has("lon")) {
+        $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
+      }
+      OSM.loadSidebarContent(path)
+        .then(this.init);
+    },
 
-  page.load = function (path) {
-    const params = new URLSearchParams(path.substring(path.indexOf("?")));
-    if (params.has("query")) {
-      $(".search_form input[name=query]").val(params.get("query"));
-    } else if (params.has("lat") && params.has("lon")) {
-      $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
-    }
-    OSM.loadSidebarContent(path)
-      .then(this.init);
-  };
-
-  page.init = function () {
-    $(".search_results_entry[data-href]").each(function (index) {
-      const entry = $(this);
-      fetchReplace(this.dataset, entry.children().first())
-        .then(() => {
-          // go to first result of first geocoder
-          if (index === 0) {
-            const firstResult = entry.find("*[data-lat][data-lon]:first").first();
-            if (firstResult.length) {
-              panToSearchResult(firstResult.data());
+    init() {
+      $(".search_results_entry[data-href]").each(function (index) {
+        const entry = $(this);
+        fetchReplace(this.dataset, entry.children().first())
+          .then(() => {
+            // go to first result of first geocoder
+            if (index === 0) {
+              const firstResult = entry.find("*[data-lat][data-lon]:first").first();
+              if (firstResult.length) {
+                panToSearchResult(firstResult.data());
+              }
             }
-          }
-        });
-    });
+          });
+      });
 
-    return map.getState();
+      return map.getState();
+    },
+
+    unload() {
+      markers.clearLayers();
+      processedResults = 0;
+    }
   };
-
-  page.unload = function () {
-    markers.clearLayers();
-    processedResults = 0;
-  };
-
-  return page;
 }

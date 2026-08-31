@@ -6,8 +6,6 @@ export default function (map) {
     marker = null;
   }
 
-  const page = {};
-
   function show(panToHome) {
     map.setSidebarOverlaid(true);
     clearMarker();
@@ -31,18 +29,18 @@ export default function (map) {
     }
   }
 
-  page.load = function () {
-    show(true);
-  };
+  return {
+    load() {
+      show(true);
+    },
 
-  page.init = function () {
-    show(!OSM.parseHash(location.hash).center);
-  };
+    init() {
+      show(!OSM.parseHash(location.hash).center);
+    },
 
-  page.unload = function () {
-    clearMarker();
-    $("#browse_status").empty();
+    unload() {
+      clearMarker();
+      $("#browse_status").empty();
+    }
   };
-
-  return page;
 }
