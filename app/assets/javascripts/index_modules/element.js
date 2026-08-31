@@ -9,17 +9,17 @@ export function element(type) {
 
     page.load = function (path, id, version) {
       OSM.loadSidebarContent(path)
-        .then(() => page.init(path, id, version, true));
+        .then(() => this.init(path, id, version, true));
     };
 
     page.init = function (path, id, version, keepViewport) {
-      page._addObject(type, id, version, keepViewport);
+      this._addObject(type, id, version, keepViewport);
       $(".numbered_pagination").trigger("numbered_pagination:enable");
       abortController = new AbortController();
     };
 
     page.unload = function () {
-      page._removeObject();
+      this._removeObject();
       $(".numbered_pagination").trigger("numbered_pagination:disable");
       abortController?.abort();
     };

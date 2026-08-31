@@ -79,7 +79,7 @@ export default function (map) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
     OSM.loadSidebarContent(path)
-      .then(page.init);
+      .then(this.init);
   };
 
   page.init = function () {
