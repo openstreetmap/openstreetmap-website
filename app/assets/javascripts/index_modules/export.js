@@ -81,7 +81,7 @@ export default function (map) {
 
   page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(page.init);
+      .then(this.init);
   };
 
   page.init = function () {

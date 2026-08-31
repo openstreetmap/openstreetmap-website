@@ -100,7 +100,7 @@ export default function (map) {
 
   page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(() => page.init(path));
+      .then(() => this.init(path));
   };
 
   page.init = function (path) {

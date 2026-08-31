@@ -12,7 +12,7 @@ export default function (map) {
 
   page.load = function (path) {
     OSM.loadSidebarContent(path)
-      .then(page.init);
+      .then(this.init);
   };
 
   page.init = function () {
@@ -44,7 +44,7 @@ export default function (map) {
           });
         })
         .then(() => OSM.loadSidebarContent(location.pathname))
-        .then(page.init)
+        .then(this.init)
         .catch(error => {
           content.find("button[data-method][data-url]").prop("disabled", false);
           content.find("#comment-error")
