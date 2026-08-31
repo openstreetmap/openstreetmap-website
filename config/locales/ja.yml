@@ -57,6 +57,7 @@
 # Author: Sudachi
 # Author: Sujiniku
 # Author: Surgical21
+# Author: TAKAHASHI Shuuji
 # Author: Tamaki Wakita
 # Author: Tensama0415
 # Author: Tmv
@@ -504,6 +505,9 @@ ja:
       colour_preview: 色彩%{colour_value}プレビュー
       email_link: メール %{email}
     versions_navigation:
+      node_versions: ノードのバージョン
+      way_versions: ウェイバージョン
+      relation_versions: リレーションのバージョン
       node: ノード
       way: ウェイ
       relation: リレーション
@@ -520,10 +524,13 @@ ja:
     index:
       node:
         title_html: 'ノード: %{name} の履歴'
+        actions: ノードの操作
       way:
         title_html: 'ウェイ: %{name} の履歴'
+        actions: ウェイの操作
       relation:
         title_html: 'リレーション: %{name} の履歴'
+        actions: リレーションの操作
       older_versions: 古いバージョン
       newer_versions: 新しいバージョン
     actions:
@@ -554,11 +561,21 @@ ja:
       sorry: 'リレーション #%{id} は見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、リレーションのデータ（id %{id}）は時間がかかりすぎたため取得できませんでした。
+  relation_members:
+    not_found_message:
+      sorry: 'リレーション #%{id} は見つかりませんでした。'
+    timeout:
+      sorry: リレーションのデータ (id %{id}) は時間がかかりすぎたため取得できませんでした。
   old_relations:
     not_found_message:
       sorry: 'リレーション #%{id} のバージョン %{version} が見つかりませんでした。'
     timeout:
       sorry: 申し訳ありませんが、リレーションの履歴データ（id %{id}）は時間がかかりすぎたため取得できませんでした。
+  old_relation_members:
+    not_found_message:
+      sorry: 'リレーション #%{id} のバージョン %{version} は見つかりませんでした。'
+    timeout:
+      sorry: リレーションのメンバー (id %{id}) は時間がかかりすぎたため取得できませんでした。
   changeset_comments:
     feeds:
       comment:
@@ -573,8 +590,14 @@ ja:
     changeset_line:
       comments:
         other: '%{count} コメント'
+      changes:
+        other: '%{count} 個の変更'
       n_elements_created:
         other: '%{count} 個の要素が作成されました'
+      n_elements_modified:
+        other: '%{count} 個の変更要素'
+      n_elements_deleted:
+        other: '%{count} 個の削除要素'
     index:
       title: 変更セット
       title_user: '%{user} による変更セット'
@@ -622,6 +645,7 @@ ja:
       ways_paginated: ウェイ (%{x}-%{y} / %{count})
       relations_title: リレーション
       relations_paginated: リレーション (%{x}-%{y} / %{count})
+      range: '%{x}-%{y} / %{count}'
     not_found_message:
       sorry: '変更セット #%{id} は見つかりませんでした。'
     timeout:
@@ -651,6 +675,7 @@ ja:
     popup:
       your location: 自分の位置
       nearby mapper: 周辺のマッパー
+      following: フォロー中
     show:
       title: 私のダッシュボード
       no_home_location_html: '%{edit_profile_link}そして、近くの利用者が表示されるように自宅の場所を設定します。'
@@ -659,13 +684,28 @@ ja:
       no followings: フォロー中のユーザーはいません。
       nearby users: 周辺にいるその他の利用者
       no nearby users: あなたの活動地域周辺に他のマッパーはいないようです。
+      followed_actions: フォロー中のユーザーの操作
       followed_changesets: 変更セット
       followed_diaries: 日記エントリ
+      nearby_actions: 近くのユーザーの操作
       nearby_changesets: 周辺の利用者の変更セット
       nearby_diaries: 周辺の利用者の日記エントリ
   notifications:
     index:
       title: 通知
+      no_notifications: 現在通知はありません
+      point_to_preferences_html: 通知の受診方法は %{link} で調整できます。
+      link_text: 個人設定セクション
+    changeset_comment:
+      headline: 変更セットのコメント
+      description_with_summary_html: ユーザー %{commenter_name_with_link} が変更セット %{changeset_id_with_link}
+        (「%{changeset_summary}」) にコメントを残しました
+      description_without_summary_html: ユーザー %{commenter_name_with_link} が変更セット %{changeset_id_with_link}
+        にコメントを残しました
+    gpx_details:
+      filename: ファイル名
+      description: 説明
+      tags: タグ
     gpx_import_failure:
       error_message: エラーのメッセージ
     new_follower:
