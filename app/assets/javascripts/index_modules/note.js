@@ -1,19 +1,5 @@
 export default function (map) {
-  const content = $("#sidebar_content"),
-        page = {};
-
-  page.load = function (path, id) {
-    OSM.loadSidebarContent(path).then(function () {
-      const data = $(".details").data();
-      if (!data) return;
-      const [lat, lng] = data.coordinates.split(",").map(parseFloat);
-      initialize(path, id, map.getBounds().contains({ lat, lng }));
-    });
-  };
-
-  page.init = function (path, id) {
-    initialize(path, id);
-  };
+  const content = $("#sidebar_content");
 
   function initialize(path, id, skipMoveToNote) {
     content.find("button[name]").on("click", function (e) {
@@ -91,9 +77,22 @@ export default function (map) {
     }
   }
 
-  page.unload = function () {
-    map.removeObject();
-  };
+  return {
+    load(path, id) {
+      OSM.loadSidebarContent(path).then(function () {
+        const data = $(".details").data();
+        if (!data) return;
+        const [lat, lng] = data.coordinates.split(",").map(parseFloat);
+        initialize(path, id, map.getBounds().contains({ lat, lng }));
+      });
+    },
 
-  return page;
+    init(path, id) {
+      initialize(path, id);
+    },
+
+    unload() {
+      map.removeObject();
+    }
+  };
 }

@@ -1,8 +1,6 @@
 //= require download_util
 
 export default function (map) {
-  const page = {};
-
   const locationFilter = new L.LocationFilter({
     enableButton: false,
     adjustButton: false
@@ -79,49 +77,49 @@ export default function (map) {
     if (getBounds().getSize() > OSM.MAX_REQUEST_AREA) e.preventDefault();
   }
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(this.init);
-  };
+  return {
+    load(path) {
+      OSM.loadSidebarContent(path)
+        .then(this.init);
+    },
 
-  page.init = function () {
-    map
-      .addLayer(locationFilter)
-      .on("moveend", update);
+    init() {
+      map
+        .addLayer(locationFilter)
+        .on("moveend", update);
 
-    $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
-    $("#drag_box").click(enableFilter);
-    $(".export_form").on("submit", checkSubmit);
+      $("#maxlat, #minlon, #maxlon, #minlat").change(boundsChanged);
+      $("#drag_box").click(enableFilter);
+      $(".export_form").on("submit", checkSubmit);
 
-    document.querySelector(".export_form")
-      .addEventListener("turbo:submit-end", OSM.getTurboBlobHandler("map.osm"));
+      document.querySelector(".export_form")
+        .addEventListener("turbo:submit-end", OSM.getTurboBlobHandler("map.osm"));
 
-    document.querySelector(".export_form")
-      .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
+      document.querySelector(".export_form")
+        .addEventListener("turbo:before-fetch-response", OSM.turboHtmlResponseHandler);
 
-    document.querySelector(".export_form")
-      .addEventListener("turbo:before-fetch-request", function (event) {
-        event.detail.fetchOptions.headers.Accept = "application/xml";
+      document.querySelector(".export_form")
+        .addEventListener("turbo:before-fetch-request", function (event) {
+          event.detail.fetchOptions.headers.Accept = "application/xml";
+        });
+
+      $("#export_overpass").on("click", async function (event) {
+        event.preventDefault();
+        const downloadUrl = $(this).attr("href");
+        const confirmed = await showConfirmationModal();
+        if (confirmed) {
+          window.location.href = downloadUrl;
+        }
       });
 
-    $("#export_overpass").on("click", async function (event) {
-      event.preventDefault();
-      const downloadUrl = $(this).attr("href");
-      const confirmed = await showConfirmationModal();
-      if (confirmed) {
-        window.location.href = downloadUrl;
-      }
-    });
+      update();
+      return map.getState();
+    },
 
-    update();
-    return map.getState();
+    unload() {
+      map
+        .removeLayer(locationFilter)
+        .off("moveend", update);
+    }
   };
-
-  page.unload = function () {
-    map
-      .removeLayer(locationFilter)
-      .off("moveend", update);
-  };
-
-  return page;
 }
