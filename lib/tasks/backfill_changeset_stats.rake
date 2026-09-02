@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
+# rubocop:disable-next Metrics/BlockLength
 namespace :db do
   desc "Backfill enhanced changeset stats"
   task :changeset_stats => :environment do
@@ -119,4 +119,3 @@ namespace :db do
     puts "\nDone."
   end
 end
-# rubocop:enable Metrics/BlockLength

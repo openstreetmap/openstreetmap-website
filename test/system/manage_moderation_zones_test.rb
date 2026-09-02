@@ -14,9 +14,9 @@ class ManageModerationZones < ApplicationSystemTestCase
 
     map = find_by_id("map")
     map.click(:offset => :center, :x => -50, :y => -50)
-    map.click(:offset => :center, :x =>   0, :y => -50)
-    map.click(:offset => :center, :x =>   0, :y =>   0)
-    map.click(:offset => :center, :x => -50, :y =>   0)
+    map.click(:offset => :center, :x => 0, :y => -50)
+    map.click(:offset => :center, :x => 0, :y => 0)
+    map.click(:offset => :center, :x => -50, :y => 0)
     map.click(:offset => :center, :x => -50, :y => -50)
 
     select "1 week", :from => :moderation_zone_period
