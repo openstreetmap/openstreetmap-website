@@ -57,6 +57,11 @@
                         { :controller => "traces", :action => "index", :display_name => @target_user.display_name }, { :class => "nav-link active" } %>
           </li>
         <% end %>
+        <% if @legacy_traces_exist %>
+          <li class="nav-item">
+            <%= link_to t(".legacy_traces"), edit_traces_legacy_visibility_path, :class => "nav-link" %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </div>

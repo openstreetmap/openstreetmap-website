@@ -67,6 +67,7 @@ class TracesController < ApplicationController
 
     # final helper vars for view
     @target_user = target_user
+    @legacy_traces_exist = current_user.traces.visible.exists?(:visibility => Trace::LEGACY_VISIBILITIES) if current_user
   end
 
   def show

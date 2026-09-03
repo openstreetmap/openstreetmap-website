@@ -138,6 +138,24 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     check_trace_index [trace_b]
   end
 
+  # The link to the legacy visibility page only shows up while the user
+  # still has traces using a legacy visibility
+  def test_index_legacy_traces_link
+    user = create(:user)
+    create(:trace, :visibility => "trackable", :user => user)
+    session_for(user)
+
+    get traces_path
+    assert_response :success
+    assert_select "a[href=?]", edit_traces_legacy_visibility_path, :count => 0
+
+    create(:trace, :without_validations, :visibility => "public", :user => user)
+
+    get traces_path
+    assert_response :success
+    assert_select "a[href=?]", edit_traces_legacy_visibility_path, :count => 1
+  end
+
   # Check the index of traces for a specific user
   def test_index_user
     user = create(:user)
