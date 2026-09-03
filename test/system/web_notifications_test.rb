@@ -59,17 +59,6 @@ class WebNotificationsTest < ApplicationSystemTestCase
     assert_text "This is comment number 10"
   end
 
-  private
-
-  def setup_changeset_comment(changeset_author:, commenter:, comment_attrs: {})
-    changeset = create(:changeset, :user => changeset_author)
-    create(:changeset_subscription, :changeset => changeset, :subscriber => changeset_author)
-
-    comment = create(:changeset_comment, :changeset => changeset, :author => commenter, **comment_attrs)
-    create(:changeset_subscription, :changeset => changeset, :subscriber => commenter)
-    ChangesetCommentNotifier.with(:record => comment).deliver
-  end
-
   test "follower notification is cleaned up after unfollow" do
     follower = create(:user, :display_name => "Follower")
     followed = create(:user)
@@ -155,5 +144,16 @@ class WebNotificationsTest < ApplicationSystemTestCase
     assert_text "Notifications"
     assert_selector ".web-notification"
     assert_text "bad_trace.gpx"
+  end
+
+  private
+
+  def setup_changeset_comment(changeset_author:, commenter:, comment_attrs: {})
+    changeset = create(:changeset, :user => changeset_author)
+    create(:changeset_subscription, :changeset => changeset, :subscriber => changeset_author)
+
+    comment = create(:changeset_comment, :changeset => changeset, :author => commenter, **comment_attrs)
+    create(:changeset_subscription, :changeset => changeset, :subscriber => commenter)
+    ChangesetCommentNotifier.with(:record => comment).deliver
   end
 end
