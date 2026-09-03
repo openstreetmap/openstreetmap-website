@@ -51,7 +51,7 @@ class Ability
         can [:read, :create, :destroy], Message
         can [:close, :reopen], Note
         can :create, Report
-        can [:mine, :create, :update, :destroy], Trace unless Settings.traces_disabled
+        can [:mine, :create, :update, :destroy, :change_visibility, :update_visibility], Trace unless Settings.traces_disabled
         can [:account, :go_public], User
         can [:read, :create, :destroy], UserMute
 
