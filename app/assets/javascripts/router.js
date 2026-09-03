@@ -115,6 +115,7 @@ OSM.Router = function (map, rts) {
     routingInProgress = routingInProgress
       .catch(() => {})
       .then(async () => {
+        OSM.cancelSidebarContentLoad();
         await currentRoute.run("unload", null, route === currentRoute);
         beforeEnter();
         currentPath = path;

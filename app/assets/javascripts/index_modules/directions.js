@@ -111,9 +111,14 @@ export default function (map) {
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
-    controller = new AbortController();
-    chosenEngine.getRoute(points, controller.signal).then(async function (route) {
+    const routeController = new AbortController();
+    controller = routeController;
+    chosenEngine.getRoute(points, routeController.signal).then(async function (route) {
+      if (controller !== routeController) return;
+
       await sidebarLoaded();
+      if (controller !== routeController) return;
+
       $("#directions_route").prop("hidden", false);
       routeOutput.write(route);
 
@@ -121,9 +126,11 @@ export default function (map) {
         routeOutput.fit();
       }
     }).catch(async function (error) {
-      if (error.name === "AbortError") return;
+      if (error.name === "AbortError" || controller !== routeController) return;
 
       await sidebarLoaded();
+      if (controller !== routeController) return;
+
       routeOutput.remove();
 
       if (reportErrors) {
@@ -132,8 +139,10 @@ export default function (map) {
           .html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
     }).finally(function () {
-      $("#directions_loader").prop("hidden", true);
-      controller = null;
+      if (controller === routeController) {
+        $("#directions_loader").prop("hidden", true);
+        controller = null;
+      }
     });
   }
 
@@ -244,16 +253,10 @@ export default function (map) {
   const page = {};
 
   function sidebarLoaded() {
-    if ($("#directions_route").length) {
-      sidebarReadyPromise = null;
-
-      return Promise.resolve();
-    }
-
-    return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions");
+    return sidebarReadyPromise;
   }
 
-  page.load = page.init = function () {
+  function initialize() {
     initializeFromParams();
 
     $(".search_form").hide();
@@ -262,9 +265,22 @@ export default function (map) {
     sidebarLoaded().then(enableListeners);
 
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
+  }
+
+  page.load = function () {
+    sidebarReadyPromise = OSM.loadSidebarContent("/directions");
+    initialize();
+  };
+
+  page.init = function () {
+    sidebarReadyPromise = Promise.resolve();
+    initialize();
   };
 
   page.unload = function () {
+    controller?.abort();
+    controller = null;
+
     $(".search_form").show();
     $(".directions_form").hide();
 
