@@ -1,0 +1,88 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <p class="text-body-secondary mb-3"><%= t ".description" %></p>
+
+  <ul class="nav nav-tabs">
+    <li class="nav-item">
+      <%= link_to t("traces.index.all_traces"), traces_path, :class => "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t("traces.index.my_traces"), traces_mine_path, :class => "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to t("traces.index.legacy_traces"), edit_traces_legacy_visibility_path, :class => "nav-link active" %>
+    </li>
+  </ul>
+<% end %>
+
+<%= form_tag edit_traces_legacy_visibility_path, :method => :get, :class => "row g-3 align-items-end mb-3" do %>
+  <div class="col-sm-4">
+    <%= label_tag :visibility, t(".filter.visibility"), :class => "form-label" %>
+    <%= select_tag :visibility,
+                   options_for_select([[t(".filter.any"), ""]] + trace_visibility_options_for_filter, params[:visibility]),
+                   :class => "form-select" %>
+  </div>
+  <div class="col-sm-3">
+    <%= label_tag :from, t(".filter.from"), :class => "form-label" %>
+    <%= date_field_tag :from, params[:from], :autocomplete => "off", :class => "form-control" %>
+  </div>
+  <div class="col-sm-3">
+    <%= label_tag :to, t(".filter.to"), :class => "form-label" %>
+    <%= date_field_tag :to, params[:to], :autocomplete => "off", :class => "form-control" %>
+  </div>
+  <div class="col-sm-2">
+    <%= submit_tag t(".filter.apply"), :name => nil, :class => "btn btn-secondary w-100" %>
+  </div>
+<% end %>
+
+<% if @traces.items.empty? %>
+  <p><%= t ".empty" %></p>
+<% else %>
+  <%= form_tag traces_legacy_visibility_path, :method => :patch do %>
+    <%= hidden_field_tag :visibility, params[:visibility] %>
+    <%= hidden_field_tag :from, params[:from] %>
+    <%= hidden_field_tag :to, params[:to] %>
+
+    <div class="row g-3 align-items-end mb-3 mt-4">
+      <div class="col-md-8">
+        <%= label_tag :new_visibility, :class => "form-label" do %>
+          <%= t ".new_visibility" %>
+          <span class="form-text ms-1"><%= t ".no_undo" %></span>
+        <% end %>
+        <%= select_tag :new_visibility,
+                       options_for_select(trace_visibility_options_for_update, params[:new_visibility]),
+                       :class => "form-select" %>
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirm_visibility_change">
+          <%= t ".button", :count => @count %>
+        </button>
+      </div>
+    </div>
+
+    <div class="modal fade" id="confirm_visibility_change" tabindex="-1" aria-labelledby="confirm_visibility_change_title" role="alertdialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirm_visibility_change_title"><%= t ".confirmation.header" %></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+          </div>
+          <div class="modal-body">
+            <p><%= t ".confirmation.body", :count => @count %></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+              <%= t ".confirmation.cancel" %>
+            </button>
+            <%= submit_tag t(".confirmation.confirm"), :class => "btn btn-danger" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <hr class="my-4">
+
+  <%= render "traces/page", :traces => @traces, :params => @params, :translation_scope => "application.pagination.traces" %>
+<% end %>
