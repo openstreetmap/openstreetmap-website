@@ -59,6 +59,93 @@ class WebNotificationsTest < ApplicationSystemTestCase
     assert_text "This is comment number 10"
   end
 
+  test "follower notification is cleaned up after unfollow" do
+    follower = create(:user, :display_name => "Follower")
+    followed = create(:user)
+
+    follow = create(:follow, :follower => follower, :following => followed)
+    NewFollowerNotifier.with(:record => follow).deliver
+
+    sign_in_as(follower)
+    visit user_path(followed)
+    click_on "Unfollow"
+    assert_text "You successfully unfollowed"
+
+    sign_in_as(followed)
+
+    click_on followed.display_name
+    click_on "My Notifications"
+
+    assert_text "Notifications"
+    assert_text "You have no notifications"
+  end
+
+  test "historical orphaned follower notification is skipped" do
+    follower = create(:user, :display_name => "Follower")
+    followed = create(:user)
+
+    follow = create(:follow, :follower => follower, :following => followed)
+    NewFollowerNotifier.with(:record => follow).deliver
+
+    Follow.where(:id => follow.id).delete_all
+
+    sign_in_as(followed)
+
+    click_on followed.display_name
+    click_on "My Notifications"
+
+    assert_text "Notifications"
+    assert_no_selector ".web-notification"
+  end
+
+  test "GPX import success notification is cleaned up after trace is destroyed" do
+    user = create(:user)
+    trace = create(:trace, :user => user)
+    GpxImportSuccessNotifier.with(:record => trace, :possible_points => 100).deliver
+
+    trace.destroy
+
+    sign_in_as(user)
+    click_on user.display_name
+    click_on "My Notifications"
+
+    assert_text "Notifications"
+    assert_text "You have no notifications"
+  end
+
+  test "historical orphaned GPX import success notification is skipped" do
+    user = create(:user)
+    trace = create(:trace, :user => user)
+    GpxImportSuccessNotifier.with(:record => trace, :possible_points => 100).deliver
+
+    Trace.where(:id => trace.id).delete_all
+
+    sign_in_as(user)
+    click_on user.display_name
+    click_on "My Notifications"
+
+    assert_text "Notifications"
+    assert_no_selector ".web-notification"
+  end
+
+  test "GPX import failure notification without a record is still rendered" do
+    user = create(:user)
+    GpxImportFailureNotifier.with(
+      :trace_name => "bad_trace.gpx",
+      :trace_description => "bad",
+      :trace_tags => [],
+      :error => "0 points parsed ok"
+    ).deliver(user)
+
+    sign_in_as(user)
+    click_on user.display_name
+    click_on "My Notifications"
+
+    assert_text "Notifications"
+    assert_selector ".web-notification"
+    assert_text "bad_trace.gpx"
+  end
+
   private
 
   def setup_changeset_comment(changeset_author:, commenter:, comment_attrs: {})
