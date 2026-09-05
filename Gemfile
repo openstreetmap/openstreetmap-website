@@ -128,6 +128,8 @@ gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rai
 gem "opentelemetry-exporter-otlp", :require => false
 gem "opentelemetry-instrumentation-all", :require => false
 gem "opentelemetry-sdk", :require => false
+gem "sentry-rails"
+gem "sentry-ruby"
 
 # Used to generate images for traces
 gem "bzip2-ffi"
