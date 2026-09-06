@@ -22,7 +22,12 @@
     <input type="hidden" name="lon" autocomplete="off">
     <input type="hidden" name="lat" autocomplete="off">
     <div class="mb-3">
-      <%= text_area_tag "text", "", :class => "form-control", :size => "40x10", :maxlength => "2000", :placeholder => t(".advice") %>
+      <%= text_area_tag "text",
+                        "",
+                        :class => "form-control",
+                        :size => "40x10",
+                        :maxlength => "2000",
+                        :placeholder => [t(".advice_good_note"), t(".advice_conduct")].join("\n\n") %>
     </div>
     <div class="new-note-error alert alert-danger d-none">
       <details>
@@ -34,5 +39,8 @@
       <%= submit_tag t(".add"), :name => "add", :disabled => 1, :class => "btn btn-primary" %>
     </div>
   </form>
+  <div class="alert alert-warning mt-3">
+    <p class="mb-0"><%= t(".advice") %></p>
+  </div>
   <% end %>
 </div>
