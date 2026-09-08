@@ -56,6 +56,11 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
     Settings.oauth_application = osm_website_app.uid
   end
 
+  def before_teardown
+    super
+    Capybara.reset_sessions!
+  end
+  
   def after_teardown
     Settings.reload!
     super
