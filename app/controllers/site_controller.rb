@@ -44,13 +44,13 @@ class SiteController < ApplicationController
 
     options = new_params.to_unsafe_h.to_options
 
-    path = if params.key? :node
+    path = if valid_id?(params[:node])
              node_path(params[:node], options)
-           elsif params.key? :way
+           elsif valid_id?(params[:way])
              way_path(params[:way], options)
-           elsif params.key? :relation
+           elsif valid_id?(params[:relation])
              relation_path(params[:relation], options)
-           elsif params.key? :changeset
+           elsif valid_id?(params[:changeset])
              changeset_path(params[:changeset], options)
            else
              root_url(options)
@@ -145,13 +145,13 @@ class SiteController < ApplicationController
   private
 
   def redirect_browse_params
-    if params[:node]
+    if valid_id?(params[:node])
       redirect_to node_path(params[:node])
-    elsif params[:way]
+    elsif valid_id?(params[:way])
       redirect_to way_path(params[:way])
-    elsif params[:relation]
+    elsif valid_id?(params[:relation])
       redirect_to relation_path(params[:relation])
-    elsif params[:note]
+    elsif valid_id?(params[:note])
       redirect_to note_path(params[:note])
     elsif params[:query]
       redirect_to search_path(:query => params[:query])
@@ -170,5 +170,9 @@ class SiteController < ApplicationController
     end
 
     redirect_to params.to_unsafe_h.merge(:only_path => true, :anchor => anchor.join("&")) if anchor.present?
+  end
+
+  def valid_id?(candidate)
+    candidate&.match?(/\A\d+\Z/)
   end
 end
