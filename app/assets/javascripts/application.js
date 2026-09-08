@@ -225,18 +225,18 @@ $(function () {
   });
 
   $("#select_language_dialog").on("shown.bs.modal", function () {
+    $("#language_search").trigger("focus");
+  });
+
+  $("#select_language_dialog").on("show.bs.modal", function () {
     $("#language_search")
       .val("")
-      .trigger("input")
-      .trigger("focus");
+      .trigger("input");
     const $frame = $("#select_language_list");
-    const originalSrc = new URL($frame.attr("src"), window.location.origin);
-
-    // Set `source` query param to current page path + query string
-    originalSrc.searchParams.set("source", window.location.pathname + window.location.search);
-
-    if ($frame.attr("src") !== originalSrc.toString()) {
-      $frame.attr("src", originalSrc.toString());
+    const src = new URL($frame.data("src"), window.location.origin);
+    src.searchParams.set("source", window.location.pathname + window.location.search);
+    if ($frame.attr("src") !== src.toString()) {
+      $frame.attr("src", src.toString());
     }
   });
 });
