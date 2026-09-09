@@ -432,6 +432,9 @@ OpenStreetMap::Application.routes.draw do
   # redactions
   resources :redactions
 
+  # ACLs
+  resources :acls, :except => [:show]
+
   # moderation zones
   resources :moderation_zones, :only => [:index, :new, :create, :edit, :update]
 

@@ -21,6 +21,7 @@
 
 class Acl < ApplicationRecord
   validates :k, :presence => true
+  validates :address, :inet => true
 
   def self.match(address, options = {})
     acls = Acl.where("address >>= ?", address)

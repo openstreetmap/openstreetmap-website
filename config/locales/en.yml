@@ -55,7 +55,7 @@ en:
               cannot_change_to_legacy: "can't be changed back to a legacy value"
     # Translates all the model names, which is used in error handling on the website
     models:
-      acl: "Access Control List"
+      acl: "ACL"
       changeset: "Changeset"
       changeset_tag: "Changeset Tag"
       country: "Country"
@@ -93,6 +93,12 @@ en:
     # Translates all the model attributes, which is used in error handling on the website
     # Only the ones that are used on the website are translated at the moment
     attributes:
+      acl:
+        address: Address
+        domain: Domain
+        mx: MX server
+        k: Key
+        v: Value
       diary_comment:
         body: "Body"
       diary_entry:
@@ -155,6 +161,12 @@ en:
         pass_crypt: "Password"
         pass_crypt_confirmation: "Confirm Password"
     help:
+      acl:
+        address: An IP address or CIDR network, e.g. 192.0.2.0/24
+        domain: An email domain; subdomains are matched too
+        mx: The host name of an MX server for the email domain
+        k: "One of: no_account_creation, allow_account_creation, no_note_comment, no_trace_download"
+        v: Optional note, e.g. the reason for this entry
       doorkeeper/application:
         confidential: "Application will be used where the client secret can be kept confidential (native mobile apps and single page apps are not confidential)"
         redirect_uri: "Use one line per URI"
@@ -3914,6 +3926,36 @@ en:
       not_empty: "Redaction is not empty. Please un-redact all versions belonging to this redaction before destroying it."
       flash: "Redaction destroyed."
       error: "There was an error destroying this redaction."
+  acls:
+    navigation:
+      new_title: Add a new ACL
+      new: New ACL
+      actions: ACL actions
+    index:
+      title: ACLs
+      empty: No ACLs to show.
+      address: Address
+      domain: Domain
+      mx: MX server
+      k: Key
+      v: Value
+      actions: Actions
+    acl:
+      edit_button: Edit
+      destroy_button: Delete
+      confirm: Are you sure?
+    form:
+      cancel: Cancel
+    new:
+      title: New ACL
+    create:
+      success: ACL created.
+    edit:
+      title: Editing ACL
+    update:
+      success: ACL updated.
+    destroy:
+      success: ACL deleted.
   validations:
     leading_whitespace: "has leading whitespace"
     trailing_whitespace: "has trailing whitespace"

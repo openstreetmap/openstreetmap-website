@@ -24,6 +24,14 @@ class ModeratorAbilityTest < ActiveSupport::TestCase
     end
   end
 
+  test "ACL permissions" do
+    ability = Ability.new create(:moderator_user)
+
+    [:index, :create, :edit, :update, :destroy].each do |action|
+      assert ability.cannot?(action, Acl), "should not be able to #{action} ACLs"
+    end
+  end
+
   test "Active block update permissions" do
     creator_user = create(:moderator_user)
     other_moderator_user = create(:moderator_user)

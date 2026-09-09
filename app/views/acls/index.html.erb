@@ -1,0 +1,27 @@
+<% @title = t(".title") %>
+
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <%= render "navigation" %>
+<% end %>
+
+<% if @acls.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <table class="table table-sm align-middle" id="acl_list">
+    <thead>
+      <tr>
+        <th><%= t(".address") %></th>
+        <th><%= t(".domain") %></th>
+        <th><%= t(".mx") %></th>
+        <th><%= t(".k") %></th>
+        <th><%= t(".v") %></th>
+        <th class="text-end"><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @acls %>
+    </tbody>
+  </table>
+<% end %>
