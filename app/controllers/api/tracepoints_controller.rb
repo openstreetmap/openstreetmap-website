@@ -24,8 +24,6 @@ module Api
 
       points = Tracepoint.bbox(bbox).joins(:trace)
                          .where(:gpx_files => { :visibility => %w[trackable identifiable] })
-                         .order(:gpx_id => :desc, :trackid => :asc, :timestamp => :asc)
-                         .limit(Settings.tracepoints_per_page).preload(:trace)
 
       if params[:cursor]
         begin
@@ -35,17 +33,21 @@ module Api
           return
         end
 
+        # Read the bbox in a subquery so the planner uses the tile index.
+        # Otherwise the ORDER BY ... LIMIT makes it walk the gpx_id index
+        # backwards from the cursor, which can take minutes on a sparse bbox.
+        # OFFSET 0 stops PostgreSQL from flattening the subquery.
+        candidates = points.where(:gps_points => { :gpx_id => ..gpx_id }).offset(0)
+
         # Continue after the last point of the previous batch, following the
-        # gpx_id desc, trackid asc, timestamp asc ordering of the query above.
-        # The gpx_id <= bound is implied by the condition below it, but it gives
-        # the planner a single index range and a much better plan.
-        points = points.where(<<~SQL.squish, :gpx_id => gpx_id, :trackid => trackid, :timestamp => timestamp)
-          gps_points.gpx_id <= :gpx_id
-          AND (gps_points.gpx_id < :gpx_id
-               OR (gps_points.gpx_id = :gpx_id
-                   AND (gps_points.trackid > :trackid
-                        OR (gps_points.trackid = :trackid AND gps_points.timestamp > :timestamp))))
-        SQL
+        # gpx_id desc, trackid asc, timestamp asc ordering of the query below.
+        points = Tracepoint.from(candidates, :gps_points)
+                           .where(<<~SQL.squish, :gpx_id => gpx_id, :trackid => trackid, :timestamp => timestamp)
+                             gps_points.gpx_id < :gpx_id
+                             OR (gps_points.gpx_id = :gpx_id
+                                 AND (gps_points.trackid > :trackid
+                                      OR (gps_points.trackid = :trackid AND gps_points.timestamp > :timestamp)))
+                           SQL
       else
         page = params.fetch(:page, "0").to_i
 
@@ -57,7 +59,8 @@ module Api
         points = points.offset(page * Settings.tracepoints_per_page)
       end
 
-      @points = points.load
+      @points = points.order(:gpx_id => :desc, :trackid => :asc, :timestamp => :asc)
+                      .limit(Settings.tracepoints_per_page).preload(:trace).load
 
       # The Link header is only for cursor pagination, not for the old page parameter.
       if params[:page].blank? && @points.size == Settings.tracepoints_per_page
