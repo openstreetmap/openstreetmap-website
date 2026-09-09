@@ -10,6 +10,9 @@ gem "turbo-rails"
 gem "activerecord-postgis"
 gem "pg"
 
+# Sprockets does not support json 3.x yet
+gem "json", "< 3.0.0"
+
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
 # Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
