@@ -213,7 +213,7 @@ module Api
         end
       end
       assert_response :forbidden
-      assert_equal "You don't have permissions to make changes in this zone, as it is currently protected by moderators", response.headers["Error"]
+      assert_equal "You don't have permissions to make changes here. Please either sign in or create an OpenStreetMap account", response.headers["Error"]
     end
 
     def test_create_success
