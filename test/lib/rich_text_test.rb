@@ -716,6 +716,34 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal "#{'x' * (t - o)}...", r.description
   end
 
+  def test_autolinking_edge_case_two_parentheses
+    with_settings(:server_url => "www.openstreetmap.org", :server_protocol => "https") do
+      text = "This changeset contains edits near Caldecott (way/23019437)… and a road in Turkey (way/25705231)."
+      r = RichText.new("text", text)
+      assert_html r do
+        assert_dom "a[href='https://www.openstreetmap.org/way/23019437']", :count => 1, :text => "way/23019437"
+      end
+    end
+  end
+
+  def test_autolinking_edge_case_tags_backticks
+    with_settings(:server_url => "www.openstreetmap.org", :server_protocol => "https") do
+      text = "Bonjour, merci pour toutes vos améliorations en Anjou ! Pourriez-vous prendre l’habitude d’ajouter `access=private` sur les piscines privées que vous ajoutez ?"
+      r = RichText.new("text", text)
+      assert_html r do
+        assert_dom "a[href='https://wiki.openstreetmap.org/wiki/Tag:access=private']", :count => 1, :text => "access=private"
+      end
+    end
+  end
+
+  def test_autolinking_edge_case_website_backticks
+    text = "www.github.com` is linkified HOW???"
+    r = RichText.new("text", text)
+    assert_html r do
+      assert_dom "a[href='http://www.github.com']", :count => 1, :text => "www.github.com"
+    end
+  end
+
   private
 
   def assert_html(richtext, &block)
