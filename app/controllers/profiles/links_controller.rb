@@ -6,8 +6,7 @@ module Profiles
 
     def update_profile
       social_links_params = params.permit(:user => [{ :social_links_attributes => [:id, :url, :_destroy] }])
-      current_user.assign_attributes(social_links_params[:user])
-
+      current_user.assign_attributes(social_links_params.fetch(:user, {}))
       current_user.save
     end
   end
