@@ -1,6 +1,7 @@
 export default function (map) {
   const page = {},
         content = $("#sidebar_content");
+  let lifecycle = 0;
 
   content.on("turbo:before-frame-render", "turbo-frame", function () {
     $(this).find(".numbered_pagination").trigger("numbered_pagination:disable");
@@ -11,17 +12,29 @@ export default function (map) {
   });
 
   page.load = function (path) {
+    const currentLifecycle = ++lifecycle;
+
     OSM.loadSidebarContent(path)
-      .then(page.init);
+      .then(() => {
+        if (lifecycle !== currentLifecycle) return;
+        initializePage(path, currentLifecycle);
+      });
   };
 
-  page.init = function () {
+  page.init = function (path) {
+    const currentLifecycle = ++lifecycle;
+    initializePage(path, currentLifecycle);
+  };
+
+  function initializePage(path, currentLifecycle) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
     const hashParams = OSM.parseHash();
-    initialize();
+    initialize(path, currentLifecycle);
     map.addObject(changesetData, function (bounds) {
+      if (lifecycle !== currentLifecycle) return;
+
       if (!hashParams.center && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
           map.fitBounds(bounds);
@@ -29,9 +42,9 @@ export default function (map) {
       }
     });
     $(".numbered_pagination").trigger("numbered_pagination:enable");
-  };
+  }
 
-  function updateChangeset(method, url, include_data) {
+  function updateChangeset(method, url, include_data, path, currentLifecycle) {
     const data = new URLSearchParams();
 
     content.find("#comment-error").prop("hidden", true);
@@ -52,9 +65,17 @@ export default function (map) {
           throw new Error(text);
         });
       })
-      .then(() => OSM.loadSidebarContent(location.pathname))
-      .then(page.init)
+      .then(async () => {
+        if (lifecycle !== currentLifecycle) return;
+
+        await OSM.loadSidebarContent(path);
+        if (lifecycle !== currentLifecycle) return;
+
+        initializePage(path, currentLifecycle);
+      })
       .catch(error => {
+        if (lifecycle !== currentLifecycle) return;
+
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")
           .text(error.message)
@@ -63,12 +84,12 @@ export default function (map) {
       });
   }
 
-  function initialize() {
+  function initialize(path, currentLifecycle) {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
       const data = $(e.target).data();
       const include_data = e.target.name === "comment";
-      updateChangeset(data.method, data.url, include_data);
+      updateChangeset(data.method, data.url, include_data, path, currentLifecycle);
     });
 
     content.find("textarea").on("input", function (e) {
@@ -81,6 +102,7 @@ export default function (map) {
   }
 
   page.unload = function () {
+    lifecycle++;
     map.removeObject();
     $(".numbered_pagination").trigger("numbered_pagination:disable");
   };
