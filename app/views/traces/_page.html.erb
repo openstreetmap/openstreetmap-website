@@ -1,15 +1,16 @@
-<%# locals: (traces:, params:) %>
+<%# locals: (traces:, params:, translation_scope: nil) %>
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
-  <%= render "pagination", :paginator => traces, :params => params %>
+  <%= render "pagination", :paginator => traces, :params => params, :translation_scope => translation_scope %>
 
   <div class="table-responsive">
     <table id="trace_list" class="table table-borderless table-striped">
       <tbody>
-        <%= render traces.items %>
+        <%# the partial is named explicitly so this also works when rendered from a controller under Traces:: %>
+        <%= render :partial => "traces/trace", :collection => traces.items %>
       </tbody>
     </table>
   </div>
 
-  <%= render "pagination", :paginator => traces, :params => params %>
+  <%= render "pagination", :paginator => traces, :params => params, :translation_scope => translation_scope %>
 </turbo-frame>

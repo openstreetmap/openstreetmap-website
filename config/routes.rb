@@ -280,6 +280,7 @@ OpenStreetMap::Application.routes.draw do
 
     namespace :traces, :path => "" do
       resource :feed, :path => "(/user/:display_name)/traces(/tag/:tag)/rss", :only => :show, :defaults => { :format => :rss }
+      resource :legacy_visibility, :path => "/traces/mine/legacy_visibility", :only => [:edit, :update]
     end
   end
 
