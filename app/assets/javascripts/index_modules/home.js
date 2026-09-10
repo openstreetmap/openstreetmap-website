@@ -8,14 +8,16 @@ export default function (map) {
 
   const page = {};
 
-  page.load = page.init = function () {
+  function show(panToHome) {
     map.setSidebarOverlaid(true);
     clearMarker();
 
     if (OSM.home) {
-      OSM.router.withoutMoveListener(function () {
-        map.setView(OSM.home, 15, { reset: true });
-      });
+      if (panToHome) {
+        OSM.router.withoutMoveListener(function () {
+          map.setView(OSM.home, 15, { reset: true });
+        });
+      }
       marker = L.marker(OSM.home, {
         icon: OSM.getMarker({}),
         title: OSM.i18n.t("javascripts.home.marker_title")
@@ -27,6 +29,14 @@ export default function (map) {
         )
       );
     }
+  }
+
+  page.load = function () {
+    show(true);
+  };
+
+  page.init = function () {
+    show(!OSM.parseHash(location.hash).center);
   };
 
   page.unload = function () {
