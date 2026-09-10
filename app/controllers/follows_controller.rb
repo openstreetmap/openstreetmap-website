@@ -40,7 +40,7 @@ class FollowsController < ApplicationController
 
   def destroy
     if current_user.follows?(@user)
-      Follow.where(:follower => current_user, :following => @user).delete_all
+      Follow.where(:follower => current_user, :following => @user).destroy_all
       flash[:notice] = t ".success", :name => @user.display_name
     else
       flash[:error] = t ".not_followed", :name => @user.display_name

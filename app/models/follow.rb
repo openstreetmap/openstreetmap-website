@@ -25,4 +25,6 @@ class Follow < ApplicationRecord
 
   belongs_to :follower, :class_name => "User", :foreign_key => :user_id, :inverse_of => :follows
   belongs_to :following, :class_name => "User", :foreign_key => :friend_user_id, :inverse_of => :follows
+
+  has_many :noticed_events, :as => :record, :dependent => :destroy, :class_name => "Noticed::Event"
 end
