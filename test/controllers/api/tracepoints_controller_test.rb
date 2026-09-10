@@ -159,12 +159,6 @@ module Api
         assert_select "trkpt", :count => 2
         assert_match(/lat="1.0000000"/, response.body)
         assert_no_match(/lat="1.0500000"/, response.body)
-
-        # following the link once more returns an empty document
-        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
-        get next_url
-        assert_response :success
-        assert_select "trkpt", :count => 0
         assert_nil @response.headers["Link"]
       end
     end
@@ -190,6 +184,57 @@ module Api
         assert_response :success
         assert_select "trkseg", :count => 1
         assert_select "trkpt", :count => 2
+      end
+    end
+
+    def test_tracepoints_cursor_pagination_with_fractional_seconds
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0.5))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+      end
+
+      with_settings(:tracepoints_per_page => 2) do
+        get api_tracepoints_path(:bbox => "0.9,0.9,1.1,1.1")
+        assert_response :success
+        assert_select "trkpt", :count => 2
+
+        # the point at half a second is not repeated on the second page
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 1 do
+          assert_select "time", :text => "2026-01-01T00:00:01Z"
+        end
+        assert_nil @response.headers["Link"]
+      end
+    end
+
+    def test_tracepoints_cursor_pagination_does_not_split_same_timestamp
+      create(:trace, :visibility => "trackable") do |trace|
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 0))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+        create(:tracepoint, :trace => trace, :timestamp => Time.utc(2026, 1, 1, 0, 0, 1))
+      end
+
+      with_settings(:tracepoints_per_page => 2) do
+        # the page would end inside the group at second 1, so it stops before it
+        get api_tracepoints_path(:bbox => "0.9,0.9,1.1,1.1")
+        assert_response :success
+        assert_select "trkpt", :count => 1
+
+        # the whole group is bigger than a page, so it comes in one page
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 3
+
+        next_url = @response.headers["Link"][/<(.*)>; rel="next"/, 1]
+        get next_url
+        assert_response :success
+        assert_select "trkpt", :count => 0
+        assert_nil @response.headers["Link"]
       end
     end
 
