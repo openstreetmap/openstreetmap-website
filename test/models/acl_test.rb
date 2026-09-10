@@ -10,6 +10,19 @@ class AclTest < ActiveSupport::TestCase
     assert_not_predicate acl, :valid?
   end
 
+  def test_address_must_be_valid
+    acl = build(:acl, :address => "192.0.2.0/24")
+    assert_predicate acl, :valid?
+
+    acl = build(:acl, :address => "")
+    assert_predicate acl, :valid?
+    assert_nil acl.address
+
+    acl = build(:acl, :address => "not-an-address")
+    assert_not_predicate acl, :valid?
+    assert_includes acl.errors[:address], "is invalid"
+  end
+
   def test_no_account_creation_by_subnet
     assert_not Acl.no_account_creation?("192.168.1.1")
     create(:acl, :address => "192.168.0.0/16", :k => "no_account_creation")
