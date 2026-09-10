@@ -51,6 +51,17 @@ module Profiles
       assert_dom "form > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
     end
 
+    def test_update_replace_no_image
+      user = create(:user)
+      session_for(user)
+
+      put profile_image_path, :params => { :avatar_action => "new" }
+
+      assert_response :success
+      assert_template :show
+      assert_equal "Couldn't update profile image.", flash[:error]
+    end
+
     def test_update_gravatar
       user = create(:user)
       session_for(user)
