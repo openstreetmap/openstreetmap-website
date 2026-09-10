@@ -6,6 +6,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
   test "can resolve an open note" do
     note = create(:note_with_comments)
     user = create(:user)
+    create(:changeset, :user => user, :num_changes => 1)
     sign_in_as(user)
     visit note_path(note)
 
@@ -23,6 +24,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
   test "can resolve an open note with a comment" do
     note = create(:note_with_comments)
     user = create(:user)
+    create(:changeset, :user => user, :num_changes => 1)
     sign_in_as(user)
     visit note_path(note)
 
@@ -39,6 +41,32 @@ class ResolveNoteTest < ApplicationSystemTestCase
 
       assert_content "Resolved note ##{note.id}"
       assert_content "Note resolve text"
+    end
+  end
+
+  test "can't resolve an open note without map edits" do
+    note = create(:note)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_no_button "Resolve"
+      assert_button "Comment & Resolve", :disabled => true
+      assert_button "Comment", :disabled => true
+    end
+  end
+
+  test "can resolve an open note when user authored the last comment" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    create(:note_comment, :note => note, :author => user, :event => "commented")
+    sign_in_as(user)
+    visit note_path(note)
+
+    within_sidebar do
+      assert_button "Resolve"
+      assert_no_button "Comment & Resolve"
     end
   end
 
@@ -95,6 +123,7 @@ class ResolveNoteTest < ApplicationSystemTestCase
   test "can't resolve a note when blocked" do
     note = create(:note_with_comments)
     user = create(:user)
+    create(:changeset, :user => user, :num_changes => 1)
     sign_in_as(user)
     visit note_path(note)
     create(:user_block, :user => user)
