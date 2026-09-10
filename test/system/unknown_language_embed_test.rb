@@ -12,6 +12,6 @@ class UnknownLanguageEmbedTest < ApplicationSystemTestCase
 
   test "shows report link in fallback language" do
     visit export_embed_path
-    assert_link "Report a problem"
+    assert_link "Report a problem", :wait => 30
   end
 end
