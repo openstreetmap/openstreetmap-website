@@ -26,6 +26,35 @@ class AclsTest < ApplicationSystemTestCase
     end
   end
 
+  test "index shows newest acls first and pages through older ones" do
+    1.upto(25) { |n| create(:acl, :k => "no_account_creation", :v => "entry-#{n}") }
+    sign_in_as(create(:administrator_user))
+
+    visit acls_path
+    within_table "acl_list" do
+      assert_selector "tbody tr", :count => 20
+      assert_selector "tbody tr:first-child", :text => "entry-25"
+      assert_selector "tbody tr:last-child", :text => "entry-6"
+      assert_no_text "entry-5"
+    end
+
+    click_on "Older ACLs", :match => :first
+    within_table "acl_list" do
+      assert_selector "tbody tr", :count => 5
+      assert_selector "tbody tr:first-child", :text => "entry-5"
+      assert_selector "tbody tr:last-child", :text => "entry-1"
+      assert_no_text "entry-6"
+    end
+    assert_no_link "Older ACLs"
+
+    click_on "Newer ACLs", :match => :first
+    within_table "acl_list" do
+      assert_selector "tbody tr", :count => 20
+      assert_selector "tbody tr:first-child", :text => "entry-25"
+    end
+    assert_no_link "Newer ACLs"
+  end
+
   test "create an acl" do
     sign_in_as(create(:administrator_user))
 

@@ -52,6 +52,18 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     assert_template :index
   end
 
+  def test_index_invalid_paged
+    session_for(create(:administrator_user))
+
+    %w[-1 fred].each do |id|
+      get acls_path(:before => id)
+      assert_redirected_to :controller => "errors", :action => "bad_request"
+
+      get acls_path(:after => id)
+      assert_redirected_to :controller => "errors", :action => "bad_request"
+    end
+  end
+
   def test_new
     get new_acl_path
     assert_redirected_to login_path(:referer => new_acl_path)

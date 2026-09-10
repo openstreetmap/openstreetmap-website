@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AclsController < ApplicationController
+  include PaginationMethods
+
   layout :site_layout
 
   before_action :authorize_web
@@ -13,7 +15,8 @@ class AclsController < ApplicationController
   before_action :set_acl, :only => [:edit, :update, :destroy]
 
   def index
-    @acls = Acl.order(:id)
+    @params = params.permit(:before, :after)
+    @acls = get_page_items(Acl.all)
   end
 
   def new
