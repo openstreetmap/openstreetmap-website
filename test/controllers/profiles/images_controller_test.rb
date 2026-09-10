@@ -38,7 +38,7 @@ module Profiles
       user = create(:user)
       session_for(user)
 
-      put profile_image_path, :params => { :avatar_action => "new", :user => { :avatar => image, :description => user.description } }
+      put profile_image_path, :params => { :avatar_action => "new", :user => { :avatar => image } }
 
       assert_redirected_to user_path(user)
       follow_redirect!
