@@ -1,84 +1,84 @@
 # frozen_string_literal: true
 
-module BrowseTagsHelper
+module TagLinker
   SECONDARY_WIKI_PREFIX_PATTERN = /[a-z:_-]+:/
   QID_PATTERN = /[Qq][1-9][0-9]*/
 
   # regex to match all wikipedia locale project identifiers
   WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
-  def format_key(key)
-    if url = wiki_link("key", key)
-      link_to h(key), url, :title => t("browse.tag_details.wiki_link.key", :key => key)
+  def self.init(paths)
+    @tag2link_dict = build_tag2link_dict(JSON.parse(paths[:tag2link].read)).freeze
+    @wiki_pages_dict = YAML.load_file(paths[:wiki_pages]).freeze
+  end
+
+  def self.format_key(key)
+    if url = TagLinker.wiki_link("key", key)
+      yield({ :text => ERB::Util.h(key), :url => url, :type => :"wiki_link.key", :key => key })
     else
-      h(key)
+      yield({ :text => ERB::Util.h(key) })
     end
   end
 
-  def format_value(key, value)
+  def self.format_value(key, value)
     if wp = wikipedia_links(key, value)
-      wp = wp.map do |w|
-        link_to(h(w[:title]), w[:url], :title => t("browse.tag_details.wikipedia_link", :page => w[:title]))
+      wp.each do |w|
+        yield({ :text => ERB::Util.h(w[:title]), :url => w[:url], :type => :wikipedia_link, :page => w[:title] })
       end
-      safe_join(wp, ";")
     elsif wdt = wikidata_links(key, value)
-      # IMPORTANT: Note that wikidata_links() returns an array of hashes, unlike for example wikipedia_link(),
-      # which just returns one such hash.
-      svg = button_tag :type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) } do
+      yield({ :type => :html, :html => button_tag(:type => "button", :role => "button", :class => "btn btn-link float-end d-flex m-1 mt-0 me-n1 border-0 p-0 wdt-preview", :data => { :qids => wdt.pluck(:title) }) do
         tag.svg :width => 27, :height => 16 do
           concat tag.title t("browse.tag_details.wikidata_preview", :count => wdt.length)
           concat tag.path :fill => "currentColor", :d => "M0 16h1V0h-1Zm2 0h3V0h-3Zm4 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h3V0h-3Zm4 0h1V0h-1Zm2 0h1V0h-1Z"
         end
+      end })
+      wdt.each do |w|
+        yield({ :text => w[:title], :url => w[:url], :type => :wikidata_link, :page => w[:title].strip })
       end
-      wdt = wdt.map do |w|
-        link_to(w[:title], w[:url], :title => t("browse.tag_details.wikidata_link", :page => w[:title].strip))
-      end
-      svg + safe_join(wdt, ";")
     elsif wmc = wikimedia_commons_link(key, value)
-      link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
+      yield({ :text => ERB::Util.h(wmc[:title]), :url => wmc[:url], :type => :wikimedia_commons_link, :page => wmc[:title] })
     elsif url = wiki_link("tag", "#{key}=#{value}")
-      link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
+      yield({ :text => ERB::Util.h(value), :url => url, :type => :"wiki_link.tag", :key => key, :value => value })
     elsif email = email_link(key, value)
-      mail_to(email, :title => t("browse.tag_details.email_link", :email => email))
+      yield({ :text => ERB::Util.h(email), :url => email, :type => :email_link, :email => email })
     elsif phones = telephone_links(key, value)
-      # similarly, telephone_links() returns an array of phone numbers
-      phones = phones.map do |p|
-        link_to(h(p[:phone_number]), p[:url], :title => t("browse.tag_details.telephone_link", :phone_number => p[:phone_number]))
+      phones.each do |p|
+        yield({ :text => ERB::Util.h(p[:phone_number]), :url => p[:url], :type => :telephone_link, :phone_number => p[:phone_number] })
       end
-      safe_join(phones, "; ")
     elsif colour_value = colour_preview(key, value)
-      svg = tag.svg :width => 14, :height => 14, :class => "float-end m-1" do
+      yield({ :type => :html, :html => tag.svg(:width => 14, :height => 14, :class => "float-end m-1") do
         concat tag.title t("browse.tag_details.colour_preview", :colour_value => colour_value)
         concat tag.rect :x => 0.5, :y => 0.5, :width => 13, :height => 13, :fill => colour_value, :stroke => "#2222"
-      end
-      svg + colour_value
+      end })
+      yield({ :text => colour_value })
     elsif %w[opening_hours collection_times service_times].include?(key)
-      tag2link_link(key, value) || linkify(h(value))
+      yield basic_link(key, value)
     else
-      safe_join(value.split(";", -1).map { |x| tag2link_link(key, x) || linkify(h(x)) }, ";")
+      value.split(";", -1).each do |x|
+        yield basic_link(key, x)
+      end
     end
   end
 
-  private
-
-  def wiki_link(type, lookup)
+  def self.wiki_link(type, title)
     locale = I18n.locale.to_s
 
     # update-wiki-pages does s/ /_/g on keys before saving them, we
     # have to replace spaces with underscore so we'll link
     # e.g. `source=Isle of Man Government aerial imagery (2001)' to
     # the correct page.
-    lookup_us = lookup.tr(" ", "_")
+    lookup = title.tr(" ", "_")
 
-    page = WIKI_PAGES.dig(locale, type, lookup_us) ||
-           WIKI_PAGES.dig("en", type, lookup_us)
+    page = @wiki_pages_dict.dig(locale, type, lookup) ||
+           @wiki_pages_dict.dig("en", type, lookup)
 
     url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
 
     url
   end
 
-  def wikipedia_links(key, value)
+  def self.wikipedia_links(key, value)
+    locale = I18n.locale.to_s
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if %r{^https?://}.match?(value)
 
@@ -102,23 +102,20 @@ module BrowseTagsHelper
         title_section = wiki_value
       end
 
-      title, section = title_section.split("#", 2)
-      url = "https://#{page_lang}.wikipedia.org/wiki/#{wiki_encode(title)}?uselang=#{I18n.locale}"
-      url += "##{wiki_encode(section)}" if section
+      title, section = title_section.split("#", 2).map { |s| ERB::Util.u(s.tr(" ", "_")) }
+      url = "https://#{page_lang}.wikipedia.org/wiki/#{title}?uselang=#{locale}"
+      url += "##{section}" if section
 
       { :url => url, :title => wiki_value }
     end
   end
 
-  def wiki_encode(s)
-    u s.tr(" ", "_")
-  end
-
-  def wikidata_links(key, value)
+  def self.wikidata_links(key, value)
+    locale = I18n.locale.to_s
     # The simple wikidata-tag (this is limited to only one value)
     if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
       return [{
-        :url => "//www.wikidata.org/entity/#{value}?uselang=#{I18n.locale}",
+        :url => "//www.wikidata.org/entity/#{value}?uselang=#{locale}",
         :title => value
       }]
     elsif key =~ /^#{SECONDARY_WIKI_PREFIX_PATTERN}wikidata$/o &&
@@ -126,32 +123,26 @@ module BrowseTagsHelper
           value =~ /^#{QID_PATTERN}(?:\s*;\s*#{QID_PATTERN})*$/o
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
       return value.split(";").map do |id|
-        { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{I18n.locale}" }
+        { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{locale}" }
       end
     end
     nil
   end
 
-  def wikimedia_commons_link(key, value)
+  def self.wikimedia_commons_link(key, value)
+    locale = I18n.locale.to_s
     if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikimedia_commons$/o && value =~ /^(file|category):([^#]+)/i
       namespace = Regexp.last_match(1)
       title = Regexp.last_match(2)
       return {
-        :url => "//commons.wikimedia.org/wiki/#{namespace}:#{u title}?uselang=#{I18n.locale}",
+        :url => "//commons.wikimedia.org/wiki/#{namespace}:#{ERB::Util.u title}?uselang=#{locale}",
         :title => value
       }
     end
     nil
   end
 
-  def tag2link_link(key, value)
-    link = Tag2link.link(key, value)
-    return nil unless link
-
-    link_to(h(value), link, :rel => "nofollow")
-  end
-
-  def email_link(key, value)
+  def self.email_link(key, value)
     # Avoid converting conditional tags into emails, since EMAIL_REGEXP is quite permissive
     return nil unless %w[email contact:email].include? key
 
@@ -170,7 +161,7 @@ module BrowseTagsHelper
     nil
   end
 
-  def telephone_links(_key, value)
+  def self.telephone_links(_key, value)
     # Does it look like a global phone number? eg "+1 (234) 567-8901 "
     # or a list of alternate numbers separated by ;
     #
@@ -195,7 +186,7 @@ module BrowseTagsHelper
     nil
   end
 
-  def colour_preview(key, value)
+  def self.colour_preview(key, value)
     return nil unless key =~ /^(?>.+:)?colour$/ && !value.nil? # see discussion at https://github.com/openstreetmap/openstreetmap-website/pull/1779
 
     # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
@@ -215,4 +206,54 @@ module BrowseTagsHelper
 
     value
   end
+
+  def self.basic_link(key, value)
+    hv = ERB::Util.h(value)
+    return { :text => Linkify.call(hv) } if %r{\Ahttps?://}.match?(value)
+
+    url_template = @tag2link_dict[key]
+    return { :text => Linkify.call(hv) } unless url_template
+
+    link = url_template.gsub("$1", value.sub(/^#/, ""))
+    return { :text => Linkify.call(hv) } unless link
+
+    { :text => hv, :url => link, :type => :tag2link_link, :key => key }
+  end
+
+  def self.build_tag2link_dict(data)
+    data
+      # exclude deprecated, third-party, and non-HTTP URLs
+      .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" || !item["url"].match?(%r{\Ahttps?://[^$]}) }
+      .group_by { |item| item["key"].sub(/^Key:/, "") }
+      .transform_values { |items| choose_best_tag2link_item(items) }
+      .compact
+      .transform_values { |items| items["url"] }
+  end
+
+  def self.choose_best_tag2link_item(items)
+    return nil if items.blank?
+
+    return items.first if items.size == 1
+
+    # move preferred to the start of the array
+    ranked = items.sort_by { |item| item["rank"] == "preferred" ? 0 : 1 }.uniq { |item| item["url"] }
+    top_rank = ranked.first["rank"]
+    top_items = ranked.select { |i| i["rank"] == top_rank }
+
+    # if only one top-ranked item, prefer that
+    return top_items.first if top_items.size == 1
+
+    grouped = top_items.group_by { |i| i["source"] }
+    return nil if grouped.size > 2
+
+    # if both sources have exactly one preferred, prefer osmwiki
+    return grouped["osmwiki:P8"]&.first || grouped.values.flatten.first if grouped.all? { |_s, vals| vals.size == 1 }
+
+    # if one source has multiple preferreds and the other has one, prefer the single one
+    return grouped.min_by { |_s, vals| vals.size }.last.first if grouped.any? { |_s, vals| vals.size == 1 }
+
+    # exclude any that are ambiguous
+    nil
+  end
+  private_class_method :choose_best_tag2link_item
 end
