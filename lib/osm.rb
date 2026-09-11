@@ -29,7 +29,7 @@ module OSM
   end
 
   class APIModerationZoneError < APIAccessDenied
-    def initialize(message = "You don't have permissions to make changes in this zone, as it is currently protected by moderators")
+    def initialize(message = "You don't have permissions to make changes here. Please either sign in or create an OpenStreetMap account")
       super
     end
 
