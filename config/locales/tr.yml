@@ -108,7 +108,7 @@ tr:
             visibility:
               cannot_change_to_legacy: eski değerine geri döndürülemez
     models:
-      acl: Erişim Kontrol Listesi
+      acl: EKL
       changeset: Değişiklik Kaydı
       changeset_tag: Değişiklik Kaydının Etiketi
       country: Ülke
@@ -144,6 +144,12 @@ tr:
       way_node: Yol Noktası
       way_tag: Yol Etiketi
     attributes:
+      acl:
+        address: Adres
+        domain: Alan adı
+        mx: MX sunucusu
+        k: Anahtar
+        v: Değer
       diary_comment:
         body: Mesaj
       diary_entry:
@@ -168,7 +174,7 @@ tr:
         size: Boyut
         latitude: Enlem
         longitude: Boylam
-        public: Kamu
+        public: Herkese Açık
         description: Açıklama
         gpx_file: GPS İz Dosyasını Seç
         visibility: Görünürlük
@@ -206,6 +212,13 @@ tr:
         pass_crypt: Parola
         pass_crypt_confirmation: Parola Onayı
     help:
+      acl:
+        address: Bir IP adresi veya CIDR ağı, örneğin 192.0.2.0/24
+        domain: Bir e-posta alan adı; alt alan adları da eşleştirilir.
+        mx: E-posta alan adının MX sunucusunun ana makine adı
+        k: 'Şunlardan biri: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: İsteğe bağlı not, ör. bu girdinin eklenme nedeni
       doorkeeper/application:
         confidential: Uygulama, kullanıcı gizliliğini güvenilir yerlerde kullanacaktır
           (yerel mobil uygulamalar ve tek sayfalı uygulamalar, güvenilir değildir)
@@ -213,14 +226,15 @@ tr:
       trace:
         tagstring: virgülle ayrılmış
       user_block:
-        reason: Kullanıcının engellenme nedeni. Lütfen mümkün olduğunca sakin ve makul
-          olun, durum hakkında olabildiğince fazla ayrıntı verin, mesajın herkese
-          açık olacağını unutmayın. Tüm kullanıcıların topluluk jargonunu anlamadığını
-          unutmayın, bu nedenle lütfen sıradan terimleri kullanmayı deneyin.
+        reason: Kullanıcının neden engellendiğini açıklayan gerekçe. Lütfen durumu
+          mümkün olduğunca ayrıntılı açıklarken sakin ve makul bir dil kullanın ve
+          bu mesajın herkese açık olarak görüntüleneceğini unutmayın. Tüm kullanıcıların
+          topluluğa özgü terimleri bilmeyebileceğini göz önünde bulundurarak mümkün
+          olduğunca herkesin anlayabileceği bir dil kullanmaya çalışın.
         needs_view: Engel kaldırılmadan önce kullanıcının giriş yapması gerekiyor
           mu?
       user:
-        new_email: (hiçbir zaman görüntülenmez)
+        new_email: (hiçbir zaman herkese açık olarak gösterilmez)
   datetime:
     distance_in_words_ago:
       about_x_hours:
@@ -349,9 +363,10 @@ tr:
         heading: Katılımcı Şartları
         agreed: '%{date} tarihinde Katılımcı Şartları''nı onayladınız.'
         not_agreed: Katılımcı Şartları'nı henüz onaylamadınız.
-        agreed_with_pd: Ayrıca, düzenlemelerinizin Kamu Malı olduğunu düşündüğünüzü
-          de beyan ettiniz.
-        not_agreed_with_pd: Yaptığınız düzenlemelerin Kamu Malı olduğunu beyan etmediniz.
+        agreed_with_pd: Ayrıca düzenlemelerinizin Kamu Malı kapsamında değerlendirilmesini
+          kabul ettiğinizi beyan ettiniz.
+        not_agreed_with_pd: Düzenlemelerinizin Kamu Malı kapsamında değerlendirilmesini
+          kabul ettiğinizi beyan etmediniz.
         review: Şartları İnceleyin
         review_and_accept: Katılımcı Şartları'nı inceleyip onaylayın
         consider_pd: Kamu Malı Beyanı
@@ -369,14 +384,15 @@ tr:
         mesaj gönderemez veya konumunuzu göremez. Neyi düzenlediğinizi göstermek ve
         kullanıcıların web sitesi aracılığıyla sizinle iletişime geçmesine izin vermek
         için aşağıdaki butona tıklayın.
-      only_public_can_edit: 0.6 API geçişinden bu yana yalnızca genel kullanıcılar
-        harita verilerini düzenleyebilir.
+      only_public_can_edit: 0.6 API sürümüne geçilmesinden bu yana yalnızca herkese
+        açık kullanıcılar harita verilerini düzenleyebilir.
       find_out_why: neden olduğunu bul
       find_out_why_url: https://wiki.openstreetmap.org/wiki/Tr:Anonymous_edits
-      email_not_revealed: E-posta adresiniz herkese açık hale getirilerek gösterilmeyecektir.
-      not_reversible: Bu işlem geri alınamaz ve tüm yeni kullanıcılar artık varsayılan
+      email_not_revealed: Herkese açık kullanıcı olmanız e-posta adresinizin açığa
+        çıkmasına neden olmaz.
+      not_reversible: Bu işlem geri alınamaz ve artık tüm yeni kullanıcılar varsayılan
         olarak herkese açıktır.
-      make_edits_public_button: Tüm düzenlemelerimi herkese açık hale getirin
+      make_edits_public_button: Tüm düzenlemelerimi herkese açık yap
     update:
       success_confirm_needed: Kullanıcı bilgisi başarıyla güncellendi. Yeni e-posta
         adresinizi onaylamak için e-mail'inizi lütfen kontrol ediniz.
@@ -447,16 +463,17 @@ tr:
         terms_declined_url: https://wiki.openstreetmap.org/wiki/Tr:Contributor_Terms_Declined
     pd_declarations:
       show:
-        title: Katkılarımın Kamu Malı olduğunu beyan ediyorum
-        consider_pd: Katkılarımın Kamu Malı olduğunu bildiriyorum
-        consider_pd_why: Katkılarımın Kamu Malı olmasını neden isteyeyim?
+        title: Katkılarımı Kamu Malı Olarak Değerlendir
+        consider_pd: Katkılarımın Kamu Malı kapsamında değerlendirilmesini kabul ediyorum
+        consider_pd_why: Katkılarımın neden Kamu Malı olmasını isteyeyim?
         confirm: Onayla
       create:
-        successfully_declared: Düzenlemelerinizin Kamu Malı olduğunu kabul ettiğinizi
-          başarıyla beyan ettiniz.
-        already_declared: Yaptığınız düzenlemelerin Kamu Malı olduğunu zaten beyan
-          etmişsiniz.
-        did_not_confirm: Düzenlemelerinizin Kamu Malı olduğu konusunda teyitte bulunmadınız.
+        successfully_declared: Düzenlemelerinizin Kamu Malı kapsamında değerlendirilmesini
+          kabul ettiğinizi başarıyla beyan ettiniz.
+        already_declared: Düzenlemelerinizin Kamu Malı kapsamında değerlendirilmesini
+          kabul ettiğinizi zaten beyan ettiniz.
+        did_not_confirm: Düzenlemelerinizin Kamu Malı kapsamında değerlendirilmesini
+          kabul ettiğinizi onaylamadınız.
     auth_deletions:
       show:
         title: Veri silme talebi
@@ -1058,7 +1075,7 @@ tr:
           prison: Cezaevi
           pub: Pub
           public_bath: Hamam
-          public_bookcase: Kamu Kütüphanesi
+          public_bookcase: Halk Kütüphanesi
           public_building: Kamu Binası
           ranger_station: Bekçi İstasyonu
           recycling: Geri Dönüşüm Noktası
@@ -3226,8 +3243,41 @@ tr:
       my_traces: GPS İzlerim
       traces_from_html: '%{user} kullanıcısına ait herkese açık izler'
       remove_tag_filter: Etiket Filtresini Kaldır
+      legacy_traces: Eski İzlerim
     destroy:
       scheduled_for_deletion: İz, silme işlemi için ayarlandı
+    legacy_visibilities:
+      edit:
+        title: Eski GPS İzlerim
+        description: Bunlar, hâlâ eski özel veya herkese açık görünürlük ayarını kullanan
+          izlerinizdir. Buradan bunları izlenebilir veya tanımlanabilir olarak değiştirebilirsiniz.
+          GPS izleri için planlanan iyileştirmeler yalnızca izlenebilir ve tanımlanabilir
+          izleri kapsayacaktır.
+        filter:
+          visibility: Mevcut görünürlük
+          any: Özel ve kamu malı
+          from: Başlangıç tarihi
+          to: Bitiş tarihi
+          apply: Filtrele
+        empty: Bu filtreyle eşleşen eski iz yok.
+        new_visibility: Yeni görünürlük
+        no_undo: Bu değişiklik geri alınamaz.
+        button:
+          one: '%{count} izi değiştir'
+          other: '%{count} izi değiştir'
+        confirmation:
+          header: Görünürlük Değişikliğini Onayla
+          body:
+            one: '%{count} izin görünürlüğü değiştirilsin mi? Bu işlem geri alınamaz.'
+            other: '%{count} izin görünürlüğü değiştirilsin mi? Bu işlem geri alınamaz.'
+          cancel: İptal
+          confirm: Görünürlüğü değiştir
+      update:
+        updated:
+          one: '%{count} izin görünürlüğü değiştirildi.'
+          other: '%{count} izin görünürlüğü değiştirildi.'
+        invalid_visibility: Lütfen geçiş yapmak istediğiniz görünürlük seçeneğini
+          belirleyin.
     offline_warning:
       message: GPX dosya gönderme sistemi şu anda kullanılamıyor
     offline:
@@ -3326,6 +3376,11 @@ tr:
       help: Yardım
     pagination:
       label: Sayfa dolaşımı
+      acls:
+        older: Daha Eski EKL'ler
+        newer: Daha Yeni EKL'ler
+        oldest: En Eski EKL'ler
+        newest: En Yeni EKL'ler
       changeset_comments:
         older: Daha Eski Yorumlar
         newer: Daha Yeni Yorumlar
@@ -4099,6 +4154,37 @@ tr:
         sürümlerini tekrar düzenleyin.
       flash: Redaksiyon kaldırıldı.
       error: Bu redaksiyon kaldırılırken bir hata oluştu.
+  acls:
+    navigation:
+      new_title: Yeni bir EKL ekle
+      new: Yeni EKL
+      actions: EKL eylemleri
+    index:
+      title: EKL'ler
+      empty: Gösterilecek herhangi bir EKL yok.
+    page:
+      address: Adres
+      domain: Alan adı
+      mx: MX sunucusu
+      k: Anahtar
+      v: Değer
+      actions: Eylemler
+    acl:
+      edit_button: Düzenle
+      destroy_button: Sil
+      confirm: Emin misin?
+    form:
+      cancel: İptal
+    new:
+      title: Yeni EKL
+    create:
+      success: EKL oluşturuldu.
+    edit:
+      title: EKL'yi düzenle
+    update:
+      success: EKL güncellendi.
+    destroy:
+      success: EKL silindi.
   validations:
     leading_whitespace: başlangıçta boşluk var
     trailing_whitespace: sonda boşluk var

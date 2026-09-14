@@ -197,6 +197,44 @@ et:
       x_years:
         one: '%{count} aasta eest'
         other: '%{count} aasta eest'
+    distance_in_words_in:
+      about_x_hours:
+        one: umbes %{count} tunni pärast
+        other: umbes %{count} tunni pärast
+      about_x_months:
+        one: umbes %{count} kuu pärast
+        other: umbes %{count} kuu pärast
+      about_x_years:
+        one: umbes %{count} aasta pärast
+        other: umbes %{count} aasta pärast
+      almost_x_years:
+        one: peaaegu %{count} aasta pärast
+        other: peaaegu %{count} aasta pärast
+      half_a_minute: poole minuti pärast
+      less_than_x_seconds:
+        one: vähem kui %{count} sekundi pärast
+        other: vähem kui %{count} sekundi pärast
+      less_than_x_minutes:
+        one: vähem kui %{count} minuti pärast
+        other: vähem kui %{count} minuti pärast
+      over_x_years:
+        one: rohkem kui %{count} aasta pärast
+        other: rohkem kui %{count} aasta pärast
+      x_seconds:
+        one: '%{count} sekundi pärast'
+        other: '%{count} sekundi pärast'
+      x_minutes:
+        one: '%{count} minuti pärast'
+        other: '%{count} minuti pärast'
+      x_days:
+        one: '%{count} päeva pärast'
+        other: '%{count} päeva pärast'
+      x_months:
+        one: '%{count} kuu pärast'
+        other: '%{count} kuu pärast'
+      x_years:
+        one: '%{count} aasta pärast'
+        other: '%{count} aasta pärast'
   editor:
     default: Vaikimisi (praegu %{name})
     id:
@@ -232,7 +270,7 @@ et:
         opened: uus märkus (lähedal kohale %{place})
         commented: uus kommentaar (lähedal kohale %{place})
         closed: suletud märkus (lähedal kohale %{place})
-        reopened: taasaktiveeritud märkus (lähedal kohale %{place})
+        reopened: taasaktiveeritud märkus (koha %{place} lähedal)
       entry:
         comment: Kommentaar
         full: Täielik tekst
@@ -311,8 +349,8 @@ et:
         title: Tingimused
         heading: Tingimused
         heading_ct: Kaastöötingimused
-        read and accept with tou: Palun loe läbi kaastööleping ja kasutustingimused,
-          märgi ristiga mõlemad märkeruudud ning kui oled valmis, siis vajuta jätkamisnuppu.
+        read and accept with tou: Palun loe läbi kaastöö- ja kasutustingimused, märgi
+          ristiga mõlemad märkeruudud ning kui oled valmis, klõpsa nuppu "Jätka".
         contributor_terms_explain: See leping reguleerib sinu olemasoleva ja tulevase
           kaastöö tingimusi.
         read_ct: Ma olen lugenud kaastöötingimusi ja nõustun nendega
@@ -601,6 +639,50 @@ et:
       followed_diaries: päevikusissekanded
       nearby_changesets: lähedalasuvate kasutajate muudatuskogumid
       nearby_diaries: lähedalasuvate kasutajate päevikusissekanded
+  notifications:
+    index:
+      title: Teavitused
+      no_notifications: Sul pole praegu teavitusi.
+      point_to_preferences_html: Saad %{link} kohandada, kuidas teavitusi saad.
+      link_text: eelistuste alaosas
+    changeset_comment:
+      headline: Muudatuskogumi kommentaar
+      description_with_summary_html: Kasutaja %{commenter_name_with_link} jättis kommentaari
+        muudatuskogumi %{changeset_id_with_link} juurde ("%{changeset_summary}").
+      description_without_summary_html: Kasutaja %{commenter_name_with_link} jättis
+        kommentaari muudatuskogumi %{changeset_id_with_link} juurde.
+    gpx_details:
+      filename: Failinimi
+      description: Kirjeldus
+      tags: Sildid
+      total_points: Punktide koguarv
+      imported_points: Imporditud punktide arv
+    gpx_import_failure:
+      headline: GPS-rada ei õnnestunud importida
+      error_message: Tõrketeade
+    gpx_import_success:
+      headline: GPS-raja importimine õnnestus
+    new_follower:
+      headline: Uus jälgija
+      description_html: Kasutaja %{follower_name_with_link} hakkas sind jälgima. Saad
+        soovi korral %{link}.
+      link_text: teda vastu jälgida
+    note_comment:
+      headline:
+        commented: Märkuse kommentaar
+        closed: Märkus lahendatud
+        reopened: Märkus taasavatud
+      description:
+        commented_html: Kasutaja %{commenter_name_with_link} jättis kommentaari märkuse
+          %{note_id_with_link} juurde ("%{note_text}").
+        closed_html: Kasutaja %{commenter_name_with_link} lahendas märkuse %{note_id_with_link}
+          ("%{note_text}").
+        reopened_html: Kasutaja %{commenter_name_with_link} taasavas märkuse %{note_id_with_link}
+          ("%{note_text}").
+    diary_comment:
+      headline: Päevikukommentaar
+      description_html: Kasutaja %{commenter_name_with_link} jättis kommentaari päevikusissekande
+        "%{diary_entry_title_with_link}" juurde.
   diary_entries:
     new:
       title: Uus päevikusissekanne
@@ -1627,6 +1709,7 @@ et:
         ia: interlingua
         is: islandi
         it: itaalia
+        kw: korni
         gcf: Guadeloupe'i kreoolkeel
         ku-Latn: kurdi (ladina)
         lv: läti
@@ -1667,6 +1750,7 @@ et:
         be-Tarask: valgevene (tarašk.)
         bg: bulgaaria
         mk: makedoonia
+        mt: malta
         mo: moldova
         ce: tšetšeeni
         ru: vene
@@ -1859,7 +1943,7 @@ et:
       reopened:
         subject_own: '[OpenStreetMap] %{commenter} on taasaktiveerinud ühe sinu märkustest'
         subject_other: '[OpenStreetMap] %{commenter} on taasaktiveerinud ühe märkuse,
-          millest sa huvitatud oled'
+          millest oled huvitatud'
         your_note: '%{commenter} on taasaktiveerinud ühe sinu märkuse koha %{place}
           lähedal.'
         your_note_html: '%{commenter} on taasaktiveerinud ühe sinu märkuse koha %{place}
@@ -2033,8 +2117,9 @@ et:
       update_success_flash:
         message: Eelistused uuendatud.
       navigation:
-        preferences: Eelistused
-        advanced_preferences: Täpsemad eelistused
+        preferences: Liides
+        notification_preferences: Teavitused
+        advanced_preferences: Täpsem
     basic_preferences:
       show:
         title: Minu eelistused
@@ -2055,6 +2140,19 @@ et:
           light: Hele
           dark: Tume
         save: Uuenda eelistusi
+    notification_preferences:
+      show:
+        title: Teavituste eelistused
+        changeset_comment: Muudatuskogumite kommentaarid
+        diary_comment: Päevikukommentaarid
+        direct_message: Otsesõnumid
+        gpx_import_failure: 'GPS-radade import: nurjumine'
+        gpx_import_success: 'GPS-radade import: õnnestumine'
+        new_follower: Uued jälgijad
+        note_comment: Märkuste kommentaarid
+        save: Uuenda eelistusi
+        delivery_mechanisms:
+          email: E-kiri
     advanced_preferences:
       show:
         title: Minu täpsemad eelistused
@@ -2369,6 +2467,8 @@ et:
         contributors_hr_croatia: Horvaatia
         contributors_hr_dgu: Horvaatia riiklikust geodeesiaametist
         contributors_hr_open_data_portal: riiklikust avaandmete portaalist
+        contributors_nl_credit_new_html: '%{netherlands}: Sisaldab andmekogu &copy;
+          AND andmeid, 2007.'
         contributors_nl_netherlands: Holland
         contributors_nz_credit_html: '%{new_zealand}: Sisaldab %{linz_data_service_link}
           andmeid, mis on kasutatavad litsentsi %{cc_by_link} tingimustel.'
@@ -2523,6 +2623,8 @@ et:
       get_directions_title: Juhised liikumiseks kahe punkti vahel
       from: Alguspunkt
       to: Sihtpunkt
+      marker_from: Teekonna alguse märgis
+      marker_to: Teekonna lõpu märgis
       where_am_i: Kus see asub?
       where_am_i_title: Määra praegune asukoht otsimootori abil
       submit_text: Otsi
@@ -2578,7 +2680,11 @@ et:
       title: Pole aega kaarti muuta? Lisa märkus!
       para_1: Kui soovid teha väikest parandust ja sul pole aega registreeruda ning
         õppida, kuidas kaarti muuta, siis lisa lihtsalt kaardile märkus.
-      the_map: kaardile
+      para_2_html: |-
+        Lihtsalt klõpsa ikooni %{note_icon} või sama ikooni %{map_link}.
+        See lisab kaardile markeri, mida saad lohistamise teel liigutada.
+        Lisa sõnum, klõpsa salvestamisnuppu ja teised kaardistajad uurivad seejärel asja.
+      the_map: kaardil
     communities:
       title: Kogukonnad
       lede_text: |-
@@ -2793,8 +2899,39 @@ et:
       my_traces: Minu rajad
       traces_from_html: Kasutaja %{user} avalikud rajad
       remove_tag_filter: Eemalda sildifilter
+      legacy_traces: Minu vanad rajad
     destroy:
       scheduled_for_deletion: Raja kustutamine kantud tööplaani.
+    legacy_visibilities:
+      edit:
+        title: Minu vanad GPS-rajad
+        description: Siin on rajad, mis kasutavad endiselt vana isiklikku või avalikku
+          nähtavust. Saad muuta need siin jälgitavaks või tuvastatavaks. Kavas on
+          täiustused, mis puudutavad ainult jälgitavaid ja tuvastatavaid GPS-radu.
+        filter:
+          visibility: Praegune nähtavus
+          any: Isiklik või avalik
+          from: Üles laaditud alates
+          to: Üles laaditud kuni
+          apply: Filtreeri
+        empty: Ükski vana rada ei vasta sellele filtrile.
+        new_visibility: Uus nähtavus
+        no_undo: Seda muudatust ei saa tagasi võtta.
+        button:
+          one: Muuda %{count} rada
+          other: Muuda %{count} rada
+        confirmation:
+          header: Nähtavuse muudatuse kinnitamine
+          body:
+            one: Kas muudad %{count} raja nähtavust? Seda ei saa tagasi võtta.
+            other: Kas muudad %{count} raja nähtavust? Seda ei saa tagasi võtta.
+          cancel: Loobu
+          confirm: Muuda nähtavust
+      update:
+        updated:
+          one: '%{count} raja nähtavus muudetud.'
+          other: '%{count} raja nähtavus muudetud.'
+        invalid_visibility: Palun vali nähtavus, mida kasutada.
     offline_warning:
       message: GPX-failide üleslaadimise süsteem pole praegu saadaval.
     offline:
@@ -2863,37 +3000,54 @@ et:
         alt: X-i ikoon
     markdown_help:
       heading_html: Parsitud %{kramdown_link}
+      kramdown: kramdowniga
       headings: Pealkirjad
       heading: Pealkiri
       subheading: Alampealkiri
       unordered: Järjestamata loend
+      ordered: Järjestatud loend
       first: Esimene üksus
       second: Teine üksus
       link: Link
       text: Tekst
       image: Pilt
+      alt: Asendustekst
       url: URL
       codeblock: Koodiplokk
     richtext_field:
+      edit: Muuda
       preview: Eelvaade
     pagination:
       changeset_comments:
+        older: Vanemad kommentaarid
+        newer: Uuemad kommentaarid
+        oldest: Vanimad kommentaarid
         newest: Uusimad kommentaarid
       diary_comments:
         older: Vanemad kommentaarid
+        newer: Uuemad kommentaarid
         oldest: Vanimad kommentaarid
         newest: Uusimad kommentaarid
       diary_entries:
+        older: Vanemad sissekanded
         newer: Uuemad...
         oldest: Vanimad sissekanded
         newest: Uusimad sissekanded
+      notifications:
+        older: Vanemad teavitused
+        newer: Uuemad teavitused
+        oldest: Vanimad teavitused
+        newest: Uusimad teavitused
       traces:
+        older: Vanemad rajad
         newer: Uuemad rajad
         oldest: Vanimad rajad
         newest: Uusimad rajad
       user_blocks:
+        older: Vanemad blokeeringud
         newer: Uuemad blokeeringud
         oldest: Vanimad blokeeringud
+        newest: Uusimad blokeeringud
       users:
         older: Vanemad kasutajad
         newer: Uuemad kasutajad
@@ -3000,6 +3154,7 @@ et:
       my traces: Minu rajaloend
       my notes: Minu märkused
       my messages: Minu sõnumid
+      my_notifications: Minu teavitused
       my profile: Minu profiil
       my_account: Minu konto
       my comments: Minu kommentaarid
@@ -3192,7 +3347,7 @@ et:
         active: aktiivne
         active_until_read: aktiivne lugemiseni
         read_html: lugenud (%{time})
-        time_in_future_title: '%{time_absolute}; veel %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
     show:
       title: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
       heading_html: 'Blokeeritud: %{block_on} (blokeerinud %{block_by})'
@@ -3309,6 +3464,7 @@ et:
         palun ära kirjuta siia isiklikku teavet ega teavet autoriõigustega kaitstud
         kaartidelt ega kataloogiloenditest.
       add: Lisa märkus
+      error: Märkuse loomisel esines tõrge.
     notes_paging_nav:
       showing_page: Leht %{page}
       next: Järgmine
@@ -3368,7 +3524,7 @@ et:
       kliki siia.
     directions:
       distance_in_units:
-        m: '%{distance}&nbsp;m'
+        m: '%{distance} m'
         km: '%{distance} km'
         ft: '%{distance} ft'
         yd: '%{distance} yd'

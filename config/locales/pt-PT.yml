@@ -102,7 +102,7 @@ pt-PT:
             visibility:
               cannot_change_to_legacy: não pode ser revertido para um valor antigo
     models:
-      acl: Aceder à lista de controlo
+      acl: ACL
       changeset: Conjunto de alterações
       changeset_tag: Etiqueta do conjunto de alterações
       country: País
@@ -138,6 +138,12 @@ pt-PT:
       way_node: Nó da linha
       way_tag: Etiqueta da Linha
     attributes:
+      acl:
+        address: Endereço
+        domain: Domínio
+        mx: Servidor MX
+        k: Chave
+        v: Valor
       diary_comment:
         body: Conteúdo
       diary_entry:
@@ -200,6 +206,12 @@ pt-PT:
         pass_crypt: Palavra-passe
         pass_crypt_confirmation: Confirmar palavra-passe
     help:
+      acl:
+        address: Um endereço IP ou rede CIDR, por exemplo, 192.0.2.0/24
+        domain: Um domínio de e-mail; subdomínios também são considerados.
+        mx: O nome do hospedeiro de um servidor MX para o domínio de e-mail.
+        k: 'Um de: no_account_creation, allow_account_creation, no_note_comment, no_trace_download'
+        v: Nota opcional, por exemplo, o motivo deste registo.
       doorkeeper/application:
         confidential: A aplicação será usada onde o segredo do cliente possa ser mantido
           confidencial (as apps móveis nativas e apps de página única não são confidenciais)
@@ -550,6 +562,9 @@ pt-PT:
       colour_preview: Antevisão da cor %{colour_value}
       email_link: E-mail %{email}
     versions_navigation:
+      node_versions: Versões do ponto
+      way_versions: Versões da linha
+      relation_versions: Versões da relação
       node: Ponto
       way: Linha
       relation: Relação
@@ -566,10 +581,13 @@ pt-PT:
     index:
       node:
         title_html: 'Histórico do Nó: %{name}'
+        actions: Ações do ponto
       way:
         title_html: 'Histórico da Linha: %{name}'
+        actions: Ações da linha
       relation:
         title_html: 'Histórico da Relação: %{name}'
+        actions: Ações da relação
       older_versions: Versões mais antigas
       newer_versions: Versões mais recentes
     actions:
@@ -726,6 +744,7 @@ pt-PT:
       latest_edit_html: 'Última edição (%{ago}):'
       no_edits: (sem edições)
       view_changeset_details: Ver detalhes do conjunto de alterações
+      actions: Ações do utilizador
     popup:
       your location: A tua localização
       nearby mapper: Mapeador próximo de ti
@@ -740,8 +759,10 @@ pt-PT:
       nearby users: Outros mapeadores nas redondezas
       no nearby users: Não há outros mapeadores que admitam estar a editar o mapa
         nas redondezas.
+      followed_actions: Ações dos utilizadores que segues
       followed_changesets: conjuntos de alterações
       followed_diaries: entradas de diário
+      nearby_actions: Ações de utilizadores próximos
       nearby_changesets: conjuntos de alterações de mapeadores próximos
       nearby_diaries: publicações no diário de mapeadores próximos
   notifications:
@@ -826,6 +847,7 @@ pt-PT:
       posted_by_html: Criada por %{link_user} a %{created} em %{language_link}
       updated_at_html: Última atualização em %{updated}
       full_entry: Ver texto completo
+      actions: Ações de registos no diário
       comment_link: Comentar
       reply_link: Enviar mensagem ao autor
       comment_count:
@@ -864,6 +886,7 @@ pt-PT:
         no diário?
       button: Deixar de acompanhar a discussão
     navigation:
+      actions: Ações diárias
       in_language: Entradas de diário em %{language}
       my_diary: O meu diário
       new: Criar nova publicação no diário
@@ -1852,6 +1875,7 @@ pt-PT:
       report_created_at_html: Denunciado pela primeira vez em %{datetime}
       last_resolved_at_html: Resolvido pela última vez em %{datetime}
       last_updated_at_html: Atualizado pela última vez em %{datetime} por %{displayname}
+      actions: Ações de problemas
       resolve: Resolver
       ignore: Ignorar
       reopen: Reabrir
@@ -2006,6 +2030,7 @@ pt-PT:
         be-Tarask: Bielorrusso (Tarašk.)
         bg: Búlgaro
         mk: Macedónio
+        mt: Maltês
         mo: Moldavo
         ce: Checheno
         ru: Russo
@@ -2081,6 +2106,7 @@ pt-PT:
       select_language: Selecionar Idioma
       sign_up: Criar conta
       user_diaries: Diários
+      navigation: Navegação principal
     meta:
       openstreetmap_search: Pesquisa OpenStreetMap
     select_language_button:
@@ -3194,6 +3220,7 @@ pt-PT:
         other: '%{count} pontos'
       more: mais
       trace_details: Ver detalhes da rota
+      trace_actions: Ações de rotas
       view_map: Ver localização no mapa
       edit_map: Abrir no editor
       public: PÚBLICO
@@ -3207,6 +3234,7 @@ pt-PT:
       my_gps_traces: As minhas rotas GPS
       public_traces_from: Rotas GPS públicas do utilizador %{user}
       description: Explorar as rotas GPS enviadas recentemente
+      actions: Ações de lista de rotas
       tagged_with: etiquetada com %{tags}
       empty_title: Ainda não há aqui nada
       empty_upload_html: '%{upload_link} ou aprende mais sobre as rotas de GPS na
@@ -3219,8 +3247,40 @@ pt-PT:
       my_traces: As Minhas Rotas
       traces_from_html: Rotas Públicas de %{user}
       remove_tag_filter: Eliminar filtro de etiqueta
+      legacy_traces: As minhas rotas antigas
     destroy:
       scheduled_for_deletion: Rota programada para eliminação
+    legacy_visibilities:
+      edit:
+        title: As minhas rotas de GPS antigas
+        description: Estas são as tuas rotas que ainda usam a antiga visibilidade
+          privada ou pública. Podes alterá-las aqui para rastreáveis ou identificáveis.
+          As melhorias planeadas para as rotas de GPS abrangerão apenas as rastreáveis
+          e identificáveis.
+        filter:
+          visibility: Visibilidade atual
+          any: Privada e pública
+          from: Enviada de
+          to: Enviada para
+          apply: Filtro
+        empty: Não há rotas antigas que correspondam a este filtro.
+        new_visibility: Nova visibilidade
+        no_undo: Esta alteração não pode ser anulada.
+        button:
+          one: Alterar %{count} rota
+          other: Alterar %{count} rotas
+        confirmation:
+          header: Confirmar alteração de visibilidade.
+          body:
+            one: Alterar a visibilidade de %{count} rota? Isto não pode ser revertido!
+            other: Alterar a visibilidade de %{count} rotas? Isto não pode ser revertido!
+          cancel: Cancelar
+          confirm: Alterar visibilidade
+      update:
+        updated:
+          one: Foi alterada a visibilidade de %{count} rota.
+          other: Foi alterada a visibilidade de %{count} rotas.
+        invalid_visibility: Escolhe a visibilidade que pretendes atribuir.
     offline_warning:
       message: O sistema de envio de ficheiros GPX encontra-se indisponível
     offline:
@@ -3318,6 +3378,12 @@ pt-PT:
       preview: Pré-visualizar
       help: Ajuda
     pagination:
+      label: Navegação de página
+      acls:
+        older: ACL mais antigos
+        newer: ACL mais recentes
+        oldest: Os ACL mais antigos
+        newest: Os ACL mais recentes
       changeset_comments:
         older: Comentários Anteriores
         newer: Comentários Mais Recentes
@@ -3480,6 +3546,8 @@ pt-PT:
         está correta.
       deleted: eliminado
     show:
+      actions: Ações
+      admin_actions: Ações administrativas
       my diary: O meu diário
       my edits: Edições
       my traces: Rotas
@@ -3862,6 +3930,7 @@ pt-PT:
       warning: Não é possível criar notas novas, porque a API do OpenStreetMap se
         encontra em modo de leitura.
     notes_paging_nav:
+      label: Navegação de página
       showing_page: Página %{page}
       next: Seguinte
       previous: Anterior
@@ -4091,6 +4160,37 @@ pt-PT:
         as versões pertencentes a esta supressão antes de a eliminar
       flash: Supressão eliminada.
       error: Ocorreu um erro ao tentar eliminar esta supressão.
+  acls:
+    navigation:
+      new_title: Adicionar um novo ACL
+      new: Novo ACL
+      actions: Ações de ACL
+    index:
+      title: ACL
+      empty: Não ACL para mostrar.
+    page:
+      address: Endereço
+      domain: Domínio
+      mx: Servidor MX
+      k: Chave
+      v: Valor
+      actions: Ações
+    acl:
+      edit_button: Editar
+      destroy_button: Eliminar
+      confirm: Tens a certeza?
+    form:
+      cancel: Cancelar
+    new:
+      title: Novo ACL
+    create:
+      success: ACL criado.
+    edit:
+      title: A editar ACL
+    update:
+      success: ACL atualizado.
+    destroy:
+      success: ACL eliminado.
   validations:
     leading_whitespace: tem espaços no início
     trailing_whitespace: tem espaços no fim
@@ -4100,6 +4200,7 @@ pt-PT:
     navigation:
       new_title: Definir uma nova zona de moderação
       new: Nova Zona de Moderação
+      actions: Ações de zona de moderação
     index:
       title: Zonas de Moderação
       heading: Zonas de Moderação
