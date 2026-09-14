@@ -3,6 +3,7 @@
 export default function (map) {
   const uninterestingTags = ["source", "source_ref", "source:ref", "history", "attribution", "created_by", "tiger:county", "tiger:tlid", "tiger:upload_uuid", "KSJ2:curve_id", "KSJ2:lat", "KSJ2:lon", "KSJ2:coordinate", "KSJ2:filename", "note:ja"];
   let marker;
+  let navigationSignal;
 
   const featureStyle = {
     color: "#FF6200",
@@ -64,14 +65,16 @@ export default function (map) {
       $section.data("ajax").abort();
     }
 
-    $section.data("ajax", new AbortController());
+    const controller = new AbortController();
+    const signal = AbortSignal.any([navigationSignal, controller.signal]);
+    $section.data("ajax", controller);
     fetch(OSM.OVERPASS_URL, {
       method: "POST",
       body: new URLSearchParams({
         data: "[timeout:10][out:json];" + query
       }),
       credentials: OSM.OVERPASS_CREDENTIALS ? "include" : "same-origin",
-      signal: $section.data("ajax").signal
+      signal
     })
       .then(response => {
         if (response.ok) {
@@ -80,6 +83,7 @@ export default function (map) {
         throw new Error(`HTTP Error ${response.status} ${response.statusText}`);
       })
       .then(function (results) {
+        if (signal.aborted) return;
         let elements = results.elements;
 
         $section.find(".loader").hide();
@@ -130,7 +134,7 @@ export default function (map) {
         }
       })
       .catch(function (error) {
-        if (error.name === "AbortError") return;
+        if (signal.aborted) return;
 
         $section.find(".loader").hide();
 
@@ -198,12 +202,16 @@ export default function (map) {
 
   const page = {};
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(() => page.init(path, true));
+  page.load = function (path, signal) {
+    return OSM.loadSidebarContent(path, signal)
+      .then(() => {
+        signal.throwIfAborted();
+        return page.init(path, signal, true);
+      });
   };
 
-  page.init = function (path, noCentre) {
+  page.init = function (path, signal, noCentre) {
+    navigationSignal = signal;
     const params = new URLSearchParams(path.substring(path.indexOf("?"))),
           latlng = L.latLng(params.get("lat"), params.get("lon"));
 
@@ -218,6 +226,8 @@ export default function (map) {
 
   page.unload = function (sameController) {
     if (!sameController) {
+      if (marker) map.removeLayer(marker);
+      marker = null;
       $("#sidebar_content .query-results a.selected").each(hideResultGeometry);
     }
   };

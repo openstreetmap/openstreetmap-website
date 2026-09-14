@@ -240,7 +240,7 @@ L.OSM.Map = L.Map.extend({
     return `geo:${lat},${lng}?z=${zoom}`;
   },
 
-  addObject: function (object, callback) {
+  addObject: function (object, callback, navigationSignal) {
     class ElementGoneError extends Error {
       constructor(message = "Element is gone") {
         super(message);
@@ -301,10 +301,12 @@ L.OSM.Map = L.Map.extend({
       this.fire("overlayadd", { layer: this._objectLayer });
     } else { // element handled by L.OSM.DataLayer
       const map = this;
-      this._objectLoader = new AbortController();
+      const controller = new AbortController();
+      this._objectLoader = controller;
+      const signal = navigationSignal ? AbortSignal.any([navigationSignal, controller.signal]) : controller.signal;
       fetch(OSM.apiUrl(object), {
         headers: { accept: "application/json", ...OSM.oauth },
-        signal: this._objectLoader.signal
+        signal
       })
         .then(async response => {
           if (response.ok) {
@@ -324,6 +326,7 @@ L.OSM.Map = L.Map.extend({
           throw new Error(text || status);
         })
         .then(function (data) {
+          if (signal.aborted) return;
           const visible_data = {
             ...data,
             elements: data.elements?.filter(el => el.visible !== false) ?? []
@@ -353,7 +356,7 @@ L.OSM.Map = L.Map.extend({
           $("#browse_status").empty();
         })
         .catch(function (error) {
-          if (error.name === "AbortError") return;
+          if (signal.aborted) return;
           if (error instanceof ElementGoneError) {
             $("#browse_status").empty();
             return;

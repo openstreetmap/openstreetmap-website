@@ -24,17 +24,79 @@ $(function () {
     worldCopyJump: true
   });
 
-  OSM.loadSidebarContent = function (path) {
-    map.setSidebarOverlaid(false);
+  let cancelSidebarLoad;
 
+  OSM.loadSidebarContent = function (path, signal) {
     return new Promise((resolve, reject) => {
-      $("#sidebar_content_frame")
-        .one("turbo:frame-render", event => {
-          const response = event.originalEvent.detail.fetchResponse.response;
+      signal.throwIfAborted();
+      cancelSidebarLoad?.();
+      const requestController = new AbortController();
+      let receivedResponse = false;
+      map.setSidebarOverlaid(false);
 
+      // A separate frame owns each request. Turbo may still be parsing or rendering
+      // a response when navigation aborts; that work must only touch a detached frame.
+      const previousFrame = document.getElementById("sidebar_content_frame");
+      const frame = previousFrame.cloneNode(false);
+      frame.removeAttribute("src");
+      frame.removeAttribute("busy");
+      frame.removeAttribute("aria-busy");
+      frame.removeAttribute("complete");
+      frame.append(...previousFrame.childNodes);
+      previousFrame.replaceWith(frame);
+
+      function cleanup() {
+        if (cancelSidebarLoad === abort) cancelSidebarLoad = null;
+        signal.removeEventListener("abort", abort);
+        $(frame).off(".loadSidebarContent");
+      }
+
+      function abort() {
+        // Turbo reads the response body outside its fetch cancellation handler.
+        // Once headers arrive, let parsing finish on the detached frame instead.
+        if (!receivedResponse) requestController.abort();
+        cleanup();
+        const replacement = frame.cloneNode(false);
+        replacement.removeAttribute("src");
+        replacement.removeAttribute("busy");
+        replacement.removeAttribute("aria-busy");
+        replacement.append(...frame.childNodes);
+        frame.replaceWith(replacement);
+        reject(signal.reason || new DOMException("Sidebar load superseded", "AbortError"));
+      }
+
+      cancelSidebarLoad = abort;
+      signal.addEventListener("abort", abort, { once: true });
+      $(frame)
+        .on("turbo:before-fetch-request.loadSidebarContent", event => {
+          if (event.target !== frame) return;
+          const options = event.originalEvent.detail.fetchOptions;
+          // Disconnecting a frame also aborts Turbo's signal. Forward cancellation
+          // only until headers arrive, so detaching cannot interrupt body parsing.
+          options.signal.addEventListener("abort", () => {
+            if (!receivedResponse) requestController.abort();
+          }, { once: true, signal });
+          options.signal = requestController.signal;
+        })
+        .on("turbo:before-fetch-response.loadSidebarContent", event => {
+          if (event.target === frame) receivedResponse = true;
+        })
+        .on("turbo:fetch-request-error.loadSidebarContent", event => {
+          if (event.target !== frame) return;
+          cleanup();
+          reject(event.originalEvent.detail.error);
+        })
+        .on("turbo:frame-missing.loadSidebarContent", event => {
+          if (event.target !== frame) return;
+          cleanup();
+          reject(new Error("Sidebar response is missing its Turbo Frame"));
+        })
+        .on("turbo:frame-render.loadSidebarContent", event => {
+          if (event.target !== frame) return;
+          cleanup();
+          const response = event.originalEvent.detail.fetchResponse.response;
           const title = response.headers.get("X-Page-Title");
           if (title) document.title = decodeURIComponent(title);
-
           if (response.ok) {
             resolve();
           } else {
@@ -45,9 +107,9 @@ $(function () {
     });
   };
 
-  $("#sidebar_content_frame")
-    .on("turbo:before-fetch-response", () => $("#flash").empty())
-    .on("turbo:before-frame-render", event => {
+  $("#sidebar_content")
+    .on("turbo:before-fetch-response", "#sidebar_content_frame", () => $("#flash").empty())
+    .on("turbo:before-frame-render", "#sidebar_content_frame", event => {
       const atomSelector = "link[type='application/atom+xml']";
       $("head").find(atomSelector).remove();
       $("head").append(
