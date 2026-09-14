@@ -33,6 +33,24 @@ module Profiles
       assert_redirected_to login_path(:referer => profile_image_path)
     end
 
+    def test_update_no_selection
+      user = create(:user)
+      session_for(user)
+
+      put profile_image_path
+
+      assert_redirected_to user_path(user)
+      follow_redirect!
+      assert_response :success
+      assert_template :show
+      assert_dom ".alert-success", :text => "Profile image updated."
+
+      get profile_image_path
+
+      assert_dom "form > div > div.col-sm-10 > div > input[name=avatar_action][checked]", false
+      assert_dom "form > div > div.col-sm-10 > div > div.form-check > input[name=avatar_action][checked]", false
+    end
+
     def test_update_replace
       image = Rack::Test::UploadedFile.new("test/gpx/fixtures/a.gif", "image/gif")
       user = create(:user)
