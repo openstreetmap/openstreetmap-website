@@ -127,7 +127,7 @@ it:
             visibility:
               cannot_change_to_legacy: non può essere riportato a un valore obsoleto
     models:
-      acl: Lista di controllo degli accessi
+      acl: ACL
       changeset: Gruppo di modifiche
       changeset_tag: Etichetta del gruppo di modifiche
       country: Paese
@@ -163,6 +163,11 @@ it:
       way_node: Nodo del percorso
       way_tag: Etichetta del percorso
     attributes:
+      acl:
+        address: Indirizzo
+        domain: Dominio
+        k: Chiave
+        v: Valore
       diary_comment:
         body: Corpo
       diary_entry:
@@ -3248,8 +3253,42 @@ it:
       my_traces: I miei tracciati
       traces_from_html: Tracciati pubblici di %{user}
       remove_tag_filter: Rimuovi filtro delle etichette
+      legacy_traces: I miei tracciati obsoleti
     destroy:
       scheduled_for_deletion: Tracciato in attesa di essere eliminato
+    legacy_visibilities:
+      edit:
+        title: I miei tracciati GPS obsoleti
+        description: Si tratta delle tue tracce che utilizzano ancora la vecchia visibilità
+          privata o pubblica. Qui puoi modificarle in tracciabili o identificabili.
+          I miglioramenti futuri alle tracce GPS riguarderanno solo quelle tracciabili
+          e identificabili.
+        filter:
+          visibility: Visibilità attuale
+          any: Privato e pubblico
+          from: Caricata da
+          to: Caricata su
+          apply: Filtro
+        empty: Nessuna traccia obsoleta corrisponde a questo filtro.
+        new_visibility: Nuova visibilità
+        no_undo: Questa modifica non può essere annullata.
+        button:
+          one: Modifica %{count} traccia
+          other: Modifica %{count} tracce
+        confirmation:
+          header: Conferma la modifica della visibilità
+          body:
+            one: Modificare la visibilità di %{count} traccia? Questa operazione non
+              può essere annullata.
+            other: Modificare la visibilità di %{count} tracce? Questa operazione
+              non può essere annullata.
+          cancel: Annulla
+          confirm: Modifica visibilità
+      update:
+        updated:
+          one: Modificata la visibilità di %{count} traccia.
+          other: Modificata la visibilità di %{count} tracce.
+        invalid_visibility: Seleziona un valore di visibilità a cui desideri passare.
     offline_warning:
       message: Il caricamento dei file GPX non è al momento disponibile
     offline:
@@ -3346,6 +3385,7 @@ it:
       preview: Anteprima
       help: Aiuto
     pagination:
+      label: Navigazione della pagina
       changeset_comments:
         older: Commenti meno recenti
         newer: Commenti più recenti
@@ -3875,9 +3915,7 @@ it:
         url: https://wiki.openstreetmap.org/wiki/IT:Beginners%27_guide
       counter_warning_forum_link:
         text: la comunità può aiutarti
-      advice: La tua nota è pubblica e potrebbe essere utilizzata per aggiornare la
-        mappa, pertanto non inserire informazioni personali e neppure dati provenienti
-        da mappe protette da copyright oppure elenchi.
+      advice: Chiunque può visualizzare una nota, anche senza un'utenza OpenStreetMap!
       add: Aggiungi la nota
       error: Si è verificato un errore durante la creazione della nota
     new_readonly:
@@ -3926,7 +3964,7 @@ it:
       attribution_control:
         toggle_attribution: Attiva/disattiva l'attribuzione
       base:
-        standard: Standard
+        standard: Carto
         cycle_map: Mappa ciclabile
         transport_map: Mappa dei trasporti
         tracestracktop_topo: Tracestrack Topo
@@ -4114,6 +4152,18 @@ it:
         appartenenti a questa revisione prima di eliminarla.
       flash: Revisione eliminata.
       error: Si è verificato un errore durante l'eliminazione di questa revisione.
+  acls:
+    page:
+      address: Indirizzo
+      domain: Dominio
+      k: Chiave
+      v: Valore
+      actions: Azioni
+    acl:
+      destroy_button: Cancella
+      confirm: Sei sicuro?
+    form:
+      cancel: Annulla
   validations:
     leading_whitespace: ha uno spazio come carattere iniziale
     trailing_whitespace: ha uno spazio come carattere finale
