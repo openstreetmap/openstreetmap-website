@@ -22,8 +22,13 @@ module Api
         return
       end
 
-      points = Tracepoint.bbox(bbox).joins(:trace)
-                         .where(:gpx_files => { :visibility => %w[trackable identifiable] })
+      # Read the bbox in a subquery, with no gpx_id condition, so the planner
+      # uses the tile index and not the gpx_id index. OFFSET 0 keeps the
+      # subquery separate from the ORDER BY and LIMIT below.
+      candidates = Tracepoint.bbox(bbox).joins(:trace)
+                             .where(:gpx_files => { :visibility => %w[trackable identifiable] })
+                             .offset(0)
+      points = Tracepoint.from(candidates, :gps_points)
 
       if params[:cursor]
         begin
@@ -33,21 +38,14 @@ module Api
           return
         end
 
-        # Read the bbox in a subquery so the planner uses the tile index.
-        # Otherwise the ORDER BY ... LIMIT makes it walk the gpx_id index
-        # backwards from the cursor, which can take minutes on a sparse bbox.
-        # OFFSET 0 stops PostgreSQL from flattening the subquery.
-        candidates = points.where(:gps_points => { :gpx_id => ..gpx_id }).offset(0)
-
         # Continue after the last point of the previous batch, following the
         # gpx_id desc, trackid asc, timestamp asc ordering of the query below.
-        points = Tracepoint.from(candidates, :gps_points)
-                           .where(<<~SQL.squish, :gpx_id => gpx_id, :trackid => trackid, :timestamp => timestamp)
-                             gps_points.gpx_id < :gpx_id
-                             OR (gps_points.gpx_id = :gpx_id
-                                 AND (gps_points.trackid > :trackid
-                                      OR (gps_points.trackid = :trackid AND gps_points.timestamp > :timestamp)))
-                           SQL
+        points = points.where(<<~SQL.squish, :gpx_id => gpx_id, :trackid => trackid, :timestamp => timestamp)
+          gps_points.gpx_id < :gpx_id
+          OR (gps_points.gpx_id = :gpx_id
+              AND (gps_points.trackid > :trackid
+                   OR (gps_points.trackid = :trackid AND gps_points.timestamp > :timestamp)))
+        SQL
       else
         page = params.fetch(:page, "0").to_i
 
