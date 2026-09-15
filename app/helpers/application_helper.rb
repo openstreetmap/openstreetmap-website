@@ -2,11 +2,14 @@
 
 module ApplicationHelper
   def linkify(text)
-    link_attr = 'rel="nofollow" dir="auto"'
+    link_attr = {
+      :rel => "nofollow",
+      :dir => "auto"
+    }
     if text.html_safe?
-      Rinku.auto_link(text, :urls, link_attr).html_safe
+      Autolinker.auto_link(text, :urls, link_attr).html_safe
     else
-      Rinku.auto_link(ERB::Util.h(text), :urls, link_attr).html_safe
+      Autolinker.auto_link(ERB::Util.h(text), :urls, link_attr).html_safe
     end
   end
 
