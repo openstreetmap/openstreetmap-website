@@ -1,0 +1,37 @@
+<%# locals: (new_element:, old_element:) %>
+<% if old_element %>
+  <% diffs = tag_diff(new_element.tags, old_element.tags) %>
+  <% if diffs.any? %>
+    <details class="mb-3 border-bottom border-secondary-subtle pb-3">
+      <summary class="text-secondary"><%= t("browse.tag_diff.summary", :old_version => old_element.version, :new_version => new_element.version) %></summary>
+      <div class="border border-secondary-subtle rounded overflow-hidden mt-2">
+        <table class="table mb-0 browse-tag-list align-middle table-sm">
+          <tbody>
+            <% diffs.each do |diff| %>
+              <% case diff[:type] %>
+              <% when "added" %>
+                <tr class="table-secondary">
+                  <th scope="row" class="py-1 border-secondary-subtle fw-normal table-success" dir="auto"><span class="visually-hidden"><%= t("browse.tag_diff.type.added") %>:</span><%= format_key(diff[:key]) %> </th>
+                  <td class="py-1 border-secondary-subtle border-start table-success" dir="auto"><%= format_value(diff[:key], diff[:new_value]) %></td>
+                </tr>
+              <% when "removed" %>
+                <tr class="table-secondary">
+                  <th scope="row" class="py-1 border-secondary-subtle fw-normal table-danger" dir="auto"><span class="visually-hidden"><%= t("browse.tag_diff.type.removed") %>:</span><%= format_key(diff[:key]) %> </th>
+                  <td class="py-1 border-secondary-subtle border-start table-danger" dir="auto"><%= format_value(diff[:key], diff[:old_value]) %></td>
+                </tr>
+              <% when "modified" %>
+                <tr class="table-secondary">
+                  <th scope="row" rowspan="2" class="py-1 border-secondary-subtle fw-normal" dir="auto"><span class="visually-hidden"><%= t("browse.tag_diff.type.modified") %>:</span><%= format_key(diff[:key]) %> </th>
+                  <td class="py-1 border-secondary-subtle border-start table-success text-secondary" dir="auto"><span class="visually-hidden"><%= t("browse.tag_diff.status.new") %>:</span><%= format_value(diff[:key], diff[:new_value]) %></td>
+                </tr>
+                <tr class="table-secondary">
+                  <td class="py-1 border-secondary-subtle border-start table-danger text-secondary" dir="auto"><span class="visually-hidden"><%= t("browse.tag_diff.status.old") %>:</span><%= format_value(diff[:key], diff[:old_value]) %></td>
+                </tr>
+              <% end %>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  <% end %>
+<% end %>
