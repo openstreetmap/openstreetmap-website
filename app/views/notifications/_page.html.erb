@@ -2,6 +2,7 @@
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <% notifications.items.each do |notification| %>
+    <% next if notification.event.record_type.present? && notification.record.nil? %>
     <%= render "notification", :notification => notification %>
     <hr>
   <% end %>
