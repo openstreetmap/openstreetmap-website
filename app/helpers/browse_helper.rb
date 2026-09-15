@@ -72,6 +72,30 @@ module BrowseHelper
     "nofollow" if object.tags.empty?
   end
 
+  def format_key(key)
+    TagLinker.format_key(key) do |hash|
+      title_options = hash.except(:text, :url, :type)
+      return hash[:text] unless hash[:url]
+
+      link_to(hash[:text], hash[:url], :title => t("browse.tag_details.#{hash[:type]}", *title_options))
+    end
+  end
+
+  def format_value(key, value, html_only: false)
+    html = []
+    TagLinker.format_value(key, value) do |hash|
+      title_options = hash.except(:text, :url, :type, :html)
+      return html << hash[:html] if hash[:html] && html_only
+
+      return html << hash[:text] unless hash[:url]
+
+      html << link_to(hash[:text], hash[:url], :title => t("browse.tag_details.#{hash[:type]}", *title_options))
+      html << ";"
+    end
+    html.pop if html.last == ";"
+    safe_join(html)
+  end
+
   private
 
   def feature_name(tags)
