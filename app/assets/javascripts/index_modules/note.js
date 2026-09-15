@@ -1,21 +1,27 @@
 export default function (map) {
   const content = $("#sidebar_content"),
         page = {};
+  let lifecycle = 0;
 
   page.load = function (path, id) {
+    const currentLifecycle = ++lifecycle;
+
     OSM.loadSidebarContent(path).then(function () {
+      if (lifecycle !== currentLifecycle) return;
+
       const data = $(".details").data();
       if (!data) return;
       const [lat, lng] = data.coordinates.split(",").map(parseFloat);
-      initialize(path, id, map.getBounds().contains({ lat, lng }));
+      initialize(path, id, map.getBounds().contains({ lat, lng }), currentLifecycle);
     });
   };
 
   page.init = function (path, id) {
-    initialize(path, id);
+    const currentLifecycle = ++lifecycle;
+    initialize(path, id, false, currentLifecycle);
   };
 
-  function initialize(path, id, skipMoveToNote) {
+  function initialize(path, id, skipMoveToNote, currentLifecycle) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       const { url, method } = $(e.target).data(),
@@ -41,9 +47,17 @@ export default function (map) {
             throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
-        .then(() => OSM.loadSidebarContent(path))
-        .then(() => initialize(path, id, false))
+        .then(async () => {
+          if (lifecycle !== currentLifecycle) return;
+
+          await OSM.loadSidebarContent(path);
+          if (lifecycle !== currentLifecycle) return;
+
+          initialize(path, id, false, currentLifecycle);
+        })
         .catch(error => {
+          if (lifecycle !== currentLifecycle) return;
+
           content.find("#comment-error")
             .text(error.message)
             .prop("hidden", false)
@@ -68,6 +82,8 @@ export default function (map) {
         latLng: L.latLng(data.coordinates.split(",")),
         icon: OSM.noteMarkers[data.status]
       }, function () {
+        if (lifecycle !== currentLifecycle) return;
+
         if (!hashParams.center && !skipMoveToNote) {
           const latLng = L.latLng(data.coordinates.split(","));
           OSM.router.withoutMoveListener(function () {
@@ -92,6 +108,7 @@ export default function (map) {
   }
 
   page.unload = function () {
+    lifecycle++;
     map.removeObject();
   };
 

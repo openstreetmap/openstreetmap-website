@@ -4,7 +4,18 @@ export default function (map) {
     .on("click", ".search_results_entry a.set_position", clickSearchResult);
 
   const markers = L.layerGroup().addTo(map);
-  let processedResults = 0;
+  let processedResults = 0,
+      controller = null;
+
+  function isActive(currentController) {
+    return controller === currentController && !currentController.signal.aborted;
+  }
+
+  function startLifecycle() {
+    controller?.abort();
+    controller = new AbortController();
+    return controller;
+  }
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -15,19 +26,27 @@ export default function (map) {
     $(this).hide();
     div.find(".loader").prop("hidden", false);
 
-    fetchReplace(this, div);
+    if (controller) fetchReplace(this, div, controller);
   }
 
-  function fetchReplace({ href }, $target) {
+  function fetchReplace({ href }, $target, currentController) {
     return fetch(href, {
       method: "POST",
-      body: new URLSearchParams(OSM.csrf)
+      body: new URLSearchParams(OSM.csrf),
+      signal: currentController.signal
     })
       .then(response => response.text())
       .then(html => {
+        if (!isActive(currentController)) return false;
+
         const result = $(html);
         $target.replaceWith(result);
         result.filter("ul").children().each(showSearchResult);
+        return true;
+      })
+      .catch(error => {
+        if (error.name === "AbortError") return false;
+        throw error;
       });
   }
 
@@ -72,6 +91,8 @@ export default function (map) {
   const page = {};
 
   page.load = function (path) {
+    const currentController = startLifecycle();
+
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
     if (params.has("query")) {
       $(".search_form input[name=query]").val(params.get("query"));
@@ -79,14 +100,22 @@ export default function (map) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
     OSM.loadSidebarContent(path)
-      .then(page.init);
+      .then(() => {
+        if (isActive(currentController)) initialize(currentController);
+      });
   };
 
   page.init = function () {
+    return initialize(startLifecycle());
+  };
+
+  function initialize(currentController) {
     $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);
-      fetchReplace(this.dataset, entry.children().first())
-        .then(() => {
+      fetchReplace(this.dataset, entry.children().first(), currentController)
+        .then(rendered => {
+          if (!rendered || !isActive(currentController)) return;
+
           // go to first result of first geocoder
           if (index === 0) {
             const firstResult = entry.find("*[data-lat][data-lon]:first").first();
@@ -98,9 +127,11 @@ export default function (map) {
     });
 
     return map.getState();
-  };
+  }
 
   page.unload = function () {
+    controller?.abort();
+    controller = null;
     markers.clearLayers();
     processedResults = 0;
   };
