@@ -69,6 +69,16 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     assert_equal [["ST_LineString", 5]], segments(trace)
   end
 
+  def test_points_without_timestamp_are_skipped
+    trace = create(:trace)
+    create_points(trace, 3)
+    # The model does not allow a nil timestamp, but some old traces have them.
+    trace.points.where(:latitude => GeoRecord::SCALE).update_all(:timestamp => nil)
+
+    assert_equal 1, TraceLinestringJob.perform_now(trace)
+    assert_equal [["ST_LineString", 2]], segments(trace)
+  end
+
   def test_traces_of_any_visibility_are_converted
     %w[identifiable trackable public private].each do |visibility|
       trace = create(:trace, :without_validations, :visibility => visibility)
