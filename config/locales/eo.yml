@@ -81,7 +81,7 @@ eo:
             visibility:
               cannot_change_to_legacy: ne povas esti ŝanĝita reen al kaduka valoro
     models:
-      acl: Listo de kontrolo de akiroj
+      acl: Alir-kontrol-listo
       changeset: Ŝanĝaro
       changeset_tag: Etikedo de ŝanĝaro
       country: Lando
@@ -117,6 +117,12 @@ eo:
       way_node: Nodo de linio
       way_tag: Etikedo de linio
     attributes:
+      acl:
+        address: Adreso
+        domain: Nomregno
+        mx: MX-servilo
+        k: Ŝlosilo
+        v: Valoro
       diary_comment:
         body: Enhavo
       diary_entry:
@@ -144,7 +150,7 @@ eo:
         public: Publika
         description: Priskribo
         gpx_file: Elekti GPS-spur-dosieron
-        visibility: Videbleco
+        visibility: Videblo
         tagstring: Etikedoj
       moderation_zone:
         name: Nomo
@@ -179,6 +185,13 @@ eo:
         pass_crypt: Pasvorto
         pass_crypt_confirmation: Konfirmi pasvorton
     help:
+      acl:
+        address: IP-adreso aŭ CIDR-reto, ekz. 192.0.2.0/24
+        domain: Nomregno de retpoŝto, subnomregnoj ankaŭ akordas
+        mx: La servilnomo de MX-servilo por la retpoŝta nomregno
+        k: 'Unu el: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Noto (malnepre), ekz. kialo por tiu ĉi eniro
       doorkeeper/application:
         confidential: Aplikaĵo estos uzata tiel, ke la klient-sekreto estos konfidenca
           (indiĝenaj poŝtelefonaj aplikaĵoj kaj unu-paĝaj retaplikaĵoj ne estas konfidencaj)
@@ -3100,7 +3113,7 @@ eo:
       edit_trace: redakti detalojn pri spuro
       delete_trace: Forigi tiun ĉi spuron
       trace_not_found: Spuro ne trovebla!
-      visibility: 'Videbleco:'
+      visibility: 'Videblo:'
       confirm_delete: Ĉu forigi tiun ĉi spuron?
     trace:
       pending: OKAZONTA
@@ -3134,8 +3147,40 @@ eo:
       my_traces: Miaj spuroj
       traces_from_html: Publikaj spuroj de %{user}
       remove_tag_filter: Forigi filtrilon de etikedoj
+      legacy_traces: Miaj malnovaj spuroj
     destroy:
       scheduled_for_deletion: Spuro forviŝota
+    legacy_visibilities:
+      edit:
+        title: Miaj malnovaj GPS-spuroj
+        description: 'Tiuj ĉi spuroj plue uzas malnovan skemon de videblo: privatan
+          aŭ publikan. Tie ĉi vi povas ŝanĝi ilian al spureblaj kaj identigeblaj.
+          Planitaj plibonigoj al GPS-spuroj nur kovros spureblaj kaj identigeblaj
+          spuroj.'
+        filter:
+          visibility: Nuna videblo
+          any: privata aŭ publika
+          from: Alŝutita ekde
+          to: Alŝutita ĝis
+          apply: Filtri
+        empty: Neniu spuro akordas kun tiu ĉi filtrilo.
+        new_visibility: Nova videblo
+        no_undo: Tiu ĉi ŝanĝo estas nemalfarebla.
+        button:
+          one: Ŝanĝi %{count} spuron
+          other: Ŝanĝi %{count} spurojn
+        confirmation:
+          header: Konfirmi ŝanĝon de videblo
+          body:
+            one: Ĉu ŝanĝi videblon de %{count} spuro? Tio ĉi ne povos esti malfarita.
+            other: Ĉu ŝanĝi videblon de %{count} spuroj? Tio ĉi ne povos esti malfarita.
+          cancel: Nuligi
+          confirm: Ŝanĝi videblon
+      update:
+        updated:
+          one: Ŝanĝis videblon de %{count} spuro.
+          other: Ŝanĝis videblon de %{count} spuroj.
+        invalid_visibility: Elektu alcelan videblon.
     offline_warning:
       message: La sistemo por alŝutado de GPX-dosieroj estas nune nedisponebla
     offline:
@@ -3233,6 +3278,11 @@ eo:
       help: Helpo
     pagination:
       label: Navigado de paĝo
+      acls:
+        older: Pli malnovaj alir-kontrol-listoj
+        newer: Pli novaj alir-kontrol-listoj
+        oldest: Plej malnovaj alir-kontrol-listoj
+        newest: Plej novaj alir-kontrol-listoj
       changeset_comments:
         older: Pli malnovaj komentoj
         newer: Pli novaj komentoj
@@ -3755,9 +3805,11 @@ eo:
         text: kontribui mem
       counter_warning_forum_link:
         text: komunumo povas helpi vin
-      advice: Via rimarko estas publika kaj povas esti uzita por ĝisdatigi la mapon,
-        do ne enmetu privatajn informojn kaj informojn el kopirajtaj mapoj aŭ aliaj
-        datumbazoj.
+      advice: Ĉiu persono povos rigardi tiun ĉi rimarkon, eĉ tiu, kiu ne havas OpenStreetMap-konton!
+      advice_good_note: Bona noto liveru kiel eble plej informplena sen ellasi personajn
+        informojn aŭ informojn el aŭtorrajt-protektataj mapoj, datumbazoj kaj listoj.
+      advice_conduct: Estu ĝentila, pacienca kaj estimanta dum komunikadi kun anoj
+        de la komunumo.
       add: Aldoni rimarkon
       error: Okazis eraro dum kreado de rimarko
     new_readonly:
@@ -3998,6 +4050,37 @@ eo:
         al tiu ĉi korekto, antaŭ ol forigi ĝin.
       flash: Korekto forigita.
       error: Okazis eraro dum forigado de ĉi tiu korekto.
+  acls:
+    navigation:
+      new_title: Aldoni novan alir-kontrol-liston
+      new: Nova alir-kontrol-listo
+      actions: Agoj pri alir-kontrol-listoj
+    index:
+      title: Alir-kontrol-listoj
+      empty: Neniu alir-kontrol-listo por montri.
+    page:
+      address: Adreso
+      domain: Nomregno
+      mx: MX-servilo
+      k: Ŝlosilo
+      v: Valoro
+      actions: Agoj
+    acl:
+      edit_button: Redakti
+      destroy_button: Forigi
+      confirm: Ĉu vi certas?
+    form:
+      cancel: Nuligi
+    new:
+      title: Nova alir-kontrol-listo
+    create:
+      success: Kreis alir-kontrol-liston.
+    edit:
+      title: Redakti alir-kontrol-liston
+    update:
+      success: Aktualigis alir-kontrol-liston.
+    destroy:
+      success: Forigis alir-kontrol-liston.
   validations:
     leading_whitespace: enhavas blankspacon ĉe komenco
     trailing_whitespace: enhavas blankspacon ĉe fino
