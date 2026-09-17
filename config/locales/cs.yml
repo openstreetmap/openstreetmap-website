@@ -110,7 +110,7 @@ cs:
             visibility:
               cannot_change_to_legacy: nelze nastavit zpět na zastaralou hodnotu
     models:
-      acl: Seznam přístupových práv
+      acl: ACL
       changeset: Sada změn
       changeset_tag: Tag sady změn
       country: Země
@@ -146,6 +146,12 @@ cs:
       way_node: Uzel cesty
       way_tag: Tag cesty
     attributes:
+      acl:
+        address: Adresa
+        domain: Doména
+        mx: MX server
+        k: Klíč
+        v: Hodnota
       diary_comment:
         body: Text
       diary_entry:
@@ -208,6 +214,13 @@ cs:
         pass_crypt: Heslo
         pass_crypt_confirmation: Potvrdit heslo
     help:
+      acl:
+        address: IP adresa nebo CIDR síť, např. 192.0.2.0/24
+        domain: E-mailová doména; porovnávají se i subdomény
+        mx: Název hostitele pro MX serveru e-mailové domény
+        k: 'Jedno z: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Nepovinná poznámka, např. zdůvodnění tohoto záznamu
       doorkeeper/application:
         confidential: Aplikace bude používána takovým způsobem, že bude možno uchovat
           důvěrnost tajemství klienta (nativní mobilní aplikace a single-page aplikace
@@ -3410,6 +3423,11 @@ cs:
       help: Nápověda
     pagination:
       label: Stránkovací navigace
+      acls:
+        older: Starší ACL
+        newer: Novější ACL
+        oldest: Nejstarší ACL
+        newest: Nejnovější ACL
       changeset_comments:
         older: Starší komentáře
         newer: Novější komentáře
@@ -4199,6 +4217,37 @@ cs:
         verzí patřících do této redakce.
       flash: Redakce zničena.
       error: Došlo k chybě při ničení této redakce.
+  acls:
+    navigation:
+      new_title: Přidat nový ACL
+      new: Nový ACL
+      actions: Akce s ACL
+    index:
+      title: ACL
+      empty: Žádné ACL k zobrazení.
+    page:
+      address: Adresa
+      domain: Doména
+      mx: MX server
+      k: Klíč
+      v: Hodnota
+      actions: Akce
+    acl:
+      edit_button: Upravit
+      destroy_button: Smazat
+      confirm: Jste si jisti?
+    form:
+      cancel: Storno
+    new:
+      title: Nový ACL
+    create:
+      success: ACL vytvořen.
+    edit:
+      title: Úprava ACL
+    update:
+      success: ACL upraveno.
+    destroy:
+      success: ACL smazáno.
   validations:
     leading_whitespace: začíná bílými znaky
     trailing_whitespace: končí bílými znaky
