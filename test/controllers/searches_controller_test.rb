@@ -23,6 +23,13 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   ##
+  # Test identification with bogus format argument
+  def test_identify_format
+    get search_path(:query => "test", :format => "json")
+    assert_response :not_acceptable
+  end
+
+  ##
   # Test identification of basic lat/lon pairs
   def test_identify_latlon_basic
     [
