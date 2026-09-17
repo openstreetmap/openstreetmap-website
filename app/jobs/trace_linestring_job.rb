@@ -18,7 +18,7 @@ class TraceLinestringJob < ApplicationJob
   #
   # Returns the number of segments written.
   def perform(trace)
-    sql = ApplicationRecord.sanitize_sql_array([<<~SQL.squish, trace.id])
+    sql = <<~SQL.squish
       INSERT INTO gpx_tracks (gpx_id, trackid, segment, geom)
       SELECT gpx_id, trackid, segment,
              CASE WHEN count(*) = 1
@@ -36,15 +36,17 @@ class TraceLinestringJob < ApplicationJob
                             COALESCE(altitude, 0),
                             EXTRACT(EPOCH FROM "timestamp")) AS pt
         FROM gps_points
-        WHERE gpx_id = ? AND "timestamp" IS NOT NULL
+        WHERE gpx_id = $1 AND "timestamp" IS NOT NULL
       ) points
       GROUP BY gpx_id, trackid, segment
     SQL
 
+    binds = [ActiveRecord::Relation::QueryAttribute.new("gpx_id", trace.id, ActiveRecord::Type::BigInteger.new)]
+
     segment_count = ApplicationRecord.transaction do
       trace.gpx_tracks.delete_all
 
-      ApplicationRecord.connection.exec_update(sql, "InsertGpxTracks")
+      ApplicationRecord.connection.exec_update(sql, "InsertGpxTracks", binds)
     end
 
     logger.info "No segments inserted for trace #{trace.id}" if segment_count.zero?
