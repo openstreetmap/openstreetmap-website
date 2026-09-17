@@ -100,6 +100,20 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
   end
 
+  def test_gzip_compression_invalid
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    # upload it
+    post "/api/0.6/changeset/#{changeset.id}/upload",
+         :params => "",
+         :headers => bearer_authorization_header(user).merge(
+           "Content-Encoding" => "gzip",
+           "Content-Type" => "application/xml"
+         )
+    assert_response :unprocessable_content
+  end
+
   def test_deflate_compression
     user = create(:user)
     changeset = create(:changeset, :user => user)
@@ -147,6 +161,20 @@ class CompressedRequestsTest < ActionDispatch::IntegrationTest
     assert_equal 0, Node.find(node.id).tags.size, "node #{node.id} should now have no tags"
     assert_equal 0, Way.find(way.id).tags.size, "way #{way.id} should now have no tags"
     assert_equal 0, Relation.find(relation.id).tags.size, "relation #{relation.id} should now have no tags"
+  end
+
+  def test_deflate_compression_invalid
+    user = create(:user)
+    changeset = create(:changeset, :user => user)
+
+    # upload it
+    post "/api/0.6/changeset/#{changeset.id}/upload",
+         :params => "",
+         :headers => bearer_authorization_header(user).merge(
+           "Content-Encoding" => "gzip",
+           "Content-Type" => "application/xml"
+         )
+    assert_response :unprocessable_content
   end
 
   def test_invalid_compression

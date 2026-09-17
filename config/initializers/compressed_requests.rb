@@ -16,22 +16,24 @@ module OpenStreetMap
 
     def call(env)
       if method_handled?(env) && encoding_handled?(env)
-        extracted = decode(env[::Rack::RACK_INPUT], env["HTTP_CONTENT_ENCODING"])
+        begin
+          extracted = decode(env[::Rack::RACK_INPUT], env["HTTP_CONTENT_ENCODING"])
 
-        env.delete("HTTP_CONTENT_ENCODING")
-        env.delete(::Rack::RACK_REQUEST_FORM_ERROR)
-        env.delete(::Rack::RACK_REQUEST_FORM_HASH)
-        env.delete(::Rack::RACK_REQUEST_FORM_INPUT)
-        env.delete(::Rack::RACK_REQUEST_FORM_PAIRS)
-        env["CONTENT_LENGTH"] = extracted.bytesize
-        env[::Rack::RACK_INPUT] = StringIO.new(extracted)
+          env.delete("HTTP_CONTENT_ENCODING")
+          env.delete(::Rack::RACK_REQUEST_FORM_ERROR)
+          env.delete(::Rack::RACK_REQUEST_FORM_HASH)
+          env.delete(::Rack::RACK_REQUEST_FORM_INPUT)
+          env.delete(::Rack::RACK_REQUEST_FORM_PAIRS)
+          env["CONTENT_LENGTH"] = extracted.bytesize
+          env[::Rack::RACK_INPUT] = StringIO.new(extracted)
+        rescue Zlib::GzipFile::Error, Zlib::DataError
+          response = [422, {}, []]
+        end
+      elsif env["HTTP_CONTENT_ENCODING"]
+        response = [415, {}, []]
       end
 
-      if env["HTTP_CONTENT_ENCODING"]
-        [415, {}, []]
-      else
-        @app.call(env)
-      end
+      response || @app.call(env)
     end
 
     def decode(input, content_encoding)
