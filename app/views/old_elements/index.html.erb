@@ -14,7 +14,11 @@
 <% end %>
 
 <div id="element_versions_list">
-  <%= render :partial => "browse/#{@type}", :collection => @old_features.items %>
+  <% @old_features.items.each_with_index do |item, index| %>
+    <%= render :partial => "browse/#{@type}", :locals => { @type.to_sym => item } %>
+    <% old_element = @old_features.items[index + 1] %>
+    <%= render "browse/tag_diff", :new_element => item, :old_element => old_element if old_element %>
+  <% end %>
 </div>
 
 <% if @old_features.older_items_cursor %>
