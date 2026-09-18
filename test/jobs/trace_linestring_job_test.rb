@@ -73,7 +73,7 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     trace = create(:trace)
     create_points(trace, 3)
     # The model does not allow a nil timestamp, but some old traces have them.
-    trace.points.where(:latitude => GeoRecord::SCALE).update_all(:timestamp => nil)
+    trace.points.where(:latitude => GeoRecord::SCALE).update_all(:timestamp => nil) # rubocop:disable Rails/SkipsModelValidations
 
     assert_equal 1, TraceLinestringJob.perform_now(trace)
     assert_equal [["ST_LineString", 2]], segments(trace)
