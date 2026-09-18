@@ -1,5 +1,5 @@
 ARG RUBY_VERSION=3.3
-FROM ruby:$RUBY_VERSION-bookworm
+FROM ruby:$RUBY_VERSION-trixie
 
 ENV DEBIAN_FRONTEND=noninteractive
 
