@@ -24,6 +24,16 @@ module Searches
       end
     end
 
+    def json_results_check(*results)
+      js = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil js
+      results.zip(js) do |expected, actual|
+        expected.each do |k, v|
+          assert_equal v.to_s, actual[k.to_s]
+        end
+      end
+    end
+
     def results_check_error(error)
       assert_response :success
       assert_template :error
