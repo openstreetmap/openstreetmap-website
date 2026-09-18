@@ -216,9 +216,14 @@ module Api
 
         threads = Array.new(concurrency_level) do
           Thread.new do
-            post path, :params => diff, :headers => auth_header
+            ActiveRecord::Base.connection_pool.with_connection do
+              open_session do |sess|
+                sess.post path, :params => diff, :headers => auth_header
+              end
+            end
           end
         end
+
         threads.each(&:join)
 
         changeset.reload
