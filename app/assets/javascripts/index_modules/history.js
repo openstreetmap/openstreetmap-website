@@ -50,7 +50,7 @@ export default function (map) {
     let keepInitialLocation = true;
     let itemsInViewport = $();
 
-    const signal = AbortSignal.any([navigationSignal, listController.signal]);
+    const signal = OSM.anySignal([navigationSignal, listController.signal]);
     const observer = new IntersectionObserver((entries) => {
       if (signal.aborted || changesetIntersectionObserver !== observer) return;
       let closestTargetToTop,
@@ -178,7 +178,7 @@ export default function (map) {
     listController?.abort();
     listController = new AbortController();
     const controller = listController;
-    const signal = AbortSignal.any([navigationSignal, controller.signal]);
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
     loadingFirstChangesets = true;
     const data = new URLSearchParams();
     const isHistory = location.pathname === "/history";
@@ -225,7 +225,7 @@ export default function (map) {
     e.stopPropagation();
     if (loadingFirstChangesets || navigationSignal.aborted) return;
 
-    const signal = AbortSignal.any([navigationSignal, listController.signal]);
+    const signal = OSM.anySignal([navigationSignal, listController.signal]);
     const div = $(this).parents(".changeset_more");
     const isHistory = location.pathname === "/history";
 

@@ -117,7 +117,7 @@ export default function (map) {
     map.setSidebarOverlaid(false);
     const routeController = new AbortController();
     controller = routeController;
-    const signal = AbortSignal.any([navigationSignal, routeController.signal]);
+    const signal = OSM.anySignal([navigationSignal, routeController.signal]);
     const loaded = sidebarLoaded();
     const result = chosenEngine.getRoute(points, signal);
     Promise.all([loaded, result]).then(function ([, route]) {

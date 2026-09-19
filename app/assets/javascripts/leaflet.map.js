@@ -303,7 +303,7 @@ L.OSM.Map = L.Map.extend({
       const map = this;
       const controller = new AbortController();
       this._objectLoader = controller;
-      const signal = navigationSignal ? AbortSignal.any([navigationSignal, controller.signal]) : controller.signal;
+      const signal = navigationSignal ? OSM.anySignal([navigationSignal, controller.signal]) : controller.signal;
       fetch(OSM.apiUrl(object), {
         headers: { accept: "application/json", ...OSM.oauth },
         signal

@@ -121,7 +121,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
 
     const controller = new AbortController();
     endpoint.geocodeRequest = controller;
-    const signal = AbortSignal.any([navigationSignal, controller.signal]);
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
     fetch(geocodeUrl, { signal })
       .then(r => r.json())
       .then(success)
@@ -153,7 +153,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
 
     const controller = new AbortController();
     endpoint.geocodeRequest = controller;
-    const signal = AbortSignal.any([navigationSignal, controller.signal]);
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
     fetch(reverseGeocodeUrl, { signal })
       .then(r => r.json())
       .then(success)
