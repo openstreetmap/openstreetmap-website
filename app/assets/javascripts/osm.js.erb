@@ -33,11 +33,11 @@ OSM = {
     // AbortSignal.any is unavailable in older browsers supported by our Browserslist target.
     if (AbortSignal.any) return AbortSignal.any(signals);
 
-    signals = Array.from(signals);
+    const sourceSignals = Array.from(signals);
     const controller = new AbortController();
     const registrations = [];
 
-    for (const signal of signals) {
+    for (const signal of sourceSignals) {
       if (signal.aborted) {
         controller.abort(signal.reason);
         return controller.signal;
@@ -51,7 +51,7 @@ OSM = {
       }
     }
 
-    for (const signal of signals) {
+    for (const signal of sourceSignals) {
       const listener = () => abort(signal);
       registrations.push([signal, listener]);
       signal.addEventListener("abort", listener, { once: true });

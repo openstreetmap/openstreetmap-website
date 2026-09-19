@@ -11,7 +11,7 @@ describe("OSM", function () {
 
     beforeEach(function () {
       nativeAny = AbortSignal.any;
-      AbortSignal.any = undefined;
+      AbortSignal.any = null;
     });
 
     afterEach(function () {
