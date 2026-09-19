@@ -1,6 +1,11 @@
 /* exported Endpoint */
 function Endpoint(map, input, marker, dragCallback, changeCallback) {
   const endpoint = {};
+  let navigationSignal;
+
+  endpoint.setSignal = function (signal) {
+    navigationSignal = signal;
+  };
 
   endpoint.marker = L.marker([0, 0], {
     icon: OSM.getMarker(marker),
@@ -114,13 +119,16 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     const viewbox = map.getBounds().toBBoxString(), // <sw lon>,<sw lat>,<ne lon>,<ne lat>
           geocodeUrl = OSM.NOMINATIM_URL + "search?" + new URLSearchParams({ q: endpoint.value, format: "json", viewbox, limit: 1, entrances: 1 });
 
-    endpoint.geocodeRequest = new AbortController();
-    fetch(geocodeUrl, { signal: endpoint.geocodeRequest.signal })
+    const controller = new AbortController();
+    endpoint.geocodeRequest = controller;
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
+    fetch(geocodeUrl, { signal })
       .then(r => r.json())
       .then(success)
       .catch(() => {});
 
     function success(json) {
+      if (signal.aborted) return;
       delete endpoint.geocodeRequest;
       if (json.length === 0) {
         input.addClass("is-invalid");
@@ -143,13 +151,16 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
           { lat, lng } = latlng,
           reverseGeocodeUrl = OSM.NOMINATIM_URL + "reverse?" + new URLSearchParams({ lat, lon: lng, format: "json" });
 
-    endpoint.geocodeRequest = new AbortController();
-    fetch(reverseGeocodeUrl, { signal: endpoint.geocodeRequest.signal })
+    const controller = new AbortController();
+    endpoint.geocodeRequest = controller;
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
+    fetch(reverseGeocodeUrl, { signal })
       .then(r => r.json())
       .then(success)
       .catch(() => {});
 
     function success(json) {
+      if (signal.aborted) return;
       delete endpoint.geocodeRequest;
       if (!json || !json.display_name) {
         endpoint.cachedReverseGeocode = { latlng: latlng, notFound: true };

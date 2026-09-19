@@ -1,4 +1,4 @@
-let abortController = null;
+let navigationSignal;
 const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
 const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
 const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
@@ -7,21 +7,23 @@ export function element(type) {
   return function () {
     const page = {};
 
-    page.load = function (path, id, version) {
-      OSM.loadSidebarContent(path)
-        .then(() => page.init(path, id, version, true));
+    page.load = function (path, signal, id, version) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => {
+          signal.throwIfAborted();
+          return page.init(path, signal, id, version, true);
+        });
     };
 
-    page.init = function (path, id, version, keepViewport) {
-      page._addObject(type, id, version, keepViewport);
+    page.init = function (path, signal, id, version, keepViewport) {
+      page._addObject(type, id, version, keepViewport, signal);
       $(".numbered_pagination").trigger("numbered_pagination:enable");
-      abortController = new AbortController();
+      navigationSignal = signal;
     };
 
     page.unload = function () {
       page._removeObject();
       $(".numbered_pagination").trigger("numbered_pagination:disable");
-      abortController?.abort();
     };
 
     page._addObject = function () {};
@@ -35,7 +37,7 @@ export function mappedElement(type) {
   return function (map) {
     const page = element(type)(map);
 
-    page._addObject = function (type, id, version, keepViewport) {
+    page._addObject = function (type, id, version, keepViewport, signal) {
       const hashParams = OSM.parseHash();
       map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
         if (!hashParams.center && bounds.isValid() &&
@@ -44,7 +46,7 @@ export function mappedElement(type) {
             map.fitBounds(bounds);
           });
         }
-      });
+      }, signal);
     };
 
     page._removeObject = function () {
@@ -59,6 +61,7 @@ $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.curr
 
 function previewWikidataValue($btn) {
   if (!OSM.WIKIDATA_API_URL) return;
+  const signal = navigationSignal;
   const items = $btn.data("qids");
   if (!items?.length) return;
   $btn.prop("disabled", true);
@@ -73,10 +76,11 @@ function previewWikidataValue($btn) {
     sitefilter: wikisToRequest.join("|")
   }), {
     headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-    signal: abortController?.signal
+    signal
   })
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ entities }) => {
+      signal.throwIfAborted();
       if (!entities) return Promise.reject(entities);
       $btn
         .closest("tr")

@@ -2,20 +2,21 @@ export default function (map) {
   const content = $("#sidebar_content"),
         page = {};
 
-  page.load = function (path, id) {
-    OSM.loadSidebarContent(path).then(function () {
+  page.load = function (path, signal, id) {
+    return OSM.loadSidebarContent(path, signal).then(function () {
+      signal.throwIfAborted();
       const data = $(".details").data();
       if (!data) return;
       const [lat, lng] = data.coordinates.split(",").map(parseFloat);
-      initialize(path, id, map.getBounds().contains({ lat, lng }));
+      initialize(path, signal, id, map.getBounds().contains({ lat, lng }));
     });
   };
 
-  page.init = function (path, id) {
-    initialize(path, id);
+  page.init = function (path, signal, id) {
+    initialize(path, signal, id);
   };
 
-  function initialize(path, id, skipMoveToNote) {
+  function initialize(path, signal, id, skipMoveToNote) {
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       const { url, method } = $(e.target).data(),
@@ -41,9 +42,13 @@ export default function (map) {
             throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
-        .then(() => OSM.loadSidebarContent(path))
-        .then(() => initialize(path, id, false))
+        .then(() => OSM.loadSidebarContent(path, signal))
+        .then(() => {
+          signal.throwIfAborted();
+          initialize(path, signal, id, false);
+        })
         .catch(error => {
+          if (signal.aborted) return;
           content.find("#comment-error")
             .text(error.message)
             .prop("hidden", false)

@@ -3,6 +3,9 @@
 
 export default function (map) {
   const page = {};
+  let navigationSignal;
+  let listController;
+  let loadingFirstChangesets = false;
 
   $("#sidebar_content")
     .on("click", ".changeset_more a", loadMoreChangesets)
@@ -47,7 +50,9 @@ export default function (map) {
     let keepInitialLocation = true;
     let itemsInViewport = $();
 
-    changesetIntersectionObserver = new IntersectionObserver((entries) => {
+    const signal = OSM.anySignal([navigationSignal, listController.signal]);
+    const observer = new IntersectionObserver((entries) => {
+      if (signal.aborted || changesetIntersectionObserver !== observer) return;
       let closestTargetToTop,
           closestDistanceToTop = Infinity,
           closestTargetToBottom,
@@ -106,6 +111,7 @@ export default function (map) {
       }
     }, { root: $("#sidebar")[0] });
 
+    changesetIntersectionObserver = observer;
     $("#sidebar_content .changesets ol").children().each(function () {
       changesetIntersectionObserver.observe(this);
     });
@@ -168,6 +174,12 @@ export default function (map) {
   }
 
   function loadFirstChangesets() {
+    if (navigationSignal.aborted) return;
+    listController?.abort();
+    listController = new AbortController();
+    const controller = listController;
+    const signal = OSM.anySignal([navigationSignal, controller.signal]);
+    loadingFirstChangesets = true;
     const data = new URLSearchParams();
     const isHistory = location.pathname === "/history";
 
@@ -182,9 +194,10 @@ export default function (map) {
 
     setListFetchData(data, location);
 
-    fetch(location.pathname + "?" + data)
+    fetch(location.pathname + "?" + data, { signal })
       .then(response => response.text())
       .then(function (html) {
+        if (signal.aborted) return;
         displayFirstChangesets(html);
         enableChangesetIntersectionObserver();
 
@@ -200,13 +213,19 @@ export default function (map) {
         }
 
         updateMap(isHistory);
+      }).catch(error => {
+        if (!signal.aborted) reportError(error);
+      }).finally(() => {
+        if (listController === controller) loadingFirstChangesets = false;
       });
   }
 
   function loadMoreChangesets(e) {
     e.preventDefault();
     e.stopPropagation();
+    if (loadingFirstChangesets || navigationSignal.aborted) return;
 
+    const signal = OSM.anySignal([navigationSignal, listController.signal]);
     const div = $(this).parents(".changeset_more");
     const isHistory = location.pathname === "/history";
 
@@ -222,13 +241,16 @@ export default function (map) {
     const url = new URL($(this).attr("href"), location);
     setListFetchData(data, url);
 
-    fetch(url.pathname + "?" + data)
+    fetch(url.pathname + "?" + data, { signal })
       .then(response => response.text())
       .then(function (html) {
+        if (signal.aborted || !div[0].isConnected) return;
         displayMoreChangesets(div, html);
         enableChangesetIntersectionObserver();
 
         updateMap(isHistory);
+      }).catch(error => {
+        if (!signal.aborted) reportError(error);
       });
   }
 
@@ -287,12 +309,16 @@ export default function (map) {
     }
   }
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(page.init);
+  page.load = function (path, signal) {
+    return OSM.loadSidebarContent(path, signal)
+      .then(() => {
+        signal.throwIfAborted();
+        return page.init(path, signal);
+      });
   };
 
-  page.init = function () {
+  page.init = function (path, signal) {
+    navigationSignal = signal;
     map.addLayer(changesetsLayer);
     map.on("moveend", moveEndListener);
     map.on("zoomend", zoomEndListener);

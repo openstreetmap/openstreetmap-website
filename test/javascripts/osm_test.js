@@ -6,6 +6,41 @@
 //= require leaflet.map
 
 describe("OSM", function () {
+  describe(".anySignal", function () {
+    let nativeAny;
+
+    beforeEach(function () {
+      nativeAny = AbortSignal.any;
+      AbortSignal.any = null;
+    });
+
+    afterEach(function () {
+      AbortSignal.any = nativeAny;
+    });
+
+    it("aborts when any source signal aborts", function () {
+      const first = new AbortController();
+      const second = new AbortController();
+      const signal = OSM.anySignal([first.signal, second.signal]);
+
+      second.abort("cancelled");
+
+      expect(signal.aborted).to.eq(true);
+      expect(signal.reason).to.eq("cancelled");
+    });
+
+    it("is immediately aborted when a source signal is already aborted", function () {
+      const first = new AbortController();
+      const second = new AbortController();
+      first.abort("already cancelled");
+
+      const signal = OSM.anySignal([first.signal, second.signal]);
+
+      expect(signal.aborted).to.eq(true);
+      expect(signal.reason).to.eq("already cancelled");
+    });
+  });
+
   describe(".apiUrl", function () {
     it("returns a URL for a way", function () {
       expect(OSM.apiUrl({ type: "way", id: 10 })).to.eq("/api/0.6/way/10/full");

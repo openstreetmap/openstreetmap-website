@@ -79,9 +79,12 @@ export default function (map) {
     if (getBounds().getSize() > OSM.MAX_REQUEST_AREA) e.preventDefault();
   }
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(page.init);
+  page.load = function (path, signal) {
+    return OSM.loadSidebarContent(path, signal)
+      .then(() => {
+        signal.throwIfAborted();
+        return page.init(path, signal);
+      });
   };
 
   page.init = function () {

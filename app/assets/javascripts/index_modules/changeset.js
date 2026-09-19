@@ -10,17 +10,20 @@ export default function (map) {
     $(this).find(".numbered_pagination").trigger("numbered_pagination:enable");
   });
 
-  page.load = function (path) {
-    OSM.loadSidebarContent(path)
-      .then(page.init);
+  page.load = function (path, signal) {
+    return OSM.loadSidebarContent(path, signal)
+      .then(() => {
+        signal.throwIfAborted();
+        return page.init(path, signal);
+      });
   };
 
-  page.init = function () {
+  page.init = function (path, signal) {
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
     const hashParams = OSM.parseHash();
-    initialize();
+    initialize(path, signal);
     map.addObject(changesetData, function (bounds) {
       if (!hashParams.center && bounds.isValid()) {
         OSM.router.withoutMoveListener(function () {
@@ -31,7 +34,7 @@ export default function (map) {
     $(".numbered_pagination").trigger("numbered_pagination:enable");
   };
 
-  function updateChangeset(method, url, include_data) {
+  function updateChangeset(path, signal, method, url, include_data) {
     const data = new URLSearchParams();
 
     content.find("#comment-error").prop("hidden", true);
@@ -52,9 +55,13 @@ export default function (map) {
           throw new Error(text);
         });
       })
-      .then(() => OSM.loadSidebarContent(location.pathname))
-      .then(page.init)
+      .then(() => OSM.loadSidebarContent(path, signal))
+      .then(() => {
+        signal.throwIfAborted();
+        return page.init(path, signal);
+      })
       .catch(error => {
+        if (signal.aborted) return;
         content.find("button[data-method][data-url]").prop("disabled", false);
         content.find("#comment-error")
           .text(error.message)
@@ -63,12 +70,12 @@ export default function (map) {
       });
   }
 
-  function initialize() {
+  function initialize(path, signal) {
     content.find("button[data-method][data-url]").on("click", function (e) {
       e.preventDefault();
       const data = $(e.target).data();
       const include_data = e.target.name === "comment";
-      updateChangeset(data.method, data.url, include_data);
+      updateChangeset(path, signal, data.method, data.url, include_data);
     });
 
     content.find("textarea").on("input", function (e) {
