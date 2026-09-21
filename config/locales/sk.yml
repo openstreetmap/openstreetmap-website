@@ -124,6 +124,12 @@ sk:
       way_node: Uzol cesty
       way_tag: Značka cesty
     attributes:
+      acl:
+        address: Adresa
+        domain: Doména
+        mx: MX server
+        k: Kľúč
+        v: Hodnota
       diary_comment:
         body: Text
       diary_entry:
@@ -187,6 +193,11 @@ sk:
         pass_crypt_confirmation: Potvrdenie hesla (ešte raz)
     help:
       acl:
+        address: IP adresa alebo sieť CIDR, napr. 192.0.2.0/24
+        domain: E-mailová doména; porovnávajú sa aj subdomény
+        mx: Názov hostiteľa MX servera pre e-mailovú doménu
+        k: 'Jedno z: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
         v: Voliteľná poznámka, napr. dôvod tohto záznamu
       doorkeeper/application:
         confidential: Aplikácia bude použitá tam, kde je možné zachovať dôvernosť
@@ -3248,8 +3259,8 @@ sk:
       private: Súkromné (iba zdieľané ako anonymné, neusporiadané body)
       public: Verejné (zobrazené v prehľade stopy, aj ako anonymné, neusporiadané
         body)
-      trackable: Zaznamenávané stopy (zdieľané iba ako anonymné, usporiadané body
-        s časovými značkami)
+      trackable: Sledovateľné (zdieľané iba ako anonymné, usporiadané body s časovými
+        značkami)
       identifiable: Identifikovateľné (zobrazené v zozname stôp, aj ako identifikovateľné,
         usporiadané body s časovou značkou)
     new:
@@ -3318,7 +3329,7 @@ sk:
       public: VEREJNÁ
       identifiable: IDENTIFIKOVATEĽNÁ
       private: SÚKROMNÁ
-      trackable: STOPOVATEĽNÁ
+      trackable: SLEDOVATEĽNÁ
       details_with_tags_html: '%{time_ago} používateľom %{user} v %{tags}'
       details_without_tags_html: '%{time_ago} používateľom %{user}'
     index:
@@ -3339,8 +3350,45 @@ sk:
       my_traces: Moje stopy
       traces_from_html: Verejné stopy od %{user}
       remove_tag_filter: Odstrániť filter značiek
+      legacy_traces: Moje zastaralé stopy
     destroy:
       scheduled_for_deletion: Stopa plánovaná na vymazanie
+    legacy_visibilities:
+      edit:
+        title: Moje zastaralé GPS stopy
+        description: Toto sú vaše stopy, ktoré stále používajú starú súkromnú alebo
+          verejnú viditeľnosť. Môžete ich tu zmeniť na sledovateľné alebo identifikovateľné.
+          Plánované vylepšenia GPS trás sa budú týkať iba sledovateľných a identifikovateľných.
+        filter:
+          visibility: Súčasná viditeľnosť
+          any: Súkromné a verejné
+          from: Odoslané od
+          to: Odoslané do
+          apply: Filter
+        empty: Tomuto filtru nezodpovedajú žiadne zastaralé stopy.
+        new_visibility: Nová viditeľnosť
+        no_undo: Túto zmenu nie je možné vrátiť späť.
+        button:
+          one: Zmeniť %{count} stopu
+          few: Zmeniť %{count} stopy
+          many: Zmeniť %{count} stôp
+          other: Zmeniť %{count} stôp
+        confirmation:
+          header: Potvrdiť zmenu viditeľnosti
+          body:
+            one: Zmeniť viditeľnosť %{count} stopy
+            few: Zmeniť viditeľnosť %{count} stôp
+            many: Zmeniť viditeľnosť %{count} stôp
+            other: Zmeniť viditeľnosť %{count} stôp
+          cancel: Zrušiť
+          confirm: Zmeniť viditeľnosť
+      update:
+        updated:
+          one: Zmenená viditeľnosť %{count} stopy
+          few: Zmenená viditeľnosť %{count} stôp
+          many: Zmenená viditeľnosť %{count} stôp
+          other: Zmenená viditeľnosť %{count} stôp
+        invalid_visibility: Prosím zvoľte viditeľnosť, na ktorú chcete zmeniť.
     offline_warning:
       message: Nahrávanie GPX súborov je momentálne nedostupné
     offline:
@@ -4253,6 +4301,20 @@ sk:
         všetkých verzií patriacich do tejto revízie.
       flash: Revízia zrušená.
       error: Pri zrušení revízie sa vyskytla chyba.
+  acls:
+    page:
+      address: Adresa
+      domain: Doména
+      mx: MX server
+      k: Kľúč
+      v: Hodnota
+      actions: Akcie
+    acl:
+      edit_button: Upraviť
+      destroy_button: Odstrániť
+      confirm: Ste si istí?
+    form:
+      cancel: Zrušiť
   validations:
     leading_whitespace: obsahuje medzery na začiatku
     trailing_whitespace: obsahuje medzery na konci

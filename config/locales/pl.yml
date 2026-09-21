@@ -29,6 +29,7 @@
 # Author: GlutPaprykarz
 # Author: Iketsi
 # Author: Ireun
+# Author: Jajko30
 # Author: Kaligula
 # Author: Kastanoto
 # Author: Kocio
@@ -132,6 +133,10 @@ pl:
           attributes:
             url:
               http_parse_error: Adres URL powinien zaczynać się od http:// lub https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: nie można zmienić z powrotem na wartość starszą
     models:
       acl: Lista kontroli dostępu
       changeset: Zestaw zmian
@@ -169,6 +174,12 @@ pl:
       way_node: Węzeł linii
       way_tag: Znacznik linii
     attributes:
+      acl:
+        address: Adres
+        domain: Domena
+        mx: Serwer MX
+        k: Klucz
+        v: Wartość
       diary_comment:
         body: Treść
       diary_entry:
@@ -198,6 +209,11 @@ pl:
         gpx_file: Wybierz plik śladu GPS
         visibility: Widoczność
         tagstring: Znaczniki
+      moderation_zone:
+        name: Nazwa
+        reason: Powód
+        zone: Strefa
+        period: Okres
       message:
         sender: Nadawca
         title: Temat
@@ -226,6 +242,13 @@ pl:
         pass_crypt: Hasło
         pass_crypt_confirmation: Potwierdź hasło
     help:
+      acl:
+        address: Adres IP lub sieć CIDR, np. 192.0.2.0/24
+        domain: Domena e-mail; dopasowywane są również subdomeny
+        mx: Nazwa hosta serwera MX dla domeny e-mail
+        k: 'Jedno z: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Opcjonalna notatka, np. powód tego wpisu
       doorkeeper/application:
         confidential: Aplikacja będzie używana tam, gdzie klucz klienta może być zachowany
           jako poufny (natywne aplikacje mobilne i aplikacje SPA nie są poufne)
@@ -304,6 +327,8 @@ pl:
         few: '%{count} lata temu'
         many: '%{count} lat temu'
         other: '%{count} roku temu'
+    distance_in_words_in:
+      half_a_minute: za pół minuty
   printable_name:
     with_name_html: '%{name} (%{id})'
     current_and_old_links_html: '%{current_link}, %{old_link}'
@@ -465,8 +490,13 @@ pl:
           za należące do domeny publicznej.
         already_declared: Oświadczyłeś już, że uważasz swoje zmiany za należące do
           domeny publicznej.
-        did_not_confirm: Nie potwierdziłeś, że uważasz swoje zmiany za należące do
-          domeny publicznej.
+        did_not_confirm: Nie potwierdziłeś(-aś), że uważasz swoje zmiany za należące
+          do domeny publicznej.
+    auth_deletions:
+      show:
+        title: Żądanie usunięcia danych
+        body: Dane dla %{provider} o identyfikatorze %{id} zostały usunięte o %{time}
+          i odłączone od powiązanego konta OpenStreetMap.
   browse:
     deleted_ago_by_html: Usunięte %{time_ago} przez %{user}
     edited_ago_by_html: Edytowane %{time_ago} przez %{user}
@@ -562,6 +592,9 @@ pl:
       colour_preview: Podgląd koloru %{colour_value}
       email_link: E-mail %{email}
     versions_navigation:
+      node_versions: Wersje węzła
+      way_versions: Wersje lini
+      relation_versions: Wersje relacji
       node: Szczegóły
       way: Szczegóły
       relation: Szczegóły
@@ -578,10 +611,13 @@ pl:
     index:
       node:
         title_html: 'Historia węzła: %{name}'
+        actions: Akcje węzła
       way:
         title_html: 'Historia linii: %{name}'
+        actions: Akcje lini
       relation:
         title_html: 'Historia relacji: %{name}'
+        actions: Akcje relacji
       older_versions: Starsze wersje
       newer_versions: Nowsze wersje
     actions:
@@ -746,6 +782,7 @@ pl:
       latest_edit_html: 'Ostatnia zmiana %{ago}:'
       no_edits: (brak edycji)
       view_changeset_details: Zobacz szczegóły zestawu zmian
+      actions: Akcje użytkownika
     popup:
       your location: Twoje położenie
       nearby mapper: Mapujący z okolicy
@@ -760,14 +797,19 @@ pl:
       nearby users: Najbliżsi użytkownicy
       no nearby users: Nie ma innych użytkowników, którzy przyznają się do mapowania
         w tej okolicy.
+      followed_actions: Akcje dla użytkowników, których obserwujesz
       followed_changesets: zestawy zmian znajomych
       followed_diaries: wpisy w dziennikach znajomych
+      nearby_actions: Akcje dla użytkowników w pobliżu
       nearby_changesets: pobliskie zestawy zmian
       nearby_diaries: pobliskie wpisy w dziennikach
   notifications:
     index:
       title: Powiadomienia
       no_notifications: Obecnie brak powiadomień
+      point_to_preferences_html: Możesz dostosować sposób otrzymywania powiadomień
+        w %{link}.
+      link_text: sekcja preferencji
     changeset_comment:
       headline: Komentarz do zestawu zmian
       description_with_summary_html: Użytkownik %{commenter_name_with_link} zostawił
@@ -795,8 +837,17 @@ pl:
         commented: Komentarz do uwagi
         closed: Rozwiązana uwaga
         reopened: Ponownie aktywowana uwaga
+      description:
+        commented_html: '%{commenter_name_with_link} pozostawił(a) komentarz do uwagi
+          %{note_id_with_link} („%{note_text}”)'
+        closed_html: '%{commenter_name_with_link} rozwiązał(a) uwagę %{note_id_with_link}
+          („%{note_text}”)'
+        reopened_html: '%{commenter_name_with_link} otworzył(a) ponownie uwagę %{note_id_with_link}
+          („%{note_text}”)'
     diary_comment:
       headline: Komentarz do dziennika
+      description_html: '%{commenter_name_with_link} pozostawił(a) komentarz do wpisu
+        w dzienniku „%{diary_entry_title_with_link}”'
   diary_entries:
     new:
       title: Nowy wpis do dziennika
@@ -834,6 +885,7 @@ pl:
       posted_by_html: Opublikowany przez %{link_user}, %{created} w języku %{language_link}.
       updated_at_html: Ostatnio zaktualizowany %{updated}.
       full_entry: Zobacz cały wpis
+      actions: Akcje wpisów do dziennika
       comment_link: Skomentuj ten wpis
       reply_link: Napisz do autora
       comment_count:
@@ -873,6 +925,7 @@ pl:
       heading: Wypisać się z poniższej dyskusji na temat wpisu dziennika?
       button: Wypisz się z dyskusji
     navigation:
+      actions: Akcje dziennika
       in_language: Wpisy w języku %{language}
       my_diary: Mój dziennik
       new: Nowy wpis dziennika
@@ -958,7 +1011,7 @@ pl:
       success: '%{name} należy teraz do grona znajomych!'
       failed: Nie udało się dodać %{name} do grona znajomych.
       already_followed: '%{name} już jest znajomym.'
-      limit_exceeded: Wysłałeś ostatnio wiele zaproszeń do znajomych. Poczekaj chwilę
+      limit_exceeded: Wysłano ostatnio wiele zaproszeń do znajomych. Poczekaj chwilę
         przed wysłaniem następnych.
     destroy:
       success: Usunięto %{name} z grona znajomych.
@@ -1866,6 +1919,7 @@ pl:
       last_resolved_at_html: Ostatnia reakcja z %{datetime}
       last_updated_at_html: Ostatnio zaktualizowane %{datetime} przez użytkownika
         %{displayname}
+      actions: Akcje problemu
       resolve: Rozwiąż
       ignore: Zignoruj
       reopen: Otwórz ponownie
@@ -2067,7 +2121,7 @@ pl:
     layer_info: Informacje o warstwie
     start_mapping: Rozpocznij tworzenie mapy
     intro_header: Witamy w OpenStreetMap!
-    intro_text: OpenStreetMap to mapa świata stworzona przez ludzi takich jak ty i
+    intro_text: OpenStreetMap to mapa świata stworzona przez ludzi takich jak Ty i
       z możliwością użycia pod otwartą licencją.
     hosting_partners_2024_html: Hosting jest wspierany przez %{fastly}, %{corpmembers}
       i innych %{partners}.
@@ -2098,6 +2152,7 @@ pl:
       select_language: Wybierz język
       sign_up: Zarejestruj się
       user_diaries: Dzienniki
+      navigation: Nawigacja główna
     meta:
       openstreetmap_search: Przeszukaj OpenStreetMap
     select_language_button:
@@ -2176,7 +2231,7 @@ pl:
     signup_confirm:
       subject: '[OpenStreetMap] Witamy w OpenStreetMap'
       greeting: Cześć!
-      created: Ktoś (mamy nadzieję, że ty) właśnie założył konto w %{site_url}.
+      created: Ktoś (mamy nadzieję, że Ty) właśnie założył konto w %{site_url}.
       confirm: 'Musimy się upewnić, że ta prośba pochodzi od Ciebie, dlatego kliknij
         link poniżej, żeby potwierdzić założenie konta:'
       welcome: Po potwierdzeniu konta dostarczymy Ci dodatkowych informacji o tym,
@@ -2184,15 +2239,15 @@ pl:
     email_confirm:
       subject: '[OpenStreetMap] Potwierdź swój e-mail'
       greeting: Cześć,
-      hopefully_you: Ktoś (prawdopodobnie ty) chce zmienić adres e-mail w %{server_url}
+      hopefully_you: Ktoś (prawdopodobnie Ty) chce zmienić adres e-mail w %{server_url}
         na %{new_address}.
-      click_the_link: Jeśli to ty, kliknij poniższy odnośnik, żeby potwierdzić zmianę.
+      click_the_link: Jeśli to Ty, kliknij poniższy odnośnik, żeby potwierdzić zmianę.
     lost_password:
       subject: '[OpenStreetMap] Prośba zmiany hasła'
       greeting: Cześć,
-      hopefully_you: Ktoś (prawdopodobnie ty) poprosił o zresetowanie hasła do konta
+      hopefully_you: Ktoś (prawdopodobnie Ty) poprosił o zresetowanie hasła do konta
         na stronie openstreetmap.org przypisanego do tego adresu e-mail.
-      click_the_link: Jeśli to ty, kliknij poniższy odnośnik, żeby wyczyścić hasło.
+      click_the_link: Jeśli to Ty, kliknij poniższy odnośnik, żeby wyczyścić hasło.
     note_comment_notification:
       description: 'Uwaga OpenStreetMap #%{id}'
       anonymous: Anonimowy użytkownik
@@ -2269,7 +2324,7 @@ pl:
         mapować.
       press confirm button: Kliknij poniższy przycisk, żeby aktywować konto.
       button: Potwierdzam
-      success: Twoje konto zostało zatwierdzone, cieszymy się, że do nas dołączyłeś!
+      success: Twoje konto zostało zatwierdzone. Dziękujemy za rejestrację!
       already active: To konto zostało potwierdzone.
       unknown token: Ten kod potwierdzający wygasł lub nie istnieje.
       if_need_resend: Jeśli potrzebujesz, żebyśmy ponownie wysłali e-mail z potwierdzeniem,
@@ -2301,7 +2356,7 @@ pl:
       back_to_inbox: Wróć do skrzynki
     create:
       message_sent: Wysłano wiadomość
-      limit_exceeded: Wysłałeś ostatnio wiele wiadomości. Poczekaj chwilę przed wysłaniem
+      limit_exceeded: Wysłano ostatnio wiele wiadomości. Poczekaj chwilę przed wysłaniem
         następnych.
     no_such_message:
       title: Nie ma takiej wiadomości
@@ -2313,7 +2368,7 @@ pl:
       unread_button: Oznacz jako nieprzeczytaną
       destroy_button: Usuń
       back: Wstecz
-      wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, którą chcesz przeczytać,
+      wrong_user: Zalogowano się jako %{user}, ale wiadomość, którą chcesz przeczytać,
         nie została wysłana przez tego użytkownika ani do niego. Zaloguj się jako
         właściwy użytkownik, żeby ją przeczytać.
     destroy:
@@ -2382,9 +2437,9 @@ pl:
         destroy_button: Usuń
     replies:
       new:
-        wrong_user: Jesteś zalogowany jako %{user}, ale wiadomość, na którą chcesz
-          odpowiedzieć, nie została wysłana do tego użytkownika. Zaloguj się jako
-          właściwy użytkownik, żeby na nią odpowiedzieć.
+        wrong_user: Zalogowano się jako %{user}, ale wiadomość, na którą chcesz odpowiedzieć,
+          nie została wysłana do tego użytkownika. Zaloguj się jako właściwy użytkownik,
+          żeby na nią odpowiedzieć.
   passwords:
     new:
       title: Zgubione hasło
@@ -2533,7 +2588,7 @@ pl:
       tab_title: Logowanie
       login_to_authorize_html: Zaloguj się do OpenStreetMap, żeby uzyskać dostęp do
         %{client_app_name}.
-      already_logged_in_html: Jesteś już zalogowany jako %{user}. Ponowne zalogowanie
+      already_logged_in_html: Zalogowano się już jako %{user}. Ponowne zalogowanie
         spowoduje zmianę aktualnie używanego konta.
       access_another_page: 'Trafiłeś tutaj, próbując uzyskać dostęp do innej strony.
         Jeśli chcesz uzyskać dostęp do tej strony przy użyciu bieżącego konta, kliknij
@@ -2628,7 +2683,7 @@ pl:
       legal_babble:
         lead_1_html: OpenStreetMap dostarcza otwarte dane mapowe tysiącom stron internetowych,
           aplikacji oraz urządzeń. OpenStreetMap jest tworzony przez społeczność ludzich
-          takich jak ty, którzy dodają dane o drogach, ścieżkach, kawiarniach, dworcach
+          takich jak Ty, którzy dodają dane o drogach, ścieżkach, kawiarniach, dworcach
           i wielu innych, na całym świecie.
         lead_2_html: |-
           %{learn_more_about_osm_link} i %{get_started_mapping_link}!
@@ -2846,17 +2901,21 @@ pl:
           Przybliż widok, wybierz mniejszy obszar lub użyj jednego z poniższych zasobów,
           żeby pobrać większą ilość danych.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planeta OSM
           description: Regularnie aktualizowane kopie całej bazy danych OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: Pobierz ten obszar z serwera lustrzanego przechowującego bazę
             danych OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Pliki Geofabrik
           description: Regularnie aktualizowane wyciągi z kontynentów, państw i wybranych
             miast
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Inne zasoby
           description: Dodatkowe zasoby wymienione w OpenStreetMap Wiki
       export_button: Wyeksportuj
@@ -2949,6 +3008,8 @@ pl:
       get_directions_title: Wyznacz trasę pomiędzy dwoma punktami
       from: Początek trasy
       to: Koniec trasy
+      marker_from: Oznaczenie początku trasy
+      marker_to: Oznaczenie końca trasy
       where_am_i: Gdzie teraz jestem?
       where_am_i_title: Określ obecną lokalizację przy użyciu wyszukiwarki
       submit_text: →
@@ -3224,6 +3285,7 @@ pl:
         other: '%{count} punkta'
       more: więcej
       trace_details: Wyświetl szczegóły śladu
+      trace_actions: Akcje śladu
       view_map: Pokaż lokalizację na mapie
       edit_map: Otwórz w edytorze
       public: PUBLICZNY
@@ -3237,6 +3299,7 @@ pl:
       my_gps_traces: Moje ślady GPS
       public_traces_from: Publiczne ślady GPS użytkownika %{user}
       description: Przeglądanie ostatnio dodanych śladów GPS
+      actions: Akcje listy śladów
       tagged_with: ' otagowane %{tags}'
       empty_title: Nic tu jeszcze nie ma
       empty_upload_html: '%{upload_link} lub dowiedz się więcej o śladach GPS na %{wiki_link}.'
@@ -3248,8 +3311,31 @@ pl:
       my_traces: Moje ślady GPS
       traces_from_html: Publiczne ślady GPS użytkownika %{user}
       remove_tag_filter: Usuń filtr tagów
+      legacy_traces: Moje stare ślady
     destroy:
       scheduled_for_deletion: Ślad oczekuje na usunięcie
+    legacy_visibilities:
+      edit:
+        title: Moje stare ślady GPS
+        description: To twoje ślady, które nadal używają starej prywatnej lub publicznej
+          widoczności. Możesz zmienić je tutaj na możliwe do śledzenia lub indentyfikowalne.
+          Planowane ulepszenia dla śladów GPS będa wspierały tylko możliwe do śledzenia
+          i indentyfikowalne.
+        filter:
+          visibility: Aktualna widoczność
+          any: Prywatne i publiczne
+          from: Przesłano z
+          to: Przesłano do
+          apply: Filtruj
+        empty: Żadne stare ślady nie pasują do tego filtra.
+        new_visibility: Nowa widoczność
+        no_undo: Tej zmiany nie można cofnąć.
+        confirmation:
+          header: Potwierdź zmianę widoczności
+          cancel: Anuluj
+          confirm: Zmień widoczność
+      update:
+        invalid_visibility: Proszę wybrać widoczność do której chcesz zmienić.
     offline_warning:
       message: System przesyłania plików GPX jest obecnie niedostępny
     offline:
@@ -3344,7 +3430,14 @@ pl:
     richtext_field:
       edit: Edycja
       preview: Podgląd
+      help: Pomoc
     pagination:
+      label: Nawigacja po stronach
+      acls:
+        older: Starsze ACL-e
+        newer: Nowsze ACL-e
+        oldest: Najstarsze ACL-e
+        newest: Najnowsze ACL-e
       changeset_comments:
         older: Starsze komentarze
         newer: Nowsze komentarze
@@ -3471,7 +3564,7 @@ pl:
       about:
         header: Darmowa i edytowalna.
         paragraph_1: W przeciwieństwie do innych map, OpenStreetMap jest w całości
-          tworzona przez ludzi takich jak ty i każdy może ją bezpłatnie poprawiać,
+          tworzona przez ludzi takich jak Ty i każdy może ją bezpłatnie poprawiać,
           aktualizować, pobierać i używać.
         paragraph_2: Zarejestruj się, aby zacząć współtworzyć.
         welcome: Witamy w OpenStreetMap
@@ -3511,6 +3604,8 @@ pl:
         zostało usunięte.
       deleted: '? (konto usunięte)'
     show:
+      actions: Akcje
+      admin_actions: Akcje administracyjne
       my diary: Dziennik
       my edits: Zmiany
       my traces: Ślady
@@ -3804,7 +3899,7 @@ pl:
         many: Wyciszyłeś %{count} użytkowników
         other: Wyciszyłeś %{count} użytkowników
       user_mute_explainer: Wiadomości od wyciszonych użytkowników są przenoszone do
-        osobnej skrzynki odbiorczej, a ty nie otrzymasz powiadomień e-mailem.
+        osobnej skrzynki odbiorczej, a Ty nie otrzymasz powiadomień e-mailem.
       user_mute_admins_and_moderators: Możesz wyciszyć administratorów i moderatorów,
         jednak ich wiadomości nie będą wyciszone.
       table:
@@ -3881,7 +3976,7 @@ pl:
       intro: Widzisz błąd lub brak czegoś? Daj znać innym mapującym, żeby mogli to
         poprawić. Przesuń znacznik do właściwej pozycji i opisz problem. Jeśli podasz
         źródła lub link do zdjęć, Twoja uwaga będzie szybciej rozwiązana.
-      anonymous_warning_html: Nie jesteś zalogowany. %{log_in} lub %{sign_up}, jeśli
+      anonymous_warning_html: Nie zalogowano się. %{log_in} lub %{sign_up}, jeśli
         chcesz otrzymywać aktualizacje tej uwagi.
       anonymous_warning_log_in: Zaloguj się
       anonymous_warning_sign_up: zarejestruj
@@ -3903,7 +3998,7 @@ pl:
       counter_warning_forum_link:
         text: społeczność może Ci pomóc
         url: https://community.openstreetmap.org
-      advice: Każda osoba może wyświetlić tę uwagę, nawet nie posiadając konta w OpenStreetMap!
+      advice: Każda osoba może wyświetlić tę uwagę, nawet nie mając konta w OpenStreetMap!
       advice_good_note: Dobra uwaga powinna być jak najbardziej szczegółowa, przy
         jednoczesnym unikaniu podawania danych osobowych oraz treści pochodzących
         z map lub wykazów objętych prawami autorskimi.
@@ -3916,6 +4011,7 @@ pl:
       warning: Nie można tworzyć nowych uwag, ponieważ API OpenStreetMap jest obecnie
         w stanie tylko do odczytu.
     notes_paging_nav:
+      label: Nawigacja po stronach
       showing_page: Strona %{page}
       next: Następna
       previous: Poprzednia
@@ -4155,8 +4251,36 @@ pl:
       flash: Poprawka usunięta.
       error: Wystąpił błąd podczas usuwania tej poprawki.
   acls:
+    navigation:
+      new_title: Dodaj nowy ACL
+      new: Nowy ACL
+      actions: Akcje ACL
+    index:
+      title: ACL-e
+      empty: Brak ACL-i do wyświetlenia.
+    page:
+      address: Adres
+      domain: Domena
+      mx: Serwer MX
+      k: Klucz
+      v: Wartość
+      actions: Akcje
     acl:
+      edit_button: Edytuj
+      destroy_button: Usuń
       confirm: Czy na pewno?
+    form:
+      cancel: Anuluj
+    new:
+      title: Nowy ACL
+    create:
+      success: Utworzono ACL.
+    edit:
+      title: Edycja ACL
+    update:
+      success: Zaktualizowano ACL.
+    destroy:
+      success: Usunięto ACL.
   validations:
     leading_whitespace: ma spację na początku
     trailing_whitespace: ma spację na końcu
