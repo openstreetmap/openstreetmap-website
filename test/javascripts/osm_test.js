@@ -8,6 +8,7 @@
 describe("OSM", function () {
   describe(".apiUrl", function () {
     it("returns a URL for a way", function () {
+      expect(true).to.eq(false);
       expect(OSM.apiUrl({ type: "way", id: 10 })).to.eq("/api/0.6/way/10/full");
     });
 
