@@ -89,14 +89,30 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get root_path(:node => 123)
     assert_redirected_to node_path(123)
 
+    get root_path(:node => "x")
+    assert_response :success
+    assert_template "index"
+
     get root_path(:way => 123)
     assert_redirected_to way_path(123)
+
+    get root_path(:way => "x")
+    assert_response :success
+    assert_template "index"
 
     get root_path(:relation => 123)
     assert_redirected_to relation_path(123)
 
+    get root_path(:relation => "x")
+    assert_response :success
+    assert_template "index"
+
     get root_path(:note => 123)
     assert_redirected_to :controller => :notes, :action => :show, :id => 123
+
+    get root_path(:note => "x")
+    assert_response :success
+    assert_template "index"
 
     get root_path(:query => "test")
     assert_redirected_to search_path(:query => "test")
@@ -131,14 +147,26 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get permalink_path(:code => "wBz3--", :node => 1)
     assert_redirected_to node_path(1, :anchor => "map=3/4.8779296875/3.955078125")
 
+    get permalink_path(:code => "wBz3--", :node => "x")
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
+
     get permalink_path(:code => "wBz3--", :way => 2)
     assert_redirected_to way_path(2, :anchor => "map=3/4.8779296875/3.955078125")
+
+    get permalink_path(:code => "wBz3--", :way => "x")
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
 
     get permalink_path(:code => "wBz3--", :relation => 3)
     assert_redirected_to relation_path(3, :anchor => "map=3/4.8779296875/3.955078125")
 
+    get permalink_path(:code => "wBz3--", :relation => "x")
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
+
     get permalink_path(:code => "wBz3--", :changeset => 4)
     assert_redirected_to changeset_path(4, :anchor => "map=3/4.8779296875/3.955078125")
+
+    get permalink_path(:code => "wBz3--", :changeset => "x")
+    assert_redirected_to :controller => :site, :action => :index, :anchor => "map=3/4.8779296875/3.955078125"
   end
 
   # Test the edit page redirects when you aren't logged in

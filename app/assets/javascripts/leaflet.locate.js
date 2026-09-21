@@ -2,6 +2,11 @@
 
 L.OSM.locate = function (options) {
   const control = L.control.locate({
+    clickBehavior: {
+      inView: "stop",
+      outOfView: "stop",
+      inViewNotFollowing: "stop"
+    },
     strings: {
       title: OSM.i18n.t("javascripts.map.geolocate_control.find_my_location"),
       popup: function (options) {

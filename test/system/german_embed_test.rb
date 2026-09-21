@@ -12,6 +12,6 @@ class GermanEmbedTest < ApplicationSystemTestCase
 
   test "shows localized report link" do
     visit export_embed_path
-    assert_link "Ein Problem melden"
+    assert_link "Ein Problem melden", :wait => 30
   end
 end

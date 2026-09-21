@@ -20,7 +20,21 @@ module TraceHelper
   end
 
   def trace_visibility_options(trace)
-    trace.selectable_visibilities.map do |visibility|
+    trace_visibility_select_options(trace.selectable_visibilities)
+  end
+
+  def trace_visibility_options_for_filter
+    trace_visibility_select_options(Trace::LEGACY_VISIBILITIES)
+  end
+
+  def trace_visibility_options_for_update
+    trace_visibility_select_options(Trace::VISIBILITIES)
+  end
+
+  private
+
+  def trace_visibility_select_options(visibilities)
+    visibilities.map do |visibility|
       [t("traces.visibility.#{visibility}"), visibility]
     end
   end

@@ -10,6 +10,10 @@ gem "turbo-rails"
 gem "activerecord-postgis"
 gem "pg"
 
+# active_support does not support json 3.x yet
+# https://github.com/rails/rails/pull/58601 (merged but not yet released)
+gem "json", "< 3.0.0"
+
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
 # Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
@@ -128,6 +132,9 @@ gem "canonical-rails", :github => "commonlit/canonical-rails", :ref => "bump-rai
 gem "opentelemetry-exporter-otlp", :require => false
 gem "opentelemetry-instrumentation-all", :require => false
 gem "opentelemetry-sdk", :require => false
+gem "sentry-delayed_job"
+gem "sentry-rails"
+gem "sentry-ruby"
 
 # Used to generate images for traces
 gem "bzip2-ffi"

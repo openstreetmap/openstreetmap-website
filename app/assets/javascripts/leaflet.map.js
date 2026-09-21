@@ -425,5 +425,5 @@ OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...option
 OSM.noteMarkers = {
   "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)" }),
   "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)" }),
-  "open": OSM.getMarker({ icon: "cross", color: "var(--marker-red)" })
+  "open": OSM.getMarker({ icon: "exclam", color: "var(--marker-red)" })
 };

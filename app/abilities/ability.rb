@@ -78,6 +78,7 @@ class Ability
           can [:update], :user_status
           can [:read, :update], :users_list
           can [:create, :destroy], UserRole
+          can [:read, :create, :update, :destroy], Acl
         end
       end
     end

@@ -69,6 +69,7 @@
 # Author: Killarnee
 # Author: KimKelting
 # Author: Kjon
+# Author: Kmpoppe
 # Author: LeoGe25
 # Author: Lonvia
 # Author: MGChecker
@@ -214,6 +215,12 @@ de:
       way_node: Wegmarke
       way_tag: Weg-Attribut
     attributes:
+      acl:
+        address: Adresse
+        domain: Domäne
+        mx: MX-Server
+        k: Schlüssel
+        v: Wert
       diary_comment:
         body: Text
       diary_entry:
@@ -276,6 +283,13 @@ de:
         pass_crypt: Passwort
         pass_crypt_confirmation: Passwort bestätigen
     help:
+      acl:
+        address: Eine IP-Adresse oder ein CIDR-Netzwerk, z. B. 192.0.2.0/24
+        domain: Eine E-Mail-Domain; Subdomains werden auch berücksichtigt
+        mx: Der Hostname eines MX-Servers für die E-Mail-Domäne
+        k: 'Eine der folgenden: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Optionale Anmerkung, z. B. der Grund für diesen Eintrag
       doorkeeper/application:
         confidential: Es wird eine Anwendung verwendet, bei der das Kundengeheimnis
           vertraulich behandelt werden kann (native mobile Apps und einseitige Apps
@@ -3349,6 +3363,36 @@ de:
       remove_tag_filter: Tag-Filter entfernen
     destroy:
       scheduled_for_deletion: Für die Löschung vorgesehener Track
+    legacy_visibilities:
+      edit:
+        description: Dies sind Ihre Spuren, die noch die alte Einstellung „privat“
+          oder „öffentlich“ verwenden. Sie können diese hier auf „verfolgbar“ oder
+          „identifizierbar“ ändern. Geplante Verbesserungen der GPS-Spuren betreffen
+          ausschließlich verfolgbare und identifizierbare Spuren.
+        filter:
+          visibility: Aktuelle Sichtbarkeit
+          any: Privat und öffentlich
+          from: Hochgeladen von
+          to: Hochgeladen auf
+          apply: Filter
+        new_visibility: Neue Sichtbarkeit
+        no_undo: Diese Änderung kann nicht rückgängig gemacht werden.
+        button:
+          one: Ändere %{count} Spur
+          other: Ändere %{count} Spuren
+        confirmation:
+          header: Sichtbarkeitsänderung bestätigen
+          body:
+            one: Die Sichtbarkeit von %{count} Track ändern? Dies kann nicht rückgängig
+              gemacht werden.
+            other: Die Sichtbarkeit von %{count} Tracks ändern? Dies kann nicht rückgängig
+              gemacht werden.
+          cancel: Abbrechen
+          confirm: Sichtbarkeit ändern
+      update:
+        updated:
+          one: Die Sichtbarkeit von %{count} Spur wurde geändert.
+          other: Die Sichtbarkeit von %{count} Spuren wurde geändert.
     offline_warning:
       message: Das Upload-System für GPX-Dateien ist derzeit nicht verfügbar
     offline:
@@ -3986,9 +4030,12 @@ de:
         url: https://wiki.openstreetmap.org/wiki/DE:Beginners%27_guide
       counter_warning_forum_link:
         text: die Gemeinschaft kann dir helfen
-      advice: Deine Meldung ist öffentlich und kann zur Aktualisierung der Karte verwendet
-        werden. Gib deshalb keine persönlichen oder urheberrechtlich geschützten Informationen
-        von anderen Karten oder Verzeichnislisten an.
+      advice: Jeder kann einen Hinweis sehen, auch ohne OpenStreetMap-Konto!
+      advice_good_note: Ein guter Hinweis ist so umfangreich wie möglich, vermeidet
+        aber persönliche Informationen oder Inhalte aus urheberrechtlich geschützten
+        Karten oder Verzeichniseinträgen.
+      advice_conduct: Bitte sei freundlich, geduldig und respektvoll, wenn du mit
+        den Mitgliedern der Community kommunizierst.
       add: Hinweis/Fehler melden
       error: Beim Erstellen der Notiz ist ein Fehler aufgetreten
     new_readonly:
@@ -4229,6 +4276,20 @@ de:
         zugehörigen Versionen zurück, bevor du die Redaction löschst.
       flash: Redaction wurde gelöscht.
       error: Beim Löschen dieser Redaction ist ein Fehler aufgetreten.
+  acls:
+    page:
+      address: Adresse
+      domain: Domäne
+      mx: MX-Server
+      k: Schlüssel
+      v: Wert
+      actions: Aktionen
+    acl:
+      edit_button: Bearbeiten
+      destroy_button: Löschen
+      confirm: Bist du sicher?
+    form:
+      cancel: Abbrechen
   validations:
     leading_whitespace: hat anführendes Leerzeichen
     trailing_whitespace: hat anhängendes Leerzeichen

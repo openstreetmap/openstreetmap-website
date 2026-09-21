@@ -22,4 +22,12 @@ class UserAbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(action, Issue), "should not be able to #{action} Issues"
     end
   end
+
+  test "ACL permissions" do
+    ability = Ability.new create(:user)
+
+    [:index, :create, :edit, :update, :destroy].each do |action|
+      assert ability.cannot?(action, Acl), "should not be able to #{action} ACLs"
+    end
+  end
 end

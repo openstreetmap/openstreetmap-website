@@ -74,7 +74,7 @@ hr:
             visibility:
               cannot_change_to_legacy: Ne može se vratiti na naslijeđenu vrijednost
     models:
-      acl: Popis kontrole pristupa
+      acl: ACL
       changeset: Skup promjena
       changeset_tag: Oznaka skupa promjena
       country: Zemlja
@@ -110,6 +110,12 @@ hr:
       way_node: Čvor puta
       way_tag: Oznaka puta
     attributes:
+      acl:
+        address: Adresa
+        domain: Domena
+        mx: MX poslužitelj
+        k: Ključ
+        v: Vrijednost
       diary_comment:
         body: Sadržaj
       diary_entry:
@@ -172,6 +178,13 @@ hr:
         pass_crypt: Zaporka
         pass_crypt_confirmation: Potvrdite zaporku
     help:
+      acl:
+        address: IP adresa ili CIDR mreža, npr. 192.0.2.0/24
+        domain: Domena e-pošte; poddomene se također podudaraju
+        mx: Naziv hosta MX poslužitelja za domenu e-pošte
+        k: 'Jedno od: nema_stvaranja_računa, dopusti_stvaranje_računa, nema_komentara_bilješke,
+          nema_traga_preuzimanja'
+        v: Neobavezna bilješka, npr. razlog za ovaj unos
       doorkeeper/application:
         confidential: Aplikacija se koristi kada je povjerljivost klijenta pouzdana
           (nativne mobilne aplikacije i jednostranične aplikacije nisu povjerljive)
@@ -3184,8 +3197,43 @@ hr:
       my_traces: Moji tragovi
       traces_from_html: Javni GNSS tragovi korisnika %{user}
       remove_tag_filter: Uklonite filter za oznake
+      legacy_traces: Moji naslijeđeni tragovi
     destroy:
       scheduled_for_deletion: Trase raspoređene za brisanje
+    legacy_visibilities:
+      edit:
+        title: Moji naslijeđeni GNSS tragovi
+        description: Ovo su vaši tragovi koji još uvijek koriste staru privatnu ili
+          javnu vidljivost. Ovdje ih možete promijeniti u one koje se mogu pratiti
+          ili one koje se mogu identificirati. Planirana poboljšanja GNSS tragova
+          obuhvatit će samo one koje se mogu pratiti i one koje se mogu identificirati.
+        filter:
+          visibility: Trenutna vidljivost
+          any: Privatno i javno
+          from: Preneseno s
+          to: Preneseno na
+          apply: Filter
+        empty: Nijedan naslijeđeni trag ne odgovara ovom filteru.
+        new_visibility: Nova vidljivost
+        no_undo: Ova promjena se ne može poništiti.
+        button:
+          one: promjena%{count}traga
+          few: promjene%{count}traga
+          other: Promjena %{count}tragova
+        confirmation:
+          header: Potvrdi promjenu vidljivosti
+          body:
+            one: promjena vidljivosti %{count} traga? Nije moguće ponoštiti.
+            few: promjene vidljivosti %{count} traga. Nije moguće poništiti.
+            other: Promjena vidljivosti %{count} tragova? Nije moguće poništiti.
+          cancel: Otkazati
+          confirm: Promijeni vidljivost
+      update:
+        updated:
+          one: 'promjena vidljivosti %{count} traga. '
+          few: promjena vidljivosti %{count}traga.
+          other: Promjena vidljivosti %{count} tragova.
+        invalid_visibility: Molimo odaberite vidljivost koju želite promijeniti.
     offline_warning:
       message: Sustav za GNSS slanje trenutno nije u funkciji.
     offline:
@@ -3285,6 +3333,11 @@ hr:
       help: Pomoć
     pagination:
       label: Navigacija stranice
+      acls:
+        older: Stariji ACL-ovi
+        newer: Noviji ACL-ovi
+        oldest: Najstariji ACL-ovi
+        newest: Najnoviji ACL-ovi
       changeset_comments:
         older: Stariji komentari
         newer: Noviji komentari
@@ -3822,9 +3875,12 @@ hr:
         text: doprinesite sami
       counter_warning_forum_link:
         text: zajednica vam može pomoći
-      advice: Vaša bilješka je javna i može se koristiti za ažuriranje karte, zato
-        ne upisujte osobne podatke, niti podatke sa drugih karata ili baza podataka
-        zaštićenih autorskim pravima.
+      advice: Svatko u javnosti može vidjeti bilješku, čak i bez OpenStreetMap računa!
+      advice_good_note: Dobra bilješka je što je moguće vipe opisna, a pritom izbjegava
+        osobne podatke ili sadržaj s karata ili popisa u imenicima zaštićenih autorskim
+        pravima.
+      advice_conduct: Molim vas, budite ljubazni, strpljivi i s poštovanjem  kada
+        komunicirate s članovima zajednice.
       add: Dodaj bilješku
       error: Došlo je do pogreške prilikom kreiranja bilješke
     new_readonly:
@@ -4064,6 +4120,37 @@ hr:
         koje pripadaju ovoj redakciji prije nego što je uništite.
       flash: Redakcija je uništena.
       error: Došlo je do pogreške prilikom uklanjanja ove redakcije.
+  acls:
+    navigation:
+      new_title: Dodaj novi ACL
+      new: Novi ACL
+      actions: ACL akcije
+    index:
+      title: ACL-ovi
+      empty: Nema ACL-ova za prikaz.
+    page:
+      address: Adresa
+      domain: Domena
+      mx: MX poslužitelj
+      k: Ključ
+      v: Vrijednost
+      actions: Radnje
+    acl:
+      edit_button: Uredi
+      destroy_button: Izbriši
+      confirm: Jesi li siguran/sigurna?
+    form:
+      cancel: Otkaži
+    new:
+      title: Novi ACL
+    create:
+      success: ACL je kreiran.
+    edit:
+      title: Uređivanje ACL-a
+    update:
+      success: ACL ažuriran.
+    destroy:
+      success: ACL izbrisan.
   validations:
     leading_whitespace: ima vodeći razmak
     trailing_whitespace: ima prateći razmak

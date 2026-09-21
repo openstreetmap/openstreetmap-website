@@ -108,6 +108,12 @@ gl:
       way_node: Nó da vía
       way_tag: Etiqueta da vía
     attributes:
+      acl:
+        address: Enderezo
+        domain: Dominio
+        mx: Servidor MX
+        k: Clave
+        v: Valor
       diary_comment:
         body: Corpo
       diary_entry:
@@ -170,6 +176,13 @@ gl:
         pass_crypt: Contrasinal
         pass_crypt_confirmation: Confirmar o contrasinal
     help:
+      acl:
+        address: Un enderezo IP ou unha rede CIDR; por exemplo, 192.0.2.0/24
+        domain: Un dominio de correo electrónico; os subdominios tamén valen
+        mx: O nome de equipo dun servidor MX para o dominio de correo electrónico
+        k: 'Un dos seguintes: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Nota opcional; por exemplo, o motivo desta entrada
       doorkeeper/application:
         confidential: Usarase a aplicación onde o segredo do cliente se poida manter
           confidencial (as aplicacións móbiles nativas e as aplicacións dunha soa
@@ -3212,8 +3225,40 @@ gl:
       my_traces: As miñas pistas GPS
       traces_from_html: Pistas públicas de %{user}
       remove_tag_filter: Eliminar etiqueta do filtro
+      legacy_traces: As miñas pistas de legado
     destroy:
       scheduled_for_deletion: Pista agardando a súa eliminación
+    legacy_visibilities:
+      edit:
+        title: As miñas pistas GPS de legado
+        description: Estas son as túas pistas que aínda usan a antiga visibilidade
+          privada ou pública. Podes cambialas aquí a rastrexábeis ou identificábeis.
+          As melloras planificadas nas pistas GPS só abarcarán as rastrexábeis e identificábeis.
+        filter:
+          visibility: Visibilidade actual
+          any: Privada e pública
+          from: Subida desde
+          to: Subida a
+          apply: Filtrar
+        empty: Non hai ningunha pista de legado que coincida con este filtro.
+        new_visibility: Visibilidade nova
+        no_undo: Este cambio non se pode desfacer.
+        button:
+          one: Cambiar %{count} pista
+          other: Cambiar %{count} pistas
+        confirmation:
+          header: Confirmar o cambio de visibilidade
+          body:
+            one: Queres cambiar a visibilidade dunha pista? Isto non se pode desfacer.
+            other: Queres cambiar a visibilidade de %{count} pistas? Isto non se pode
+              desfacer.
+          cancel: Cancelar
+          confirm: Cambiar a visibilidade
+      update:
+        updated:
+          one: Cambiouse a visibilidade dunha pista.
+          other: Cambiouse a visibilidade de %{count} pistas.
+        invalid_visibility: Escolle a visibilidade á que queres cambiala.
     offline_warning:
       message: O sistema de subida de ficheiros GPX non está dispoñíbel
     offline:
@@ -3312,6 +3357,11 @@ gl:
       help: Axuda
     pagination:
       label: Navegación da páxina
+      acls:
+        older: Listas de control de acceso máis vellas
+        newer: Listas de control de acceso máis novas
+        oldest: As listas de control de acceso máis vellas
+        newest: As listas de control de acceso máis novas
       changeset_comments:
         older: Comentarios máis vellos
         newer: Comentarios máis novos
@@ -3840,9 +3890,11 @@ gl:
         text: contribuíres ti
       counter_warning_forum_link:
         text: a comunidade pode axudarche
-      advice: A túa nota será pública e poderá empregarse para actualizar o mapa;
-        por conseguinte, non insiras información persoal, nin datos de mapas protexidos
-        por dereitos de autoría ou listaxes de directorios.
+      advice: Calquera persoa pode ver as notas, mesmo sen non ten unha conta do OpenStreetMap!
+      advice_good_note: Unha boa nota é o máis descritiva posible, evitando información
+        persoal, datos de mapas protexidos por dereitos de autoría e listaxes de directorios.
+      advice_conduct: Por favor, sé amable, paciente e mostra respecto ao comunicarte
+        cos membros da comunidade.
       add: Engadir a nota
       error: Houbo un erro ao crear a nota
     new_readonly:
@@ -4081,6 +4133,37 @@ gl:
         a esta censura antes de destruíla.
       flash: Censura destruída.
       error: Houbo un erro ó destruír esta censura.
+  acls:
+    navigation:
+      new_title: Engadir unha lista de control de acceso nova
+      new: Lista de control de acceso nova
+      actions: Accións das listas de control de acceso
+    index:
+      title: Listas de control de acceso
+      empty: Non hai listas de control de acceso para mostrar.
+    page:
+      address: Enderezo
+      domain: Dominio
+      mx: Servidor MX
+      k: Clave
+      v: Valor
+      actions: Accións
+    acl:
+      edit_button: Editar
+      destroy_button: Eliminar
+      confirm: Queres continuar?
+    form:
+      cancel: Cancelar
+    new:
+      title: Lista de control de acceso nova
+    create:
+      success: Creouse a lista de control de acceso.
+    edit:
+      title: Editando a lista de control de acceso
+    update:
+      success: Actualizouse a lista de control de acceso.
+    destroy:
+      success: Eliminouse a lista de control de acceso.
   validations:
     leading_whitespace: ten espazos no inicio
     trailing_whitespace: ten espazos ó final

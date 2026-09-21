@@ -26,7 +26,7 @@
 <% else %>
   <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
 
-  <%= render :partial => "layouts/markers", :locals => { :types => %w[cross tick minus] } %>
+  <%= render :partial => "layouts/markers", :locals => { :types => %w[exclam tick minus] } %>
 
   <table class="table table-sm note_list">
     <thead>
@@ -47,7 +47,7 @@
                          elsif note.closed?
                            { :alt_text => ".closed", :icon => "tick", :color => "var(--marker-green)" }
                          else
-                           { :alt_text => ".open", :icon => "cross", :color => "var(--marker-red)" }
+                           { :alt_text => ".open", :icon => "exclam", :color => "var(--marker-red)" }
                          end %>
         <svg width="25" height="40">
           <title><%= t note_marker[:alt_text] %></title>

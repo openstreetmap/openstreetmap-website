@@ -706,11 +706,30 @@ ja:
       filename: ファイル名
       description: 説明
       tags: タグ
+      total_points: 点の合計数
+      imported_points: インポートされた点の数
     gpx_import_failure:
+      headline: GPSトレースをインポートできませんでした
       error_message: エラーのメッセージ
+    gpx_import_success:
+      headline: GPSトレースが正常にインポートされました
     new_follower:
+      headline: 新しいフォロワー
       description_html: '%{follower_name_with_link} という利用者があなたをフォローしました。ご希望の場合は %{link}
         できます。'
+      link_text: フォローバックする
+    note_comment:
+      headline:
+        commented: メモへのコメント
+        closed: メモが解決されました
+        reopened: メモが再オープンされました
+      description:
+        commented_html: ユーザー %{commenter_name_with_link} がノート %{note_id_with_link}（「%{note_text}」）にコメントを残しました
+        closed_html: ユーザー %{commenter_name_with_link} がノート %{note_id_with_link}（「%{note_text}」）を解決しました
+        reopened_html: ユーザー %{commenter_name_with_link} がノート %{note_id_with_link}（%{note_text}）を再オープンしました
+    diary_comment:
+      headline: 日記へのコメント
+      description_html: ユーザー %{commenter_name_with_link} が日記エントリ「%{diary_entry_title_with_link}」にコメントを残しました
   diary_entries:
     new:
       title: 日記エントリの新規作成
@@ -746,6 +765,7 @@ ja:
       posted_by_html: '%{link_user} が %{created} に投稿 (%{language_link}) 。'
       updated_at_html: 最終更新日 %{updated}
       full_entry: 全文を見る
+      actions: 日記エントリの操作
       comment_link: このエントリにコメント
       reply_link: 筆者にメッセージを送る
       comment_count:
@@ -781,12 +801,15 @@ ja:
       heading: この日記エントリの議論の通知を解除しますか？
       button: 議論の通知を解除
     navigation:
+      actions: 日記の操作
       in_language: '%{language}の日記エントリ'
       my_diary: 自分の日記
       new: 日記エントリを新規作成
       new_title: 自分の日記にエントリを新規作成
     profile_diaries:
       latest_diaries: 最新の日記
+      comments:
+        other: '%{count} コメント'
       title_label: 日記エントリ
   diary_comments:
     new:
@@ -838,11 +861,25 @@ ja:
     not_found:
       title: ファイルが見つかりません
       description: OpenStreetMapサーバ上に、その名称のファイル/ディレクトリ/API操作はありません (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMapを埋め込み
   follows:
+    show:
+      follow:
+        heading: '%{user}さんをフォローしますか？'
+        button: フォローする
+      unfollow:
+        heading: '%{user}さんをフォロー解除しますか？'
+        button: フォロー解除する
     create:
       success: '%{name}をフォローしました！'
+      failed: 申し訳ありませんが、%{name} さんへのフォローリクエストは失敗しました。
+      already_followed: あなたはすでに %{name} さんをフォローしています。
+      limit_exceeded: 短期間に大量の友達申請を送っています。しばらく待ってから友達申請を試してください。
     destroy:
       success: '%{name}のフォローを解除しました。'
+      not_followed: あなたは %{name} さんをフォローしていません。
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1096,6 +1133,7 @@ ja:
           bridleway: 乗馬道
           bus_guideway: 路面バス専用車線
           bus_stop: バス停
+          busway: バスウェイ
           construction: 建設中の高速道路
           corridor: 通路
           crossing: 交差点
@@ -1165,6 +1203,7 @@ ja:
           milestone: 歴史的な道標
           mine: 鉱山
           mine_shaft: 竪坑
+          monastery: 歴史的な修道院
           monument: 記念碑
           railway: 廃線
           roman_road: ローマ街道
@@ -1432,6 +1471,7 @@ ja:
           abandoned: 廃止鉄道
           buffer_stop: 車止め
           construction: 建設中の鉄道
+          crossing: 鉄道と歩道の交差点
           disused: 廃線跡
           funicular: ケーブル鉄道
           halt: 列車停止
@@ -1606,9 +1646,11 @@ ja:
           pond: 池
           reservoir: 貯水池
           basin: 水槽
+          fishpond: 魚の池
           lagoon: 礁湖
           wastewater: 浄化池
           oxbow: 三日月湖
+          stream_pool: 渓流の池
           lock: 閘門
         waterway:
           artificial: 人工的な水路
@@ -1689,7 +1731,9 @@ ja:
       miles_yards: マイル、ヤード
       distance_units_settings: 距離の単位の設定
       download: 経路をGeoJSONとしてダウンロード
+      filename: ルート
       directions_courtesy_html: 道順は%{link}による
+      check_demo_html: 詳細は %{link}
   issues:
     index:
       title: 問題点
@@ -1709,6 +1753,7 @@ ja:
       status: 状態
       reports: 報告
       last_updated: 最近の更新
+      reporting_users: 報告者
       reports_count:
         other: '%{count}件のレポート'
       reported_item: レポートした項目
@@ -1717,12 +1762,17 @@ ja:
         open: 開く
         resolved: 解決済
     show:
+      title:
+        open: '未解決の Issue #%{issue_id}'
+        ignored: '無視された Issue #%{issue_id}'
+        resolved: '解決済みの Issue #%{issue_id}'
       reports:
         other: '%{count}件のレポート'
       no_reports: 報告はありません
       report_created_at_html: 最初の通報は%{datetime}です
       last_resolved_at_html: 最近の更新は%{datetime}です
       last_updated_at_html: 最近の更新は%{displayname}による%{datetime}の版です
+      actions: Issue の操作
       resolve: 解決
       ignore: 無視
       reopen: 再開
@@ -1733,6 +1783,8 @@ ja:
       no_other_issues: この利用者に関するその他の問題点はありません。
       comments_on_this_issue: この問題に関するコメント
       comment_from_html: '%{comment_created_at} の %{user_link} さんからのコメント'
+      reassign_to_moderators: Issue をモデレーターに再割り当てする
+      reassign_to_administrators: 管理者に Issue を再割り当てする
     resolve:
       resolved: 問題の状態は「解決」に設定されました
     ignore:
@@ -1745,6 +1797,8 @@ ja:
       reportable_title:
         diary_comment: '%{entry_title}とコメント番号 %{comment_id}'
         note: '注記 #%{note_id}'
+      reportable_heading:
+        diary_comment_html: '日記へのコメント %{title} 作成日時: %{datetime_created}、更新日時: %{datetime_updated}'
   issue_comments:
     create:
       comment_created: コメントは無事作成されました
@@ -1784,6 +1838,7 @@ ja:
       provide_details: 必要な詳細を記入してください
   languages_panes:
     select_language_list:
+      search_language: 検索...
       languages:
         af: アフリカーンス語
         az: アゼルバイジャン語

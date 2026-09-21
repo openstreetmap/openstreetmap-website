@@ -55,7 +55,7 @@ en:
               cannot_change_to_legacy: "can't be changed back to a legacy value"
     # Translates all the model names, which is used in error handling on the website
     models:
-      acl: "Access Control List"
+      acl: "ACL"
       changeset: "Changeset"
       changeset_tag: "Changeset Tag"
       country: "Country"
@@ -93,6 +93,12 @@ en:
     # Translates all the model attributes, which is used in error handling on the website
     # Only the ones that are used on the website are translated at the moment
     attributes:
+      acl:
+        address: Address
+        domain: Domain
+        mx: MX server
+        k: Key
+        v: Value
       diary_comment:
         body: "Body"
       diary_entry:
@@ -155,6 +161,12 @@ en:
         pass_crypt: "Password"
         pass_crypt_confirmation: "Confirm Password"
     help:
+      acl:
+        address: An IP address or CIDR network, e.g. 192.0.2.0/24
+        domain: An email domain; subdomains are matched too
+        mx: The host name of an MX server for the email domain
+        k: "One of: no_account_creation, allow_account_creation, no_note_comment, no_trace_download"
+        v: Optional note, e.g. the reason for this entry
       doorkeeper/application:
         confidential: "Application will be used where the client secret can be kept confidential (native mobile apps and single page apps are not confidential)"
         redirect_uri: "Use one line per URI"
@@ -3089,8 +3101,37 @@ en:
       my_traces: "My Traces"
       traces_from_html: "Public Traces from %{user}"
       remove_tag_filter: "Remove Tag Filter"
+      legacy_traces: "My Legacy Traces"
     destroy:
       scheduled_for_deletion: "Trace scheduled for deletion"
+    legacy_visibilities:
+      edit:
+        title: "My Legacy GPS Traces"
+        description: "These are your traces that still use the old private or public visibility. You can change them here to trackable or identifiable. Planned improvements to GPS traces will only cover trackable and identifiable."
+        filter:
+          visibility: "Current visibility"
+          any: "Private and public"
+          from: "Uploaded from"
+          to: "Uploaded to"
+          apply: "Filter"
+        empty: "No legacy traces match this filter."
+        new_visibility: "New visibility"
+        no_undo: "This change cannot be undone."
+        button:
+          one: "Change %{count} trace"
+          other: "Change %{count} traces"
+        confirmation:
+          header: "Confirm visibility change"
+          body:
+            one: "Change the visibility of %{count} trace? This cannot be undone."
+            other: "Change the visibility of %{count} traces? This cannot be undone."
+          cancel: "Cancel"
+          confirm: "Change visibility"
+      update:
+        updated:
+          one: "Changed the visibility of %{count} trace."
+          other: "Changed the visibility of %{count} traces."
+        invalid_visibility: "Please choose a visibility to change to."
     offline_warning:
       message: "The GPX file upload system is currently unavailable"
     offline:
@@ -3184,6 +3225,11 @@ en:
       help: Help
     pagination:
       label: Page navigation
+      acls:
+        older: Older ACLs
+        newer: Newer ACLs
+        oldest: Oldest ACLs
+        newest: Newest ACLs
       changeset_comments:
         older: Older Comments
         newer: Newer Comments
@@ -3684,7 +3730,9 @@ en:
       counter_warning_forum_link:
         text: "the community can help you"
         url: https://community.openstreetmap.org/
-      advice: "Your note is public and may be used to update the map, so don't enter personal information, or information from copyrighted maps or directory listings."
+      advice: "Anyone in the public can see a note, even without an OpenStreetMap account!"
+      advice_good_note: "A good note is as descriptive as possible while avoiding personal information, or content from copyrighted maps or directory listings."
+      advice_conduct: "Please be kind, patient and respectful when communicating with community members."
       add: Add Note
       error: "There was an error when creating the note"
     new_readonly:
@@ -3914,6 +3962,37 @@ en:
       not_empty: "Redaction is not empty. Please un-redact all versions belonging to this redaction before destroying it."
       flash: "Redaction destroyed."
       error: "There was an error destroying this redaction."
+  acls:
+    navigation:
+      new_title: Add a new ACL
+      new: New ACL
+      actions: ACL actions
+    index:
+      title: ACLs
+      empty: No ACLs to show.
+    page:
+      address: Address
+      domain: Domain
+      mx: MX server
+      k: Key
+      v: Value
+      actions: Actions
+    acl:
+      edit_button: Edit
+      destroy_button: Delete
+      confirm: Are you sure?
+    form:
+      cancel: Cancel
+    new:
+      title: New ACL
+    create:
+      success: ACL created.
+    edit:
+      title: Editing ACL
+    update:
+      success: ACL updated.
+    destroy:
+      success: ACL deleted.
   validations:
     leading_whitespace: "has leading whitespace"
     trailing_whitespace: "has trailing whitespace"

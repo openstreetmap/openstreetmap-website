@@ -1,0 +1,23 @@
+<%# locals: (acls:, params:) %>
+
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <%= render "pagination", :paginator => acls, :params => params %>
+
+  <table class="table table-sm align-middle" id="acl_list">
+    <thead>
+      <tr>
+        <th><%= t(".address") %></th>
+        <th><%= t(".domain") %></th>
+        <th><%= t(".mx") %></th>
+        <th><%= t(".k") %></th>
+        <th><%= t(".v") %></th>
+        <th class="text-end"><%= t(".actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render acls.items %>
+    </tbody>
+  </table>
+
+  <%= render "pagination", :paginator => acls, :params => params %>
+</turbo-frame>

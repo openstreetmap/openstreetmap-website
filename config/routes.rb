@@ -280,6 +280,7 @@ OpenStreetMap::Application.routes.draw do
 
     namespace :traces, :path => "" do
       resource :feed, :path => "(/user/:display_name)/traces(/tag/:tag)/rss", :only => :show, :defaults => { :format => :rss }
+      resource :legacy_visibility, :path => "/traces/mine/legacy_visibility", :only => [:edit, :update]
     end
   end
 
@@ -431,6 +432,9 @@ OpenStreetMap::Application.routes.draw do
 
   # redactions
   resources :redactions
+
+  # ACLs
+  resources :acls, :except => [:show]
 
   # moderation zones
   resources :moderation_zones, :only => [:index, :new, :create, :edit, :update]

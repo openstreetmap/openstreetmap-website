@@ -122,7 +122,7 @@ nl:
             visibility:
               cannot_change_to_legacy: kan niet worden teruggezet naar een oude waarde
     models:
-      acl: Toegangscontrolelijst
+      acl: ACL
       changeset: Wijzigingenset
       changeset_tag: Label van wijzigingenset
       country: Land
@@ -158,6 +158,12 @@ nl:
       way_node: Wegknooppunt
       way_tag: Weglabel
     attributes:
+      acl:
+        address: Adres
+        domain: Domein
+        mx: MX-server
+        k: Sleutel
+        v: Waarde
       diary_comment:
         body: Tekst
       diary_entry:
@@ -220,6 +226,13 @@ nl:
         pass_crypt: Wachtwoord
         pass_crypt_confirmation: Wachtwoord bevestigen
     help:
+      acl:
+        address: Een IP-adres of CIDR-netwerk, bijvoorbeeld 192.0.2.0/24
+        domain: Een e-maildomein; subdomeinen worden ook herkend
+        mx: De hostnaam van een MX-server voor het e-maildomein
+        k: 'Een van de volgende opties: no_account_creation, allow_account_creation,
+          no_note_comment, no_trace_download'
+        v: Optionele notitie, bijvoorbeeld de reden voor deze vermelding
       doorkeeper/application:
         confidential: De toepassing wordt gebruikt waar het clientgeheim vertrouwelijk
           kan worden gehouden (voor mobiele apparaten ontworpen apps en éénpagina-apps
@@ -3244,6 +3257,11 @@ nl:
       remove_tag_filter: Labelfilter verwijderen
     destroy:
       scheduled_for_deletion: Traject staat op de lijst voor verwijdering
+    legacy_visibilities:
+      edit:
+        confirmation:
+          cancel: Annuleren
+          confirm: Zichtbaarheid wijzigen
     offline_warning:
       message: Het systeem voor het uploaden van GPX-bestanden is momenteel niet beschikbaar
     offline:
@@ -3343,6 +3361,11 @@ nl:
       help: Hulp
     pagination:
       label: Paginanavigatie
+      acls:
+        older: Oudere ACL's
+        newer: Nieuwere ACL's
+        oldest: Oudste ACL's
+        newest: Nieuwste ACL's
       changeset_comments:
         older: Oudere reacties
         newer: Nieuwere reacties
@@ -3878,9 +3901,7 @@ nl:
         url: https://wiki.openstreetmap.org/wiki/NL:Beginnershandleiding
       counter_warning_forum_link:
         text: de gemeenschap helpt u graag
-      advice: Uw opmerking is openbaar en kan gebruikt worden om de kaart bij te werken.
-        Vul hier dus geen persoonlijke informatie in, en ook geen informatie uit kaarten
-        of telefoonboeken waar auteursrechtelijke bescherming op rust.
+      advice: Iedereen kan een bericht zien, zelfs zonder OpenStreetMap-account!
       add: Opmerking toevoegen
       error: Er is een fout opgetreden bij het maken van de opmerking
     new_readonly:
@@ -4115,6 +4136,37 @@ nl:
         betrokken zijn voordat u die vernietigt.
       flash: De redigering is vernietigd.
       error: Er is een fout opgetreden tijdens het verwijderen van deze redigering.
+  acls:
+    navigation:
+      new_title: Nieuwe ACL toevoegen
+      new: Nieuwe ACL
+      actions: ACL-handelingen
+    index:
+      title: ACL's
+      empty: Geen ACL's om weer te geven.
+    page:
+      address: Adres
+      domain: Domein
+      mx: MX-server
+      k: Sleutel
+      v: Waarde
+      actions: Handelingen
+    acl:
+      edit_button: Bewerken
+      destroy_button: Verwijderen
+      confirm: Weet u het zeker?
+    form:
+      cancel: Annuleren
+    new:
+      title: Nieuwe ACL
+    create:
+      success: ACL aangemaakt.
+    edit:
+      title: ACL bewerken
+    update:
+      success: ACL bijgewerkt.
+    destroy:
+      success: ACL verwijderd.
   validations:
     leading_whitespace: begint met spaties
     trailing_whitespace: eindigt met spaties

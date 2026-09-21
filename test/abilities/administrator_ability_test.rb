@@ -21,4 +21,12 @@ class AdministratorAbilityTest < ActiveSupport::TestCase
       assert ability.can?(action, UserRole), "should be able to #{action} UserRoles"
     end
   end
+
+  test "ACL permissions for an administrator" do
+    ability = Ability.new create(:administrator_user)
+
+    [:index, :create, :edit, :update, :destroy].each do |action|
+      assert ability.can?(action, Acl), "should be able to #{action} ACLs"
+    end
+  end
 end

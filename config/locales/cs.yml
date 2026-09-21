@@ -110,7 +110,7 @@ cs:
             visibility:
               cannot_change_to_legacy: nelze nastavit zpět na zastaralou hodnotu
     models:
-      acl: Seznam přístupových práv
+      acl: ACL
       changeset: Sada změn
       changeset_tag: Tag sady změn
       country: Země
@@ -146,6 +146,12 @@ cs:
       way_node: Uzel cesty
       way_tag: Tag cesty
     attributes:
+      acl:
+        address: Adresa
+        domain: Doména
+        mx: MX server
+        k: Klíč
+        v: Hodnota
       diary_comment:
         body: Text
       diary_entry:
@@ -208,6 +214,13 @@ cs:
         pass_crypt: Heslo
         pass_crypt_confirmation: Potvrdit heslo
     help:
+      acl:
+        address: IP adresa nebo CIDR síť, např. 192.0.2.0/24
+        domain: E-mailová doména; porovnávají se i subdomény
+        mx: Název hostitele pro MX serveru e-mailové domény
+        k: 'Jedno z: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Nepovinná poznámka, např. zdůvodnění tohoto záznamu
       doorkeeper/application:
         confidential: Aplikace bude používána takovým způsobem, že bude možno uchovat
           důvěrnost tajemství klienta (nativní mobilní aplikace a single-page aplikace
@@ -3273,8 +3286,46 @@ cs:
       my_traces: Moje stopy
       traces_from_html: Veřejné stopy uživatele %{user}
       remove_tag_filter: Zrušit filtr podle štítků
+      legacy_traces: Moje zastaralé stopy
     destroy:
       scheduled_for_deletion: Stopa označena ke smazání
+    legacy_visibilities:
+      edit:
+        title: Moje zastaralé GPS stopy
+        description: Toto jsou vaše stopy, které stále používají starou soukromou
+          či veřejnou viditelnost. Můžete je zde změnit, aby byly stopovatelné nebo
+          identifikovatelné. Chystaná vylepšení GPS stop se budou týkat jen těch stopovatelných
+          nebo identifikovatelných.
+        filter:
+          visibility: Stávající viditelnost
+          any: Soukromé a veřejné
+          from: Nahráno od
+          to: Nahráno do
+          apply: Filtrovat
+        empty: Tomuto filtru neodpovídají žádné zastaralé stopy.
+        new_visibility: Nová viditelnost
+        no_undo: Tuto změnu nelze vrátit zpět.
+        button:
+          one: Změnit %{count} stopu
+          few: Změnit %{count} stopy
+          many: Změnit %{count} stopy
+          other: Změnit %{count} stop
+        confirmation:
+          header: Potvrďte změnu viditelnosti
+          body:
+            one: Změnit viditelnost %{count} stopy? Nejde to vrátit zpět.
+            few: Změnit viditelnost %{count} stop? Nejde to vrátit zpět.
+            many: Změnit viditelnost %{count} stopy? Nejde to vrátit zpět.
+            other: Změnit viditelnost %{count} stop? Nejde to vrátit zpět.
+          cancel: Storno
+          confirm: Změnit viditelnost
+      update:
+        updated:
+          one: Změněna viditelnost %{count} stopy.
+          few: Změněna viditelnost %{count} stop.
+          many: Změněna viditelnost %{count} stopy.
+          other: Změněna viditelnost %{count} stop.
+        invalid_visibility: Vyberte prosím viditelnost, na kterou chcete změnit.
     offline_warning:
       message: Systém pro načítání GPX souborů je momentálně mimo provoz.
     offline:
@@ -3372,6 +3423,11 @@ cs:
       help: Nápověda
     pagination:
       label: Stránkovací navigace
+      acls:
+        older: Starší ACL
+        newer: Novější ACL
+        oldest: Nejstarší ACL
+        newest: Nejnovější ACL
       changeset_comments:
         older: Starší komentáře
         newer: Novější komentáře
@@ -3915,8 +3971,11 @@ cs:
         url: https://wiki.openstreetmap.org/wiki/Cs:Pr%C5%AFvodce_za%C4%8D%C3%A1te%C4%8Dn%C3%ADka
       counter_warning_forum_link:
         text: komunita vám může pomoci
-      advice: Vaše poznámka je veřejná a může sloužit k úpravám mapy, proto nevkládejte
-        žádné osobní údaje ani informace z autorskoprávně chráněných map či adresářů.
+      advice: Poznámku může vidět úplně kdokoli, ani nepotřebuje mít účet na OpenStreetMap!
+      advice_good_note: Dobrá poznámka je co možná nejvýstižnější, ale vyhýbá se uvedení
+        osobních údajů a informací z autorskoprávně chráněných map či adresářů.
+      advice_conduct: Při komunikaci s členy komunity buďte prosím laskaví, trpěliví
+        a zdvořilí.
       add: Přidat poznámku
       error: Při vytváření poznámky došlo k chybě.
     new_readonly:
@@ -4158,6 +4217,37 @@ cs:
         verzí patřících do této redakce.
       flash: Redakce zničena.
       error: Došlo k chybě při ničení této redakce.
+  acls:
+    navigation:
+      new_title: Přidat nový ACL
+      new: Nový ACL
+      actions: Akce s ACL
+    index:
+      title: ACL
+      empty: Žádné ACL k zobrazení.
+    page:
+      address: Adresa
+      domain: Doména
+      mx: MX server
+      k: Klíč
+      v: Hodnota
+      actions: Akce
+    acl:
+      edit_button: Upravit
+      destroy_button: Smazat
+      confirm: Jste si jisti?
+    form:
+      cancel: Storno
+    new:
+      title: Nový ACL
+    create:
+      success: ACL vytvořen.
+    edit:
+      title: Úprava ACL
+    update:
+      success: ACL upraveno.
+    destroy:
+      success: ACL smazáno.
   validations:
     leading_whitespace: začíná bílými znaky
     trailing_whitespace: končí bílými znaky
