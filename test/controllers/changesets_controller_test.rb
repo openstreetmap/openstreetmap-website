@@ -119,6 +119,17 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     check_index_result(changesets)
   end
 
+  def test_index_bbox_invalid
+    get history_path(:format => "html", :bbox => "4.5,4.5,5.5", :list => "1"), :xhr => true
+    assert_redirected_to :controller => :errors, :action => :bad_request
+
+    get history_feed_path(:bbox => "4.5,4.5,5.5")
+    assert_response :bad_request
+
+    get history_feed_path(:bbox => "")
+    assert_response :bad_request
+  end
+
   def test_index_bbox_across_antimeridian_with_changesets_close_to_antimeridian
     west_of_antimeridian_changeset = create(:changeset, :num_changes => 1, :bbox => [176, 0, 178, 1])
     east_of_antimeridian_changeset = create(:changeset, :num_changes => 1, :bbox => [-178, 0, -176, 1])

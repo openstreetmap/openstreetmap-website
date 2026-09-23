@@ -24,6 +24,9 @@ class ChangesetsController < ApplicationController
   def index
     param! :before, Integer, :min => 1
     param! :after, Integer, :min => 1
+    param! :bbox, String, :custom => lambda { |bbox|
+      raise RailsParam::InvalidParameterError, "bbox must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox.count(",") == 3
+    }
 
     @params = params.permit(:display_name, :bbox, :friends, :nearby, :before, :after, :list)
 
@@ -59,8 +62,6 @@ class ChangesetsController < ApplicationController
                      end
       elsif @params[:bbox]
         bbox_array = @params[:bbox].split(",").map(&:to_f)
-        raise OSM::APIBadUserInput, "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat" unless bbox_array.count == 4
-
         changesets = conditions_bbox(changesets, *bbox_array)
       elsif @params[:friends] && current_user
         changesets = changesets.where(:user => current_user.followings.identifiable)

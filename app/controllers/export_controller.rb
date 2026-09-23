@@ -16,6 +16,11 @@ class ExportController < ApplicationController
 
   # When the user clicks 'Export' we redirect to a URL which generates the export download
   def create
+    param! :minlon, Float, :required => true
+    param! :minlat, Float, :required => true
+    param! :maxlon, Float, :required => true
+    param! :maxlat, Float, :required => true
+
     bbox = BoundingBox.from_lon_lat_params(params)
     style = params[:format]
     format = params[:mapnik_format]
