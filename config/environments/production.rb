@@ -17,6 +17,9 @@ Rails.application.configure do
   # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 
+  # Do not fall back to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
+
   # Compress JavaScripts using a preprocessor.
   config.assets.js_compressor = Terser.new
 
