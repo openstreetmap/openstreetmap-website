@@ -6,32 +6,35 @@ module OpenStreetMap
       @app = app
     end
 
-    def method_handled?(env)
-      %w[POST PUT].include? env["REQUEST_METHOD"]
+    def method_handled?(method)
+      %w[POST PUT].include? method
     end
 
-    def encoding_handled?(env)
-      %w[gzip deflate].include? env["HTTP_CONTENT_ENCODING"]
+    def encoding_handled?(encoding)
+      %w[gzip deflate].include? encoding
     end
 
     def call(env)
-      if method_handled?(env) && encoding_handled?(env)
-        extracted = decode(env[::Rack::RACK_INPUT], env["HTTP_CONTENT_ENCODING"])
+      encoding = env.delete("HTTP_CONTENT_ENCODING")
 
-        env.delete("HTTP_CONTENT_ENCODING")
-        env.delete(::Rack::RACK_REQUEST_FORM_ERROR)
-        env.delete(::Rack::RACK_REQUEST_FORM_HASH)
-        env.delete(::Rack::RACK_REQUEST_FORM_INPUT)
-        env.delete(::Rack::RACK_REQUEST_FORM_PAIRS)
-        env["CONTENT_LENGTH"] = extracted.bytesize
-        env[::Rack::RACK_INPUT] = StringIO.new(extracted)
+      if method_handled?(env["REQUEST_METHOD"]) && encoding_handled?(encoding)
+        begin
+          extracted = decode(env[::Rack::RACK_INPUT], encoding)
+
+          env.delete(::Rack::RACK_REQUEST_FORM_ERROR)
+          env.delete(::Rack::RACK_REQUEST_FORM_HASH)
+          env.delete(::Rack::RACK_REQUEST_FORM_INPUT)
+          env.delete(::Rack::RACK_REQUEST_FORM_PAIRS)
+          env["CONTENT_LENGTH"] = extracted.bytesize
+          env[::Rack::RACK_INPUT] = StringIO.new(extracted)
+        rescue Zlib::Error
+          response = [422, {}, []]
+        end
+      elsif encoding
+        response = [415, {}, []]
       end
 
-      if env["HTTP_CONTENT_ENCODING"]
-        [415, {}, []]
-      else
-        @app.call(env)
-      end
+      response || @app.call(env)
     end
 
     def decode(input, content_encoding)
