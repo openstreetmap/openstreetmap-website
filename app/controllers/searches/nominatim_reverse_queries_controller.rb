@@ -35,7 +35,11 @@ module Searches
     rescue StandardError => e
       host = URI(Settings.nominatim_url).host
       @error = "Error contacting #{host}: #{e}"
-      render :action => "error"
+
+      respond_to do |format|
+        format.html { render :action => "error" }
+        format.json { render :json => { :error => @error }, :status => :bad_gateway }
+      end
     end
   end
 end

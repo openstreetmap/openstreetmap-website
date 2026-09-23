@@ -43,5 +43,17 @@ module Searches
       assert_response :success
       assert_equal [], response.parsed_body
     end
+
+    def test_create_error
+      stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+        .to_return(:status => 400, :body => "Bad Request")
+
+      post search_nominatim_reverse_query_path(:lat => 0, :lon => "x", :zoom => 3), :xhr => true
+      results_check_error "Error contacting nominatim.openstreetmap.org: 400"
+
+      post search_nominatim_reverse_query_path(:lat => 0, :lon => "x", :zoom => 3, :format => "json"), :xhr => true
+      assert_response :bad_gateway
+      assert_equal({ "error" => "Error contacting nominatim.openstreetmap.org: 400" }, response.parsed_body)
+    end
   end
 end
