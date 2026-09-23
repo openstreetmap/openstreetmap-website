@@ -44,6 +44,20 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to "https://tile.thunderforest.com/static/transport/2,1,17/400x300.png?apikey=#{Settings.thunderforest_key}"
   end
 
+  ###
+  # test the create action with a missing bbox parameter
+  def test_create_missing_bbox
+    post export_finish_path(:minlon => 0, :minlat => 50, :maxlon => 1, :format => "osm")
+    assert_response :bad_request
+  end
+
+  ###
+  # test the create action with a non-numeric bbox parameter
+  def test_create_invalid_bbox
+    post export_finish_path(:minlon => 0, :minlat => 50, :maxlon => 1, :maxlat => "abc", :format => "osm")
+    assert_response :bad_request
+  end
+
   ##
   # test the show action
   def test_show
