@@ -41,7 +41,7 @@
 #
 # Indexes
 #
-#  index_users_on_creation_address   (creation_address) USING gist
+#  index_users_on_creation_address   (creation_address inet_ops) USING gist
 #  users_auth_idx                    (auth_provider,auth_uid) UNIQUE
 #  users_display_name_canonical_idx  (lower(NORMALIZE(display_name, NFKC)))
 #  users_display_name_idx            (display_name) UNIQUE

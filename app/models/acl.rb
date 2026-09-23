@@ -14,7 +14,7 @@
 # Indexes
 #
 #  acls_k_idx             (k)
-#  index_acls_on_address  (address) USING gist
+#  index_acls_on_address  (address inet_ops) USING gist
 #  index_acls_on_domain   (domain)
 #  index_acls_on_mx       (mx)
 #
