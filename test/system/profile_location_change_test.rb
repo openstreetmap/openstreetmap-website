@@ -57,4 +57,28 @@ class ProfileLocationChangeTest < ApplicationSystemTestCase
       assert_text :all, "Home location New Test Place"
     end
   end
+
+  test "location name is set from the home location" do
+    stub_nominatim_reverse(:body => "<reversegeocode><result>Test Country</result></reversegeocode>")
+    user = create(:user)
+
+    sign_in_as(user)
+    visit profile_location_path
+
+    within_content_body do
+      fill_in "Latitude", :with => "1"
+      fill_in "Longitude", :with => "2"
+      assert_field "Home Location Name", :with => "Test Country"
+
+      stub_nominatim_reverse(:body => "<reversegeocode><error>Unable to geocode</error></reversegeocode>")
+      fill_in "Longitude", :with => "4"
+      assert_field "Home Location Name", :with => ""
+    end
+  end
+
+  private
+
+  def stub_nominatim_reverse(response)
+    stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?}).to_return(response)
+  end
 end
