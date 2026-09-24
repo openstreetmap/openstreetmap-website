@@ -86,13 +86,11 @@ export default function (map) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
     return OSM.loadSidebarContent(path, signal)
-      .then(() => {
-        signal.throwIfAborted();
-        return page.init(path, signal);
-      });
+      .then(() => page.init(path, signal));
   };
 
   page.init = function (path, signal) {
+    signal.throwIfAborted();
     navigationSignal = signal;
     $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);

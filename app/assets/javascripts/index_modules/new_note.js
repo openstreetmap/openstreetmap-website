@@ -99,13 +99,11 @@ export default function (map) {
 
   page.load = function (path, signal) {
     return OSM.loadSidebarContent(path, signal)
-      .then(() => {
-        signal.throwIfAborted();
-        return page.init(path, signal);
-      });
+      .then(() => page.init(path, signal));
   };
 
   page.init = function (path, signal) {
+    signal.throwIfAborted();
     control.addClass("active");
 
     map.addLayer(noteLayer);

@@ -12,13 +12,11 @@ export default function (map) {
 
   page.load = function (path, signal) {
     return OSM.loadSidebarContent(path, signal)
-      .then(() => {
-        signal.throwIfAborted();
-        return page.init(path, signal);
-      });
+      .then(() => page.init(path, signal));
   };
 
   page.init = function (path, signal) {
+    signal.throwIfAborted();
     const changesetData = content.find("[data-changeset]").data("changeset");
     changesetData.type = "changeset";
 
@@ -56,10 +54,7 @@ export default function (map) {
         });
       })
       .then(() => OSM.loadSidebarContent(path, signal))
-      .then(() => {
-        signal.throwIfAborted();
-        return page.init(path, signal);
-      })
+      .then(() => page.init(path, signal))
       .catch(error => {
         if (signal.aborted) return;
         content.find("button[data-method][data-url]").prop("disabled", false);

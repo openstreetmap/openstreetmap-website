@@ -268,6 +268,7 @@ export default function (map) {
   };
 
   function initialize(signal) {
+    signal.throwIfAborted();
     navigationSignal = signal;
     for (const endpoint of endpoints) endpoint.setSignal(signal);
     initializeFromParams();

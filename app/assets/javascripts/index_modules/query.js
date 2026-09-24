@@ -204,13 +204,11 @@ export default function (map) {
 
   page.load = function (path, signal) {
     return OSM.loadSidebarContent(path, signal)
-      .then(() => {
-        signal.throwIfAborted();
-        return page.init(path, signal, true);
-      });
+      .then(() => page.init(path, signal, true));
   };
 
   page.init = function (path, signal, noCentre) {
+    signal.throwIfAborted();
     navigationSignal = signal;
     const params = new URLSearchParams(path.substring(path.indexOf("?"))),
           latlng = L.latLng(params.get("lat"), params.get("lon"));

@@ -17,6 +17,7 @@ export default function (map) {
   };
 
   function initialize(path, signal, id, skipMoveToNote) {
+    signal.throwIfAborted();
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       const { url, method } = $(e.target).data(),
@@ -43,10 +44,7 @@ export default function (map) {
           });
         })
         .then(() => OSM.loadSidebarContent(path, signal))
-        .then(() => {
-          signal.throwIfAborted();
-          initialize(path, signal, id, false);
-        })
+        .then(() => initialize(path, signal, id, false))
         .catch(error => {
           if (signal.aborted) return;
           content.find("#comment-error")

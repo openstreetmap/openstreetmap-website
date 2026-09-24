@@ -9,13 +9,11 @@ export function element(type) {
 
     page.load = function (path, signal, id, version) {
       return OSM.loadSidebarContent(path, signal)
-        .then(() => {
-          signal.throwIfAborted();
-          return page.init(path, signal, id, version, true);
-        });
+        .then(() => page.init(path, signal, id, version, true));
     };
 
     page.init = function (path, signal, id, version, keepViewport) {
+      signal.throwIfAborted();
       page._addObject(type, id, version, keepViewport, signal);
       $(".numbered_pagination").trigger("numbered_pagination:enable");
       navigationSignal = signal;
