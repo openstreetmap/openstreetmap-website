@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
-class SessionsController < ApplicationController
+class SessionsController < Devise::SessionsController
   include SessionMethods
 
   layout :site_layout
+
+  skip_before_action :verify_signed_out_user
+  skip_before_action :require_no_authentication
 
   before_action :authorize_web, :except => [:destroy]
   before_action -> { authorize_web(:skip_terms => true) }, :only => [:destroy]
@@ -26,45 +29,58 @@ class SessionsController < ApplicationController
 
   def create
     session[:remember_me] = params[:remember_me] == "yes"
+    sign_out(:user)
+    super do |user|
+      @safe_referer = safe_referer(params[:referer]) if params[:referer]
+      # TODO: this is reproducing `successful_login(user, @safe_referer)`
+      session[:fingerprint] = user.fingerprint
+      session_expires_after 28.days if session[:remember_me]
 
-    referer = safe_referer(params[:referer]) if params[:referer]
-
-    password_authentication(params.expect(:username).strip, params.expect(:password), referer)
+      cookies.delete :_osm_anonymous_notes_count
+      session.delete(:remember_me)
+    end
   end
 
   def destroy
+    return unless request.delete? || request.post?
+
     @title = t ".title"
 
-    if request.post?
+    super do
       session.delete(:pending_user)
-      session.delete(:user)
+
+      # TODO: do we need this?
       session_expires_automatically
 
-      referer = safe_referer(params[:referer]) if params[:referer]
-
-      redirect_to referer || { :controller => "site", :action => "index" }
+      safe_referer(params[:referer]) if params[:referer]
     end
   end
 
   private
 
-  ##
-  # handle password authentication
-  def password_authentication(username, password, referer = nil)
-    user = User.lookup(username)
+  # TODO: this is taken from `successful_login`. DRY it up.
+  def after_sign_in_path_for(user)
+    target = @safe_referer || url_for(:controller => :site, :action => :index)
 
-    if user&.password_expired?
-      redirect_to user_forgot_password_path, :warning => t("sessions.new.reset_to_login")
-    elsif user&.password_matches?(password)
-      if user.pending?
-        unconfirmed_login(user, referer)
-      elsif user.suspended?
-        failed_login({ :partial => "sessions/suspended_flash" }, username, referer)
-      else
-        successful_login(user, referer)
-      end
+    # The user is logged in, so decide where to send them:
+    #
+    # - If they haven't seen the contributor terms, send them there.
+    # - If they have a block on them, show them that.
+    # - If they were referred to the login, send them back there.
+    # - Otherwise, send them to the home page.
+    if !user.terms_seen
+      account_terms_path(:referer => target)
+    elsif user.blocked_on_view
+      # TODO: :referer => target
+      # redirect_to user.blocked_on_view, :referer => target
+      user.blocked_on_view
     else
-      failed_login(t("sessions.new.auth failure"), username, referer)
+      target
     end
+  end
+
+  def after_sign_out_path_for(_user)
+    referer = safe_referer(params[:referer]) if params[:referer]
+    referer || { :controller => "site", :action => "index" }
   end
 end
