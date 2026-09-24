@@ -84,8 +84,13 @@ hu:
           attributes:
             url:
               http_parse_error: Az URL-nek http:// vagy https:// előtaggal kell kezdődnie
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: nem állítható vissza egy korábbi, elavult (legacy)
+                értékre
     models:
-      acl: Hozzáférés-szabályzási lista
+      acl: Hozzáférés-szabályozási lista (ACL)
       changeset: Módosításcsomag
       changeset_tag: Módosításcsomag címkéje
       country: Ország
@@ -121,6 +126,12 @@ hu:
       way_node: Vonal pontja
       way_tag: Vonal címkéje
     attributes:
+      acl:
+        address: Cím
+        domain: Tartomány (domain)
+        mx: MX kiszolgáló
+        k: Kulcs
+        v: Érték
       diary_comment:
         body: Szöveg
       diary_entry:
@@ -153,6 +164,7 @@ hu:
       moderation_zone:
         name: Név
         reason: Indoklás
+        zone: Zóna
         period: Időszak
       message:
         sender: Küldő
@@ -182,6 +194,13 @@ hu:
         pass_crypt: Jelszó
         pass_crypt_confirmation: Jelszó megerősítése
     help:
+      acl:
+        address: IP-cím vagy CIDR hálózat, pl. 192.0.2.0/24
+        domain: E-mail domain; a rendszer az aldomaineket is megtalálja
+        mx: Az e-mail domainhez tartozó MX-kiszolgáló host-neve
+        k: 'Egyik a következők közül: no_account_creation, allow_account_creation,
+          no_note_comment vagy no_trace_download'
+        v: Nem kötelező megjegyzés, pl. a bejegyzés oka
       doorkeeper/application:
         confidential: Az alkalmazást akkor fogjuk használni, ha az ügyféltitkot bizalmasan
           lehet vele kezelni (a natív mobilalkalmazások és az egyoldalas alkalmazások
@@ -236,6 +255,44 @@ hu:
       x_years:
         one: '%{count} évvel ezelőtt'
         other: '%{count} évvel ezelőtt'
+    distance_in_words_in:
+      about_x_hours:
+        one: nagyjából %{count} óra múlva
+        other: nagyjából %{count} óra múlva
+      about_x_months:
+        one: nagyjából %{count} hónap múlva
+        other: nagyjából %{count} hónap múlva
+      about_x_years:
+        one: nagyjából %{count} év múlva
+        other: nagyjából %{count} év múlva
+      almost_x_years:
+        one: majdnem %{count} év múlva
+        other: majdnem %{count} év múlva
+      half_a_minute: fél perc múlva
+      less_than_x_seconds:
+        one: kevesebb, mint %{count} másodperc múlva
+        other: kevesebb, mint %{count} másodperc múlva
+      less_than_x_minutes:
+        one: kevesebb, mint %{count} perc múlva
+        other: kevesebb, mint %{count} perc múlva
+      over_x_years:
+        one: több mint %{count} év múlva
+        other: több mint %{count} év múlva
+      x_seconds:
+        one: '%{count} másodperc múlva'
+        other: '%{count} másodperc múlva'
+      x_minutes:
+        one: '%{count} perc múlva'
+        other: '%{count} perc múlva'
+      x_days:
+        one: '%{count} nap múlva'
+        other: '%{count} nap múlva'
+      x_months:
+        one: '%{count} hónap múlva'
+        other: '%{count} hónap múlva'
+      x_years:
+        one: '%{count} év múlva'
+        other: '%{count} év múlva'
   editor:
     default: Alapértelmezett (jelenleg %{name})
     id:
@@ -481,6 +538,9 @@ hu:
       colour_preview: '%{colour_value} szín előnézete'
       email_link: E-mail %{email}
     versions_navigation:
+      node_versions: Pont verziói
+      way_versions: Vonal verziói
+      relation_versions: Kapcsolat verziói
       node: Pont
       way: Vonal
       relation: Kapcsolat
@@ -497,10 +557,13 @@ hu:
     index:
       node:
         title_html: '%{name} pont előzményei'
+        actions: Pontműveletek
       way:
         title_html: '%{name} vonal előzményei'
+        actions: Vonalműveletek
       relation:
         title_html: '%{name} kapcsolat előzményei'
+        actions: Kapcsolatműveletek
       older_versions: Régebbi verziók
       newer_versions: Újabb verziók
     actions:
@@ -659,6 +722,7 @@ hu:
       latest_edit_html: 'Utolsó szerkesztés (%{ago}):'
       no_edits: (nincs szerkesztés)
       view_changeset_details: Módosításcsomag részleteinek megtekintése
+      actions: Felhasználói műveletek
     popup:
       your location: Helyed
       nearby mapper: Közeli térképszerkesztő
@@ -681,14 +745,46 @@ hu:
     index:
       title: Értesítések
       no_notifications: Jelenleg nincs értesítésed
+      point_to_preferences_html: Az értesítések módját %{link} adhatod meg.
+      link_text: a beállításoknál
+    changeset_comment:
+      headline: Hozzászólás módosításcsomaghoz
+      description_with_summary_html: '%{commenter_name_with_link} megjegyzést fűzött
+        a következő módosításcsomaghoz: %{changeset_id_with_link} (%{changeset_summary})'
+      description_without_summary_html: '%{commenter_name_with_link} megjegyzést fűzött
+        a következő módosításcsomaghoz: %{changeset_id_with_link}'
     gpx_details:
       filename: Fájlnév
       description: Leírás
       tags: Címkék
+      total_points: Pontok száma összesen
+      imported_points: Importált pontok száma
     gpx_import_failure:
+      headline: A GPS-nyomvonal importálása sikertelen
       error_message: Hibaüzenet
+    gpx_import_success:
+      headline: GPS-nyomvonal sikeresen importálva
     new_follower:
       headline: Új követő
+      description_html: '%{follower_name_with_link} elkezdett követni. Ha szeretnéd,
+        %{link}'
+      link_text: te is követheted őt
+    note_comment:
+      headline:
+        commented: Hozzászólás jegyzethez
+        closed: Jegyzet megoldva
+        reopened: Jegyzet újranyitva
+      description:
+        commented_html: '%{commenter_name_with_link} megjegyzést fűzött a következő
+          jegyzethez: %{note_id_with_link} (%{note_text})'
+        closed_html: '%{commenter_name_with_link} megoldotta a következő jegyzetet:
+          %{note_id_with_link} (%{note_text})'
+        reopened_html: '%{commenter_name_with_link} újra megnyitotta a következő jegyzetet:
+          %{note_id_with_link} (%{note_text})'
+    diary_comment:
+      headline: Naplóhozzászólás
+      description_html: '%{commenter_name_with_link} megjegyzést fűzött a következő
+        naplóbejegyzéshez: %{diary_entry_title_with_link}'
   diary_entries:
     new:
       title: Új naplóbejegyzés
@@ -1900,6 +1996,7 @@ hu:
         be-Tarask: belarusz (tarašk.)
         bg: bolgár
         mk: macedón
+        mt: Máltai
         mo: moldáv
         ce: csecsen
         ru: orosz
@@ -2178,7 +2275,7 @@ hu:
     show:
       title: Üzenet elolvasása
       reply_button: Válasz
-      unread_button: Jelölés olvasatlanként
+      unread_button: Megjelölés olvasatlanként
       destroy_button: Törlés
       back: Vissza
       wrong_user: „%{user}” néven jelentkeztél be, de az üzenetet, amelyet el szeretnél
@@ -2207,7 +2304,7 @@ hu:
         date: Érkezett
         actions: Műveletek
       message:
-        unread_button: Jelölés olvasatlanként
+        unread_button: Megjelölés olvasatlanként
         read_button: Jelölés olvasottként
         destroy_button: Törlés
         unmute_button: Áthelyezés a Beérkezett üzenetek mappába
@@ -2320,7 +2417,7 @@ hu:
         image: Kép
         company: Vállalat
         location: Hely
-        contribution_calendar: Hozzájárulási naptár
+        contribution_calendar: Szerkesztések naptára
     descriptions:
       show:
         title: Profil szerkesztése
@@ -2381,13 +2478,14 @@ hu:
         failure: Nem sikerült frissíteni a profil helyét.
     heatmaps:
       show:
-        title: Hozzájárulási naptár szerkesztése
-        show_contribution_calendar_in_public: Hozzájárulási naptár mutatása a profillapon
-        save: Hozzájárulási naptár beállításainak frissítése
+        title: Szerkesztések naptárának beállítása
+        show_contribution_calendar_in_public: A szerkesztések naptárának megjelenítése
+          a profillapon
+        save: A szerkesztési naptár beállításainak frissítése
         cancel: Mégse
       update:
-        success: Hozzájárulási naptár frissítve.
-        failure: Nem sikerült frissíteni a hozzájárulási naptárat.
+        success: Szerkesztési naptár frissítve.
+        failure: Nem sikerült frissíteni a szerkesztések naptárát.
   sessions:
     new:
       tab_title: Bejelentkezés
@@ -2677,17 +2775,21 @@ hu:
           lehessen. Közelíts, vagy jelölj ki kisebb területet. Esetleg az alábbi listából
           használd valamelyik nagy adatmennyiség letöltését támogató módszert.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: A teljes OpenStreetMap adatbázis rendszeresen frissített másolatai
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: A megjelenített befoglaló keret letöltése egy OpenStreetMap
             tükörszerverről
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Geofabrik letöltések
           description: Kontinensek, országok és kiválasztott városok rendszeresen
             frissített kivonatai
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Más források
           description: További források az OpenStreetMap wiki oldalán találhatók
       export_button: Exportálás
@@ -2773,6 +2875,8 @@ hu:
       get_directions_title: Útirány keresése két pont között
       from: Innen
       to: Ide
+      marker_from: Útvonal kezdőpontjának jelölője
+      marker_to: Útvonal végének jelölője
       where_am_i: Hol van ez?
       where_am_i_title: A jelenlegi helyszín leírása a keresőmotor segítségével
       submit_text: Menj
@@ -3026,7 +3130,7 @@ hu:
       points: 'Pontok száma:'
       start_coordinates: 'Kezdőkoordináta:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: tartózkodási hely megjelenítése a térképen
+      map: Hely megjelenítése a térképen
       edit: szerkesztő megnyitása
       owner: 'Tulajdonos:'
       description: 'Leírás:'
@@ -3044,6 +3148,7 @@ hu:
         other: '%{count} pont'
       more: tovább
       trace_details: Nyomvonal részleteinek megtekintése
+      trace_actions: Nyomvonal-műveletek
       view_map: tartózkodási hely megtekintése a térképen
       edit_map: Megnyitás szerkesztőben
       public: NYILVÁNOS
@@ -3057,6 +3162,7 @@ hu:
       my_gps_traces: GPS-nyomvonalaim
       public_traces_from: '%{user} nyilvános GPS-nyomvonalai'
       description: Böngészés a legutóbb feltöltött GPS-nyomvonalak között
+      actions: Nyomvonalak listájára vonatkozó műveletek
       tagged_with: ' %{tags} címkével'
       empty_title: Itt még nincs semmi
       empty_upload_html: '%{upload_link} vagy nézzen utána a GPS nyomvonalkövetésnek
@@ -3068,8 +3174,41 @@ hu:
       my_traces: Saját nyomvonalak
       traces_from_html: '%{user} nyilvános nyomvonalai'
       remove_tag_filter: Címkeszűrő eltávolítása
+      legacy_traces: Elavult (legacy) nyomvonalaim
     destroy:
       scheduled_for_deletion: A nyomvonal törlésre kijelölve
+    legacy_visibilities:
+      edit:
+        title: Elavult (legacy) GPS-nyomvonalaim
+        description: Ezek azok a nyomvonalak, amelyekre még mindig a régi privát vagy
+          nyilvános láthatóság vonatkozik. Itt módosíthatod őket követhetőre vagy
+          azonosíthatóra. A GPS-nyomvonalak tervezett fejlesztései csak a követhető
+          és azonosítható elemekre fognak kiterjedni.
+        filter:
+          visibility: Jelenlegi láthatóság
+          any: Privát és nyilvános
+          from: 'Feltöltve innen:'
+          to: 'Feltöltve ide:'
+          apply: Szűrő
+        empty: Egyetlen elavult nyomvonal sem felel meg a szűrésnek.
+        new_visibility: Új láthatóság
+        no_undo: Ez a módosítás nem vonható vissza.
+        button:
+          one: '%{count} nyomvonal módosítása'
+          other: '%{count} nyomvonal módosítása'
+        confirmation:
+          header: Láthatóság módosításának megerősítése
+          body:
+            one: Megváltoztatod %{count} nyomvonal láthatóságát? Ez nem vonható vissza.
+            other: Megváltoztatod %{count} nyomvonal láthatóságát? Ez nem vonható
+              vissza.
+          cancel: Mégse
+          confirm: Láthatóság módosítása
+      update:
+        updated:
+          one: '%{count} nyomvonal láthatósága módosítva.'
+          other: '%{count} nyomvonal láthatósága módosítva.'
+        invalid_visibility: Válaszd ki, mire változzék a láthatóság.
     offline_warning:
       message: A GPX-fájlfeltöltő rendszer jelenleg nem érhető el
     offline:
@@ -3145,11 +3284,12 @@ hu:
         alt: X ikon
     markdown_help:
       heading_html: 'Elemezve ezzel: %{kramdown_link}'
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
       headings: Címsorok
       heading: Cím
       subheading: Alcím
-      unordered: Rendezetlen lista
-      ordered: Rendezett lista
+      unordered: Számozatlan lista
+      ordered: Számozott lista
       first: Első elem
       second: Második elem
       link: Hivatkozás
@@ -3163,6 +3303,11 @@ hu:
       preview: Előnézet
       help: Súgó
     pagination:
+      acls:
+        older: Régebbi ACL-ek
+        newer: Újabb ACL-ek
+        oldest: Legrégebbi ACL-ek
+        newest: Legújabb ACL-ek
       changeset_comments:
         older: Régebbi hozzászólások
         newer: Újabb hozzászólások
@@ -3189,12 +3334,15 @@ hu:
         oldest: Legrégebbi problémák
         newest: Legújabb problémák
       traces:
+        older: Régebbi nyomvonalak
         newer: Újabb nyomvonalak
         oldest: Legrégebbi nyomvonalak
         newest: Legújabb nyomvonalak
       user_blocks:
+        older: Régebbi blokkolások
         newer: Újabb blokkolások
         oldest: Legrégebbi blokkolások
+        newest: Legújabb blokkolások
       users:
         older: Régebbi felhasználók
         newer: Újabb felhasználók
@@ -3374,7 +3522,7 @@ hu:
       change_image: Kép megváltoztatása
       edit_company: Vállalat szerkesztése
       edit_location: Hely szerkesztése
-      edit_contribution_calendar: Közreműködési naptár beállítása
+      edit_contribution_calendar: Szerkesztések naptárának beállítása
       contributions:
         one: '%{count} közreműködés az elmúlt évben'
         other: '%{count} közreműködés az elmúlt évben'
@@ -3558,7 +3706,7 @@ hu:
         active: aktív
         active_until_read: aktív az elolvasásig
         read_html: 'elolvasta ekkor: %{time}'
-        time_in_future_title: '%{time_absolute}; %{time_relative} múlva'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} blokkolva %{block_by} által'
@@ -3686,9 +3834,7 @@ hu:
         text: működj közre a saját nevedben is
       counter_warning_forum_link:
         text: a közösség is szívesen segít
-      advice: A jegyzeted nyilvános és használható a térkép frissítéséhez, ezért ne
-        adj meg személyes adatokat vagy jogvédett térképről vagy katalógusokból származó
-        információkat.
+      advice: A jegyzeteket bárki megtekintheti, akár OpenStreetMap-fiók nélkül is.
       add: Jegyzet hozzáadása
       error: Hiba történt a jegyzet létrehozásakor
     new_readonly:
@@ -3928,21 +4074,78 @@ hu:
         az ehhez az adattörlési művelethez tartozó összes verziót.
       flash: Adattörlési művelet megsemmisítve.
       error: Hiba történt az adattörlési művelet megsemmisítésekor.
+  acls:
+    navigation:
+      new_title: Új ACL hozzáadása
+      new: Új ACL
+      actions: ACL műveletek
+    index:
+      title: Hozzáférés-szabályozási listák (ACL-ek)
+      empty: Nincs megjeleníthető ACL.
+    page:
+      address: Cím
+      domain: Tartomány (domain)
+      mx: MX kiszolgáló
+      k: Kulcs
+      v: Érték
+      actions: Műveletek
+    acl:
+      edit_button: Szerkesztés
+      destroy_button: Törlés
+      confirm: Biztos vagy benne?
+    form:
+      cancel: Mégse
+    new:
+      title: Új ACL
+    create:
+      success: ACL létrehozva.
+    edit:
+      title: ACL szerkesztése
+    update:
+      success: ACL frissítve.
+    destroy:
+      success: ACL törölve.
   validations:
     leading_whitespace: első karaktere(i) szóközök
     trailing_whitespace: utolsó karaktere(i) szóközök
     invalid_characters: érvénytelen karaktereket tartalmaz
     url_characters: 'speciális URL karaktereket tartalmaz: (%{characters})'
   moderation_zones:
+    navigation:
+      new_title: Új moderált terület meghatározása
+      new: Új moderált terület
+      actions: Moderált terület műveletei
     index:
+      title: Moderált területek
+      heading: Moderált területek
       name: Név
       reason: Indoklás
       creator: Készítő
+      start: Kezdet
+      end: Vég
       status: Állapot
     row:
       edit: Szerkesztés
+    new:
+      title: Új moderált terület
+      heading: Új moderált terület
+    create:
+      success: Moderált terület létrehozva.
+    edit:
+      title: '%{name} moderált terület szerkesztése'
+      heading: '%{name} moderált terület szerkesztése'
+    update:
+      success: Moderált terület frissítve.
+      only_creator_can_edit: A moderált területet csak az a moderátor szerkesztheti,
+        aki létrehozta.
+      only_creator_can_edit_without_revoking: A moderált területet csak az a moderátor
+        szerkesztheti visszavonás nélkül, aki létrehozta.
+      only_creator_or_revoker_can_edit: A moderált területet csak azok a moderátorok
+        szerkeszthetik, akik létrehozták vagy visszavonták.
+      no_reactivation: Ez a moderált terület inaktív és nem lehet újraaktiválni.
     helper:
       short:
+        ended: véget ért
         active: aktív
         revoked_html: '%{name} visszavonta'
 ...
