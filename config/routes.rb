@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 OpenStreetMap::Application.routes.draw do
+  devise_for(
+    :users,
+    controllers: {
+      sessions: "sessions",
+    }
+  )
+  devise_scope :user do
+    get "login" => "sessions#new"
+    post "login" => "sessions#create"
+    match "logout" => "sessions#destroy", :via => [:get, :post]
+  end
+
   use_doorkeeper :scope => "oauth2" do
     controllers :authorizations => "oauth2_authorizations",
                 :applications => "oauth2_applications",
