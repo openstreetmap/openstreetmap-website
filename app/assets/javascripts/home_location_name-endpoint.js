@@ -38,7 +38,10 @@ OSM.HomeLocationNameGeocoder = function Endpoint(latInput, lonInput, locationNam
       signal: requestController.signal,
       headers: { accept: "application/json" }
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) throw new Error(response.statusText);
+        return response.json();
+      })
       .then((data) => {
         const country = data.length ? data[0].name : "";
 

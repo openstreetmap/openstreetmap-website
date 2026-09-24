@@ -26,16 +26,20 @@ module Searches
                       :zoom => zoom,
                       :name => description,
                       :type => object_type, :id => object_id)
+      end
 
-        respond_to do |format|
-          format.html
-          format.json { render :json => @results }
-        end
+      respond_to do |format|
+        format.html
+        format.json { render :json => @results }
       end
     rescue StandardError => e
       host = URI(Settings.nominatim_url).host
       @error = "Error contacting #{host}: #{e}"
-      render :action => "error"
+
+      respond_to do |format|
+        format.html { render :action => "error" }
+        format.json { render :json => { :error => @error }, :status => :bad_gateway }
+      end
     end
   end
 end
