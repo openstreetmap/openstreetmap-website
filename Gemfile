@@ -81,6 +81,8 @@ gem "quad_tile"
 gem "addressable"
 gem "rack-uri_sanitizer"
 
+# Authentication
+gem "devise"
 gem "omniauth"
 gem "omniauth-apple"
 gem "omniauth-facebook"
