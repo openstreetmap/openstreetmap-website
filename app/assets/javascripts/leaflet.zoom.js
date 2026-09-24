@@ -10,9 +10,9 @@ L.OSM.Zoom = L.Control.extend({
     this._map = map;
 
     this._zoomInButton = this._createButton(
-      "", OSM.i18n.t("javascripts.map.navigation_control.zoom_in"), "plus-lg", container, this._zoomIn, this);
+      "", OSM.i18n.t("javascripts.map.NavigationControl.ZoomIn"), "plus-lg", container, this._zoomIn, this);
     this._zoomOutButton = this._createButton(
-      "", OSM.i18n.t("javascripts.map.navigation_control.zoom_out"), "dash-lg", container, this._zoomOut, this);
+      "", OSM.i18n.t("javascripts.map.NavigationControl.ZoomOut"), "dash-lg", container, this._zoomOut, this);
 
     map.on("zoomend zoomlevelschange", this._updateDisabled, this);
 

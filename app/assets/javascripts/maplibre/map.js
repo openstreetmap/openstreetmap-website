@@ -3,8 +3,7 @@
 //= require maplibre/popup
 
 maplibregl.Map.prototype._getUIString = function (key) {
-  const snakeCaseKey = key.replaceAll(/(?<=\w)[A-Z]/g, "_$&").toLowerCase();
-  return OSM.i18n.t(`javascripts.map.${snakeCaseKey}`);
+  return OSM.i18n.t(`javascripts.map.${key}`);
 };
 
 OSM.MapLibre.showWebGLError = function (container) {
