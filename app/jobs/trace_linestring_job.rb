@@ -4,7 +4,12 @@ class TraceLinestringJob < ApplicationJob
   queue_as :traces
 
   # Converts the points of a trace into linestrings, one per segment of
-  # max_points_per_track_segment points. Z is the altitude and M is the time in seconds.
+  # max_points_per_track_segment points. Z is the altitude and M is the time in
+  # seconds, -Infinity when the point has no timestamp (some traces from before
+  # 2009). Those points go at the end of the track, as they do when gps_points is
+  # sorted by timestamp. -Infinity because 0 is a real value (devices with the
+  # clock set to 1970) and NaN is never equal to itself, so it is easy to get a
+  # comparison wrong.
   #
   # A segment also ends when the next point is more than
   # max_distance_between_track_points meters away, so a bad point (for example
@@ -58,9 +63,9 @@ class TraceLinestringJob < ApplicationJob
                        ST_MakePoint(longitude / #{GeoRecord::SCALE}.0,
                                     latitude / #{GeoRecord::SCALE}.0,
                                     COALESCE(altitude, 0),
-                                    EXTRACT(EPOCH FROM "timestamp")) AS pt
+                                    COALESCE(EXTRACT(EPOCH FROM "timestamp"), '-infinity')) AS pt
                 FROM gps_points
-                WHERE gpx_id = $1 AND "timestamp" IS NOT NULL
+                WHERE gpx_id = $1
               ) points
             ) jumps
           ) runs

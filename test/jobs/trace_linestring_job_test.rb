@@ -104,14 +104,19 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     assert_equal [["ST_LineString", 5]], segments(trace)
   end
 
-  def test_points_without_timestamp_are_skipped
+  def test_points_without_timestamp_are_kept
     trace = create(:trace)
     create_points(trace, 3)
     # The model does not allow a nil timestamp, but some old traces have them.
     trace.points.where(:latitude => GeoRecord::SCALE).update_all(:timestamp => nil) # rubocop:disable Rails/SkipsModelValidations
 
     assert_equal 1, TraceLinestringJob.perform_now(trace)
-    assert_equal [["ST_LineString", 2]], segments(trace)
+    assert_equal [["ST_LineString", 3]], segments(trace)
+    times = point_times(trace)
+
+    assert_predicate times[0], :finite?
+    assert_predicate times[1], :finite?
+    assert_equal(-Float::INFINITY, times[2])
   end
 
   def test_traces_of_any_visibility_are_converted
@@ -140,6 +145,14 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     GpxTrack.where(:gpx_id => trace.id)
             .order(:trackid, :segment)
             .pluck(Arel.sql("ST_GeometryType(geom)"), Arel.sql("ST_NPoints(geom)"))
+  end
+
+  # Time (M) of every point of a trace, in line order.
+  def point_times(trace)
+    GpxTrack.where(:gpx_id => trace.id)
+            .joins("CROSS JOIN LATERAL ST_DumpPoints(gpx_tracks.geom) AS point")
+            .order(Arel.sql("point.path[1]"))
+            .pluck(Arel.sql("ST_M(point.geom)"))
   end
 
   # Longitude, latitude, altitude and time of the first point of a trace.
