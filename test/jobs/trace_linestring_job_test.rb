@@ -58,6 +58,29 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     assert_equal [0, 1, 2], trace.gpx_tracks.order(:segment).map(&:segment)
   end
 
+  def test_track_is_split_at_a_big_jump
+    trace = create(:trace)
+    create_points(trace, 2)
+    # One degree north, about 111 km away.
+    create_points(trace, 3, 1, 10, :latitude => 2)
+
+    assert_equal 2, TraceLinestringJob.perform_now(trace)
+    assert_equal [["ST_LineString", 2], ["ST_LineString", 3]], segments(trace)
+  end
+
+  def test_points_are_counted_again_after_a_jump
+    trace = create(:trace)
+    create_points(trace, 3)
+    create_points(trace, 3, 1, 10, :latitude => 2)
+
+    with_settings(:max_points_per_track_segment => 2) do
+      assert_equal 4, TraceLinestringJob.perform_now(trace)
+    end
+
+    assert_equal [["ST_LineString", 2], ["ST_Point", 1], ["ST_LineString", 2], ["ST_Point", 1]], segments(trace)
+    assert_equal [0, 1, 2, 3], trace.gpx_tracks.order(:segment).map(&:segment)
+  end
+
   def test_old_segments_are_replaced
     trace = create(:trace)
     create_points(trace, 3)
@@ -90,10 +113,10 @@ class TraceLinestringJobTest < ActiveJob::TestCase
 
   private
 
-  def create_points(trace, count, trackid = 1, offset = 0)
+  def create_points(trace, count, trackid = 1, offset = 0, latitude: 1)
     count.times do |index|
       create(:tracepoint, :trace => trace, :trackid => trackid,
-                          :latitude => (1 * GeoRecord::SCALE) + offset + index,
+                          :latitude => (latitude * GeoRecord::SCALE) + offset + index,
                           :longitude => (1 * GeoRecord::SCALE) + offset + index,
                           :timestamp => Time.now.utc + offset + index)
     end
