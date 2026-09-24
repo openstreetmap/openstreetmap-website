@@ -81,6 +81,18 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     assert_equal [0, 1, 2, 3], trace.gpx_tracks.order(:segment).map(&:segment)
   end
 
+  def test_track_is_split_by_length
+    trace = create(:trace)
+    # Five points 0.05 degrees apart, about 5.5 km each.
+    create_points(trace, 5, :spacing => 0.05)
+
+    with_settings(:max_track_segment_length => 12_000) do
+      assert_equal 2, TraceLinestringJob.perform_now(trace)
+    end
+
+    assert_equal [["ST_LineString", 3], ["ST_LineString", 2]], segments(trace)
+  end
+
   def test_old_segments_are_replaced
     trace = create(:trace)
     create_points(trace, 3)
@@ -113,10 +125,11 @@ class TraceLinestringJobTest < ActiveJob::TestCase
 
   private
 
-  def create_points(trace, count, trackid = 1, offset = 0, latitude: 1)
+  # Points one step north of each other. spacing is the step in degrees.
+  def create_points(trace, count, trackid = 1, offset = 0, latitude: 1, spacing: 0)
     count.times do |index|
       create(:tracepoint, :trace => trace, :trackid => trackid,
-                          :latitude => (latitude * GeoRecord::SCALE) + offset + index,
+                          :latitude => ((latitude + (spacing * index)) * GeoRecord::SCALE).to_i + offset + index,
                           :longitude => (1 * GeoRecord::SCALE) + offset + index,
                           :timestamp => Time.now.utc + offset + index)
     end

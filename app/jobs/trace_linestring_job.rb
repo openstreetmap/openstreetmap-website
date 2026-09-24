@@ -8,7 +8,9 @@ class TraceLinestringJob < ApplicationJob
   #
   # A segment also ends when the next point is more than
   # max_distance_between_track_points meters away, so a bad point (for example
-  # at 0,0) does not stretch the bounding box of a whole segment.
+  # at 0,0) does not stretch the bounding box of a whole segment, and every
+  # max_track_segment_length meters of track, so a long fast track (train, plane)
+  # does not produce segments wider than a download bbox.
   #
   # A track with one point is saved as a point, because a line needs two.
   # All traces are converted, whatever their visibility.
@@ -31,20 +33,23 @@ class TraceLinestringJob < ApplicationJob
              END
       FROM (
         SELECT gpx_id, trackid, seq, pt,
-               dense_rank() OVER (PARTITION BY gpx_id, trackid ORDER BY run, (row_in_run - 1) / #{Settings.max_points_per_track_segment}) - 1 AS segment
+               dense_rank() OVER (PARTITION BY gpx_id, trackid ORDER BY run, part, (row_in_part - 1) / #{Settings.max_points_per_track_segment}) - 1 AS segment
         FROM (
-          SELECT gpx_id, trackid, seq, pt, run,
-                 row_number() OVER (PARTITION BY gpx_id, trackid, run ORDER BY seq) AS row_in_run
+          SELECT gpx_id, trackid, seq, pt, run, part,
+                 row_number() OVER (PARTITION BY gpx_id, trackid, run, part ORDER BY seq) AS row_in_part
           FROM (
-            /* run is the number of the stretch between two jumps */
+            /* run is the number of the stretch between two jumps, part the number
+               of the max_track_segment_length stretch, jumps not counted */
             SELECT gpx_id, trackid, seq, pt,
                    count(*) FILTER (WHERE jump > #{Settings.max_distance_between_track_points})
-                     OVER (PARTITION BY gpx_id, trackid ORDER BY seq) AS run
+                     OVER (PARTITION BY gpx_id, trackid ORDER BY seq) AS run,
+                   floor(sum(CASE WHEN jump > #{Settings.max_distance_between_track_points} THEN 0 ELSE jump END)
+                           OVER (PARTITION BY gpx_id, trackid ORDER BY seq) / #{Settings.max_track_segment_length}) AS part
             FROM (
-              /* seq gives a fixed order, timestamps can repeat */
+              /* seq gives a fixed order, timestamps can repeat. jump is the distance to the previous point */
               SELECT gpx_id, trackid, pt,
                      row_number() OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp") AS seq,
-                     ST_DistanceSphere(pt, lag(pt) OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp")) AS jump
+                     COALESCE(ST_DistanceSphere(pt, lag(pt) OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp")), 0) AS jump
               FROM (
                 /* gps_points saves the coordinates as integers, so we divide them
                    here. When gps_points is gone, the import can use the degrees
