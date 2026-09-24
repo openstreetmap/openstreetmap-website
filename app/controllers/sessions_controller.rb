@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class SessionsController < ApplicationController
+class SessionsController < Devise::SessionsController
   include SessionMethods
 
   layout :site_layout
@@ -25,11 +25,20 @@ class SessionsController < ApplicationController
   end
 
   def create
-    session[:remember_me] = params[:remember_me] == "yes"
-
-    referer = safe_referer(params[:referer]) if params[:referer]
-
-    password_authentication(params.expect(:username).strip, params.expect(:password), referer)
+    pp "create/BEFORE"
+    super do |user|
+      referer = safe_referer(params[:referer]) if params[:referer]
+      pp ["create/BLOCK", user, referer]
+      successful_login(user, referer)
+      return
+    end
+    pp "create/AFTER"
+  rescue Exception
+    pp "create/RESCUE"
+    pp $!
+    raise
+  ensure
+    pp "create/ENSURE"
   end
 
   def destroy
