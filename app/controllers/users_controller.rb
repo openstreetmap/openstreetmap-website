@@ -73,48 +73,47 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if check_signup_allowed?(@user.email)
-      if @user.auth_uid.present?
-        # We are creating an account with external authentication and
-        # no password was specified so create a random one
-        @user.pass_crypt = SecureRandom.base64(16)
-        @user.pass_crypt_confirmation = @user.pass_crypt
-      end
+    if @user.auth_uid.present?
+      # We are creating an account with external authentication and
+      # no password was specified so create a random one
+      @user.pass_crypt = SecureRandom.base64(16)
+      @user.pass_crypt_confirmation = @user.pass_crypt
+    end
 
-      if @user.invalid?
-        # Something is wrong with a new user, so rerender the form
-        render :action => "new"
-      elsif Settings.turnstile_site_key && !valid_turnstile_response?(params["cf-turnstile-response"])
-        # Invalid turnstile response, so rerender the form
-        flash.now[:error] = t ".not_human"
-        render :action => "new"
-      else
-        # Save the user record
-        if save_new_user(@user, params[:email_hmac])
-          RateLimiter.signup_ip_limiter.update(request.remote_ip)
-          RateLimiter.signup_email_limiter.update(canonical_email(@user.email))
-
-          flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
-
-          referer = welcome_path(welcome_options(params[:referer]))
-
-          if @user.status == "active"
-            successful_login(@user, referer)
-          else
-            session[:pending_user] = @user.id
-            UserMailer.with(
-              :user => @user,
-              :token => @user.generate_token_for(:new_user),
-              :referer => referer
-            ).signup_confirm.deliver_later
-            redirect_to :controller => :confirmations, :action => :confirm, :display_name => @user.display_name
-          end
-        else
-          render :action => "new", :referer => params[:referer]
-        end
-      end
-    else
+    if @user.invalid?
+      # Something is wrong with a new user, so rerender the form
+      render :action => "new"
+    elsif Settings.turnstile_site_key && !valid_turnstile_response?(params["cf-turnstile-response"])
+      # Invalid turnstile response, so rerender the form
+      flash.now[:error] = t ".not_human"
+      render :action => "new"
+    elsif !check_signup_allowed?(@user.email)
+      # Email is blocked
       render :action => "blocked"
+    else
+      # Save the user record
+      if save_new_user(@user, params[:email_hmac])
+        RateLimiter.signup_ip_limiter.update(request.remote_ip)
+        RateLimiter.signup_email_limiter.update(canonical_email(@user.email))
+
+        flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
+
+        referer = welcome_path(welcome_options(params[:referer]))
+
+        if @user.status == "active"
+          successful_login(@user, referer)
+        else
+          session[:pending_user] = @user.id
+          UserMailer.with(
+            :user => @user,
+            :token => @user.generate_token_for(:new_user),
+            :referer => referer
+          ).signup_confirm.deliver_later
+          redirect_to :controller => :confirmations, :action => :confirm, :display_name => @user.display_name
+        end
+      else
+        render :action => "new", :referer => params[:referer]
+      end
     end
   end
 
