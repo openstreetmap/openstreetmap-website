@@ -53,6 +53,10 @@
 class User < ApplicationRecord
   include AASM
 
+  devise(
+    :osm_authenticatable
+  )
+
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
@@ -159,8 +163,8 @@ class User < ApplicationRecord
     display_name
   end
 
-  def self.lookup(username)
-    username.strip!
+  def self.find_for_database_authentication(warden_conditions)
+    username = warden_conditions[:username].strip
 
     user = find_by("email = ? OR display_name = ?", username, username)
 
@@ -177,7 +181,7 @@ class User < ApplicationRecord
     !PasswordHash.valid?(pass_crypt, pass_salt)
   end
 
-  def password_matches?(password)
+  def valid_password?(password)
     if PasswordHash.check(pass_crypt, pass_salt, password)
       if PasswordHash.upgrade?(pass_crypt, pass_salt)
         self.pass_crypt, self.pass_salt = PasswordHash.create(password)

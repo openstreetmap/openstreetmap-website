@@ -64,6 +64,7 @@ class PasswordsController < ApplicationController
           if @user.save
             session[:fingerprint] = @user.fingerprint
             flash[:notice] = t ".flash changed"
+            sign_in(@user)
             successful_login(@user)
           else
             render :edit
