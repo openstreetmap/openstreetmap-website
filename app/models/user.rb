@@ -53,6 +53,10 @@
 class User < ApplicationRecord
   include AASM
 
+  devise(
+    :osm_authenticatable,
+  )
+
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
@@ -148,6 +152,15 @@ class User < ApplicationRecord
     fingerprint
   end
 
+  alias_attribute :encrypted_password, :pass_crypt
+  alias_attribute :salt, :pass_salt
+
+  attr_writer :username
+
+  def username
+    @username || email || display_name
+  end
+
   def display_name_cannot_be_user_id_with_other_id
     display_name&.match(/^user_(\d+)$/i) do |m|
       errors.add :display_name, I18n.t("activerecord.errors.messages.display_name_is_user_n") unless m[1].to_i == id
@@ -168,6 +181,15 @@ class User < ApplicationRecord
     end
 
     user if user && user.status != "deleted"
+  end
+
+  def self.find_for_database_authentication(warden_conditions)
+    conditions = warden_conditions.dup
+    if (username = conditions.delete(:username))
+      where(conditions.to_h).where(["lower(display_name) = :value OR lower(email) = :value", { :value => username.downcase }]).first
+    elsif conditions.has_key?(:display_name) || conditions.has_key?(:email)
+      where(conditions.to_h).first
+    end
   end
 
   def password_expired?
