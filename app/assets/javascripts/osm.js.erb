@@ -29,15 +29,14 @@ OSM = {
 
   cookies: Cookies.withAttributes({ path: "/", samesite: "lax", secure: <%= (Settings.server_protocol == "https").to_json %> }),
 
-  anySignal: function (signals) {
+  anySignal: function (...signals) {
     // AbortSignal.any is unavailable in older browsers supported by our Browserslist target.
     if (AbortSignal.any) return AbortSignal.any(signals);
 
-    const sourceSignals = Array.from(signals);
     const controller = new AbortController();
     const registrations = [];
 
-    for (const signal of sourceSignals) {
+    for (const signal of signals) {
       if (signal.aborted) {
         controller.abort(signal.reason);
         return controller.signal;
@@ -51,7 +50,7 @@ OSM = {
       }
     }
 
-    for (const signal of sourceSignals) {
+    for (const signal of signals) {
       const listener = () => abort(signal);
       registrations.push([signal, listener]);
       signal.addEventListener("abort", listener, { once: true });

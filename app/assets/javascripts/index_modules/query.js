@@ -66,7 +66,7 @@ export default function (map) {
     }
 
     const controller = new AbortController();
-    const signal = OSM.anySignal([navigationSignal, controller.signal]);
+    const signal = OSM.anySignal(navigationSignal, controller.signal);
     $section.data("ajax", controller);
     fetch(OSM.OVERPASS_URL, {
       method: "POST",

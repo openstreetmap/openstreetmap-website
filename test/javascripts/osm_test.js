@@ -21,7 +21,7 @@ describe("OSM", function () {
     it("aborts when any source signal aborts", function () {
       const first = new AbortController();
       const second = new AbortController();
-      const signal = OSM.anySignal([first.signal, second.signal]);
+      const signal = OSM.anySignal(first.signal, second.signal);
 
       second.abort("cancelled");
 
@@ -34,7 +34,7 @@ describe("OSM", function () {
       const second = new AbortController();
       first.abort("already cancelled");
 
-      const signal = OSM.anySignal([first.signal, second.signal]);
+      const signal = OSM.anySignal(first.signal, second.signal);
 
       expect(signal.aborted).to.eq(true);
       expect(signal.reason).to.eq("already cancelled");
