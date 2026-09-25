@@ -232,7 +232,7 @@ OpenStreetMap::Application.routes.draw do
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
-  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
+  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post], :as => :user_confirm
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
   post "/user/go_public" => "users#go_public"
