@@ -256,6 +256,9 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     get edit_path(:editor => "remote")
     assert_response :success
     assert_template "index"
+
+    get edit_path(:editor => "invalid")
+    assert_redirected_to :controller => :errors, :action => :bad_request
   end
 
   # Test editing a specific node

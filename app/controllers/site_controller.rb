@@ -60,6 +60,8 @@ class SiteController < ApplicationController
   end
 
   def edit
+    param! :editor, String, :in => Editors::ALL_EDITORS
+
     editor = preferred_editor
 
     if editor == "remote"
