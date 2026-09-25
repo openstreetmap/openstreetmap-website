@@ -5,7 +5,7 @@ module Devise
     def respond
       pp ["OsmFailureApp#respond", warden_options]
       case failure_code
-      when :not_found_in_database
+      when :not_found_in_database, :invalid
         redirect
       when :user_suspended
         flash[:error] = { :partial => "sessions/suspended_flash" }
@@ -20,12 +20,10 @@ module Devise
 
     def redirect_url
       case failure_code
-      when :not_found_in_database
-        new_user_session_url
-      when :user_suspended
+      when :not_found_in_database, :invalid, :user_suspended
         new_user_session_url(
           :referer => failure_details[:referer],
-          :username => failure_details[:username],
+          :username => failure_details[:username] || params.dig(:user, :username),
           :remember_me => session[:remember_me]
         )
       else
