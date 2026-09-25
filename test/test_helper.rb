@@ -429,3 +429,6 @@ module ActiveSupport
     end
   end
 end
+
+require "minitest/fail_fast"
+Minitest.load :fail_fast
