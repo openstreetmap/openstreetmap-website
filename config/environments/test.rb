@@ -34,7 +34,7 @@ Rails.application.configure do
   config.active_storage.service = :test
 
   # Disable logging in tests, for speed increases. Set to :info to bring back logging
-  config.log_level = :warn
+  config.log_level = :info
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
