@@ -9,6 +9,7 @@ export default function (map) {
   let chosenEngine;
 
   let sidebarReadyPromise = null;
+  let navigationSignal;
 
   const routeOutput = RouteOutput(map);
 
@@ -95,6 +96,9 @@ export default function (map) {
   function getRoute(fitRoute = true, reportErrors = true) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
+    controller = null;
+    $("#directions_loader").prop("hidden", true);
+    if (!navigationSignal || navigationSignal.aborted) return;
 
     const points = endpoints.map(p => p.latlng);
 
@@ -111,19 +115,21 @@ export default function (map) {
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
-    controller = new AbortController();
-    chosenEngine.getRoute(points, controller.signal).then(async function (route) {
-      await sidebarLoaded();
+    const routeController = new AbortController();
+    controller = routeController;
+    const signal = OSM.anySignal(navigationSignal, routeController.signal);
+    const loaded = sidebarLoaded();
+    const result = chosenEngine.getRoute(points, signal);
+    Promise.all([loaded, result]).then(function ([, route]) {
+      if (signal.aborted) return;
       $("#directions_route").prop("hidden", false);
       routeOutput.write(route);
 
-      if (fitRoute) {
-        routeOutput.fit();
-      }
-    }).catch(async function (error) {
-      if (error.name === "AbortError") return;
-
-      await sidebarLoaded();
+      if (fitRoute) routeOutput.fit();
+    }).catch(async function () {
+      if (signal.aborted) return;
+      await loaded;
+      if (signal.aborted) return;
       routeOutput.remove();
 
       if (reportErrors) {
@@ -131,7 +137,10 @@ export default function (map) {
           .prop("hidden", false)
           .html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
+    }).catch(error => {
+      if (!signal.aborted) reportError(error);
     }).finally(function () {
+      if (controller !== routeController) return;
       $("#directions_loader").prop("hidden", true);
       controller = null;
     });
@@ -139,6 +148,7 @@ export default function (map) {
 
   function closeButtonListener(e) {
     e.stopPropagation();
+    controller?.abort();
     routeOutput.remove();
     sidebarReadyPromise = null;
     map.setSidebarOverlaid(true);
@@ -244,27 +254,39 @@ export default function (map) {
   const page = {};
 
   function sidebarLoaded() {
-    if ($("#directions_route").length) {
-      sidebarReadyPromise = null;
-
-      return Promise.resolve();
-    }
-
-    return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions");
+    return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions", navigationSignal);
   }
 
-  page.load = page.init = function () {
+  page.load = function (path, signal) {
+    sidebarReadyPromise = OSM.loadSidebarContent(path, signal);
+    return initialize(signal);
+  };
+
+  page.init = function (path, signal) {
+    sidebarReadyPromise = Promise.resolve();
+    return initialize(signal);
+  };
+
+  function initialize(signal) {
+    signal.throwIfAborted();
+    navigationSignal = signal;
+    for (const endpoint of endpoints) endpoint.setSignal(signal);
     initializeFromParams();
 
     $(".search_form").hide();
     $(".directions_form").show();
 
-    sidebarLoaded().then(enableListeners);
-
     map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
-  };
+    return sidebarLoaded().then(() => {
+      signal.throwIfAborted();
+      enableListeners();
+    });
+  }
 
   page.unload = function () {
+    controller?.abort();
+    controller = null;
+    $("#directions_loader").prop("hidden", true);
     $(".search_form").show();
     $(".directions_form").hide();
 
