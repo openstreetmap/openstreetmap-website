@@ -98,6 +98,7 @@ class ApplicationController < ActionController::Base
     if request.cookies["_osm_session"].to_s == ""
       if params[:cookie_test].nil?
         session[:cookie_test] = true
+        pp ["REDIRECT!", params.to_unsafe_h.merge(:only_path => true, :cookie_test => "true")]
         redirect_to params.to_unsafe_h.merge(:only_path => true, :cookie_test => "true")
         false
       else

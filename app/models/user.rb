@@ -171,7 +171,8 @@ class User < ApplicationRecord
     display_name
   end
 
-  def self.lookup(username)
+  def self.find_for_database_authentication(warden_conditions)
+    username = warden_conditions[:username]
     user = find_by("email = ? OR display_name = ?", username.strip, username)
 
     if user.nil?
@@ -181,15 +182,6 @@ class User < ApplicationRecord
     end
 
     user if user && user.status != "deleted"
-  end
-
-  def self.find_for_database_authentication(warden_conditions)
-    conditions = warden_conditions.dup
-    if (username = conditions.delete(:username))
-      where(conditions.to_h).where(["lower(display_name) = :value OR lower(email) = :value", { :value => username.downcase }]).first
-    elsif conditions.has_key?(:display_name) || conditions.has_key?(:email)
-      where(conditions.to_h).first
-    end
   end
 
   def password_expired?
