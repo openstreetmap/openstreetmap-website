@@ -340,6 +340,7 @@ class LoginTest < ActionDispatch::IntegrationTest
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
+    pp session.to_h
     assert session.key?(:_remember_for)
   end
 
@@ -1265,7 +1266,7 @@ class LoginTest < ActionDispatch::IntegrationTest
 #      assert_select "[checked]", remember_me == "yes"
 #    end
 
-    post "/login", :params => { :user => { :username => username, :password => password, :remember_me => remember_me }, :referer => "/history" }
+    post "/login", :params => { :user => { :username => username, :password => password }, :remember_me => remember_me, :referer => "/history" }
     assert_response :redirect
     follow_redirect!
     assert_response :success
