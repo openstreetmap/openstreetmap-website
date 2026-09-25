@@ -1,0 +1,68 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading", :user => @user.display_name %></h1>
+  <p><%= t ".subheading_html",
+           :user => link_to(@user.display_name, @user),
+           :submitted => tag.span(t(".subheading_submitted"), :class => "px-2 py-1 bg-primary bg-opacity-25"),
+           :commented => tag.span(t(".subheading_commented"), :class => "px-2 py-1 bg-body") %></p>
+<% end %>
+
+<%= form_with :url => user_notes_path(@user), :method => :get, :data => { :turbo => true } do %>
+  <div class="row gx-2 align-items-end">
+    <div class="col-sm-auto mb-3">
+      <%= label_tag :status, t(".status") %>
+      <%= select_tag :status,
+                     options_for_select([[t(".all"), "all"], [t(".open"), "open"], [t(".closed"), "closed"]], params[:status] || "all"),
+                     :class => "form-select" %>
+    </div>
+    <div class="col-sm-auto mb-3">
+      <%= submit_tag t(".apply"), :name => nil, :class => "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<% if @notes.empty? %>
+  <h4><%= t ".no_notes" %></h4>
+
+<% else %>
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
+
+  <%= render :partial => "layouts/markers", :locals => { :types => %w[exclam tick minus] } %>
+
+  <table class="table table-sm note_list">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= t ".id" %></th>
+        <th><%= t ".creator" %></th>
+        <th><%= t ".description" %></th>
+        <th><%= t ".created_at" %></th>
+        <th><%= t ".last_changed" %></th>
+      </tr>
+    </thead>
+  <% @notes.each do |note| -%>
+    <tr<% if note.author == @user %> class="table-primary"<% end %>>
+      <td>
+        <% note_marker = if !note.visible?
+                           { :alt_text => ".hidden", :icon => "minus", :color => "gray" }
+                         elsif note.closed?
+                           { :alt_text => ".closed", :icon => "tick", :color => "var(--marker-green)" }
+                         else
+                           { :alt_text => ".open", :icon => "exclam", :color => "var(--marker-red)" }
+                         end %>
+        <svg width="25" height="40">
+          <title><%= t note_marker[:alt_text] %></title>
+          <%= tag.use :href => "#pin-#{note_marker[:icon]}", :color => note_marker[:color] %>
+        </svg>
+      </td>
+      <td><%= link_to note.id, note %></td>
+      <td><%= note_author(note.author) %></td>
+      <td><%= note_description(note.author, note.description, current_user&.moderator? ? note.comments.unscope(:where => :visible).first : note.comments.first).to_html %></td>
+      <td><%= friendly_date_ago(note.created_at) %></td>
+      <td><%= friendly_date_ago(note.updated_at) %></td>
+    </tr>
+  <% end -%>
+  </table>
+
+  <%= render "notes_paging_nav", :page => @page, :next_page => @next_page, :params => @params %>
+
+<% end -%>

@@ -1,0 +1,52 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "share_buttons" %>
+<% end %>
+
+<% content_for :heading do %>
+  <div class="row">
+    <div class="col-sm-auto">
+      <%= user_image @diary_entry.user %>
+    </div>
+    <div class="col">
+      <h1><%= link_to t(".user_title", :user => @diary_entry.user.display_name), :action => :index %></h1>
+      <%= render "navigation", :user => @user %>
+    </div>
+  </div>
+<% end %>
+
+<%= render @diary_entry, :user => @user, :truncated => false %>
+<%= share_buttons(:title => @diary_entry.title, :url => diary_entry_url(@diary_entry.user, @diary_entry)) %>
+
+<div id="comments" class="comments mb-3 overflow-hidden">
+  <div class="row border-bottom border-secondary-subtle">
+    <h2 class="col"><%= t(".discussion") %></h2>
+
+    <% if current_user %>
+      <div class="col-auto">
+        <% if @diary_entry.subscribers.exists?(current_user.id) %>
+          <%= link_to t(".unsubscribe"), diary_entry_unsubscribe_path(@diary_entry.user, @diary_entry), :method => :post, :class => "btn btn-sm btn-primary" %>
+        <% else %>
+          <%= link_to t(".subscribe"), diary_entry_subscribe_path(@diary_entry.user, @diary_entry), :method => :post, :class => "btn btn-sm btn-primary" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= render :partial => "diary_comment", :collection => @comments %>
+</div>
+
+<div>
+  <h3 id="newcomment"><%= t ".leave_a_comment" %></h3>
+  <% if current_user %>
+    <%= bootstrap_form_for @diary_entry.comments.new, :url => comment_diary_entry_path(@diary_entry.user, @diary_entry) do |f| %>
+      <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+      <%= f.primary %>
+    <% end %>
+  <% else %>
+    <p><%= t(".login_to_leave_a_comment_html", :login_link => link_to(t(".login"), login_path(:referer => request.fullpath))) %></p>
+  <% end %>
+</div>
+
+<% content_for :auto_discovery_link_tag do -%>
+<%= auto_discovery_link_tag :rss, :action => :rss, :display_name => @diary_entry.user.display_name %>
+<% end -%>

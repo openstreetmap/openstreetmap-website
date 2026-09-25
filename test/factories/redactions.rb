@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+FactoryBot.define do
+  factory :redaction do
+    sequence(:title) { |n| "Redaction #{n}" }
+    sequence(:description) { |n| "Description of redaction #{n}" }
+
+    user
+  end
+end

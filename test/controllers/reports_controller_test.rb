@@ -1,0 +1,161 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class ReportsControllerTest < ActionDispatch::IntegrationTest
+  def test_new_missing_parameters
+    session_for(create(:user))
+    get new_report_path
+
+    assert_response :bad_request
+  end
+
+  def test_new_report_without_login
+    target_user = create(:user)
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_redirected_to login_path(:referer => new_report_path(:reportable_id => target_user.id, :reportable_type => "User"))
+  end
+
+  def test_new_report_after_login
+    target_user = create(:user)
+
+    session_for(create(:user))
+
+    # Create an Issue and a report
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_response :success
+    assert_difference "Issue.count", 1 do
+      details = "Details of a report"
+      category = "other"
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
+    end
+    assert_redirected_to user_path(target_user)
+  end
+
+  def test_new_report_with_incomplete_details
+    # Test creation of a new issue and a new report
+    target_user = create(:user)
+
+    # Login
+    session_for(create(:user))
+
+    # Create an Issue and a report
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_response :success
+    assert_difference "Issue.count", 1 do
+      details = "Details of a report"
+      category = "other"
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
+    end
+    assert_redirected_to user_path(target_user)
+
+    issue = Issue.last
+
+    assert_equal 1, issue.reports.count
+
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_response :success
+
+    # Report without details
+    assert_no_difference "Issue.count" do
+      category = "other"
+      post reports_path(:report => {
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
+    end
+    assert_response :success
+    assert_template :new
+    assert_match(/Please provide the required details/, flash[:warning])
+
+    assert_equal 1, issue.reports.count
+  end
+
+  def test_new_report_with_complete_details
+    # Test creation of a new issue and a new report
+    target_user = create(:user)
+
+    # Login
+    session_for(create(:user))
+
+    # Create an Issue and a report
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_response :success
+    assert_difference "Issue.count", 1 do
+      details = "Details of a report"
+      category = "other"
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
+    end
+    assert_redirected_to user_path(target_user)
+
+    issue = Issue.last
+
+    assert_equal 1, issue.reports.count
+
+    # Create a report for an existing Issue
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
+    assert_response :success
+    assert_no_difference "Issue.count" do
+      details = "Details of another report under the same issue"
+      category = "other"
+      post reports_path(:report => {
+                          :details => details,
+                          :category => category,
+                          :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                        })
+    end
+    assert_response :redirect
+
+    assert_equal 2, issue.reports.count
+  end
+
+  def test_spam_reports_can_suspend
+    target_user = create(:user)
+
+    session_for(create(:user))
+
+    post reports_path(:report => {
+                        :details => "Spammer",
+                        :category => "spam",
+                        :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                      })
+    assert_equal "active", target_user.reload.status
+
+    session_for(create(:user))
+
+    post reports_path(:report => {
+                        :details => "Spammer",
+                        :category => "spam",
+                        :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                      })
+    assert_equal "active", target_user.reload.status
+
+    post reports_path(:report => {
+                        :details => "Spammer",
+                        :category => "spam",
+                        :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                      })
+    assert_equal "active", target_user.reload.status
+
+    session_for(create(:user))
+
+    post reports_path(:report => {
+                        :details => "Spammer",
+                        :category => "spam",
+                        :issue => { :reportable_id => target_user.id, :reportable_type => "User" }
+                      })
+    assert_equal "suspended", target_user.reload.status
+  end
+end

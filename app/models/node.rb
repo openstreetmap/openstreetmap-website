@@ -1,0 +1,274 @@
+# frozen_string_literal: true
+
+# == Schema Information
+#
+# Table name: current_nodes
+#
+#  id           :bigint           not null, primary key
+#  latitude     :integer          not null
+#  longitude    :integer          not null
+#  changeset_id :bigint           not null
+#  visible      :boolean          not null
+#  timestamp    :datetime         not null
+#  tile         :bigint           not null
+#  version      :bigint           not null
+#
+# Indexes
+#
+#  current_nodes_tile_idx       (tile)
+#  current_nodes_timestamp_idx  (timestamp)
+#
+# Foreign Keys
+#
+#  current_nodes_changeset_id_fkey  (changeset_id => changesets.id)
+#
+
+class Node < ApplicationRecord
+  include GeoRecord
+  include ConsistencyValidations
+  include NotRedactable
+
+  self.table_name = "current_nodes"
+
+  belongs_to :changeset
+
+  has_many :old_nodes, -> { order(:version) }, :inverse_of => :current_node
+
+  has_many :way_nodes
+  has_many :ways, :through => :way_nodes
+
+  has_many :element_tags, :class_name => "NodeTag"
+
+  has_many :old_way_nodes
+  has_many :ways_via_history, :class_name => "Way", :through => :old_way_nodes, :source => :way
+
+  has_many :containing_relation_members, :class_name => "RelationMember", :as => :member
+  has_many :containing_relations, :class_name => "Relation", :through => :containing_relation_members, :source => :relation
+
+  validates :id, :uniqueness => true, :presence => { :on => :update },
+                 :numericality => { :on => :update, :only_integer => true }
+  validates :version, :presence => true,
+                      :numericality => { :only_integer => true }
+  validates :latitude, :presence => true,
+                       :numericality => { :only_integer => true }
+  validates :longitude, :presence => true,
+                        :numericality => { :only_integer => true }
+  validates :timestamp, :presence => true
+  validates :changeset, :associated => true
+  validates :visible, :inclusion => [true, false]
+
+  validate :validate_position
+
+  scope :visible, -> { where(:visible => true) }
+  scope :invisible, -> { where(:visible => false) }
+
+  # Sanity check the latitude and longitude and add an error if it's broken
+  def validate_position
+    errors.add(:base, "Node is not in the world") unless in_world?
+  end
+
+  # Read in xml as text and return it's Node object representation
+  def self.from_xml(xml, create: false)
+    p = XML::Parser.string(xml, :options => XML::Parser::Options::NOERROR)
+    doc = p.parse
+    pt = doc.find_first("//osm/node")
+
+    if pt
+      Node.from_xml_node(pt, :create => create)
+    else
+      raise OSM::APIBadXMLError.new("node", xml, "XML doesn't contain an osm/node element.")
+    end
+  rescue LibXML::XML::Error, ArgumentError => e
+    raise OSM::APIBadXMLError.new("node", xml, e.message)
+  end
+
+  def self.from_xml_node(pt, create: false)
+    node = Node.new
+
+    raise OSM::APIBadXMLError.new("node", pt, "lat missing") if pt["lat"].nil?
+    raise OSM::APIBadXMLError.new("node", pt, "lon missing") if pt["lon"].nil?
+
+    node.lat = OSM.parse_float(pt["lat"], OSM::APIBadXMLError, "node", pt, "lat not a number")
+    node.lon = OSM.parse_float(pt["lon"], OSM::APIBadXMLError, "node", pt, "lon not a number")
+    raise OSM::APIBadXMLError.new("node", pt, "Changeset id is missing") if pt["changeset"].nil?
+
+    node.changeset_id = pt["changeset"].to_i
+
+    raise OSM::APIBadUserInput, "The node is outside this world" unless node.in_world?
+
+    # version must be present unless creating
+    raise OSM::APIBadXMLError.new("node", pt, "Version is required when updating") unless create || !pt["version"].nil?
+
+    node.version = create ? 0 : pt["version"].to_i
+
+    unless create
+      raise OSM::APIBadXMLError.new("node", pt, "ID is required when updating.") if pt["id"].nil?
+
+      node.id = pt["id"].to_i
+      # .to_i will return 0 if there is no number that can be parsed.
+      # We want to make sure that there is no id with zero anyway
+      raise OSM::APIBadUserInput, "ID of node cannot be zero when updating." if node.id.zero?
+    end
+
+    # We don't care about the time, as it is explicitly set on create/update/delete
+    # We don't care about the visibility as it is implicit based on the action
+    # and set manually before the actual delete
+    node.visible = true
+
+    # Start with no tags
+    node.tags = {}
+
+    # Add in any tags from the XML
+    pt.find("tag").each do |tag|
+      raise OSM::APIBadXMLError.new("node", pt, "tag is missing key") if tag["k"].nil?
+      raise OSM::APIBadXMLError.new("node", pt, "tag is missing value") if tag["v"].nil?
+
+      node.add_tag_key_val(tag["k"], tag["v"])
+    end
+
+    node
+  end
+
+  ##
+  # the bounding box around a node, which is used for determining the changeset's
+  # bounding box
+  def bbox
+    BoundingBox.new(longitude, latitude, longitude, latitude)
+  end
+
+  # Should probably be renamed delete_from to come in line with update
+  def delete_with_history!(new_node, user)
+    raise OSM::APIAlreadyDeletedError.new("node", new_node.id) unless visible
+
+    # need to start the transaction here, so that the database can
+    # provide repeatable reads for the used-by checks. this means it
+    # shouldn't be possible to get race conditions.
+    Node.transaction do
+      lock!
+      check_update_element_consistency(self, new_node, user)
+      ways = Way.joins(:way_nodes).where(:visible => true, :current_way_nodes => { :node_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError, "Node #{id} is still used by ways #{ways.collect(&:id).join(',')}." unless ways.empty?
+
+      rels = Relation.joins(:relation_members).where(:visible => true, :current_relation_members => { :member_type => "Node", :member_id => id }).order(:id)
+      raise OSM::APIPreconditionFailedError, "Node #{id} is still used by relations #{rels.collect(&:id).join(',')}." unless rels.empty?
+
+      self.changeset_id = new_node.changeset_id
+      self.tags = {}
+      self.visible = false
+
+      # update the changeset with the deleted position
+      changeset.update_bbox!(bbox)
+
+      changeset.num_deleted_nodes += 1
+
+      save_with_history!
+    end
+  end
+
+  def update_from(new_node, user)
+    Node.transaction do
+      lock!
+      check_update_element_consistency(self, new_node, user)
+
+      # update changeset first
+      self.changeset_id = new_node.changeset_id
+      self.changeset = new_node.changeset
+
+      # update changeset bbox with *old* position first
+      changeset.update_bbox!(bbox)
+
+      # FIXME: logic needs to be double checked
+      self.latitude = new_node.latitude
+      self.longitude = new_node.longitude
+      self.tags = new_node.tags
+      self.visible = true
+
+      # update changeset bbox with *new* position
+      changeset.update_bbox!(bbox)
+
+      changeset.num_modified_nodes += 1
+
+      save_with_history!
+    end
+  end
+
+  def create_with_history(user)
+    check_create_element_consistency(self, user)
+    self.version = 0
+    self.visible = true
+
+    # update the changeset to include the new location
+    changeset.update_bbox!(bbox)
+
+    changeset.num_created_nodes += 1
+
+    save_with_history!
+  end
+
+  def tags
+    @tags ||= element_tags.to_h { |t| [t.k, t.v] }
+  end
+
+  attr_writer :tags
+
+  def add_tag_key_val(k, v)
+    @tags ||= {}
+
+    # duplicate tags are now forbidden, so we can't allow values
+    # in the hash to be overwritten.
+    raise OSM::APIDuplicateTagsError.new("node", id, k) if @tags.include? k
+
+    @tags[k] = v
+  end
+
+  ##
+  # are the preconditions OK? this is mainly here to keep the duck
+  # typing interface the same between nodes, ways and relations.
+  def preconditions_ok?
+    in_world?
+  end
+
+  ##
+  # dummy method to make the interfaces of node, way and relation
+  # more consistent.
+  def fix_placeholders!(_id_map, _placeholder_id = nil)
+    # nodes don't refer to anything, so there is nothing to do here
+  end
+
+  private
+
+  def save_with_history!
+    t = Time.now.utc
+
+    self.version += 1
+    self.timestamp = t
+
+    Node.transaction do
+      # clone the object before saving it so that the original is
+      # still marked as dirty if we retry the transaction
+      clone.save!
+
+      # Create a NodeTag
+      tags = self.tags
+      NodeTag.where(:node_id => id).delete_all
+      tags.each do |k, v|
+        tag = NodeTag.new
+        tag.node_id = id
+        tag.k = k
+        tag.v = v
+        tag.save!
+      end
+
+      # Create an OldNode
+      old_node = OldNode.from_node(self)
+      old_node.timestamp = t
+      old_node.save_with_dependencies!
+
+      # tell the changeset we updated one element only
+      changeset.add_changes! 1
+
+      # save the changeset in case of bounding box updates
+      changeset.save!
+    end
+  end
+end

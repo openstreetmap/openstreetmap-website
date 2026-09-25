@@ -1,0 +1,100 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "user" %>
+  <%= javascript_include_tag "auth_providers" %>
+  <% if Settings.turnstile_site_key -%>
+    <%= javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", :async => true, :defer => true %>
+  <% end -%>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <% if @client_app_name %>
+    <p class="text-center text-body-secondary fs-6 py-2 mb-0 bg-body"><%= t(".signup_to_authorize_html", :client_app_name => @client_app_name) %></p>
+  <% end %>
+
+  <div class="d-flex align-items-end">
+    <ul class="nav nav-tabs fs-6">
+      <li class="nav-item">
+        <%= link_to t("sessions.new.tab_title"), url_for(:action => :new, :controller => :sessions, :referer => @referer), :class => "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= tag.span t("users.new.tab_title"), :class => "nav-link active" %>
+      </li>
+    </ul>
+    <div class="flex-grow-1 header-illustration new-user-main"></div>
+  </div>
+<% end %>
+
+<% if current_user.auth_uid.nil? %>
+  <div class="text-body-secondary fs-6">
+    <p><strong><%= t ".about.header" %></strong> <%= t ".about.paragraph_1" %></p>
+    <p><%= t ".about.paragraph_2" %></p>
+  </div>
+
+  <% unless @preferred_auth_provider.nil? %>
+    <%= render :partial => "auth_providers", :locals => { :preferred_auth_provider => @preferred_auth_provider } %>
+    <%= render :partial => "section_divider", :locals => { :text => t(".or") } %>
+  <% end %>
+<% else %>
+  <h4><%= t ".about.welcome" %></h4>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => "create" } do |f| %>
+  <%= hidden_field_tag("referer", h(@referer)) unless @referer.nil? %>
+  <%= hidden_field_tag("email_hmac", h(@email_hmac)) unless @email_hmac.nil? %>
+  <%= f.hidden_field :auth_provider unless current_user.auth_provider.nil? %>
+  <%= f.hidden_field :auth_uid unless current_user.auth_uid.nil? %>
+
+  <% if current_user.auth_uid.nil? or @email_hmac.nil? or not current_user.errors[:email].empty? %>
+    <%= f.email_field :email, :help => t(".email_help.html",
+                                         :privacy_policy_link => link_to(t(".email_help.privacy_policy"),
+                                                                         t(".email_help.privacy_policy_url"),
+                                                                         :title => t(".email_help.privacy_policy_title"),
+                                                                         :target => :new)),
+                              :autofocus => true %>
+  <% else %>
+    <%= f.hidden_field :email %>
+  <% end %>
+
+  <%= f.text_field :display_name, :help => t(".display name description") %>
+
+  <% if current_user.auth_uid.nil? %>
+    <div class="row">
+      <div class="col-sm">
+        <%= f.password_field :pass_crypt, :required => true %>
+      </div>
+      <div class="col-sm">
+        <%= f.password_field :pass_crypt_confirmation, :required => true %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if Settings.turnstile_site_key -%>
+    <div class="mb-3">
+      <label class="form_label"><%= t ".verify_human" %></label>
+      <div class="pt-2 cf-turnstile" data-sitekey="<%= Settings.turnstile_site_key %>"></div>
+    </div>
+  <% end %>
+
+  <p class="mb-3 text-body-secondary fs-6"><%= t(".by_signing_up.html",
+                                                 :tou_link => link_to(t(".by_signing_up.tou"),
+                                                                      "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+                                                                      :target => :new),
+                                                 :privacy_policy_link => link_to(t(".by_signing_up.privacy_policy"),
+                                                                                 t(".by_signing_up.privacy_policy_url"),
+                                                                                 :title => t(".by_signing_up.privacy_policy_title"),
+                                                                                 :target => :new),
+                                                 :contributor_terms_link => link_to(t(".by_signing_up.contributor_terms"),
+                                                                                    t(".by_signing_up.contributor_terms_url"),
+                                                                                    :target => :new)) %></p>
+
+  <div class="mb-3">
+    <%= submit_tag(t(".continue"), :name => "continue", :id => "continue", :class => "btn btn-primary") %>
+  </div>
+<% end %>
+
+<% if current_user.auth_uid.nil? and @preferred_auth_provider.nil? and !Auth.providers.empty? %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".use external auth") } %>
+  <%= render :partial => "auth_providers" %>
+<% end %>

@@ -1,0 +1,40 @@
+<%# locals: (notification:, record:) %>
+
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :uri => changeset_path(
+        record.changeset,
+        :anchor => "c#{record.id}"
+      ),
+      :timestamp => record.created_at
+    ) %>
+
+<%= render(
+      "notifications/notification_body",
+      :author => record.author
+    ) do %>
+  <p class="text-body-secondary event-description">
+    <% if record.changeset.comment %>
+      <%= t(
+            "notifications.changeset_comment.description_with_summary_html",
+            :commenter_name_with_link => link_to(
+              record.author.display_name,
+              record.author
+            ),
+            :changeset_id_with_link => link_to("##{record.changeset_id}", record.changeset),
+            :changeset_summary => record.changeset.comment
+          ) %>
+    <% else %>
+      <%= t(
+            "notifications.changeset_comment.description_without_summary_html",
+            :commenter_name_with_link => link_to(
+              record.author.display_name,
+              record.author
+            ),
+            :changeset_id_with_link => link_to("##{record.changeset_id}", record.changeset)
+          ) %>
+    <% end %>
+  </p>
+  <%= render "notifications/notification_quote", :body => record.body %>
+<% end %>

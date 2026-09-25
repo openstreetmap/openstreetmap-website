@@ -1,0 +1,9 @@
+<%= t ".hi", :to_user => @follow.following.display_name %>
+
+<%= t '.followed_you', :user => @follow.follower.display_name %>
+
+<%= t '.see_their_profile', :userurl => @viewurl %>
+
+<% unless @follow.following.follows?(@follow.follower) -%>
+<%= t '.follow_them', :followurl => @followurl %>
+<% end -%>

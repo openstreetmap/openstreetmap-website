@@ -1,0 +1,253 @@
+//= depend_on settings.yml
+//= depend_on settings.local.yml
+//= depend_on layers.yml
+//= depend_on legend.yml
+
+OSM = {
+  ...<%=
+    %i[
+      matomo
+      max_request_area
+      server_protocol
+      server_url
+      api_version
+      status
+      max_note_request_area
+      overpass_url
+      overpass_credentials
+      nominatim_url
+      graphhopper_url
+      fossgis_osrm_url
+      fossgis_valhalla_url
+      wikidata_api_url
+      wikimedia_commons_url
+    ]
+      .each_with_object({}) do |key, hash|
+        hash[key.to_s.upcase] = Settings.send(key) if Settings.respond_to?(key)
+      end.to_json
+  %>,
+
+  cookies: Cookies.withAttributes({ path: "/", samesite: "lax", secure: <%= (Settings.server_protocol == "https").to_json %> }),
+
+  DEFAULT_LOCALE: <%= I18n.default_locale.to_json %>,
+
+  LAYER_DEFINITIONS: <%= MapLayers::full_definitions("config/layers.yml", :legends => "config/legend.yml").to_json %>,
+
+  MODULE_PATHS: <%=
+    %i[changeset directions element export history home index new_note note query search]
+      .each_with_object({}) { |module_name, hash| hash[:"index_#{module_name}"] = "index_modules/#{module_name}" }
+      .merge(
+        :mapbox_rtl_text => "@mapbox/mapbox-gl-rtl-text/dist/mapbox-gl-rtl-text.js",
+        :make_plural_cardinals => "make-plural/cardinals.js"
+      )
+      .transform_values { |path| javascript_path(path) }
+      .to_json %>,
+
+  apiUrl: function (object) {
+    const apiType = object.type === "note" ? "notes" : object.type;
+    let url = "/api/" + OSM.API_VERSION + "/" + apiType + "/" + object.id;
+
+    if (object.type === "way" || object.type === "relation") {
+      url += "/full";
+    } else if (object.version) {
+      url += "/" + object.version;
+    }
+
+    return url;
+  },
+
+  mapParams: function (search) {
+    const params = new URLSearchParams(search || location.search),
+          geoURI = OSM.parseGeoURI(params.get("geouri")),
+          mapParams = {};
+
+    if (params.has("mlon") && params.has("mlat")) {
+      mapParams.marker = true;
+      mapParams.mlon = parseFloat(params.get("mlon"));
+      mapParams.mlat = parseFloat(params.get("mlat"));
+      mapParams.mrad = parseFloat(params.get("mrad"));
+    }
+    if (geoURI) {
+      mapParams.marker = true;
+      mapParams.mlon = geoURI.coords.lng;
+      mapParams.mlat = geoURI.coords.lat;
+      mapParams.mrad = geoURI.uncertainty;
+    }
+
+    // Old-style object parameters; still in use for edit links e.g. /edit?way=1234
+    for (const type of ["node", "way", "relation", "note"]) {
+      if (params.has(type)) {
+        mapParams.object = { type, id: parseInt(params.get(type), 10) };
+      }
+    }
+
+    const hash = OSM.parseHash();
+
+    const loc = OSM.cookies.get("_osm_location")?.split("|");
+
+    function bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat }) {
+      return L.latLngBounds([minlat, minlon], [maxlat, maxlon]);
+    }
+
+    // Decide on a map starting position. Various ways of doing this.
+    if (hash.center) {
+      Object.assign(mapParams, hash);
+    } else if (params.has("bbox")) {
+      const [minlon, minlat, maxlon, maxlat] = params.get("bbox").split(",");
+      mapParams.bounds = bboxToLatLngBounds({ minlon, minlat, maxlon, maxlat });
+    } else if (params.has("minlon") && params.has("minlat") && params.has("maxlon") && params.has("maxlat")) {
+      mapParams.bounds = bboxToLatLngBounds(Object.fromEntries(params));
+    } else if (params.has("mlon") && params.has("mlat")) {
+      mapParams.lon = params.get("mlon");
+      mapParams.lat = params.get("mlat");
+      mapParams.zoom = params.get("zoom") || 12;
+    } else if (geoURI?.uncertainty > 0 && !("zoom" in geoURI)) {
+      mapParams.bounds = geoURI.coords.toBounds(geoURI.uncertainty * 4);
+    } else if (geoURI) {
+      mapParams.lon = geoURI.coords.lng;
+      mapParams.lat = geoURI.coords.lat;
+      mapParams.zoom = geoURI.zoom || 12;
+    } else if (loc) {
+      [mapParams.lon, mapParams.lat, mapParams.zoom] = loc;
+    } else if (OSM.home) {
+      mapParams.lon = OSM.home.lon;
+      mapParams.lat = OSM.home.lat;
+      mapParams.zoom = 10;
+    } else if (OSM.location) {
+      mapParams.bounds = bboxToLatLngBounds(OSM.location);
+    } else {
+      mapParams.lon = -0.1;
+      mapParams.lat = 51.5;
+      mapParams.zoom = params.get("zoom") || 5;
+    }
+
+    if (typeof mapParams.lat === "string") mapParams.lat = parseFloat(mapParams.lat);
+    if (typeof mapParams.lon === "string") mapParams.lon = parseFloat(mapParams.lon);
+    if (typeof mapParams.zoom === "string") mapParams.zoom = parseInt(mapParams.zoom, 10);
+
+    mapParams.layers = hash.layers || (loc && loc[3]) || "";
+
+    const scale = parseFloat(params.get("scale"));
+    if (scale > 0) {
+      mapParams.zoom = Math.log(360.0 / (scale * 512.0)) / Math.log(2.0);
+    }
+
+    return mapParams;
+  },
+
+  parseGeoURI: function (geoURI) {
+    let url;
+    try {
+      url = new URL(geoURI);
+    } catch (e) { return; }
+    if (!url?.pathname || url.protocol !== "geo:") return;
+    const [path, ...params] = url.pathname.split(";");
+    let coords;
+    try {
+      coords = L.latLng(path.split(","));
+    } catch (e) { return; }
+    if (!coords) return;
+    const searchParams = new URLSearchParams(params.join("&").toLowerCase());
+    const crs = searchParams.get("crs");
+    if (crs && crs !== "wgs84") return;
+    const uncertainty = parseFloat(searchParams.get("u"));
+    const zoom = parseFloat(url.searchParams.get("z"));
+    const out = { coords };
+    if (uncertainty >= 0) out.uncertainty = uncertainty;
+    if (zoom >= 0) out.zoom = zoom;
+    return out;
+  },
+
+  parseHash: function (hash = location.hash) {
+    const i = hash.indexOf("#");
+    if (i < 0) return {};
+
+    const hashParams = new URLSearchParams(hash.slice(i + 1)),
+          map = (hashParams.get("map") || "").split("/"),
+          zoom = parseInt(map[0], 10),
+          lat = parseFloat(map[1]),
+          lon = parseFloat(map[2]),
+          args = {};
+
+    if (!isNaN(zoom) && !isNaN(lat) && !isNaN(lon)) {
+      args.center = new L.LatLng(lat, lon);
+      args.lat = lat;
+      args.lon = lon;
+      args.zoom = zoom;
+    }
+
+    if (hashParams.has("layers")) {
+      args.layers = hashParams.get("layers");
+    }
+
+    return args;
+  },
+
+  formatHash: function (args) {
+    let center, zoom, layers;
+
+    if (args instanceof L.Map) {
+      center = args.getCenter();
+      zoom = args.getZoom();
+      layers = args.getLayersCode();
+    } else if (args instanceof URLSearchParams) {
+      center = args.get("center") || L.latLng(args.get("lat"), args.get("lon"));
+      zoom = Number(args.get("zoom"));
+      layers = args.get("layers") || "";
+    } else {
+      center = args.center || L.latLng(args.lat, args.lon);
+      zoom = Number(args.zoom);
+      layers = args.layers || "";
+    }
+
+    layers = layers.replace("M", "");
+
+    const { lat, lng } = OSM.cropLocation(center, zoom);
+    let hash = `#map=${zoom}/${lat}/${lng}`;
+
+    if (layers) {
+      hash += "&layers=" + layers;
+    }
+
+    return hash;
+  },
+
+  zoomPrecision: function (zoom) {
+    const pixels = Math.pow(2, 8 + zoom);
+    const degrees = 180;
+    return Math.ceil(Math.log10(pixels / degrees));
+  },
+
+  cropLocation: function (latLng, zoom) {
+    const precision = OSM.zoomPrecision(zoom),
+          wrapped = latLng.wrap();
+    return {
+      lat: wrapped.lat.toFixed(precision),
+      lng: wrapped.lng.toFixed(precision)
+    };
+  },
+
+  locationCookie: function (map) {
+    const zoom = map.getZoom(),
+          { lat, lng } = OSM.cropLocation(map.getCenter(), zoom);
+    return [lng, lat, zoom, map.getLayersCode()].join("|");
+  },
+
+  isDark: function (subject) {
+    const data = `${subject}-theme`,
+          theme = $(`[data-${data}]`).first().data(data);
+    if (theme) return theme === "dark";
+    return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  },
+
+  showAlert: function (title, message) {
+    const modalTitle = document.getElementById("osm_alert_title");
+    modalTitle.textContent = title;
+    const modalBody = document.getElementById("osm_alert_message");
+    modalBody.textContent = message;
+    const alertModal = new bootstrap.Modal(document.getElementById("osm_alert_modal"));
+    alertModal.show();
+  },
+
+  MapLibre: {}
+};

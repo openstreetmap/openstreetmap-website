@@ -1,0 +1,26 @@
+<%# locals: (comments:, params:) %>
+
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <%= render "pagination", :paginator => comments, :params => params %>
+
+  <table class="table table-striped" width="100%">
+    <thead>
+      <tr>
+        <th width="25%"><%= t ".post" %></th>
+        <th width="25%"><%= t ".when" %></th>
+        <th width="50%"><%= t ".comment" %></th>
+      </tr>
+    </thead>
+    <% comments.items.each do |comment| -%>
+    <tr>
+      <td width="25%" class="<%= "text-body-secondary" unless comment.visible? %>"><%= link_to comment.diary_entry.title, diary_entry_path(comment.diary_entry.user, comment.diary_entry) %></td>
+      <td width="25%" class="<%= "text-body-secondary" unless comment.visible? %>">
+        <%= friendly_date_ago(comment.created_at) %>
+      </td>
+      <td width="50%" class="richtext text-break<%= " text-body-secondary" unless comment.visible? %>"><%= comment.body.to_html %></td>
+    </tr>
+    <% end -%>
+  </table>
+
+  <%= render "pagination", :paginator => comments, :params => params %>
+</turbo-frame>

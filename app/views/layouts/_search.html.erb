@@ -1,0 +1,80 @@
+<%# locals: (autofocus:, extra_classes:) %>
+
+<% search_query = if params[:query]
+                    params[:query]
+                  elsif params[:lat] && params[:lon]
+                    "#{params[:lat]}, #{params[:lon]}"
+                  end %>
+
+<%= tag.div :class => ["search_forms", *extra_classes] do %>
+  <form method="GET" action="<%= search_path %>" class="search_form bg-body-secondary p-2">
+    <div class="d-flex gap-2">
+      <div class="input-group flex-nowrap">
+        <%= text_field_tag "query", search_query, :placeholder => t("site.search.search"), :autofocus => autofocus, :autocomplete => "on", :class => "form-control z-0 py-1 px-2", :dir => "auto" %>
+        <div class="input-group-text border-start-0 p-0 position-relative">
+          <%= button_tag t("site.search.where_am_i"), :type => "button", :class => "describe_location position-absolute end-0 m-1 btn btn-outline-primary border-0 p-1 text-primary link-body-emphasis link-opacity-100-hover", :title => t("site.search.where_am_i_title") %>
+        </div>
+        <%= button_tag :class => "btn btn-primary p-1", :title => t("site.search.submit_text") do %>
+          <%= inline_svg_tag "magnifying_glass.svg" %>
+        <% end %>
+      </div>
+      <%= link_to directions_path, :class => "btn btn-primary p-1 switch_link", :title => t("site.search.get_directions_title") do %>
+        <%= inline_svg_tag "directions.svg", :class => "align-bottom" %>
+      <% end %>
+    </div>
+  </form>
+
+  <form method="GET" action="<%= directions_path %>" class="directions_form bg-body-secondary p-2">
+    <div class="d-flex flex-column gap-2">
+      <div class="d-flex gap-2 align-items-center">
+        <div class="btn-group routing_modes" role="group">
+          <% { "car" => "car-front-fill", "bicycle" => "bicycle", "foot" => "person-walking" }.each do |mode, icon| %>
+            <%= radio_button_tag "modes", mode, false, { :class => "btn-check", :autocomplete => "off", :disabled => true } %>
+            <%= label_tag "modes_#{mode}",
+                          tag.i(:class => "bi bi-#{icon} fs-6", :aria => { :hidden => "true" }),
+                          :class => "btn btn-outline-secondary px-2 py-1",
+                          :title => t("site.search.modes.#{mode}") %>
+          <% end %>
+        </div>
+        <%= options = %w[graphhopper fossgis_osrm fossgis_valhalla].map do |engine|
+              [t("site.search.providers.#{engine}"), engine, { :disabled => true }]
+            end
+            select_tag "routing_engines",
+                       grouped_options_for_select({ t("site.search.providers.description") => options }),
+                       :class => "form-select py-1 px-2",
+                       :title => t("site.search.providers.description") %>
+        <button type="button" class="btn-close flex-shrink-0 p-2 rounded-5" aria-label="<%= t("javascripts.close") %>"></button>
+      </div>
+      <div class="d-flex gap-2 align-items-center">
+        <div class="d-flex flex-column gap-1 flex-grow-1">
+          <div class="d-grid align-items-center">
+            <div class="routing_marker_column z-0">
+              <span data-type="from" draggable="true">
+                <svg viewBox="0 0 25 40">
+                  <title><%= t("site.search.marker_from") %></title>
+                  <use href="#pin-start" color="var(--marker-green)" />
+                </svg>
+              </span>
+            </div>
+            <%= text_field_tag "route_from", params[:from], :placeholder => t("site.search.from"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
+          </div>
+          <div class="d-grid align-items-center">
+            <div class="routing_marker_column z-0">
+              <span data-type="to" draggable="true">
+                <svg viewBox="0 0 25 40">
+                  <title><%= t("site.search.marker_to") %></title>
+                  <use href="#pin-destination" color="var(--marker-red)" />
+                </svg>
+              </span>
+            </div>
+            <%= text_field_tag "route_to", params[:to], :placeholder => t("site.search.to"), :autocomplete => "on", :class => "form-control py-1 px-2 ps-4", :dir => "auto" %>
+          </div>
+        </div>
+        <%= button_tag tag.i(:class => "bi bi-arrow-down-up d-flex fs-5", :aria => { :hidden => "true" }),
+                       :type => "button",
+                       :class => "reverse_directions btn btn-outline-secondary p-1",
+                       :title => t("site.search.reverse_directions_text") %>
+      </div>
+    </div>
+  </form>
+<% end %>

@@ -1,0 +1,954 @@
+@use "sass:map";
+@import "parameters";
+@import "bootstrap";
+@import "rails_bootstrap_forms";
+@import "colors";
+
+$bootstrap-icons-font-dir: "bootstrap-icons/font/fonts";
+@import "bootstrap-icons/font/bootstrap-icons";
+
+/* Styles common to large and small screens */
+
+/* Default rules for the body of every page */
+
+body {
+  font-size: $typeheight;
+}
+
+time[title] {
+  text-decoration: underline dotted;
+}
+
+/* Utility for de-emphasizing content */
+
+.text-body-secondary a {
+  color: $blue;
+}
+
+/* Bootstrap contextual table classes overrides in dark mode */
+
+@include color-mode(dark) {
+  .table-primary {
+    --bs-table-bg: rgb(var(--bs-primary-rgb), .25);
+  }
+  .table-secondary {
+    --bs-table-bg: rgb(var(--bs-secondary-rgb), .25);
+  }
+  .table-success {
+    --bs-table-bg: rgb(var(--bs-success-rgb), .25);
+  }
+  .table-primary, .table-secondary, .table-success {
+    --bs-table-color: initial;
+    border-color: inherit;
+  }
+}
+
+/* Utility for delayed loading spinner */
+
+.delayed-fade-in {
+  animation: 300ms linear forwards delayed-fade-in;
+}
+
+@keyframes delayed-fade-in {
+  0%   { opacity: 0 }
+  66%  { opacity: 0 }
+  100% { opacity: 1 }
+}
+
+/* Bootstrap close button overrides for nested light/dark themes */
+
+[data-bs-theme="dark"],
+[data-bs-theme] [data-bs-theme="dark"] {
+  --bs-btn-close-filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-bs-theme="light"],
+[data-bs-theme] [data-bs-theme="light"] {
+  --bs-btn-close-filter: none;
+}
+
+/* Rules for the header */
+
+header.navbar {
+  font-size: 14px;
+
+  h1,
+  nav {
+    padding: $lineheight * 0.5;
+  }
+
+  h1 {
+    height: $headerHeight;
+    font-size: 18px;
+    gap: $lineheight * 0.5;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
+}
+
+header nav {
+  #edit_tab .btn-outline-primary {
+    @include button-outline-variant($green, $color-hover: $white, $active-color: $white);
+  }
+
+  .disabled {
+    .btn-outline-primary {
+      color: $grey;
+      cursor: default;
+
+      &:hover {
+        background-color: lighten($green, 30%);
+      }
+    }
+  }
+
+  // Small tweaks to the toggle to stop the primary colour showing through
+  // when the menu is shown
+  .show > .btn-outline-primary.dropdown-toggle {
+    background-color: $green;
+    border-color: $green;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem fade-out($green, 0.5);
+    }
+  }
+
+  .dropdown-item {
+    &:hover, &:active {
+      background-color: $green;
+      color: white;
+    }
+  }
+}
+
+@include media-breakpoint-up(md) {
+  #header-nav {
+    overflow: visible;
+  }
+
+  header .username {
+    max-width: 12em;
+  }
+}
+
+/* Rules for language selector */
+
+.select_language_list {
+  column-width: 165px;
+
+  a {
+    .native_name small {
+      font-size: 10px;
+    }
+
+    &:hover .current_locale_name {
+      text-decoration: underline;
+    }
+  }
+}
+
+/* Utility for styling notification numbers */
+
+.count-number {
+  background: transparentize(lighten($green, 25%), .25);
+  color: $gray-800;
+  font-weight: $font-weight-normal;
+}
+
+/* Rules for Leaflet maps */
+
+.leaflet-top.leaflet-right,
+.leaflet-top.leaflet-left {
+  height: 100%;
+  column-gap: 10px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap-reverse;
+}
+
+.leaflet-control .control-button {
+  display: grid;
+  height: 40px;
+  width: 40px;
+  color: white;
+  place-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  outline: none;
+
+  &:hover,
+  &:focus {
+    background-color: black;
+  }
+
+  &.disabled,
+  &.leaflet-disabled {
+    background-color: rgba(0,0,0,.5);
+    cursor: default;
+  }
+
+  &-first {
+    border-start-start-radius: 4px;
+  }
+
+  &-last {
+    border-end-start-radius: 4px;
+    margin-bottom: 10px;
+  }
+}
+
+.leaflet-control.active .control-button {
+  background-color: $vibrant-green;
+}
+
+/* Rules for the sidebar and main map area */
+
+.map-layout {
+  #content {
+    overflow: hidden;
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #sidebar, #map, #map-ui {
+    position: relative;
+    flex-basis: 50%;
+  }
+
+  #sidebar {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .overlay-sidebar #sidebar {
+    position: absolute;
+    width: $sidebarWidth;
+    overflow: hidden;
+
+    .sidebar-close-controls,
+    #sidebar_loader,
+    #sidebar_content {
+      display: none;
+    }
+  }
+
+  #sidebar_loader:has(+ #sidebar_content turbo-frame:not([busy])),
+  #sidebar_content turbo-frame[busy] {
+    display: none;
+  }
+
+  #content:not(.overlay-sidebar) :is(.welcome, #banner) {
+    @extend .d-none;
+  }
+
+  #banner img {
+    width: $sidebarWidth;
+  }
+
+  #map {
+    overflow: hidden;
+
+    &.query-active {
+      cursor: help;
+    }
+
+    &.query-disabled {
+      cursor: not-allowed;
+    }
+
+    .leaflet-marker-draggable {
+      cursor: move;
+    }
+
+    .query-marker {
+      animation: 1500ms forwards query-marker-fade;
+
+      @keyframes query-marker-fade {
+        to { opacity: 0 }
+      }
+    }
+  }
+
+  #map-ui {
+    display: none;
+    overflow: auto;
+  }
+
+  @include media-breakpoint-up(md) {
+    #content {
+      flex-direction: row;
+    }
+
+    #sidebar {
+      flex-basis: $sidebarWidth;
+    }
+
+    #map {
+      flex-basis: auto;
+    }
+
+    #map-ui {
+      flex-basis: 250px;
+    }
+  }
+}
+
+.layers-ui {
+  .base-layers > * {
+    height: 3.5rem;
+
+    > .btn {
+      box-sizing: content-box;
+      top: - map.get($border-widths, 4);
+      left: - map.get($border-widths, 4);
+      --bs-btn-border-color: var(--bs-body-bg);
+    }
+    > .btn:hover {
+      --bs-btn-border-color: var(--bs-primary-border-subtle);
+    }
+  }
+
+  .overlay-layers {
+    .form-check.disabled { color: $darkgrey; }
+  }
+}
+
+.share-ui {
+  #mapnik_scale {
+    width: 100px;
+  }
+}
+
+.leaflet-top {
+  top: 10px !important;
+  .leaflet-control {
+    margin-right: 0px !important;
+    margin-top: 0px !important;
+  }
+}
+
+.leaflet-popup-scrolled {
+  padding-right: $lineheight;
+  border-bottom: 0px !important;
+  border-top: 0px !important;
+}
+
+@each $anchor, $border in (
+  left: right,
+  right: left,
+  top: bottom,
+  bottom: top
+) {
+  .maplibregl-popup#{'[class*="anchor-#{$anchor}"]'} .maplibregl-popup-tip {
+    border-#{$border}-color: var(--bs-body-bg);
+  }
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-attrib,
+.maplibregl-popup-content,
+.leaflet-popup-content-wrapper, .leaflet-popup-tip,
+.leaflet-control-attribution, .leaflet-control-scale-line {
+  @extend .bg-body, .text-body;
+}
+
+.maplibregl-ctrl.maplibregl-ctrl-attrib,
+.leaflet-control-attribution, .leaflet-control-scale-line {
+  @extend .bg-opacity-75;
+  text-shadow: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  @extend .rounded-1;
+
+  a {
+    color: var(--bs-link-color) !important;
+  }
+}
+
+@include color-mode(dark) {
+  .maplibregl-ctrl.maplibregl-ctrl-attrib a,
+  .leaflet-container .leaflet-control-attribution a {
+    color: var(--bs-link-color);
+  }
+
+  .leaflet-control-scale-line {
+    border-color: rgba(var(--bs-light-rgb), .75) !important;
+  }
+}
+
+/* Rules for attribution text under the main map shown on printouts */
+
+.donate-attr { color: darken($green, 10%) !important; }
+
+/* Temporary label size override until we remove site-wide font customisation */
+
+form {
+  label {
+    font-size: 16px;
+  }
+  .col-form-label {
+    font-size: 16px;
+  }
+}
+
+/* Stop bootstrap 5 from floating legends when they don't need to be */
+legend {
+  float: none;
+}
+
+/* Override the text colour for primary and secondary buttons, to match our
+   bootstrap 4 colours. Note this has accessibility issues, which is why
+   bootstrap 5 calculates black as the appropriate colour, and we should
+   reconsider our colours at some point with that in mind. */
+
+.btn-primary {
+  @include button-variant($primary, $primary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+}
+
+.btn-secondary {
+  @include button-variant($secondary, $secondary, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+}
+
+.btn-outline-secondary {
+  @include button-outline-variant($secondary, $color-hover: $white, $active-color: $white);
+}
+
+@each $variant, $color in (bluesky: #1185fe, email: #0971BD, facebook: #3B5998, linkedin: #0077B5, mastodon: #2b90d9, telegram: #54a9eb, x: #000000) {
+  .btn-#{$variant} {
+    @include button-variant($color, $color, $color: $white, $hover-color: $white, $active-color: $white, $disabled-color: $white);
+  }
+}
+
+/* Rules for the search and direction forms */
+
+.directions_form {
+  display: none;
+  .reverse_directions {
+    border-color: transparent;
+  }
+}
+
+.search_form {
+  .describe_location.btn {
+    font-size: 10px;
+  }
+
+  input:not(:placeholder-shown) + .input-group-text .describe_location {
+    display: none;
+  }
+}
+
+/* Rules for search results */
+
+.search_results_entry li.list-group-item {
+  border-right: 1em solid var(--marker-color);
+}
+
+.leaflet-marker-icon.activatable:is(.active, :hover) > svg {
+  transform: scale(1.5);
+  transform-origin: bottom;
+}
+
+/* Rules for routing */
+
+td.distance {
+    font-size: x-small;
+}
+tr.turn {
+    cursor: pointer;
+}
+
+.routing_marker_column {
+  margin-left: .35rem;
+  margin-right: .35rem;
+  width: 15px;
+
+  &, & + input {
+    grid-area: 1/1;
+  }
+
+  svg {
+    cursor: move;
+  }
+}
+
+/* Rules for the history sidebar */
+
+.changeset-above-sidebar-viewport {
+  --changeset-border-color: #CC6655;
+  --changeset-fill-color: #DDBBBB;
+  --changeset-outline-color: #FFF4F4;
+}
+.changeset-in-sidebar-viewport {
+  --changeset-border-color: #FF9500;
+  --changeset-fill-color: #FFFFAF;
+  --changeset-outline-color: #FFFFFF;
+  &.changeset-highlight-outline {
+    filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, .75));
+  }
+}
+.changeset-below-sidebar-viewport {
+  --changeset-border-color: #8888AA;
+  --changeset-fill-color: #CCCCDD;
+  --changeset-outline-color: #F4F4FF;
+}
+.changeset-highlight-outline {
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, .25));
+}
+
+#sidebar .changesets {
+  .changeset-color-hint-bar {
+    height: 2px;
+    background: var(--changeset-border-color);
+  }
+
+  li {
+    &.selected {
+      @extend :hover;
+    }
+
+    a.stretched-link > bdi, a:not(.stretched-link), [title] {
+      position: relative;
+      z-index: 2; /* needs to be higher than Bootstrap's stretched link ::after z-index */
+    }
+  }
+}
+
+#sidebar .changeset_line .changeset_num_comments {
+  min-width: 2.5em;
+}
+
+/* Rules for the browse sidebar */
+
+#sidebar_content {
+  .browse-tag-list {
+    table-layout: fixed;
+
+    tr > *:not([colspan]) {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+
+    tr:last-child > * {
+      border-bottom: 0;
+    }
+  }
+
+  .browse-element-list {
+    line-height: 1.25rem;
+
+    .browse-icon {
+      height: 1.25rem;
+    }
+
+    .d-flex > .browse-icon {
+      height: max(20px, 1.25rem);
+    }
+  }
+
+  .query-results {
+    display: none;
+  }
+}
+
+@include color-mode(dark) {
+  #sidebar_content .browse-element-list .browse-icon-invertible {
+    filter: invert(.8) hue-rotate(180deg);
+  }
+}
+
+/* Force LTR/RTL alignment for placeholder text */
+
+.form-control::placeholder {
+  text-align: left;
+}
+
+/* Rules for export sidebar */
+
+.export_form {
+  .export_area_inputs {
+    input[type="text"] {
+      width: 100px;
+    }
+  }
+
+  .export_boxy {
+    > * {
+        margin: -1px;
+    }
+  }
+}
+
+/* Rules for edit pages */
+
+.site-edit {
+  #content {
+    position: absolute;
+    top: $headerHeight;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
+/* Rules for non-map content pages */
+
+.content-inner {
+  max-width: 960px;
+  padding: $lineheight;
+}
+
+/* Rules for login and signup pages */
+
+.sessions-new, .users-new, .users-create {
+  #content .content-inner {
+    max-width: 760px;
+  }
+}
+
+.header-illustration {
+  /*rtl:ignore*/ background-position: bottom right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: relative;
+  min-height: 200px;
+  inset: 0;
+
+  &.new-user-main {
+    background-image: image-url("illustrations/sign-up.svg");
+  }
+
+  &.confirm-main {
+    background-image: image-url("illustrations/confirm.svg");
+  }
+
+  &.new-user-terms {
+    background-image: image-url("illustrations/terms.svg");
+  }
+}
+
+[dir=rtl] .header-illustration {
+  transform: scaleX(-1);
+
+  h1 {
+    transform: scaleX(-1);
+  }
+
+  ul {
+    transform: scaleX(-1);
+  }
+}
+
+/* Rules for small maps in content areas */
+
+.content_map {
+  height: 200px;
+  margin-bottom: $lineheight;
+}
+
+@include media-breakpoint-up(md) {
+  .content_map {
+    height: 400px;
+  }
+}
+
+/* Rules for the user map */
+
+.content_map .leaflet-popup-content {
+  margin: $spacer;
+}
+
+/* Rules for user popups on maps */
+
+.user_popup {
+  p {
+    margin: 0 0 5px 0 !important;
+    font-size: 12px;
+  }
+}
+
+/* Rules for the diary entry page */
+
+.diary_entries {
+  #map {
+    height: 400px;
+    display: none;
+  }
+  .diary-comment .col-auto {
+    width: 62px;
+  }
+  .diary-comment .col {
+    max-width: 690px;
+  }
+}
+
+/* Rules for the issues page */
+
+.issues.issues-index {
+  td.reporting_users {
+    max-width: 5rem;
+  }
+}
+
+/* Rules for the account confirmation page */
+
+.accounts-terms-show {
+  .legale {
+    padding: $lineheight;
+    margin-bottom: $lineheight;
+    overflow: auto;
+    height: 20em;
+
+    li {
+      list-style: inherit;
+    }
+
+    ol ol {
+      list-style-type: lower-alpha;
+    }
+  }
+}
+
+/* Rules for user images */
+
+img.user_image {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+img.user_thumbnail {
+  max-width: 50px;
+  max-height: 50px;
+}
+
+img.user_thumbnail_tiny {
+  width: 25px;
+  height: 25px;
+  object-fit: contain;
+}
+
+/* General styles for action lists / subnavs */
+
+nav.secondary-actions {
+  margin-left: -11px;
+  overflow: hidden;
+  > ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    > li {
+      flex-basis: auto;
+      list-style: none;
+      border-left: 1px solid $grey;
+      padding-left: $lineheight * 0.5;
+      margin-right: $lineheight * 0.5;
+      margin-bottom: $lineheight * 0.125;
+    }
+  }
+}
+
+div.secondary-actions {
+  padding: 10px;
+  text-align: center;
+}
+
+/* Rules for rich text */
+
+.richtext {
+  code {
+    background: var(--bs-secondary-bg);
+    padding: 2px 3px;
+  }
+
+  pre {
+    background: var(--bs-secondary-bg);
+    padding: 2px 3px;
+    white-space: pre-wrap;
+
+    code {
+      padding: 0;
+    }
+  }
+
+  img {
+    padding: $lineheight;
+    background-color: var(--bs-tertiary-bg);
+    display: block;
+    max-width: 100%;
+    margin: auto;
+  }
+
+  blockquote {
+    border-left: $lineheight solid var(--bs-tertiary-bg);
+    padding-left: $lineheight;
+    margin: 0;
+    color: var(--bs-secondary-color);
+  }
+}
+
+/* Rules for the "About" page */
+
+.site-about #content {
+  .content-inner {
+    max-width: 760px;
+  }
+
+  .attr {
+    margin-top: -20px;
+
+    h1 {
+      span {
+        color: $vibrant-green;
+      }
+    }
+
+    .user-image {
+      height: 150px;
+      background-position: 0 50%;
+      background-repeat: no-repeat;
+      background-image: image-url('about/osm.png');
+      background-size: cover;
+      background-color: $vibrant-green;
+    }
+
+    .byosm {
+      background: $vibrant-green;
+    }
+
+    .byosm span {
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+  }
+}
+
+/* Rules for tables with usernames */
+
+.messages-table .username,
+#block_list .username {
+  max-width: 20em;
+}
+
+/* Rules for navigation tabs */
+
+.nav-tabs .username {
+  max-width: 20em;
+}
+
+.bg-body-secondary .nav-tabs {
+  --bs-border-color: var(--bs-secondary-border-subtle);
+  --bs-secondary-bg: var(--bs-secondary-border-subtle);
+  margin-bottom: -1px;
+}
+
+/* Rules for traces */
+
+i.bi-rss.nobox {
+  clip-path: inset(10%);
+}
+
+img.trace_image {
+  mix-blend-mode: darken;
+}
+
+@include color-mode(dark) {
+  img.trace_image {
+    filter: invert(1);
+    mix-blend-mode: lighten;
+  }
+}
+
+/* Rules for the heatmap */
+
+.heatmap {
+  grid-template-columns: auto;
+  grid-auto-columns: minmax(1em, 1fr);
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(1em, 1fr);
+  font-size: x-small;
+  gap: 0.3em;
+
+  [data-date], [data-date] span {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 25%;
+  }
+
+  [data-date] {
+    background-color: #ededed;
+    span {
+      background-color: #14432a;
+    }
+    &[data-count] {
+      background-color: #4dd05a;
+    }
+    &:hover {
+      box-shadow: 0px 0px 0px 1px #8884;
+    }
+  }
+}
+
+@include color-mode(dark) {
+  .heatmap {
+    [data-date] {
+      background-color: #2d333b;
+      span {
+        background-color: #4dd05a;
+      }
+      &[data-count] {
+        background-color: #14432a;
+      }
+    }
+  }
+}
+
+.tooltip.wide {
+  --bs-tooltip-max-width: none;
+}
+
+/* Rules for auth provider logos */
+
+.apple-logo .bg { fill: black; }
+.apple-logo .fg { fill: white; }
+
+@include color-mode(dark) {
+  .apple-logo .bg { fill: white; }
+  .apple-logo .fg { fill: black; }
+}
+
+.github-logo .bg { fill: black; }
+.github-logo .fg { fill: white; }
+
+@include color-mode(dark) {
+  .github-logo .bg { fill: white; }
+  .github-logo .fg { fill: #1b1f24; }
+}
+
+/* Rules for contextmenu */
+
+#map-context-menu {
+  &.cm_dropdown {
+    position: absolute;
+    z-index: 1000;
+  }
+  &.cm_dropdown_menu {
+    position: absolute;
+    display: block;
+    min-width: 200px;
+  }
+}
+
+/* Map Layers Menu - Info Icon */
+
+.layer-info-toggle {
+  mix-blend-mode: difference;
+}

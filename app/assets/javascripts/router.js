@@ -1,0 +1,211 @@
+/*
+  OSM.Router implements pushState-based navigation for the main page and
+  other pages that use a sidebar+map based layout (export, search results,
+  history, and browse pages).
+
+  For browsers without pushState, it falls back to full page loads, which all
+  of the above pages support.
+
+  The router is initialized with a set of routes: a mapping of URL path templates
+  to route controller objects. Path templates can contain placeholders
+  (`/note/:id`) and optional segments (`/:type/:id(/history)`).
+
+  Route controller objects can define three methods that are called at defined
+  times during routing:
+
+     * The `init` method is called by the router when a path which matches the
+       route's path template is loaded via a normal full page load. It is passed
+       as arguments the URL path plus any matching arguments for placeholders
+       in the path template.
+
+     * The `load` method is called when a supported and matching page is
+       loaded via pushState or popstate. It is passed the same arguments as `init`.
+
+     * The `unload` method is called on the exiting route controller when navigating
+       via pushState or popstate to another route.
+
+   Note that while `init` is not called by the router for pushState-based loads,
+   it's frequently useful for route controllers to call it manually inside their
+   definition of the `load` method.
+
+   An instance of OSM.Router is assigned to `OSM.router`. To navigate to a new page
+   via pushState (with automatic full-page load fallback), call `OSM.router.route`:
+
+       OSM.router.route('/way/1234');
+
+   If `route` is passed a path that matches one of the path templates, it performs
+   the appropriate actions and returns true. Otherwise it returns false.
+
+   OSM.Router also handles updating the hash portion of the URL containing transient
+   map state such as the position and zoom level. Some route controllers may wish to
+   temporarily suppress updating the hash (for example, to omit the hash on pages
+   such as `/way/1234` unless the map is moved). This can be done by using
+   `OSM.router.withoutMoveListener` to run a block of code that may update
+   move the map without the hash changing.
+ */
+OSM.Router = function (map, rts) {
+  const escapeRegExp = /[-{}[\]+?.,\\^$|#\s]/g;
+  const optionalParam = /\((.*?)\)/g;
+  const namedParam = /(\(\?)?:\w+/g;
+  const splatParam = /\*\w+/g;
+
+  function Route(path, controller) {
+    let controllerInstance = null;
+    const regexp = new RegExp("^" +
+      path.replace(escapeRegExp, "\\$&")
+        .replace(optionalParam, "(?:$1)?")
+        .replace(namedParam, function (match, optional) {
+          return optional ? match : "([^/]+)";
+        })
+        .replace(splatParam, "(.*?)") + "(?:\\?.*)?$");
+
+    const route = {};
+
+    route.match = function (path) {
+      return regexp.test(path);
+    };
+
+    route.run = async function (action, path, ...args) {
+      let params = [];
+
+      if (path) {
+        params = regexp.exec(path).map(function (param, i) {
+          return (i > 0 && param) ? decodeURIComponent(param) : param;
+        });
+      }
+
+      if (!controllerInstance) {
+        const moduleName = typeof controller === "string" ? "index_" + controller : controller.module;
+        const select = controller.part || (m => m.default);
+        controllerInstance = await import(OSM.MODULE_PATHS[moduleName]).then(select).then(m => m(map));
+      }
+
+      return controllerInstance[action]?.(...params, ...args);
+    };
+
+    return route;
+  }
+
+  const routes = Object.entries(rts)
+    .map(([path, controller]) => new Route(path, controller));
+
+  routes.recognize = path => routes.find(route => route.match(path));
+
+  let currentPath = location.pathname.replace(/(.)\/$/, "$1") + location.search,
+      currentRoute = routes.recognize(currentPath),
+      currentHash = location.hash || OSM.formatHash(map);
+  let routingInProgress = Promise.resolve();
+
+  const router = {};
+
+  function updateSecondaryNav() {
+    $("header ul.nav > li > a").each(function () {
+      const active = new URL($(this).attr("href"), location.href).pathname === location.pathname;
+
+      $(this)
+        .toggleClass("active", active)
+        .toggleClass("text-secondary", !active)
+        .toggleClass("text-secondary-emphasis", active);
+    });
+  }
+
+  function transition(path, beforeEnter = () => {}) {
+    const route = routes.recognize(path);
+    if (!route) return false;
+    routingInProgress = routingInProgress
+      .catch(() => {})
+      .then(async () => {
+        await currentRoute.run("unload", null, route === currentRoute);
+        beforeEnter();
+        currentPath = path;
+        currentRoute = route;
+        await currentRoute.run("load", currentPath);
+        updateSecondaryNav();
+      });
+    return routingInProgress;
+  }
+
+  addEventListener("popstate", function ({ state }) {
+    if (!state) return; // Is it a real popstate event or just a hash change?
+    const path = location.pathname + location.search;
+    if (path === currentPath) return;
+    const done = transition(path);
+    if (done) done.then(() => map.setState(state, { animate: false }));
+  });
+
+  router.route = function (url) {
+    const path = url.replace(/#.*/, "");
+    const state = OSM.parseHash(url);
+    return Boolean(transition(path, () => {
+      map.setState(state);
+      window.history.pushState(state, document.title, url);
+    }));
+  };
+
+  router.replace = function (url) {
+    window.history.replaceState(OSM.parseHash(url), document.title, url);
+  };
+
+  router.stateChange = function (state) {
+    const url = state.center ? OSM.formatHash(state) : location;
+    window.history.replaceState(state, document.title, url);
+  };
+
+  router.updateHash = function () {
+    const hash = OSM.formatHash(map);
+    if (hash === currentHash) return;
+    currentHash = hash;
+    router.stateChange(OSM.parseHash(hash));
+  };
+
+  router.hashUpdated = function () {
+    const hash = location.hash;
+    if (hash === currentHash) return;
+    currentHash = hash;
+    const state = OSM.parseHash(hash);
+    map.setState(state);
+    router.stateChange(state, hash);
+  };
+
+  router.withoutMoveListener = function (callback) {
+    function disableMoveListener() {
+      map.off("moveend", router.updateHash);
+      map.once("moveend", function () {
+        map.on("moveend", router.updateHash);
+      });
+    }
+
+    map.once("movestart", disableMoveListener);
+    callback();
+    map.off("movestart", disableMoveListener);
+  };
+
+  router.load = async function () {
+    const loadState = await currentRoute.run("init", currentPath);
+    router.stateChange(loadState || {});
+  };
+
+  router.setCurrentPath = function (path) {
+    currentPath = path;
+    currentRoute = routes.recognize(currentPath);
+  };
+
+  router.click = function (event, href) {
+    const eventOptions = {};
+    for (const key in event) eventOptions[key] = event[key];
+    const clickEvent = new (event.constructor)("click", eventOptions);
+    const link = document.createElement("a");
+    link.href = href;
+    link.hash = location.hash;
+    document.body.appendChild(link);
+    link.dispatchEvent(clickEvent);
+    document.body.removeChild(link);
+  };
+
+  for (const e of ["moveend", "baselayerchange", "overlayadd", "overlayremove"]) {
+    map.on(e, router.updateHash);
+  }
+  $(window).on("hashchange", router.hashUpdated);
+
+  return router;
+};

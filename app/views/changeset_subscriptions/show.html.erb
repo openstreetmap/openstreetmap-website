@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h1><%= @subscribed ? t(".unsubscribe.heading") : t(".subscribe.heading") %></h1>
+<% end %>
+
+<%= render :partial => "heading", :object => @changeset, :as => "changeset" %>
+
+<%= bootstrap_form_tag :method => (@subscribed ? :delete : :post) do |f| %>
+  <% if params[:referer] -%>
+  <%= f.hidden_field :referer, :value => params[:referer] %>
+  <% end -%>
+  <%= f.primary @subscribed ? t(".unsubscribe.button") : t(".subscribe.button") %>
+<% end %>

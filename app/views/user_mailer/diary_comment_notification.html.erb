@@ -1,0 +1,21 @@
+<p>
+  <%= t ".hi", :to_user => @to_user %>
+</p>
+<p>
+  <%= t ".header_html", :from_user => link_to_user(@from_user), :subject => tag.em(@title) %>
+</p>
+
+<%= message_body :author => @author, :avatar => @avatar do %>
+  <%= @text.to_html %>
+<% end %>
+
+<% content_for :footer do %>
+  <p><%= t ".footer_html",
+           :readurl => link_to(@readurl, @readurl) + tag.br,
+           :commenturl => link_to(@commenturl, @commenturl) + tag.br,
+           :replyurl => link_to(@replyurl, @replyurl) %>
+  </p>
+  <p><%= t ".footer_unsubscribe_html",
+           :unsubscribeurl => link_to(@unsubscribeurl, @unsubscribeurl) %>
+  </p>
+<% end %>

@@ -1,0 +1,35 @@
+<%# locals: (notification:, record:) %>
+
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :uri => diary_entry_path(
+        record.diary_entry.user,
+        record.diary_entry,
+        :anchor => "c#{record.id}"
+      ),
+      :timestamp => record.created_at
+    ) %>
+
+<%= render(
+      "notifications/notification_body",
+      :author => record.user
+    ) do %>
+  <p class="text-body-secondary">
+    <%= t(
+          "notifications.diary_comment.description_html",
+          :commenter_name_with_link => link_to(
+            record.user.display_name,
+            record.user
+          ),
+          :diary_entry_title_with_link => link_to(
+            record.diary_entry.title,
+            diary_entry_path(
+              record.diary_entry.user,
+              record.diary_entry
+            )
+          )
+        ) %>
+  </p>
+  <%= render "notifications/notification_quote", :body => record.body %>
+<% end %>

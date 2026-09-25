@@ -1,0 +1,15 @@
+<%# locals: (acl:) %>
+
+<tr>
+  <td><%= acl_address(acl.address) %></td>
+  <td><%= acl.domain %></td>
+  <td><%= acl.mx %></td>
+  <td><%= acl.k %></td>
+  <td><%= acl.v %></td>
+  <td class="text-nowrap">
+    <div class="d-flex justify-content-end gap-1">
+      <%= link_to t(".edit_button"), edit_acl_path(acl), :class => "btn btn-sm btn-primary" %>
+      <%= button_to t(".destroy_button"), acl_path(acl), :method => :delete, :class => "btn btn-sm btn-danger", :form => { :data => { :turbo => true, :turbo_confirm => t(".confirm") } } %>
+    </div>
+  </td>
+</tr>

@@ -1,0 +1,14 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<%= bootstrap_form_tag do |f| %>
+  <%= f.form_group :help => link_to(t(".consider_pd_why"), t(".consider_pd_why_url"), :target => :new) do %>
+    <%= f.check_box :consider_pd,
+                    :label => t(".consider_pd"),
+                    :autocomplete => :off,
+                    :checked => current_user.consider_pd,
+                    :disabled => current_user.consider_pd %>
+  <% end %>
+  <%= f.primary t(".confirm"), :disabled => current_user.consider_pd %>
+<% end %>

@@ -1,0 +1,42 @@
+version: 2
+updates:
+  - package-ecosystem: "bundler"
+    versioning-strategy: "lockfile-only"
+    directory: "/"
+    allow:
+      - dependency-type: "all"
+    groups:
+      rails:
+        applies-to: version-updates
+        patterns:
+          - "rails"
+      rubocop:
+        applies-to: version-updates
+        patterns:
+          - "rubocop*"
+      dependencies:
+        applies-to: version-updates
+        exclude-patterns:
+          - "rails"
+          - "rubocop*"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    versioning-strategy: "lockfile-only"
+    directory: "/"
+    groups:
+      dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    groups:
+      dependencies:
+        applies-to: version-updates
+        patterns:
+          - "*"
+    schedule:
+      interval: "weekly"

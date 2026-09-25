@@ -1,0 +1,24 @@
+<% @title = t(".title") %>
+<% content_for :heading do %>
+  <h1><%= t(".heading", :title => @redaction.title) %></h1>
+<% end %>
+
+<p>
+  <b><%= t ".user" %></b>
+  <%= link_to @redaction.user.display_name, @redaction.user %>
+</p>
+<div class="richtext text-break">
+  <b><%= t ".description" %></b>
+  <%= @redaction.description.to_html %>
+</div>
+
+<% if can?(:edit, Redaction) || can?(:destroy, Redaction) %>
+<div>
+  <% if can?(:edit, Redaction) %>
+    <%= link_to t(".edit"), edit_redaction_path(@redaction), :class => "btn btn-outline-primary" %>
+  <% end %>
+  <% if can?(:destroy, Redaction) %>
+    <%= link_to t(".destroy"), @redaction, :class => "btn btn-outline-danger", :data => { :turbo => true, :turbo_method => "DELETE", :turbo_confirm => t(".confirm") } %>
+  <% end %>
+</div>
+<% end %>

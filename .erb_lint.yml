@@ -1,0 +1,39 @@
+---
+linters:
+  AllowedScriptType:
+    enabled: true
+    disallow_inline_scripts: true
+  HardCodedString:
+    enabled: false # We're using a custom version of this, see below
+  # Add our own linter, refs https://github.com/Shopify/erb_lint/pull/397
+  CustomHardCodedString:
+    enabled: true
+    exclude:
+     - 'app/views/application/_markdown_help.html.erb'
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/LineLength:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/TrailingWhitespace:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false
+      Naming/FileName:
+        Enabled: false
+      Style/FrozenStringLiteralComment:
+        Enabled: false
+  SelfClosingTag:
+    enabled: false
+  SpaceInHtmlTag:
+    enabled: true
+  NoUnusedDisable:
+    enabled: true
+exclude:
+  - '**/vendor/**'

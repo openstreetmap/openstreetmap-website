@@ -1,0 +1,86 @@
+/*
+ *= require maplibre-gl
+ */
+
+@import "parameters";
+
+.maplibregl-map .maplibregl-control-container {
+  .maplibregl-ctrl {
+    margin-right: 0;
+
+    button {
+      display: grid;
+      height: 40px;
+      width: 40px;
+      color: white;
+      place-content: center;
+      background-color: rgba(0, 0, 0, 0.6);
+
+      &:hover,
+      &:focus {
+        background-color: black;
+      }
+
+      &:first-child,
+      &:first-child:focus {
+        border-radius: 4px 0 0 0;
+      }
+
+      &:last-child,
+      &:last-child:focus {
+        border-radius: 0 0 0 4px;
+      }
+
+      .maplibregl-ctrl-icon {
+        background-image: none;
+      }
+
+      &.maplibregl-ctrl-geolocate-active {
+        background-color: $vibrant-green;
+      }
+    }
+  }
+
+  .maplibregl-ctrl-group {
+    background-color: transparent;
+
+    button + button {
+      border-top: 0;
+    }
+  }
+}
+
+.maplibregl-map .maplibregl-canvas-container {
+  // Keep marker z-indexes below sibling popups and map controls.
+  isolation: isolate;
+
+  .maplibregl-user-location-accuracy-circle {
+    background-color: $green;
+    opacity: 0.2 !important;
+  }
+
+  .maplibregl-user-location-dot,
+  .maplibregl-user-location-dot:before {
+    background-color: $vibrant-green;
+  }
+}
+
+.maplibre-error {
+  container-type: size;
+
+  /*
+   Show compact message for small-height containers.
+   For width-based container there is bootstrap
+   */
+  @container (max-height: 60px) {
+    p:not(.maplibre-error-compact) {
+      display: none !important;
+    }
+
+    .maplibre-error-compact {
+      display: block !important;
+      font-size: 0.75rem;
+      max-width: 600px !important;
+    }
+  }
+}

@@ -1,0 +1,18 @@
+<% @title = t(".title") %>
+<% content_for :heading do %>
+  <h1><%= t(".heading") %></h1>
+<% end %>
+
+<% unless @redactions.empty? %>
+  <ul id="redaction_list">
+    <%= render @redactions %>
+  </ul>
+<% else %>
+  <p><%= t ".empty" %></p>
+<% end %>
+
+<% if can?(:create, Redaction) %>
+  <div>
+    <%= link_to t(".new"), new_redaction_path, :class => "btn btn-outline-primary" %>
+  </div>
+<% end %>

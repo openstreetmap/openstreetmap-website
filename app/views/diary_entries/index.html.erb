@@ -1,0 +1,29 @@
+<% content_for :head do %>
+  <%= tag.meta(:name => :robots, :content => :noindex) %>
+<% end %>
+<% content_for :heading do %>
+  <div class="row">
+    <% if @user %>
+        <div class="col-auto">
+          <%= user_image @user %>
+        </div>
+    <% end %>
+
+    <div class="col">
+      <h1><%= @title %></h1>
+      <%= render "navigation", :user => @user, :languages => Array.wrap(@languages) %>
+    </div>
+  </div>
+<% end %>
+
+<% if @entries.items.empty? %>
+  <h4><%= t ".no_entries" %></h4>
+<% else %>
+  <%= render "page", :entries => @entries, :user => @user, :params => @params %>
+<% end -%>
+
+<% unless params[:friends] or params[:nearby] -%>
+  <% content_for :auto_discovery_link_tag do -%>
+  <%= auto_discovery_link_tag :rss, :action => "rss", :language => params[:language] %>
+  <% end -%>
+<% end -%>

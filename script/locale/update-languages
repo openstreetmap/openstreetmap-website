@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use Encode;
+use HTML::TreeBuilder;
+use LWP::UserAgent;
+use YAML::Syck;
+
+$YAML::Syck::Headless = 1;
+$YAML::Syck::ImplicitUnicode = 1;
+$YAML::Syck::SortKeys = 1;
+
+my $languages = LoadFile("config/languages.yml");
+
+my $ua = LWP::UserAgent->new(env_proxy => 1);
+my $response = $ua->get("http://translatewiki.net/wiki/User:Siebrand/langs?uselang=en");
+
+die $response->message unless $response->is_success;
+
+my $root = HTML::TreeBuilder->new_from_content($response->decoded_content);
+my $content = $root->look_down("_tag" => "div", "id" => "mw_contentholder");
+my $list = $content->look_down("_tag" => "ul");
+
+for my $item ($list->look_down("_tag" => "li"))
+{
+    my $language = $item->as_trimmed_text;
+
+    if ($language =~ /^([a-z]+(?:-[a-z]+)*) +- +(.*) +- +(.*)$/i)
+    {
+        my $code = $1;
+        my $english_name = decode_utf8($2);
+        my $native_name = decode_utf8($3);
+
+        next if $english_name =~ /\(deprecated:[a-z]+(?:-[a-z]+)*\)$/;
+
+        if (length($code) == 2 || -f "config/locales/${code}.yml")
+        {
+            $languages->{$code}->{english} = $english_name;
+            $languages->{$code}->{native} = $native_name;
+        }
+    }
+    else
+    {
+        die "Can't parse: $language";
+    }
+}
+
+DumpFile("config/languages.yml", $languages);
+
+exit 0;

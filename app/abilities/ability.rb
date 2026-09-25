@@ -1,0 +1,113 @@
+# frozen_string_literal: true
+
+class Ability
+  include CanCan::Ability
+
+  def initialize(user)
+    can :read, [:feature_query, :layers_pane, :legend_pane, :share_pane, :languages_pane, :webgl_error_pane]
+    can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
+    can :read, [RelationMember, OldRelationMember]
+    can [:show, :create], Note
+    can :read, :directions
+    can [:index, :permalink, :edit, :help, :fixthemap, :offline, :export, :about, :communities, :preview, :copyright, :id], :site
+    can [:create, :show], :export
+    can [:create, :read], :search
+    can [:create, :show], :auth_deletion
+
+    if Settings.status != "database_offline"
+      can [:read, :feed], Changeset
+      can :read, ChangesetComment
+      can [:confirm, :confirm_resend, :confirm_email], :confirmation
+      can [:read, :rss], DiaryEntry
+      can :read, DiaryComment
+      can [:index], Note
+      can [:create, :update], :password
+      can :read, Redaction
+      can [:create, :destroy], :session
+      can [:read, :data], Trace unless Settings.traces_disabled
+      can [:read, :create, :suspended, :auth_success, :auth_failure], User
+      can :read, UserBlock
+    end
+
+    if user&.active?
+      can :welcome, :site
+      can :read, [:deletion, :account_terms, :account_pd_declaration, :account_home]
+
+      if Settings.status != "database_offline"
+        can [:read, :create, :destroy], ChangesetSubscription
+        can [:read, :create, :update, :destroy], :oauth2_application
+        can [:read, :destroy], :oauth2_authorized_application
+        can [:read, :create, :destroy], :oauth2_authorization
+        can [:read, :update, :destroy], :account
+        can :update, :account_terms
+        can :create, :account_pd_declaration
+        can :read, :dashboard
+        can :index, :notification
+        can [:read, :update], [:preferences, :profile]
+        can [:create, :subscribe, :unsubscribe], DiaryEntry
+        can [:update, :hide, :unhide], DiaryEntry, :user => user
+        can [:create], DiaryComment
+        can [:show, :create, :destroy], Follow
+        can [:read, :create, :destroy], Message
+        can [:close, :reopen], Note
+        can :create, Report
+        can [:mine, :create, :update, :destroy], Trace unless Settings.traces_disabled
+        can [:account, :go_public], User
+        can [:read, :create, :destroy], UserMute
+
+        if user.moderator?
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
+          can [:read, :resolve, :ignore, :reopen], Issue
+          can :create, IssueComment
+          can [:create, :update, :destroy], Redaction
+          can [:create, :destroy], UserBlock
+          can :update, UserBlock, :creator => user
+          can :update, UserBlock, :revoker => user
+          can :update, UserBlock, :active? => true
+          can [:read, :create, :destroy], ModerationZone
+          can :update, ModerationZone, :creator => user
+          can :update, ModerationZone, :revoker => user
+          can :update, ModerationZone, :active? => true
+        end
+
+        if user.administrator?
+          can [:hide, :unhide], [DiaryEntry, DiaryComment]
+          can [:read, :resolve, :ignore, :reopen], Issue
+          can :create, IssueComment
+
+          can [:update], :user_status
+          can [:read, :update], :users_list
+          can [:create, :destroy], UserRole
+          can [:read, :create, :update, :destroy], Acl
+        end
+      end
+    end
+
+    # Define abilities for the passed in user here. For example:
+    #
+    #   user ||= User.new # guest user (not logged in)
+    #   if user.admin?
+    #     can :manage, :all
+    #   else
+    #     can :read, :all
+    #   end
+    #
+    # The first argument to `can` is the action you are giving the user
+    # permission to do.
+    # If you pass :manage it will apply to every action. Other common actions
+    # here are :read, :create, :update and :destroy.
+    #
+    # The second argument is the resource the user can perform the action on.
+    # If you pass :all it will apply to every resource. Otherwise pass a Ruby
+    # class of the resource.
+    #
+    # The third argument is an optional hash of conditions to further filter the
+    # objects.
+    # For example, here the user can only update published articles.
+    #
+    #   can :update, Article, :published => true
+    #
+    # See the wiki for details:
+    # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
+  end
+end

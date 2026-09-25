@@ -1,0 +1,15 @@
+<%= t '.greeting' %>
+
+<% if @owner %>
+<%= t ".#{@event}.your_note", :commenter => @commenter, :place => @place %>
+<% else %>
+<%= t ".#{@event}.commented_note", :commenter => @commenter, :place => @place %>
+<% end %>
+
+<% unless @comment.empty? %>
+==
+<%= @comment.to_text %>
+==
+
+<% end %>
+<%= t '.details', :url => @noteurl %>

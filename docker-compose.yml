@@ -1,0 +1,47 @@
+services:
+  web:
+    build:
+      context: .
+    environment:
+      PIDFILE: /tmp/pids/server.pid
+    volumes:
+      - .:/app
+      # Prevent these directories from mounting so they're not shared between host OS and Docker
+      - /app/node_modules/
+      # Mount a tmp directory that will persist between runs
+      - web-tmp:/app/tmp
+      # Mount a storage directory that will persist between runs
+      - web-storage:/app/storage
+    tmpfs:
+      /tmp/pids/
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    build:
+      context: .
+      dockerfile: docker/postgres/Dockerfile
+    ports:
+      - "54321:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_DB: openstreetmap
+    volumes:
+      # Mount the Postgres data directory so it persists between runs
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  web-tmp:
+  web-storage:
+  db-data:

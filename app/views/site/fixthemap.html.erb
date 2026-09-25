@@ -1,0 +1,30 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<h2><%= t "layouts.intro_header" %></h2>
+<p class="lead"><%= t "layouts.intro_text" %></p>
+
+<h2><%= t ".how_to_help.title" %></h2>
+
+<div class="row">
+  <div class="col-sm">
+    <h3 class="fs-5"><%= t ".how_to_help.join_the_community.title" %></h3>
+    <p><%= t ".how_to_help.join_the_community.explanation_html" %></p>
+    <p class="text-center">
+      <a class="btn btn-primary" href="<%= new_user_path %>"><%= t("layouts.start_mapping") %></a>
+    </p>
+  </div>
+  <div class="col-sm">
+    <h3 class="fs-5"><%= t "site.add_a_note.title" %></h3>
+    <%= render "add_a_note" %>
+  </div>
+</div>
+
+<h2><%= t ".other_concerns.title" %></h2>
+<p>
+  <%= t ".other_concerns.concerns_html", :copyright_link => link_to(t(".other_concerns.copyright"), copyright_path),
+                                         :working_group_link => link_to(t(".other_concerns.working_group"), t(".other_concerns.working_group_url")) %>
+</p>
+
+<%= render "any_questions" %>

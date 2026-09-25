@@ -1,0 +1,24 @@
+<%# locals: (details:) %>
+
+<dl>
+  <dt><%= t(".filename") %></dt>
+  <dd><%= details.filename %></dd>
+
+  <dt><%= t(".description") %></dt>
+  <dd><%= details.description %></dd>
+
+  <% if details.num_tags.positive? %>
+    <dt><%= t(".tags") %></dt>
+    <dd><%= details.tagstring %></dd>
+  <% end %>
+
+  <% if details.possible_points %>
+    <dt><%= t(".total_points") %></dt>
+    <dd><%= details.possible_points %></dd>
+  <% end %>
+
+  <% if details.trace_points %>
+    <dt><%= t(".imported_points") %></dt>
+    <dd><%= details.trace_points %></dd>
+  <% end %>
+</dl>

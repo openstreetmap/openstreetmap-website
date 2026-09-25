@@ -1,0 +1,131 @@
+inherit_from: .rubocop_todo.yml
+
+plugins:
+  - rubocop-capybara
+  - rubocop-factory_bot
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rake
+
+require:
+  - ./.rubocop/specific_action_names.rb
+
+AllCops:
+  TargetRubyVersion: 3.3
+  NewCops: enable
+  Exclude:
+    - 'vendor/**/*'
+
+Rails:
+  Enabled: true
+
+Layout/ExtraSpacing:
+  AllowForAlignment: true
+
+Metrics/BlockLength:
+  Exclude:
+    - 'config/routes.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/ModuleLength:
+  Max: 150
+
+Naming/FileName:
+  Exclude:
+    - 'script/deliver-message'
+    - 'script/update-spam-blocks'
+
+Naming/MethodParameterName:
+  Enabled: false
+
+Naming/PredicateMethod:
+  AllowBangMethods: true
+
+# This conflicts with Strong Migrations, which can't check `change_table`
+Rails/BulkChangeTable:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+Rails/FindBy:
+  IgnoreWhereFirst: false
+
+Rails/FindEach:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false
+
+Rails/HttpPositionalArguments:
+  Enabled: false
+
+Rails/ReflectionClassName:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - 'db/migrate/*.rb'
+    - 'lib/tasks/expire_md5_passwords.rake'
+
+Style/CollectionQuerying:
+  Exclude:
+    - 'Dangerfile'
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always_true
+
+Style/IfInsideElse:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/MixinUsage:
+  Exclude:
+    - 'bin/setup'
+    - 'bin/update'
+
+Style/RaiseArgs:
+  Exclude:
+    - 'lib/osm.rb'
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Rails/SpecificActionNames:
+  Description: Use only specific action names.
+  Enabled: true
+  ActionNames:
+    - index
+    - show
+    - new
+    - edit
+    - create
+    - update
+    - destroy
+  Include:
+    - app/controllers/**/*.rb

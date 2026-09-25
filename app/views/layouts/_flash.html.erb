@@ -1,0 +1,18 @@
+<%# locals: () %>
+
+<% [[:error, :danger], [:warning, :warning], [:notice, :success]].each do |flash_type, bootstrap_type| %>
+  <% if flash[flash_type] %>
+    <%= tag.div :class => "alert alert-dismissible alert-#{bootstrap_type} mb-0 rounded-0",
+                :data => { :turbo_temporary => true } do %>
+      <div class="d-flex gap-3 align-items-center">
+        <div class="d-flex">
+          <i class="bi bi-exclamation-square-fill fs-6 my-n1" aria-hidden="true"></i>
+        </div>
+        <div>
+          <%= render_flash flash[flash_type] %>
+        </div>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="<%= t("javascripts.close") %>"></button>
+    <% end %>
+  <% end %>
+<% end %>

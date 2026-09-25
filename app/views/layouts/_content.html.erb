@@ -1,0 +1,28 @@
+<%# locals: () %>
+
+<div id="content" class="<%= content_for :content_class %>">
+  <% if content_for? :content %>
+    <%= yield :content %>
+  <% else %>
+    <%= render :partial => "layouts/flash" %>
+    <% if content_for? :heading %>
+      <div class="content-heading bg-body-secondary border-bottom border-secondary-subtle">
+        <div class="content-inner position-relative m-auto <%= yield :heading_class %>">
+          <%= yield :heading %>
+        </div>
+      </div>
+    <% end %>
+    <div class="content-body">
+      <div class="content-inner position-relative m-auto">
+        <%= yield %>
+      </div>
+    </div>
+    <% if content_for? :footer %>
+      <footer class="content-footer bg-body-secondary border-top border-secondary-subtle <%= yield :footer_outer_class %>">
+        <div class="content-inner <%= yield :footer_class %>">
+          <%= yield :footer %>
+        </div>
+      </footer>
+    <% end %>
+  <% end %>
+</div>

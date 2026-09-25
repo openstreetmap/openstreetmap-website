@@ -1,0 +1,19 @@
+<%# locals: (reports:) %>
+
+<% reports.each do |report| %>
+  <div class="row">
+    <div class="col-auto">
+      <%= link_to user_thumbnail(report.user), report.user %>
+    </div>
+    <div class="col">
+      <p class="text-body-secondary">
+        <%= t ".reported_by_html", :category => report.category,
+                                   :user => link_to(report.user.display_name, report.user),
+                                   :updated_at => tag.time(l(report.updated_at.to_datetime, :format => :friendly),
+                                                           :datetime => report.updated_at.xmlschema) %>
+      </p>
+      <div class="richtext text-break"><%= report.details.to_html %></div>
+    </div>
+  </div>
+  <hr>
+<% end %>

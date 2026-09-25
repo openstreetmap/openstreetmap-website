@@ -1,0 +1,44 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
+<% end %>
+
+<%= bootstrap_form_for current_user, :url => { :action => :update } do |f| %>
+  <%= f.select :preferred_editor, [[t("editor.default", :name => t("editor.#{Settings.default_editor}.name")), "default"]] + Editors::AVAILABLE_EDITORS.collect { |e| [t("editor.#{e}.description"), e] } %>
+
+  <div class="mb-3">
+    <%= label_tag "language", t(".preferred_language"), :class => "form-label" %>
+    <%= select_tag "language",
+                   options_for_select(AVAILABLE_LANGUAGES.map { |e| [e[:native_name], e[:code]] },
+                                      I18n.locale),
+                   :class => "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag "site_color_scheme", t(".preferred_site_color_scheme"), :class => "form-label" %>
+    <%= select_tag "site_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".site_color_schemes.#{scheme}"), scheme] },
+                                      current_user&.preferred_color_scheme(:site) || "auto"),
+                   :class => "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag "map_color_scheme", t(".preferred_map_color_scheme"), :class => "form-label" %>
+    <%= select_tag "map_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".map_color_schemes.#{scheme}"), scheme] },
+                                      current_user&.preferred_color_scheme(:map) || "auto"),
+                   :class => "form-select" %>
+  </div>
+
+  <div class="mb-3">
+    <%= label_tag "editor_color_scheme", t(".preferred_editor_color_scheme"), :class => "form-label" %>
+    <%= select_tag "editor_color_scheme",
+                   options_for_select(%w[auto light dark].map { |scheme| [t(".editor_color_schemes.#{scheme}"), scheme] },
+                                      current_user&.preferred_color_scheme(:editor) || "auto"),
+                   :class => "form-select" %>
+  </div>
+
+  <%= f.primary t(".save") %>
+<% end %>

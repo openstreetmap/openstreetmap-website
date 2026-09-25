@@ -1,0 +1,264 @@
+# The server protocol and host
+server_protocol: "http"
+server_url: "openstreetmap.example.com"
+# Publisher
+#publisher_url: ""
+# The generator
+generator: "OpenStreetMap server"
+copyright_owner: "OpenStreetMap and contributors"
+attribution_url: "http://www.openstreetmap.org/copyright"
+license_url: "http://opendatacommons.org/licenses/odbl/1-0/"
+# Support email address
+support_email: "openstreetmap@example.com"
+# Sender addresses for emails
+email_from: "OpenStreetMap <openstreetmap@example.com>"
+email_return_path: "openstreetmap@example.com"
+# API version
+api_version: "0.6"
+# Application status - possible values are:
+#   online - online and operating normally
+#   api_readonly - site online but API in read-only mode
+#   api_offline - site online but API offline
+#   database_readonly - database and site in read-only mode
+#   database_offline - database offline with site in emergency mode
+#   gpx_offline - gpx storage offline
+status: "online"
+# Expected services restoration date added to offline flash messages
+#status_expected_restore_date: "2024-12-18 12:00:00Z"
+# Application status announcement url added to offline flash messages
+#status_announcement_url: "https://en.osm.town/@osm_tech"
+# The maximum area you're allowed to request, in square degrees
+max_request_area: 0.25
+# Traces/tracks feature - set to true to disable entirely
+#traces_disabled: false
+# Number of GPS trace/trackpoints returned per-page
+tracepoints_per_page: 5000
+# Default limit on the number of changesets returned by the changeset query api method
+default_changeset_query_limit: 100
+# Maximum limit on the number of changesets returned by the changeset query api method
+max_changeset_query_limit: 100
+# Default limit on the number of changeset comments returned by the api
+default_changeset_comment_query_limit: 100
+# Maximum limit on the number of changesets comments returned by the api
+max_changeset_comment_query_limit: 10000
+# Default limit on the number of changeset comments in feeds
+default_changeset_comments_feed_query_limit: 100
+# Maximum limit on the number of changesets comments in feeds
+max_changeset_comments_feed_query_limit: 10000
+# Maximum number of nodes that will be returned by the api in a map request
+max_number_of_nodes: 50000
+# Maximum number of nodes that can be in a way (checked on save)
+max_number_of_way_nodes: 2000
+# Maximum number of members that can be in a relation (checked on save)
+max_number_of_relation_members: 32000
+# The maximum area you're allowed to request notes from, in square degrees
+max_note_request_area: 25
+# Default limit on the number of notes returned by the note search api method
+default_note_query_limit: 100
+# Maximum limit on the number of notes returned by the note search api method
+max_note_query_limit: 10000
+# Maximum value of open issues counter for moderators, anything equal or greater to this value "n" is shown as "n+"
+max_issues_count: 99
+# Maximum number of points in a GPX trace
+max_trace_size: 1000000
+# Zoom level to use for postcode results from the geocoder
+postcode_zoom: 15
+# Timeout for API calls in seconds
+api_timeout: 300
+# Timeout for web pages in seconds
+web_timeout: 30
+# Periods (in hours) which are allowed for user blocks
+user_block_periods: [0, 1, 3, 6, 12, 24, 48, 96, 168, 336, 731, 4383, 8766, 87660]
+# Account deletion cooldown period (in hours) since last changeset close; null to disable, 0 to make sure there aren't any open changesets when the deletion happens
+user_account_deletion_delay: null
+# Rate limit for message sending
+max_messages_per_hour: 60
+# Default limit on the number of messages returned by inbox and outbox message api
+default_message_query_limit: 100
+# Maximum number of messages returned by inbox and outbox message api
+max_message_query_limit: 100
+# Rate limit for following
+max_follows_per_hour: 60
+# Rate limit for changeset comments
+min_changeset_comments_per_hour: 1
+initial_changeset_comments_per_hour: 6
+max_changeset_comments_per_hour: 60
+comments_to_max_changeset_comments: 200
+moderator_changeset_comments_per_hour: 36000
+# Rate limit for changes
+min_changes_per_hour: 100
+initial_changes_per_hour: 1000
+max_changes_per_hour: 100000
+days_to_max_changes: 7
+importer_changes_per_hour: 1000000
+moderator_changes_per_hour: 1000000
+# Size limit for changes
+min_size_limit: 10000000
+initial_size_limit: 30000000
+max_size_limit: 5400000000
+days_to_max_size_limit: 28
+importer_size_limit: 5400000000
+moderator_size_limit: 5400000000
+# Domain for handling message replies
+#messages_domain: "messages.openstreetmap.org"
+# MaxMind GeoIPv2 database
+#maxmind_database: ""
+# Users to show as being nearby
+nearby_users: 30
+# Max radius, in km, for nearby users
+nearby_radius: 50
+# Spam threshold
+spam_threshold: 50
+# Delay diary entries from appearing in the feed for this many hours
+diary_feed_delay: 0
+# Default legale (jurisdiction location) for contributor terms
+default_legale: GB
+# Location of data for attachments
+attachments_dir: ":rails_root/public/attachments"
+# Log file to use
+#log_path: ""
+# MapTiler API key
+#maptiler_key: ""
+# List of memcache servers to use for caching
+#memcache_servers: []
+# URL of Nominatim instance to use for geocoding
+nominatim_url: "https://nominatim.openstreetmap.org/"
+# Default editor
+default_editor: "id"
+# OAuth application for the web site
+#oauth_application: ""
+# OAuth application for iD
+#id_application: ""
+# Imagery to return in capabilities as blacklisted
+imagery_blacklist: []
+# URL of Overpass instance to use for feature queries
+overpass_url: "https://overpass-api.de/api/interpreter"
+overpass_credentials: false
+# Routing endpoints
+graphhopper_url: "https://graphhopper.com/api/1/route"
+fossgis_osrm_url: "https://routing.openstreetmap.de/"
+fossgis_valhalla_url: "https://valhalla1.openstreetmap.de/route"
+# Endpoints for Wikimedia integration
+wikidata_api_url: "https://www.wikidata.org/w/api.php"
+wikimedia_commons_url: "https://commons.wikimedia.org/wiki/"
+# URL to donation form
+donation_url: "https://supporting.openstreetmap.org/donate/"
+# Linkification rules
+linkify:
+  detection_rules:
+    - patterns:
+      - "node/(?<id>\\d+)"
+      - "node (?<id>\\d{5,})"
+      - "n(?<id>\\d{5,})"
+      path_template: "node/\\k<id>"
+    - patterns:
+      - "way/(?<id>\\d+)"
+      - "way (?<id>\\d{5,})"
+      - "w(?<id>\\d{5,})"
+      path_template: "way/\\k<id>"
+    - patterns:
+      - "relation/(?<id>\\d+)"
+      - "relation (?<id>\\d{5,})"
+      - "r(?<id>\\d{5,})"
+      path_template: "relation/\\k<id>"
+    - patterns:
+      - "changeset/(?<id>\\d+)"
+      - "changeset (?<id>\\d{5,})"
+      - "cs(?<id>\\d{5,})"
+      path_template: "changeset/\\k<id>"
+    - patterns:
+      - "note/(?<id>\\d+)"
+      - "note (?<id>\\d{5,})"
+      path_template: "note/\\k<id>"
+    - patterns:
+      - "user/(?<username>\\S+)"
+      - "@(?<username>\\S+)"
+      path_template: "user/\\k<username>"
+    - patterns:
+      - "(?<key>[-+,.:;'%()\\p{Word}]+)=\\*"
+      path_template: "wiki/Key:\\k<key>"
+      host: "https://wiki.openstreetmap.org"
+    - patterns:
+      - "(?<key>[-+,.:;'%()\\p{Word}]+)=(?<value>[-+,.:;'%()/\\p{Word}]+)"
+      path_template: "wiki/Tag:\\k<key>=\\k<value>"
+      host: "https://wiki.openstreetmap.org"
+  display_rules:
+    - pattern: "osm\\.org/user/"
+      replacement: "@"
+    - pattern: "osm\\.org/(?<type>node|way|relation|changeset|note)/"
+      replacement: "\\k<type>/"
+    - pattern: "osm\\.wiki/Key:(?<key>[-+,.:;'%()\\p{Word}]+)"
+      replacement: "\\k<key>=*"
+    - pattern: "osm\\.wiki/Tag:(?<key>[-+,.:;'%()\\p{Word}]+)(?:=|%3D)(?<value>[-+,.:;'%()/\\p{Word}]+)"
+      replacement: "\\k<key>=\\k<value>"
+  normalisation_rules:
+    - hosts: ["www.openstreetmap.org", "www.osm.org", "www.openstreetmap.com", "openstreetmap.org", "osm.org", "openstreetmap.com"]
+      host_replacement: "osm.org"
+    - hosts : ["wiki.openstreetmap.org", "wiki.osm.org", "wiki.openstreetmap.com", "wiki.openstreetmaps.org", "osm.wiki", "www.osm.wiki", "wiki.osm.wiki"]
+      host_replacement: "osm.wiki"
+      optional_path_prefix: "^/wiki(?=/[A-Z])"
+# External authentication credentials
+#google_auth_id: ""
+#google_auth_secret: ""
+#google_openid_realm: ""
+#facebook_auth_id: ""
+#facebook_auth_secret: ""
+#github_auth_id: ""
+#github_auth_secret: ""
+#microsoft_auth_id: ""
+#microsoft_auth_secret: ""
+#wikipedia_auth_id: ""
+#wikipedia_auth_secret: ""
+#apple_auth_id: ""
+#apple_team_id: ""
+#apple_key_id: ""
+#apple_private_key: ""
+# Thunderforest authentication details
+#thunderforest_key: ""
+# Tracestrack authentication details
+#tracestrack_key: ""
+# Key for generating TOTP tokens
+#totp_key: ""
+#totp_domain: ""
+# Enforce Content-Security-Policy
+csp_enforce: false
+# URL for reporting Content-Security-Policy violations
+#csp_report_url: ""
+# Storage services to use in production mode
+avatar_storage: "local"
+trace_file_storage: "local"
+trace_image_storage: "local"
+trace_icon_storage: "local"
+# Root URL for storage services
+# avatar_storage_url:
+# trace_image_storage_url:
+# trace_icon_storage_url:
+# URL for tile CDN
+#tile_cdn_url: ""
+# SMTP settings for outbound mail
+smtp_address: "localhost"
+smtp_port: 25
+smtp_domain: "localhost"
+smtp_enable_starttls_auto: true
+smtp_tls_verify_mode: "none"
+smtp_authentication: null
+smtp_user_name: null
+smtp_password: null
+# Matomo settings for analytics
+#matomo:
+# Signup rate limits
+#signup_ip_per_day:
+#signup_ip_max_burst:
+#signup_email_per_day:
+#signup_email_max_burst:
+# Private key for signing id_tokens
+#doorkeeper_signing_key: |
+#  -----BEGIN PRIVATE KEY-----
+#  ...
+#  -----END PRIVATE KEY-----
+# Credentials for optional cloudflare turnstile widget
+#turnstile_site_key:
+#turnstile_secret_key:
+# Sentry error logging
+#sentry_dsn:
+#sentry_traces_sample_rate:

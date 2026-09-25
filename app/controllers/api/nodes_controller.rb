@@ -1,0 +1,91 @@
+# frozen_string_literal: true
+
+# The NodeController is the RESTful interface to Node objects
+
+module Api
+  class NodesController < ApiController
+    before_action :check_api_writable, :only => [:create, :update, :destroy]
+    before_action :authorize, :only => [:create, :update, :destroy]
+
+    authorize_resource
+
+    before_action :require_public_data, :only => [:create, :update, :destroy]
+    before_action :set_request_formats, :except => [:create, :update, :destroy]
+    before_action :check_rate_limit, :only => [:create, :update, :destroy]
+
+    # Dump the details on many nodes whose ids are given in the "nodes" parameter.
+    def index
+      raise OSM::APIBadUserInput, "The parameter nodes is required, and must be of the form nodes=id[,id[,id...]]" unless params[:nodes]
+
+      ids = params.extract_value(:nodes, :delimiter => ",").collect(&:to_i)
+
+      raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
+
+      @nodes = Node.includes(:element_tags).find(ids)
+
+      # Render the result
+      respond_to do |format|
+        format.xml
+        format.json
+      end
+    end
+
+    # Dump the details on a node given in params[:id]
+    def show
+      @node = Node.includes(:element_tags).find(params.expect(:id))
+
+      response.last_modified = @node.timestamp
+
+      if @node.visible
+        # Render the result
+        respond_to do |format|
+          format.xml
+          format.json
+        end
+      else
+        head :gone
+      end
+    end
+
+    # Create a node from XML.
+    def create
+      node = Node.from_xml(request.raw_post, :create => true)
+
+      Changeset.transaction do
+        node.changeset&.lock!
+        node.create_with_history current_user
+      end
+      render :plain => node.id.to_s
+    end
+
+    # Update a node from given XML
+    def update
+      node = Node.find(params.expect(:id))
+      new_node = Node.from_xml(request.raw_post)
+
+      raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
+
+      Changeset.transaction do
+        new_node.changeset&.lock!
+        node.update_from(new_node, current_user)
+      end
+      render :plain => node.version.to_s
+    end
+
+    # Delete a node. Doesn't actually delete it, but retains its history
+    # in a wiki-like way. We therefore treat it like an update, so the delete
+    # method returns the new version number.
+    def destroy
+      node = Node.find(params.expect(:id))
+      new_node = Node.from_xml(request.raw_post)
+
+      raise OSM::APIBadUserInput, "The id in the url (#{node.id}) is not the same as provided in the xml (#{new_node.id})" unless new_node && new_node.id == node.id
+
+      Changeset.transaction do
+        new_node.changeset&.lock!
+        node.delete_with_history!(new_node, current_user)
+      end
+      render :plain => node.version.to_s
+    end
+  end
+end

@@ -1,0 +1,27 @@
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+  <%= render :partial => "navigation" %>
+<% end %>
+
+<%= bootstrap_form_for current_user.notification_preferences, :method => :patch, :url => { :action => :update } do |f| %>
+  <div class="notification_preferences">
+    <% user_notification_events.each do |event_name| %>
+      <div class="mb-3">
+        <%= f.collection_check_boxes(
+              event_name,
+              user_notification_mechanisms,
+              :itself,
+              ->(mechanism) { t(".delivery_mechanisms.#{mechanism}") },
+              :label => {
+                :text => t(".#{event_name}"),
+                :class => "fw-bold fs-6"
+              }
+            ) %>
+      </div>
+    <% end %>
+  </div>
+
+  <%= f.primary t(".save") %>
+<% end %>

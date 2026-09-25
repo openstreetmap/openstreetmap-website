@@ -1,0 +1,12 @@
+<% content_for :heading do %>
+  <h1><%= t ".heading" %></h1>
+<% end %>
+
+<%= render :partial => "diary_entry_heading", :object => @diary_entry, :as => "diary_entry" %>
+
+<%= bootstrap_form_tag do |f| %>
+  <% if params[:referer] -%>
+  <%= f.hidden_field :referer, :value => params[:referer] %>
+  <% end -%>
+  <%= f.primary t(".button") %>
+<% end %>

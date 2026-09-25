@@ -1,0 +1,31 @@
+<%# locals: (notification:, record:) %>
+
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline.#{record.event}"),
+      :uri => note_path(
+        record.note,
+        :anchor => "c#{record.id}"
+      ),
+      :timestamp => record.created_at
+    ) %>
+
+<%= render(
+      "notifications/notification_body",
+      :author => record.author
+    ) do %>
+  <p class="text-body-secondary mb-1">
+    <%= t(
+          "notifications.note_comment.description.#{record.event}_html",
+          :commenter_name_with_link => link_to(
+            record.author.display_name,
+            record.author
+          ),
+          :note_id_with_link => link_to("##{record.note_id}", record.note),
+          :note_text => record.note.description
+        ) %>
+  </p>
+  <% if record.body.present? %>
+    <%= render "notifications/notification_quote", :body => record.body %>
+  <% end %>
+<% end %>

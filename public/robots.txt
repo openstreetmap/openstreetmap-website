@@ -1,0 +1,31 @@
+# OpenStreetMap's data is available for free in bulk from https://planet.openstreetmap.org
+# For regional extracts and documentation, see https://wiki.openstreetmap.org/wiki/Planet.osm
+# We encourage you to use these instead of scraping our site.
+# Scraping puts a high load on our donated resources and will lead to your IP being blocked.
+# Please respect our resources, and help us keep the service free and accessible for everyone.
+
+User-agent: *
+Disallow: /user/*/traces/
+Disallow: /user/*/history
+Allow: /user/
+Disallow: /traces
+Disallow: /api/
+Disallow: /edit
+Disallow: /changeset/
+Disallow: /node/
+Disallow: /note/
+Disallow: /relation/
+Disallow: /way/
+Disallow: /login
+Disallow: /geocoder
+Disallow: /history
+Disallow: /message
+Disallow: /oauth2
+Disallow: /search
+Disallow: /trace/
+Disallow: /*lat=
+Disallow: /*node=
+Disallow: /*way=
+Disallow: /*relation=
+
+Host: www.openstreetmap.org

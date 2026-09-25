@@ -1,0 +1,429 @@
+//= require download_util
+L.extend(L.LatLngBounds.prototype, {
+  getSize: function () {
+    return (this._northEast.lat - this._southWest.lat) *
+           (this._northEast.lng - this._southWest.lng);
+  }
+});
+
+L.OSM.Map = L.Map.extend({
+  initialize: function (id, options) {
+    L.Map.prototype.initialize.call(this, id, options);
+
+    this.baseLayers = OSM.LAYER_DEFINITIONS.map((
+      { credit, nameId, leafletOsmId, leafletOsmDarkId, style, styleDark, ...layerOptions }
+    ) => {
+      if (credit) layerOptions.attribution = makeAttribution(credit);
+      if (nameId) layerOptions.name = OSM.i18n.t(`javascripts.map.base.${nameId}`);
+
+      let layerConstructor;
+      if (OSM.isDark("map")) {
+        layerConstructor = L.OSM[leafletOsmDarkId] ?? L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+        layerOptions.url = layerOptions.urlDark ?? layerOptions.url;
+      } else {
+        layerConstructor = L.OSM[leafletOsmId] ?? L.OSM.TileLayer;
+      }
+
+      layerOptions.url = layerOptions.url?.replace("{ratio}", "{r}");
+
+      const layer = new layerConstructor(layerOptions);
+      layer.on("add", () => {
+        this.fire("baselayerchange", { layer: layer });
+      });
+      layer.options.style = (OSM.isDark("map") && styleDark) || style;
+      return layer;
+    });
+
+    this.noteLayer = new L.FeatureGroup();
+    this.noteLayer.options = { code: "N" };
+
+    this.dataLayer = new L.OSM.DataLayer(null);
+    this.dataLayer.options.code = "D";
+
+    this.gpsLayer = new L.OSM.GPS({
+      pane: "overlayPane",
+      code: "G"
+    });
+    this.gpsLayer.on("add", () => {
+      this.fire("overlayadd", { layer: this.gpsLayer });
+    }).on("remove", () => {
+      this.fire("overlayremove", { layer: this.gpsLayer });
+    });
+
+    this.on("baselayerchange", function (event) {
+      if (this.baseLayers.indexOf(event.layer) >= 0) {
+        this.setMaxZoom(event.layer.options.maxZoom);
+      }
+    });
+
+    function makeAttribution(credit) {
+      let attribution = "";
+
+      attribution += OSM.i18n.t("javascripts.map.copyright_text", {
+        copyright_link: $("<a>", {
+          href: "/copyright",
+          text: OSM.i18n.t("javascripts.map.openstreetmap_contributors")
+        }).prop("outerHTML")
+      });
+
+      attribution += credit.donate ? " ♥️ " : ". ";
+      attribution += makeCredit(credit);
+      attribution += ". ";
+
+      attribution += $("<a>", {
+        href: "https://wiki.osmfoundation.org/wiki/Terms_of_Use",
+        text: OSM.i18n.t("javascripts.map.website_and_api_terms")
+      }).prop("outerHTML");
+
+      return attribution;
+    }
+
+    function makeCredit(credit) {
+      const children = {};
+      for (const childId in credit.children) {
+        children[childId] = makeCredit(credit.children[childId]);
+      }
+      const text = OSM.i18n.t(`javascripts.map.${credit.id}`, children);
+      if (!credit.href) {
+        return text;
+      }
+      const link = $("<a>", {
+        href: credit.href,
+        text: text
+      });
+      if (credit.donate) {
+        link.addClass("donate-attr");
+      } else {
+        link.attr("target", "_blank");
+      }
+      return link.prop("outerHTML");
+    }
+  },
+
+  updateLayers: function (layerParam) {
+    const oldBaseLayer = this.getMapBaseLayer();
+    let newBaseLayer;
+
+    for (const layer of this.baseLayers) {
+      if (!newBaseLayer || layerParam.includes(layer.options.code)) {
+        newBaseLayer = layer;
+      }
+    }
+
+    if (newBaseLayer !== oldBaseLayer) {
+      if (oldBaseLayer) this.removeLayer(oldBaseLayer);
+      if (newBaseLayer) this.addLayer(newBaseLayer);
+    }
+  },
+
+  getLayersCode: function () {
+    let layerConfig = "";
+    this.eachLayer(function (layer) {
+      if (layer.options && layer.options.code) {
+        layerConfig += layer.options.code;
+      }
+    });
+    return layerConfig;
+  },
+
+  getMapBaseLayerId: function () {
+    const layer = this.getMapBaseLayer();
+    if (layer) return layer.options.layerId;
+  },
+
+  getMapBaseLayer: function () {
+    for (const layer of this.baseLayers) {
+      if (this.hasLayer(layer)) return layer;
+    }
+  },
+
+  getUrl: function (marker) {
+    const search = new URLSearchParams();
+
+    if (marker && this.hasLayer(marker)) {
+      const { lat, lng } = OSM.cropLocation(marker.getLatLng(), this.getZoom());
+      search.set("mlat", lat);
+      search.set("mlon", lng);
+    }
+
+    return {
+      pathname: "/",
+      search,
+      hash: OSM.formatHash(this)
+    };
+  },
+
+  getShortUrl: function (marker) {
+    const zoom = this.getZoom(),
+          latLng = marker && this.hasLayer(marker) ? marker.getLatLng().wrap() : this.getCenter().wrap(),
+          char_array = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_~",
+          x = Math.round((latLng.lng + 180.0) * ((1 << 30) / 90.0)),
+          y = Math.round((latLng.lat + 90.0) * ((1 << 30) / 45.0)),
+          // JavaScript only has to keep 32 bits of bitwise operators, so this has to be
+          // done in two parts. each of the parts c1/c2 has 30 bits of the total in it
+          // and drops the last 4 bits of the full 64 bit Morton code.
+          c1 = interlace(x >>> 17, y >>> 17),
+          c2 = interlace((x >>> 2) & 0x7fff, (y >>> 2) & 0x7fff);
+    let pathname = "/go/";
+
+    for (let i = 0; i < Math.ceil((zoom + 8) / 3.0) && i < 5; ++i) {
+      const digit = (c1 >> (24 - (6 * i))) & 0x3f;
+      pathname += char_array[digit];
+    }
+    for (let i = 5; i < Math.ceil((zoom + 8) / 3.0); ++i) {
+      const digit = (c2 >> (24 - (6 * (i - 5)))) & 0x3f;
+      pathname += char_array[digit];
+    }
+    for (let i = 0; i < ((zoom + 8) % 3); ++i) pathname += "-";
+
+    // Called to interlace the bits in x and y, making a Morton code.
+    function interlace(x, y) {
+      let interlaced_x = x,
+          interlaced_y = y;
+      interlaced_x = (interlaced_x | (interlaced_x << 8)) & 0x00ff00ff;
+      interlaced_x = (interlaced_x | (interlaced_x << 4)) & 0x0f0f0f0f;
+      interlaced_x = (interlaced_x | (interlaced_x << 2)) & 0x33333333;
+      interlaced_x = (interlaced_x | (interlaced_x << 1)) & 0x55555555;
+      interlaced_y = (interlaced_y | (interlaced_y << 8)) & 0x00ff00ff;
+      interlaced_y = (interlaced_y | (interlaced_y << 4)) & 0x0f0f0f0f;
+      interlaced_y = (interlaced_y | (interlaced_y << 2)) & 0x33333333;
+      interlaced_y = (interlaced_y | (interlaced_y << 1)) & 0x55555555;
+      return (interlaced_x << 1) | interlaced_y;
+    }
+
+    const search = new URLSearchParams();
+    const layers = this.getLayersCode().replace("M", "");
+
+    if (layers) {
+      search.set("layers", layers);
+    }
+
+    if (marker && this.hasLayer(marker)) {
+      search.set("m", "");
+    }
+
+    if (this._object) {
+      search.set(this._object.type, this._object.id);
+    }
+
+    return {
+      pathname,
+      search
+    };
+  },
+
+  getEmbedUrl: function (marker) {
+    const search = new URLSearchParams({
+      bbox: this.getBounds().toBBoxString(),
+      layer: this.getMapBaseLayerId()
+    });
+
+    if (this.hasLayer(marker)) {
+      const latLng = marker.getLatLng().wrap();
+      search.set("marker", latLng.lat + "," + latLng.lng);
+    }
+
+    return {
+      search
+    };
+  },
+
+  getGeoUri: function (marker) {
+    let latLng = this.getCenter();
+    const zoom = this.getZoom();
+
+    if (marker && this.hasLayer(marker)) {
+      latLng = marker.getLatLng();
+    }
+
+    const { lat, lng } = OSM.cropLocation(latLng, zoom);
+    return `geo:${lat},${lng}?z=${zoom}`;
+  },
+
+  addObject: function (object, callback) {
+    class ElementGoneError extends Error {
+      constructor(message = "Element is gone") {
+        super(message);
+        this.name = "ElementGoneError";
+      }
+    }
+
+    const objectStyle = {
+      color: "#FF6200",
+      weight: 4,
+      opacity: 1,
+      fillOpacity: 0.5
+    };
+
+    const changesetStyle = {
+      weight: 4,
+      color: "#FF9500",
+      opacity: 1,
+      fillOpacity: 0,
+      interactive: false
+    };
+
+    const haloStyle = {
+      weight: 2.5,
+      radius: 20,
+      fillOpacity: 0.5,
+      color: "#FF6200"
+    };
+
+    this.removeObject();
+
+    if (object.type === "note" || object.type === "changeset") {
+      this._objectLoader = { abort: () => {} };
+
+      this._object = object;
+      this._objectLayer = L.featureGroup().addTo(this);
+
+      if (object.type === "note") {
+        L.circleMarker(object.latLng, haloStyle).addTo(this._objectLayer);
+
+        if (object.icon) {
+          L.marker(object.latLng, {
+            icon: object.icon,
+            opacity: 1,
+            interactive: true
+          }).addTo(this._objectLayer);
+        }
+      } else if (object.type === "changeset") {
+        if (object.bbox) {
+          L.rectangle([
+            [object.bbox.minlat, object.bbox.minlon],
+            [object.bbox.maxlat, object.bbox.maxlon]
+          ], changesetStyle).addTo(this._objectLayer);
+        }
+      }
+
+      if (callback) callback(this._objectLayer.getBounds());
+      this.fire("overlayadd", { layer: this._objectLayer });
+    } else { // element handled by L.OSM.DataLayer
+      const map = this;
+      this._objectLoader = new AbortController();
+      fetch(OSM.apiUrl(object), {
+        headers: { accept: "application/json", ...OSM.oauth },
+        signal: this._objectLoader.signal
+      })
+        .then(async response => {
+          if (response.ok) {
+            return response.json();
+          }
+
+          if (response.status === 410) {
+            throw new ElementGoneError();
+          }
+
+          const status = `HTTP Error ${response.status} ${response.statusText}`;
+          if (response.status !== 400 && response.status !== 509) {
+            throw new Error(status);
+          }
+
+          const text = await response.text();
+          throw new Error(text || status);
+        })
+        .then(function (data) {
+          const visible_data = {
+            ...data,
+            elements: data.elements?.filter(el => el.visible !== false) ?? []
+          };
+
+          map._object = object;
+
+          map._objectLayer = new L.OSM.DataLayer(null, {
+            styles: {
+              node: objectStyle,
+              way: objectStyle,
+              area: objectStyle,
+              changeset: changesetStyle
+            }
+          });
+
+          map._objectLayer.interestingNode = function (node, wayNodes, relationNodes) {
+            return object.type === "node" ||
+                   (object.type === "relation" && Boolean(relationNodes[node.id]));
+          };
+
+          map._objectLayer.addData(visible_data);
+          map._objectLayer.addTo(map);
+
+          if (callback) callback(map._objectLayer.getBounds());
+          map.fire("overlayadd", { layer: map._objectLayer });
+          $("#browse_status").empty();
+        })
+        .catch(function (error) {
+          if (error.name === "AbortError") return;
+          if (error instanceof ElementGoneError) {
+            $("#browse_status").empty();
+            return;
+          }
+          OSM.displayLoadError(error?.message, () => {
+            $("#browse_status").empty();
+          });
+        });
+    }
+  },
+
+  removeObject: function () {
+    this._object = null;
+    if (this._objectLoader) this._objectLoader.abort();
+    if (this._objectLayer) this.removeLayer(this._objectLayer);
+    this.fire("overlayremove", { layer: this._objectLayer });
+  },
+
+  getState: function () {
+    return {
+      center: this.getCenter().wrap(),
+      zoom: this.getZoom(),
+      layers: this.getLayersCode()
+    };
+  },
+
+  setState: function (state, options) {
+    if (state.center) this.setView(state.center, state.zoom, options);
+    if (state.layers) this.updateLayers(state.layers);
+  },
+
+  setSidebarOverlaid: function (overlaid) {
+    const mediumDeviceWidth = window.getComputedStyle(document.documentElement).getPropertyValue("--bs-breakpoint-md");
+    const isMediumDevice = window.matchMedia(`(max-width: ${mediumDeviceWidth})`).matches;
+    const sidebarWidth = $("#sidebar").width();
+    const sidebarHeight = $("#sidebar").height();
+    if (overlaid && !$("#content").hasClass("overlay-sidebar")) {
+      $("#content").addClass("overlay-sidebar");
+      this.invalidateSize({ pan: false });
+      if (isMediumDevice) {
+        this.panBy([0, -sidebarHeight], { animate: false });
+      } else if ($("html").attr("dir") !== "rtl") {
+        this.panBy([-sidebarWidth, 0], { animate: false });
+      }
+    } else if (!overlaid && $("#content").hasClass("overlay-sidebar")) {
+      if (isMediumDevice) {
+        this.panBy([0, $("#map").height() / 2], { animate: false });
+      } else if ($("html").attr("dir") !== "rtl") {
+        this.panBy([sidebarWidth, 0], { animate: false });
+      }
+      $("#content").removeClass("overlay-sidebar");
+      this.invalidateSize({ pan: false });
+    }
+    return this;
+  }
+});
+
+OSM.getMarker = function ({ icon = "dot", color = "var(--marker-red)", ...options }) {
+  const html = `<svg viewBox="0 0 25 40" class="pe-none" overflow="visible"><use href="#pin-shadow" /><use href="#pin-${icon}" color="${color}" class="pe-auto" /></svg>`;
+  return L.divIcon({
+    ...options,
+    html,
+    iconSize: [25, 40],
+    iconAnchor: [12.5, 40],
+    popupAnchor: [1, -34]
+  });
+};
+
+OSM.noteMarkers = {
+  "closed": OSM.getMarker({ icon: "tick", color: "var(--marker-green)" }),
+  "new": OSM.getMarker({ icon: "plus", color: "var(--marker-blue)" }),
+  "open": OSM.getMarker({ icon: "exclam", color: "var(--marker-red)" })
+};

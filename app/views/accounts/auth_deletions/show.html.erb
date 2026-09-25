@@ -1,0 +1,7 @@
+<% content_for :heading do %>
+  <h1><%= t ".title" %></h1>
+<% end %>
+
+<p>
+  <%= t ".body", :provider => t("auth.providers.#{@auth_provider}"), :id => @auth_uid, :time => l(Time.at(@time).utc) -%>
+</p>

@@ -1,0 +1,23 @@
+<% content_for :heading do %>
+  <h1><%= t ".title_html", :link => link_to(reportable_title(@report.issue.reportable), reportable_url(@report.issue.reportable)) %></h1>
+<% end %>
+
+<div class="alert alert-warning">
+  <%= t(".disclaimer.intro") %>
+  <ul class="mb-0">
+    <li> <%= t(".disclaimer.not_just_mistake") %> </li>
+    <li> <%= t(".disclaimer.unable_to_fix") %> </li>
+    <li> <%= t(".disclaimer.resolve_with_user") %> </li>
+  </ul>
+</div>
+
+<%= bootstrap_form_for(@report) do |f| %>
+  <%= f.fields_for @report.issue do |issue_form| %>
+    <%= issue_form.hidden_field :reportable_id %>
+    <%= issue_form.hidden_field :reportable_type %>
+  <% end %>
+
+  <%= f.collection_radio_buttons :category, report_categories(@report.issue.reportable), :id, :label %>
+  <%= f.richtext_field :details, :rows => 18, :label_as_placeholder => true, :format => "markdown" %>
+  <%= f.primary %>
+<% end %>

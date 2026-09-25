@@ -1,0 +1,11 @@
+<%# locals: (location:) %>
+
+<%= t ".location" %>
+
+<%= link_to root_path(:anchor => "map=14/#{location.latitude}/#{location.longitude}") do
+      tag.abbr :class => "geo",
+               :title => t(".coordinates", :latitude => number_with_precision(location.latitude, :precision => 4),
+                                           :longitude => number_with_precision(location.longitude, :precision => 4)) do
+        describe_location location.latitude, location.longitude, 14, location.language_code
+      end
+    end %>

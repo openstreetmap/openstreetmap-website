@@ -1,0 +1,74 @@
+<% content_for(:content_class) { "overlay-sidebar" } %>
+
+<svg class="d-none" aria-hidden="true">
+  <% Rails.root.glob("app/assets/images/routing/*.svg")
+          .map { |path| File.basename(path, ".svg") }
+          .each do |icon| %>
+            <%= inline_svg_tag "routing/#{icon}.svg", :id => "routing-sprite-#{icon}", :to_symbol => true %>
+            <% if icon.end_with?("right") %>
+              <symbol id="routing-sprite-<%= icon.sub("right", "left") %>">
+                <use href="#routing-sprite-<%= icon %>" transform="matrix(-1 0 0 1 20 0)" />
+              </symbol>
+            <% end %>
+          <% end %>
+</svg>
+
+<%= render "sidebar_header", :title => t(".title") %>
+
+<div id="directions_loader" hidden>
+  <div class="text-center loader"><%= render "loader" %></div>
+</div>
+
+<div id="directions_error" hidden></div>
+
+<div id="directions_route" hidden>
+  <div id="directions_distance_units_settings" class="collapse">
+    <div class="btn-group btn-group-sm w-100">
+      <input type="radio" class="btn-check" name="directions_distance_units" value="km_m" id="directions_distance_units_km_m" autocomplete="off" checked>
+      <label class="btn btn-outline-secondary p-0 px-1" for="directions_distance_units_km_m"><%= t ".kilometers" %></label>
+
+      <input type="radio" class="btn-check" name="directions_distance_units" value="mi_ft" id="directions_distance_units_mi_ft" autocomplete="off">
+      <label class="btn btn-outline-secondary p-0 px-1" for="directions_distance_units_mi_ft"><%= t ".miles_feet" %></label>
+
+      <input type="radio" class="btn-check" name="directions_distance_units" value="mi_yd" id="directions_distance_units_mi_yd" autocomplete="off">
+      <label class="btn btn-outline-secondary p-0 px-1" for="directions_distance_units_mi_yd"><%= t ".miles_yards" %></label>
+    </div>
+  </div>
+
+  <div class="mx-n3">
+    <table class="table table-hover table-sm mb-3">
+      <thead>
+        <td colspan="2" class="ps-3">
+          <span>
+            <%= t ".distance" %>: <output id="directions_route_distance"></output>.
+            <%= t ".time" %>: <output id="directions_route_time"></output>.
+          </span>
+          <br>
+          <span id="directions_route_ascend_descend">
+            <%= t ".ascend" %>: <output id="directions_route_ascend"></output>.
+            <%= t ".descend" %>: <output id="directions_route_descend"></output>.
+          </span>
+        </td>
+        <td class="pe-3 text-end">
+          <button type="button" class="btn btn-outline-secondary px-1 py-0 border-0 me-n1" data-bs-toggle="collapse" data-bs-target="#directions_distance_units_settings">
+            <i class="bi bi-gear d-block" aria-hidden="true"></i>
+            <span class="visually-hidden"><%= t ".distance_units_settings" %></span>
+          </button>
+        </td>
+      </thead>
+      <tbody id="directions_route_steps"></tbody>
+    </table>
+  </div>
+
+  <p class="text-center">
+    <% file_content_placeholder = 'data:application/geo+json,{"type":"FeatureCollection","features":[]}' %>
+    <%= tag.a t(".download"), :id => "directions_route_download", :href => file_content_placeholder, :download => "#{t('.filename')}.geojson" %>
+  </p>
+
+  <p class="text-center">
+    <%= t ".directions_courtesy_html", :link => tag.a("", :id => "directions_route_credit", :target => "_blank") %>
+  </p>
+ <p class="text-center">
+  <%= t ".check_demo_html", :link => tag.a("", :id => "directions_route_demo", :target => "_blank") %>
+</p>
+</div>

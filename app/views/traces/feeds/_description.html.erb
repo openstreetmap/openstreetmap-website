@@ -1,0 +1,8 @@
+<%# locals: (trace:) %>
+
+<%= trace_image(trace, :only_path => false) %>
+<% if trace.size -%>
+<%= t ".description_with_count", :count => trace.size, :user => trace.user.display_name %>
+<% else -%>
+<%= t ".description_without_count", :user => trace.user.display_name %>
+<% end -%>

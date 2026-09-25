@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+# This setup uses https://mise.jdx.dev to manage language versions.
+# Mark the config file as trusted to avoid an interactive prompt.
+mise trust /workspaces/mise.local.toml
+
+cp config/devcontainer.database.yml config/database.yml
+cp config/example.storage.yml config/storage.yml
+touch config/settings.local.yml
+
+bin/setup --skip-server

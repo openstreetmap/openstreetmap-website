@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+require "test_helper"
+
+class TracepointTest < ActiveSupport::TestCase
+  def test_timestamp_required
+    tracepoint = create(:tracepoint)
+    assert_predicate tracepoint, :valid?
+    tracepoint.timestamp = nil
+    assert_not_predicate tracepoint, :valid?
+  end
+end

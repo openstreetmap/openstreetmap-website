@@ -1,0 +1,17 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <div class="d-flex align-items-end">
+    <ul class="nav nav-tabs fs-6">
+      <li class="nav-item">
+        <%= link_to t("sessions.new.tab_title"), url_for(:action => :new, :controller => :sessions), :class => "nav-link" %>
+      </li>
+      <li class="nav-item">
+        <%= tag.span t("users.new.tab_title"), :class => "nav-link active" %>
+      </li>
+    </ul>
+    <div class="flex-grow-1 header-illustration new-user-main"></div>
+  </div>
+<% end %>
+
+<p><strong><%= t "users.new.no_auto_account_create" %></strong></p>
+<p><%= t "users.new.please_contact_support_html", :support_link => mail_to(Settings.support_email, t("users.new.support")) %></p>

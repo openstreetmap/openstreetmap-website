@@ -1,0 +1,80 @@
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <nav class="secondary-actions mb-3" aria-label="<%= t ".actions" %>">
+    <ul>
+      <li>
+        <%= t(".description") %>
+      </li>
+      <% if params[:tag] %>
+        <li>
+          <%= link_to t(".remove_tag_filter", :tag => params[:tag]), { :controller => "traces", :action => "index", :tag => nil } %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+
+  <div class="d-flex flex-column flex-md-row-reverse align-items-md-end">
+    <div class="pb-1 ps-1 d-flex flex-wrap flex-shrink-0 gap-1 justify-content-end">
+      <%= link_to tag.i(:class => "bi bi-rss nobox d-flex fs-5 m-n1", :aria => { :hidden => "true" }),
+                  traces_feed_path(:display_name => @target_user&.display_name, :tag => params[:tag]),
+                  :class => "btn btn-secondary btn-sm align-items-center d-flex" %>
+      <%= link_to t(".upload_trace"), new_trace_path, :class => "btn btn-secondary btn-sm" %>
+    </div>
+
+    <div class="flex-grow-1">
+      <ul class="nav nav-tabs">
+        <% if @target_user.blank? %>
+          <!-- public traces -->
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link active" } %>
+          </li>
+          <% if current_user %>
+            <li class="nav-item">
+              <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
+            </li>
+          <% end %>
+        <% elsif current_user && current_user == @target_user %>
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
+          </li>
+          <!-- my traces -->
+          <li class="nav-item">
+            <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link active" } %>
+          </li>
+        <% else %>
+          <!-- traces_from @target_user -->
+          <li class="nav-item">
+            <%= link_to t(".all_traces"), { :controller => "traces", :action => "index", :display_name => nil }, { :class => "nav-link" } %>
+          </li>
+          <% if current_user && current_user != @target_user %>
+            <li class="nav-item">
+              <%= link_to t(".my_traces"), { :action => "mine" }, { :class => "nav-link" } %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to t(".traces_from_html", :user => tag.span(@target_user.display_name, :class => "username text-truncate d-inline-block align-bottom", :dir => "auto")),
+                        { :controller => "traces", :action => "index", :display_name => @target_user.display_name }, { :class => "nav-link active" } %>
+          </li>
+        <% end %>
+        <% if @legacy_traces_exist %>
+          <li class="nav-item">
+            <%= link_to t(".legacy_traces"), edit_traces_legacy_visibility_path, :class => "nav-link" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :auto_discovery_link_tag do %>
+  <%= auto_discovery_link_tag :rss, traces_feed_path(:display_name => @target_user&.display_name, :tag => params[:tag]) %>
+<% end %>
+
+<% if @traces.items.size > 0 %>
+  <%= render "page", :traces => @traces, :params => @params %>
+<% else %>
+  <h2><%= t ".empty_title" %></h2>
+  <p><%= t ".empty_upload_html", :upload_link => link_to(t(".upload_new"), new_trace_path),
+                                 :wiki_link => link_to(t(".wiki_page"), t(".wiki_page_url")) %></p>
+<% end %>

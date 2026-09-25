@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>" dir="<%= dir %>">
+  <head>
+    <meta charset="utf-8">
+    <title><%= t "layouts.project_name.title" %></title>
+    <%= stylesheet_link_tag "errors", :media => "screen" %>
+    <%= render "layouts/meta", :title => @title, :opengraph_properties => @opengraph_properties %>
+  </head>
+  <body>
+    <main>
+      <a href="<%= root_path %>" class="logo">
+        <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text") %>
+      </a>
+      <div class="details">
+        <%= yield %>
+      </div>
+    </main>
+  </body>
+</html>

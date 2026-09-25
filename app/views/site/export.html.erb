@@ -1,0 +1,65 @@
+<% set_title(t(".title")) %>
+
+<%= render "sidebar_header", :title => t(".title") %>
+
+<%= form_tag({ :controller => "export", :action => "create" }, :class => "export_form", :data => { "turbo" => true }) do %>
+  <%= hidden_field_tag "format", "osm", :autocomplete => "off" %>
+
+  <div class="export_area_inputs text-center mb-3">
+    <div class="export_boxy border border-secondary-subtle rounded bg-body-secondary" dir="ltr">
+      <%= text_field_tag("maxlat", nil, :size => 10, :autocomplete => "off", :class => "form-control text-center mx-auto") %>
+      <div class="d-flex justify-content-between">
+        <%= text_field_tag("minlon", nil, :size => 10, :autocomplete => "off", :class => "form-control text-center my-2") %>
+        <%= text_field_tag("maxlon", nil, :size => 10, :autocomplete => "off", :class => "form-control text-center my-2") %>
+      </div>
+      <%= text_field_tag("minlat", nil, :size => 10, :autocomplete => "off", :class => "form-control text-center mx-auto") %>
+      </div>
+    <button type="button" id="drag_box" class="btn btn-link p-0 border-0"><small><%= t ".manually_select" %></small></button>
+  </div>
+
+  <h4><%= t ".licence" %></h4>
+  <p><%= t ".licence_details_html", :odbl_link => link_to(t(".odbl"), t(".odbl_url")) %></p>
+
+  <div id="export_osm_too_large">
+    <p class="alert alert-warning">
+      <%= t ".too_large.body" %>
+    </p>
+  </div>
+
+  <div id="export_commit">
+    <div class="mb-3 d-flex">
+      <%= submit_tag t(".export_button"), :class => "btn btn-primary mx-auto", :data => { "turbo-submits-with" => t(".export_download") } %>
+    </div>
+  </div>
+
+  <p><%= t ".too_large.advice" %></p>
+
+  <dl class="px-3">
+    <% %w[overpass planet geofabrik other].each do |source| %>
+      <dt><%= link_to t(".too_large.#{source}.title"), t(".too_large.#{source}.url"), :id => "export_#{source}" %></dt>
+      <dd><%= t ".too_large.#{source}.description" %></dd>
+    <% end %>
+  </dl>
+<% end %>
+
+<div class="modal fade" tabindex="-1" id="export_confirmation" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><%= t ".confirmation.header" %></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<%= t "javascripts.close" %>"></button>
+      </div>
+      <div class="modal-body">
+        <p><%= t ".confirmation.body" %></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <%= t ".confirmation.cancel" %>
+        </button>
+        <button type="button" class="btn btn-primary" data-action="download">
+          <%= t ".confirmation.download" %>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

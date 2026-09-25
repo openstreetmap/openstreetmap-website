@@ -1,0 +1,179 @@
+name: Lint
+on:
+  push:
+    branches-ignore:
+      - "dependabot/**"
+      - translatewiki
+  pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+env:
+  ruby: '3.3'
+jobs:
+  rubocop:
+    name: RuboCop
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Run rubocop
+      run: bundle exec rubocop --format fuubar
+  erblint:
+    name: ERB Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Run erblint
+      run: bundle exec erb_lint .
+  herb:
+    name: Herb
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Run herb parser
+      run: bundle exec herb analyze app/
+    - name: Cache node modules
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bin/yarn install
+    - name: Create dummy database configuration
+      run: cp config/example.database.yml config/database.yml
+    - name: Run herb linter
+      run: bin/yarn run herb-lint
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Cache node modules
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bin/yarn install
+    - name: Install packages
+      run: |
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install libvips-dev
+    - name: Create dummy database configuration
+      run: cp config/example.database.yml config/database.yml
+    - name: Run eslint
+      run: bundle exec rails eslint
+  brakeman:
+    name: Brakeman
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Run brakeman
+      run: bundle exec brakeman -q
+  annotate_models:
+    env:
+      RAILS_ENV: test
+    name: Rails Annotate Models
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
+    - name: Cache node modules
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bin/yarn install
+    - name: Install packages
+      run: |
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install postgresql-postgis libvips-dev
+    - name: Setup database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        bundle exec rails db:schema:load
+    - name: Run Annotate Models
+      run: bundle exec annotaterb models
+    - name: Fail if model annotations are out of date
+      run: git diff --exit-code
+  database_consistency:
+    env:
+      RAILS_ENV: test
+    name: Database Consistency
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Check out code
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+    - name: Setup ruby
+      uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
+      with:
+        ruby-version: ${{ env.ruby }}
+        bundler-cache: true
+    - name: Configure rails
+      run: |
+        cp config/github.database.yml config/database.yml
+        cp config/example.storage.yml config/storage.yml
+    - name: Cache node modules
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+      with:
+        cache: yarn
+    - name: Install node modules
+      run: bin/yarn install
+    - name: Install packages
+      run: |
+        sudo apt-get -yqq update
+        sudo apt-get -yqq install postgresql-postgis libvips-dev
+    - name: Setup database
+      run: |
+        sudo systemctl start postgresql
+        sudo -u postgres createuser -s $(id -un)
+        createdb openstreetmap
+        bundle exec rails db:schema:load
+    - name: Run Database Consistency
+      run: bundle exec database_consistency

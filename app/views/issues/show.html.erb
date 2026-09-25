@@ -1,0 +1,110 @@
+<% content_for :heading do %>
+<h1><%= @title %></h1>
+<p><%= reportable_heading @issue.reportable %></p>
+<p class="text-body-secondary">
+  <small>
+    <%= @issue.assigned_role %>
+    <% if @issue.reports.count > 0 %>
+      | <%= t ".reports", :count => @issue.reports.count %>
+    <% else %>
+      | <%= t ".no_reports" %>
+    <% end %>
+      | <%= t ".report_created_at_html",
+              :datetime => tag.time(l(@issue.created_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.created_at.xmlschema) %>
+    <% if @issue.resolved_at? %>
+      | <%= t ".last_resolved_at_html",
+              :datetime => tag.time(l(@issue.resolved_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.resolved_at.xmlschema) %>
+    <% end %>
+    <% if @issue.user_updated %>
+      | <%= t ".last_updated_at_html",
+              :datetime => tag.time(l(@issue.updated_at.to_datetime, :format => :friendly),
+                                    :datetime => @issue.updated_at.xmlschema),
+              :displayname => link_to(@issue.user_updated.display_name, @issue.user_updated) %>
+    <% end %>
+  </small>
+</p>
+<nav class="secondary-actions" aria-label="<%= t ".actions" %>">
+  <ul>
+    <% if @issue.may_resolve? %>
+      <li><%= link_to t(".resolve"), resolve_issue_url(@issue), :method => :post %></li>
+    <% end %>
+    <% if @issue.may_ignore? %>
+      <li><%= link_to t(".ignore"), ignore_issue_url(@issue), :method => :post %></li>
+    <% end %>
+    <% if @issue.may_reopen? %>
+      <li><%= link_to t(".reopen"), reopen_issue_url(@issue), :method => :post %></li>
+    <% end %>
+  </ul>
+</nav>
+<% end %>
+
+<div class="row">
+  <div class="col-md-8">
+    <h3><%= t ".reports_of_this_issue" %></h3>
+
+    <% if @read_reports.present? %>
+    <div class="bg-body-tertiary text-body-secondary">
+      <h4><%= t ".read_reports" %></h4>
+      <%= render "reports", :reports => @read_reports %>
+    </div>
+    <% end %>
+
+    <% if @unread_reports.any? %>
+    <div>
+      <h4><%= t ".new_reports" %></h4>
+      <%= render "reports", :reports => @unread_reports %>
+    </div>
+    <% end %>
+  </div>
+
+  <% if @issue.reported_user %>
+    <div class="col-md-4">
+      <h3><%= t ".other_issues_against_this_user" %></h3>
+      <% if @related_issues.count > 1 %>
+        <ul>
+          <% @related_issues.each do |issue| %>
+            <% if issue.id != @issue.id %>
+              <li><%= link_to reportable_title(issue.reportable), issue %></li>
+            <% end %>
+          <% end %>
+        </ul>
+      <% else %>
+        <p><%= t ".no_other_issues" %></p>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<h3><%= t ".comments_on_this_issue" %></h3>
+
+<div>
+  <% @comments.each do |comment| %>
+    <div class="row">
+      <div class="col-auto">
+        <%= link_to user_thumbnail(comment.user), comment.user %>
+      </div>
+      <div class="col">
+        <p class="text-body-secondary">
+          <%= t ".comment_from_html", :user_link => link_to(comment.user.display_name, comment.user),
+                                      :comment_created_at => tag.time(l(comment.created_at.to_datetime, :format => :friendly),
+                                                                      :datetime => comment.created_at.xmlschema) %>
+        </p>
+        <div class="richtext text-break"><%= comment.body.to_html %></div>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>
+
+<div>
+  <%= bootstrap_form_for @new_comment, :url => issue_comments_path(@issue) do |f| %>
+    <%= f.richtext_field :body, :cols => 80, :rows => 20, :hide_label => true %>
+    <%= f.form_group do %>
+      <%= f.check_box :reassign, { :label => @issue.assigned_role == "administrator" ? t(".reassign_to_moderators") : t(".reassign_to_administrators"),
+                                   :id => "reassign", :name => "reassign", :checked => false }, true, false %>
+    <% end %>
+    <%= f.primary %>
+  <% end %>
+</div>

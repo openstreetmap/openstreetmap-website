@@ -1,0 +1,68 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "login" %>
+  <%= javascript_include_tag "auth_providers" %>
+<% end %>
+
+<% content_for :heading_class, "pb-0" %>
+
+<% content_for :heading do %>
+  <% if @client_app_name %>
+    <p class="text-center text-body-secondary fs-6 py-2 mb-0 bg-body"><%= t(".login_to_authorize_html", :client_app_name => @client_app_name) %></p>
+  <% end %>
+
+  <div class="d-flex align-items-end">
+    <% unless @hide_signup %>
+      <ul class="nav nav-tabs fs-6">
+        <li class="nav-item">
+          <%= tag.span t("sessions.new.tab_title"), :class => "nav-link active" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to t("users.new.tab_title"), url_for(:action => :new, :controller => :users, :referer => params[:referer]), :class => "nav-link" %>
+        </li>
+      </ul>
+    <% end %>
+    <div class="flex-grow-1 header-illustration new-user-main"></div>
+  </div>
+<% end %>
+
+<% if @preferred_auth_provider %>
+  <%= render :partial => "auth_providers", :locals => { :preferred_auth_provider => @preferred_auth_provider } %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".or") } %>
+<% end %>
+
+<% if current_user %>
+  <div class="alert alert-warning pb-0">
+    <p>
+      <%= t ".already_logged_in_html", :user => tag.strong(current_user.display_name) %>
+    </p>
+    <% if @safe_referer %>
+      <p>
+        <%= t ".access_another_page" %>
+      </p>
+      <p class="text-center">
+        <%= link_to t(".visit_referring_page"), @safe_referer, :id => "referer_link", :class => "btn btn-warning" %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
+
+<%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
+  <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
+
+  <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :value => params[:username] %>
+
+  <%= f.password_field :password, :label => t(".password"), :autocomplete => "on", :value => "" %>
+
+  <div class="d-flex flex-wrap column-gap-3 justify-content-between align-items-baseline mb-2">
+    <%= f.form_group do %>
+      <%= f.check_box :remember_me, { :label => t(".remember"), :checked => (params[:remember_me] == "true") }, "yes" %>
+      <%= f.primary t(".login_button") %>
+    <% end %>
+    <small><%= link_to(t(".lost password link"), user_forgot_password_path) %></small>
+  </div>
+<% end %>
+
+<% unless @preferred_auth_provider or Auth.providers.empty? %>
+  <%= render :partial => "section_divider", :locals => { :text => t(".with external") } %>
+  <%= render :partial => "auth_providers" %>
+<% end %>

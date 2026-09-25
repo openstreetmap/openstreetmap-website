@@ -1,0 +1,20 @@
+# This configuration is tailored for use with devcontainers. See doc/DEVCONTAINER.md for more information.
+
+development:
+  adapter: postgresql
+  database: openstreetmap
+  username: openstreetmap
+  password: openstreetmap
+  host: <%= ENV["DB_HOST"] %>
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+test:
+  adapter: postgresql
+  database: osm_test
+  username: openstreetmap
+  password: openstreetmap
+  host: <%= ENV["DB_HOST"] %>
+  encoding: utf8
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+

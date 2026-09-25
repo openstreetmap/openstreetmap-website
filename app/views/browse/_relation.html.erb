@@ -1,0 +1,47 @@
+<%# locals: (relation:) %>
+
+<%= tag.div :class => ["mb-3 border-bottom border-secondary-subtle pb-3",
+                       { "text-body-secondary" => relation.redacted? && params[:show_redactions] }] do %>
+  <% if relation.redacted? && !params[:show_redactions] %>
+    <%= t "browse.redacted.message_html",
+          :type => t("browse.redacted.type.relation"),
+          :version => relation.version,
+          :redaction_link => link_to(t("browse.redacted.redaction",
+                                       :id => relation.redaction.id), relation.redaction) %>
+  <% else %>
+    <%= render :partial => "browse/common_details", :object => relation, :locals => { :type => "relation" } %>
+
+    <% unless relation.containing_relation_members.empty? %>
+      <h4><%= t "browse.part_of" %></h4>
+      <%= tag.details :open => relation.containing_relation_members.count < 10 do %>
+        <summary><%= t "browse.part_of_relations", :count => relation.containing_relation_members.uniq.count %></summary>
+        <ul class="list-unstyled browse-element-list">
+          <%= render :partial => "browse/containing_relation", :collection => relation.containing_relation_members.uniq %>
+        </ul>
+      <% end %>
+    <% end %>
+
+    <% unless relation.relation_members.empty? %>
+      <h4><%= t ".members" %></h4>
+      <%= tag.details :open => relation.relation_members.count < 10 do %>
+        <summary><%= t ".members_count", :count => relation.relation_members.count %></summary>
+        <% if relation.relation_members.count >= 10 %>
+          <% if relation.is_a?(OldRelation) %>
+            <% path_params = [relation.relation_id, relation.version] %>
+            <% path_params << { :show_redactions => params[:show_redactions] } if params[:show_redactions] %>
+            <% src_path = old_relation_members_path(*path_params) %>
+          <% else %>
+            <% src_path = relation_members_path(relation) %>
+          <% end %>
+          <turbo-frame id="member_relation_<%= relation.id %>" src="<%= src_path %>">
+            <div class="text-center my-2"><%= render "loader" %></div>
+          </turbo-frame>
+        <% else %>
+          <ul class="list-unstyled browse-element-list">
+            <%= render :partial => "browse/relation_member", :collection => relation.relation_members %>
+          </ul>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

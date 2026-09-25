@@ -1,0 +1,61 @@
+//= depend_on settings.yml
+//= depend_on settings.local.yml
+//= depend_on layers.yml
+//= require osm_embed
+//= require maplibre-gl/dist/maplibre-gl
+//= require i18n
+//= require i18n/embed
+//= require maplibre/attribution
+//= require maplibre/map
+//= require maplibre/controls
+
+if (navigator.languages) {
+  OSM.i18n.locale = navigator.languages[0];
+} else if (navigator.language) {
+  OSM.i18n.locale = navigator.language;
+}
+
+OSM.i18n.defaultLocale = <%= I18n.default_locale.to_json %>;
+OSM.i18n.enableFallback = true;
+
+window.onload = function () {
+  const args = new URLSearchParams(location.search);
+
+  const isDarkTheme = args.get("theme") === "dark" || (args.get("theme") !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const layers = <%= MapLayers::embed_definitions("config/layers.yml").to_json %>;
+  <% if Settings.key?(:tile_cdn_url) %>
+  layers.mapnik.style.sources["raster-tiles-mapnik"].tiles = [<%= Settings.tile_cdn_url.to_json %>];
+  <% end %>
+  const layerId = (args.get("layer") || "").replaceAll(" ", "");
+  const layerConfig = layers[layerId] || layers.mapnik;
+
+  const style = isDarkTheme && layerConfig.styleDark ? layerConfig.styleDark : layerConfig.style;
+
+  const map = new OSM.MapLibre.Map({
+    container: "map",
+    style,
+    attributionControl: false,
+    allowRotation: layerConfig.isVectorStyle,
+    zoomSnap: layerConfig.isVectorStyle ? 0 : 1
+  });
+
+  const bbox = (args.get("bbox") || "-180,-90,180,90").split(",");
+  map.fitBounds([[bbox[0], bbox[1]], [bbox[2], bbox[3]]], { animate: false });
+
+  const position = document.documentElement.dir === "rtl" ? "left" : "right";
+  const attribution = new OSM.MapLibre.AttributionControl({
+    credit: layerConfig.credit,
+    includeReportLink: true
+  });
+  map.addControl(attribution, `bottom-${position}`);
+
+  const navigationControl = new OSM.MapLibre.NavigationControl();
+  map.addControl(new OSM.MapLibre.CombinedControlGroup([navigationControl]), `top-${position}`);
+
+  if (args.has("marker")) {
+    const markerCoords = args.get("marker").split(",").map(parseFloat);
+    new OSM.MapLibre.Marker({ color: "#9cef11" })
+      .setLngLat([markerCoords[1], markerCoords[0]])
+      .addTo(map);
+  }
+};

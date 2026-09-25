@@ -1,0 +1,99 @@
+export default function (map) {
+  const content = $("#sidebar_content"),
+        page = {};
+
+  page.load = function (path, id) {
+    OSM.loadSidebarContent(path).then(function () {
+      const data = $(".details").data();
+      if (!data) return;
+      const [lat, lng] = data.coordinates.split(",").map(parseFloat);
+      initialize(path, id, map.getBounds().contains({ lat, lng }));
+    });
+  };
+
+  page.init = function (path, id) {
+    initialize(path, id);
+  };
+
+  function initialize(path, id, skipMoveToNote) {
+    content.find("button[name]").on("click", function (e) {
+      e.preventDefault();
+      const { url, method } = $(e.target).data(),
+            name = $(e.target).attr("name"),
+            data = new URLSearchParams();
+      content.find("button[name]").prop("disabled", true);
+
+      if (name !== "subscribe" && name !== "unsubscribe") {
+        const textarea = content.find("textarea");
+        if (textarea.length) {
+          data.set("text", textarea.val());
+        }
+      }
+
+      fetch(url, {
+        method: method,
+        headers: { ...OSM.oauth },
+        body: data
+      })
+        .then(response => {
+          if (response.ok) return response;
+          return response.text().then(text => {
+            throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
+          });
+        })
+        .then(() => OSM.loadSidebarContent(path))
+        .then(() => initialize(path, id, false))
+        .catch(error => {
+          content.find("#comment-error")
+            .text(error.message)
+            .prop("hidden", false)
+            .get(0).scrollIntoView({ block: "nearest" });
+          updateButtons();
+        });
+    });
+
+    content.find("textarea").on("input", function (e) {
+      updateButtons(e.target.form);
+    });
+
+    content.find("textarea").val("").trigger("input");
+
+    const data = $(".details").data();
+
+    if (data) {
+      const hashParams = OSM.parseHash();
+      map.addObject({
+        type: "note",
+        id: parseInt(id, 10),
+        latLng: L.latLng(data.coordinates.split(",")),
+        icon: OSM.noteMarkers[data.status]
+      }, function () {
+        if (!hashParams.center && !skipMoveToNote) {
+          const latLng = L.latLng(data.coordinates.split(","));
+          OSM.router.withoutMoveListener(function () {
+            map.setView(latLng, 15, { reset: true });
+          });
+        }
+      });
+    }
+  }
+
+  function updateButtons() {
+    const resolveButton = content.find("button[name='close']");
+    const commentButton = content.find("button[name='comment']");
+
+    content.find("button[name]").prop("disabled", false);
+    if (content.find("textarea").val() === "") {
+      resolveButton.text(resolveButton.data("defaultActionText"));
+      commentButton.prop("disabled", true);
+    } else {
+      resolveButton.text(resolveButton.data("commentActionText"));
+    }
+  }
+
+  page.unload = function () {
+    map.removeObject();
+  };
+
+  return page;
+}

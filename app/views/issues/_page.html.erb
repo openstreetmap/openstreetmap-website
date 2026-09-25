@@ -1,0 +1,53 @@
+<%# locals: (issues:, find_user:, unique_reporters:, unique_reporters_limit:, params:) %>
+
+<turbo-frame id="pagination" target="_top">
+  <% if issues.items.empty? %>
+    <p>
+      <% if params[:search_by_user].present? && !find_user %>
+        <%= t ".user_not_found" %>
+      <% else %>
+        <%= t ".issues_not_found" %>
+      <% end %>
+    </p>
+  <% else %>
+    <%= render "pagination", :paginator => issues, :params => params %>
+
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th><%= t ".status" %></th>
+          <th><%= t ".reports" %></th>
+          <th><%= t ".reported_item" %></th>
+          <th><%= t ".reported_user" %></th>
+          <th class="reporting_users"><%= t ".reporting_users" %></th>
+          <th><%= t ".last_updated" %></th>
+          <th><%= t ".last_managed" %></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% issues.items.each do |issue| %>
+          <tr>
+            <td><%= t ".states.#{issue.status}" %></td>
+            <td class="text-nowrap"><%= link_to t(".reports_count", :count => issue.reports_count), issue %></td>
+            <td><%= link_to reportable_title(issue.reportable), reportable_url(issue.reportable) %></td>
+            <td><%= link_to issue.reported_user.display_name, issue.reported_user if issue.reported_user %></td>
+            <td class="reporting_users text-truncate">
+              <%= render "issues/reporters/reporters",
+                         :issue => issue,
+                         :unique_reporters => unique_reporters,
+                         :unique_reporters_limit => unique_reporters_limit %>
+            </td>
+            <td>
+              <%= friendly_date_ago(issue.updated_at) %>
+            </td>
+            <td>
+              <%= link_to(issue.user_updated.display_name, issue.user_updated) if issue.user_updated %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= render "pagination", :paginator => issues, :params => params %>
+  <% end %>
+</turbo-frame>

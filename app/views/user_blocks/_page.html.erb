@@ -1,0 +1,33 @@
+<%# locals: (user_blocks:, show_user_name:, show_creator_name:, params:) %>
+
+<turbo-frame id="pagination" target="_top" data-turbo="false">
+  <%= render "pagination",
+             :translation_scope => "application.pagination.user_blocks",
+             :paginator => user_blocks, :params => params %>
+
+  <table id="block_list" class="table table-borderless table-striped table-sm">
+    <thead>
+      <tr>
+        <% if show_user_name %>
+        <th><%= t ".display_name" %></th>
+        <% end %>
+        <% if show_creator_name %>
+        <th><%= t ".creator_name" %></th>
+        <% end %>
+        <th><%= t ".reason" %></th>
+        <th><%= t ".start" %></th>
+        <th><%= t ".end" %></th>
+        <th><%= t ".status" %></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <%= render :partial => "user_blocks/block",
+               :collection => user_blocks.items,
+               :locals => { :show_user_name => show_user_name, :show_creator_name => show_creator_name } %>
+  </table>
+
+  <%= render "pagination",
+             :translation_scope => "application.pagination.user_blocks",
+             :paginator => user_blocks, :params => params %>
+</turbo-frame>

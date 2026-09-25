@@ -1,0 +1,13 @@
+<% @title = t(".title") %>
+
+<% content_for :heading_class, "pb-0" %>
+<% content_for :heading do %>
+  <h1><%= @title %></h1>
+  <%= render "navigation" %>
+<% end %>
+
+<% if @acls.items.empty? %>
+  <p><%= t(".empty") %></p>
+<% else %>
+  <%= render "page", :acls => @acls, :params => @params %>
+<% end %>

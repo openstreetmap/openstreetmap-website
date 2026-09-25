@@ -1,0 +1,26 @@
+<%# locals: (notification:, record:) %>
+
+<%= render(
+      "notifications/notification_header",
+      :title => t(".headline"),
+      :timestamp => record.created_at
+    ) %>
+
+<%= render(
+      "notifications/notification_body",
+      :author => record.follower
+    ) do %>
+    <p>
+    <%= t(
+          "notifications.new_follower.description_html",
+          :follower_name_with_link => link_to(
+            record.follower.display_name,
+            record.follower
+          ),
+          :link => link_to(
+            t("notifications.new_follower.link_text"),
+            follow_url(record.follower)
+          )
+        ) %>
+    </p>
+<% end %>

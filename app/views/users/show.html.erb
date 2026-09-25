@@ -1,0 +1,323 @@
+<% owned = current_user && @user == current_user %>
+
+<% content_for :head do %>
+  <%= javascript_include_tag "heatmap" %>
+<% end %>
+<% content_for :heading do %>
+  <div class="row">
+    <div class="col-sm-auto">
+      <% if current_user and @user == current_user %>
+        <%= link_to user_image(@user), profile_image_path, :class => "d-block", :title => t(".change_image") %>
+      <% else %>
+        <%= user_image @user %>
+      <% end %>
+    </div>
+    <div class="col">
+      <h1>
+        <%= @user.display_name %>
+        <% UserRole::ALL_ROLES.each do |role| %>
+          <% if current_user&.administrator? %>
+            <% if @user.role?(role) %>
+              <%= link_to role_icon(:classes => "bi-star-fill role-#{role}", :title => t(".revoke.#{role}")),
+                          user_role_path(@user, role),
+                          :method => :delete,
+                          :data => { :confirm => t(".revoke.are_you_sure", :name => @user.display_name, :role => role) } %>
+            <% else %>
+              <%= link_to role_icon(:classes => "bi-star role-#{role}", :title => t(".grant.#{role}")),
+                          user_role_path(@user, role),
+                          :method => :post,
+                          :data => { :confirm => t(".grant.are_you_sure", :name => @user.display_name, :role => role) } %>
+            <% end %>
+          <% elsif @user.role?(role) %>
+            <%= role_icon(:classes => "bi-star-fill role-#{role}", :title => t(".title.#{role}")) %>
+          <% end %>
+        <% end %>
+      </h1>
+      <nav class="secondary-actions" aria-label="<%= t ".actions" %>">
+        <ul>
+          <% if current_user and @user.id == current_user.id %>
+            <!-- Displaying user's own profile page -->
+            <li>
+              <%= link_to t(".my edits"), :controller => "changesets", :action => "index", :display_name => current_user.display_name %>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.changesets.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".my notes"), user_notes_path(current_user) %>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.note_comments.size) %></span>
+            </li>
+            <% unless Settings.traces_disabled %>
+              <li>
+                <%= link_to t(".my traces"), :controller => "traces", :action => "mine" %>
+                <span class="badge count-number"><%= number_with_delimiter(current_user.traces.size) %></span>
+              </li>
+            <% end %>
+            <li>
+              <%= link_to t(".my diary"), :controller => "diary_entries", :action => "index", :display_name => current_user.display_name %>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.diary_entries.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".my comments"), user_diary_comments_path(current_user) %>
+              <span class="badge count-number"><%= number_with_delimiter(current_user.diary_comments.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".my_account"), account_path %>
+            </li>
+
+            <% if current_user.blocks.exists? %>
+              <li>
+                <%= link_to t(".blocks on me"), user_received_blocks_path(current_user) %>
+                <span class="badge count-number"><%= number_with_delimiter(current_user.blocks.active.size) %></span>
+              </li>
+            <% end %>
+
+            <% if can?(:create, UserBlock) and current_user.blocks_created.exists? %>
+              <li>
+                <%= link_to t(".blocks by me"), user_issued_blocks_path(current_user) %>
+                <span class="badge count-number"><%= number_with_delimiter(current_user.blocks_created.active.size) %></span>
+              </li>
+            <% end %>
+          <% else %>
+            <!-- Displaying user profile page to the public -->
+            <li>
+              <%= link_to t(".edits"), :controller => "changesets", :action => "index", :display_name => @user.display_name %>
+              <span class="badge count-number"><%= number_with_delimiter(@user.changesets.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".notes"), user_notes_path(@user) %>
+              <span class="badge count-number"><%= number_with_delimiter(@user.note_comments.size) %></span>
+            </li>
+            <% unless Settings.traces_disabled %>
+              <li>
+                <%= link_to t(".traces"), :controller => "traces", :action => "index", :display_name => @user.display_name %>
+                <span class="badge count-number"><%= number_with_delimiter(@user.traces.size) %></span>
+              </li>
+            <% end %>
+
+            <!-- Displaying another user's profile page -->
+
+            <li>
+              <%= link_to t(".send message"), new_message_path(@user) %>
+            </li>
+            <li>
+              <%= link_to t(".diary"), :controller => "diary_entries", :action => "index", :display_name => @user.display_name %>
+              <span class="badge count-number"><%= number_with_delimiter(@user.diary_entries.size) %></span>
+            </li>
+            <li>
+              <%= link_to t(".comments"), user_diary_comments_path(@user) %>
+              <span class="badge count-number"><%= number_with_delimiter(@user.diary_comments.size) %></span>
+            </li>
+            <% if current_user %>
+              <li>
+                <% if current_user.follows?(@user) %>
+                  <%= link_to t(".unfollow"), follow_path(@user), :method => :delete %>
+                <% else %>
+                  <%= link_to t(".follow"), follow_path(@user), :method => :post %>
+                <% end %>
+              </li>
+            <% end %>
+
+            <% if @user.blocks.exists? %>
+              <li>
+                <%= link_to t(".block_history"), user_received_blocks_path(@user) %>
+                <span class="badge count-number"><%= number_with_delimiter(@user.blocks.active.size) %></span>
+              </li>
+            <% end %>
+
+            <% if @user.moderator? and @user.blocks_created.exists? %>
+              <li>
+                <%= link_to t(".moderator_history"), user_issued_blocks_path(@user) %>
+                <span class="badge count-number"><%= number_with_delimiter(@user.blocks_created.active.size) %></span>
+              </li>
+            <% end %>
+
+            <% if can?(:destroy, UserBlock) and @user.blocks.active.exists? %>
+              <li>
+                <%= link_to t(".revoke_all_blocks"), edit_user_received_blocks_path(@user) %>
+              </li>
+            <% end %>
+
+            <% if can?(:create, UserBlock) %>
+              <li>
+                <%= link_to t(".create_block"), new_user_block_path(@user) %>
+              </li>
+            <% end %>
+
+            <% if current_user and @user.id != current_user.id %>
+              <li>
+                <%= report_link(t(".report"), @user) %>
+              </li>
+            <% end %>
+
+            <% if current_user and UserMute.exists?(owner: current_user, subject: @user) %>
+              <li>
+              <%= link_to t(".destroy_mute"), user_mute_path(@user), :method => :delete %>
+              </li>
+            <% elsif current_user %>
+              <li>
+              <%= link_to t(".create_mute"), user_mute_path(@user), :method => :post, :title => t("user_mutes.index.user_mute_explainer") %>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </nav>
+
+      <div class="text-body-secondary">
+        <small>
+          <dl class="list-inline">
+            <dt class="list-inline-item m-0"><%= t ".mapper since" %></dt>
+            <dd class="list-inline-item"><%= l @user.created_at.to_date, :format => :long %></dd>
+            <dt class="list-inline-item m-0"><%= t ".last map edit" %></dt>
+            <dd class="list-inline-item"><%= l @user.changesets.first&.created_at&.to_date, :format => :long, :default => t(".no activity yet") %></dd>
+            <% unless @user.terms_agreed %>
+              <dt class="list-inline-item m-0"><%= t ".ct status" %></dt>
+              <dd class="list-inline-item">
+                <% if @user.terms_seen? -%>
+                  <%= t ".ct declined" %>
+                <% else -%>
+                  <%= t ".ct undecided" %>
+                <% end -%>
+              </dd>
+            <% end -%>
+            <% if current_user&.moderator? || current_user&.administrator? %>
+              <dt class="list-inline-item m-0"><%= t ".uid" %></dt>
+              <dd class="list-inline-item"><%= link_to @user.id, api_user_path(:id => @user.id) %></dd>
+            <% end -%>
+          </dl>
+        </small>
+      </div>
+
+      <% if can?(:update, :user_status) %>
+        <nav class="secondary-actions" aria-label="<%= t ".admin_actions" %>">
+          <ul>
+            <% if @user.may_activate? %>
+              <li>
+                <%= link_to t(".activate_user"), user_status_path(@user, :event => "activate"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
+            <% if @user.may_confirm? %>
+              <li>
+                <%= link_to t(".confirm_user"), user_status_path(@user, :event => "confirm"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
+            <% if @user.may_unconfirm? %>
+              <li>
+                <%= link_to t(".unconfirm_user"), user_status_path(@user, :event => "unconfirm"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
+            <% if @user.may_suspend? %>
+              <li>
+                <%= link_to t(".suspend_user"), user_status_path(@user, :event => "suspend"), :method => :put, :data => { :confirm => t(".confirm") }, :class => "link-danger" %>
+              </li>
+            <% end %>
+
+            <% if @user.may_unsuspend? %>
+              <li>
+                <%= link_to t(".unsuspend_user"), user_status_path(@user, :event => "unsuspend"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+
+            <% if @user.may_undelete? %>
+              <li>
+                <%= link_to t(".undelete_user"), user_status_path(@user, :event => "undelete"), :method => :put, :data => { :confirm => t(".confirm") } %>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      <% end %>
+
+      <% if current_user and current_user.administrator? -%>
+        <div class="text-body-secondary">
+          <small>
+            <dl class="list-inline">
+              <dt class="list-inline-item m-0"><%= t ".email address" %></dt>
+              <dd class="list-inline-item"><%= @user.email %></dd>
+              <% unless @user.creation_address.nil? -%>
+                <dt class="list-inline-item m-0"><%= t ".created from" %></dt>
+                <dd class="list-inline-item"><%= link_to @user.creation_address, users_list_path(:ip => @user.creation_address) %></dd>
+              <% end -%>
+              <dt class="list-inline-item m-0"><%= t ".status" %></dt>
+              <dd class="list-inline-item"><%= link_to @user.status.capitalize, users_list_path(:status => @user.status) %></dd>
+              <dt class="list-inline-item m-0"><%= t ".spam score" %></dt>
+              <dd class="list-inline-item"><%= @user.spam_score %></dd>
+            </dl>
+          </small>
+        </div>
+      <% end -%>
+    </div>
+  </div>
+<% end %>
+
+<% if @user.home_location_name&.strip.present? || @user.company&.strip.present? || !@user.social_links.empty? || owned %>
+  <div class="row">
+    <div class="col-sm-3">
+      <%= render "sidebar_section", :user => @user,
+                                    :edit_title => t(".change_image"),
+                                    :edit_path => profile_image_path %>
+
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.home_location_name&.strip.present?,
+                                    :edit_title => t(".edit_location"),
+                                    :edit_path => profile_location_path do %>
+        <div class="icon-link mw-100">
+          <i class="align-self-baseline bi bi-geo-alt-fill flex-shrink-0 fs-6" aria-hidden="true"></i>
+          <span class="visually-hidden"><%= t ".home_location" %></span>
+          <span class="text-truncate">
+            <%= @user.home_location_name %>
+          </span>
+        </div>
+      <% end %>
+
+      <%= render "sidebar_section", :user => @user,
+                                    :present => @user.company&.strip.present?,
+                                    :edit_title => t(".edit_company"),
+                                    :edit_path => profile_company_path do %>
+        <div class="icon-link mw-100">
+          <i class="align-self-baseline bi bi-buildings-fill flex-shrink-0 fs-6" aria-hidden="true"></i>
+          <span class="visually-hidden"><%= t ".company" %></span>
+          <%= tag.span :class => "text-truncate", :title => t(".company_tooltip") do %>
+            <%= @user.company %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= render "sidebar_section", :user => @user,
+                                    :present => !@user.social_links.empty?,
+                                    :edit_title => t(".edit_links"),
+                                    :edit_path => profile_links_path do %>
+        <%= render "social_links/show", :social_links => @user.social_links %>
+      <% end %>
+
+      <% if owned %>
+        <div class="mt-2">
+          <%= tag.button t(".edit_profile_details"), :type => "button",
+                                                     :class => "btn btn-sm btn-outline-primary w-100 overflow-hidden",
+                                                     :data => { :bs_toggle => "collapse", :bs_target => "[data-sidebar-edit]" } %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm-9">
+      <div class="richtext text-break"><%= @user.description.to_html %></div>
+      <% if owned %>
+        <div class="mt-2 mb-3 col-sm-4">
+          <%= link_to t(".edit_description"), profile_description_path, :class => "btn btn-sm w-100 btn-outline-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <div class="richtext text-break"><%= @user.description.to_html %></div>
+<% end %>
+
+<% if @heatmap_frame %>
+  <%= turbo_frame_tag "#{dom_id(@user)}_heatmap", :src => user_heatmap_path(@user), :data => { :turbo => false }, :class => "heatmap_frame" %>
+<% end %>
+<% if owned %>
+  <div class="mt-2">
+    <%= link_to t(".edit_contribution_calendar"), profile_heatmap_path, :class => "btn btn-sm w-100 btn-outline-primary edit_heatmap_button" %>
+  </div>
+<% end %>
+
+<%= render "diary_entries/profile_diaries", :user => @user, :diary_entries => @user.diary_entries.visible.order(:created_at => :desc).limit(4) %>

@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative File.join("..", "config", "environment")
+require "generator"
+
+addresses = User.count(
+  :conditions => {
+    :status => %w[suspended deleted],
+    :creation_time => (Time.now.utc - 28.days)..Time.now.utc
+  },
+  :group => :creation_address
+)
+
+addresses.each do |address, count|
+  next unless count > 1
+  next if Acl.exists?(:address => address)
+
+  Acl.create({
+               :address => address,
+               :k => "no_account_creation",
+               :v => "auto_spam_block"
+             }, { :without_protection => true })
+
+  puts "Blocked #{address}"
+end
+
+acls = Acl.find(:all, :conditions => {
+                  :k => "no_account_creation",
+                  :v => "auto_spam_block"
+                })
+
+acls.each do |acl|
+  next if addresses[acl.address]
+
+  acl.delete
+
+  puts "Unblocked #{acl.address}"
+end
+
+exit 0
