@@ -189,6 +189,7 @@ group :test do
   gem "erb_lint", :require => false
   gem "jwt"
   gem "minitest"
+  gem "minitest-fail-fast"
   gem "minitest-focus", :require => false
   gem "minitest-mock"
   gem "pg_query"

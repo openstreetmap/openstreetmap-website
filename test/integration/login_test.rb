@@ -3,6 +3,8 @@
 require "test_helper"
 
 class LoginTest < ActionDispatch::IntegrationTest
+  i_suck_and_my_tests_are_order_dependent!
+
   def setup
     OmniAuth.config.test_mode = true
   end
