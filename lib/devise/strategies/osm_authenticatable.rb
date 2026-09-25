@@ -23,7 +23,11 @@ module Devise
           )
           false
         else
-          fail!("You are suspended")
+          fail!(
+            :code => :user_suspended,
+            :username => resource.display_name,
+            :referer => params[:referer]
+          )
           false
         end
       end
