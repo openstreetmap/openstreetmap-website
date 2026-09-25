@@ -29,10 +29,14 @@ class SessionsController < Devise::SessionsController
     session[:remember_me] = params[:remember_me] == "yes"
     pp "create/BEFORE"
     super do |user|
-      referer = safe_referer(params[:referer]) if params[:referer]
-      pp ["create/BLOCK", user, referer]
-      successful_login(user, referer)
-      return
+      @safe_referer = safe_referer(params[:referer]) if params[:referer]
+      pp ["create/BLOCK", user, @safe_referer]
+      # successful_login(user, referer)
+      session[:user] = user.id
+      session[:fingerprint] = user.fingerprint
+      session_expires_after 28.days if session[:remember_me]
+
+      cookies.delete :_osm_anonymous_notes_count
     end
     pp "create/AFTER"
   rescue Exception
@@ -76,6 +80,27 @@ class SessionsController < Devise::SessionsController
       end
     else
       failed_login(t("sessions.new.auth failure"), username, referer)
+    end
+  end
+
+  def after_sign_in_path_for(user)
+    pp ["after_sign_in_path_for", user]
+    target = @safe_referer || url_for(:controller => :site, :action => :index)
+
+    # The user is logged in, so decide where to send them:
+    #
+    # - If they haven't seen the contributor terms, send them there.
+    # - If they have a block on them, show them that.
+    # - If they were referred to the login, send them back there.
+    # - Otherwise, send them to the home page.
+    if !user.terms_seen
+      account_terms_path(:referer => target)
+    elsif user.blocked_on_view
+      # TODO: :referer => target
+      # redirect_to user.blocked_on_view, :referer => target
+      user.blocked_on_view
+    else
+      target
     end
   end
 end
