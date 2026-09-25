@@ -340,7 +340,6 @@ class LoginTest < ActionDispatch::IntegrationTest
 
     assert_template "changesets/history"
     assert_select "span.username", user.display_name
-    pp session.to_h
     assert session.key?(:_remember_for)
   end
 
@@ -1237,7 +1236,7 @@ class LoginTest < ActionDispatch::IntegrationTest
 
   def try_password_login(username, password, remember_me = nil)
     get "/login"
-    #assert_redirected_to login_path(:cookie_test => true)
+    assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
