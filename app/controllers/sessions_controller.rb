@@ -25,6 +25,8 @@ class SessionsController < Devise::SessionsController
   end
 
   def create
+    pp params
+    session[:remember_me] = params[:remember_me] == "yes"
     pp "create/BEFORE"
     super do |user|
       referer = safe_referer(params[:referer]) if params[:referer]
