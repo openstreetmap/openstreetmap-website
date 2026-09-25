@@ -5,10 +5,25 @@ module Devise
   module Models
     module OsmAuthenticatable
       extend ActiveSupport::Concern
-pp ">>> #{self}"
       include DatabaseAuthenticatable
 
       FORMAT = Argon2::HashFormat.new(Argon2::Password.create(""))
+
+      included do
+        def self.find_for_database_authentication(warden_conditions)
+          username = warden_conditions[:username]
+          user = find_by("email = ? OR display_name = ?", username.strip, username)
+
+          if user.nil?
+            users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username)
+
+            user = users.first if users.one?
+          end
+
+          user if user && user.status != "deleted"
+        end
+      end
+
 
       def valid_password?(password)
         is_valid =

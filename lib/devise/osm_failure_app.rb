@@ -3,7 +3,6 @@ require "devise/failure_app"
 module Devise
   class OsmFailureApp < Devise::FailureApp
     def respond
-      pp ["OsmFailureApp#respond", warden_options]
       case failure_code
       when :not_found_in_database, :invalid
         redirect

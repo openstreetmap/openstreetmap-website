@@ -25,7 +25,6 @@ class SessionsController < Devise::SessionsController
   end
 
   def create
-    pp params
     session[:remember_me] = params[:remember_me] == "yes"
     pp "create/BEFORE"
     super do |user|
@@ -84,7 +83,6 @@ class SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(user)
-    pp ["after_sign_in_path_for", user]
     target = @safe_referer || url_for(:controller => :site, :action => :index)
 
     # The user is logged in, so decide where to send them:
