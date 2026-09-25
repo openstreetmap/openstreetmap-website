@@ -7,6 +7,9 @@ class CreateGpxTracks < ActiveRecord::Migration[8.1]
       t.integer :trackid, :null => false
       t.integer :segment, :null => false
       t.column :geom, "geometry(GeometryZM,4326)", :null => false
+      # Time of the first and last point that has a timestamp, null when none has.
+      t.datetime :started_at, :precision => nil
+      t.datetime :ended_at, :precision => nil
 
       t.check_constraint "ST_GeometryType(geom) IN ('ST_LineString', 'ST_Point')",
                          :name => "gpx_tracks_geom_line_or_point"
