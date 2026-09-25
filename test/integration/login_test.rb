@@ -1239,32 +1239,32 @@ class LoginTest < ActionDispatch::IntegrationTest
     get "/login"
     #assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
-#    assert_response :success
-#    assert_template "sessions/new"
-#    assert_select "input#user_username", 1 do
-#      assert_select "[value]", false
-#    end
-#    assert_select "input#user_password", 1 do
-#      assert_select "[value=?]", ""
-#    end
-#    assert_select "input#user_remember_me", 1 do
-#      assert_select "[checked]", false
-#    end
-#
-#    post "/login", :params => { :user => { :username => username, :password => "wrong", :remember_me => remember_me, :referer => "/history" } }
-#    assert_response :redirect
-#    follow_redirect!
-#    assert_response :success
-#    assert_template "sessions/new"
-#    assert_select "input#user_username", 1 do
-#      assert_select "[value=?]", username
-#    end
-#    assert_select "input#user_password", 1 do
-#      assert_select "[value=?]", ""
-#    end
-#    assert_select "input#user_remember_me", 1 do
-#      assert_select "[checked]", remember_me == "yes"
-#    end
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "input#user_username", 1 do
+      assert_select "[value]", false
+    end
+    assert_select "input#user_password", 1 do
+      assert_select "[value=?]", ""
+    end
+    assert_select "input#user_remember_me", 1 do
+      assert_select "[checked]", false
+    end
+
+    post "/login", :params => { :user => { :username => username, :password => "wrong" }, :remember_me => remember_me, :referer => "/history" }
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "input#user_username", 1 do
+      assert_select "[value=?]", username
+    end
+    assert_select "input#user_password", 1 do
+      assert_select "[value=?]", ""
+    end
+    assert_select "input#user_remember_me", 1 do
+      assert_select "[checked]", remember_me == "yes"
+    end
 
     post "/login", :params => { :user => { :username => username, :password => password }, :remember_me => remember_me, :referer => "/history" }
     assert_response :redirect
