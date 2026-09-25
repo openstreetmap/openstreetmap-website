@@ -17,6 +17,9 @@ class TraceLinestringJob < ApplicationJob
   # max_track_segment_length meters of track, so a long fast track (train, plane)
   # does not produce segments wider than a download bbox.
   #
+  # started_at and ended_at are the time of the first and last point of the
+  # segment that have a timestamp, null when none has.
+  #
   # A track with one point is saved as a point, because a line needs two.
   # All traces are converted, whatever their visibility.
   #
@@ -30,29 +33,30 @@ class TraceLinestringJob < ApplicationJob
   # Returns the number of segments written.
   def perform(trace)
     sql = <<~SQL.squish
-      INSERT INTO gpx_tracks (gpx_id, trackid, segment, geom)
+      INSERT INTO gpx_tracks (gpx_id, trackid, segment, geom, started_at, ended_at)
       SELECT gpx_id, trackid, segment,
              CASE WHEN count(*) = 1
                   THEN ST_SetSRID((array_agg(pt))[1], 4326)
                   ELSE ST_SetSRID(ST_MakeLine(pt ORDER BY seq), 4326)
-             END
+             END,
+             min("timestamp"), max("timestamp")
       FROM (
-        SELECT gpx_id, trackid, seq, pt,
+        SELECT gpx_id, trackid, seq, pt, "timestamp",
                dense_rank() OVER (PARTITION BY gpx_id, trackid ORDER BY run, part, (row_in_part - 1) / #{Settings.max_points_per_track_segment}) - 1 AS segment
         FROM (
-          SELECT gpx_id, trackid, seq, pt, run, part,
+          SELECT gpx_id, trackid, seq, pt, "timestamp", run, part,
                  row_number() OVER (PARTITION BY gpx_id, trackid, run, part ORDER BY seq) AS row_in_part
           FROM (
             /* run is the number of the stretch between two jumps, part the number
                of the max_track_segment_length stretch, jumps not counted */
-            SELECT gpx_id, trackid, seq, pt,
+            SELECT gpx_id, trackid, seq, pt, "timestamp",
                    count(*) FILTER (WHERE jump > #{Settings.max_distance_between_track_points})
                      OVER (PARTITION BY gpx_id, trackid ORDER BY seq) AS run,
                    floor(sum(CASE WHEN jump > #{Settings.max_distance_between_track_points} THEN 0 ELSE jump END)
                            OVER (PARTITION BY gpx_id, trackid ORDER BY seq) / #{Settings.max_track_segment_length}) AS part
             FROM (
               /* seq gives a fixed order, timestamps can repeat. jump is the distance to the previous point */
-              SELECT gpx_id, trackid, pt,
+              SELECT gpx_id, trackid, pt, "timestamp",
                      row_number() OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp") AS seq,
                      COALESCE(ST_DistanceSphere(pt, lag(pt) OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp")), 0) AS jump
               FROM (

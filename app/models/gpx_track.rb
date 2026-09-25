@@ -4,10 +4,12 @@
 #
 # Table name: gpx_tracks
 #
-#  gpx_id  :bigint           not null, primary key
-#  trackid :integer          not null, primary key
-#  segment :integer          not null, primary key
-#  geom    :st_geometry      not null, geometry, 4326
+#  gpx_id     :bigint           not null, primary key
+#  trackid    :integer          not null, primary key
+#  segment    :integer          not null, primary key
+#  geom       :st_geometry      not null, geometry, 4326
+#  started_at :datetime
+#  ended_at   :datetime
 #
 # Indexes
 #
