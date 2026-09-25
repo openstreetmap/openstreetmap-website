@@ -3,6 +3,11 @@
 OpenStreetMap::Application.routes.draw do
   devise_for(
     :users,
+    path: "",
+    path_names: {
+      sign_in: "login",
+      sign_out: "logout",
+    },
     controllers: {
       sessions: "sessions",
     }
@@ -218,9 +223,6 @@ OpenStreetMap::Application.routes.draw do
     end
   end
   get "/export" => "site#export"
-  get "/login" => "sessions#new"
-  post "/login" => "sessions#create"
-  match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
   resource :languages_pane, :path => "/panes/languages", :only => :show
   resource :layers_pane, :path => "/panes/layers", :only => :show

@@ -3,9 +3,6 @@ require "devise/models/database_authenticatable"
 module Devise
   module Strategies
     class OsmAuthenticatable < DatabaseAuthenticatable
-      class SuspendedAccountError < StandardError; end
-
-      pp "=== #{self}"
 
       private
 
