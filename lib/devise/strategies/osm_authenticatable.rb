@@ -7,13 +7,21 @@ module Devise
       private
 
       def validate(resource)
-        pp "VALIDATE!"
         super && check_resource_status!(resource)
       end
 
       def check_resource_status!(resource)
         if resource.active?
           true
+        elsif resource.pending?
+          # TODO: session[:pending_user] = user.id
+          # TODO: session.delete(:remember_me)
+          redirect!(
+            Rails.application.routes.url_helpers.user_confirm_path(resource.display_name)
+            # TODO
+            # :referer => referer
+          )
+          false
         else
           fail!("You are suspended")
           false
