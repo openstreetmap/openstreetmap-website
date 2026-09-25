@@ -19,9 +19,16 @@ $(function () {
       .map(function () {
         const { lat, lon, color, description } = $(this).data("user");
 
+        const popup = new OSM.MapLibre.Popup().setHTML(description);
         const marker = new OSM.MapLibre.Marker({ color })
           .setLngLat([lon, lat])
-          .setPopup(new OSM.MapLibre.Popup().setHTML(description));
+          .setPopup(popup);
+
+        // Markers are stacked with z-indexes from 0 to their count - 1 in
+        // updateZIndex, so keep the open popup above all of them
+        popup.on("open", () => {
+          popup.getElement().style.zIndex = markerObjects.length;
+        });
 
         return { marker, lat, lon };
       })
