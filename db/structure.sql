@@ -903,6 +903,8 @@ CREATE TABLE public.gpx_tracks (
     trackid integer NOT NULL,
     segment integer NOT NULL,
     geom public.geometry(GeometryZM,4326) NOT NULL,
+    started_at timestamp without time zone,
+    ended_at timestamp without time zone,
     CONSTRAINT gpx_tracks_geom_line_or_point CHECK ((public.st_geometrytype(geom) = ANY (ARRAY['ST_LineString'::text, 'ST_Point'::text])))
 );
 

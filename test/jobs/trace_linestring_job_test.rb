@@ -9,6 +9,11 @@ class TraceLinestringJobTest < ActiveJob::TestCase
 
     assert_equal 1, TraceLinestringJob.perform_now(trace)
     assert_equal [["ST_LineString", 3]], segments(trace)
+
+    segment = GpxTrack.find_by(:gpx_id => trace.id)
+
+    assert_equal trace.points.minimum(:timestamp), segment.started_at
+    assert_equal trace.points.maximum(:timestamp), segment.ended_at
   end
 
   def test_track_with_one_point_becomes_a_point
@@ -17,6 +22,11 @@ class TraceLinestringJobTest < ActiveJob::TestCase
 
     assert_equal 1, TraceLinestringJob.perform_now(trace)
     assert_equal [["ST_Point", 1]], segments(trace)
+
+    segment = GpxTrack.find_by(:gpx_id => trace.id)
+
+    assert_equal trace.points.minimum(:timestamp), segment.started_at
+    assert_equal segment.started_at, segment.ended_at
   end
 
   def test_coordinates_are_saved_in_degrees
@@ -117,6 +127,24 @@ class TraceLinestringJobTest < ActiveJob::TestCase
     assert_predicate times[0], :finite?
     assert_predicate times[1], :finite?
     assert_equal(-Float::INFINITY, times[2])
+
+    segment = GpxTrack.find_by(:gpx_id => trace.id)
+
+    assert_equal trace.points.minimum(:timestamp), segment.started_at
+    assert_equal trace.points.maximum(:timestamp), segment.ended_at
+  end
+
+  def test_segment_without_timestamps_has_no_dates
+    trace = create(:trace)
+    create_points(trace, 2)
+    trace.points.update_all(:timestamp => nil) # rubocop:disable Rails/SkipsModelValidations
+
+    assert_equal 1, TraceLinestringJob.perform_now(trace)
+
+    segment = GpxTrack.find_by(:gpx_id => trace.id)
+
+    assert_nil segment.started_at
+    assert_nil segment.ended_at
   end
 
   def test_traces_of_any_visibility_are_converted
