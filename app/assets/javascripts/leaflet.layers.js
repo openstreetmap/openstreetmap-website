@@ -91,15 +91,18 @@ L.OSM.layers = function (options) {
         const input = this.firstElementChild.firstElementChild;
         $(item).tooltip("disable");
 
-        let checked = map.hasLayer(layer);
+        function updateOverlay() {
+          input.checked = map.hasLayer(layer);
+          input.disabled = map.getBounds().getSize() >= item.dataset.maxArea && !input.checked;
 
-        input.checked = checked;
+          item.classList.toggle("disabled", input.disabled);
+          $(item).tooltip(input.disabled ? "enable" : "disable");
+        }
 
         $(input).on("change", function () {
-          checked = input.checked;
           layer.cancelLoading?.();
 
-          if (checked) {
+          if (input.checked) {
             map.addLayer(layer);
           } else {
             map.removeLayer(layer);
@@ -107,24 +110,8 @@ L.OSM.layers = function (options) {
           }
         });
 
-        map.on("overlayadd overlayremove", function () {
-          input.checked = map.hasLayer(layer);
-        });
-
-        map.on("zoomend", function () {
-          const disabled = map.getBounds().getSize() >= item.dataset.maxArea;
-          input.disabled = disabled;
-
-          if (disabled && input.checked) {
-            input.click();
-            checked = true;
-          } else if (!disabled && !input.checked && checked) {
-            input.click();
-          }
-
-          item.classList.toggle("disabled", disabled);
-          $(item).tooltip(disabled ? "enable" : "disable");
-        });
+        map.on("zoomend overlayadd overlayremove", updateOverlay);
+        updateOverlay();
       });
     }
   };
