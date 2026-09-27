@@ -119,11 +119,13 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
     .addClass("bg-body-tertiary");
 
   if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
-    let src = OSM.WIKIMEDIA_COMMONS_URL + "Special:Redirect/file/" + encodeURIComponent(icon) + "?mobileaction=toggle_view_desktop";
-    if (!icon.endsWith(".svg")) src += "&width=128";
+    const $img = $("<img>").attr({ height: "32", alt: "" });
+    fetchCommonsThumbnail(icon)
+      .then(src => $img.attr("src", src))
+      .catch(() => {});
     $("<a>")
       .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
-      .append($("<img>").attr({ src, height: "32" }))
+      .append($img)
       .addClass("float-end mb-1 ms-2")
       .appendTo(cell);
   }
@@ -163,4 +165,28 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
     }
   }
   return $("<tr>").append(cell);
+}
+
+function fetchCommonsThumbnail(filename) {
+  const commonsUrl = OSM.WIKIMEDIA_COMMONS_URL.replace(/wiki\/?$/, "");
+  const url = commonsUrl + "w/api.php?" + new URLSearchParams({
+    action: "query",
+    format: "json",
+    origin: "*",
+    prop: "imageinfo",
+    titles: "File:" + filename,
+    iiprop: "url",
+    iiurlheight: "32"
+  });
+  return fetch(url, {
+    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
+    signal: abortController?.signal
+  })
+    .then(response => response.ok ? response.json() : Promise.reject(response))
+    .then(({ query }) => {
+      const page = Object.values(query.pages)[0];
+      const thumbnail = page.imageinfo?.[0]?.thumburl;
+      if (!thumbnail) return Promise.reject(page);
+      return thumbnail;
+    });
 }
