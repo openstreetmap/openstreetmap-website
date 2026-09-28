@@ -2,9 +2,17 @@
 
 module NotificationsHelper
   def partial_path_for_notification(notification)
-    # Turn "ChangesetCommentNotifier::Notification" into "ChangesetComment"
-    event_type_name = notification.class.name.sub("Notifier::Notification", "")
+    event_type_name = notification_event_type_name(notification)
 
-    "notifications/#{event_type_name.underscore}"
+    "notifications/#{event_type_name}"
+  end
+
+  def notification_event_type_name(notification)
+    # Turn "ChangesetCommentNotifier::Notification" into "ChangesetComment"
+    notification
+      .class
+      .name
+      .sub("Notifier::Notification", "")
+      .underscore
   end
 end
