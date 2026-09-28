@@ -6,4 +6,10 @@ class GpxImportFailureNotifier < ApplicationNotifier
     config.method = "gpx_failure"
     config.if = -> { recipient.notification_preferences.gpx_import_failure.include?("email") }
   end
+
+  notification_methods do
+    def record_required?
+      false
+    end
+  end
 end

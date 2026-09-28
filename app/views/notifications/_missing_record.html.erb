@@ -1,0 +1,12 @@
+<%# locals: (notification:) %>
+
+<%= render(
+      "notifications/notification_header",
+      :title => t("headline", :scope => ["notifications", notification_event_type_name(notification)]),
+      :timestamp => notification.created_at,
+      :missing_record => true
+    ) %>
+
+<%= render("notifications/notification_body") do %>
+  <p><%= t("notifications.missing_record.body") %></p>
+<% end %>
