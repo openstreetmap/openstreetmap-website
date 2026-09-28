@@ -169,16 +169,18 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
 
 function fetchCommonsThumbnail(filename) {
   const isVectorImage = filename.toLowerCase().endsWith(".svg");
-  const params = new URLSearchParams({
+  return fetch(OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + new URLSearchParams({
     action: "query",
     format: "json",
     origin: "*",
     prop: "imageinfo",
     titles: "File:" + filename,
-    iiprop: "url"
-  });
-  if (!isVectorImage) params.set("iiurlheight", "32");
-  return fetch(OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + params, fetchOptions)
+    iiprop: "url",
+    iiurlheight: "32"
+  }), {
+    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
+    signal: abortController?.signal
+  })
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ query }) => {
       const page = Object.values(query.pages)[0];
