@@ -124,7 +124,7 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
       .then(src => $img.attr("src", src))
       .catch(() => {});
     $("<a>")
-      .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
+      .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
       .append($img)
       .addClass("float-end mb-1 ms-2")
       .appendTo(cell);
@@ -168,8 +168,7 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
 }
 
 function fetchCommonsThumbnail(filename) {
-  const commonsUrl = OSM.WIKIMEDIA_COMMONS_URL.replace(/wiki\/?$/, "");
-  const url = commonsUrl + "w/api.php?" + new URLSearchParams({
+  const url = OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + new URLSearchParams({
     action: "query",
     format: "json",
     origin: "*",
