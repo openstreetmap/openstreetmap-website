@@ -178,11 +178,7 @@ function fetchCommonsThumbnail(filename) {
     iiprop: "url"
   });
   if (!isVectorImage) params.set("iiurlheight", "32");
-  const url = OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + params;
-  return fetch(url, {
-    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-    signal: abortController?.signal
-  })
+  return fetch(OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + params, fetchOptions)
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ query }) => {
       const page = Object.values(query.pages)[0];
