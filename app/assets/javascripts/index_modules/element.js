@@ -1,4 +1,8 @@
 let abortController = null;
+const fetchOptions = () => ({
+  headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
+  signal: abortController?.signal
+});
 const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
 const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
 const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
@@ -71,10 +75,7 @@ function previewWikidataValue($btn) {
     languages: languagesToRequest.join("|"),
     languagefallback: 1,
     sitefilter: wikisToRequest.join("|")
-  }), {
-    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-    signal: abortController?.signal
-  })
+  }), fetchOptions())
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ entities }) => {
       if (!entities) return Promise.reject(entities);
@@ -177,10 +178,7 @@ function fetchCommonsThumbnail(filename) {
     titles: "File:" + filename,
     iiprop: "url",
     iiurlheight: "32"
-  }), {
-    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-    signal: abortController?.signal
-  })
+  }), fetchOptions())
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ query }) => {
       const page = Object.values(query.pages)[0];
