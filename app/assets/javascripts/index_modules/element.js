@@ -119,7 +119,7 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
     .addClass("bg-body-tertiary");
 
   if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
-    const $img = $("<img>").attr({ height: "32", alt: "" });
+    const $img = $("<img>").attr({ height: "32", alt: icon });
     fetchCommonsThumbnail(icon)
       .then(src => $img.attr("src", src))
       .catch(() => {});
@@ -168,15 +168,17 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
 }
 
 function fetchCommonsThumbnail(filename) {
-  const url = OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + new URLSearchParams({
+  const isVectorImage = filename.toLowerCase().endsWith(".svg");
+  const params = new URLSearchParams({
     action: "query",
     format: "json",
     origin: "*",
     prop: "imageinfo",
     titles: "File:" + filename,
-    iiprop: "url",
-    iiurlheight: "32"
+    iiprop: "url"
   });
+  if (!isVectorImage) params.set("iiurlheight", "32");
+  const url = OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + params;
   return fetch(url, {
     headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
     signal: abortController?.signal
@@ -184,8 +186,9 @@ function fetchCommonsThumbnail(filename) {
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ query }) => {
       const page = Object.values(query.pages)[0];
-      const thumbnail = page.imageinfo?.[0]?.thumburl;
-      if (!thumbnail) return Promise.reject(page);
-      return thumbnail;
+      const imageInfo = page.imageinfo?.[0];
+      const imageUrl = isVectorImage ? imageInfo?.url : imageInfo?.thumburl;
+      if (!imageUrl) return Promise.reject(page);
+      return imageUrl;
     });
 }
