@@ -120,15 +120,15 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
     .addClass("bg-body-tertiary");
 
   if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
-    const $img = $("<img>").attr({ height: "32", alt: icon });
     fetchCommonsThumbnail(icon)
-      .then(src => $img.attr("src", src))
+      .then(src => {
+        $("<a>")
+          .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
+          .append($("<img>").attr({ src, height: "32", alt: icon }))
+          .addClass("float-end mb-1 ms-2")
+          .appendTo(cell);
+      })
       .catch(() => {});
-    $("<a>")
-      .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
-      .append($img)
-      .addClass("float-end mb-1 ms-2")
-      .appendTo(cell);
   }
   if (label) {
     const link = $link.clone()
