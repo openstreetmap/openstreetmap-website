@@ -126,7 +126,7 @@ function renderWikidataResponse({ icon, label, article, description }, $link, fe
           .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
           .append($("<img>").attr({ src, height: "32", alt: icon }))
           .addClass("float-end mb-1 ms-2")
-          .appendTo(cell);
+          .prependTo(cell);
       })
       .catch(() => {});
   }
