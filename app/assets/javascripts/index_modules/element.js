@@ -1,8 +1,4 @@
 let abortController = null;
-const fetchOptions = () => ({
-  headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-  signal: abortController?.signal
-});
 const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
 const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
 const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
@@ -66,6 +62,10 @@ function previewWikidataValue($btn) {
   const items = $btn.data("qids");
   if (!items?.length) return;
   $btn.prop("disabled", true);
+  const fetchOptions = {
+    headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
+    signal: abortController?.signal
+  };
   fetch(OSM.WIKIDATA_API_URL + "?" + new URLSearchParams({
     action: "wbgetentities",
     format: "json",
@@ -75,7 +75,7 @@ function previewWikidataValue($btn) {
     languages: languagesToRequest.join("|"),
     languagefallback: 1,
     sitefilter: wikisToRequest.join("|")
-  }), fetchOptions())
+  }), fetchOptions)
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ entities }) => {
       if (!entities) return Promise.reject(entities);
@@ -86,7 +86,7 @@ function previewWikidataValue($btn) {
             .filter(qid => entities[qid])
             .map(qid => getLocalizedResponse(entities[qid]))
             .filter(data => data.label || data.icon || data.description || data.article)
-            .map(data => renderWikidataResponse(data, $btn.siblings(`a[href*="wikidata.org/entity/${data.qid}"]`)))
+            .map(data => renderWikidataResponse(data, $btn.siblings(`a[href*="wikidata.org/entity/${data.qid}"]`), fetchOptions))
         );
     })
     .catch(() => $btn.prop("disabled", false));
@@ -113,14 +113,14 @@ function getLocalizedResponse(entity) {
   return data;
 }
 
-function renderWikidataResponse({ icon, label, article, description }, $link) {
+function renderWikidataResponse({ icon, label, article, description }, $link, fetchOptions) {
   const localeName = new Intl.DisplayNames(OSM.preferred_languages, { type: "language" });
   const cell = $("<td>")
     .attr("colspan", 2)
     .addClass("bg-body-tertiary");
 
   if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
-    fetchCommonsThumbnail(icon)
+    fetchCommonsThumbnail(icon, fetchOptions)
       .then(src => {
         $("<a>")
           .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
@@ -168,7 +168,7 @@ function renderWikidataResponse({ icon, label, article, description }, $link) {
   return $("<tr>").append(cell);
 }
 
-function fetchCommonsThumbnail(filename) {
+function fetchCommonsThumbnail(filename, fetchOptions) {
   const isVectorImage = filename.toLowerCase().endsWith(".svg");
   return fetch(OSM.WIKIMEDIA_COMMONS_URL + "/w/api.php?" + new URLSearchParams({
     action: "query",
@@ -178,7 +178,7 @@ function fetchCommonsThumbnail(filename) {
     titles: "File:" + filename,
     iiprop: "url",
     iiurlheight: "32"
-  }), fetchOptions())
+  }), fetchOptions)
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ query }) => {
       const page = Object.values(query.pages)[0];
