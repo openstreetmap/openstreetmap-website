@@ -1,9 +1,16 @@
 <%# locals: (notification:) %>
 
 <article class="web-notification">
-  <%= render(
-        partial_path_for_notification(notification),
-        :notification => notification,
-        :record => notification.record
-      ) %>
+  <% if notification.record || !notification.record_required? %>
+    <%= render(
+          partial_path_for_notification(notification),
+          :notification => notification,
+          :record => notification.record
+        ) %>
+  <% else %>
+    <%= render(
+          "notifications/missing_record",
+          :notification => notification
+        ) %>
+  <% end %>
 </article>

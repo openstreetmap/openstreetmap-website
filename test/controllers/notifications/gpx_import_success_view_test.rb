@@ -32,5 +32,27 @@ module Notifications
         assert_dom "dd", "5"
       end
     end
+
+    def test_render_deleted
+      notification = build_stubbed(
+        :notification,
+        :record => nil,
+        :notifier_class => GpxImportSuccessNotifier,
+        :notifier_params => {
+          :possible_points => 5
+        }
+      )
+
+      render(
+        "notifications/notification",
+        :notification => notification
+      )
+
+      assert_dom ".web-notification" do
+        assert_dom "h2", "GPS trace imported successfully"
+        assert_dom "time", "less than 1 minute ago"
+        assert_dom "p", "Unfortunately this is not available any more"
+      end
+    end
   end
 end

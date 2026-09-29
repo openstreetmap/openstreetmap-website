@@ -25,5 +25,24 @@ module Notifications
         assert_dom "p", "User Follower started following you. You can follow them back if you wish."
       end
     end
+
+    def test_render_unfollowed
+      notification = build_stubbed(
+        :notification,
+        :record => nil,
+        :notifier_class => NewFollowerNotifier
+      )
+
+      render(
+        "notifications/notification",
+        :notification => notification
+      )
+
+      assert_dom ".web-notification" do
+        assert_dom "h2", "New follower"
+        assert_dom "time", "less than 1 minute ago"
+        assert_dom "p", "Unfortunately this is not available any more"
+      end
+    end
   end
 end
