@@ -91,8 +91,8 @@ class UsersController < ApplicationController
       else
         # Save the user record
         if save_new_user(@user, params[:email_hmac])
-          SIGNUP_IP_LIMITER&.update(request.remote_ip)
-          SIGNUP_EMAIL_LIMITER&.update(canonical_email(@user.email))
+          RateLimiter.signup_ip_limiter.update(request.remote_ip)
+          RateLimiter.signup_email_limiter.update(canonical_email(@user.email))
 
           flash[:matomo_goal] = Settings.matomo["goals"]["signup"] if defined?(Settings.matomo)
 
@@ -267,9 +267,9 @@ class UsersController < ApplicationController
 
     blocked = Acl.no_account_creation?(request.remote_ip, :domain => domain, :mx => mx_servers)
 
-    blocked ||= SIGNUP_IP_LIMITER && !SIGNUP_IP_LIMITER.allow?(request.remote_ip)
+    blocked ||= !RateLimiter.signup_ip_limiter.allow?(request.remote_ip)
 
-    blocked ||= email && SIGNUP_EMAIL_LIMITER && !SIGNUP_EMAIL_LIMITER.allow?(canonical_email(email))
+    blocked ||= email && !RateLimiter.signup_email_limiter.allow?(canonical_email(email))
 
     logger.info "Blocked signup from #{request.remote_ip} for #{email}" if blocked
 
