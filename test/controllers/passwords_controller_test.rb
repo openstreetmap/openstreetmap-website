@@ -122,8 +122,25 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_equal third_user.email, email.to.first
   end
 
-  def test_reset_password
-    user = create(:user, :pending)
+  def test_reset_password_pending
+    reset_password(create(:user, :pending), "active")
+  end
+
+  def test_reset_password_active
+    reset_password(create(:user, :active), "active")
+  end
+
+  def test_reset_password_confirmed
+    reset_password(create(:user, :confirmed), "confirmed")
+  end
+
+  def test_reset_password_deleted
+    reset_password(create(:user, :deleted), "active")
+  end
+
+  private
+
+  def reset_password(user, expected_status)
     # Test a request with no token
     get user_reset_password_path
     assert_response :bad_request
@@ -151,7 +168,7 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
     assert_equal user.id, session[:user]
     user.reload
-    assert_equal "active", user.status
+    assert_equal expected_status, user.status
     assert user.email_valid
     assert user.password_matches?("new_password")
   end
