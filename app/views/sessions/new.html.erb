@@ -46,7 +46,7 @@
   </div>
 <% end %>
 
-<%= bootstrap_form_tag(:action => "login", :html => { :id => "login_form" }) do |f| %>
+<%= bootstrap_form_for(:user, :action => "login", :html => { :id => "login_form" }) do |f| %>
   <%= hidden_field_tag("referer", h(params[:referer]), :autocomplete => "off") %>
 
   <%= f.text_field :username, :label => t(".email or username"), :autofocus => true, :value => params[:username] %>
