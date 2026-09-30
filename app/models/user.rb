@@ -111,11 +111,12 @@ class User < ApplicationRecord
                            :whitespace => { :leading => false, :trailing => false },
                            :width => { :minimum => 3 }
   validate :display_name_cannot_be_user_id_with_other_id, :if => proc { |u| u.display_name_changed? }
-  validates :email, :presence => true, :characters => true
+  validates :email, :presence => true, :characters => { :email_safe => true }
   validates :email, :if => proc { |u| u.email_changed? },
                     :uniqueness => { :case_sensitive => false }
   validates :email, :if => proc { |u| u.email_changed? },
                     :whitespace => { :leading => false, :trailing => false }
+  validates :new_email, :characters => { :email_safe => true }
   validates :pass_crypt, :confirmation => true, :length => 8..255
   validates :home_lat, :allow_nil => true, :numericality => true, :inclusion => { :in => -90..90 }
   validates :home_lon, :allow_nil => true, :numericality => true, :inclusion => { :in => -180..180 }
