@@ -121,10 +121,10 @@ function renderWikidataResponse({ icon, label, article, description }, $link, fe
 
   if (icon && OSM.WIKIMEDIA_COMMONS_URL) {
     fetchCommonsThumbnail(icon, fetchOptions)
-      .then(src => {
+      .then(imageAttributes => {
         $("<a>")
           .attr("href", OSM.WIKIMEDIA_COMMONS_URL + "/wiki/File:" + encodeURIComponent(icon) + `?uselang=${OSM.i18n.locale}`)
-          .append($("<img>").attr({ src, height: "32", alt: icon }))
+          .append($("<img>").attr(imageAttributes))
           .addClass("float-end mb-1 ms-2")
           .prependTo(cell);
       })
@@ -176,7 +176,7 @@ function fetchCommonsThumbnail(filename, fetchOptions) {
     origin: "*",
     prop: "imageinfo",
     titles: "File:" + filename,
-    iiprop: "url",
+    iiprop: "url|thumburls",
     iiurlheight: "32"
   }), fetchOptions)
     .then(response => response.ok ? response.json() : Promise.reject(response))
@@ -185,6 +185,17 @@ function fetchCommonsThumbnail(filename, fetchOptions) {
       const imageInfo = page.imageinfo?.[0];
       const imageUrl = isVectorImage ? imageInfo?.url : imageInfo?.thumburl;
       if (!imageUrl) return Promise.reject(page);
-      return imageUrl;
+
+      const imageAttributes = { src: imageUrl, height: "32", alt: filename };
+      if (!isVectorImage) {
+        const thumbUrls = Object.entries(imageInfo.thumburls ?? {});
+        if (thumbUrls.length) {
+          imageAttributes.srcset = thumbUrls
+            .map(([width, thumbnail]) => `${thumbnail.url} ${width}w`)
+            .join(", ");
+          imageAttributes.sizes = `${imageInfo.thumbwidth}px`;
+        }
+      }
+      return imageAttributes;
     });
 }
