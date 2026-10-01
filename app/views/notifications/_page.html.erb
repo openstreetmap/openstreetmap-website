@@ -2,7 +2,14 @@
 
 <turbo-frame id="pagination" target="_top" data-turbo="false">
   <% notifications.items.each do |notification| %>
-    <%= render "notification", :notification => notification %>
+    <div class="row">
+      <div class="col-1 text-center">
+        <%= check_box_tag "notifications[#{notification.id}]", "delete", :class => "notification-mark-for-deletion align-bottom" %>
+      </div>
+      <div class="col-11">
+        <%= render "notification", :notification => notification %>
+      </div>
+    </div>
     <hr>
   <% end %>
 
