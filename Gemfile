@@ -10,10 +10,6 @@ gem "turbo-rails"
 gem "activerecord-postgis"
 gem "pg"
 
-# active_support does not support json 3.x yet
-# https://github.com/rails/rails/pull/58601 (merged but not yet released)
-gem "json", "< 3.0.0"
-
 # Use SCSS for stylesheets
 gem "dartsass-sprockets"
 # Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
