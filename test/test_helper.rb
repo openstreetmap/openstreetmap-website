@@ -38,6 +38,20 @@ require "minitest/focus"
 
 WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium-default selenium-de selenium-nolang rails-app])
 
+# Scan each job performed for N+1 queries, in the same way as requests are
+# scanned (see config/initializers/prosopite.rb).
+#
+# Jobs performed during a request, using perform_enqueued_jobs, aren't
+# scanned as their queries would otherwise count towards the request's,
+# whereas in production each job is performed separately.
+ActiveJob::Base.around_perform do |_job, block|
+  if Prosopite.scan?
+    Prosopite.pause { block.call }
+  else
+    Prosopite.scan { block.call }
+  end
+end
+
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods

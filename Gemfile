@@ -191,6 +191,8 @@ group :test do
   gem "minitest"
   gem "minitest-focus", :require => false
   gem "minitest-mock"
+  gem "pg_query"
+  gem "prosopite"
   gem "puma"
   gem "rails-controller-testing"
   gem "rubocop"
