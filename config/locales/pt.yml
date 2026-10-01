@@ -128,7 +128,7 @@ pt:
             visibility:
               cannot_change_to_legacy: não pode ser revertido para um valor antigo
     models:
-      acl: Lista de controle de acesso
+      acl: ACL
       changeset: Conjunto de alterações
       changeset_tag: Etiqueta de conjunto de alterações
       country: País
@@ -164,6 +164,12 @@ pt:
       way_node: Nó de linha
       way_tag: Etiqueta de linha
     attributes:
+      acl:
+        address: Endereço
+        domain: Domínio
+        mx: Servidor MX
+        k: Chave
+        v: Valor
       diary_comment:
         body: Corpo
       diary_entry:
@@ -226,6 +232,12 @@ pt:
         pass_crypt: Senha
         pass_crypt_confirmation: Confirmar Senha
     help:
+      acl:
+        address: Um endereço IP ou rede CIDR, por exemplo, 192.0.2.0/24
+        domain: Um domínio de e-mail; subdomínios também são considerados.
+        mx: O nome do host de um servidor MX para o domínio de e-mail.
+        k: 'Um de: no_account_creation, allow_account_creation, no_note_comment, no_trace_download'
+        v: Nota opcional, por exemplo, o motivo deste registo.
       doorkeeper/application:
         confidential: O aplicativo será usado onde o segredo do cliente possa ser
           mantido confidencial (os apps móveis nativos e apps de página única não
@@ -281,6 +293,19 @@ pt:
       x_years:
         one: há %{count} ano
         other: há %{count} anos
+    distance_in_words_in:
+      about_x_hours:
+        one: em cerca de %{count} hora
+        other: em cerca de %{count} horas
+      about_x_months:
+        one: em cerca de %{count} mês
+        other: em cerca de %{count} meses
+      about_x_years:
+        one: em cerca de %{count} ano
+        other: em cerca de %{count} anos
+      almost_x_years:
+        one: em quase %{count} ano
+        other: em quase %{count} anos
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -534,6 +559,8 @@ pt:
       colour_preview: Pré-visualização da cor %{colour_value}
       email_link: E-mail %{email}
     versions_navigation:
+      node_versions: Versões do ponto
+      relation_versions: Versões da relação
       node: Nó
       way: Caminho
       relation: Relação
@@ -550,10 +577,12 @@ pt:
     index:
       node:
         title_html: 'Histórico do ponto: %{name}'
+        actions: Ações do ponto
       way:
         title_html: 'Histórico da linha: %{name}'
       relation:
         title_html: 'Histórico da relação: %{name}'
+        actions: Ações da relação
       older_versions: Versões mais antigas
       newer_versions: Versões mais recentes
     actions:
@@ -711,6 +740,7 @@ pt:
       latest_edit_html: 'Última edição (%{ago}):'
       no_edits: (sem alterações)
       view_changeset_details: Ver detalhes do conjunto de alterações
+      actions: Opções de usuário
     popup:
       your location: Sua localização
       nearby mapper: Mapeador próximo
@@ -724,16 +754,25 @@ pt:
       no followings: Você ainda não seguiu nenhum usuário.
       nearby users: Outros usuários próximos
       no nearby users: Ainda não há outros usuários mapeando por perto.
+      followed_actions: Ações dos usuários que segues
       followed_changesets: conjuntos de alterações
       followed_diaries: publicações no diário
+      nearby_actions: Ações de usuário próximos
       nearby_changesets: conjuntos de alterações de usuários próximos
       nearby_diaries: publicações no diário dos usuários próximos
   notifications:
     index:
       title: Notificações
       no_notifications: Você não tem nenhuma notificação no momento
+      point_to_preferences_html: Você pode ajustar o método de recepção das notificações
+        na %{link}.
+      link_text: Seção de preferências
     changeset_comment:
       headline: Comentário sobre o conjunto de alterações
+      description_with_summary_html: O usuário %{commenter_name_with_link} deixou
+        um comentário no conjunto de alterações %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: O usuário %{commenter_name_with_link} deixou
+        um comentário no conjunto de alterações %{changeset_id_with_link}
     gpx_details:
       filename: Nome do arquivo
       description: Descrição
@@ -747,13 +786,24 @@ pt:
       headline: O rastramento por GPS foi importado com sucesso
     new_follower:
       headline: Novo seguidor
+      description_html: O usuário %{follower_name_with_link} começou a seguir-te.
+        Se quiseres, podes %{link}.
     note_comment:
       headline:
         commented: Comentário da nota
         closed: Nota resolvida
         reopened: Nota reaberta
+      description:
+        commented_html: O usuário %{commenter_name_with_link} deixou um comentário
+          na nota %{note_id_with_link} ("%{note_text}")
+        closed_html: O usuário %{commenter_name_with_link} resolveu a nota %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: O usuário %{commenter_name_with_link} reabriu a nota %{note_id_with_link}
+          ("%{note_text}")
     diary_comment:
       headline: Comentário no diário
+      description_html: O usuário %{commenter_name_with_link} deixou um comentário
+        na entrada do diário "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Nova publicação no diário
@@ -790,6 +840,7 @@ pt:
       posted_by_html: Publicado por %{link_user} em %{created} em %{language_link}.
       updated_at_html: Última atualização em %{updated}.
       full_entry: Ver entrada completa
+      actions: Ações de registos no diário
       comment_link: Comentar nesta publicação
       reply_link: Enviar uma mensagem ao autor
       comment_count:
@@ -827,6 +878,7 @@ pt:
       heading: Cancelar a in=inscrição da seguinte discussão de entrada de diário?
       button: Cancelar a inscrição na discussão
     navigation:
+      actions: Ações diárias
       in_language: Registros do diário em %{language}
       my_diary: Meu diário
       new: Nova publicação no diário
@@ -1816,6 +1868,7 @@ pt:
       report_created_at_html: Denunciado pela primeira vez em %{datetime}
       last_resolved_at_html: Resolvido pela última vez em %{datetime}
       last_updated_at_html: Última atualização em %{datetime} por %{displayname}
+      actions: Ações de problemas
       resolve: Resolvido
       ignore: Ignorar
       reopen: Reabrir
@@ -1970,6 +2023,7 @@ pt:
         be-Tarask: Bielorrusso (Tarašk.)
         bg: Búlgaro
         mk: Macedônio
+        mt: Maltês
         mo: Moldavo
         ce: Checheno
         ru: Russo
@@ -2885,6 +2939,8 @@ pt:
       get_directions_title: Ache um caminho entre dois pontos
       from: De
       to: Para
+      marker_from: Marcador de início de rota
+      marker_to: Marcador de fim de rota
       where_am_i: Onde estou?
       where_am_i_title: Descrever a localidade atual usando o motor de busca
       submit_text: Ir
@@ -3161,6 +3217,7 @@ pt:
         other: '%{count} pontos'
       more: mais
       trace_details: Ver detalhes da trilha
+      trace_actions: Ações de rotas
       view_map: Ver localização no mapa
       edit_map: Abrir no editor
       public: PÚBLICO
@@ -3174,6 +3231,7 @@ pt:
       my_gps_traces: Minhas trilhas GPS
       public_traces_from: Trilhas de GPS públicas de %{user}
       description: Procurar trilhas de GPS enviadas recentemente
+      actions: Ações de lista de rotas
       tagged_with: ' etiquetadas com %{tags}'
       empty_title: Nada aqui no momento
       empty_upload_html: '%{upload_link} ou aprenda mais sobre traçado de GPS no %{wiki_link}.'
@@ -3184,8 +3242,32 @@ pt:
       my_traces: Minhas trilhas
       traces_from_html: Traços públicos de %{user}
       remove_tag_filter: Remova o filtro de marcações
+      legacy_traces: Minhas rotas antigas
     destroy:
       scheduled_for_deletion: Trilha marcada para ser apagada
+    legacy_visibilities:
+      edit:
+        title: Minhas rotas de GPS antigas
+        filter:
+          visibility: Visibilidade atual
+          any: Privada e pública
+          from: Enviada de
+          to: Enviada para
+          apply: Filtro
+        empty: Não há rotas antigas que correspondam a este filtro.
+        new_visibility: Nova visibilidade
+        no_undo: Esta alteração não pode ser desfeita.
+        confirmation:
+          header: Confirmar alteração de visibilidade.
+          body:
+            one: Alterar a visibilidade de %{count} rota? Isto não pode ser revertido!
+            other: Alterar a visibilidade de %{count} rotas? Isto não pode ser revertido!
+          cancel: Cancelar
+          confirm: Alterar visibilidade
+      update:
+        updated:
+          one: Foi alterada a visibilidade de %{count} rota.
+          other: Foi alterada a visibilidade de %{count} rotas.
     offline_warning:
       message: O sistema de envio de arquivos GPX não está disponível no momento
     offline:
@@ -3283,6 +3365,12 @@ pt:
       preview: Pré-visualizar
       help: Ajuda
     pagination:
+      label: Navegação da página
+      acls:
+        older: ACL mais antigos
+        newer: ACL mais recentes
+        oldest: ACL mais antigos
+        newest: ACL mais recentes
       changeset_comments:
         older: Comentários mais antigos
         newer: Comentários mais recentes
@@ -3446,6 +3534,7 @@ pt:
       deleted: excluído
     show:
       actions: Ações
+      admin_actions: Ações administrativas
       my diary: Meu diário
       my edits: Minhas edições
       my traces: Minhas trilhas
@@ -3822,6 +3911,7 @@ pt:
       warning: Novas notas não podem ser criadas porque a API do OpenStreetMap está
         em modo somente leitura.
     notes_paging_nav:
+      label: Navegação da página
       showing_page: Página %{page}
       next: Próxima
       previous: Anterior
@@ -4050,18 +4140,78 @@ pt:
         a esta anulação antes de destruí-la.
       flash: Anulação eliminada.
       error: Houve um erro ao tentar eliminar esta anulação.
+  acls:
+    navigation:
+      new_title: Adicionar um novo ACL
+      new: Novo ACL
+      actions: Ações de ACL
+    index:
+      title: ACL
+      empty: Não ACL para mostrar.
+    page:
+      address: Endereço
+      domain: Domínio
+      mx: Servidor MX
+      k: Chave
+      v: Valor
+      actions: Ações
+    acl:
+      edit_button: Editar
+      destroy_button: Excluir
+      confirm: Tem certeza?
+    form:
+      cancel: Cancelar
+    new:
+      title: Novo ACL
+    create:
+      success: ACL criado.
+    edit:
+      title: Editando ACL
+    update:
+      success: ACL atualizado.
+    destroy:
+      success: ACL excluído.
   validations:
     leading_whitespace: tem espaço em branco principal
     trailing_whitespace: tem espaço em branco à direita
     invalid_characters: contém caracteres inválidos
     url_characters: contém caracteres de URL especiais (%{characters})
   moderation_zones:
+    navigation:
+      new_title: Definir uma nova zona de moderação
+      new: Nova zona de moderação
+      actions: Ações de zona de moderação
     index:
+      title: Zonas de moderação
+      heading: Zonas de moderação
       name: Nome
       reason: Motivo
       creator: Criador
       start: Iniciar
+      end: Fim
       status: Status
     row:
       edit: Editar
+    new:
+      title: Nova zona de moderação
+      heading: Nova zona de moderação
+    create:
+      success: Zona de moderação criada.
+    edit:
+      title: Editando zona de moderação %{name}
+      heading: Editando zona de moderação %{name}
+    update:
+      success: Zona de moderação atualizada.
+      only_creator_can_edit: Só o moderador que criou esta zona de moderação pode
+        editá-la.
+      only_creator_can_edit_without_revoking: Só o moderador que criou esta zona de
+        moderação pode editá-la sem revogar.
+      only_creator_or_revoker_can_edit: Só os moderadores que criaram ou revogaram
+        esta zona de moderação podem editá-la.
+      no_reactivation: Esta zona de moderação está inativa e não pode ser reativada.
+    helper:
+      short:
+        ended: finalizado
+        active: ativo
+        revoked_html: revogado por %{name}
 ...
