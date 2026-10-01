@@ -42,7 +42,7 @@ module Api
       # Find the notes we want to return
       notes = notes.bbox(bbox).order(:updated_at => :desc)
       notes = query_limit(notes)
-      @notes = notes.preload(:comments)
+      @notes = notes.preload(:author, :comments => :author)
 
       # Render the result
       respond_to do |format|
@@ -60,7 +60,7 @@ module Api
       raise OSM::APIBadUserInput, "No id was given" unless params[:id]
 
       # Find the note and check it is valid
-      @note = Note.find(params.expect(:id))
+      @note = Note.preload(:comments => :author).find(params.expect(:id))
       raise OSM::APINotFoundError unless @note
       raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user&.moderator?
 
@@ -126,7 +126,7 @@ module Api
 
       # Find the note and check it is valid
       Note.transaction do
-        @note = Note.lock.find(id)
+        @note = Note.lock.preload(:comments => :author).find(id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
 
@@ -157,7 +157,7 @@ module Api
 
       # Find the note and check it is valid
       Note.transaction do
-        @note = Note.lock.find(id)
+        @note = Note.lock.preload(:comments => :author).find(id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
@@ -185,7 +185,7 @@ module Api
 
       # Find the note and check it is valid
       Note.transaction do
-        @note = Note.lock.find_by(:id => id)
+        @note = Note.lock.preload(:comments => :author).find_by(:id => id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible?
         raise OSM::APINoteAlreadyClosedError, @note if @note.closed?
@@ -215,7 +215,7 @@ module Api
 
       # Find the note and check it is valid
       Note.transaction do
-        @note = Note.lock.find_by(:id => id)
+        @note = Note.lock.preload(:comments => :author).find_by(:id => id)
         raise OSM::APINotFoundError unless @note
         raise OSM::APIAlreadyDeletedError.new("note", @note.id) unless @note.visible? || current_user.moderator?
         raise OSM::APINoteAlreadyOpenError, @note unless @note.closed? || !@note.visible?
@@ -296,7 +296,7 @@ module Api
 
       # Find the notes we want to return
       @notes = query_limit(@notes.distinct)
-      @notes = @notes.preload(:comments)
+      @notes = @notes.preload(:author, :comments => :author)
 
       # Render the result
       respond_to do |format|
