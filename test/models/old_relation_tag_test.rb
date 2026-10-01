@@ -20,22 +20,19 @@ class OldRelationTagTest < ActiveSupport::TestCase
   end
 
   def test_length_key_invalid
-    tag = build(:old_relation_tag)
-    tag.k = "k" * 256
+    tag = build(:old_relation_tag, :k => "k" * 256)
     assert_not_predicate tag, :valid?, "Key should be too long"
     assert_predicate tag.errors[:k], :any?
   end
 
   def test_length_value_invalid
-    tag = build(:old_relation_tag)
-    tag.v = "v" * 256
+    tag = build(:old_relation_tag, :v => "v" * 256)
     assert_not_predicate tag, :valid?, "Value should be too long"
     assert_predicate tag.errors[:v], :any?
   end
 
   def test_orphaned_tag_invalid
-    tag = build(:old_relation_tag)
-    tag.old_relation = nil
+    tag = build(:old_relation_tag, :old_relation => nil)
     assert_not_predicate tag, :valid?, "Orphaned tag should be invalid"
     assert_predicate tag.errors[:old_relation], :any?
   end
