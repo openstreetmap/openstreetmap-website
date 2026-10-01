@@ -25,7 +25,7 @@ FactoryBot.define do
       end
 
       after(:create) do |note, evaluator|
-        create(:note_comment, :event => "opened", :note => note)
+        create(:note_comment, :event => "opened", :note => note, :author => note.author)
         create_list(:note_comment, evaluator.comments_count - 1, :note => note)
       end
     end
