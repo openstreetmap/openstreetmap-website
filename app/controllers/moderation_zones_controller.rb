@@ -20,7 +20,25 @@ class ModerationZonesController < ApplicationController
     @moderation_zone = ModerationZone.new
   end
 
-  def edit; end
+  def edit
+    @can_update = can?(:update, @moderation_zone)
+    if @can_update
+      @can_edit_name = true
+      @can_edit_reason = true
+      @can_edit_zone = true
+      @can_edit_period = true
+
+      if @moderation_zone.active? && current_user != @moderation_zone.creator && current_user != @moderation_zone.revoker
+        @can_edit_name = false
+        @can_edit_reason = false
+        @can_edit_zone = false
+      end
+
+      if @moderation_zone.inactive?
+        @can_edit_period = false
+      end
+    end
+  end
 
   def create
     @moderation_zone = ModerationZone.new(moderation_zone_params)
