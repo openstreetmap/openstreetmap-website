@@ -5,6 +5,7 @@ export default function (map) {
 
   const markers = L.layerGroup().addTo(map);
   let processedResults = 0;
+  let navigationSignal;
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -15,20 +16,26 @@ export default function (map) {
     $(this).hide();
     div.find(".loader").prop("hidden", false);
 
-    fetchReplace(this, div);
+    fetchReplace(this, div, navigationSignal).catch(reportLoadError);
   }
 
-  function fetchReplace({ href }, $target) {
+  function fetchReplace({ href }, $target, signal) {
     return fetch(href, {
+      signal,
       method: "POST",
       body: new URLSearchParams(OSM.csrf)
     })
       .then(response => response.text())
       .then(html => {
+        signal.throwIfAborted();
         const result = $(html);
         $target.replaceWith(result);
         result.filter("ul").children().each(showSearchResult);
       });
+  }
+
+  function reportLoadError(error) {
+    if (error.name !== "AbortError") reportError(error);
   }
 
   function showSearchResult() {
@@ -71,22 +78,25 @@ export default function (map) {
 
   const page = {};
 
-  page.load = function (path) {
+  page.load = function (path, signal) {
     const params = new URLSearchParams(path.substring(path.indexOf("?")));
     if (params.has("query")) {
       $(".search_form input[name=query]").val(params.get("query"));
     } else if (params.has("lat") && params.has("lon")) {
       $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
     }
-    OSM.loadSidebarContent(path)
-      .then(page.init);
+    return OSM.loadSidebarContent(path, signal)
+      .then(() => page.init(path, signal));
   };
 
-  page.init = function () {
+  page.init = function (path, signal) {
+    signal.throwIfAborted();
+    navigationSignal = signal;
     $(".search_results_entry[data-href]").each(function (index) {
       const entry = $(this);
-      fetchReplace(this.dataset, entry.children().first())
+      fetchReplace(this.dataset, entry.children().first(), signal)
         .then(() => {
+          signal.throwIfAborted();
           // go to first result of first geocoder
           if (index === 0) {
             const firstResult = entry.find("*[data-lat][data-lon]:first").first();
@@ -94,7 +104,7 @@ export default function (map) {
               panToSearchResult(firstResult.data());
             }
           }
-        });
+        }).catch(reportLoadError);
     });
 
     return map.getState();

@@ -15,11 +15,15 @@
 
      * The `init` method is called by the router when a path which matches the
        route's path template is loaded via a normal full page load. It is passed
-       as arguments the URL path plus any matching arguments for placeholders
-       in the path template.
+       as arguments the URL path, the navigation AbortSignal, and matching
+       arguments for placeholders in the path template.
 
      * The `load` method is called when a supported and matching page is
        loaded via pushState or popstate. It is passed the same arguments as `init`.
+
+       Both methods must return any asynchronous initialization work. The signal
+       aborts as soon as another navigation starts, before `unload` runs. Pass it
+       to read requests and check it before updating the UI after asynchronous work.
 
      * The `unload` method is called on the exiting route controller when navigating
        via pushState or popstate to another route.
@@ -65,7 +69,8 @@ OSM.Router = function (map, rts) {
       return regexp.test(path);
     };
 
-    route.run = async function (action, path, ...args) {
+    route.run = async function (action, path, signal, ...args) {
+      signal?.throwIfAborted();
       let params = [];
 
       if (path) {
@@ -74,12 +79,24 @@ OSM.Router = function (map, rts) {
         });
       }
 
+      if (!controllerInstance && action === "unload") return;
+
       if (!controllerInstance) {
         const moduleName = typeof controller === "string" ? "index_" + controller : controller.module;
         const select = controller.part || (m => m.default);
-        controllerInstance = await import(OSM.MODULE_PATHS[moduleName]).then(select).then(m => m(map));
+        const module = await new Promise((resolve, reject) => {
+          const abort = () => reject(signal.reason);
+          signal.addEventListener("abort", abort, { once: true });
+          import(OSM.MODULE_PATHS[moduleName])
+            .then(resolve, reject)
+            .finally(() => signal.removeEventListener("abort", abort));
+        });
+        signal.throwIfAborted();
+        controllerInstance = select(module)(map);
       }
 
+      signal?.throwIfAborted();
+      if (path) params.splice(1, 0, signal);
       return controllerInstance[action]?.(...params, ...args);
     };
 
@@ -95,6 +112,7 @@ OSM.Router = function (map, rts) {
       currentRoute = routes.recognize(currentPath),
       currentHash = location.hash || OSM.formatHash(map);
   let routingInProgress = Promise.resolve();
+  let controller = new AbortController();
 
   const router = {};
 
@@ -112,15 +130,26 @@ OSM.Router = function (map, rts) {
   function transition(path, beforeEnter = () => {}) {
     const route = routes.recognize(path);
     if (!route) return false;
+    controller.abort();
+    controller = new AbortController();
+    const { signal } = controller;
     routingInProgress = routingInProgress
       .catch(() => {})
       .then(async () => {
-        await currentRoute.run("unload", null, route === currentRoute);
+        signal.throwIfAborted();
+        await currentRoute.run("unload", null, null, route === currentRoute);
+        signal.throwIfAborted();
         beforeEnter();
         currentPath = path;
         currentRoute = route;
-        await currentRoute.run("load", currentPath);
+        await currentRoute.run("load", currentPath, signal);
+        signal.throwIfAborted();
         updateSecondaryNav();
+        return true;
+      })
+      .catch(error => {
+        if (error.name !== "AbortError") reportError(error);
+        return false;
       });
     return routingInProgress;
   }
@@ -130,7 +159,11 @@ OSM.Router = function (map, rts) {
     const path = location.pathname + location.search;
     if (path === currentPath) return;
     const done = transition(path);
-    if (done) done.then(() => map.setState(state, { animate: false }));
+    if (done) {
+      done.then(loaded => {
+        if (loaded) map.setState(state, { animate: false });
+      });
+    }
   });
 
   router.route = function (url) {
@@ -180,9 +213,15 @@ OSM.Router = function (map, rts) {
     map.off("movestart", disableMoveListener);
   };
 
-  router.load = async function () {
-    const loadState = await currentRoute.run("init", currentPath);
-    router.stateChange(loadState || {});
+  router.load = function () {
+    const { signal } = controller;
+    routingInProgress = currentRoute.run("init", currentPath, signal).then(loadState => {
+      signal.throwIfAborted();
+      router.stateChange(loadState || {});
+    }).catch(error => {
+      if (error.name !== "AbortError") reportError(error);
+    });
+    return routingInProgress;
   };
 
   router.setCurrentPath = function (path) {
