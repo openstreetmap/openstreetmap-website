@@ -94,6 +94,13 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_index_invalid_status
+    user = create(:user)
+
+    get user_notes_path(user, :status => "invalid")
+    assert_redirected_to :controller => :errors, :action => :bad_request
+  end
+
   def test_index_user_not_found_language
     I18n.with_locale "en" do
       get user_notes_path("no_such_user"), :headers => { "Accept-Language" => "fr" }
