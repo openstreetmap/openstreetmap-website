@@ -33,6 +33,7 @@ $(function () {
       const draw = createTerraDrawInstance(baseMap);
       draw.on("finish", createTerraDrawFinishHandler(draw));
       loadData(baseMap, draw);
+      setupMapStyleSelector(baseMap);
     } catch (e) {
       // MapLibre is swallowing these exceptions silently, so I had
       // to add this to know why my code was failing as I went.
@@ -40,7 +41,6 @@ $(function () {
       throw e;
     }
   });
-
   function createTerraDrawInstance(map) {
     return new terraDraw.TerraDraw({
       adapter: new terraDrawMaplibreGlAdapter.TerraDrawMapLibreGLAdapter({
@@ -142,6 +142,60 @@ $(function () {
       .join(",\n");
     const target = document.getElementById(fieldId);
     target.value = `POLYGON((\n${coordinatesString}\n))`;
+  }
+
+  function setupMapStyleSelector(map) {
+    const select = document.getElementById("map_style");
+
+    if (!select) {
+      return;
+    }
+
+    select.addEventListener("change", () => {
+      const layer = OSM.LAYER_DEFINITIONS.find(
+        (definition) => definition.layerId === select.value
+      );
+
+      if (!layer) {
+        return;
+      }
+
+      map.setStyle(layer.style, {
+        transformStyle: transformStyleWorkaround
+      });
+    });
+  }
+
+    // Known issue with MapLibre that affects TerraDraw. This is a workaround
+  // as described at https://github.com/JamesLMilner/terra-draw/issues/590#issuecomment-3923366056
+  function transformStyleWorkaround(previousStyle, nextStyle) {
+    const terraDrawPrefix = "td-";
+
+    const previousLayers = previousStyle && Array.isArray(previousStyle.layers) ? previousStyle.layers : [];
+    const nextLayers = nextStyle && Array.isArray(nextStyle.layers) ? nextStyle.layers : [];
+
+    const terraDrawLayers = previousLayers.filter((layer) => layer.id.startsWith(terraDrawPrefix));
+    const nextLayersWithoutTerraDraw = nextLayers.filter((layer) => !layer.id.startsWith(terraDrawPrefix));
+
+    const mergedLayers = [...nextLayersWithoutTerraDraw, ...terraDrawLayers];
+
+    // Carry over Terra Draw sources from the previous style
+    const nextSources = nextStyle?.sources ?? {};
+    const previousSources = previousStyle?.sources ?? {};
+
+    const mergedSources = { ...nextSources };
+
+    for (const [sourceId, sourceValue] of Object.entries(previousSources)) {
+      if (sourceId.startsWith(terraDrawPrefix)) {
+        mergedSources[sourceId] = sourceValue;
+      }
+    }
+
+    return {
+      ...nextStyle,
+      sources: mergedSources,
+      layers: mergedLayers
+    };
   }
 
   function featureToBox(feature) {

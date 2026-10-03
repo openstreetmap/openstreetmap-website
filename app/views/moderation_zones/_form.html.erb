@@ -1,5 +1,3 @@
-<%# locals: (moderation_zone:) %>
-
 <% content_for :head do %>
   <%= javascript_include_tag "moderation_zone" %>
 <% end %>
@@ -9,10 +7,15 @@
 
   <%= form.richtext_field :reason, :cols => 80, :rows => 20, :format => moderation_zone.reason_format %>
 
-  <%= form.form_group do %>
+  <%= form.form_group :class => "position-relative" do %>
     <%= form.label :zone %>
     <div id="map" class="content_map border rounded z-0"></div>
     <%= form.hidden_field :zone %>
+
+    <%= form.form_group :class => "position-absolute top-0 end-0" do %>
+      <%= form.label :map_style %>
+      <%= select_tag(:map_style, available_map_styles_for_select) %>
+    <% end %>
   <% end %>
 
   <%= form.select(
