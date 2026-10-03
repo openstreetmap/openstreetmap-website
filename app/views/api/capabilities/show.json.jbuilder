@@ -31,6 +31,10 @@ json.api do
     json.default_query_limit Settings.default_note_query_limit
     json.maximum_query_limit Settings.max_note_query_limit
   end
+  json.user_preferences do
+    json.key_maximum_length 255
+    json.value_maximum_length 1_000_000
+  end
   json.timeout do
     json.seconds Settings.api_timeout
   end
