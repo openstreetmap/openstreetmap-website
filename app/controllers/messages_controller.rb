@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
   # Show a message
   def show
     @title = t ".title"
-    @message = Message.find(params.expect(:id))
+    @message = Message.preload(:sender, :recipient).find(params.expect(:id))
 
     if @message.recipient == current_user || @message.sender == current_user
       @message.message_read = true if @message.recipient == current_user
