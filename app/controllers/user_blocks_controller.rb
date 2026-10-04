@@ -110,7 +110,7 @@ class UserBlocksController < ApplicationController
   ##
   # ensure that there is a "user_block" instance variable
   def lookup_user_block
-    @user_block = UserBlock.find(params.expect(:id))
+    @user_block = UserBlock.preload(:user, :creator, :revoker).find(params.expect(:id))
   rescue ActiveRecord::RecordNotFound
     render :action => "not_found", :status => :not_found
   end
