@@ -13,7 +13,7 @@ class ModerationZonesController < ApplicationController
   before_action :set_moderation_zone, :only => [:edit, :update]
 
   def index
-    @moderation_zones = ModerationZone.all
+    @moderation_zones = ModerationZone.preload(:creator, :revoker).all
   end
 
   def new
@@ -55,7 +55,7 @@ class ModerationZonesController < ApplicationController
   private
 
   def set_moderation_zone
-    @moderation_zone = ModerationZone.find(params.expect(:id))
+    @moderation_zone = ModerationZone.preload(:creator, :revoker).find(params.expect(:id))
   end
 
   def moderation_zone_params
