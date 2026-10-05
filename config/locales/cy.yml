@@ -89,6 +89,12 @@ cy:
       way_node: Nod Llwybr
       way_tag: Tag Llwybr
     attributes:
+      acl:
+        address: Cyfeiriad
+        domain: Parth
+        mx: Gweinydd MX
+        k: Allwedd
+        v: Gwerth
       diary_comment:
         body: Corff
       diary_entry:
@@ -151,6 +157,8 @@ cy:
         pass_crypt: Cyfrinair
         pass_crypt_confirmation: Cadarnhau Cyfrinair
     help:
+      acl:
+        v: Nodyn dewisol, e.e. y rheswm dros y cofnod hwn
       doorkeeper/application:
         redirect_uri: Defnyddiwch un llinell fesul URI
       trace:
@@ -514,6 +522,7 @@ cy:
       colour_preview: Rhagolwg lliw %{colour_value}
       email_link: E-bost %{email}
     versions_navigation:
+      node_versions: Fersiynau nod
       node: Nod
       way: Llwybr
       relation: Cydberthynas
@@ -704,6 +713,7 @@ cy:
       latest_edit_html: 'Golygiad diweddaraf (%{ago}):'
       no_edits: (dim golygiadau)
       view_changeset_details: Gweld manylion y grŵp newid
+      actions: Gweithredoedd defnyddiwr
     popup:
       your location: Eich lleoliad
       nearby mapper: Mapiwr gerllaw
@@ -1953,6 +1963,7 @@ cy:
         be-Tarask: Belarwseg (Tarašk.)
         bg: Bwlgareg
         mk: Macedoneg
+        mt: Malteg
         mo: Moldofeg
         ce: Tsietsieneg
         ru: Rwseg
@@ -2678,10 +2689,12 @@ cy:
           Chwyddwch i mewn neu ddewiswch ardal lai, neu defnyddiwch un o'r ffynonellau
           a restrir isod ar gyfer lawrlwythiadau data swmp.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: Copïau o gronfa ddata gyflawn OpenStreetMap sy'n cael eu diweddaru'n
             rheolaidd
         overpass:
+          url: https://overpass-api.de/api/map
           title: Overpass API
           description: Lawrlwythwch y blwch ffiniol hwn o ddrych o gronfa ddata OpenStreetMap
         geofabrik:
@@ -3073,6 +3086,14 @@ cy:
       remove_tag_filter: Dileu Hidlydd Tagiau
     destroy:
       scheduled_for_deletion: Mae'r ôl wedi'i drefnu i'w ddileu
+    legacy_visibilities:
+      edit:
+        filter:
+          apply: Hidlo
+        new_visibility: Gwelededd newydd
+        confirmation:
+          cancel: Canslo
+          confirm: Newid gwelededd
     offline_warning:
       message: Nid yw'r system lanlwytho ffeiliau GPX ar gael ar hyn o bryd
     offline:
@@ -3312,6 +3333,7 @@ cy:
         sillafu, neu efallai bod y ddolen rydych chi wedi ei chlicio arni'n anghywir.
       deleted: wedi'i ddileu
     show:
+      actions: Gweithredoedd
       my diary: Fy Nyddiadur
       my edits: Fy Ngolygiadau
       my traces: Fy Olion
@@ -3562,7 +3584,7 @@ cy:
         active: gweithredol
         active_until_read: yn weithredol nes cael ei ddarllen
         read_html: darllenwyd am %{time}
-        time_in_future_title: '%{time_absolute}; ymhen %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: Blociwyd %{block_on} gan %{block_by}
@@ -3695,9 +3717,8 @@ cy:
         text: gyfrannu eich hun
       counter_warning_forum_link:
         text: gall y gymuned eich helpu
-      advice: Mae eich nodyn yn gyhoeddus a gellid ei ddefnyddio i ddiweddaru'r map,
-        felly peidiwch ag ysgrifennu gwybodaeth bersonol, na gwybodaeth o fapiau hawlfreintiedig
-        neu gyfeiriaduron.
+      advice: Gall unrhyw aelod o'r cyhoedd weld nodyn, hyd yn oed os nad oes ganddo
+        gyfrif OpenStreetMap!
       add: Ychwanegu Nodyn
       error: Digwyddodd gwall wrth greu'r nodyn
     new_readonly:
@@ -3944,6 +3965,20 @@ cy:
         i'r gorchuddiad hwn cyn ei ddinistrio.
       flash: Dinistriwyd y gorchuddiad.
       error: Gwall wrth ddinistrio'r golygiad hwn.
+  acls:
+    page:
+      address: Cyfeiriad
+      domain: Parth
+      mx: Gweinydd MX
+      k: Allwedd
+      v: Gwerth
+      actions: Gweithredoedd
+    acl:
+      edit_button: Golygu
+      destroy_button: Dileu
+      confirm: Ydych chi'n siŵr?
+    form:
+      cancel: Canslo
   validations:
     leading_whitespace: ceir gofod gwyn o'i flaen
     trailing_whitespace: ceir gofod gwyn llusg
@@ -3974,4 +4009,9 @@ cy:
       heading: Golygu parth cymedroli %{name}
     update:
       success: Parth cymedroli wedi'i ddiweddaru.
+    helper:
+      short:
+        ended: wedi dod i ben
+        active: gweithredol
+        revoked_html: dirymwyd gan %{name}
 ...
