@@ -56,6 +56,16 @@ CREATE TYPE public.format_enum AS ENUM (
 
 
 --
+-- Name: gpx_event_action_enum; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.gpx_event_action_enum AS ENUM (
+    'added',
+    'removed'
+);
+
+
+--
 -- Name: gpx_visibility_enum; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -824,6 +834,37 @@ CREATE TABLE public.gps_points (
     "timestamp" timestamp without time zone,
     tile bigint
 );
+
+
+--
+-- Name: gpx_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.gpx_events (
+    id bigint NOT NULL,
+    gpx_id bigint NOT NULL,
+    action public.gpx_event_action_enum NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: gpx_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.gpx_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: gpx_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.gpx_events_id_seq OWNED BY public.gpx_events.id;
 
 
 --
@@ -1869,6 +1910,13 @@ ALTER TABLE ONLY public.friends ALTER COLUMN id SET DEFAULT nextval('public.frie
 
 
 --
+-- Name: gpx_events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gpx_events ALTER COLUMN id SET DEFAULT nextval('public.gpx_events_id_seq'::regclass);
+
+
+--
 -- Name: gpx_file_tags id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -2188,6 +2236,14 @@ ALTER TABLE ONLY public.diary_entry_subscriptions
 
 ALTER TABLE ONLY public.friends
     ADD CONSTRAINT friends_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: gpx_events gpx_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.gpx_events
+    ADD CONSTRAINT gpx_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -2733,6 +2789,13 @@ CREATE INDEX index_diary_entry_subscriptions_on_diary_entry_id ON public.diary_e
 --
 
 CREATE INDEX index_friends_on_user_id_and_created_at ON public.friends USING btree (user_id, created_at);
+
+
+--
+-- Name: index_gpx_events_on_created_at_and_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_gpx_events_on_created_at_and_id ON public.gpx_events USING btree (created_at, id);
 
 
 --
@@ -3781,6 +3844,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20261005150000'),
 ('20260624101500'),
 ('20260604105008'),
 ('20260604103822'),
