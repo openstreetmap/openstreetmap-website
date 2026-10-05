@@ -13,6 +13,11 @@ class NavigationTest < ApplicationSystemTestCase
     # There should be one notification from a direct message
     create(:message, :recipient => user)
 
+    # Not linked to the actual message above, but it doesn't
+    # matter. The important bit is that this notification
+    # should not be counted.
+    create(:direct_message_notification, :recipient => user)
+
     sign_in_as(user)
 
     find(".user-menu.dropdown [data-bs-toggle]").click
