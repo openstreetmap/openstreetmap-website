@@ -124,8 +124,8 @@ class User < ApplicationRecord
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
-  validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
-                     :image => true
+  validates :avatar, :image => { :if => proc { |u| u.attachment_changes["avatar"] } },
+                     :processable_file => true
   validates :description, :length => 0..65536
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
