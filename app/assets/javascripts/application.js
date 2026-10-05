@@ -18,6 +18,7 @@
 //= require matomo
 //= require richtext
 //= require language_selector
+//= require unsaved_changes
 
 {
   const application_data = $("head").data();
