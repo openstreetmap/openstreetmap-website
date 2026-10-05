@@ -78,6 +78,19 @@ class UserMailerTest < ActionMailer::TestCase
     assert_includes email.text_part.body, url
   end
 
+  def test_gpx_success_missing_trace
+    email =
+      UserMailer.with(
+        :record => nil,
+        :possible_points => 100,
+        :recipient => create(:user)
+      ).gpx_success
+
+    assert_nothing_raised do
+      email.text_part # Force lazy evaluation of mailer method
+    end
+  end
+
   def test_gpx_failure
     trace = build(:trace, :tags => build_list(:tracetag, 2))
     tag_strings = trace.tags.map(&:tag)

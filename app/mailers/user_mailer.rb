@@ -53,6 +53,7 @@ class UserMailer < ApplicationMailer
 
   def gpx_success
     trace, possible_points, recipient = params.fetch_values(:record, :possible_points, :recipient)
+    return unless trace
 
     with_recipient_locale recipient do
       @to_user = recipient.display_name
