@@ -136,6 +136,8 @@ ca:
       way_node: Node de la via
       way_tag: Etiqueta de la via
     attributes:
+      acl:
+        address: Adreça
       diary_comment:
         body: Cos
       diary_entry:
@@ -165,6 +167,11 @@ ca:
         gpx_file: Trieu un fitxer de traça GPS
         visibility: Visibilitat
         tagstring: Etiquetes
+      moderation_zone:
+        name: Nom
+        reason: Motiu
+        zone: Zona
+        period: Període
       message:
         sender: Remitent
         title: Tema
@@ -193,6 +200,8 @@ ca:
         pass_crypt: Contrasenya
         pass_crypt_confirmation: Confirmeu la contrasenya
     help:
+      acl:
+        address: 'Una adreça IP o xarxa CIDR, per exemple: 192.0.2.0/24'
       doorkeeper/application:
         confidential: L'aplicació serà utilitzada on el secret del client pugui ser
           mantingut confidencial (les aplicacions natives de mòbil i les aplicacions
@@ -409,6 +418,9 @@ ca:
           cauen en domini públic.
         did_not_confirm: No heu confirmat que considereu que les vostres edicions
           cauen en domini públic.
+    auth_deletions:
+      show:
+        title: Sol·licitud d'eliminació de dades
   browse:
     deleted_ago_by_html: Eliminat %{time_ago} per %{user}
     edited_ago_by_html: Editat %{time_ago} per %{user}
@@ -686,16 +698,52 @@ ca:
       nearby_changesets: conjunts de canvis d'usuaris propers
       nearby_diaries: entrades de diari d'usuaris propers
   notifications:
+    missing_record:
+      body: Malauradament, açò ja no està disponible
     index:
       title: Notificacions
       no_notifications: En aquest moment no hi ha notificacions
       point_to_preferences_html: Podeu ajustar com voleu rebre les notificacions a
         %{link}.
+      link_text: la secció de preferències
+    changeset_comment:
+      headline: Comentari del conjunt de canvis
+      description_with_summary_html: '%{commenter_name_with_link} ha deixat un comentari
+        al conjunt de canvis %{changeset_id_with_link} ("%{changeset_summary}")'
+      description_without_summary_html: '%{commenter_name_with_link} ha deixat un
+        comentari al conjunt de canvis %{changeset_id_with_link}'
+    gpx_details:
+      filename: Nom del fitxer
+      description: Descripció
+      tags: Etiquetes
+      total_points: Nombre total de punts
+      imported_points: Nombre de punts importats
+    gpx_import_failure:
+      headline: No s'ha pogut importar la traça de GPS
+      error_message: Missatge d'error
+    gpx_import_success:
+      headline: La traça de GPS s'ha importat amb èxit
     new_follower:
       headline: Nou seguidor
       description_html: '%{follower_name_with_link} ha començat a seguir-te. Podeu
         %{link} si voleu.'
       link_text: seguir-lo/a també
+    note_comment:
+      headline:
+        commented: Comentaris de la nota
+        closed: Nota resolta
+        reopened: Nota reoberta
+      description:
+        commented_html: '%{commenter_name_with_link} ha deixat un comentari a la nota
+          %{note_id_with_link} ("%{note_text}")'
+        closed_html: '%{commenter_name_with_link} ha resolt la nota %{note_id_with_link}
+          ("%{note_text}")'
+        reopened_html: '%{commenter_name_with_link} ha reobert la nota %{note_id_with_link}
+          ("%{note_text}")'
+    diary_comment:
+      headline: Comentaris al diari
+      description_html: '%{commenter_name_with_link} ha deixat un comentari a l''entrada
+        del diari "%{diary_entry_title_with_link}"'
   diary_entries:
     new:
       title: Entrada de diari nova
@@ -1441,7 +1489,7 @@ ca:
           square: Plaça
           state: Estat
           subdivision: Subdivisió
-          suburb: Suburbi
+          suburb: Districte
           town: Vila
           village: Poble
           "yes": Lloc
@@ -1658,7 +1706,7 @@ ca:
         level7: Límit comarcal (nivell 7)
         level8: Límit municipal (nivell 8)
         level9: Límit inframunicipal (nivell 9)
-        level10: Límit de suburbi-barri (nivell 10)
+        level10: Límit de districte-barri (nivell 10)
         level11: Límit del veïnat (nivell 11)
       border_types:
         arrondissement: Límit d'arrondissement
@@ -1909,6 +1957,7 @@ ca:
         be-Tarask: Bielorús (Tarašk.)
         bg: Búlgar
         mk: Macedònic
+        mt: Maltès
         mo: Moldau
         ce: Txetxè
         ru: Rus
@@ -3097,6 +3146,29 @@ ca:
       remove_tag_filter: Elimina el filtre d'etiquetes
     destroy:
       scheduled_for_deletion: Traça programada per a ser suprimida
+    legacy_visibilities:
+      edit:
+        description: Aquestes són les vostres traces que encara utilitzen l'antiga
+          visibilitat, privada o pública. Podeu canviar-les aquí a rastrejables o
+          identificables. Les millores planejades a traces de GPS només en cobriran
+          les rastrejables i identificables.
+        new_visibility: Nova visibilitat
+        no_undo: Aquest canvi no es podrà desfer.
+        button:
+          one: Canviar %{count} traça
+          other: Canviar %{count} traces
+        confirmation:
+          header: Confirmar el canvi de visibilitat.
+          body:
+            one: Canviar la visibilitat de %{count} traça? Açò no es podrà desfer.
+            other: Canviar la visibilitat de %{count} traces? Açò no es podrà desfer.
+          cancel: Cancel·lar
+          confirm: Canviar-ne la visibilitat
+      update:
+        updated:
+          one: Canviada la visibilitat de %{count} traça.
+          other: Canviada la visibilitat de %{count} traces.
+        invalid_visibility: Per favor trieu una visibilitat a la qual canviar.
     offline_warning:
       message: El sistema de càrrega de fitxers GPX no està disponible actualment
     offline:
@@ -3184,26 +3256,42 @@ ca:
       link: Enllaç
       text: Text
       image: Imatge
+      alt: Text alternatiu
       url: URL
       codeblock: Bloc de codi
     richtext_field:
+      edit: Editar
       preview: Previsualitza
+      help: Ajuda
     pagination:
+      label: Navegació de la pàgina
       changeset_comments:
+        older: Comentaris més vells
+        newer: Comentaris més nous
+        oldest: Primers comentaris
         newest: Comentaris els més nous
       diary_comments:
         older: Comentaris més antics
+        newer: Comentaris més nous
         oldest: Comentaris els més antics
         newest: Comentaris els més nous
       diary_entries:
+        older: Entrades més antigues
         newer: Entrades més noves
         oldest: Entrades les més antigues
         newest: Entrades les més noves
+      notifications:
+        older: Notificacions més antigues
+        newer: Notificacions recents
+        oldest: Primeres notificacions
+        newest: Últimes notificacions
       issues:
+        older: Problemes més antics
         newer: Problemes més nous
         oldest: Problemes els més antics
         newest: Problemes els més nous
       traces:
+        older: Traces més antigues
         newer: Traces més recents
         oldest: Traces les més antigues
         newest: Traces les més noves
@@ -3700,7 +3788,12 @@ ca:
       counter_warning_forum_link:
         text: la comunitat us pot ajudar
       advice: Qualsevol pot veure una nota, fins i tot si no té un compte d'OpenStreet!
+      advice_good_note: Una bona nota és el més descriptiva possible, evitant alhora
+        informació personal o contingut de mapes o directoris amb drets d'autor.
+      advice_conduct: Per favor, sigueu amables, pacients i respectuosos quan vos
+        comuniqueu amb els membres de la comunitat.
       add: Afegeix una nota
+      error: Hi ha hagut un error en crear la nota
     new_readonly:
       title: Nota nova
       warning: No es poden crear notes noves perquè l'API d'OpenStreetMap està actualment
@@ -3935,6 +4028,17 @@ ca:
         pertanyen a aquesta redacció abans de destruir-la.
       flash: Redacció suprimida
       error: Hi ha hagut un error en suprimir aquesta redacció.
+  acls:
+    page:
+      address: Adreça
+      v: Valor
+      actions: Accions
+    acl:
+      edit_button: Editar
+      destroy_button: Eliminar
+      confirm: N'estàs segur?
+    form:
+      cancel: Cancel·lar
   validations:
     leading_whitespace: té un espai en blanc davant
     trailing_whitespace: té un espai en blanc al final

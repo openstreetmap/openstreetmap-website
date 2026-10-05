@@ -102,8 +102,12 @@ zh-TW:
           attributes:
             url:
               http_parse_error: 網址應以 http:// 或 https:// 開頭
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: 無法改回舊值
     models:
-      acl: 存取控制清單
+      acl: 存取控制清單（ACL）
       changeset: 變更集
       changeset_tag: 變更集標籤
       country: 國家
@@ -139,6 +143,12 @@ zh-TW:
       way_node: 路徑節點
       way_tag: 路徑標籤
     attributes:
+      acl:
+        address: 位址
+        domain: 網域
+        mx: MX 伺服器
+        k: 鍵
+        v: 值
       diary_comment:
         body: 內文
       diary_entry:
@@ -168,6 +178,11 @@ zh-TW:
         gpx_file: 選擇 GPX 軌跡檔案
         visibility: 能見度
         tagstring: 標籤
+      moderation_zone:
+        name: 名稱
+        reason: 原因
+        zone: 區域
+        period: 週期
       message:
         sender: 寄件者
         title: 標題
@@ -196,6 +211,12 @@ zh-TW:
         pass_crypt: 密碼
         pass_crypt_confirmation: 確認密碼
     help:
+      acl:
+        address: IP 位址或 CIDR 網路，例如：192.0.2.0/24
+        domain: 電子郵件網域，子網域也需匹配。
+        mx: 電子郵件網域的 MX 伺服器的主機名
+        k: 以下之一：no_account_creation、allow_account_creation、no_note_comment、no_trace_download
+        v: 可選備註，例如：輸入此項目的原因
       doorkeeper/application:
         confidential: 應用程式會在客戶端密鑰可以維持機密時使用 (本地端移動應用程式和單一頁面應用程式不保密)
         redirect_uri: 每條 URI 使用一行
@@ -235,6 +256,44 @@ zh-TW:
         one: '%{count} 個月前'
         other: '%{count} 個月前'
       x_years: '%{count} 年前'
+    distance_in_words_in:
+      about_x_hours:
+        one: 約 %{count} 小時
+        other: 約 %{count} 小時
+      about_x_months:
+        one: 約 %{count} 個月
+        other: 約 %{count} 個月
+      about_x_years:
+        one: 約 %{count} 年
+        other: 約 %{count} 年
+      almost_x_years:
+        one: 將近 %{count} 年
+        other: 將近 %{count} 年
+      half_a_minute: 半分
+      less_than_x_seconds:
+        one: 不到 %{count} 秒
+        other: 不到 %{count} 秒
+      less_than_x_minutes:
+        one: 不到 %{count} 分
+        other: 不到 %{count} 分
+      over_x_years:
+        one: 超過 %{count} 年
+        other: 超過 %{count} 年
+      x_seconds:
+        one: '%{count} 秒內'
+        other: '%{count} 秒內'
+      x_minutes:
+        one: '%{count} 分內'
+        other: '%{count} 分內'
+      x_days:
+        one: '%{count} 天內'
+        other: '%{count} 天內'
+      x_months:
+        one: '%{count} 月內'
+        other: '%{count} 月內'
+      x_years:
+        one: '%{count} 年內'
+        other: '%{count} 年內'
   printable_name:
     current_and_old_links_html: '%{current_link}，%{old_link}'
   editor:
@@ -454,6 +513,9 @@ zh-TW:
       colour_preview: 色彩%{colour_value}預覽
       email_link: 電子郵件 %{email}
     versions_navigation:
+      node_versions: 節點版本
+      way_versions: 路徑版本
+      relation_versions: 關聯版本
       node: 節點
       way: 路徑
       relation: 關聯
@@ -470,10 +532,13 @@ zh-TW:
     index:
       node:
         title_html: 節點歷史：%{name}
+        actions: 節點操作
       way:
         title_html: 路徑歷史：%{name}
+        actions: 路徑操作
       relation:
         title_html: 關聯歷史：%{name}
+        actions: 關聯操作
       older_versions: 較舊版本
       newer_versions: 較新版本
     actions:
@@ -619,6 +684,7 @@ zh-TW:
       latest_edit_html: 上次編輯於 %{ago}：
       no_edits: (沒有編輯)
       view_changeset_details: 檢視變更集詳細資料
+      actions: 使用者操作
     popup:
       your location: 你的位置
       nearby mapper: 附近的製圖者
@@ -631,11 +697,15 @@ zh-TW:
       no followings: 您尚未追蹤任何使用者。
       nearby users: 其他附近的使用者
       no nearby users: 附近沒有已加入製圖的使用者。
+      followed_actions: 您關注使用者的操作
       followed_changesets: 變更集
       followed_diaries: 日記條目
+      nearby_actions: 附近使用者的操作
       nearby_changesets: 附近使用者的變更集
       nearby_diaries: 附近使用者的日記項目
   notifications:
+    missing_record:
+      body: 很遺憾，這已不再可用
     index:
       title: 通知
       no_notifications: 您目前沒有任何通知
@@ -708,6 +778,7 @@ zh-TW:
       posted_by_html: 於 %{created} 由 %{link_user} 以%{language_link}發表。
       updated_at_html: 上一次更新在 %{updated}。
       full_entry: 查看完整日記項目
+      actions: 日記項目操作
       comment_link: 對這個項目的評論
       reply_link: 發送訊息給作者
       comment_count:
@@ -744,6 +815,7 @@ zh-TW:
       heading: 取消訂閱以下日記項目討論？
       button: 取消訂閱討論
     navigation:
+      actions: 日記操作
       in_language: '%{language}日記項目'
       my_diary: 我的日記
       new: 新增日記項目
@@ -1367,7 +1439,7 @@ zh-TW:
           financial: 財務部門
           government: 政府機關
           insurance: 保險公司
-          it: 資訊專家
+          it: IT 辦公室
           lawyer: 律師事務所
           logistics: 物流辦公處
           newspaper: 報社
@@ -1718,6 +1790,7 @@ zh-TW:
       report_created_at_html: 首次回報是在 %{datetime}
       last_resolved_at_html: 最後回報是在 %{datetime}
       last_updated_at_html: 最後更新是由 %{displayname} 在 %{datetime}
+      actions: 問題操作
       resolve: 解決
       ignore: 忽略
       reopen: 重新開啟
@@ -1943,6 +2016,7 @@ zh-TW:
       select_language: 選擇語言
       sign_up: 註冊
       user_diaries: 日記
+      navigation: 主要導覽
     meta:
       openstreetmap_search: OpenStreetMap 搜尋
     select_language_button:
@@ -2613,6 +2687,8 @@ zh-TW:
       get_directions_title: 尋找兩點之間的路線
       from: 從
       to: 到
+      marker_from: 路線起點標記
+      marker_to: 路線終點標記
       where_am_i: 這是哪裡？
       where_am_i_title: 使用搜尋引擎描述目前的位置
       submit_text: 出發
@@ -2856,6 +2932,7 @@ zh-TW:
         other: '%{count} 個點'
       more: 更多
       trace_details: 檢視軌跡詳細資料
+      trace_actions: 軌跡操作
       view_map: 在地圖上檢視位置
       edit_map: 在編輯器中開啟
       public: 公開
@@ -2869,6 +2946,7 @@ zh-TW:
       my_gps_traces: 我的 GPS 軌跡
       public_traces_from: '%{user} 的公開 GPS 軌跡'
       description: 瀏覽最近的 GPS 軌跡上傳
+      actions: 軌跡清單操作
       tagged_with: 有如下標籤：%{tags}
       empty_title: 這裡還沒有東西
       empty_upload_html: '%{upload_link}或是在%{wiki_link}學習更多與GPS軌跡相關的資訊。'
@@ -2879,8 +2957,37 @@ zh-TW:
       my_traces: 我的軌跡
       traces_from_html: 來自 %{user} 的公開軌跡
       remove_tag_filter: 移除標籤篩選
+      legacy_traces: 我的舊軌跡
     destroy:
       scheduled_for_deletion: 軌跡已被排程刪除
+    legacy_visibilities:
+      edit:
+        title: 我的舊 GPS 軌跡
+        description: 這些是您目前仍使用的舊版私密或公開可見性的軌跡。您可以在此處將其變更為可追蹤或可識別。計劃改善的 GPS 軌跡僅涵蓋可追蹤和可識別兩種模式。
+        filter:
+          visibility: 目前可見性
+          any: 隱私和公開
+          from: 上傳自
+          to: 上傳到
+          apply: 篩選
+        empty: 沒有符合此篩選的舊版軌跡。
+        new_visibility: 新可見性
+        no_undo: 此操作不能還原。
+        button:
+          one: 更改 %{count} 個軌跡
+          other: 更改 %{count} 個軌跡
+        confirmation:
+          header: 確認可見性變更
+          body:
+            one: 更改 %{count} 條軌跡的可見性？此操作無法還原。
+            other: 更改 %{count} 條軌跡的可見性？此操作無法還原。
+          cancel: 取消
+          confirm: 變更可見性
+      update:
+        updated:
+          one: 更改了 %{count} 條軌跡的可見性。
+          other: 更改了 %{count} 條軌跡的可見性。
+        invalid_visibility: 請挑選要變更的可見性。
     offline_warning:
       message: GPX 檔案上傳系統目前無法使用
     offline:
@@ -2973,6 +3080,12 @@ zh-TW:
       preview: 預覽
       help: 說明
     pagination:
+      label: 頁面導覽
+      acls:
+        older: 較舊 ACL
+        newer: 較新 ACL
+        oldest: 最舊 ACL
+        newest: 最新 ACL
       changeset_comments:
         older: 較舊評論
         newer: 較新評論
@@ -3119,6 +3232,8 @@ zh-TW:
       body: 抱歉，沒有名為 %{user} 的使用者。請檢查你的拼字，或者可能是你按到錯誤的連結。
       deleted: 已刪除的帳號
     show:
+      actions: 操作
+      admin_actions: 管理操作
       my diary: 我的日記
       my edits: 我的編輯
       my traces: 我的軌跡
@@ -3457,13 +3572,16 @@ zh-TW:
         text: 自己做出貢獻
       counter_warning_forum_link:
         text: 社群可以協助您
-      advice: 你的註記已公開並可用於更新地圖，因此請不要輸入個人訊息，或是來自於具版權保護地圖的訊息以及目錄清單。
+      advice: 任何人都可在公開下查看該註記，即使是在沒有OpenStreetMap帳號情況下！
+      advice_good_note: 好的註記應盡可能詳細，且避免包含個人資訊或是受版權保護的地圖或目錄清單內容。
+      advice_conduct: 在與社群成員溝通時，請保持友善、耐心、和尊重。
       add: 送出註記
       error: 建立註記時出錯
     new_readonly:
       title: 新增註記
       warning: 無法建立新註記，因為開放街圖 API 目前處於唯讀模式。
     notes_paging_nav:
+      label: 頁面導覽
       showing_page: 第 %{page} 頁
       next: 下一頁
       previous: 上一頁
@@ -3680,9 +3798,76 @@ zh-TW:
       not_empty: 修訂尚未清空，請在銷毀前清除所有此修訂的版本。
       flash: 修訂已銷毀。
       error: 銷毀此修訂時發生錯誤。
+  acls:
+    navigation:
+      new_title: 新增新的 ACL
+      new: 新 ACL
+      actions: ACL 操作
+    index:
+      title: ACL
+      empty: 沒有要顯示的 ACL。
+    page:
+      address: 位址
+      domain: 網域
+      mx: MX 伺服器
+      k: 鍵
+      v: 值
+      actions: 操作
+    acl:
+      edit_button: 編輯
+      destroy_button: 刪除
+      confirm: 您確定嗎？
+    form:
+      cancel: 取消
+    new:
+      title: 新 ACL
+    create:
+      success: 已建立 ACL。
+    edit:
+      title: 編輯 ACL
+    update:
+      success: 已更新 ACL。
+    destroy:
+      success: 已刪除 ACL。
   validations:
     leading_whitespace: 前頭有空白
     trailing_whitespace: 後端有空白
     invalid_characters: 包含無效字元
     url_characters: 包含特定 URL 字元（%{characters}）
+    email_characters: 包含無效字元（%{characters}）
+  moderation_zones:
+    navigation:
+      new_title: 定義一個新的仲裁範圍
+      new: 新仲裁範圍
+      actions: 仲裁範圍操作
+    index:
+      title: 仲裁範圍
+      heading: 仲裁範圍
+      name: 名稱
+      reason: 原因
+      creator: 建立者
+      start: 開始
+      end: 結束
+      status: 狀態
+    row:
+      edit: 編輯
+    new:
+      title: 新仲裁範圍
+      heading: 新仲裁範圍
+    create:
+      success: 已建立仲裁範圍。
+    edit:
+      title: 編輯仲裁範圍%{name}
+      heading: 編輯仲裁範圍%{name}
+    update:
+      success: 仲裁範圍已更新。
+      only_creator_can_edit: 只有建立這項仲裁範圍的仲裁員可作出編輯。
+      only_creator_can_edit_without_revoking: 只有建立這項仲裁範圍的仲裁員可在不撤銷權限下作出編輯。
+      only_creator_or_revoker_can_edit: 只有建立或撤銷這項仲裁範圍的仲裁員可作出編輯。
+      no_reactivation: 此仲裁範圍無效且無法重新生效。
+    helper:
+      short:
+        ended: 已結束
+        active: 生效
+        revoked_html: 已被 %{name} 撤銷
 ...
