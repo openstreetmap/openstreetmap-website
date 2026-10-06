@@ -113,6 +113,7 @@ OpenStreetMap::Application.routes.draw do
           resource :data, :only => :show
         end
       end
+      resources :gpx_events, :path => "gpx/changes", :only => :index
       post "gpx/create" => "traces#create", :id => /\d+/, :as => :trace_create
       get "gpx/:id/details" => "traces#show", :id => /\d+/, :as => :trace_details
     end
