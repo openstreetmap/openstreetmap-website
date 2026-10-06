@@ -80,6 +80,18 @@ module Profiles
       assert_equal "Couldn't update profile image.", flash[:error]
     end
 
+    def test_update_replace_invalid_image
+      image = Rack::Test::UploadedFile.new("test/fixtures/lorem_ipsum.txt", "image/gif")
+      user = create(:user)
+      session_for(user)
+
+      put profile_image_path, :params => { :avatar_action => "new", :user => { :avatar => image } }
+
+      assert_response :success
+      assert_template :show
+      assert_equal "Couldn't update profile image.", flash[:error]
+    end
+
     def test_update_gravatar
       user = create(:user)
       session_for(user)
