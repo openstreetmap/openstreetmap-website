@@ -358,7 +358,9 @@ OpenStreetMap::Application.routes.draw do
   get "/preferences/edit", :to => redirect(:path => "/preferences/basic"), :as => nil
 
   resources :notifications, :only => [:index]
-  delete "/notifications" => "notifications#destroy"
+  namespace :notifications do
+    resource :reads, :only => [:create]
+  end
 
   # friendships
   scope "/user/:display_name" do

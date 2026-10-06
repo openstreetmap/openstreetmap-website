@@ -9,6 +9,7 @@ class NavigationTest < ApplicationSystemTestCase
     # There should be two notifications from changeset comments
     create(:changeset_comment_notification, :recipient => user)
     create(:changeset_comment_notification, :recipient => user)
+    create(:changeset_comment_notification, :recipient => user, :read_at => Time.zone.now)
 
     # There should be one notification from a direct message
     create(:message, :recipient => user)

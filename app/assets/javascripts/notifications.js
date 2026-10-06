@@ -1,6 +1,6 @@
 $(function () {
   const selectPageCheckbox = $("#select_page");
-  const individualCheckboxes = $(".notification-mark-for-deletion");
+  const individualCheckboxes = $(".notification-mark-as-read");
 
   individualCheckboxes.on("click", function () {
     if (allInPageSelected()) {
