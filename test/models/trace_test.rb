@@ -107,6 +107,86 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal %w[private trackable identifiable], trace.selectable_visibilities
   end
 
+  def test_event_added_when_identifiable_trace_is_imported
+    trace = create(:trace, :visibility => "identifiable", :inserted => false)
+    assert_empty GpxEvent.where(:gpx_id => trace.id)
+
+    trace.update(:inserted => true)
+    assert_equal ["added"], GpxEvent.where(:gpx_id => trace.id).pluck(:action)
+  end
+
+  def test_no_event_for_trackable_trace
+    trace = create(:trace, :visibility => "trackable")
+    trace.update(:visible => false)
+
+    assert_empty GpxEvent.where(:gpx_id => trace.id)
+  end
+
+  def test_no_event_for_legacy_traces
+    public_trace = create(:trace, :without_validations, :visibility => "public")
+    private_trace = create(:trace, :without_validations, :visibility => "private")
+
+    assert_empty GpxEvent.where(:gpx_id => [public_trace.id, private_trace.id])
+  end
+
+  def test_event_added_when_trace_becomes_identifiable
+    trackable_trace = create(:trace, :visibility => "trackable")
+    public_trace = create(:trace, :without_validations, :visibility => "public")
+
+    trackable_trace.update(:visibility => "identifiable")
+    public_trace.update(:visibility => "identifiable")
+
+    assert_equal ["added"], GpxEvent.where(:gpx_id => trackable_trace.id).pluck(:action)
+    assert_equal ["added"], GpxEvent.where(:gpx_id => public_trace.id).pluck(:action)
+  end
+
+  def test_event_removed_when_trace_stops_being_identifiable
+    trace = create(:trace, :visibility => "identifiable")
+    trace.update(:visibility => "trackable")
+
+    assert_equal %w[added removed], GpxEvent.where(:gpx_id => trace.id).order(:id).pluck(:action)
+  end
+
+  def test_event_removed_when_identifiable_trace_is_hidden
+    trace = create(:trace, :visibility => "identifiable")
+    trace.update(:visible => false)
+
+    assert_equal %w[added removed], GpxEvent.where(:gpx_id => trace.id).order(:id).pluck(:action)
+  end
+
+  def test_no_event_when_other_attributes_change
+    trace = create(:trace, :visibility => "identifiable")
+
+    assert_no_difference "GpxEvent.count" do
+      trace.update(:description => "A new description")
+    end
+  end
+
+  def test_change_visibility_to_identifiable
+    public_trace = create(:trace, :without_validations, :visibility => "public")
+    pending_trace = create(:trace, :without_validations, :visibility => "private", :inserted => false)
+    deleted_trace = create(:trace, :without_validations, :deleted, :visibility => "public")
+    traces = Trace.where(:id => [public_trace, pending_trace, deleted_trace])
+
+    assert_equal 3, traces.change_visibility("identifiable")
+
+    assert_equal "identifiable", public_trace.reload.visibility
+    assert_equal ["added"], GpxEvent.where(:gpx_id => public_trace.id).pluck(:action)
+    assert_empty GpxEvent.where(:gpx_id => [pending_trace.id, deleted_trace.id])
+  end
+
+  def test_change_visibility_to_trackable
+    public_trace = create(:trace, :without_validations, :visibility => "public")
+    identifiable_trace = create(:trace, :visibility => "identifiable")
+    traces = Trace.where(:id => [public_trace, identifiable_trace])
+
+    assert_equal 2, traces.change_visibility("trackable")
+
+    assert_equal "trackable", identifiable_trace.reload.visibility
+    assert_empty GpxEvent.where(:gpx_id => public_trace.id)
+    assert_equal %w[added removed], GpxEvent.where(:gpx_id => identifiable_trace.id).order(:id).pluck(:action)
+  end
+
   def test_tagstring_handles_space_separated_tags
     trace = build(:trace)
     trace.tagstring = "foo bar baz"

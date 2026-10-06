@@ -31,8 +31,7 @@ module Traces
 
       if Trace::VISIBILITIES.include?(visibility)
         # the traces are legacy and the new visibility is a current one, so no validation can fail
-        # rubocop:disable-next Rails/SkipsModelValidations
-        count = legacy_traces.update_all(:visibility => visibility)
+        count = legacy_traces.change_visibility(visibility)
         flash[:notice] = t ".updated", :count => count
       else
         flash[:error] = t ".invalid_visibility"
