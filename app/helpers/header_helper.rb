@@ -7,7 +7,7 @@ module HeaderHelper
 
     total = 0
     total += current_user.new_messages.size if which.include?(:messages)
-    total += current_user.web_notifications.size if which.include?(:notifications)
+    total += current_user.web_notifications.unread.size if which.include?(:notifications)
     total
   end
 end

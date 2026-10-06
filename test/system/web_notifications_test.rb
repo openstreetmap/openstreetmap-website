@@ -59,7 +59,7 @@ class WebNotificationsTest < ApplicationSystemTestCase
     assert_text "This is comment number 10"
   end
 
-  test "delete individual notifications" do
+  test "mark individual notifications as read" do
     changeset_author = create(:user)
     commenter = create(:user, :display_name => "Commenter")
     1.upto(7).map do |i|
@@ -75,12 +75,13 @@ class WebNotificationsTest < ApplicationSystemTestCase
     sign_in_as(changeset_author)
 
     visit notifications_path
-    assert_selector ".web-notification", :count => 7
-    checkboxes = all(".notification-mark-for-deletion")
+    assert_selector ".bg-success-subtle .web-notification", :count => 7
+    checkboxes = all(".notification-mark-as-read")
     checkboxes.first.click
     checkboxes.last.click
-    click_on "Delete selected"
-    assert_selector ".web-notification", :count => 5
+    click_on "Mark selected as read"
+    assert_selector ".web-notification", :count => 7
+    assert_selector ".bg-success-subtle .web-notification", :count => 5
   end
 
   test "checkbox to select all notifications in current page" do
@@ -99,14 +100,14 @@ class WebNotificationsTest < ApplicationSystemTestCase
     sign_in_as(changeset_author)
 
     visit notifications_path
-    assert_selector ".web-notification", :count => 7
+    assert_selector ".bg-success-subtle .web-notification", :count => 7
     checkbox_for_all = find_by_id("select_page")
     checkbox_for_all.click
-    checkboxes = all(".notification-mark-for-deletion")
+    checkboxes = all(".notification-mark-as-read")
     checkboxes.first.click
     checkboxes.last.click
-    click_on "Delete selected"
-    assert_selector ".web-notification", :count => 2
+    click_on "Mark selected as read"
+    assert_selector ".bg-success-subtle .web-notification", :count => 2
   end
 
   private
