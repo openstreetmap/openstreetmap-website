@@ -18,7 +18,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No relations were given to search for" if ids.empty?
 
-      @relations = Relation.includes(:relation_members, :element_tags).find(ids)
+      @relations = Relation.includes(:relation_members, :element_tags, :changeset => :user).find(ids)
 
       # Render the result
       respond_to do |format|

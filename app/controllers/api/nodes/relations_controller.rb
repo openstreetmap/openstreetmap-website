@@ -10,6 +10,7 @@ module Api
       def index
         @relations = Relation
                      .visible
+                     .includes(:relation_members, :changeset => :user)
                      .where(:id => RelationMember.where(
                        :member_type => "Node",
                        :member_id => params[:node_id]
