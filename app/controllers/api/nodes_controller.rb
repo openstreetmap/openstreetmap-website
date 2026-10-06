@@ -21,7 +21,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No nodes were given to search for" if ids.empty?
 
-      @nodes = Node.includes(:element_tags).find(ids)
+      @nodes = Node.includes(:element_tags, :changeset => :user).find(ids)
 
       # Render the result
       respond_to do |format|

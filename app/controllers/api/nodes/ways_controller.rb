@@ -14,6 +14,7 @@ module Api
       def index
         @ways = Way
                 .visible
+                .includes(:nodes, :changeset => :user)
                 .where(:id => WayNode.where(
                   :node_id => params[:node_id]
                 ).select(:way_id))
