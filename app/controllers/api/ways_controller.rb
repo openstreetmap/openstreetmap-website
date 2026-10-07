@@ -18,7 +18,7 @@ module Api
 
       raise OSM::APIBadUserInput, "No ways were given to search for" if ids.empty?
 
-      @ways = Way.includes(:element_tags, :changeset => :user, :nodes => { :changeset => :user }).find(ids)
+      @ways = Way.includes(:way_nodes, :element_tags, :changeset => :user).find(ids)
 
       # Render the result
       respond_to do |format|
@@ -29,7 +29,7 @@ module Api
 
     def show
       @way = Way
-      @way = @way.includes(:nodes, :element_tags)
+      @way = @way.includes(:way_nodes, :element_tags)
       @way = @way.includes(:nodes => [:element_tags, { :changeset => :user }]) if params[:full]
       @way = @way.find(params.expect(:id))
 
