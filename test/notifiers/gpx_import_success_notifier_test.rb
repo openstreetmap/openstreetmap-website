@@ -26,6 +26,20 @@ class GpxImportSuccessNotifierTest < ActiveSupport::TestCase
     assert_empty ActionMailer::Base.deliveries
   end
 
+  def test_deleted_trace
+    candidate_recipient = create(:user)
+    candidate_recipient.notification_preferences.update("gpx_import_success" => ["email"])
+
+    trace = create(:trace, :user => candidate_recipient)
+    trace.destroy
+
+    perform_enqueued_jobs do
+      GpxImportSuccessNotifier.with(:record => trace, :possible_points => 5).deliver
+    end
+
+    assert_empty ActionMailer::Base.deliveries
+  end
+
   private
 
   def trigger_notification(trace_author)

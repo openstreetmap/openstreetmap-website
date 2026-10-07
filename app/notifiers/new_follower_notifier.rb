@@ -8,6 +8,6 @@ class NewFollowerNotifier < ApplicationNotifier
   deliver_by :email do |config|
     config.mailer = "UserMailer"
     config.method = "follow_notification"
-    config.if = -> { recipient.notification_preferences.new_follower.include?("email") }
+    config.if = -> { record && recipient.notification_preferences.new_follower.include?("email") }
   end
 end
