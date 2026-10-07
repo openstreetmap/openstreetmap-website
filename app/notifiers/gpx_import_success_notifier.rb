@@ -8,6 +8,6 @@ class GpxImportSuccessNotifier < ApplicationNotifier
   deliver_by :email do |config|
     config.mailer = "UserMailer"
     config.method = "gpx_success"
-    config.if = -> { recipient.notification_preferences.gpx_import_success.include?("email") }
+    config.if = -> { record && recipient.notification_preferences.gpx_import_success.include?("email") }
   end
 end

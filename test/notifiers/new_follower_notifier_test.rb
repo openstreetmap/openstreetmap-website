@@ -26,6 +26,20 @@ class NewFollowerNotifierTest < ActiveSupport::TestCase
     assert_empty ActionMailer::Base.deliveries
   end
 
+  def test_deleted_follower
+    candidate_recipient = create(:user)
+    candidate_recipient.notification_preferences.update("new_follower" => ["email"])
+
+    follow = create(:follow, :following => candidate_recipient)
+    follow.destroy
+
+    perform_enqueued_jobs do
+      NewFollowerNotifier.with(:record => follow).deliver
+    end
+
+    assert_empty ActionMailer::Base.deliveries
+  end
+
   private
 
   def trigger_notification(followee)
