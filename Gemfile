@@ -10,8 +10,8 @@ gem "turbo-rails"
 gem "activerecord-postgis"
 gem "pg"
 
-# Use SCSS for stylesheets
-gem "dartsass-sprockets"
+# Use SCSS for stylesheets, pinned to avoid sass-embedded upgrade
+gem "dartsass-sprockets", "~> 3.0.0"
 # Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
 gem "sass-embedded", "~> 1.64.0"
 # Pin uri to avoid errors in dartsass-ruby
