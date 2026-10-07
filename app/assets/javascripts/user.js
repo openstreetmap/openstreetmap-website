@@ -2,6 +2,7 @@
 //= require ./home_location_name-endpoint
 
 $(function () {
+  const defaultHomeZoom = 11;
   let map, marker, deleted_lat, deleted_lon, deleted_home_name, homeLocationNameGeocoder, savedLat, savedLon;
 
   if ($("#social_links").length) {
@@ -111,7 +112,7 @@ $(function () {
       const lat = $("#home_lat").val(),
             lon = $("#home_lon").val();
 
-      map.flyTo({ center: [lon, lat], zoom: OSM.MapLibre.defaultHomeZoom });
+      map.flyTo({ center: [lon, lat], zoom: defaultHomeZoom });
     });
 
     $("#home_delete").click(function () {
