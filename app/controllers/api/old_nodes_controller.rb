@@ -12,7 +12,7 @@ module Api
 
     def lookup_old_element_versions
       @elements = OldNode
-                  .includes(:old_tags)
+                  .includes(:old_tags, :changeset => :user)
                   .where(:node_id => params[:node_id])
                   .order(:version)
     end

@@ -45,6 +45,8 @@ class IssuesController < ApplicationController
       @issues = @issues.where(:updated_by => last_updated_by)
     end
 
+    @issues = @issues.includes(:reportable, :reported_user)
+
     @issues = get_page_items(@issues, :limit => @params[:limit])
 
     @unique_reporters_limit = 3
