@@ -180,6 +180,7 @@ class RelationVersionsTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
 
     ## Now try with the public user
+    reset!
     auth_header = bearer_authorization_header user
 
     post api_relations_path, :params => doc.to_s, :headers => auth_header
