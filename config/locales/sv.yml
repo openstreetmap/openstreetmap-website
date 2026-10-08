@@ -107,8 +107,12 @@ sv:
           attributes:
             url:
               http_parse_error: URL borde inledas med http:// eller https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: kan inte ändras tillbaka till ett äldre värde
     models:
-      acl: Tillgångskontrollista (ACL)
+      acl: ACL
       changeset: Ändringsuppsättning
       changeset_tag: Ändringssettagg
       country: Land
@@ -144,6 +148,12 @@ sv:
       way_node: Sträcknod
       way_tag: Sträcketagg
     attributes:
+      acl:
+        address: Adress
+        domain: Domän
+        mx: MX-server
+        k: Nyckel
+        v: Värde
       diary_comment:
         body: Brödtext
       diary_entry:
@@ -173,6 +183,11 @@ sv:
         gpx_file: Välj GPS-spårningsfil
         visibility: Synlighet
         tagstring: Taggar
+      moderation_zone:
+        name: Namn
+        reason: Anledning
+        zone: Zon
+        period: Period
       message:
         sender: Avsändare
         title: Ämne
@@ -254,6 +269,20 @@ sv:
       x_years:
         one: '%{count} år sedan'
         other: '%{count} år sedan'
+    distance_in_words_in:
+      about_x_hours:
+        one: runt %{count} timme
+        other: runt %{count} timmar
+      about_x_months:
+        one: runt %{count} månad
+        other: runt %{count} månader
+      about_x_years:
+        one: runt %{count} år
+        other: runt %{count} år
+      almost_x_years:
+        one: nästan %{count} år
+        other: nästan %{count} år
+      half_a_minute: om en halv minut
   editor:
     default: Standard (för närvarande %{name})
     id:
@@ -417,6 +446,9 @@ sv:
           är inom Public Domain.
         did_not_confirm: Du har inte förklarat att du anser att dina redigeringar
           är inom Public Domain.
+    auth_deletions:
+      show:
+        title: Begäran om radering av data
   browse:
     deleted_ago_by_html: Raderades %{time_ago} av %{user}
     edited_ago_by_html: Redigerades %{time_ago} av %{user}
@@ -3927,4 +3959,19 @@ sv:
     trailing_whitespace: har ett avslutande mellanslag
     invalid_characters: innehåller ogiltiga tecken
     url_characters: innehåller speciella URL-tecken (%{characters})
+  moderation_zones:
+    index:
+      name: Namn
+      reason: Anledning
+      creator: Skapare
+      start: Start
+      end: Slut
+      status: Status
+    row:
+      edit: Redigera
+    helper:
+      short:
+        ended: avslutad
+        active: aktiv
+        revoked_html: upphävd av %{name}
 ...
