@@ -54,7 +54,8 @@ class User < ApplicationRecord
   include AASM
 
   devise(
-    :osm_authenticatable,
+    :doorkeeper,
+    :osm_authenticatable
   )
 
   has_many :traces, -> { where(:visible => true) }
@@ -202,7 +203,7 @@ class User < ApplicationRecord
     end
 
     # Used in test suite, not something that we would normally need to do.
-    if Rails.env.test?
+    if ::Rails.env.test?
       event :deactivate do
         transitions :from => :active, :to => :pending
       end

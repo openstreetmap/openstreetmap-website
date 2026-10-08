@@ -81,6 +81,7 @@ gem "rack-uri_sanitizer"
 
 # Authentication
 gem "devise"
+gem "devise-doorkeeper"
 gem "omniauth"
 gem "omniauth-apple"
 gem "omniauth-facebook"
