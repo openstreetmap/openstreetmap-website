@@ -56,7 +56,7 @@ class ApiController < ApplicationController
     setup_user_auth(:skip_blocks => skip_blocks, :skip_terms => skip_terms)
 
     # error if we could not authenticate the user
-    render :plain => errormessage, :status => :unauthorized unless current_user
+    render :plain => errormessage, :status => :unauthorized unless user_signed_in?
   end
 
   def current_ability
@@ -97,10 +97,10 @@ class ApiController < ApplicationController
   def setup_user_auth(skip_blocks: false, skip_terms: false)
     logger.info " setup_user_auth"
     # try and setup using OAuth
-    self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
+    #self.current_user = User.find(doorkeeper_token.resource_owner_id) if doorkeeper_token&.accessible?
 
     # have we identified the user?
-    if current_user
+    if user_signed_in?
       # check if the user has been banned
       unless skip_blocks
         user_block = current_user.blocks.active.take
