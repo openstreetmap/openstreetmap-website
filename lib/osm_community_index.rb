@@ -31,7 +31,7 @@ module OsmCommunityIndex
   end
 
   def self.resolve_name(community, community_locale_yaml, community_en_yaml, locale_name)
-    # If theres an explicitly translated name then use that
+    # If there's an explicitly translated name then use that
     translated_name = community_locale_yaml.dig(community.id, "name")
     return translated_name if translated_name
 
