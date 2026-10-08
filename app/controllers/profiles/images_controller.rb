@@ -17,7 +17,11 @@ module Profiles
         current_user.image_use_gravatar = true
       end
 
-      current_user.save
+      saved_user = current_user.save
+
+      current_user.attachment_changes.delete("avatar") unless saved_user
+
+      saved_user
     end
   end
 end

@@ -35,8 +35,8 @@ module Users
     def update
       ids = params.fetch(:user, {}).keys.collect(&:to_i)
 
-      User.where(:id => ids).each(&:confirm!) if params[:confirm]
-      User.where(:id => ids).each(&:suspend_if_possible!) if params[:suspend]
+      User.where(:id => ids).preload(:avatar_attachment).each(&:confirm!) if params[:confirm]
+      User.where(:id => ids).preload(:avatar_attachment).each(&:suspend_if_possible!) if params[:suspend]
 
       redirect_to url_for(params.permit(:status, :username, :ip, :edits, :before, :after))
     end
