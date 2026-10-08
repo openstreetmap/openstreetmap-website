@@ -57,7 +57,7 @@ class MessageTest < ActiveSupport::TestCase
     invalid_sequences.each do |char|
       # create a message and save to the database
       msg = make_message(char, 1)
-      # if the save throws, thats fine and the test should pass, as we're
+      # if the save throws, that's fine and the test should pass, as we're
       # only testing invalid sequences anyway.
       msg.save!
 

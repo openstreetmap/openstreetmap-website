@@ -170,7 +170,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     #
     # Instead of this we could just have a test for "normal user can't update"
     # with a simpler request (eg: with empty params) but, for the sake of
-    # doing it properly, let's have everyting in place except for the only detail
+    # doing it properly, let's have everything in place except for the only detail
     # that the user is not a moderator.
     creator = create(:user)
     moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)

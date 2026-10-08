@@ -32,7 +32,7 @@ module Api
       # Check that the boundaries are valid
       bbox.check_boundaries
 
-      # Check the the bounding box is not too big
+      # Check that the bounding box is not too big
       bbox.check_size(Settings.max_note_request_area)
       @min_lon = bbox.min_lon
       @min_lat = bbox.min_lat

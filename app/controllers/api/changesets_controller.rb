@@ -94,7 +94,7 @@ module Api
     # changesets are not (yet?) versioned, so we don't have to deal with
     # history tables here. changesets are locked to a single user, however.
     #
-    # after succesful update, returns the XML of the changeset.
+    # after successful update, returns the XML of the changeset.
     def update
       @changeset = Changeset.find(params.expect(:id))
       new_changeset = Changeset.from_xml(request.raw_post)

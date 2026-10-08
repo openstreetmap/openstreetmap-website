@@ -64,7 +64,7 @@ you do communicate, early and often, so that you can get feedback quickly.
 This will help you get buy-in from the maintainers, which will translate into
 less waste for everyone and a much easier time getting your code merged.
 
-Bug fixes should be more straighforward than new features, but the same
+Bug fixes should be more straightforward than new features, but the same
 guidance applies. If it turns out to be more complex than initially expected,
 stop for a moment and seek feedback, be it in an issue or in a draft PR.
 
