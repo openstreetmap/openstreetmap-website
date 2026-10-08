@@ -20,7 +20,7 @@ export default function (map) {
       changesetData.type = "changeset";
 
       const hashParams = OSM.parseHash();
-      content.find("button[data-method][data-url]").on("click", function (e) {
+      content.find("button[data-method][data-url]").on("click", e => {
         e.preventDefault();
         const { method, url } = $(e.target).data();
         const data = new URLSearchParams();
