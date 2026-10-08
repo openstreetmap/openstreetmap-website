@@ -253,6 +253,7 @@ module ActiveSupport
     end
 
     def session_for(user)
+      reset! # Clear user and fingerprint
       get login_path
       post user_session_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" } }
       follow_redirect!
