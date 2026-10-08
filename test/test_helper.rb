@@ -400,7 +400,7 @@ module ActiveSupport
 
     # This is a convenience method for checks of resources rendered in a map view sidebar
     # First we check that when we don't have an id, it will correctly return a 404
-    # then we check that we get the correct 404 when a non-existant id is passed
+    # then we check that we get the correct 404 when a non-existent id is passed
     # then we check that it will get a successful response, when we do pass an id
     def sidebar_browse_check(path, id, template)
       path_method = method(path)

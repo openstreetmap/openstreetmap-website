@@ -155,14 +155,14 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     # get the current version of the node
     current_node = with_controller(NodesController.new) do
       get api_node_path(node_id)
-      assert_response :success, "cant get current node #{node_id}"
+      assert_response :success, "can't get current node #{node_id}"
       Node.from_xml(@response.body)
     end
     assert_not_nil current_node, "getting node #{node_id} returned nil"
 
     # get the "old" version of the node from the old_node interface
     get api_node_version_path(node_id, current_node.version)
-    assert_response :success, "cant get old node #{node_id}, v#{current_node.version}"
+    assert_response :success, "can't get old node #{node_id}, v#{current_node.version}"
     old_node = Node.from_xml(@response.body)
 
     # check the nodes are the same
