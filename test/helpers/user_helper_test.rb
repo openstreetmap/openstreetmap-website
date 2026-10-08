@@ -13,12 +13,12 @@ class UserHelperTest < ActionView::TestCase
     assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_image(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_image foo" .* src="/images/avatar.svg" />$}, image
     image = user_image(gravatar_user)
     assert_match %r{^<img class="user_image border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_image(gravatar_user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_image foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
   end
 
   def test_user_thumbnail
@@ -29,13 +29,13 @@ class UserHelperTest < ActionView::TestCase
     assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_thumbnail foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail(gravatar_user)
     assert_match %r{^<img class="user_thumbnail border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail(gravatar_user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
   end
 
   def test_user_thumbnail_tiny
@@ -46,13 +46,13 @@ class UserHelperTest < ActionView::TestCase
     assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="/images/avatar.svg" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny foo" .* src="/images/avatar.svg" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user)
     assert_match %r{^<img class="user_thumbnail_tiny border border-secondary-subtle bg-body" .* src="http://www.gravatar.com/avatar/.*" />$}, image
 
     image = user_thumbnail_tiny(gravatar_user, :class => "foo")
-    assert_match %r{^<img class="foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
+    assert_match %r{^<img class="user_thumbnail_tiny foo" .* src="http://www.gravatar.com/avatar/.*" />$}, image
   end
 
   def test_user_image_url
