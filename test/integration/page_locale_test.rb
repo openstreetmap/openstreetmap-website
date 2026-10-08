@@ -7,10 +7,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
     I18n.with_locale "en" do
       user = create(:user, :languages => [])
 
-      get "/login"
-      follow_redirect!
-      post "/login", :params => { :username => user.email, :password => "s3cr3t" }
-      follow_redirect!
+      session_for(user)
 
       get "/diary/new"
       assert_empty User.find(user.id).languages
@@ -32,10 +29,7 @@ class PageLocaleTest < ActionDispatch::IntegrationTest
       get "/diary", :params => { :locale => "es" }
       assert_select "html[lang=?]", "es"
 
-      get "/login"
-      follow_redirect!
-      post "/login", :params => { :username => user.email, :password => "s3cr3t" }
-      follow_redirect!
+      session_for(user)
 
       get "/diary"
       assert_select "html[lang=?]", "de"
