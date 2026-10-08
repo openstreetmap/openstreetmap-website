@@ -4,7 +4,7 @@ module Devise
   class OsmFailureApp < Devise::FailureApp
     def respond
       case failure_code
-      when :not_found_in_database, :invalid
+      when :not_found_in_database, :invalid, :unauthenticated
         redirect
       when :user_suspended
         flash[:error] = { :partial => "sessions/suspended_flash" }
@@ -19,7 +19,7 @@ module Devise
 
     def redirect_url
       case failure_code
-      when :not_found_in_database, :invalid, :user_suspended
+      when :not_found_in_database, :invalid, :user_suspended, :unauthenticated
         new_user_session_url(
           :referer => failure_details[:referer],
           :username => failure_details[:username] || params.dig(:user, :username),
@@ -32,10 +32,13 @@ module Devise
 
     def failure_code
       message = warden_options[:message]
+      action = warden_options[:action]
       if message.is_a?(Symbol)
         message
       elsif message.is_a?(Hash) && message.key?(:code)
         message[:code]
+      elsif message.nil? && action == "unauthenticated"
+        :unauthenticated
       else
         raise "Can't interpret warden_message (code): #{warden_options.inspect}"
       end
@@ -43,10 +46,13 @@ module Devise
 
     def failure_details
       message = warden_options[:message]
+      action = warden_options[:action]
       if message.is_a?(Symbol)
         {}
       elsif message.is_a?(Hash) && message.key?(:code)
         message
+      elsif message.nil? && action == "unauthenticated"
+        { :referer => warden_options[:attempted_path] }
       else
         raise "Can't interpret warden_message (details): #{warden_options.inspect}"
       end
