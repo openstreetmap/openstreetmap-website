@@ -226,11 +226,9 @@ GEM
       danger-plugin-api (~> 1.0)
     danger-plugin-api (1.0.0)
       danger (> 2.0)
-    dartsass-ruby (3.0.2)
-      sass-embedded (~> 1.54, < 1.67)
-    dartsass-sprockets (3.0.0)
-      dartsass-ruby (~> 3.0)
+    dartsass-sprockets (3.2.1)
       railties (>= 4.0.0)
+      sassc-embedded (~> 1.80.1)
       sprockets (> 3.0)
       sprockets-rails
       tilt
@@ -338,7 +336,9 @@ GEM
     glob (0.5.0)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    google-protobuf (3.25.8)
+    google-protobuf (4.36.2)
+      bigdecimal
+      rake (~> 13.3)
     googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
     hashdiff (1.2.1)
@@ -721,7 +721,7 @@ GEM
     popper_js (2.11.8)
     pp (0.6.4)
       prettyprint
-    prettyprint (0.2.0)
+    prettyprint (0.2.1)
     prism (1.9.0)
     process_executer (4.1.1)
       track_open_instances (~> 0.1)
@@ -863,9 +863,11 @@ GEM
     sanitize (7.0.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.16.8)
-    sass-embedded (1.64.2)
-      google-protobuf (~> 3.23)
-      rake (>= 13.0.0)
+    sass-embedded (1.105.1)
+      google-protobuf (~> 4.31)
+      rake (~> 13.3)
+    sassc-embedded (1.80.10)
+      sass-embedded (~> 1.80)
     sawyer (0.9.3)
       addressable (>= 2.3.5)
       faraday (>= 0.17.3, < 3)
@@ -928,7 +930,7 @@ GEM
     unicode-display_width (3.3.0)
       unicode-emoji (~> 4.3)
     unicode-emoji (4.3.0)
-    uri (0.13.3)
+    uri (1.1.2)
     useragent (0.16.11)
     validates_email_format_of (1.8.2)
       i18n (>= 0.8.0)
@@ -981,7 +983,7 @@ DEPENDENCIES
   dalli
   danger
   danger-auto_label
-  dartsass-sprockets (~> 3.0.0)
+  dartsass-sprockets
   database_consistency
   debug
   debug_inspector
@@ -997,7 +999,6 @@ DEPENDENCIES
   ffi-libarchive
   frozen_record
   gd2-ffij!
-  google-protobuf (~> 3.23)
   herb
   htmlentities
   http_accept_language
@@ -1058,7 +1059,7 @@ DEPENDENCIES
   rubocop-rake
   ruby-vips
   sanitize
-  sass-embedded (~> 1.64.0)
+  sass-embedded (< 3.0.0)
   selenium-webdriver
   sentry-delayed_job
   sentry-rails
@@ -1073,7 +1074,6 @@ DEPENDENCIES
   timeout
   turbo-rails
   unicode-display_width
-  uri (< 1.0.0)
   validates_email_format_of
   vendorer
   webmock
