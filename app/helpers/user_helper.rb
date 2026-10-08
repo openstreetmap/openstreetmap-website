@@ -3,43 +3,18 @@
 module UserHelper
   # User images
 
-  def user_image(user, options = {})
-    options[:class] ||= "user_image border border-secondary-subtle bg-body"
-    options[:alt] ||= ""
+  USER_IMAGE_SIZES = { :user_thumbnail_tiny => 25, :user_thumbnail => 50, :user_image => 100 }.freeze
 
-    if user.image_use_gravatar
-      user_gravatar_tag(user, options)
-    elsif user.avatar.attached?
-      user_avatar_variant_tag(user, { :resize_to_limit => [100, 100] }, options)
-    else
-      image_tag "avatar.svg", options.merge(:width => 100, :height => 100)
-    end
+  def user_image(user, options = {})
+    user_image_tag(user, :user_image, options)
   end
 
   def user_thumbnail(user, options = {})
-    options[:class] ||= "user_thumbnail border border-secondary-subtle bg-body"
-    options[:alt] ||= ""
-
-    if user.image_use_gravatar
-      user_gravatar_tag(user, options.merge(:size => 50))
-    elsif user.avatar.attached?
-      user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
-    else
-      image_tag "avatar.svg", options.merge(:width => 50, :height => 50)
-    end
+    user_image_tag(user, :user_thumbnail, options)
   end
 
   def user_thumbnail_tiny(user, options = {})
-    options[:class] ||= "user_thumbnail_tiny border border-secondary-subtle bg-body"
-    options[:alt] ||= ""
-
-    if user.image_use_gravatar
-      user_gravatar_tag(user, options.merge(:size => 50))
-    elsif user.avatar.attached?
-      user_avatar_variant_tag(user, { :resize_to_limit => [50, 50] }, options)
-    else
-      image_tag "avatar.svg", options.merge(:width => 50, :height => 50)
-    end
+    user_image_tag(user, :user_thumbnail_tiny, options)
   end
 
   def user_image_url(user)
@@ -53,6 +28,21 @@ module UserHelper
   end
 
   private
+
+  def user_image_tag(user, size, options = {})
+    options = { :class => "border border-secondary-subtle bg-body", :alt => "" }.merge(options)
+    options[:class] = "#{size} " + options[:class]
+
+    size = USER_IMAGE_SIZES[size]
+
+    if user.image_use_gravatar
+      user_gravatar_tag(user, options.merge(:size => size))
+    elsif user.avatar.attached?
+      user_avatar_variant_tag(user, { :resize_to_limit => [size, size] }, options)
+    else
+      image_tag "avatar.svg", options.merge(:width => size, :height => size)
+    end
+  end
 
   # Local avatar support
   def user_avatar_variant_tag(user, variant_options, options)
@@ -92,7 +82,7 @@ module UserHelper
 
   def user_gravatar_tag(user, options = {})
     url = user_gravatar_url(user, options)
-    options[:height] = options[:width] = options.delete(:size) || 100
+    options[:height] = options[:width] = options.delete(:size)
     image_tag url, options
   end
 end
