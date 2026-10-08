@@ -14,9 +14,8 @@ class ApplicationController < ActionController::Base
 
   after_action :close_body
 
-  attr_accessor :current_user, :oauth_token
+  attr_accessor :oauth_token
 
-  helper_method :current_user
   helper_method :oauth_token
 
   def self.allow_thirdparty_images(**options)
@@ -44,8 +43,8 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_web(skip_terms: false)
-    if session[:user]
-      self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
+    if user_signed_in?
+#      self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
 
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
@@ -73,7 +72,7 @@ class ApplicationController < ActionController::Base
   rescue StandardError => e
     logger.info("Exception authorizing user: #{e}")
     reset_session
-    self.current_user = nil
+    #self.current_user = nil
   end
 
   def require_user
