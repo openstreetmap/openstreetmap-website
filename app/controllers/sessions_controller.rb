@@ -26,10 +26,8 @@ class SessionsController < Devise::SessionsController
 
   def create
     session[:remember_me] = params[:remember_me] == "yes"
-    pp "create/BEFORE"
     super do |user|
       @safe_referer = safe_referer(params[:referer]) if params[:referer]
-      pp ["create/BLOCK", user, @safe_referer]
       # successful_login(user, referer)
       session[:user] = user.id
       session[:fingerprint] = user.fingerprint
@@ -37,13 +35,6 @@ class SessionsController < Devise::SessionsController
 
       cookies.delete :_osm_anonymous_notes_count
     end
-    pp "create/AFTER"
-  rescue Exception
-    pp "create/RESCUE"
-    pp $!
-    raise
-  ensure
-    pp "create/ENSURE"
   end
 
   def destroy
