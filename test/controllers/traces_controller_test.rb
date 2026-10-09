@@ -607,6 +607,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :index, :display_name => public_trace_file.user.display_name
     trace = Trace.find(public_trace_file.id)
     assert_not trace.visible
+    assert_equal %w[added removed], GpxEvent.where(:gpx_id => trace.id).order(:id).pluck(:action)
 
     # Finally with a trace that is destroyed by an admin
     public_trace_file = create(:trace, :visibility => "identifiable")

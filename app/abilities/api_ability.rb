@@ -13,6 +13,7 @@ class ApiAbility
       can :read, Changeset
       can :read, ChangesetComment
       can :read, Tracepoint
+      can :read, GpxEvent
       can :read, User
       can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
       can :read, UserBlock

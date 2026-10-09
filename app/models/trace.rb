@@ -57,6 +57,7 @@ class Trace < ApplicationRecord
   validate :visibility_not_changed_to_legacy, :on => :update
 
   after_save :set_filename
+  after_save :record_gpx_event
 
   # True if a new upload can use this visibility.
   def self.valid_visibility?(visibility)
@@ -71,6 +72,24 @@ class Trace < ApplicationRecord
   # Visibility for new uploads when the user has no preference.
   def self.default_visibility
     "trackable"
+  end
+
+  # Change the visibility of all the traces in the current scope with one
+  # query. This skips the callbacks, so the events are recorded here.
+  def self.change_visibility(visibility)
+    transaction do
+      action = visibility == "identifiable" ? "added" : "removed"
+      listed = visible.imported
+      changed = visibility == "identifiable" ? listed.where.not(:visibility => "identifiable") : listed.where(:visibility => "identifiable")
+      events = changed.lock.ids.map { |id| { :gpx_id => id, :action => action } }
+
+      # rubocop:disable Rails/SkipsModelValidations
+      count = update_all(:visibility => visibility)
+      GpxEvent.insert_all(events) if events.any?
+      # rubocop:enable Rails/SkipsModelValidations
+
+      count
+    end
   end
 
   # Visibilities this trace can use, including its legacy one if it has one.
@@ -327,6 +346,14 @@ class Trace < ApplicationRecord
 
   def set_filename
     file.blob.update(:filename => "#{id}#{extension_name}") if file.attached?
+  end
+
+  # Record an event when the trace starts or stops being visible, imported and identifiable.
+  def record_gpx_event
+    was_listed = [visible_before_last_save, inserted_before_last_save, visibility_before_last_save == "identifiable"].all?
+    listed = [visible, inserted, identifiable?].all?
+
+    GpxEvent.create!(:gpx_id => id, :action => listed ? "added" : "removed") if listed != was_listed
   end
 
   # Prevent an existing trace from changing its visibility from a current value back to a legacy one.

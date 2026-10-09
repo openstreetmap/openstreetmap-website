@@ -286,6 +286,7 @@ module Api
       auth_header = bearer_authorization_header public_trace_file.user
       delete api_trace_path(public_trace_file), :headers => auth_header
       assert_response :success
+      assert_equal %w[added removed], GpxEvent.where(:gpx_id => public_trace_file.id).order(:id).pluck(:action)
 
       # Try it a second time, which should fail
       auth_header = bearer_authorization_header public_trace_file.user

@@ -147,6 +147,26 @@ module Traces
       assert_equal 3, user.traces.where(:visibility => "trackable").count
     end
 
+    def test_update_to_identifiable_records_events
+      user = create(:user)
+      trace = create(:trace, :without_validations, :visibility => "public", :user => user)
+
+      session_for(user)
+      patch traces_legacy_visibility_path, :params => { :new_visibility => "identifiable" }
+
+      assert_equal ["added"], GpxEvent.where(:gpx_id => trace.id).pluck(:action)
+    end
+
+    def test_update_to_trackable_records_no_events
+      user = create(:user)
+      create(:trace, :without_validations, :visibility => "public", :user => user)
+
+      session_for(user)
+      assert_no_difference "GpxEvent.count" do
+        patch traces_legacy_visibility_path, :params => { :new_visibility => "trackable" }
+      end
+    end
+
     def test_update_rejects_legacy_visibility
       user = create(:user)
       trace = create(:trace, :without_validations, :visibility => "public", :user => user)
