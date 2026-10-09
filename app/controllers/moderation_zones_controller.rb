@@ -59,8 +59,18 @@ class ModerationZonesController < ApplicationController
   end
 
   def moderation_zone_params
-    params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
-      safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
+    params.expect(:moderation_zone => [:name, :reason, :zone, :period, :expiry_type, :ends_at]).tap do |safe_params|
+      expiry_type = safe_params.delete(:expiry_type)
+      expiry_type ||= safe_params.key?(:period) ? "relative" : "absolute"
+
+      if expiry_type == "absolute"
+        safe_params.delete(:period)
+      else
+        period = safe_params.delete(:period).to_i
+        safe_params.delete(:ends_at)
+        safe_params.keys.grep(/\Aends_at\(/).each { |key| safe_params.delete(key) }
+        safe_params[:ends_at] = period.hours.from_now
+      end
     end
   end
 

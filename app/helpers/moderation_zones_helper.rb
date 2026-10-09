@@ -13,7 +13,7 @@ module ModerationZonesHelper
       if param_value
         param_value.to_i
       elsif moderation_zone.ends_at
-        ((moderation_zone.ends_at - Time.now.utc) / 1.hour).ceil
+        ((moderation_zone.ends_at - Time.current) / 1.hour).ceil
       end
 
     if value_to_compare
@@ -21,6 +21,13 @@ module ModerationZonesHelper
         (value_to_compare - h).abs
       end
     end
+  end
+
+  def selected_moderation_zone_expiry_type(moderation_zone)
+    param_value = params.dig(:moderation_zone, :expiry_type)
+    return param_value if %w[relative absolute].include?(param_value)
+
+    moderation_zone.persisted? ? "absolute" : "relative"
   end
 
   def moderation_zone_short_status(moderation_zone)
