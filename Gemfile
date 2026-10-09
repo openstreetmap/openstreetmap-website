@@ -10,13 +10,10 @@ gem "turbo-rails"
 gem "activerecord-postgis"
 gem "pg"
 
-# Use SCSS for stylesheets, pinned to avoid sass-embedded upgrade
-gem "dartsass-sprockets", "~> 3.0.0"
-# Pin the dependent sass-embedded to avoid deprecation warnings in bootstrap
-gem "google-protobuf", "~> 3.23"
-gem "sass-embedded", "~> 1.64.0"
-# Pin uri to avoid errors in dartsass-ruby
-gem "uri", "< 1.0.0"
+# Use SCSS for stylesheets
+gem "dartsass-sprockets"
+# Don't allow upgrade to 3.0.0 as some deprecations will become errors
+gem "sass-embedded", "< 3.0.0"
 
 # Use Terser as compressor for JavaScript assets
 gem "terser"

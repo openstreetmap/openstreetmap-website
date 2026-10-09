@@ -39,5 +39,8 @@ module OpenStreetMap
     config.i18n.fallbacks = true
     # Enables custom error message formats
     config.active_model.i18n_customize_full_message = true
+
+    # Silence deprecation warnings from bootstrap stylesheets
+    config.sass.silence_deprecations = %w[color-functions global-builtin if-function import]
   end
 end
