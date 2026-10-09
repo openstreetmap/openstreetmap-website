@@ -197,6 +197,7 @@ class ChangesetBboxTest < ActionDispatch::IntegrationTest
   # that the changeset bounding box is +bbox+.
   def check_changeset_modify(bbox)
     ## First test with the private user to check that you get a forbidden
+    reset!
     auth_header = bearer_authorization_header create(:user, :data_public => false)
 
     # create a new changeset for this operation, so we are assured
@@ -208,6 +209,7 @@ class ChangesetBboxTest < ActionDispatch::IntegrationTest
     end
 
     ## Now do the whole thing with the public user
+    reset!
     auth_header = bearer_authorization_header
 
     # create a new changeset for this operation, so we are assured

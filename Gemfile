@@ -76,6 +76,9 @@ gem "quad_tile"
 gem "addressable"
 gem "rack-uri_sanitizer"
 
+# Authentication
+gem "devise"
+gem "devise-doorkeeper"
 gem "omniauth"
 gem "omniauth-apple"
 gem "omniauth-facebook"
@@ -184,6 +187,7 @@ group :test do
   gem "erb_lint", :require => false
   gem "jwt"
   gem "minitest"
+  gem "minitest-fail-fast"
   gem "minitest-focus", :require => false
   gem "minitest-mock"
   gem "pg_query"

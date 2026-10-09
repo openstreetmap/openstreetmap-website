@@ -20,16 +20,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   def test_terms_presented_at_login
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
-    # try to log in
-    get "/login"
-    follow_redirect!
-    assert_response :success
-    assert_template "sessions/new"
-    post "/login", :params => { :username => user.email, :password => "s3cr3t", :referer => "/diary/new" }
-    # but now we need to look at the terms
-    assert_redirected_to account_terms_path(:referer => "/diary/new")
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     # don't agree to the terms, but hit decline
     put "/account/terms", :params => { :decline => true, :referer => "/diary/new" }
@@ -44,14 +35,7 @@ class UserTermsSeenTest < ActionDispatch::IntegrationTest
   def test_terms_cant_be_circumvented
     user = create(:user, :terms_seen => false, :terms_agreed => nil)
 
-    # try to log in
-    get "/login"
-    follow_redirect!
-    assert_response :success
-    assert_template "sessions/new"
-    post "/login", :params => { :username => user.email, :password => "s3cr3t", :referer => "/diary/new" }
-    # but now we need to look at the terms
-    assert_redirected_to account_terms_path(:referer => "/diary/new")
+    session_for(user)
 
     # check that if we go somewhere else now, it redirects
     # back to the terms page.

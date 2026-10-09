@@ -3,6 +3,8 @@
 require_relative "../../lib/oauth"
 
 Doorkeeper.configure do
+  Devise::Doorkeeper.configure_doorkeeper(self)
+
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
