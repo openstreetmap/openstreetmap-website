@@ -23,6 +23,13 @@ module ModerationZonesHelper
     end
   end
 
+  def selected_moderation_zone_expiry_type(moderation_zone)
+    param_value = params.dig(:moderation_zone, :expiry_type)
+    return param_value if %w[relative absolute].include?(param_value)
+
+    moderation_zone.persisted? ? "absolute" : "relative"
+  end
+
   def moderation_zone_short_status(moderation_zone)
     if moderation_zone.active?
       t("moderation_zones.helper.short.active")
