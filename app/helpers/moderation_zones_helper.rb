@@ -13,7 +13,7 @@ module ModerationZonesHelper
       if param_value
         param_value.to_i
       elsif moderation_zone.ends_at
-        ((moderation_zone.ends_at - Time.current) / 1.hour).ceil
+        ((moderation_zone.ends_at - Time.now.utc) / 1.hour).ceil
       end
 
     if value_to_compare
