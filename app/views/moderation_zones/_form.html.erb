@@ -34,8 +34,8 @@
     <%= form.datetime_select(
           :ends_at,
           :include_seconds => true,
-          :start_year => [moderation_zone.ends_at&.year || Time.current.year, Time.current.year - 10].min,
-          :end_year => [moderation_zone.ends_at&.year || Time.current.year, Time.current.year + 10].max
+          :start_year => [moderation_zone.ends_at&.year || Time.now.utc.year, Time.now.utc.year - 10].min,
+          :end_year => [moderation_zone.ends_at&.year || Time.now.utc.year, Time.now.utc.year + 10].max
         ) %>
   </div>
 
