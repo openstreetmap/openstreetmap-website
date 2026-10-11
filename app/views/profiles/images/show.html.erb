@@ -21,16 +21,9 @@
       <% if current_user.avatar.attached? || current_user.image_use_gravatar? %>
         <%= f.radio_button "avatar_action", "delete", :name => "avatar_action", :label => t(".delete image"), :checked => false %>
       <% end %>
-      <% if current_user.avatar.attached? %>
-        <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
-          <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".replace image"), :checked => false %>
-          <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
-        <% end %>
-      <% else %>
-        <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
-          <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".new image"), :checked => false %>
-          <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
-        <% end %>
+      <%= f.form_group :help => t(".image size hint"), :class => "mb-0" do %>
+        <%= f.radio_button "avatar_action", "new", :name => "avatar_action", :label => t(".#{current_user.avatar.attached? ? 'replace' : 'new'} image"), :checked => false %>
+        <%= f.file_field :avatar, :hide_label => true, :wrapper => { :class => "mb-0" } %>
       <% end %>
       <%= f.form_group :help => link_to(t(".gravatar.what_is_gravatar"), t(".gravatar.link")) do %>
         <%= f.radio_button "avatar_action", "gravatar", :name => "avatar_action", :label => t(".gravatar.gravatar"), :checked => current_user.image_use_gravatar %>
