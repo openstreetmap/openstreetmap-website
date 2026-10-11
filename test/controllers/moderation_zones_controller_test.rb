@@ -342,7 +342,9 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :expiry_type => "absolute",
+          :ends_at => ends_at.to_s
         }
       }
     )

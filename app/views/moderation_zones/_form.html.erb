@@ -31,7 +31,7 @@
   </div>
 
   <div data-expiry-panel="absolute">
-    <%= form.datetime_field :ends_at %>
+    <%= form.datetime_field :ends_at, :min => [moderation_zone.ends_at || Time.now.utc, 10.years.ago].min.beginning_of_year, :max => [moderation_zone.ends_at || Time.now.utc, 10.years.from_now].max.end_of_year %>
   </div>
 
   <%= form.primary %>
