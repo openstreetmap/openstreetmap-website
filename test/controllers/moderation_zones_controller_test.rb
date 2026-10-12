@@ -84,7 +84,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
         :moderation_zone => {
           **attributes_for(:moderation_zone)
             .slice(:name, :reason, :zone),
-          :period => 2.days.in_hours
+          :period => 2.days.in_hours.to_i
         }
       }
     )
@@ -102,7 +102,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :moderation_zone => {
             **attributes_for(:moderation_zone)
               .slice(:name, :reason, :zone),
-            :period => 2.days.in_hours
+            :period => 2.days.in_hours.to_i
           }
         }
       )
@@ -125,7 +125,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :moderation_zone => {
             **attributes_for(:moderation_zone)
               .slice(:name, :zone),
-            :period => 6.months.in_hours
+            :period => 6.months.in_hours.to_i
           }
         }
       )
@@ -183,7 +183,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => moderation_zone.reason,
           :zone => moderation_zone.zone,
-          :period => 2.weeks.in_hours
+          :period => 2.weeks.in_hours.to_i
         }
       }
     )
@@ -202,7 +202,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => moderation_zone.reason,
           :zone => moderation_zone.zone,
-          :period => 2.weeks.in_hours
+          :period => 2.weeks.in_hours.to_i
         }
       }
     )
@@ -211,6 +211,27 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     moderation_zone.reload
     assert_in_delta moderation_zone.ends_at, 2.weeks.from_now, 10.seconds
     assert_nil moderation_zone.revoker
+  end
+
+  test "update, without period" do
+    creator = create(:moderator_user)
+    moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)
+    initial_ends_at = moderation_zone.ends_at
+    session_for(creator)
+
+    patch(
+      moderation_zone_url(moderation_zone),
+      :params => {
+        :moderation_zone => {
+          :name => "New name!"
+        }
+      }
+    )
+    assert_response :bad_request
+
+    moderation_zone.reload
+    assert_nil moderation_zone.revoker
+    assert_equal initial_ends_at, moderation_zone.ends_at
   end
 
   test "update, with errors" do
@@ -225,7 +246,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => "",
           :zone => moderation_zone.zone,
-          :period => 4.days.in_hours
+          :period => 4.days.in_hours.to_i
         }
       }
     )
@@ -265,7 +286,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :period => 0
         }
       }
     )
@@ -285,7 +307,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :period => 0
         }
       }
     )
@@ -307,7 +330,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :period => 0
         }
       }
     )
@@ -328,7 +352,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       :params => {
         :moderation_zone => {
           :reason => "Updated reason",
-          :period => 1.week.from_now
+          :period => 1.week.from_now.to_i
         }
       }
     )
@@ -348,7 +372,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :period => 1.week.from_now
+          :period => 1.week.from_now.to_i
         }
       }
     )
