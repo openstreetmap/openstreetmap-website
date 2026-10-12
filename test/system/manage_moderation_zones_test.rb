@@ -32,4 +32,19 @@ class ManageModerationZones < ApplicationSystemTestCase
       assert_content "There was an error when creating the note"
     end
   end
+
+  test "Revoke a moderation zone" do
+    user = create(:moderator_user)
+    zone = create(:moderation_zone, :creator => user)
+
+    sign_in_as(user)
+    visit edit_moderation_zone_path(zone)
+
+    select "Revoke moderation zone", :from => :moderation_zone_period
+    click_on "Update Moderation zone"
+    assert_content "Moderation zone updated"
+
+    zone.reload
+    assert_equal user, zone.revoker
+  end
 end
