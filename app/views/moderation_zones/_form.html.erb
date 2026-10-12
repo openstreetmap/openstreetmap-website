@@ -16,11 +16,14 @@
   <% end %>
 
   <% expiry_type = selected_moderation_zone_expiry_type(moderation_zone) %>
-  <fieldset class="mb-3">
-    <legend class="col-form-label"><%= t ".expiration" %></legend>
-    <%= form.radio_button :expiry_type, "relative", :label => t(".relative_expiration"), :checked => expiry_type == "relative" %>
-    <%= form.radio_button :expiry_type, "absolute", :label => t(".absolute_expiration"), :checked => expiry_type == "absolute" %>
-  </fieldset>
+  <%= form.collection_radio_buttons(
+        :expiry_type,
+        %w[relative absolute],
+        :itself,
+        ->(type) { t(".#{type}_expiration") },
+        label: t(".expiration"),
+        checked: expiry_type
+      ) %>
 
   <div data-expiry-panel="relative">
     <%= form.select(
@@ -31,7 +34,11 @@
   </div>
 
   <div data-expiry-panel="absolute">
-    <%= form.datetime_field :ends_at, :min => [moderation_zone.ends_at || Time.now.utc, 10.years.ago].min.beginning_of_year, :max => [moderation_zone.ends_at || Time.now.utc, 10.years.from_now].max.end_of_year %>
+    <%= form.datetime_field(
+          :ends_at,
+          :min => [moderation_zone.ends_at || Time.now.utc, 10.years.ago].min.beginning_of_year,
+          :max => [moderation_zone.ends_at || Time.now.utc, 10.years.from_now].max.end_of_year
+        ) %>
   </div>
 
   <%= form.primary %>
