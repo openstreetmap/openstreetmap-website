@@ -53,6 +53,11 @@
 class User < ApplicationRecord
   include AASM
 
+  devise(
+    :doorkeeper,
+    :osm_authenticatable
+  )
+
   has_many :traces, -> { where(:visible => true) }
   has_many :diary_entries, -> { order(:created_at => :desc) }, :inverse_of => :user
   has_many :diary_comments, -> { order(:created_at => :desc) }, :inverse_of => :user
@@ -149,6 +154,15 @@ class User < ApplicationRecord
     fingerprint
   end
 
+  alias_attribute :encrypted_password, :pass_crypt
+  alias_attribute :salt, :pass_salt
+
+  attr_writer :username
+
+  def username
+    @username || email || display_name
+  end
+
   def display_name_cannot_be_user_id_with_other_id
     display_name&.match(/^user_(\d+)$/i) do |m|
       errors.add :display_name, I18n.t("activerecord.errors.messages.display_name_is_user_n") unless m[1].to_i == id
@@ -157,18 +171,6 @@ class User < ApplicationRecord
 
   def to_param
     display_name
-  end
-
-  def self.lookup(username)
-    user = find_by("email = ? OR display_name = ?", username.strip, username)
-
-    if user.nil?
-      users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username)
-
-      user = users.first if users.one?
-    end
-
-    user if user && user.status != "deleted"
   end
 
   def password_expired?
@@ -201,7 +203,7 @@ class User < ApplicationRecord
     end
 
     # Used in test suite, not something that we would normally need to do.
-    if Rails.env.test?
+    if ::Rails.env.test?
       event :deactivate do
         transitions :from => :active, :to => :pending
       end

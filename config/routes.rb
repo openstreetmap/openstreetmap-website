@@ -1,6 +1,23 @@
 # frozen_string_literal: true
 
 OpenStreetMap::Application.routes.draw do
+  devise_for(
+    :users,
+    path: "",
+    path_names: {
+      sign_in: "login",
+      sign_out: "logout",
+    },
+    controllers: {
+      sessions: "sessions",
+    }
+  )
+  devise_scope :user do
+    get "login" => "sessions#new"
+    post "login" => "sessions#create"
+    match "logout" => "sessions#destroy", :via => [:get, :post]
+  end
+
   use_doorkeeper :scope => "oauth2" do
     controllers :authorizations => "oauth2_authorizations",
                 :applications => "oauth2_applications",
@@ -206,9 +223,6 @@ OpenStreetMap::Application.routes.draw do
     end
   end
   get "/export" => "site#export"
-  get "/login" => "sessions#new"
-  post "/login" => "sessions#create"
-  match "/logout" => "sessions#destroy", :via => [:get, :post]
   get "/offline" => "site#offline"
   resource :languages_pane, :path => "/panes/languages", :only => :show
   resource :layers_pane, :path => "/panes/layers", :only => :show
@@ -218,7 +232,7 @@ OpenStreetMap::Application.routes.draw do
   get "/id" => "site#id"
   resource :feature_query, :path => "query", :only => :show
   post "/user/:display_name/confirm/resend" => "confirmations#confirm_resend", :as => :user_confirm_resend
-  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post]
+  match "/user/:display_name/confirm" => "confirmations#confirm", :via => [:get, :post], :as => :user_confirm
   match "/user/confirm" => "confirmations#confirm", :via => [:get, :post]
   match "/user/confirm-email" => "confirmations#confirm_email", :via => [:get, :post]
   post "/user/go_public" => "users#go_public"
