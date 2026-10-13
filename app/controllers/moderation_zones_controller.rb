@@ -59,9 +59,15 @@ class ModerationZonesController < ApplicationController
   end
 
   def moderation_zone_params
+    param! :moderation_zone, Hash do |mz|
+      mz.param! :name, String
+      mz.param! :reason, String
+      mz.param! :zone, String
+      mz.param! :period, Integer, :min => 0, :required => true
+    end
+
     params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
-      period = safe_params.delete("period")
-      safe_params[:ends_at] = period.to_i.hours.from_now if period.present?
+      safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
     end
   end
 
