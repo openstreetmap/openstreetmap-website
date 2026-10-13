@@ -213,6 +213,27 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     assert_nil moderation_zone.revoker
   end
 
+  test "update, without period" do
+    creator = create(:moderator_user)
+    moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)
+    initial_ends_at = moderation_zone.ends_at
+    session_for(creator)
+
+    patch(
+      moderation_zone_url(moderation_zone),
+      :params => {
+        :moderation_zone => {
+          :name => "New name!"
+        }
+      }
+    )
+    assert_response :bad_request
+
+    moderation_zone.reload
+    assert_nil moderation_zone.revoker
+    assert_equal initial_ends_at, moderation_zone.ends_at
+  end
+
   test "update, with errors" do
     creator = create(:moderator_user)
     moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)
@@ -280,6 +301,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
   test "update, by creator, of inactive+revoked record" do
     creator = create(:moderator_user)
     moderation_zone = create(:moderation_zone, :reason => "Initial reason", :creator => creator, :ends_at => 1.week.ago)
+    original_ends_at = moderation_zone.ends_at
     session_for(creator)
 
     patch(
@@ -297,6 +319,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
     moderation_zone.reload
     assert_equal "Updated reason", moderation_zone.reason
+    assert_equal original_ends_at, moderation_zone.ends_at
   end
 
   test "update, by non-creator, of revoked record" do

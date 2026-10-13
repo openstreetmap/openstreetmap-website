@@ -45,10 +45,18 @@ class ModerationZonesController < ApplicationController
     elsif reactivating?(@moderation_zone, moderation_zone_params)
       flash[:error] = t(".no_reactivation")
       redirect_to moderation_zones_url
-    elsif @moderation_zone.update(moderation_zone_params)
-      redirect_to moderation_zones_url, :notice => t(".success"), :status => :see_other
     else
-      render :edit, :status => :unprocessable_content
+      final_params =
+        if @moderation_zone.active?
+          moderation_zone_params
+        else
+          moderation_zone_params.except("ends_at")
+        end
+      if @moderation_zone.update(final_params)
+        redirect_to moderation_zones_url, :notice => t(".success"), :status => :see_other
+      else
+        render :edit, :status => :unprocessable_content
+      end
     end
   end
 
