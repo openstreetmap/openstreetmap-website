@@ -45,7 +45,7 @@ class ModerationZonesController < ApplicationController
     elsif reactivating?(@moderation_zone, moderation_zone_params)
       flash[:error] = t(".no_reactivation")
       redirect_to moderation_zones_url
-    elsif @moderation_zone.update(moderation_zone_params)
+    elsif @moderation_zone.update(sanitised_params(@moderation_zone, moderation_zone_params))
       redirect_to moderation_zones_url, :notice => t(".success"), :status => :see_other
     else
       render :edit, :status => :unprocessable_content
@@ -86,6 +86,14 @@ class ModerationZonesController < ApplicationController
   def projected_record(original, changes)
     original.dup.tap do |duplicate|
       duplicate.assign_attributes(changes)
+    end
+  end
+
+  def sanitised_params(original, changes)
+    if original.active?
+      changes
+    else
+      changes.except("ends_at")
     end
   end
 end

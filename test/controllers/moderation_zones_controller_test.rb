@@ -301,6 +301,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
   test "update, by creator, of inactive+revoked record" do
     creator = create(:moderator_user)
     moderation_zone = create(:moderation_zone, :reason => "Initial reason", :creator => creator, :ends_at => 1.week.ago)
+    original_ends_at = moderation_zone.ends_at
     session_for(creator)
 
     patch(
@@ -318,6 +319,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
     moderation_zone.reload
     assert_equal "Updated reason", moderation_zone.reason
+    assert_equal original_ends_at, moderation_zone.ends_at
   end
 
   test "update, by non-creator, of revoked record" do
