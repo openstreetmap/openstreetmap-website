@@ -332,7 +332,43 @@ class SearchesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  ##
+  # A coordinate search with an explicit zoom links to Nominatim reverse with that zoom
+  def test_nominatim_reverse_link_with_zoom
+    get search_path(:query => "51.7632, -0.0076", :zoom => 15)
+    assert_response :success
+    assert_select "a[href*='/reverse?'][href*='zoom=15']"
+  end
+
+  ##
+  # The reported URL has no viewport, so zoom is absent. A blank zoom= must be
+  # omitted too: both render as "zoom=" and Nominatim answers 400.
+  def test_nominatim_reverse_link_without_zoom
+    get search_path(:query => "51.7632, -0.0076")
+    assert_response :success
+    assert_reverse_links_omit_zoom
+
+    get search_path(:query => "51.7632, -0.0076", :zoom => "")
+    assert_response :success
+    assert_reverse_links_omit_zoom
+  end
+
+  ##
+  # Zoom 0 is a real zoom and stays on the sidebar link
+  def test_nominatim_reverse_link_with_zero_zoom
+    get search_path(:query => "51.7632, -0.0076", :zoom => 0)
+    assert_response :success
+    assert_select "a[href*='/reverse?'][href*='zoom=0']"
+  end
+
   private
+
+  def assert_reverse_links_omit_zoom
+    assert_select "a[href*='/reverse?']" do |links|
+      assert_predicate links, :any?
+      links.each { |link| assert_no_match(/[?&]zoom=/, link["href"]) }
+    end
+  end
 
   def latlon_check(query, lat, lon)
     get search_path(:query => query)
