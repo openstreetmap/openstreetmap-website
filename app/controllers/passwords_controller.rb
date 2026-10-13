@@ -21,9 +21,9 @@ class PasswordsController < ApplicationController
     @title = t ".title"
 
     if params[:token]
-      self.current_user = User.find_by_token_for(:password_reset, params[:token])
+      @user = User.find_by_token_for(:password_reset, params[:token])
 
-      if current_user.nil?
+      if @user.nil?
         flash[:error] = t ".flash token bad"
         redirect_to :action => "new"
       end
@@ -52,19 +52,19 @@ class PasswordsController < ApplicationController
 
   def update
     if params[:token]
-      self.current_user = User.find_by_token_for(:password_reset, params[:token])
+      @user = User.find_by_token_for(:password_reset, params[:token])
 
-      if current_user
+      if @user
         if params[:user]
-          current_user.pass_crypt = params[:user][:pass_crypt]
-          current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
-          current_user.activate if current_user.may_activate?
-          current_user.email_valid = true
+          @user.pass_crypt = params[:user][:pass_crypt]
+          @user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
+          @user.activate if @user.may_activate?
+          @user.email_valid = true
 
-          if current_user.save
-            session[:fingerprint] = current_user.fingerprint
+          if @user.save
+            session[:fingerprint] = @user.fingerprint
             flash[:notice] = t ".flash changed"
-            successful_login(current_user)
+            successful_login(@user)
           else
             render :edit
           end
