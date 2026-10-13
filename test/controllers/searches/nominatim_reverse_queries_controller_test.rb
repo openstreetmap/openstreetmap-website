@@ -70,5 +70,49 @@ module Searches
       assert_response :bad_gateway
       assert_equal({ "error" => "Error contacting nominatim.openstreetmap.org: 400" }, response.parsed_body)
     end
+
+    ##
+    # A missing or blank zoom must be left off the reverse URL. Nominatim
+    # rejects "zoom=" but applies its own default when the parameter is absent.
+    def test_create_without_zoom
+      stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+        .to_return(:body => <<~XML)
+          <reversegeocode>
+            <result osm_type="node" osm_id="28825933" lat="51.7465723" lon="-0.0190782">Broxbourne, Hertfordshire, East of England, England, United Kingdom</result>
+          </reversegeocode>
+        XML
+
+      post search_nominatim_reverse_query_path(:lat => 51.7632, :lon => -0.0076), :xhr => true
+      results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
+                    :lat => 51.7465723, :lon => -0.0190782,
+                    :type => "node", :id => 28825933
+      assert_requested :get, %r{https://nominatim\.openstreetmap\.org/reverse}
+      assert_not_requested :get, %r{https://nominatim\.openstreetmap\.org/reverse.*[?&]zoom=}
+
+      post search_nominatim_reverse_query_path(:lat => 51.7632, :lon => -0.0076, :zoom => ""), :xhr => true
+      results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
+                    :lat => 51.7465723, :lon => -0.0190782,
+                    :type => "node", :id => 28825933
+      assert_requested :get, %r{https://nominatim\.openstreetmap\.org/reverse}, :times => 2
+      assert_not_requested :get, %r{https://nominatim\.openstreetmap\.org/reverse.*[?&]zoom=}
+    end
+
+    ##
+    # Zoom 0 is present and must still be sent. Ruby treats 0 as falsey, and
+    # an empty string as truthy, so the guard has to be present? rather than either.
+    def test_create_with_zero_zoom
+      stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
+        .to_return(:body => <<~XML)
+          <reversegeocode>
+            <result osm_type="node" osm_id="28825933" lat="51.7465723" lon="-0.0190782">Broxbourne, Hertfordshire, East of England, England, United Kingdom</result>
+          </reversegeocode>
+        XML
+
+      post search_nominatim_reverse_query_path(:lat => 51.7632, :lon => -0.0076, :zoom => 0), :xhr => true
+      results_check :name => "Broxbourne, Hertfordshire, East of England, England, United Kingdom",
+                    :lat => 51.7465723, :lon => -0.0190782,
+                    :type => "node", :id => 28825933, :zoom => 0
+      assert_requested :get, %r{https://nominatim\.openstreetmap\.org/reverse.*[?&]zoom=0(?:&|$)}
+    end
   end
 end

@@ -46,9 +46,11 @@ module NominatimMethods
     parameters = {
       "format" => format,
       "lat" => lat,
-      "lon" => lon,
-      "zoom" => zoom
+      "lon" => lon
     }
+
+    # add any zoom; a blank value is sent as "zoom=" and Nominatim rejects it
+    parameters["zoom"] = zoom if zoom.present?
 
     # build url
     nominatim_url("reverse", parameters)
