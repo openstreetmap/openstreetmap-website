@@ -8,24 +8,24 @@ $(function () {
   const COORDINATES_FIELD_ID = "moderation_zone_zone";
   const expiryTypeInputs = document.querySelectorAll("input[name='moderation_zone[expiry_type]']");
 
-  if (expiryTypeInputs.length > 0) {
-    const expiryPanels = document.querySelectorAll("[data-expiry-panel]");
+  const expiryPanels = document.querySelectorAll("[data-expiry-panel]");
 
-    function updateExpiryFields() {
-      const selectedType = document.querySelector("input[name='moderation_zone[expiry_type]']:checked").value;
-
-      expiryPanels.forEach(panel => {
-        const isSelected = panel.dataset.expiryPanel === selectedType;
-        panel.hidden = !isSelected;
-        panel.querySelectorAll("input, select").forEach(input => {
-          input.disabled = !isSelected;
-        });
-      });
+  function updateExpiryFields() {
+    const selectedType = Array.from(expiryTypeInputs).find(input => input.checked)?.value;
+    if (!selectedType) {
+      return;
     }
-
-    expiryTypeInputs.forEach(input => input.addEventListener("change", updateExpiryFields));
-    updateExpiryFields();
+    expiryPanels.forEach(panel => {
+      const isSelected = panel.dataset.expiryPanel === selectedType;
+      panel.hidden = !isSelected;
+      panel.querySelectorAll("input, select").forEach(input => {
+        input.disabled = !isSelected;
+      });
+    });
   }
+
+  expiryTypeInputs.forEach(input => input.addEventListener("change", updateExpiryFields));
+  updateExpiryFields();
 
   const POSTGIS_LINE_POINTS_REGEXP = /[0-9-][ 0-9.,-]+/;
   const SELECT_MODE_OPTIONS = {

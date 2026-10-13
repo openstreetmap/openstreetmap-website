@@ -15,14 +15,13 @@
     <%= form.hidden_field :zone %>
   <% end %>
 
-  <% expiry_type = selected_moderation_zone_expiry_type(moderation_zone) %>
   <%= form.collection_radio_buttons(
         :expiry_type,
         %w[relative absolute],
         :itself,
         ->(type) { t(".#{type}_expiration") },
         :label => t(".expiration"),
-        :checked => expiry_type
+        :checked => selected_moderation_zone_expiry_type(moderation_zone)
       ) %>
 
   <div data-expiry-panel="relative">
@@ -36,8 +35,8 @@
   <div data-expiry-panel="absolute">
     <%= form.datetime_field(
           :ends_at,
-          :min => [moderation_zone.ends_at || Time.now.utc, 10.years.ago].min.beginning_of_year,
-          :max => [moderation_zone.ends_at || Time.now.utc, 10.years.from_now].max.end_of_year
+          :min => moderation_zone.ends_at || Time.now.utc,
+          :max => (moderation_zone.ends_at || Time.now.utc) + 10.years
         ) %>
   </div>
 

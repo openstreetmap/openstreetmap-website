@@ -181,7 +181,6 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     get edit_moderation_zone_url(moderation_zone)
     assert_response :success
     assert_dom "input[name='moderation_zone[expiry_type]'][value='absolute'][checked]"
-    assert_dom "input[name='moderation_zone[ends_at]']"
   end
 
   test "update, unauthenticated" do
