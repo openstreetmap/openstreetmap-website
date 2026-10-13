@@ -33,10 +33,12 @@ class PasswordsController < ApplicationController
   end
 
   def create
-    user = User.visible.find_by(:email => params[:email])
+    user = User.where(:status => %w[pending active confirmed deleted])
+               .find_by(:email => params[:email])
 
     if user.nil?
-      users = User.visible.where("LOWER(email) = LOWER(?)", params[:email])
+      users = User.where(:status => %w[pending active confirmed deleted])
+                  .where("LOWER(email) = LOWER(?)", params[:email])
 
       user = users.first if users.one?
     end
@@ -59,6 +61,7 @@ class PasswordsController < ApplicationController
           current_user.pass_crypt = params[:user][:pass_crypt]
           current_user.pass_crypt_confirmation = params[:user][:pass_crypt_confirmation]
           current_user.activate if current_user.may_activate?
+          current_user.undelete if current_user.may_undelete?
           current_user.email_valid = true
 
           if current_user.save
