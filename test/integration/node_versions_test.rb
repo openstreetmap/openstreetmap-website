@@ -17,7 +17,6 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     propagate_tags(node, node.old_nodes.last)
 
     ## First try this with a non-public user
-    reset!
     auth_header = request_headers private_user
 
     # setup a simple XML node
@@ -65,7 +64,6 @@ class NodeVersionsTest < ActionDispatch::IntegrationTest
     # probably should check that they didn't get written to the database
 
     ## Now do it with the public user
-    reset!
     auth_header = request_headers user
 
     # setup a simple XML node

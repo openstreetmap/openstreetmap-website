@@ -159,6 +159,7 @@ module ActiveSupport
     ##
     # return request header for HTTP Bearer Authorization
     def bearer_authorization_header(token_or_user = nil, scopes: Oauth::SCOPES)
+      reset!
       token = case token_or_user
               when nil then create(:oauth_access_token, :scopes => scopes).token
               when User then create(:oauth_access_token, :user => token_or_user, :scopes => scopes).token

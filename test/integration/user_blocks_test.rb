@@ -54,7 +54,6 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
     assert_template "user_blocks/show"
-    reset!
 
     # access the API again. this time it should work
     get "/api/#{Settings.api_version}/user/details", :headers => bearer_authorization_header(blocked_user)
