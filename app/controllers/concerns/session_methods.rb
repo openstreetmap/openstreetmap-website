@@ -37,7 +37,6 @@ module SessionMethods
   ##
   # process a successful login
   def successful_login(user, referer = nil)
-    session[:user] = user.id
     session[:fingerprint] = user.fingerprint
     session_expires_after 28.days if session[:remember_me]
 
