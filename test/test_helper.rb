@@ -446,5 +446,5 @@ module ActiveSupport
   end
 end
 
-require "minitest/fail_fast"
-Minitest.load :fail_fast
+#require "minitest/fail_fast"
+#Minitest.load :fail_fast

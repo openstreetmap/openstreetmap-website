@@ -49,7 +49,6 @@ class ApplicationController < ActionController::Base
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
         reset_session
-        self.current_user = nil
       elsif current_user.status == "suspended"
         session.delete(:user)
         session_expires_automatically
