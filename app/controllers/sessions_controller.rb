@@ -40,7 +40,7 @@ class SessionsController < Devise::SessionsController
   end
 
   def destroy
-    return unless request.delete?
+    return unless request.delete? || request.post?
 
     @title = t ".title"
 
