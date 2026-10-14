@@ -47,12 +47,14 @@ module Api
         assert_response :unauthorized
 
         # no messages in user1.inbox
+        reset!
         get api_messages_inbox_path, :headers => user1_auth
         assert_response :success
         assert_equal "application/xml", response.media_type
         assert_select "message", :count => 0
 
         # 2 messages in user2.inbox
+        reset!
         get api_messages_inbox_path, :headers => user2_auth
         assert_response :success
         assert_equal "application/xml", response.media_type
@@ -70,6 +72,7 @@ module Api
         end
 
         # 2 messages in user3.inbox
+        reset!
         get api_messages_inbox_path, :headers => user3_auth
         assert_response :success
         assert_equal "application/xml", response.media_type

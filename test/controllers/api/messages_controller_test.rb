@@ -147,6 +147,7 @@ module Api
       assert_response :unauthorized
 
       # only recipient and sender can read the message
+      reset!
       get api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
@@ -155,6 +156,7 @@ module Api
       assert_response :not_found
 
       # verify xml output
+      reset!
       get api_message_path(msg), :headers => recipient_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
@@ -189,6 +191,7 @@ module Api
       assert_equal "markdown", jsm["body_format"]
       assert_equal msg.body, jsm["body"]
 
+      reset!
       get api_message_path(msg), :headers => sender_auth
       assert_equal "application/xml", response.media_type
       assert_select "message", :count => 1 do
@@ -267,10 +270,12 @@ module Api
       assert_response :unauthorized
 
       # attempt to mark message as read by recipient, not allowed
+      reset!
       put api_message_path(msg), :params => { :read_status => true }, :headers => user3_auth
       assert_response :forbidden
 
       # missing parameter
+      reset!
       put api_message_path(msg), :headers => recipient_auth
       assert_response :bad_request
 
@@ -340,10 +345,12 @@ module Api
       assert_response :unauthorized
 
       # attempt to delete message, by user3
+      reset!
       delete api_message_path(msg), :headers => user3_auth
       assert_response :forbidden
 
       # delete message by recipient
+      reset!
       delete api_message_path(msg, :format => "json"), :headers => recipient_auth
       assert_response :success
       assert_equal "application/json", response.media_type
@@ -363,6 +370,7 @@ module Api
       assert_equal msg.body, jsm["body"]
 
       # delete message by sender
+      reset!
       delete api_message_path(msg, :format => "json"), :headers => sender_auth
       assert_response :success
       assert_equal "application/json", response.media_type
