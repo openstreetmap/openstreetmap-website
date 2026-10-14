@@ -6,8 +6,6 @@
 
 $(function () {
   const COORDINATES_FIELD_ID = "moderation_zone_zone";
-  const expiryTypeInputs = document.querySelectorAll("input[name='moderation_zone[expiry_type]']");
-  const expiryPanels = document.querySelectorAll("[data-expiry-panel]");
   const POSTGIS_LINE_POINTS_REGEXP = /[0-9-][ 0-9.,-]+/;
   const SELECT_MODE_OPTIONS = {
     flags: {
@@ -29,6 +27,9 @@ $(function () {
   };
 
   const baseMap = new OSM.MapLibre.SecondaryMap();
+
+  const expiryTypeInputs = document.querySelectorAll("input[name='moderation_zone[expiry_type]']");
+  const expiryPanels = document.querySelectorAll("[data-expiry-panel]");
 
   expiryTypeInputs.forEach(input => input.addEventListener("change", updateExpiryFields));
   updateExpiryFields();
