@@ -47,7 +47,6 @@ module Api
         assert_response :unauthorized
 
         # 3 messages in user1.outbox
-        reset!
         get api_messages_outbox_path, :headers => user1_auth
         assert_response :success
         assert_equal "application/xml", response.media_type
@@ -65,7 +64,6 @@ module Api
         end
 
         # 1 message in user2.outbox
-        reset!
         get api_messages_outbox_path, :headers => user2_auth
         assert_response :success
         assert_equal "application/xml", response.media_type
@@ -83,7 +81,6 @@ module Api
         end
 
         # 0 messages in user3.outbox
-        reset!
         get api_messages_outbox_path, :headers => user3_auth
         assert_response :success
         assert_equal "application/xml", response.media_type

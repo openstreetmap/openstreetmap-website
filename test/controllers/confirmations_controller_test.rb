@@ -74,7 +74,6 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
-    reset!
     cookies["_osm_session"] = "ok"
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string }
@@ -113,7 +112,6 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     confirm_string = User.find_by(:email => user.email).generate_token_for(:new_user)
 
     post logout_path
-    reset!
     cookies["_osm_session"] = "ok"
 
     post user_confirm_path, :params => { :display_name => user.display_name, :confirm_string => confirm_string, :referer => new_diary_entry_path }
