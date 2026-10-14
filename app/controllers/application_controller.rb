@@ -50,7 +50,7 @@ class ApplicationController < ActionController::Base
          session[:fingerprint] != current_user.fingerprint
         reset_session
       elsif current_user.status == "suspended"
-        session.delete(:user)
+        sign_out(:user)
         session_expires_automatically
 
         redirect_to :controller => "users", :action => "suspended"
