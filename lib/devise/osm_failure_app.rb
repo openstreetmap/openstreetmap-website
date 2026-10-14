@@ -4,7 +4,10 @@ module Devise
   class OsmFailureApp < Devise::FailureApp
     def respond
       case failure_code
-      when :not_found_in_database, :invalid, :unauthenticated
+      when :unauthenticated, :password_expired
+        redirect
+      when :not_found_in_database, :invalid
+        flash[:error] = I18n.t("sessions.new.auth failure")
         redirect
       when :user_suspended
         flash[:error] = { :partial => "sessions/suspended_flash" }
@@ -25,6 +28,9 @@ module Devise
           :username => failure_details[:username] || params.dig(:user, :username),
           :remember_me => session[:remember_me]
         )
+      when :password_expired
+        flash[:warning] = I18n.t("sessions.new.reset_to_login")
+        user_forgot_password_url
       else
         super
       end
@@ -55,6 +61,15 @@ module Devise
         { :referer => warden_options[:attempted_path] }
       else
         raise "Can't interpret warden_message (details): #{warden_options.inspect}"
+      end
+    end
+
+    def i18n_message
+      # TODO: Horrible, but I'll get around to making it better
+      if warden_message == :password_expired
+        ""
+      else
+        super
       end
     end
   end
