@@ -101,6 +101,7 @@ class UsersController < ApplicationController
         referer = welcome_path(welcome_options(params[:referer]))
 
         if @user.status == "active"
+          sign_in(@user)
           successful_login(@user, referer)
         else
           session[:pending_user] = @user.id

@@ -38,7 +38,7 @@ class ConfirmationsController < ApplicationController
         pending_user = session.delete(:pending_user)
 
         if user.id == pending_user
-          session[:user] = user.id
+          sign_in(user)
           session[:fingerprint] = user.fingerprint
 
           redirect_to referer || welcome_path
