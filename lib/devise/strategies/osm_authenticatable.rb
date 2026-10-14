@@ -3,11 +3,50 @@ require "devise/models/database_authenticatable"
 module Devise
   module Strategies
     class OsmAuthenticatable < DatabaseAuthenticatable
+      def authenticate!
+        resource  = password.present? && mapping.to.find_for_database_authentication(authentication_hash)
+        hashed = false
+
+        if resource.nil?
+          fail!(
+            :code => Devise.paranoid ? :invalid : :not_found_in_database,
+            :username => params.dig(:user, :username),
+            :referer => params[:referer]
+          )
+          return
+        elsif resource.password_expired?
+          fail!(:password_expired)
+          return
+        end
+
+        if validate(resource){ hashed = true; resource.valid_password?(password) }
+          remember_me(resource)
+          resource.after_database_authentication
+          success!(resource)
+        end
+
+        # In paranoid mode, hash the password even when a resource doesn't exist for the given authentication key.
+        # This is necessary to prevent enumeration attacks - e.g. the request is faster when a resource doesn't
+        # exist in the database if the password hashing algorithm is not called.
+        mapping.to.new.password = password if !hashed && Devise.paranoid
+        unless resource
+          Devise.paranoid ? fail(:invalid) : fail(:not_found_in_database)
+        end
+      end
 
       private
 
       def validate(resource)
-        super && check_resource_status!(resource)
+        if resource
+          super && check_resource_status!(resource)
+        else
+          fail!(
+            :code => :unknown_user,
+            :username => params.dig(:user, :username),
+            :referer => params[:referer]
+          )
+          false
+        end
       end
 
       def check_resource_status!(resource)
