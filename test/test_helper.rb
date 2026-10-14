@@ -189,7 +189,6 @@ module ActiveSupport
     ##
     # return request header for HTTP Bearer Authorization
     def bearer_authorization_header(token_or_user = nil, scopes: Oauth::SCOPES)
-      reset!
       token = case token_or_user
               when nil then create(:oauth_access_token, :scopes => scopes).token
               when User then create(:oauth_access_token, :user => token_or_user, :scopes => scopes).token
@@ -284,7 +283,11 @@ module ActiveSupport
     end
 
     def session_for(user)
-      reset! # Clear user and fingerprint
+      # TODO: difference of behaviour with Devise. Our code
+      # replaces your session if you log in again, but
+      # Devise doesn't.
+      reset!
+
       get login_path
       post user_session_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" } }
       follow_redirect!
