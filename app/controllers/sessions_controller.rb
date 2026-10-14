@@ -5,6 +5,8 @@ class SessionsController < Devise::SessionsController
 
   layout :site_layout
 
+  skip_before_action :verify_signed_out_user
+
   before_action :authorize_web, :except => [:destroy]
   before_action -> { authorize_web(:skip_terms => true) }, :only => [:destroy]
   before_action :set_locale
@@ -38,16 +40,18 @@ class SessionsController < Devise::SessionsController
   end
 
   def destroy
+    return unless request.delete?
+
     @title = t ".title"
 
-    if request.post?
+    super do
       session.delete(:pending_user)
-      session.delete(:user)
+      # session.delete(:user)
+
+      # TODO: do we need this?
       session_expires_automatically
 
       referer = safe_referer(params[:referer]) if params[:referer]
-
-      redirect_to referer || { :controller => "site", :action => "index" }
     end
   end
 
@@ -91,5 +95,10 @@ class SessionsController < Devise::SessionsController
     else
       target
     end
+  end
+
+  def after_sign_out_path_for(_user)
+    referer = safe_referer(params[:referer]) if params[:referer]
+    referer || { :controller => "site", :action => "index" }
   end
 end

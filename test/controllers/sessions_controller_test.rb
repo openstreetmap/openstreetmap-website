@@ -111,13 +111,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(I18n.t("sessions.new.reset_to_login"), flash[:warning])
   end
 
+  # TODO: all the below are logging out without first logging
+  # in. Tests should be more realistic than that. In Devise
+  # it does behave differently.
+
   def test_logout_without_referer
-    post logout_path
+    delete logout_path
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
-    post logout_path, :params => { :referer => "/test" }
+    delete logout_path, :params => { :referer => "/test" }
     assert_redirected_to "/test"
   end
 
