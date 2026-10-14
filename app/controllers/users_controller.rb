@@ -167,6 +167,7 @@ class UsersController < ApplicationController
         when "pending"
           unconfirmed_login(user, referer)
         when "active", "confirmed"
+          sign_in(user)
           successful_login(user, referer)
         when "suspended"
           failed_login({ :partial => "sessions/suspended_flash" }, user.display_name, referer)
