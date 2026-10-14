@@ -17,7 +17,7 @@ module Devise
           # TODO: session[:pending_user] = user.id
           # TODO: session.delete(:remember_me)
           redirect!(
-            Rails.application.routes.url_helpers.user_confirm_path(resource.display_name)
+            Rails.application.routes.url_helpers.user_confirm_by_name_path(resource.display_name)
             # TODO
             # :referer => referer
           )
