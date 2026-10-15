@@ -2,7 +2,7 @@ $(function () {
   const selectPageCheckbox = $("#select_page");
   const individualCheckboxes = $(".notification-mark-as-read");
 
-  individualCheckboxes.on("click", function () {
+  individualCheckboxes.on("change", function () {
     if (allInPageSelected()) {
       selectPageCheckbox.prop("checked", true);
       selectPageCheckbox.prop("indeterminate", false);
@@ -15,7 +15,7 @@ $(function () {
     }
   });
 
-  selectPageCheckbox.on("click", function (evt) {
+  selectPageCheckbox.on("change", function (evt) {
     if (evt.target.checked) {
       individualCheckboxes.prop("checked", true);
     } else {
