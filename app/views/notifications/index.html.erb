@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "notifications" %>
+<% end %>
+
 <% content_for :heading do %>
   <h1><%= t ".title" %></h1>
   <p class="mb-0">
@@ -11,5 +15,13 @@
 <% if @notifications.items.empty? %>
   <p><%= t(".no_notifications") %></p>
 <% else %>
-  <%= render "page", :notifications => @notifications, :params => @params %>
+  <%= form_with :url => notifications_reads_path, :method => :create do |form| %>
+    <div class="row border-bottom pb-2">
+      <div class="col-1 text-center">
+        <%= check_box_tag "select_page", :class => "align-bottom" %>
+      </div>
+      <div class="col-11"><%= form.submit t(".mark_selected_read"), :class => "btn btn-primary" %></div>
+    </div>
+    <%= render "page", :notifications => @notifications, :params => @params %>
+  <% end %>
 <% end %>
