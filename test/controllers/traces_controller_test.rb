@@ -568,13 +568,22 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
 
   # Test invalid updates
   def test_update_invalid
-    trace = create(:trace)
+    tracetag = create(:tracetag)
+    trace = tracetag.trace
 
     # Invalid visibility
     session_for(trace.user)
     put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "new_tag", :visibility => "wrong" })
     assert_response :success
     assert_select "title", :text => /^Editing Trace/
+
+    # Invalid tag
+    put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "invalid/tag", :visibility => "trackable" })
+    assert_response :success
+    assert_select "title", :text => /^Editing Trace/
+
+    # Ensure the existing tags have not been changed
+    assert_equal [tracetag.tag], trace.reload.tags.collect(&:tag)
   end
 
   # Test destroying a trace

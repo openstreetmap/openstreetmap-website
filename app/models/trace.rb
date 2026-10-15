@@ -87,20 +87,18 @@ class Trace < ApplicationRecord
   end
 
   def tagstring=(s)
-    self.tags = if s.include? ","
-                  s.split(",").map(&:strip).reject(&:empty?).collect do |tag|
-                    tt = Tracetag.new
-                    tt.tag = tag
-                    tt
-                  end
-                else
-                  # do as before for backwards compatibility:
-                  s.split.collect do |tag|
-                    tt = Tracetag.new
-                    tt.tag = tag
-                    tt
-                  end
-                end
+    names = if s.include? ","
+              s.split(",").map(&:strip).reject(&:empty?)
+            else
+              # do as before for backwards compatibility:
+              s.split
+            end
+
+    tags.clear
+
+    names.each do |name|
+      tags.build(:tag => name)
+    end
   end
 
   def file=(attachable)
@@ -190,8 +188,10 @@ class Trace < ApplicationRecord
 
     self.description = description.content
 
-    self.tags = pt.find("tag").collect do |tag|
-      Tracetag.new(:tag => tag.content)
+    tags.clear
+
+    pt.find("tag").each do |tag|
+      tags.build(:tag => tag.content)
     end
   end
 

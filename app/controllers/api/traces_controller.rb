@@ -48,8 +48,10 @@ module Api
       trace = Trace.visible.find(params.expect(:id))
 
       if trace.user == current_user
-        trace.update_from_xml(request.raw_post)
-        trace.save!
+        Trace.transaction do
+          trace.update_from_xml(request.raw_post)
+          trace.save!
+        end
 
         head :ok
       else
