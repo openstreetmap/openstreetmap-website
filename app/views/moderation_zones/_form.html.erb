@@ -1,25 +1,36 @@
 <%# locals: (moderation_zone:) %>
+<% can_edit_name = @can_edit_name.nil? ? true : @can_edit_name %>
+<% can_edit_reason = @can_edit_reason.nil? ? true : @can_edit_reason %>
+<% can_edit_zone = @can_edit_zone.nil? ? true : @can_edit_zone %>
+<% can_edit_period = @can_edit_period.nil? ? true : @can_edit_period %>
+<% can_update = @can_update.nil? ? true : @can_update %>
 
 <% content_for :head do %>
   <%= javascript_include_tag "moderation_zone" %>
 <% end %>
 
 <%= bootstrap_form_with(:model => moderation_zone) do |form| %>
-  <%= form.text_field :name %>
+  <%= form.text_field :name, :readonly => !can_update || !can_edit_name %>
 
-  <%= form.richtext_field :reason, :cols => 80, :rows => 20, :format => moderation_zone.reason_format %>
+  <%= form.richtext_field :reason, :cols => 80, :rows => 20, :format => moderation_zone.reason_format,
+                         :disabled => !can_update || !can_edit_reason,
+                         :class => (!can_update || !can_edit_reason ? "readonly-field" : "") %>
+  <%= form.hidden_field :reason, :value => moderation_zone.reason if !can_update || !can_edit_reason %>
 
   <%= form.form_group do %>
     <%= form.label :zone %>
-    <div id="map" class="content_map border rounded z-0"></div>
+    <div id="map" class="content_map border rounded z-0 <%= "content_map-disabled" if !can_update || !can_edit_zone %>"></div>
     <%= form.hidden_field :zone %>
+    <% if !can_update || !can_edit_zone %>
+      <div class="form-text text-muted"><%= t(".zone_read_only") %></div>
+    <% end %>
   <% end %>
 
-  <%= form.select(
-        :period,
-        options_for_moderation_zone_period,
-        :selected => selected_option_for_moderation_zone_period(moderation_zone)
-      ) %>
+  <%= form.select(:period, options_for_moderation_zone_period,
+                  :selected => selected_option_for_moderation_zone_period(moderation_zone),
+                  :disabled => !can_update || !can_edit_period,
+                  :class => (!can_update || !can_edit_period ? "disabled-select" : "")) %>
+  <%= form.hidden_field :period, :value => selected_option_for_moderation_zone_period(moderation_zone).to_s if !can_edit_period %>
 
   <%= form.primary %>
 <% end %>
