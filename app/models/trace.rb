@@ -55,6 +55,7 @@ class Trace < ApplicationRecord
   validates :visibility, :inclusion => VISIBILITIES + LEGACY_VISIBILITIES
   validates :visibility, :inclusion => { :in => VISIBILITIES }, :on => :create
   validate :visibility_not_changed_to_legacy, :on => :update
+  validate :validate_tags
 
   after_save :set_filename
 
@@ -335,5 +336,13 @@ class Trace < ApplicationRecord
     return unless Trace.legacy_visibility?(visibility) && Trace.valid_visibility?(visibility_was)
 
     errors.add(:visibility, :cannot_change_to_legacy)
+  end
+
+  # Report problems with new tags against the tag string, so that they
+  # are shown next to the tags field when uploading or editing a trace
+  def validate_tags
+    tags.target.select(&:new_record?).reject(&:valid?).each do |tag|
+      tag.errors.each { |error| errors.import(error, :attribute => :tagstring) }
+    end
   end
 end
