@@ -7,6 +7,7 @@ class TraceImporterJob < ApplicationJob
     gpx = trace.import
 
     if gpx.actual_points.positive?
+      TraceLinestringJob.perform_later(trace)
       GpxImportSuccessNotifier.with(:record => trace, :possible_points => gpx.actual_points).deliver_later
     else
       handle_import_failure_notification(trace, "0 points parsed ok. Do they all have lat,lng,alt,timestamp?")
