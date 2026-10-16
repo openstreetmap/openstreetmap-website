@@ -483,8 +483,19 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_not_equal "trackable", user.preferences.find_by(:k => "gps.trace.visibility").v
     session_for(user)
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }
+    assert_response :unprocessable_content
     assert_template :new
     assert_match "is too short (minimum is 1 character)", response.body
+
+    # Invalid tag
+    file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
+    assert_no_difference "Trace.count" do
+      post traces_path, :params => { :trace => { :gpx_file => file, :description => "New Trace", :tagstring => "invalid/tag, valid", :visibility => "trackable" } }
+    end
+    assert_response :unprocessable_content
+    assert_template :new
+    assert_select "#trace_tagstring.is-invalid"
+    assert_select "#trace_tagstring_feedback", :text => "contains special URL characters (/;.,?%#)"
   end
 
   # Test fetching the edit page for a trace using GET
@@ -574,13 +585,15 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     # Invalid visibility
     session_for(trace.user)
     put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "new_tag", :visibility => "wrong" })
-    assert_response :success
+    assert_response :unprocessable_content
     assert_select "title", :text => /^Editing Trace/
 
     # Invalid tag
-    put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "invalid/tag", :visibility => "trackable" })
-    assert_response :success
+    put trace_path(trace, :trace => { :description => "Changed description", :tagstring => "invalid/tag, valid", :visibility => "trackable" })
+    assert_response :unprocessable_content
     assert_select "title", :text => /^Editing Trace/
+    assert_select "#trace_tagstring.is-invalid"
+    assert_select "#trace_tagstring_feedback", :text => "contains special URL characters (/;.,?%#)"
 
     # Ensure the existing tags have not been changed
     assert_equal [tracetag.tag], trace.reload.tags.collect(&:tag)
