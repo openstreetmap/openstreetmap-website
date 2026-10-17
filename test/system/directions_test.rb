@@ -67,7 +67,33 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
-  test "formats route distances for the page locale" do
+  test "shows route time in hours and minutes" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_fixed_routing(:distance => 4100, :time => 3900)
+    find_by_id("route_to").set("61 31").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_distance", :text => "4.1km"
+      assert_selector "#directions_route_time", :text => "1 hr 5 min", :normalize_ws => true
+      assert_selector "#directions_route_steps .distance", :text => "4.1km"
+    end
+  end
+
+  test "shows short route time in minutes only" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_fixed_routing(:distance => 4100, :time => 600)
+    find_by_id("route_to").set("61 31").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_time", :text => "10 min", :normalize_ws => true
+    end
+  end
+
+  test "formats route numbers for the page locale" do
     visit directions_path(:locale => "de")
 
     find_by_id("route_from").set("60 30").send_keys :enter
@@ -76,6 +102,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_selector "#directions_route_distance", :text => "4,1km"
+      assert_selector "#directions_route_time", :text => "1 Std., 5 Min.", :normalize_ws => true
       assert_selector "#directions_route_steps .distance", :text => "4,1km"
     end
   end

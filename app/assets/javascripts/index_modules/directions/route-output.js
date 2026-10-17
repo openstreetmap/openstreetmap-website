@@ -62,7 +62,13 @@ function RouteOutput(map) {
 
       m -= h * 60;
 
-      return h + ":" + (m < 10 ? "0" : "") + m;
+      const locale = OSM.i18n.locale;
+      const format = (unit, value) => value.toLocaleString(locale, { style: "unit", unit, unitDisplay: "short" });
+
+      if (h === 0) return format("minute", m);
+      if (m === 0) return format("hour", h);
+      return new Intl.ListFormat(locale, { style: "narrow", type: "unit" })
+        .format([format("hour", h), format("minute", m)]);
     }
   }
 
