@@ -27,6 +27,20 @@ sudo apt-get install ruby ruby-dev ruby-bundler \
 sudo npm install --global yarn
 ```
 
+Running tests requires Firefox and WebGL support
+
+```bash
+sudo apt-get install firefox mesa-utils libosmesa6 xvfb 
+```
+
+Firefox will be installed with snap and you will need to add
+
+```
+system_test_firefox_binary: /snap/firefox/current/usr/lib/firefox/firefox
+```
+
+to config/settings/test.local.yml
+
 > [!TIP]
 > On Ubuntu 26.04, you may need to start PostgreSQL:
 >
@@ -131,7 +145,15 @@ We use [Bundler](https://bundler.io/) to manage the rubygems required for the pr
 ```bash
 cd openstreetmap-website
 bundle install
-```
+
+> [NOTE]
+> On Ubuntu 26.04 the provided version of bundler is old and will not install the gems, you can
+> upgrade with 
+>
+> ```bash
+> sudo bundle update --bundler
+> ```
+> however this will install the gems as root which may or may not be what you want.
 
 ### Node.js modules
 
@@ -211,6 +233,13 @@ This test will take a few minutes, reporting tests run, assertions, and any erro
 
 > [!NOTE]
 > The unit tests may output parser errors related to "Attribute lat redefined." These can be ignored.
+>
+> For the tests that use WebGL to complete successfully on an headless machine you need to start an X server rendering on the virtual framebuffer
+> an easy way to do that is to use the docker entrypoint script, you will need to make the script executeable first
+>
+> ```bash
+> sh docker/entrypoint.sh bundle exec rails test:all
+> ```
 
 ### Starting the server
 
