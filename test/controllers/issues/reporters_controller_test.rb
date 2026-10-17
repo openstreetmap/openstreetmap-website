@@ -62,6 +62,15 @@ module Issues
       assert_response :success
     end
 
+    def test_index_assigned_to_moderator_as_moderator_turbo
+      issue = create(:issue, :assigned_role => "moderator")
+
+      session_for(create(:moderator_user))
+      get issue_reporters_path(issue), :headers => { "Turbo-Frame" => "issue_#{issue.id}_reporters" }
+
+      assert_response :success
+    end
+
     def test_index_assigned_to_administrator_as_unauthorized
       issue = create(:issue, :assigned_role => "administrator")
 
@@ -93,6 +102,15 @@ module Issues
 
       session_for(create(:administrator_user))
       get issue_reporters_path(issue)
+
+      assert_response :success
+    end
+
+    def test_index_assigned_to_administrator_as_administrator_turbo
+      issue = create(:issue, :assigned_role => "administrator")
+
+      session_for(create(:administrator_user))
+      get issue_reporters_path(issue), :headers => { "Turbo-Frame" => "issue_#{issue.id}_reporters" }
 
       assert_response :success
     end
