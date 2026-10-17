@@ -67,6 +67,19 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "formats route distances for the page locale" do
+    visit directions_path(:locale => "de")
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.03687 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_distance", :text => "4,1km"
+      assert_selector "#directions_route_steps .distance", :text => "4,1km"
+    end
+  end
+
   private
 
   def stub_straight_routing(start_instruction: "Start here", finish_instruction: "Finish there")
