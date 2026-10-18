@@ -7,8 +7,8 @@ promote a large OpenStreetMap focused conference or host a worldwide donation
 drive.  This is a great way to reach a lot of people!
 
 1. Please review the Operations Working Group's [Banner Policy](https://operations.osmfoundation.org/policies/banner/) to know whether your event qualifies for a front-page banner.
-2. Create the banner image.  The image needs to:
-   * be exactly 350px wide and at most 350px tall,
+2. Create the banner image in two sizes for 1× and 2× resolution.  The images need to:
+   * be exactly 350px wide and at most 350px tall, or double that for 2×,
    * be in PNG format,
    * have nothing important in the top-right 60x60px corner of the banner which has a close 'X' button overlayed, and
    * have sufficient visual contrast with the colours #cccccc and #999999 so the 'X' can be seen.
