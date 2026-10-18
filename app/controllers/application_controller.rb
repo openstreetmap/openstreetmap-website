@@ -171,8 +171,8 @@ class ApplicationController < ActionController::Base
   #  phrase from that, we can also put the error message into the status
   #  message. For now, rails won't let us)
   def report_error(message, status = :bad_request)
-    # TODO: some sort of escaping of problem characters in the message
-    response.headers["Error"] = message
+    # Keep control characters out of the header but preserve the response body.
+    response.headers["Error"] = message.gsub(/[\x00-\x08\x0A-\x1F\x7F]/, " ")
 
     if request.headers["X-Error-Format"]&.casecmp?("xml")
       result = OSM::API.new.xml_doc
