@@ -66,6 +66,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:moderator_user))
     get new_moderation_zone_url
     assert_response :success
+    assert_dom "input[name='moderation_zone[expiry_type]'][value='relative'][checked]"
   end
 
   test "create, unauthenticated" do
@@ -84,6 +85,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
         :moderation_zone => {
           **attributes_for(:moderation_zone)
             .slice(:name, :reason, :zone),
+          :expiry_type => "relative",
           :period => 2.days.in_hours
         }
       }
@@ -102,6 +104,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :moderation_zone => {
             **attributes_for(:moderation_zone)
               .slice(:name, :reason, :zone),
+            :expiry_type => "relative",
             :period => 2.days.in_hours
           }
         }
@@ -112,6 +115,27 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to moderation_zones_url
 
     assert_in_delta moderation_zone.ends_at, 2.days.from_now, 10.seconds
+  end
+
+  test "create with an exact expiration time" do
+    session_for(create(:moderator_user))
+    ends_at = 2.days.from_now.change(:hour => 14, :min => 30, :sec => 0)
+
+    assert_difference("ModerationZone.count") do
+      post(
+        moderation_zones_url,
+        :params => {
+          :moderation_zone => {
+            **attributes_for(:moderation_zone).slice(:name, :reason, :zone),
+            :expiry_type => "absolute",
+            :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
+          }
+        }
+      )
+    end
+
+    assert_redirected_to moderation_zones_url
+    assert_equal ends_at.to_i, ModerationZone.last.ends_at.to_i
   end
 
   test "create, with errors" do
@@ -125,6 +149,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :moderation_zone => {
             **attributes_for(:moderation_zone)
               .slice(:name, :zone),
+            :expiry_type => "relative",
             :period => 6.months.in_hours
           }
         }
@@ -149,10 +174,11 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
   test "edit, as moderator" do
     session_for(create(:moderator_user))
-    moderation_zone = create(:moderation_zone, :ends_at => 1.year.from_now)
+    ends_at = 2.days.from_now.change(:hour => 14, :min => 30, :sec => 0)
+    moderation_zone = create(:moderation_zone, :ends_at => ends_at)
     get edit_moderation_zone_url(moderation_zone)
     assert_response :success
-    assert_dom "option[selected]", :text => "1 year"
+    assert_dom "input[name='moderation_zone[expiry_type]'][value='absolute'][checked]"
   end
 
   test "update, unauthenticated" do
@@ -183,6 +209,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => moderation_zone.reason,
           :zone => moderation_zone.zone,
+          :expiry_type => "relative",
           :period => 2.weeks.in_hours
         }
       }
@@ -202,6 +229,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => moderation_zone.reason,
           :zone => moderation_zone.zone,
+          :expiry_type => "relative",
           :period => 2.weeks.in_hours
         }
       }
@@ -211,6 +239,49 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     moderation_zone.reload
     assert_in_delta moderation_zone.ends_at, 2.weeks.from_now, 10.seconds
     assert_nil moderation_zone.revoker
+  end
+
+  test "update, preserving the exact expiration time" do
+    creator = create(:moderator_user)
+    ends_at = 2.days.from_now.change(:hour => 14, :min => 30, :sec => 0)
+    moderation_zone = create(:moderation_zone, :ends_at => ends_at, :creator => creator)
+    session_for(creator)
+
+    patch(
+      moderation_zone_url(moderation_zone),
+      :params => {
+        :moderation_zone => {
+          :name => "Updated name",
+          :expiry_type => "absolute",
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
+        }
+      }
+    )
+
+    assert_redirected_to moderation_zones_url
+    assert_equal "Updated name", moderation_zone.reload.name
+    assert_equal ends_at.to_i, moderation_zone.ends_at.to_i
+  end
+
+  test "update with both relative and absolute expiry uses absolute" do
+    creator = create(:moderator_user)
+    ends_at = 3.days.from_now.change(:hour => 9, :min => 15, :sec => 0)
+    moderation_zone = create(:moderation_zone, :ends_at => 1.week.from_now, :creator => creator)
+    session_for(creator)
+
+    patch(
+      moderation_zone_url(moderation_zone),
+      :params => {
+        :moderation_zone => {
+          :expiry_type => "absolute",
+          :period => 1.year.in_hours,
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
+        }
+      }
+    )
+
+    assert_redirected_to moderation_zones_url
+    assert_equal ends_at.to_i, moderation_zone.reload.ends_at.to_i
   end
 
   test "update, with errors" do
@@ -225,6 +296,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => "",
           :zone => moderation_zone.zone,
+          :expiry_type => "relative",
           :period => 4.days.in_hours
         }
       }
@@ -246,6 +318,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
           :name => moderation_zone.name,
           :reason => moderation_zone.reason,
           :zone => moderation_zone.zone,
+          :expiry_type => "relative",
           :period => 0
         }
       }
@@ -258,14 +331,17 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
   test "update, by non-creator, of inactive+unrevoked record" do
     updater = create(:moderator_user)
-    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => 1.week.ago)
+    ends_at = 1.week.ago.change(:sec => 0)
+    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => ends_at)
     session_for(updater)
 
     patch(
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :expiry_type => "absolute",
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
         }
       }
     )
@@ -278,14 +354,17 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
   test "update, by creator, of inactive+revoked record" do
     creator = create(:moderator_user)
-    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :creator => creator, :ends_at => 1.week.ago)
+    ends_at = 1.week.ago.change(:sec => 0)
+    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :creator => creator, :ends_at => ends_at)
     session_for(creator)
 
     patch(
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :expiry_type => "absolute",
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
         }
       }
     )
@@ -295,19 +374,23 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
     moderation_zone.reload
     assert_equal "Updated reason", moderation_zone.reason
+    assert_equal ends_at.to_i, moderation_zone.ends_at.to_i
   end
 
   test "update, by non-creator, of revoked record" do
     updater = create(:moderator_user)
     revoker = create(:moderator_user)
-    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => 1.week.ago, :revoker => revoker)
+    ends_at = 1.week.ago.change(:sec => 0)
+    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => ends_at, :revoker => revoker)
     session_for(updater)
 
     patch(
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :reason => "Updated reason"
+          :reason => "Updated reason",
+          :expiry_type => "absolute",
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
         }
       }
     )
@@ -320,7 +403,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
 
   test "update, by non-creator, of active record" do
     updater = create(:moderator_user)
-    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => 1.week.from_now)
+    ends_at = 1.week.from_now.change(:sec => 0)
+    moderation_zone = create(:moderation_zone, :reason => "Initial reason", :ends_at => ends_at)
     session_for(updater)
 
     patch(
@@ -328,7 +412,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       :params => {
         :moderation_zone => {
           :reason => "Updated reason",
-          :period => 1.week.from_now
+          :expiry_type => "absolute",
+          :ends_at => ends_at.strftime("%Y-%m-%dT%H:%M")
         }
       }
     )
@@ -348,7 +433,8 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       moderation_zone_url(moderation_zone),
       :params => {
         :moderation_zone => {
-          :period => 1.week.from_now
+          :expiry_type => "relative",
+          :period => 1.week.in_hours
         }
       }
     )

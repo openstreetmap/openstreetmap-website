@@ -28,4 +28,15 @@ class ModerationZoneTest < ActiveSupport::TestCase
     modzone2 = create(:moderation_zone, :ends_at => 1.day.ago)
     assert_not_predicate modzone2, :active?
   end
+
+  def test_round_to_closest_minute
+    assert_equal Time.utc(2026, 1, 1, 12, 30, 0), ModerationZone.round_to_closest_minute(Time.utc(2026, 1, 1, 12, 30, 29))
+    assert_equal Time.utc(2026, 1, 1, 12, 31, 0), ModerationZone.round_to_closest_minute(Time.utc(2026, 1, 1, 12, 30, 31))
+    assert_equal Time.utc(2026, 1, 1, 12, 30, 0), ModerationZone.round_to_closest_minute(Time.utc(2026, 1, 1, 12, 30, 0))
+  end
+
+  def test_round_to_next_minute
+    assert_equal Time.utc(2026, 1, 1, 12, 31, 0), ModerationZone.round_to_next_minute(Time.utc(2026, 1, 1, 12, 30, 1))
+    assert_equal Time.utc(2026, 1, 1, 12, 30, 0), ModerationZone.round_to_next_minute(Time.utc(2026, 1, 1, 12, 30, 0))
+  end
 end

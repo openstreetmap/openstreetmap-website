@@ -59,9 +59,36 @@ class ModerationZonesController < ApplicationController
   end
 
   def moderation_zone_params
-    params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
-      safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
+    params.expect(:moderation_zone => [:name, :reason, :zone, :period, :expiry_type, :ends_at]).tap do |safe_params|
+      expiry_type = safe_params.delete(:expiry_type)
+      raise RailsParam::InvalidParameterError, "expiry_type is invalid" unless %w[relative absolute].include?(expiry_type)
+
+      period = safe_params.delete(:period)
+
+      safe_params[:ends_at] = if expiry_type == "absolute"
+                                normalized_absolute_ends_at(safe_params[:ends_at])
+                              else
+                                period.to_i.hours.from_now
+                              end
     end
+  end
+
+  def normalized_absolute_ends_at(ends_at_param)
+    return if ends_at_param.blank?
+
+    ends_at = Time.zone.parse(ends_at_param.to_s)&.utc
+    return unless ends_at
+
+    ends_at = ModerationZone.round_to_closest_minute(ends_at)
+    ends_at = ModerationZone.round_to_next_minute(Time.now.utc) if ends_at.past? && extending_active_period?
+    ends_at
+  end
+
+  # True when the submitted expiry must not be allowed to land in the past:
+  # either we're creating a new record, or we're extending one that is
+  # currently active (and so must remain active).
+  def extending_active_period?
+    action_name == "create" || @moderation_zone&.active?
   end
 
   def check_revocation(original, changes)
