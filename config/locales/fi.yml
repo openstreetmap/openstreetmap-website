@@ -110,7 +110,7 @@ fi:
             visibility:
               cannot_change_to_legacy: ei voi muuttaa takaisin vanhaan arvoon
     models:
-      acl: Pääsyoikeuslista
+      acl: Pääsynhallintaluettelo
       changeset: Muutoskokoelma
       changeset_tag: Muutoskokoelman tunniste
       country: Maa
@@ -146,6 +146,12 @@ fi:
       way_node: Viivan piste
       way_tag: Viivan tunniste
     attributes:
+      acl:
+        address: Osoite
+        domain: Verkkotunnus
+        mx: MX-palvelin
+        k: Avain
+        v: Arvo
       diary_comment:
         body: Leipäteksti
       diary_entry:
@@ -208,6 +214,13 @@ fi:
         pass_crypt: Salasana
         pass_crypt_confirmation: Vahvista salasana
     help:
+      acl:
+        address: IP-osoite tai CIDR-verkko, esim. 192.0.2.0/24
+        domain: Sähköpostiverkkotunnus, myös aliverkkotunnukset täsmätään
+        mx: Sähköpostiverkkotunnuksen MX-palvelimen isäntänimi
+        k: 'Yksi seuraavista: no_account_creation, allow_account_creation, no_note_comment
+          tai no_trace_download'
+        v: Valinnainen muistiinpano, esim. tämän merkinnän syy
       doorkeeper/application:
         confidential: Sovellusta käytettäessä ei voida taata käyttäjätietojen tietoturvaa
           (natiivit mobiilisovellukset ja yhden sivun sovellukset eivät ole korkean
@@ -549,6 +562,9 @@ fi:
       colour_preview: Värin %{colour_value} esikatselu
       email_link: Sähköposti %{email}
     versions_navigation:
+      node_versions: Solmuversiot
+      way_versions: Viivaversiot
+      relation_versions: Relaatioversiot
       node: Piste
       way: Viiva
       relation: Relaatio
@@ -565,10 +581,13 @@ fi:
     index:
       node:
         title_html: Pisteen %{name} historia
+        actions: Solmutoiminnot
       way:
         title_html: Viivan %{name} historia
+        actions: Viivatoiminnot
       relation:
         title_html: Relaation %{name} historia
+        actions: Relaatiotoiminnot
       older_versions: Vanhemmat versiot
       newer_versions: Uudemmat versiot
     actions:
@@ -731,11 +750,15 @@ fi:
       no followings: Ei seurattuja käyttäjiä
       nearby users: Muut lähialueen käyttäjät
       no nearby users: Valitun sijainnin lähellä ei ole tiedossa muita käyttäjiä.
+      followed_actions: Toiminnot käyttäjille, joita seuraat
       followed_changesets: muutoskokoelmat
       followed_diaries: päiväkirjamerkinnät
+      nearby_actions: Lähellä olevien käyttäjien toiminnot
       nearby_changesets: lähialueen käyttäjien muutoskokoelmat
       nearby_diaries: lähialueen käyttäjien päiväkirjamerkinnät
   notifications:
+    missing_record:
+      body: Valitettavasti tämä ei ole enää saatavilla
     index:
       title: Ilmoitukset
       no_notifications: Sinulla ei ole ilmoituksia tällä hetkellä
@@ -816,6 +839,7 @@ fi:
       posted_by_html: Käyttäjä %{link_user} kirjoitti tämän %{created} kielellä %{language_link}.
       updated_at_html: Päivitetty viimeksi %{updated}.
       full_entry: Katso koko merkintä
+      actions: Päiväkirjamerkintätoiminnot
       comment_link: Kommentoi tätä kirjoitusta
       reply_link: Lähetä viesti tekijälle
       comment_count:
@@ -1836,6 +1860,7 @@ fi:
       report_created_at_html: Ilmiannettu ensimmäisen kerran %{datetime}
       last_resolved_at_html: Ratkaistu %{datetime}
       last_updated_at_html: Viimeisin käsittelijä %{displayname} %{datetime}
+      actions: Ongelmatoiminnot
       resolve: Ratkaise
       ignore: Merkitse aiheettomaksi
       reopen: Avaa uudelleen
@@ -1988,6 +2013,7 @@ fi:
         be-Tarask: valkovenäjä (taraškievicilainen)
         bg: bulgaria
         mk: makedonia
+        mt: maltan kieli
         mo: moldova
         ce: tšetšeeni
         ru: venäjä
@@ -2063,6 +2089,7 @@ fi:
       select_language: Valitse kieli
       sign_up: Rekisteröidy
       user_diaries: Käyttäjien päiväkirjat
+      navigation: Päävalikko
     meta:
       openstreetmap_search: OpenStreetMap-haku
     select_language_button:
@@ -2750,24 +2777,20 @@ fi:
       odbl: Open Data Commons Open Database -lisenssillä
       too_large:
         advice: 'Jos vientitoiminto ei toimi, kokeile myös seuraavia palveluja:'
-        body: 'Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä
-          karttaa tai valitse pienempi alue, tai vaihtoehtoisesti lataa tiedosto joltakin
-          seuraavista:'
+        body: Näin suurta aluetta ei voi viedä OpenStreetMap XML-tiedostona. Lähennä
+          karttaa tai valitse pienempi alue, tai vaihtoehtoisesti käytä alla lueteltua
+          suurten tiedostojen lataamiseen tarkoitettua lähdettä.
         planet:
-          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: Säännöllisesti päivitettyjä kopioita täydellisestä OpenStreetMap-tietokannasta
         overpass:
-          url: https://overpass-api.de/api/map
           title: Overpass API
           description: Lataa kartalle rajattu alue OpenStreetMapin varapalvelimelta
         geofabrik:
-          url: https://download.geofabrik.de/
           title: Geofabrik-lataukset
           description: Säännöllisesti päivitetyt otteet maanosista, maista ja valituista
             kaupungeista
         other:
-          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Muut lähteet
           description: Muut lähteet ovat esillä OpenStreetMap-wikissä
       export_button: Vie
@@ -3140,6 +3163,7 @@ fi:
       my_gps_traces: Omat GPS-jäljet
       public_traces_from: Käyttäjän %{user} julkiset GPS-jäljet
       description: Selaa viimeisimpiä GPS-jälkiä
+      actions: Jälkiluettelotoiminnot
       tagged_with: ', joilla on tunniste %{tags}'
       empty_title: Täällä ei ole vielä mitään
       empty_upload_html: '%{upload_link} tai lue lisää GPS-jäljityksestä %{wiki_link}.'
@@ -3150,8 +3174,40 @@ fi:
       my_traces: Omat jäljet
       traces_from_html: Julkiset jäljet käyttäjältä %{user}
       remove_tag_filter: Poista tunnistesuodatin
+      legacy_traces: Omat vanhat jäljet
     destroy:
       scheduled_for_deletion: Jälki on poistojonossa.
+    legacy_visibilities:
+      edit:
+        title: Omat vanhat GPS-jäljet
+        description: Nämä ovat jälkiäsi, joissa on yhä käytössä vanhat yksityisyysasetukset.
+          Voit vaihtaa ne tässä jäljitettävissä olevaksi tai tunnistettavaksi. Suunnitellut
+          parannukset GPS-jälkiin tulevat koskemaan vain jäljitettävissä olevia ja
+          tunnistettavia jälkiä.
+        filter:
+          visibility: Nykyinen näkyvyys
+          any: Yksityinen ja julkinen
+          from: Ladattu alkaen
+          to: Ladattu saakka
+          apply: Suodata
+        empty: Suotimella ei löytynyt vanhoja jälkiä.
+        new_visibility: Uusi näkyvyys
+        no_undo: Tätä muutosta ei voi perua.
+        button:
+          one: Muuta %{count} jälki
+          other: Muuta %{count} jälkeä
+        confirmation:
+          header: Vahvista näkyvyyden muutos
+          body:
+            one: Muutetaanko %{count} jäljen näkyvyys? Tätä ei voi perua.
+            other: Muutetaanko  %{count} jäljen näkyvyys? Tätä ei voi perua.
+          cancel: Peruuta
+          confirm: Muuta näkyvyys
+      update:
+        updated:
+          one: Muutettiin %{count} jäljen näkyvyys.
+          other: Muutettiin %{count} jäljen näkyvyys.
+        invalid_visibility: Valitse näkyvyys, johon haluat vaihtaa.
     offline_warning:
       message: GPX-tiedostojen tallennus ei ole tällä hetkellä käytettävissä
     offline:
@@ -3228,8 +3284,6 @@ fi:
         alt: X-kuvake
     markdown_help:
       heading_html: Jäsentely %{kramdown_link}-tyylillä
-      kramdown_url: https://kramdown.gettalong.org/quickref.html
-      kramdown: kramdown
       headings: Otsikot
       heading: Otsikko
       subheading: Alaotsikko
@@ -3248,6 +3302,12 @@ fi:
       preview: Esikatsele
       help: Ohje
     pagination:
+      label: Päävalikko
+      acls:
+        older: Vanhemmat pääsynhallintaluettelot
+        newer: Uudemmat pääsynhallintaluettelot
+        oldest: Vanhimmat pääsynhallintaluettelot
+        newest: Uusimmat pääsynhallintaluettelot
       changeset_comments:
         older: Vanhemmat kommentit
         newer: Uudemmat kommentit
@@ -3275,7 +3335,7 @@ fi:
         newest: Uusimmat tapaukset
       traces:
         older: Vanhemmat jäljet
-        newer: Uudet jäljet
+        newer: Uudemmat jäljet
         oldest: Vanhimmat jäljet
         newest: Uusimmat jäljet
       user_blocks:
@@ -3770,8 +3830,11 @@ fi:
         text: osallistumaan muokkaukseen itse
       counter_warning_forum_link:
         text: yhteisö on apunasi
-      advice: Karttailmoitus näkyy julkisesti kaikille, älä kirjoita henkilökohtaisia
-        tietoja tai tietoa tekijänoikeudellisista lähteistä.
+      advice: Karttailmoitus näkyy julkisesti kaikille, jopa ilman OpenStreetMap-tiliä!
+      advice_good_note: Hyvä karttailmoitus on mahdollisimman kuvaileva eikä sisällä
+        henkilötietoja tai tekijänoikeudellista kartta- tai muuta sisältöä.
+      advice_conduct: Ole ystävällinen, kärsivällinen ja kunnioittava kommunikoidessasi
+        yhteisön jäsenten kanssa.
       add: Lähetä ilmoitus
       error: Karttailmoituksen luomisessa tapahtui virhe
     new_readonly:
@@ -3779,6 +3842,7 @@ fi:
       warning: Uusia karttailmoituksia ei voi lähettää, koska OpenStreetMap-rajapinta
         on tällä hetkellä vain luku -tilassa.
     notes_paging_nav:
+      label: Päävalikko
       showing_page: Sivu %{page}
       next: Seuraava
       previous: Edellinen
@@ -4009,6 +4073,37 @@ fi:
         sensurointiin liittyvistä versioista ennen sen tuhoamista.
       flash: Sensurointi tuhottu.
       error: Sensurointia tuhottaessa tapahtui virhe.
+  acls:
+    navigation:
+      new_title: Lisää uusi pääsynhallintaluettelo
+      new: Uusi pääsynhallintaluettelo
+      actions: Pääsynhallintaluettelotoimenpiteet
+    index:
+      title: Pääsynhallintaluettelot
+      empty: Ei näytettäviä pääsynhallintaluetteloita.
+    page:
+      address: Osoite
+      domain: Verkkotunnus
+      mx: MX-palvelin
+      k: Avain
+      v: Arvo
+      actions: Toiminnot
+    acl:
+      edit_button: Muokkaa
+      destroy_button: Poista
+      confirm: Oletko varma?
+    form:
+      cancel: Peruuta
+    new:
+      title: Uusi pääsynhallintaluettelo
+    create:
+      success: Pääsynhallintaluettelo luotu.
+    edit:
+      title: Pääsynhallintaluettelon muokkaaminen
+    update:
+      success: Pääsynhallintaluettelo päivitetty.
+    destroy:
+      success: Pääsynhallintaluettelo poistettu.
   validations:
     leading_whitespace: tyhjää tilaa alussa
     trailing_whitespace: tyhjää tilaa lopussa
