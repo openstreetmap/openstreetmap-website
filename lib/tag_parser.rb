@@ -7,6 +7,36 @@ module TagParser
   # regex to match all wikipedia locale project identifiers
   WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
+  def self.parse_key(key)
+    data = { :text => ERB::Util.html_escape(key) }
+    url = wiki_link("key", key)
+    data.merge!({ :url => url, :type => :"wiki_link.key", :key => key }) if url
+    data
+  end
+
+  def self.parse_value(key, value)
+    if wp = wikipedia_links(key, value)
+      wp.map { |w| { :text => ERB::Util.html_escape(w[:title]), :url => w[:url], :type => :wikipedia_link, :page => w[:title] } }
+    elsif wdt = wikidata_links(key, value)
+      widget = { :type => :html, :widget => :wikidata_preview, :qids => wdt.pluck(:title), :count => wdt.pluck(:title).length }
+      wdt.map { |w| { :text => w[:title], :url => w[:url], :type => :wikidata_link, :page => w[:title].strip } }.unshift(widget)
+    elsif wmc = wikimedia_commons_link(key, value)
+      [{ :text => ERB::Util.html_escape(wmc[:title]), :url => wmc[:url], :type => :wikimedia_commons_link, :page => wmc[:title] }]
+    elsif url = wiki_link("tag", "#{key}=#{value}")
+      [{ :text => ERB::Util.html_escape(value), :url => url, :type => :"wiki_link.tag", :key => key, :value => value }]
+    elsif email = email_link(key, value)
+      [{ :text => ERB::Util.html_escape(email), :url => email, :type => :email_link, :email => email }]
+    elsif phones = telephone_links(key, value)
+      phones.map { |p| { :text => ERB::Util.html_escape(p[:phone_number]), :url => p[:url], :type => :telephone_link, :phone_number => p[:phone_number] } }
+    elsif colour_value = colour_preview(key, value)
+      [{ :type => :html, :widget => :colour_preview, :colour_value => colour_value }, { :text => colour_value }]
+    elsif %w[opening_hours collection_times service_times].include?(key)
+      [basic_link(key, value)]
+    else
+      value.split(";", -1).map { |x| basic_link(key, x) }
+    end
+  end
+
   def self.wiki_link(type, title)
     # update-wiki-pages does s/ /_/g on keys before saving them, we
     # have to replace spaces with underscore so we'll link
