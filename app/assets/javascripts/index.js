@@ -36,7 +36,7 @@ $(function () {
     return frame;
   }
 
-  OSM.loadSidebarContent = function (path, signal = new AbortController().signal) {
+  OSM.loadSidebarContent = function (path, signal) {
     return new Promise((resolve, reject) => {
       signal.throwIfAborted();
       cancelSidebarLoad?.();

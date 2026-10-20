@@ -1,7 +1,8 @@
 export default function (map) {
   const content = $("#sidebar_content");
 
-  function initialize(path, id, skipMoveToNote) {
+  function initialize(path, signal, id, skipMoveToNote) {
+    signal.throwIfAborted();
     content.find("button[name]").on("click", function (e) {
       e.preventDefault();
       const { url, method } = $(e.target).data(),
@@ -27,8 +28,8 @@ export default function (map) {
             throw new Error(text || `HTTP Error ${response.status} ${response.statusText}`);
           });
         })
-        .then(() => OSM.loadSidebarContent(path))
-        .then(() => initialize(path, id, false))
+        .then(() => OSM.loadSidebarContent(path, signal))
+        .then(() => initialize(path, signal, id, false))
         .catch(error => {
           content.find("#comment-error")
             .text(error.message)
@@ -78,17 +79,18 @@ export default function (map) {
   }
 
   return {
-    load(path, id) {
-      OSM.loadSidebarContent(path).then(function () {
+    load(path, signal, id) {
+      return OSM.loadSidebarContent(path, signal).then(function () {
+        signal.throwIfAborted();
         const data = $(".details").data();
         if (!data) return;
         const [lat, lng] = data.coordinates.split(",").map(parseFloat);
-        initialize(path, id, map.getBounds().contains({ lat, lng }));
+        initialize(path, signal, id, map.getBounds().contains({ lat, lng }));
       });
     },
 
-    init(path, id) {
-      initialize(path, id);
+    init(path, signal, id) {
+      initialize(path, signal, id);
     },
 
     unload() {

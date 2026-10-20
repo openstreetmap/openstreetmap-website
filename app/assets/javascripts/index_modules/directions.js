@@ -9,6 +9,7 @@ export default function (map) {
   let chosenEngine;
 
   let sidebarReadyPromise = null;
+  let navigationSignal;
 
   const routeOutput = RouteOutput(map);
 
@@ -242,27 +243,33 @@ export default function (map) {
   }
 
   function sidebarLoaded() {
-    if ($("#directions_route").length) {
-      sidebarReadyPromise = null;
+    return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions", navigationSignal);
+  }
 
-      return Promise.resolve();
-    }
+  function initialize(signal) {
+    signal.throwIfAborted();
+    navigationSignal = signal;
+    initializeFromParams();
 
-    return sidebarReadyPromise ??= OSM.loadSidebarContent("/directions");
+    $(".search_form").hide();
+    $(".directions_form").show();
+
+    map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
+    return sidebarLoaded().then(() => {
+      signal.throwIfAborted();
+      enableListeners();
+    });
   }
 
   return {
-    load() { this.init(); },
+    load(path, signal) {
+      sidebarReadyPromise = OSM.loadSidebarContent(path, signal);
+      return initialize(signal);
+    },
 
-    init() {
-      initializeFromParams();
-
-      $(".search_form").hide();
-      $(".directions_form").show();
-
-      sidebarLoaded().then(enableListeners);
-
-      map.setSidebarOverlaid(!endpoints[0].latlng || !endpoints[1].latlng);
+    init(path, signal) {
+      sidebarReadyPromise = Promise.resolve();
+      return initialize(signal);
     },
 
     unload() {

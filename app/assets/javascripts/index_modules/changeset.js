@@ -10,12 +10,13 @@ export default function (map) {
   });
 
   return {
-    load(path) {
-      OSM.loadSidebarContent(path)
-        .then(this.init);
+    load(path, signal) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal));
     },
 
-    init() {
+    init(path, signal) {
+      signal.throwIfAborted();
       const changesetData = content.find("[data-changeset]").data("changeset");
       changesetData.type = "changeset";
 
@@ -43,8 +44,8 @@ export default function (map) {
               throw new Error(text);
             });
           })
-          .then(() => OSM.loadSidebarContent(location.pathname))
-          .then(this.init)
+          .then(() => OSM.loadSidebarContent(path, signal))
+          .then(() => this.init(path, signal))
           .catch(error => {
             content.find("button[data-method][data-url]").prop("disabled", false);
             content.find("#comment-error")

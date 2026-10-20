@@ -286,12 +286,13 @@ export default function (map) {
   }
 
   return {
-    load(path) {
-      OSM.loadSidebarContent(path)
-        .then(this.init);
+    load(path, signal) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal));
     },
 
-    init() {
+    init(path, signal) {
+      signal.throwIfAborted();
       map.addLayer(changesetsLayer);
       map.on("moveend", moveEndListener);
       map.on("zoomend", zoomEndListener);

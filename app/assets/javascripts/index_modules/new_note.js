@@ -98,12 +98,13 @@ export default function (map) {
   }
 
   return {
-    load(path) {
-      OSM.loadSidebarContent(path)
-        .then(() => this.init(path));
+    load(path, signal) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal));
     },
 
-    init(path) {
+    init(path, signal) {
+      signal.throwIfAborted();
       control.addClass("active");
 
       map.addLayer(noteLayer);

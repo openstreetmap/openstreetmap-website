@@ -70,18 +70,19 @@ export default function (map) {
   }
 
   return {
-    load(path) {
+    load(path, signal) {
       const params = new URLSearchParams(path.substring(path.indexOf("?")));
       if (params.has("query")) {
         $(".search_form input[name=query]").val(params.get("query"));
       } else if (params.has("lat") && params.has("lon")) {
         $(".search_form input[name=query]").val(params.get("lat") + ", " + params.get("lon"));
       }
-      OSM.loadSidebarContent(path)
-        .then(this.init);
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal));
     },
 
-    init() {
+    init(path, signal) {
+      signal.throwIfAborted();
       $(".search_results_entry[data-href]").each(function (index) {
         const entry = $(this);
         fetchReplace(this.dataset, entry.children().first())

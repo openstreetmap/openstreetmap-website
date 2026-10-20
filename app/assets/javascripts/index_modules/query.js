@@ -197,12 +197,13 @@ export default function (map) {
   }
 
   return {
-    load(path) {
-      OSM.loadSidebarContent(path)
-        .then(() => this.init(path, true));
+    load(path, signal) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal, true));
     },
 
-    init(path, noCentre) {
+    init(path, signal, noCentre) {
+      signal.throwIfAborted();
       const params = new URLSearchParams(path.substring(path.indexOf("?"))),
             latlng = L.latLng(params.get("lat"), params.get("lon"));
 

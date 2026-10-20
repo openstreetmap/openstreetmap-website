@@ -6,12 +6,13 @@ const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(
 export function element(type) {
   return function () {
     return {
-      load(path, id, version) {
-        OSM.loadSidebarContent(path)
-          .then(() => this.init(path, id, version, true));
+      load(path, signal, id, version) {
+        return OSM.loadSidebarContent(path, signal)
+          .then(() => this.init(path, signal, id, version, true));
       },
 
-      init(path, id, version, keepViewport) {
+      init(path, signal, id, version, keepViewport) {
+        signal.throwIfAborted();
         this._addObject(type, id, version, keepViewport);
         $(".numbered_pagination").trigger("numbered_pagination:enable");
         abortController = new AbortController();

@@ -3,21 +3,138 @@
 require "application_system_test_case"
 
 class SidebarLifecycleTest < ApplicationSystemTestCase
-  test "a second sidebar content load survives the first response arriving last" do
+  test "closing a pending export allows history to load and close" do
     visit root_path
     hold_responses("/export")
-    load_sidebar("/export")
+    navigate_to("/export")
     assert_held_response
-    load_sidebar("/history")
+    navigate_to("/")
+    navigate_to("/history")
     assert_selector "#sidebar_content .changesets"
-    load_sidebar("/export")
+    release_response
+    assert_selector "#sidebar_content .changesets"
+    assert_no_selector ".export_form"
+    find("#sidebar .btn-close").click
+    assert_selector "#content.overlay-sidebar"
+    assert_no_browser_errors
+  end
+
+  test "a second activation of export survives the first response arriving last" do
+    visit root_path
+    hold_responses("/export")
+    navigate_to("/export")
+    assert_held_response
+    navigate_to("/directions")
+    assert_selector ".directions_form", :visible => true
+    navigate_to("/export")
     assert_selector ".export_form"
     release_response
+    assert_selector ".export_form"
+    find_by_id("drag_box").click
+    assert_no_browser_errors
+  end
+
+  test "leaving a pending new note does not leave its marker" do
+    visit root_path
+    hold_responses("/note/new")
+    navigate_to("/note/new")
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_no_selector "#map .leaflet-marker-icon"
     assert_selector ".export_form"
     assert_no_browser_errors
   end
 
-  test "superseding a load during response body reading does not leak an abort error" do
+  test "leaving pending element details does not select the element" do
+    node = create(:node)
+    visit root_path
+    hold_responses(node_path(node))
+    navigate_to(node_path(node))
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_no_selector "#editanchor[href*='?node=']"
+    assert_no_selector "#map .leaflet-marker-icon"
+    assert_no_browser_errors
+  end
+
+  test "leaving pending note details does not select the note" do
+    note = create(:note_with_comments)
+    visit root_path
+    hold_responses(note_path(note))
+    navigate_to(note_path(note))
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_no_selector "#editanchor[href*='?note=']"
+    assert_no_selector "#map .leaflet-marker-icon"
+    assert_no_browser_errors
+  end
+
+  test "a real sidebar HTTP error is reported and does not block navigation" do
+    visit root_path
+    hold_responses("/unused")
+    execute_script <<~JS
+      const originalFetch = window.fetch;
+      window.fetch = function(input, options) {
+        const url = new URL(input.url || input, location.href);
+        if (url.pathname !== "/export") return originalFetch.call(window, input, options);
+        return Promise.resolve(new Response('<turbo-frame id="sidebar_content_frame">Failed</turbo-frame>', {
+          status: 500, headers: {"Content-Type": "text/html"}
+        }));
+      };
+    JS
+    navigate_to("/export")
+    assert_text "Failed"
+    Timeout.timeout(Capybara.default_max_wait_time) do
+      sleep 0.01 until evaluate_script("sidebarTest.errors.some(error => error.includes('HTTP Error 500'))")
+    end
+    navigate_to("/history")
+    assert_selector "#sidebar_content .changesets"
+    assert evaluate_script("sidebarTest.errors.some(error => error.includes('HTTP Error 500'))")
+  end
+
+  test "pending changeset details cannot add a bounding box after leaving" do
+    changeset = create(:changeset, :bbox => [1, 1, 2, 2])
+    visit root_path
+    hold_responses(changeset_path(changeset))
+    navigate_to(changeset_path(changeset))
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_no_selector "#map path[stroke='#FF9500']"
+    assert_selector ".export_form"
+    assert_no_browser_errors
+  end
+
+  test "a pending controller import does not block the next navigation" do
+    visit root_path
+    hold_responses("/unused")
+    execute_script <<~JS
+      const source = `
+        await new Promise(resolve => window.sidebarTest.held.module = resolve);
+        export default function() {
+          window.sidebarTest.staleControllerCreated = true;
+          return {};
+        }
+      `;
+      OSM.MODULE_PATHS.index_export = URL.createObjectURL(new Blob([source], {type: "text/javascript"}));
+    JS
+    navigate_to("/export")
+    assert_held_response("module")
+    navigate_to("/history")
+    assert_selector "#sidebar_content .changesets"
+    release_response("module")
+    assert_not evaluate_script("Boolean(sidebarTest.staleControllerCreated)")
+    assert_no_browser_errors
+  end
+
+  test "navigation during response body reading does not leak an abort error" do
     visit root_path
     hold_responses("/unused")
     execute_script <<~JS
@@ -41,9 +158,9 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
         return Promise.resolve(response);
       };
     JS
-    load_sidebar("/export")
+    navigate_to("/export")
     assert_held_response("body")
-    load_sidebar("/history")
+    navigate_to("/history")
     assert_selector "#sidebar_content .changesets"
     release_response("body")
     assert_no_text "Old export"
@@ -85,12 +202,8 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     JS
   end
 
-  def load_sidebar(path)
-    execute_script <<~JS, path
-      OSM.loadSidebarContent(arguments[0]).catch(error => {
-        if (error.name !== "AbortError") reportError(error);
-      });
-    JS
+  def navigate_to(path)
+    execute_script "OSM.router.route(arguments[0])", path
   end
 
   def assert_held_response(key = "response")
