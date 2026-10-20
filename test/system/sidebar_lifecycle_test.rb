@@ -107,6 +107,49 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     assert_no_browser_errors
   end
 
+  test "history keeps the latest viewport when the previous list arrives last" do
+    old_changeset = create(:changeset, :num_changes => 1, :bbox => [0.999, 0.999, 1.001, 1.001])
+    new_changeset = create(:changeset, :num_changes => 1, :bbox => [19.999, 19.999, 20.001, 20.001])
+    visit root_path(:anchor => "map=15/1/1")
+    hold_responses("/history", "response", "list")
+    navigate_to("/history")
+    assert_held_response
+    execute_script "sidebarTest.map.setView([20, 20], 15, {animate: false})"
+    assert_selector "#changeset_#{new_changeset.id}"
+    assert_no_selector "#changeset_#{old_changeset.id}"
+    release_response
+    assert_selector "#changeset_#{new_changeset.id}"
+    assert_no_selector "#changeset_#{old_changeset.id}"
+    assert_no_browser_errors
+  end
+
+  test "a late Overpass response cannot update the next sidebar" do
+    visit root_path
+    hold_responses("/unused")
+    execute_script <<~JS
+      const originalFetch = window.fetch;
+      let count = 0;
+      window.fetch = function(input, options) {
+        if (input !== OSM.OVERPASS_URL) return originalFetch.call(window, input, options);
+        return new Promise(resolve => {
+          sidebarTest.held["query" + count++] = () => resolve(new Response(JSON.stringify({
+            elements: [{type: "node", id: 123, lat: 1, lon: 1, tags: {name: "Stale query"}}]
+          })));
+        });
+      };
+    JS
+    navigate_to("/query?lat=1&lon=1")
+    assert_held_response("query0")
+    assert_held_response("query1")
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response("query0")
+    release_response("query1")
+    assert_no_text "Stale query"
+    assert_selector ".export_form"
+    assert_no_browser_errors
+  end
+
   test "a real sidebar HTTP error is reported and does not block navigation" do
     visit root_path
     hold_responses("/unused")
@@ -128,6 +171,51 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     navigate_to("/history")
     assert_selector "#sidebar_content .changesets"
     assert evaluate_script("sidebarTest.errors.some(error => error.includes('HTTP Error 500'))")
+  end
+
+  test "a late search result cannot replace a newer result or move the map" do
+    visit root_path
+    hold_responses("/unused")
+    execute_script <<~JS
+      const originalFetch = window.fetch;
+      window.fetch = function(input, options) {
+        const url = new URL(input.url || input, location.href);
+        if (url.pathname !== "/search/nominatim_query") return originalFetch.call(window, input, options);
+        const query = url.searchParams.get("query");
+        const coordinate = query === "older" ? 1 : 20;
+        const html = `<ul><li><a class="set_position" data-lat="${coordinate}" data-lon="${coordinate}" data-zoom="15">${query}</a></li></ul>`;
+        if (query === "older") {
+          return new Promise(resolve => sidebarTest.held.search = () => resolve(new Response(html)));
+        }
+        return Promise.resolve(new Response(html));
+      };
+    JS
+    navigate_to("/search?query=older")
+    assert_held_response("search")
+    navigate_to("/search?query=newer")
+    assert_text "newer"
+    assert_selector "#map .leaflet-marker-icon", :count => 1
+    position = evaluate_script("sidebarTest.map.getCenter()")
+    release_response("search")
+    assert_text "newer"
+    assert_no_text "older"
+    assert_selector "#map .leaflet-marker-icon", :count => 1
+    assert_equal position, evaluate_script("sidebarTest.map.getCenter()")
+    assert_no_browser_errors
+  end
+
+  test "element geometry cannot be added after its sidebar was closed" do
+    node = create(:node)
+    visit root_path
+    hold_responses("/api/0.6/node/#{node.id}")
+    navigate_to(node_path(node))
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_no_selector "#editanchor[href*='?node=']"
+    assert_no_selector "#map .leaflet-marker-icon"
+    assert_no_browser_errors
   end
 
   test "pending changeset details cannot add a bounding box after leaving" do

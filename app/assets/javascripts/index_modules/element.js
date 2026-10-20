@@ -1,4 +1,4 @@
-let abortController = null;
+let navigationSignal;
 const languagesToRequest = [...new Set(OSM.preferred_languages.map(l => l.toLowerCase()))];
 const wikisToRequest = [...new Set([...OSM.preferred_languages, "en"].map(l => l.split("-")[0] + "wiki"))];
 const isOfExpectedLanguage = ({ language }) => languagesToRequest[0].startsWith(language) || language === "mul";
@@ -13,15 +13,14 @@ export function element(type) {
 
       init(path, signal, id, version, keepViewport) {
         signal.throwIfAborted();
-        this._addObject(type, id, version, keepViewport);
+        this._addObject(type, id, version, keepViewport, signal);
         $(".numbered_pagination").trigger("numbered_pagination:enable");
-        abortController = new AbortController();
+        navigationSignal = signal;
       },
 
       unload() {
         this._removeObject();
         $(".numbered_pagination").trigger("numbered_pagination:disable");
-        abortController?.abort();
       },
 
       _addObject() {},
@@ -35,7 +34,7 @@ export function mappedElement(type) {
     return {
       ...element(type)(map),
 
-      _addObject(type, id, version, keepViewport) {
+      _addObject(type, id, version, keepViewport, signal) {
         const hashParams = OSM.parseHash();
         map.addObject({ type: type, id: parseInt(id, 10), version: version && parseInt(version, 10) }, function (bounds) {
           if (!hashParams.center && bounds.isValid() &&
@@ -44,7 +43,7 @@ export function mappedElement(type) {
               map.fitBounds(bounds);
             });
           }
-        });
+        }, signal);
       },
 
       _removeObject() {
@@ -58,12 +57,13 @@ $(document).on("click", "button.wdt-preview", e => previewWikidataValue($(e.curr
 
 function previewWikidataValue($btn) {
   if (!OSM.WIKIDATA_API_URL) return;
+  const signal = navigationSignal;
   const items = $btn.data("qids");
   if (!items?.length) return;
   $btn.prop("disabled", true);
   const fetchOptions = {
     headers: { "Api-User-Agent": "OSM-TagPreview (https://github.com/openstreetmap/openstreetmap-website)" },
-    signal: abortController?.signal
+    signal
   };
   fetch(OSM.WIKIDATA_API_URL + "?" + new URLSearchParams({
     action: "wbgetentities",
@@ -77,6 +77,7 @@ function previewWikidataValue($btn) {
   }), fetchOptions)
     .then(response => response.ok ? response.json() : Promise.reject(response))
     .then(({ entities }) => {
+      signal.throwIfAborted();
       if (!entities) return Promise.reject(entities);
       $btn
         .closest("tr")
