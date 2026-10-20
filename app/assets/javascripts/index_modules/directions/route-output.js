@@ -20,12 +20,9 @@ function RouteOutput(map) {
       [[this.minorName, this.minorScale], [this.majorName, this.majorScale]] = units;
     }
 
-    print(name, value, fractionDigits = 0) {
+    print(name, value, maximumFractionDigits = 0, minimumFractionDigits = 0) {
       const scope = "javascripts.directions.distance_in_units";
-      const distance = value.toLocaleString(OSM.i18n.locale, {
-        minimumFractionDigits: fractionDigits,
-        maximumFractionDigits: fractionDigits
-      });
+      const distance = value.toLocaleString(OSM.i18n.locale, { maximumFractionDigits, minimumFractionDigits });
       return OSM.i18n.t(name, { scope, distance });
     }
 
@@ -34,7 +31,7 @@ function RouteOutput(map) {
       const majorValue = m / this.majorScale;
 
       if (minorValue < 1000 || majorValue < 0.25) return this.print(this.minorName, Math.round(minorValue));
-      if (majorValue < 10) return this.print(this.majorName, majorValue, 1);
+      if (majorValue < 10) return this.print(this.majorName, majorValue, 1, 1);
       return this.print(this.majorName, Math.round(majorValue));
     }
 
@@ -45,7 +42,7 @@ function RouteOutput(map) {
       if (minorValue < 5) return "";
       if (minorValue < 200) return this.print(this.minorName, Math.round(minorValue / 10) * 10);
       if (minorValue < 1500 || majorValue < 0.25) return this.print(this.minorName, Math.round(minorValue / 100) * 100);
-      if (majorValue < 5) return this.print(this.majorName, majorValue, 1);
+      if (majorValue < 5) return this.print(this.majorName, majorValue, 1, 1);
       return this.print(this.majorName, Math.round(majorValue));
     }
 
