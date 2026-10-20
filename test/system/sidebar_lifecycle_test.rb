@@ -34,6 +34,28 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     assert_no_browser_errors
   end
 
+  test "export cannot replace directions with an endpoint placed before loading finishes" do
+    visit root_path
+    hold_responses("/export")
+    navigate_to("/export")
+    assert_held_response
+    hold_responses("/directions", "directions")
+    # The map context menu sets an endpoint by navigating with a from parameter.
+    navigate_to("/directions?from=60,30")
+    assert_held_response("directions")
+    assert_selector ".directions_form", :visible => true
+    assert_selector "#map .leaflet-marker-icon", :count => 1
+    release_response
+    release_response("directions")
+    assert_selector "#directions_route", :visible => :all
+    assert_no_selector ".export_form"
+    assert_selector "#map .leaflet-marker-icon", :count => 1
+    navigate_to("/export")
+    assert_selector ".export_form"
+    assert_no_selector "#map .leaflet-marker-icon"
+    assert_no_browser_errors
+  end
+
   test "leaving a pending new note does not leave its marker" do
     visit root_path
     hold_responses("/note/new")
@@ -120,6 +142,31 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     release_response
     assert_selector "#changeset_#{new_changeset.id}"
     assert_no_selector "#changeset_#{old_changeset.id}"
+    assert_no_browser_errors
+  end
+
+  test "a late route result cannot restore directions after leaving twice" do
+    visit directions_path
+    hold_responses("/unused")
+    execute_script <<~JS
+      for (const engine of OSM.directionsEngines) {
+        engine.getRoute = points => new Promise(resolve => {
+          sidebarTest.held.route = () => resolve({
+            line: points, steps: [], distance: 100, time: 10
+          });
+        });
+      }
+    JS
+    2.times do
+      navigate_to("/directions?route=60,30;61,31")
+      assert_held_response("route")
+      navigate_to("/export")
+      assert_selector ".export_form"
+      release_response("route")
+      assert_no_selector "#map .leaflet-marker-icon"
+      assert_no_selector "#map path[stroke='#03f']"
+      assert_selector ".export_form"
+    end
     assert_no_browser_errors
   end
 

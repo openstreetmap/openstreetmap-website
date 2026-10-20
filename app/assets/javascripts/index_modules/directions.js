@@ -96,6 +96,9 @@ export default function (map) {
   function getRoute(fitRoute = true, reportErrors = true) {
     // Cancel any route that is already in progress
     if (controller) controller.abort();
+    controller = null;
+    $("#directions_loader").prop("hidden", true);
+    if (!navigationSignal || navigationSignal.aborted) return;
 
     const points = endpoints.map(p => p.latlng);
 
@@ -112,19 +115,21 @@ export default function (map) {
     $("#directions_error").prop("hidden", true).empty();
     $("#directions_route").prop("hidden", true);
     map.setSidebarOverlaid(false);
-    controller = new AbortController();
-    chosenEngine.getRoute(points, controller.signal).then(async function (route) {
-      await sidebarLoaded();
+    const routeController = new AbortController();
+    controller = routeController;
+    const signal = OSM.anySignal(navigationSignal, routeController.signal);
+    const loaded = sidebarLoaded();
+    const result = chosenEngine.getRoute(points, signal);
+    Promise.all([loaded, result]).then(function ([, route]) {
+      if (signal.aborted) return;
       $("#directions_route").prop("hidden", false);
       routeOutput.write(route);
 
-      if (fitRoute) {
-        routeOutput.fit();
-      }
-    }).catch(async function (error) {
-      if (error.name === "AbortError") return;
-
-      await sidebarLoaded();
+      if (fitRoute) routeOutput.fit();
+    }).catch(async function () {
+      if (signal.aborted) return;
+      await loaded;
+      if (signal.aborted) return;
       routeOutput.remove();
 
       if (reportErrors) {
@@ -132,7 +137,10 @@ export default function (map) {
           .prop("hidden", false)
           .html("<div class=\"alert alert-danger\">" + OSM.i18n.t("javascripts.directions.errors.no_route") + "</div>");
       }
+    }).catch(error => {
+      if (!signal.aborted) reportError(error);
     }).finally(function () {
+      if (controller !== routeController) return;
       $("#directions_loader").prop("hidden", true);
       controller = null;
     });
@@ -140,6 +148,7 @@ export default function (map) {
 
   function closeButtonListener(e) {
     e.stopPropagation();
+    controller?.abort();
     routeOutput.remove();
     sidebarReadyPromise = null;
     map.setSidebarOverlaid(true);
@@ -249,6 +258,7 @@ export default function (map) {
   function initialize(signal) {
     signal.throwIfAborted();
     navigationSignal = signal;
+    for (const endpoint of endpoints) endpoint.setSignal(signal);
     initializeFromParams();
 
     $(".search_form").hide();
@@ -273,6 +283,9 @@ export default function (map) {
     },
 
     unload() {
+      controller?.abort();
+      controller = null;
+      $("#directions_loader").prop("hidden", true);
       $(".search_form").show();
       $(".directions_form").hide();
 
