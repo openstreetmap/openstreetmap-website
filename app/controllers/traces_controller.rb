@@ -119,7 +119,7 @@ class TracesController < ApplicationController
       else
         flash.now[:error] = t(".upload_failed") if @trace.valid?
 
-        render :action => "new"
+        render :action => "new", :status => :unprocessable_content
       end
     else
       @trace = Trace.new(:name => "Dummy",
@@ -145,7 +145,7 @@ class TracesController < ApplicationController
       redirect_to :action => "show", :display_name => current_user.display_name
     else
       @title = t "traces.edit.title", :name => @trace.name
-      render :action => "edit"
+      render :action => "edit", :status => :unprocessable_content
     end
   rescue ActiveRecord::RecordNotFound
     head :not_found

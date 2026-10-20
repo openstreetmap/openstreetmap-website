@@ -140,6 +140,38 @@ class TraceTest < ActiveSupport::TestCase
     assert_equal "zero, one, two", trace.tagstring
   end
 
+  def test_tagstring_invalid_tag
+    trace = create(:trace)
+    create(:tracetag, :trace => trace, :tag => "old")
+
+    assert_not trace.update(:tagstring => "invalid/tag, valid")
+    assert_includes trace.errors[:tagstring], "contains special URL characters (/;.,?%#)"
+    assert_equal %w[old], trace.reload.tags.collect(&:tag)
+  end
+
+  def test_tagstring_invalid_tag_validation
+    trace = build(:trace)
+
+    trace.tagstring = "invalid/tag, valid, another/invalid"
+    assert_not_predicate trace, :valid?
+    assert_equal ["contains special URL characters (/;.,?%#)"], trace.errors[:tagstring]
+  end
+
+  def test_existing_invalid_tag
+    trace = create(:trace)
+    build(:tracetag, :trace => trace, :tag => "#legacy").save(:validate => false)
+
+    assert trace.update(:description => "Changed description")
+  end
+
+  def test_update_from_xml_invalid_tag
+    trace = create(:trace)
+
+    trace.update_from_xml("<osm><gpx_file id='#{trace.id}' visibility='trackable'><description>Test</description><tag>invalid/tag</tag></gpx_file></osm>")
+    assert_predicate trace.tags.first, :new_record?
+    assert_not trace.save
+  end
+
   def test_public?
     assert_predicate build(:trace, :visibility => "public"), :public?
     assert_not_predicate build(:trace, :visibility => "private"), :public?

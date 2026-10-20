@@ -264,6 +264,23 @@ module Api
       assert_equal trace.tagstring, updated.tagstring
     end
 
+    # Check that updating a trace with an invalid tag is rejected
+    def test_update_invalid_tags
+      tracetag = create(:tracetag)
+      trace = tracetag.trace
+      auth_header = bearer_authorization_header trace.user
+
+      updated = Trace.find(trace.id)
+      updated.tags.build(:tag => "invalid/tag")
+
+      put api_trace_path(trace), :params => create_trace_xml(updated), :headers => auth_header
+      assert_response :bad_request
+      assert_match "tags: is invalid", @response.body
+
+      # Ensure the existing tags have not been changed
+      assert_equal [tracetag.tag], trace.reload.tags.collect(&:tag)
+    end
+
     # Check deleting a trace through the api
     def test_destroy
       public_trace_file = create(:trace, :visibility => "identifiable")
