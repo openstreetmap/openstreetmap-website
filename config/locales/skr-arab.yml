@@ -55,6 +55,10 @@ skr-arab:
             url:
               http_parse_error: '"یو آر ایل (URL) کوں http:// یا https:// توں شروع
                 تھیوݨا چائی دا ہے۔"'
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: پُراݨی قدر ول نئیں بدلی ون٘ڄ سڳدی
     models:
       acl: رسائی کنٹرول تندیر
       changeset: تبدیلیاں
@@ -94,6 +98,10 @@ skr-arab:
     attributes:
       acl:
         address: پتہ
+        domain: ڈومین
+        mx: ایم ایکس سرور
+        k: بٹݨ
+        v: قدر
       diary_comment:
         body: باڈی
       diary_entry:
@@ -156,6 +164,12 @@ skr-arab:
         pass_crypt: پاس ورڈ
         pass_crypt_confirmation: پاس ورڈ دی تصدیق کرو
     help:
+      acl:
+        address: ہِک IP پتا یا CIDR نیٹ ورک، جیویں 192.0.2.0/24
+        domain: ہِک ای میل ڈومین؛ سب ڈومین وی ملائے ویندن
+        mx: ای میل ڈومین کیتے ایم ایکس سرور دا ہوسٹ ناں
+        k: 'ہِک: no_account_creation، allow_account_creation، no_note_comment، no_trace_download'
+        v: اختیاری نوٹ، جیویں ایں اندراج دی وجہ
       doorkeeper/application:
         confidential: '"ایپلیکیشن اتھاں استعمال تھیسی جتھاں کلائنٹ سیکرٹ کوں خفیہ
           رکھیا ونج سڳے (نیٹو موبائل ایپس اتے سنگل پیج ایپس خفیہ کائنی ہوندیاں)۔"'
@@ -201,6 +215,44 @@ skr-arab:
         other: '%{count} مہینے پہلے'
       x_years:
         other: = %{count} سال پہلے
+    distance_in_words_in:
+      about_x_hours:
+        one: تقریباً %{count} گھنٹہ اچ
+        other: تقریباً %{count} گھنٹے اچ
+      about_x_months:
+        one: تقریباً %{count} مہینہ اچ
+        other: تقریباً %{count} مہینے اچ
+      about_x_years:
+        one: تقریباً %{count} سال اچ
+        other: تقریباً %{count} سال اچ
+      almost_x_years:
+        one: تقریباً %{count} سال اچ
+        other: تقریباً %{count} سال اچ
+      half_a_minute: ادھے منٹ اچ
+      less_than_x_seconds:
+        one: '%{count} سیکنڈ کنوں گھٹ اچ'
+        other: '%{count} سیکنڈ کنوں گھٹ اچ'
+      less_than_x_minutes:
+        one: '%{count} منٹ کنوں گھٹ اچ'
+        other: '%{count} منٹ کنوں گھٹ اچ'
+      over_x_years:
+        one: '%{count} سال کنوں ودھ اچ'
+        other: '%{count} سال کنوں ودھ اچ'
+      x_seconds:
+        one: '%{count} سیکنڈ اچ'
+        other: '%{count} سیکنڈ اچ'
+      x_minutes:
+        one: '%{count} منٹ اچ'
+        other: '%{count} منٹ اچ'
+      x_days:
+        one: '%{count} ݙین٘ہ اچ'
+        other: '%{count} ݙین٘ہ اچ'
+      x_months:
+        one: '%{count} مہینہ اچ'
+        other: '%{count} مہینے اچ'
+      x_years:
+        one: '%{count} سال اچ'
+        other: '%{count} سال اچ'
   editor:
     default: ڈیفالٹ (حالیہ %{name})
     id:
@@ -368,6 +420,11 @@ skr-arab:
           کوں "پبلک ݙومین" وچ گِݨدے ہاؤ.
         did_not_confirm: تُساں اِیہ تصدیق نئیں کیتی جو تُساں اپݨیاں تبدیلیاں کوں "پبلک
           ݙومین" وچ گِݨدے ہاؤ.
+    auth_deletions:
+      show:
+        title: ڈیٹا مٹاوݨ دی درخواست
+        body: '%{provider} ID %{id} دا ڈیٹا %{time} ویلے مٹا ݙتا ڳیا اَتے ایہہ متعلقہ
+          OpenStreetMap کھاتے کنوں منقطع کر ݙتا ڳیا۔'
   browse:
     deleted_ago_by_html: '%{time_ago} پہلے %{user} دی طرفوں ڈیلیٹ کیتا ڳیا.'
     edited_ago_by_html: '%{time_ago} پہلے %{user} دی طرفوں تبدیل کیتا ڳیا.'
@@ -452,6 +509,9 @@ skr-arab:
       colour_preview: رنگ %{colour_value} دا پیش نظر
       email_link: ای میل %{email}
     versions_navigation:
+      node_versions: نوڈ ورژن
+      way_versions: وے ورژن
+      relation_versions: ریلیشن ورژن
       node: نوڈ
       way: راہ
       relation: رشتہ
@@ -468,10 +528,13 @@ skr-arab:
     index:
       node:
         title_html: نوݙ تاریخچہ:%{name}
+        actions: نوڈ کم
       way:
         title_html: 'رستے دی تاریخ: %{name}'
+        actions: وے کم
       relation:
         title_html: 'تعلق دی تاریخ: %{name}'
+        actions: ریلیشن کم
       older_versions: پراݨے ورژن
       newer_versions: نویں ورژن
     actions:
@@ -503,11 +566,23 @@ skr-arab:
     timeout:
       sorry: معاف کرو، %{id} نمبر آلے تعلق دیاں معلومات ڳھنݨ وچ ٻہوں ویلھا لڳ ڳیا
         ہے.
+  relation_members:
+    not_found_message:
+      sorry: معاف کرو، رستہ نمبر %{id} نئیں لبھیا.
+    timeout:
+      sorry: معاف کرو، %{id} نمبر آلے تعلق دیاں معلومات ڳھنݨ وچ ٻہوں ویلھا لڳ ڳیا
+        ہے.
   old_relations:
     not_found_message:
       sorry: معاف کیجو، تعلق نمبر %{id} دا %{version} ورژن نئیں لبھیا.
     timeout:
       sorry: معاف کرو، %{id} نمبر آلے تعلق دی تاریخ ڳھنݨ وچ ٻہوں ویلھا لڳ ڳیا ہے.
+  old_relation_members:
+    not_found_message:
+      sorry: معاف کیجو، تعلق نمبر %{id} دا %{version} ورژن نئیں لبھیا.
+    timeout:
+      sorry: معاف کرو، %{id} نمبر آلے تعلق دے میمبراں دیاں معلومات ڳھنݨ وچ ٻہوں ویلھا
+        لڳ ڳیا ہے۔
   changeset_comments:
     feeds:
       comment:
@@ -613,6 +688,7 @@ skr-arab:
       latest_edit_html: 'آخری تبدیلی (%{ago}):'
       no_edits: (کوئی ترمیم کائنی)
       view_changeset_details: تبدیلی دیاں تفصیلات ݙیکھو
+      actions: صارف کم
     popup:
       your location: تہاݙا مقام
       nearby mapper: نیڑے دا نقشہ بݨاوݨ آلا
@@ -627,16 +703,58 @@ skr-arab:
       nearby users: ٻئے نیڑے دے استعمال کرݨ آلے لوک
       no nearby users: حالے تئیں کوئی ٻئے لوک نئیں ہِن جنھاں اِیہ منّیا ہووے جو اُو
         نیڑے دے نقشہ بݨاوݨ آلے ہِن.
+      followed_actions: تساں جنہاں صارفاں کوں فالو کریندے ہو، اوہناں دے کم
       followed_changesets: تبدیلیاں سیٹ
       followed_diaries: ڈائری دی انٹریاں
+      nearby_actions: قریبی صارفاں دے کم
       nearby_changesets: نیڑے دے استعمال کرݨ آلے دیاں تبدیلیاں
       nearby_diaries: نیڑے دے استعمال کرݨ آلے دیاں ڈائری انٹریز
   notifications:
+    missing_record:
+      body: افسوس، ایہہ ہݨ ٻیا دستیاب نئیں۔
     index:
       title: اطلاع نامے
+      no_notifications: ہݨ تساں دے کول کوئی نوٹیفکیشن نئیں۔
+      point_to_preferences_html: تساں %{link} اچ نوٹیفکیشن ملݨ دی ترتیب بدل سڳدے ہو۔
+      link_text: ترجیحات دا حصہ
+    changeset_comment:
+      headline: چینج سیٹ تبصرہ
+      description_with_summary_html: صارف %{commenter_name_with_link} چینج سیٹ %{changeset_id_with_link}
+        ("%{changeset_summary}") تے ہِک تبصرہ چھڈیا۔
+      description_without_summary_html: صارف %{commenter_name_with_link} چینج سیٹ
+        %{changeset_id_with_link} تے ہِک تبصرہ چھڈیا۔
     gpx_details:
       filename: فائل دا ناں
+      description: تفصیل
+      tags: ٹیگ
+      total_points: پوائنٹس دی کل تعداد
       imported_points: درآمد کیتے ڳئے پوائنٹس دی تعداد
+    gpx_import_failure:
+      headline: GPS ٹریس امپورٹ نئیں ہو سڳیا۔
+      error_message: خرابی دا سنیہا
+    gpx_import_success:
+      headline: GPS ٹریس کامیابی نال امپورٹ ہو ڳیا۔
+    new_follower:
+      headline: نواں فالوور
+      description_html: صارف %{follower_name_with_link} تساں کوں فالو کرنا شروع کر
+        ݙتا ہے۔ تساں چاہو تاں %{link}۔
+      link_text: انہاں کوں فالو کرو
+    note_comment:
+      headline:
+        commented: نوٹ تبصرہ
+        closed: نوٹ حل تھی ڳیا
+        reopened: نوٹ دوبارہ کھولیا ڳیا
+      description:
+        commented_html: صارف %{commenter_name_with_link} نوٹ %{note_id_with_link}
+          ("%{note_text}") تے ہِک تبصرہ چھڈیا۔
+        closed_html: صارف %{commenter_name_with_link} نوٹ %{note_id_with_link} ("%{note_text}")
+          حل کر ݙتا۔
+        reopened_html: صارف %{commenter_name_with_link} نوٹ %{note_id_with_link} ("%{note_text}")
+          دوبارہ کھولیا۔
+    diary_comment:
+      headline: ڈائری تبصرہ
+      description_html: صارف %{commenter_name_with_link} ڈائری اندراج "%{diary_entry_title_with_link}"
+        تے ہِک تبصرہ چھڈیا۔
   diary_entries:
     new:
       title: نویں ڈائری انٹری
@@ -674,6 +792,7 @@ skr-arab:
         کیتا ڳیا.'
       updated_at_html: آخری واری %{updated} کوں اپڈیٹ کیتا ڳیا.
       full_entry: پوری انٹری ݙیکھو
+      actions: ڈائری اندراج کم
       comment_link: ایں انٹری تے رائے لکھو
       reply_link: لکھݨ آلے کوں پیغام بھیجو
       comment_count:
@@ -711,6 +830,7 @@ skr-arab:
       heading: اِیں تبدیلیاں دی ڳالھ مہاڑ توں رکنیت ختم کرݨی ہے؟
       button: ڳالھ مہاڑ توں رکنیت ختم کرو
     navigation:
+      actions: ڈائری کم
       in_language: '%{language} وچ ڈائری انٹریز'
       my_diary: میݙی ڈائری
       new: نویں ڈائری انٹری
@@ -778,6 +898,9 @@ skr-arab:
       title: فائل کائنی لبھی
       description: اوپن سٹریٹ میپ دے سرور اُتے ایں ناں دا کوئی فائل/ڈائریکٹری/اے پی
         آئی کَم نئیں لبھیا (HTTP 404)
+  export:
+    show:
+      title: OpenStreetMap ایمبیڈڈ
   follows:
     show:
       follow:
@@ -936,9 +1059,13 @@ skr-arab:
           aboriginal_lands: پراݨے لوکیں دیاں زمیناں
           administrative: انتظامی حدود
           census: مردم شماری دی حد
+          low_emission_zone: گھٹ اخراج آلا زون
           national_park: قومی پارک
           political: انتخابی حد
+          postal_code: پوسٹل کوڈ
           protected_area: محفوظ شدہ علاقہ
+          public_transport: عوامی نقل و حمل ضلع
+          timezone: 'ویلے دا علاقہ:'
           "yes": چار دیواری
         bridge:
           aqueduct: پاݨی دی نالی
@@ -1114,6 +1241,7 @@ skr-arab:
           milestone: تاریخی سنگ میل
           mine: کھاݨ
           mine_shaft: کھاݨ دی سرنگ
+          monastery: تاریخی خانقاہ
           monument: یادگار
           railway: تاریخی ریلوے
           roman_road: رومن سڑک
@@ -1240,6 +1368,7 @@ skr-arab:
           mineshaft: کھاݨ دی سرنگ
           monitoring_station: نگرانی ٹیشݨ
           petroleum_well: پٹرول دا کھوہ
+          planter: گملا
           pier: گھاٹ
           pipeline: پائپ لائن
           pumping_station: پمپنگ سٹیشن
@@ -1380,6 +1509,7 @@ skr-arab:
           abandoned: چھٹی ہوئی ریلوے
           buffer_stop: بفر سٹاپ
           construction: زیر تعمیر ریلوے
+          crossing: ریلوے رستہ کراسنگ
           disused: استعمال نہ تھیوݨ آلی ریل ڳݙی
           funicular: فونکولر ریلوے
           halt: ڳݙی دا ٹیشݨ
@@ -1641,6 +1771,7 @@ skr-arab:
       download: روٹ کوں GeoJSON دے طور تے ڈاؤن لوڈ کرو۔
       filename: رستہ
       directions_courtesy_html: '%{link} طرفوں رہنمائی'
+      check_demo_html: ٻئی تفصیل %{link} کنوں۔
   issues:
     index:
       title: مسئلے
@@ -1687,6 +1818,7 @@ skr-arab:
       last_resolved_at_html: آخری واری %{datetime} کوں حل کیتا ڳیا
       last_updated_at_html: آخری واری %{datetime} کوں %{displayname} طرفوں اپڈیٹ کیتا
         ڳیا
+      actions: مسئلہ کم
       resolve: حل کرو
       ignore: چھوڑو
       reopen: ولدا کھولو
@@ -1769,48 +1901,99 @@ skr-arab:
     select_language_list:
       search_language: ڳولو۔۔۔
       languages:
+        af: افریقی
         gsw: المانی
+        frp: آرپیٹان
         ast: آسٹری
+        az: آزربائیجانی
+        id: انڈونیشیائی
         ms: مالی
+        bcl: وسطی بیکول
         bs: بوسینی
         br: بریٹن
         ca: کٹالینی
         cs: چیک
         cy: ویلش
         da: ڈنمارکی
+        de: جرمن
         dsb: ہیٹھلی سربی
         et: اسٹونی
         en: انگریزی
+        en-GB: انگریزی (برطانیہ)
+        es: سپینی
         eo: اسپرانٹو
         eu: باسک
         fr: فرانسیسی
+        fy: مغربی فریزین
+        fur: فریولی
         ga: آئرِش
+        gd: سکاٹش گیلک
+        gl: گالیشین
+        aln: گیگ البانوی
         hsb: اُتلی سربی
         hr: کروشین
+        ia: انٹرلنگوا
+        is: آئس لینڈی
+        it: اطالوی
+        kw: کورنی
+        gcf: گواڈیلوپی کریول
+        ku-Latn: کردی (لاطینی)
+        lv: لاٹوی
+        lb: لکسمبرگی
+        lkt: لاکوٹا
         lt: لیتھونی
+        hu: ہنگری
+        fit: ٹورنیڈالن فنّی
         nl: ڈچ
+        nb: نارویجی بوکمال
+        nn: نارویجی نینورسک
+        oc: اوکسیٹان
+        nds: گھٹ جرمن
         pl: پولش
         pt-PT: پرتگیزی
+        pt: پرتگالی (برازیل)
+        ksh: کولونین
+        ro: رومانی
         sc: سردینی
+        sco: سکاٹس
         sq: البانی
         scn: سسلینی
         sk: سلووک
         sl: سلووینی
+        sr-Latn: سربی (لاطینی)
+        sh: سربو کرویشی (لاطینی)
         fi: فینی
         sv: سویڈنی
         tl: ٹیگ لاگ
         kab: کبائل
         vi: ویتنامی
         tr: ترکی
+        yo: یوروبا
+        diq: ڈیملی
         el: یونانی
+        ba: باشقیر
         be: بیلا روسی
+        be-Tarask: بیلاروسی (ترشک)
         bg: بلغاری
+        mk: مقدونی
+        mt: مالٹی
+        mo: مالڈووی
+        ce: چیچن
+        ru: روسی
+        sr: سربی (سیریلک)
+        tt: تاتاری (سیریلک)
         uk: یوکرائنی
+        kk-cyrl: قازق (سیریلک)
         yi: یِدیش
         he: عبرانی
         ar: عربی
         skr-arab: سرائیکی
         fa: فارسی
+        arz: مصری عربی
+        pnb: مغربی پنجابی
+        ps: پشتو
+        nqo: نکو
+        ne: نیپالی
         mr: میراٹھی
         hi: ہندی
         bn: بنگالی
@@ -1821,13 +2004,21 @@ skr-arab:
         kn: کناڈا
         th: تھائی
         my: برمی
+        shn: شان
+        xmf: مینگریلی
         ka: جارجینی
+        km: کھمیری
         sat: سنتالی
+        zh-CN: چینی (简体中文)
+        zh-TW: چینی (روایتی)
+        zh-HK: چینی (ہانگ کانگ)
         ja: جاپانی
+        ko: کوریائی
   layouts:
     logo:
       alt_text: اوپن سٹریٹ میپ لوگو
     main_navigation: مین
+    layer_info: پرت دی معلومات
     start_mapping: نقشہ بݨاوݨا شروع کرو
     intro_header: اوپن سٹریٹ میپ وچ ست بسم اللہ!
     intro_text: اوپن سٹریٹ میپ دنیا دا ہک نقشہ ہے، جیںکوں تہاݙے جاہیں لوکاں بݨایا
@@ -1836,6 +2027,8 @@ skr-arab:
       طرفوں سپورٹ کیتی ویندی ہے.
     partners_corpmembers: او ایس ایم ایف دے کاروباری رُکن
     partners_partners: بھائیوال
+    welcome_tou_notice_html: ایں ویب سائٹ یا اوپن سٹریٹ میپ فاؤنڈیشن دے ٻئے بنیادی
+      ڈھانچے کوں ورتݨ نال، تساں %{terms_link} نال متفق ہو۔
     terms_of_use: ورتݨ شرطاں
     tou: ورتݨ شرطاں
     nothing_to_preview: کوئی ݙیکھݨ نئیں
@@ -1859,6 +2052,9 @@ skr-arab:
       select_language: زبان چݨو
       sign_up: کھاتہ بناؤ
       user_diaries: صارف ڈائریاں
+      navigation: مکھی نیویگیشن
+    meta:
+      openstreetmap_search: اوپن سٹریٹ میپ تلاش
     select_language_button:
       title: زبان چݨو
     offline_flash:
@@ -2171,6 +2367,7 @@ skr-arab:
         message: ترجیحات اپڈیٹ تھی ڳئیاں ہِن.
       navigation:
         preferences: ترجیحاں
+        notification_preferences: اطلاع نامے
         advanced_preferences: وِدھیک ترجیحات
     basic_preferences:
       show:
@@ -2186,7 +2383,25 @@ skr-arab:
           auto: خود بخود
           light: پھکّا
           dark: ڳوڑھا
+        preferred_editor_color_scheme: پسندیدہ ایڈیٹر رنگ سکیم
+        editor_color_schemes:
+          auto: ویب سائٹ آلی
+          light: روشن
+          dark: گُوڑھا
         save: ترجیحاں اپ ڈیٹ کرو
+    notification_preferences:
+      show:
+        title: نوٹیفکیشن ترجیحاں
+        changeset_comment: چینج سیٹ تبصرے
+        diary_comment: ڈائری تبصرے
+        direct_message: براہ راست پیغامات
+        gpx_import_failure: 'GPS ٹریس درآمد: ناکامی'
+        gpx_import_success: 'GPX ٹریس درآمد: کامیابی'
+        new_follower: نویں فالوورز
+        note_comment: نوٹ تبصرے
+        save: ترجیحات اپ ڈیٹ کرو
+        delivery_mechanisms:
+          email: ای میل
     advanced_preferences:
       show:
         title: میݙیاں وِدھیک ترجیحات
@@ -2199,6 +2414,7 @@ skr-arab:
         image: تصویر
         company: کمپنی
         location: محل وقوع
+        contribution_calendar: حصہ داری کیلنڈر
     descriptions:
       show:
         title: پروفائل وچ تبدیلی کرو
@@ -2258,6 +2474,16 @@ skr-arab:
       update:
         success: پروفائل دی جاہ اپڈیٹ تھی ڳئی ہے.
         failure: پروفائل دی جاہ اپڈیٹ نئیں تھی سڳی.
+    heatmaps:
+      show:
+        title: حصہ داری کیلنڈر کنفیگر کرو
+        show_contribution_calendar_in_public: اپݨے پروفائل ورقے تے حصہ داری کیلنڈر
+          ݙکھاؤ
+        save: حصہ داری کیلنڈر دی ترتیب اپ ڈیٹ کرو
+        cancel: منسوخ
+      update:
+        success: حصہ داری کیلنڈر اپ ڈیٹ کر ݙتا ڳیا۔
+        failure: حصہ داری کیلنڈر اپ ڈیٹ نہ تھی سڳیا۔
   sessions:
     new:
       tab_title: لاگ ان تھیوو
@@ -2275,6 +2501,8 @@ skr-arab:
       login_button: لاگ ان
       with external: یا ولا کئی تریجھی پارٹی دے ذریعے لاگ اِن کرو
       or: یا
+      reset_to_login: معاف کرو، تساں دا پاس ورڈ ختم تھی ڳیا ہے۔ لاگ ان کرݨ کیتے اپݨا
+        پاس ورڈ ری سیٹ کرو۔
       auth failure: معاف کرو، اِنہاں تفصیلات نال لاگ اِن نئیں تھی سڳیا.
     destroy:
       title: لاگ آؤٹ
@@ -2325,6 +2553,16 @@ skr-arab:
       legal_1_1_terms_of_use: ورتݨ شرطاں
       legal_1_1_aup: قابل قبول استعمال دیاں پالیسیاں
       legal_1_1_privacy_policy: رازداری پالیسی
+      legal_1_2_html: جی تساں اوپن سٹریٹ میپ دے نقشے یا ڈیٹا ورتݨا چاہندے ہو تاں مہربانی
+        کر کے اوپن سٹریٹ میپ کوں انتساب ݙیو—ودھیک معلومات کیتے %{attribution_guidelines_link}
+        ݙیکھو۔
+      legal_attribution_guidelines_title: انتساب دے رہنما اصول
+      legal_1_3_html: خاص طور تے اپݨی کتاب، اشاعت، فلم یا ٹی وی شو اچ اوپن سٹریٹ میپ
+        کنوں براہ راست اسکرین شاٹ ورتݨ کیتے تساں کوں اجازت منگݨ دی لوڑ کائنی کیوں
+        جو اوپن سٹریٹ میپ دا ڈیٹا سبھݨ دے ورتݨ کیتے کھلا ہے۔ %{attribution_guidelines_link}
+        ݙیکھو اَتے %{attribution_example_film} اَتے %{attribution_example_tv} اچ موجود
+        مثالاں ݙیکھو۔
+      legal_attribution_example_film_title: فلم
       legal_attribution_example_tv_title: ٹی وی
       legal_2_1_html: مہربانی کر تے %{contact_the_osmf_link}، جے تہاݙے کول لائسنس،
         کاپی رائٹ یا ٻئے قانونی سوال ہن۔
@@ -2481,6 +2719,8 @@ skr-arab:
         contributors_hr_croatia: کروشین
         contributors_hr_dgu: کروشیا دی ریاستی جیوڈیٹک انتظامیہ
         contributors_hr_open_data_portal: قومی اوپن ڈیٹا پورٹل
+        contributors_nl_credit_new_html: '%{netherlands}: &copy; AND دا ڈیٹا شامل
+          ہے، 2007'
         contributors_nl_netherlands: نیدرلینڈز
         contributors_nz_credit_html: '%{new_zealand}: ایندے وچ او ڈیٹا شامل ہے جیڑھا
           %{linz_data_service_link} توں ڳھدا ڳیا ہے اتے %{cc_by_link} دے تحت ولا استعمال
@@ -2546,26 +2786,28 @@ skr-arab:
           ہے۔ مہربانی کر تے نقشے کوں نیڑے کرو یا کوئی نکا  علاقہ منتخب کرو، یا وݙے
           ڈیٹا ڈاؤن لوڈز کیتے تلے ݙتیاں ڳئیاں ذرائعاں وچوں کوئی ہک استعمال کرو۔
         planet:
-          url: https://planet.openstreetmap.org/
           title: سیاره OSM
           description: مکمل اوپن سٹریٹ میپ ڈیٹا بیس دیاں باقاعدہ اپڈیٹ کیتیاں ڳئیاں
             کاپیاں
         overpass:
-          url: https://overpass-api.de/api/map
           title: اوورپاس اے پی آئی
           description: اوپن سٹریٹ میپ ڈیٹا بیس دے ہک آئینہ توں اے باؤنڈنگ باکس ڈاؤن
             لوڈ کرو۔
         geofabrik:
-          url: https://download.geofabrik.de/
           title: جیو فبرک ڈاؤن لوڈز
           description: باقاعدہ اپڈیٹ کیتے ڳئے براعظماں، ملکاں، اتے منتخب شہراں دے
             حصے
         other:
-          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: ٻئے ماخذ
           description: اوپن سٹریٹ میپ وکی تے درج اضافی ذرائع
       export_button: ٻاہر بھیڄو
       export_download: ڈاؤن لوڈ تھیندا پئے۔۔۔
+      confirmation:
+        header: XML ڈیٹا ڈاؤن لوڈ کرو
+        body: کیا تساں ایں علاقے دا نقشہ ڈیٹا XML فارمیٹ اچ ڈاؤن لوڈ کرنا چاہندے ہو؟
+          نوٹ کرو جو وݙے علاقیاں کوں ڈاؤن لوڈ کرݨ اچ کجھ ویلہ لڳ سڳدا ہے۔
+        cancel: منسوخ
+        download: ڈاؤن لوڈ
     fixthemap:
       title: کوئی مسئلہ رپورٹ کرو / نقشے کوں ٹھیک کرو
       how_to_help:
@@ -2645,6 +2887,8 @@ skr-arab:
       get_directions_title: ݙو نقطیاں دے درمیان دی سمت لبھو
       from: کنوں
       to: تائیں
+      marker_from: رستے دا شروع آلا نشان
+      marker_to: رستے دا آخر آلا نشان
       where_am_i: ایہ کتھ ہے؟
       where_am_i_title: سرچ انجن دا استعمال کریندے ہوئیں حالیہ مقام کوں بیان کرو
       submit_text: ڄلو
@@ -2849,6 +3093,11 @@ skr-arab:
       downloading: ڈاؤن لوڈ تھیندا پئے۔۔۔
   webgl_error_panes:
     show:
+      compact_message: ایں نقشے کیتے WebGL دی لوڑ ہے۔
+      description_html: معاف کرو، پر لڳدا ہے جو %{your_browser_does_not_support_webgl}،
+        ویب تے 3D گرافکس رینڈر کرݨ دی ہِک ٹیکنالوجی ہے۔
+      your_browser_does_not_support_webgl: تساݙا براؤزر WebGL دی سپورٹ نئیں کریندا
+      webgl_is_required_for_this_map: ایں نقشے کوں ݙکھاوݨ کیتے WebGL دی لوڑ ہے۔
       read_more_about_webgl: ٻیا پڑھو
   traces:
     visibility:
@@ -2912,6 +3161,7 @@ skr-arab:
         other: '%{count} پوائنٹ'
       more: ٻئے
       trace_details: ٹریس دیاں تفصیلات ݙیکھو
+      trace_actions: ٹریس دے کم
       view_map: نقشے تے مقام ݙیکھو
       edit_map: ایڈیٹر وچ کھولو
       public: عام
@@ -2925,6 +3175,7 @@ skr-arab:
       my_gps_traces: میݙیاں جی پی ایس ٹریسز
       public_traces_from: '%{user} طرفوں عام جی پی ایس ٹریسز'
       description: حالیہ جی پی ایس ٹریس اپ لوڈز ݙیکھو
+      actions: ٹریس تندیر دے کم
       tagged_with: '%{tags} دے نال نشان کیتا ڳیا'
       empty_title: اِتھاں ہݨ تئیں کُجھ نئیں
       empty_upload_html: '%{upload_link} یا %{wiki_link} اتے جی پی ایس ٹریس کرݨ بارے
@@ -2936,12 +3187,42 @@ skr-arab:
       my_traces: میݙے نشان
       traces_from_html: '%{user} طرفوں عام ٹریسز'
       remove_tag_filter: ٹیگ فلٹر ہٹاو
+      legacy_traces: میرے پرانے ٹریس
     destroy:
       scheduled_for_deletion: ٹریس کوں ختم کرݨ کیتے شیڈول کیتا ڳیا ہے
     legacy_visibilities:
       edit:
+        title: میرے پرانے GPS ٹریس
+        description: ایہہ تساں دے او ٹریس ہِن جیہڑے ہݨ وی پرانی پرائیویٹ یا پبلک ویزیبیلٹی
+          ورتیندے ہِن۔ تساں انہاں کوں ایتھوں ٹریک ایبل یا آئیڈینٹیفائی ایبل اچ بدل
+          سڳدے ہو۔ GPS ٹریس اچ منصوبہ بند بہتریاں صرف ٹریک ایبل اَتے آئیڈینٹیفائی
+          ایبل کوں شامل کرݨ گیاں۔
+        filter:
+          visibility: موجودہ ویزیبیلٹی
+          any: پرائیویٹ اَتے پبلک
+          from: اپلوڈ از
+          to: اپلوڈ تک
+          apply: چھانڈ
+        empty: ایں چھانڈ نال کوئی پرانا ٹریس میل نئیں کھاندا۔
+        new_visibility: نویں ویزیبیلٹی
+        no_undo: ایہہ تبدیلی واپس نئیں تھی سڳدی۔
+        button:
+          one: '%{count} ٹریس تبدیل کرو'
+          other: '%{count} ٹریساں تبدیل کرو'
         confirmation:
+          header: ویزیبیلٹی تبدیلی دی تصدیق کرو
+          body:
+            one: '%{count} ٹریس دی ویزیبیلٹی تبدیل کرو؟ ایہہ تبدیلی واپس نئیں تھی
+              سڳدی۔'
+            other: '%{count} ٹریساں دی ویزیبیلٹی تبدیل کرو؟ ایہہ تبدیلی واپس نئیں
+              تھی سڳدی۔'
           cancel: منسوخ
+          confirm: ویزیبیلٹی تبدیل کرو
+      update:
+        updated:
+          one: '%{count} ٹریس دی ویزیبیلٹی تبدیل کر ݙتی ڳئی۔'
+          other: '%{count} ٹریساں دی ویزیبیلٹی تبدیل کر ݙتی ڳئی۔'
+        invalid_visibility: تبدیل کرݨ کیتے ہِک ویزیبیلٹی چݨو۔
     offline_warning:
       message: جی پی ایکس فائل اپ لوڈ کرݨ دا نظام فی الحال دستیاب نئیں
     offline:
@@ -3024,6 +3305,7 @@ skr-arab:
       heading: سرخی
       subheading: نکی سرخی
       unordered: بے ترتیب تندیر
+      ordered: ترتیب وار تندیر
       first: پہلا آئٹم
       second: ݙوجھا آئٹم
       link: لنک
@@ -3037,20 +3319,34 @@ skr-arab:
       preview: پیشگی ݙکھالا
       help: مدد
     pagination:
+      label: ورقے دی نیویگیشن
+      acls:
+        older: پرانے ACLs
+        newer: نویں ACLs
+        oldest: پرانے ترین ACLs
+        newest: نویں ترین ACLs
       changeset_comments:
         older: پراݨے تبصرے
+        newer: نویں تبصرے
+        oldest: پرانے ترین تبصرے
         newest: نویں نکور تبصرے
       diary_comments:
         older: پراݨی رائے
+        newer: نویں تبصرے
         oldest: قدیم ترین تبصرے
         newest: نویں نکور تبصرے
       diary_entries:
+        older: پرانے انٹریاں
         newer: نویاں انٹریاں
         oldest: ݙاڈھی پراݨی انٹریاں
         newest: نویاں نکور انٹریاں
       notifications:
+        older: پرانے اطلاع نامے
         newer: نویں نویں اطلاع نامے
+        oldest: پرانے ترین اطلاع نامے
+        newest: نویں ترین اطلاع نامے
       issues:
+        older: پرانے مسلے
         newer: نویں مسئلے
         oldest: ݙاڈھے پراݨے مسئلے
         newest: نویں نکور مسئلے
@@ -3063,6 +3359,7 @@ skr-arab:
         older: پراݨے بلاک
         newer: نویں بلاک
         oldest: ساریں توں پراݨے بلاک
+        newest: نویں ترین بلاک
       users:
         older: پراݨے ورتݨ آلے
         newer: نویں ورتݨ آلے
@@ -3180,6 +3477,10 @@ skr-arab:
         html: تہاݙا پتہ عام طور تے نئیں ݙکھایا ویندا، ٻئی معلومات کیتے اساݙی %{privacy_policy_link}ݙیکھو۔
       or: یا
       use external auth: یا ہک تریجھی پارٹی نال سائن اپ کرو
+      verify_human: تصدیق کرو جو تساں ہِک انسان ہو۔
+    create:
+      not_human: افسوس، اساں تصدیق نئیں کر سڳدے جو تساں ہِک انسان ہو۔ نویں کھاتے بݨاوݨ
+        کیتے ایہہ ضروری ہے۔
     no_such_user:
       title: کوئی ایجھا ورتݨ آلا نئیں
       heading: ورتݨ آلا %{user} موجود نئیں
@@ -3187,6 +3488,8 @@ skr-arab:
         کر کے اپݨی املاء ݙیکھو، یا ہو سڳدے جو تہاݙا کلک کیتا ڳیا لنک غلط ہووے
       deleted: مٹا ݙتے
     show:
+      actions: کم
+      admin_actions: انتظامی کم
       my diary: میݙی ڈائری
       my edits: میݙیاں تبدیلیاں
       my traces: میݙے نشان
@@ -3228,7 +3531,9 @@ skr-arab:
       activate_user: اِیں ورتݨ آلے کوں فعال کرو
       confirm_user: اِیں ورتݨ آلے دی تصدیق کرو
       unconfirm_user: اِیں ورتݨ آلے دی تصدیق کوئنی
+      suspend_user: ایں صارف کوں معطل کرو۔
       unsuspend_user: اِیں ورتݨ آلے دی معطلی کوئنی
+      undelete_user: ایں صارف کوں بحال کرو۔
       confirm: تصدیق
       report: اِیں ورتݨ آلے دی اطلاع ݙیو
       edit_profile_details: پروفائل دیاں تفصیلات وچ تبدیلی کرو
@@ -3237,6 +3542,7 @@ skr-arab:
       change_image: تصویر تبدیل کرو
       edit_company: کمپنی وچ تبدیلی کرو
       edit_location: جاہ وچ تبدیلی کرو
+      edit_contribution_calendar: حصہ داری کیلنڈر کنفیگر کرو
       contributions:
         one: پچھلے سال وچ %{count} حصہ
         other: پچھلے سال وچ %{count} حصے
@@ -3307,6 +3613,7 @@ skr-arab:
           one: '%{count} صارف لَبھیا ڳیا'
           other: '%{count} صارفین لَبھے ڳئے'
         confirm: چُݨے ڳئے ورتݨ آلے دی تصدیق کرو
+        suspend: چݨے ہوئے صارفاں کوں معطل کرو۔
         empty: کوئی وی ملدا جلدا ورتݨ آلا نئیں لَبھیا
       user:
         summary_html: '%{name} %{date} کوں %{ip_address} توں بݨایا ڳیا'
@@ -3559,12 +3866,19 @@ skr-arab:
       advice: تہاݙا نوٹ عوامی ہے اتے اینکوں نقشے کوں نواں کرݨ کیتے ورتیج سڳدے۔ تاں
         ذاتی معلومات، یا کاپی رائٹ کیتے ہوئے نقشیاں یا ڈائریکٹری لسٹنگاں توں معلومات
         شامل نہ کرو۔
+      advice_good_note: ہِک چنگی نوٹ جتنی ممکن ہووے اونیں وضاحت آلی ہوندی ہے، ذاتی
+        معلومات یا کاپی رائٹ آلیاں نقشیاں یا ڈائریکٹری تندیروں دے مواد توں پرہیز کرݨدے
+        ہوئے۔
+      advice_conduct: کمیونٹی ممبراں نال گل کرݨ ویلے مہربان، صابر اَتے عزت آلا سلوک
+        رکھو۔
       add: نوٹ شامل کرو
+      error: نوٹ بݨاوݨ ویلے ہِک غلطی تھی گئی۔
     new_readonly:
       title: نواں نوٹ
       warning: ' نویں نوٹس نئیں بݨائے ونڄ سڳدے کیونکہ اوپن سٹریٹ میپ دی اے پی آئی
         فی الحال پڑھݨ کیتے-صرف موڈ وچ ہے۔'
     notes_paging_nav:
+      label: ورقے دی نیویگیشن
       showing_page: ورقہ %{page}
       next: اڳلا
       previous: پچھلا
@@ -3586,6 +3900,8 @@ skr-arab:
     map:
       Map:
         Title: نقشہ
+      Marker:
+        Title: نقشے دا نشان
       Popup:
         Close: بند کرو
       NavigationControl:
@@ -3593,12 +3909,15 @@ skr-arab:
         ZoomOut: چھوٹا کرو
       GeolocateControl:
         FindMyLocation: میݙی لوکیشن ݙیکھاؤ
+        LocationNotAvailable: تھاں دستیاب کائنی۔
         metersPopup:
           one: تساں ایں نقطے دے %{count} میٹر دے اندر ہاؤ
           other: تساں ایں نقطے دے %{count} میٹر دے اندر ہاؤ
         feetPopup:
           one: تساں ایں نقطے دے %{count} میٹر دے اندر ہاؤ
           other: تساں ایں نقطے دے %{count} میٹر دے اندر ہاؤ
+      AttributionControl:
+        ToggleAttribution: انتساب ٹوگل کرو
       base:
         standard: معیاری
         cycle_map: سائیکل نقشہ
@@ -3800,21 +4119,50 @@ skr-arab:
       flash: ریڈیکشن تباہ تھی ڳئی ہے۔
       error: ایں ریڈیکشن کوں تباہ کرݨ وچ ہک غلطی تھی ڳئی ہے۔
   acls:
+    navigation:
+      new_title: ہِک نواں ACL شامل کرو
+      new: نواں ACL
+      actions: ACL کم
+    index:
+      title: ACLs
+      empty: کوئی ACLs ݙکھاوݨ کیتے کائنی۔
     page:
       address: پتہ
       domain: ڈومین
+      mx: ایم ایکس سرور
       k: بٹݨ
+      v: قدر
+      actions: کم
     acl:
+      edit_button: لکھو
       destroy_button: مٹاؤ
+      confirm: یقیناً تے یقینی ہے؟
     form:
       cancel: منسوخ
+    new:
+      title: نواں ACL
+    create:
+      success: ACL بݨا ݙتا ڳیا۔
+    edit:
+      title: ACL لکھݨا
+    update:
+      success: ACL اپ ڈیٹ کر ݙتا ڳیا۔
+    destroy:
+      success: ACL مٹا ݙتا ڳیا۔
   validations:
     leading_whitespace: پہلے خالی جاہ ہے
     trailing_whitespace: اخیر وچ خالی جاہ ہے
     invalid_characters: غلط کریکٹرز ہن
     url_characters: خاص یو آر ایل کریکٹرز (%{characters}) ہن
+    email_characters: اچ غلط اکھر (%{characters}) ہن۔
   moderation_zones:
+    navigation:
+      new_title: ہِک نواں موڈریشن زون دی تعریف کرو۔
+      new: نواں موڈریشن زون
+      actions: موڈریشن زون کم
     index:
+      title: موڈریشن زون
+      heading: موڈریشن زون
       name: ناں
       reason: وجہ
       creator: خالق
@@ -3823,6 +4171,24 @@ skr-arab:
       status: حیثیت
     row:
       edit: لکھو
+    new:
+      title: نواں موڈریشن زون
+      heading: نواں موڈریشن زون
+    create:
+      success: موڈریشن زون بݨا ݙتا ڳیا۔
+    edit:
+      title: موڈریشن زون %{name} لکھݨا
+      heading: موڈریشن زون %{name} لکھݨا
+    update:
+      success: موڈریشن زون اپ ڈیٹ کر ݙتا ڳیا۔
+      only_creator_can_edit: ایں موڈریشن زون کوں صرف او موڈریٹر لکھ سڳدا ہے جیں ایہہ
+        بݨایا ہے۔
+      only_creator_can_edit_without_revoking: ایں موڈریشن زون کوں صرف او موڈریٹر بغیر
+        منسوخ کیتے لکھ سڳدا ہے جیں ایہہ بݨایا ہے۔
+      only_creator_or_revoker_can_edit: ایں موڈریشن زون کوں صرف او موڈریٹر لکھ سڳدن
+        جیں ایہہ بݨایا ہے یا ایہہ منسوخ کیتا ہے۔
+      no_reactivation: ایہہ موڈریشن زون غیر فعال ہے اَتے ایہہ ولا فعال نہیں کیتا ونڄ
+        سڳدا۔
     helper:
       short:
         ended: مک ڳیا
