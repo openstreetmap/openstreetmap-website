@@ -31,6 +31,7 @@ export default function (map) {
         .then(() => OSM.loadSidebarContent(path, signal))
         .then(() => initialize(path, signal, id, false))
         .catch(error => {
+          if (signal.aborted) return;
           content.find("#comment-error")
             .text(error.message)
             .prop("hidden", false)

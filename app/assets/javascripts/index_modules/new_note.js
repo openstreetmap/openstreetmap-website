@@ -149,11 +149,13 @@ export default function (map) {
               const anonymousNotesCount = Number(OSM.cookies.get("_osm_anonymous_notes_count")) || 0;
               OSM.cookies.set("_osm_anonymous_notes_count", anonymousNotesCount + 1, { expires: 14 });
             }
+            if (signal.aborted) return;
             content.find("textarea").val("");
             addCreatedNoteMarker(feature);
             OSM.router.route("/note/" + feature.properties.id);
           })
           .catch(err => {
+            if (signal.aborted) return;
             errorPanel.removeClass("d-none");
             errorPanelDetail.text(err.message || err);
             updateControls();

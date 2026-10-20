@@ -75,6 +75,38 @@ class SidebarLifecycleTest < ApplicationSystemTestCase
     assert_no_browser_errors
   end
 
+  test "note subscription finishes without restoring its sidebar" do
+    note = create(:note_with_comments)
+    user = create(:user)
+    sign_in_as(user)
+    visit note_path(note)
+    hold_responses(api_note_subscription_path(note))
+    click_on "Subscribe"
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_selector ".export_form"
+    assert NoteSubscription.exists?(:note => note, :user => user)
+    assert_no_browser_errors
+  end
+
+  test "changeset subscription finishes without restoring its sidebar" do
+    changeset = create(:changeset, :closed)
+    user = create(:user)
+    sign_in_as(user)
+    visit changeset_path(changeset)
+    hold_responses(api_changeset_subscription_path(changeset))
+    click_on "Subscribe"
+    assert_held_response
+    navigate_to("/export")
+    assert_selector ".export_form"
+    release_response
+    assert_selector ".export_form"
+    assert ChangesetSubscription.exists?(:changeset => changeset, :subscriber => user)
+    assert_no_browser_errors
+  end
+
   test "a real sidebar HTTP error is reported and does not block navigation" do
     visit root_path
     hold_responses("/unused")
