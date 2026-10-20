@@ -86,6 +86,21 @@ class TraceTest < ActiveSupport::TestCase
     assert_not_predicate trace, :valid?
   end
 
+  def test_description_cannot_change_to_blank
+    trace = create(:trace)
+    trace.description = " "
+    assert_not_predicate trace, :valid?
+    assert_includes trace.errors[:description], "can't be blank"
+  end
+
+  def test_existing_blank_description
+    trace = create(:trace, :without_validations, :description => "")
+    assert_predicate trace, :valid?
+
+    trace.description = "New description"
+    assert_predicate trace, :valid?
+  end
+
   def test_visibility_can_change_from_legacy
     trace = create(:trace, :without_validations, :visibility => "public")
     trace.visibility = "trackable"

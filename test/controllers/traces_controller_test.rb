@@ -485,7 +485,7 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     post traces_path, :params => { :trace => { :gpx_file => file, :description => "", :tagstring => "new,trace", :visibility => "trackable" } }
     assert_response :unprocessable_content
     assert_template :new
-    assert_match "is too short (minimum is 1 character)", response.body
+    assert_select "#trace_description_feedback", :text => "can't be blank"
 
     # Invalid tag
     file = Rack::Test::UploadedFile.new(fixture, "application/gpx+xml")
@@ -594,6 +594,13 @@ class TracesControllerTest < ActionDispatch::IntegrationTest
     assert_select "title", :text => /^Editing Trace/
     assert_select "#trace_tagstring.is-invalid"
     assert_select "#trace_tagstring_feedback", :text => "contains special URL characters (/;.,?%#)"
+
+    # Blank description
+    put trace_path(trace, :trace => { :description => " ", :tagstring => "new_tag", :visibility => "trackable" })
+    assert_response :unprocessable_content
+    assert_select "title", :text => /^Editing Trace/
+    assert_select "#trace_description.is-invalid"
+    assert_select "#trace_description_feedback", :text => "can't be blank"
 
     # Ensure the existing tags have not been changed
     assert_equal [tracetag.tag], trace.reload.tags.collect(&:tag)
