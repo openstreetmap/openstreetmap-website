@@ -98,8 +98,7 @@ module Searches
     end
 
     ##
-    # Zoom 0 is present and must still be sent. Ruby treats 0 as falsey, and
-    # an empty string as truthy, so the guard has to be present? rather than either.
+    # Zoom 0 is valid and must still be sent.
     def test_create_with_zero_zoom
       stub_request(:get, %r{^https://nominatim\.openstreetmap\.org/reverse\?})
         .to_return(:body => <<~XML)
