@@ -25,9 +25,11 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_email_confirm
-    user = create(:user)
+    user = create(:user, :new_email => "new@example.com")
     token = "token-123456"
     email = UserMailer.with(:user => user, :token => token).email_confirm
+
+    assert_equal ["new@example.com"], email.to
 
     confirmation_url = url_helpers.url_for(
       :controller => "confirmations",
@@ -36,6 +38,18 @@ class UserMailerTest < ActionMailer::TestCase
     )
     assert_match(ERB::Util.html_escape_once(confirmation_url), email.html_part.body.to_s)
     assert_match(confirmation_url, email.text_part.body.to_s)
+  end
+
+  def test_email_confirm_new_email_cleared
+    user = create(:user, :new_email => "new@example.com")
+    UserMailer.with(:user => user, :token => "token-123456").email_confirm.deliver_later
+
+    # User submits the form again, or deletes their account
+    user.update!(:new_email => nil)
+
+    assert_no_emails do
+      perform_enqueued_jobs
+    end
   end
 
   def test_lost_password
