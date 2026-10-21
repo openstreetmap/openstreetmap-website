@@ -76,7 +76,7 @@ class DirectionsSystemTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_selector "#directions_route_distance", :text => "4.1km"
-      assert_selector "#directions_route_time", :text => "34 hr 10 min", :normalize_ws => true
+      assert_selector "#directions_route_time", :text => "34 hr, 10 min", :normalize_ws => true
       assert_selector "#directions_route_steps .distance", :text => "4.1km"
     end
   end
