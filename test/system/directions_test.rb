@@ -107,6 +107,24 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "rounds short step distances" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.00168 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_steps .distance", :exact_text => "190m"
+    end
+
+    find_by_id("route_to").set("60.0111 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_steps .distance", :exact_text => "1,200m"
+    end
+  end
+
   private
 
   def stub_straight_routing(start_instruction: "Start here", finish_instruction: "Finish there")
