@@ -41,6 +41,7 @@ class Ability
         can [:read, :update, :destroy], :account
         can :update, :account_terms
         can :create, :account_pd_declaration
+        can :read, :account_block
         can :read, :dashboard
         can :index, :notification
         can [:read, :update], [:preferences, :profile]
