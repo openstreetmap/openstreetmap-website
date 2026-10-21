@@ -41,27 +41,27 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_template "sessions/new"
 
     user1 = create(:user)
-    get login_path, :params => { :user => { :username => user1.display_name, :password => "s3cr3t" } }
+    get login_path, :params => { :username => user1.display_name, :password => "s3cr3t" }
     assert_response :success
     assert_template "sessions/new"
 
     user2 = create(:user)
-    post login_path, :params => { :user => { :username => user2.display_name, :password => "s3cr3t" } }
+    post login_path, :params => { :username => user2.display_name, :password => "s3cr3t" }
     assert_redirected_to root_path
 
     user3 = create(:user)
-    post login_path, :params => { :user => { :username => " #{user3.display_name}", :password => "s3cr3t" } }
+    post login_path, :params => { :username => " #{user3.display_name}", :password => "s3cr3t" }
     assert_redirected_to root_path
 
     user4 = create(:user)
-    post login_path, :params => { :user => { :username => "#{user4.display_name} ", :password => "s3cr3t" } }
+    post login_path, :params => { :username => "#{user4.display_name} ", :password => "s3cr3t" }
     assert_redirected_to root_path
   end
 
   def test_login_remembered
     user = create(:user)
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" }, :remember_me => "yes" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "yes" }
     assert_redirected_to root_path
 
     assert_equal 28 * 86400, session[:_remember_for]
@@ -70,7 +70,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def test_login_not_remembered
     user = create(:user)
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" }, :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "0" }
     assert_redirected_to root_path
 
     assert_nil session[:_remember_for]
@@ -79,20 +79,20 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def test_login_pending_user
     user = create(:user, :pending)
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" }, :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "0" }
     assert_redirected_to :controller => "confirmations", :action => "confirm", :display_name => user.display_name
   end
 
   def test_login_suspended_user
     user = create(:user, :suspended)
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" }, :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "0" }
     assert_redirected_to login_path(:username => user.display_name, :remember_me => false)
     assert_equal({ :partial => "sessions/suspended_flash" }, flash[:error])
   end
 
   def test_login_invalid_user
-    post login_path, :params => { :user => { :username => "nobody", :password => "noone" }, :remember_me => "0" }
+    post login_path, :params => { :username => "nobody", :password => "noone", :remember_me => "0" }
     assert_redirected_to login_path(:username => "nobody", :remember_me => false)
     assert_equal(I18n.t("sessions.new.auth failure"), flash[:error])
   end
@@ -100,7 +100,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def test_login_invalid_password
     user = create(:user)
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s2cr2t" }, :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s2cr2t", :remember_me => "0" }
     assert_redirected_to login_path(:username => user.display_name, :remember_me => false)
     assert_equal(I18n.t("sessions.new.auth failure"), flash[:error])
   end
@@ -108,7 +108,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   def test_login_expired_password
     user = create(:user, :pass_crypt => "expired password")
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" }, :remember_me => "0" }
+    post login_path, :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "0" }
     assert_redirected_to user_forgot_password_path
     assert_equal(I18n.t("sessions.new.reset_to_login"), flash[:warning])
   end

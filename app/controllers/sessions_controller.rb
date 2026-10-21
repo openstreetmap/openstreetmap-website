@@ -3,6 +3,8 @@
 class SessionsController < Devise::SessionsController
   include SessionMethods
 
+  before_action :configure_permitted_parameters, :only => :create
+
   layout :site_layout
 
   skip_before_action :verify_signed_out_user
@@ -58,6 +60,10 @@ class SessionsController < Devise::SessionsController
   end
 
   private
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_in, keys: [:username])
+  end
 
   def after_sign_in_path_for(user)
     target = @safe_referer || url_for(:controller => :site, :action => :index)

@@ -25,7 +25,7 @@ module Devise
       when :not_found_in_database, :invalid, :user_suspended, :unauthenticated
         new_user_session_url(
           :referer => failure_details[:referer],
-          :username => failure_details[:username] || params.dig(:user, :username),
+          :username => failure_details[:username] || params[:username],
           :remember_me => session[:remember_me]
         )
       when :password_expired

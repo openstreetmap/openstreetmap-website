@@ -36,6 +36,10 @@ module Devise
 
       private
 
+      def params
+        { :user => request.params.slice(:username, :password) }
+      end
+
       def validate(resource)
         if resource
           super && check_resource_status!(resource)
