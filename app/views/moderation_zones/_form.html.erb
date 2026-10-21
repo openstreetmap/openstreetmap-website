@@ -33,12 +33,11 @@
   </div>
 
   <div data-expiry-panel="absolute">
-    <% ends_at_min = moderation_zone.persisted? && !moderation_zone.active? ? nil : ModerationZone.round_to_next_minute(Time.now.utc) %>
     <%= form.datetime_field(
           :ends_at,
           :value => moderation_zone_form_ends_at(moderation_zone),
-          :min => ends_at_min,
-          :max => ModerationZone.round_to_next_minute(Time.now.utc + 10.years)
+          :min => moderation_zone_ends_at_min(moderation_zone),
+          :max => moderation_zone_ends_at_max
         ) %>
   </div>
 

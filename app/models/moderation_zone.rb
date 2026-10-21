@@ -46,14 +46,6 @@ class ModerationZone < ApplicationRecord
   end
 
   def active?
-    ends_at.future?
-  end
-
-  def self.round_to_closest_minute(time)
-    Time.at((time.to_f / 60).round * 60).utc
-  end
-
-  def self.round_to_next_minute(time)
-    Time.at((time.to_f / 60).ceil * 60).utc
+    ends_at.present? && ends_at.future?
   end
 end

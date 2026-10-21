@@ -66,29 +66,11 @@ class ModerationZonesController < ApplicationController
       period = safe_params.delete(:period)
 
       safe_params[:ends_at] = if expiry_type == "absolute"
-                                normalized_absolute_ends_at(safe_params[:ends_at])
+                                Time.zone.parse(safe_params[:ends_at].to_s)&.utc&.beginning_of_minute
                               else
                                 period.to_i.hours.from_now
                               end
     end
-  end
-
-  def normalized_absolute_ends_at(ends_at_param)
-    return if ends_at_param.blank?
-
-    ends_at = Time.zone.parse(ends_at_param.to_s)&.utc
-    return unless ends_at
-
-    ends_at = ModerationZone.round_to_closest_minute(ends_at)
-    ends_at = ModerationZone.round_to_next_minute(Time.now.utc) if ends_at.past? && extending_active_period?
-    ends_at
-  end
-
-  # True when the submitted expiry must not be allowed to land in the past:
-  # either we're creating a new record, or we're extending one that is
-  # currently active (and so must remain active).
-  def extending_active_period?
-    action_name == "create" || @moderation_zone&.active?
   end
 
   def check_revocation(original, changes)
