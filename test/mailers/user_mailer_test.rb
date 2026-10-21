@@ -4,7 +4,7 @@ require "test_helper"
 
 class UserMailerTest < ActionMailer::TestCase
   def test_signup_confirm
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user)
     token = "token-123456"
     referer = "the-referer"
     email = UserMailer.with(
@@ -25,7 +25,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_email_confirm
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user)
     token = "token-123456"
     email = UserMailer.with(:user => user, :token => token).email_confirm
 
@@ -39,7 +39,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_lost_password
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user)
     token = "token-123456"
     email = UserMailer.with(:user => user, :token => token).lost_password
 
@@ -140,7 +140,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_note_comment_notification
-    recipient = create(:user, :languages => [I18n.locale])
+    recipient = create(:user)
     commenter = create(:user)
     note = create(:note, :lat => 51.7632, :lon => -0.0076)
     comment = create(:note_comment, :author => commenter, :note => note)
