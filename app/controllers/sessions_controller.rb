@@ -59,26 +59,6 @@ class SessionsController < Devise::SessionsController
 
   private
 
-  ##
-  # handle password authentication
-  def password_authentication(username, password, referer = nil)
-    user = User.lookup(username)
-
-    if user&.password_expired?
-      redirect_to user_forgot_password_path, :warning => t("sessions.new.reset_to_login")
-    elsif user&.password_matches?(password)
-      if user.pending?
-        unconfirmed_login(user, referer)
-      elsif user.suspended?
-        failed_login({ :partial => "sessions/suspended_flash" }, username, referer)
-      else
-        successful_login(user, referer)
-      end
-    else
-      failed_login(t("sessions.new.auth failure"), username, referer)
-    end
-  end
-
   def after_sign_in_path_for(user)
     target = @safe_referer || url_for(:controller => :site, :action => :index)
 
