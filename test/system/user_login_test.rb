@@ -16,8 +16,8 @@ class UserLoginTest < ApplicationSystemTestCase
       assert_no_link "Visit referring page"
     end
 
-    fill_in "username", :with => user2.email
-    fill_in "password", :with => "s3cr3t"
+    fill_in "user[username]", :with => user2.email
+    fill_in "user[password]", :with => "s3cr3t"
     click_on "Log in"
 
     assert_button "Second User"

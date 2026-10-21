@@ -34,25 +34,27 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_login
-    user = create(:user)
-
     get login_path
     assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
 
-    get login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" } }
+    user1 = create(:user)
+    get login_path, :params => { :user => { :username => user1.display_name, :password => "s3cr3t" } }
     assert_response :success
     assert_template "sessions/new"
 
-    post login_path, :params => { :user => { :username => user.display_name, :password => "s3cr3t" } }
+    user2 = create(:user)
+    post login_path, :params => { :user => { :username => user2.display_name, :password => "s3cr3t" } }
     assert_redirected_to root_path
 
-    post login_path, :params => { :user => { :username => " #{user.display_name}", :password => "s3cr3t" } }
+    user3 = create(:user)
+    post login_path, :params => { :user => { :username => " #{user3.display_name}", :password => "s3cr3t" } }
     assert_redirected_to root_path
 
-    post login_path, :params => { :user => { :username => "#{user.display_name} ", :password => "s3cr3t" } }
+    user4 = create(:user)
+    post login_path, :params => { :user => { :username => "#{user4.display_name} ", :password => "s3cr3t" } }
     assert_redirected_to root_path
   end
 

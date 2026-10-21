@@ -6,6 +6,7 @@ class SessionsController < Devise::SessionsController
   layout :site_layout
 
   skip_before_action :verify_signed_out_user
+  skip_before_action :require_no_authentication
 
   before_action :authorize_web, :except => [:destroy]
   before_action -> { authorize_web(:skip_terms => true) }, :only => [:destroy]
@@ -28,6 +29,7 @@ class SessionsController < Devise::SessionsController
 
   def create
     session[:remember_me] = params[:remember_me] == "yes"
+    sign_out(:user)
     super do |user|
       @safe_referer = safe_referer(params[:referer]) if params[:referer]
       # successful_login(user, referer)

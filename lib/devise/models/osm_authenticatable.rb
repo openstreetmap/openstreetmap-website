@@ -12,10 +12,10 @@ module Devise
       included do
         def self.find_for_database_authentication(warden_conditions)
           username = warden_conditions[:username]
-          user = find_by("email = ? OR display_name = ?", username.strip, username)
+          user = find_by("email = ? OR display_name = ?", username.strip, username.strip)
 
           if user.nil?
-            users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username)
+            users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username.strip)
 
             user = users.first if users.one?
           end
