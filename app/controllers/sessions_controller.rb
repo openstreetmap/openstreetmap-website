@@ -48,7 +48,6 @@ class SessionsController < Devise::SessionsController
 
     super do
       session.delete(:pending_user)
-      # session.delete(:user)
 
       # TODO: do we need this?
       session_expires_automatically

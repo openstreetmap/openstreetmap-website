@@ -282,11 +282,6 @@ module ActiveSupport
     end
 
     def session_for(user)
-      # TODO: difference of behaviour with Devise. Our code
-      # replaces your session if you log in again, but
-      # Devise doesn't.
-      reset!
-
       get login_path
       post user_session_path, :params => { :username => user.display_name, :password => "s3cr3t" }
       follow_redirect!
