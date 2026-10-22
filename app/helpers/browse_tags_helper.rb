@@ -61,21 +61,19 @@ module BrowseTagsHelper
 
   private
 
-  def wiki_link(type, lookup)
-    locale = I18n.locale.to_s
-
+  def wiki_link(type, title)
     # update-wiki-pages does s/ /_/g on keys before saving them, we
     # have to replace spaces with underscore so we'll link
     # e.g. `source=Isle of Man Government aerial imagery (2001)' to
     # the correct page.
-    lookup_us = lookup.tr(" ", "_")
+    lookup = title.tr(" ", "_")
 
-    page = WIKI_PAGES.dig(locale, type, lookup_us) ||
-           WIKI_PAGES.dig("en", type, lookup_us)
+    page = WIKI_PAGES.dig(I18n.locale.to_s, type, lookup) ||
+           WIKI_PAGES.dig("en", type, lookup)
 
-    url = "https://wiki.openstreetmap.org/wiki/#{page}?uselang=#{locale}" if page
+    return unless page
 
-    url
+    wiki_url("wiki.openstreetmap.org", page)
   end
 
   def wikipedia_links(key, value)
@@ -102,23 +100,23 @@ module BrowseTagsHelper
         title_section = wiki_value
       end
 
-      title, section = title_section.split("#", 2)
-      url = "https://#{page_lang}.wikipedia.org/wiki/#{wiki_encode(title)}?uselang=#{I18n.locale}"
-      url += "##{wiki_encode(section)}" if section
+      title, section = title_section.split("#", 2).map { |s| url_encode s.tr(" ", "_") }
+      url = wiki_url("#{page_lang}.wikipedia.org", title)
+      url += "##{section}" if section
 
       { :url => url, :title => wiki_value }
     end
   end
 
-  def wiki_encode(s)
-    u s.tr(" ", "_")
+  def wiki_url(project, title, ns = "wiki", locale = I18n.locale)
+    "https://#{project}/#{ns}/#{title}?uselang=#{locale}"
   end
 
   def wikidata_links(key, value)
     # The simple wikidata-tag (this is limited to only one value)
     if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
       return [{
-        :url => "//www.wikidata.org/entity/#{value}?uselang=#{I18n.locale}",
+        :url => wiki_url("www.wikidata.org", value, "entity"),
         :title => value
       }]
     elsif key =~ /^#{SECONDARY_WIKI_PREFIX_PATTERN}wikidata$/o &&
@@ -126,7 +124,7 @@ module BrowseTagsHelper
           value =~ /^#{QID_PATTERN}(?:\s*;\s*#{QID_PATTERN})*$/o
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
       return value.split(";").map do |id|
-        { :title => id, :url => "//www.wikidata.org/entity/#{id.strip}?uselang=#{I18n.locale}" }
+        { :title => id, :url => wiki_url("www.wikidata.org", id.strip, "entity") }
       end
     end
     nil
@@ -137,7 +135,7 @@ module BrowseTagsHelper
       namespace = Regexp.last_match(1)
       title = Regexp.last_match(2)
       return {
-        :url => "//commons.wikimedia.org/wiki/#{namespace}:#{u title}?uselang=#{I18n.locale}",
+        :url => wiki_url("commons.wikimedia.org", "#{namespace}:#{url_encode title}"),
         :title => value
       }
     end
