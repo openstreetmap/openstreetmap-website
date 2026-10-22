@@ -54,7 +54,6 @@ class User < ApplicationRecord
   include AASM
 
   devise(
-    :doorkeeper,
     :osm_authenticatable
   )
 
@@ -171,23 +170,6 @@ class User < ApplicationRecord
 
   def to_param
     display_name
-  end
-
-  def password_expired?
-    !PasswordHash.valid?(pass_crypt, pass_salt)
-  end
-
-  def password_matches?(password)
-    if PasswordHash.check(pass_crypt, pass_salt, password)
-      if PasswordHash.upgrade?(pass_crypt, pass_salt)
-        self.pass_crypt, self.pass_salt = PasswordHash.create(password)
-        save
-      end
-
-      true
-    else
-      false
-    end
   end
 
   aasm :column => :status, :no_direct_assignment => true do
@@ -522,7 +504,7 @@ class User < ApplicationRecord
 
   def encrypt_password
     if pass_crypt_confirmation
-      self.pass_crypt, self.pass_salt = PasswordHash.create(pass_crypt)
+      self.pass_crypt, self.pass_salt = User.create_password(pass_crypt)
       self.pass_crypt_confirmation = nil
     end
   end

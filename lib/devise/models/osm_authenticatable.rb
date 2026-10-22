@@ -24,6 +24,10 @@ module Devise
 
           user if user && user.status != "deleted"
         end
+
+        def self.create_password(plaintext)
+          [Argon2::Password.create(plaintext), nil]
+        end
       end
 
       def valid_password?(password)
@@ -45,6 +49,10 @@ module Devise
         self.encrypted_password = Argon2::Password.create(password)
         self.salt = nil
         save
+      end
+
+      def password_expired?
+        !Argon2::HashFormat.valid_hash?(encrypted_password) && !salt&.include?("!")
       end
 
       module Functions

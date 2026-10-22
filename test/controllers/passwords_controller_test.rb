@@ -153,6 +153,6 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     user.reload
     assert_equal "active", user.status
     assert user.email_valid
-    assert user.password_matches?("new_password")
+    assert user.valid_password?("new_password")
   end
 end

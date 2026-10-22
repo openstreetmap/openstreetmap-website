@@ -37,6 +37,7 @@ class SessionsController < Devise::SessionsController
       session_expires_after 28.days if session[:remember_me]
 
       cookies.delete :_osm_anonymous_notes_count
+      session.delete(:remember_me)
     end
   end
 
@@ -58,6 +59,7 @@ class SessionsController < Devise::SessionsController
 
   private
 
+  # TODO: this is taken from `successful_login`. DRY it up.
   def after_sign_in_path_for(user)
     target = @safe_referer || url_for(:controller => :site, :action => :index)
 
