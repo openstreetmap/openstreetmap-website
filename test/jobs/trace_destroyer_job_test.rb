@@ -5,16 +5,17 @@ require "minitest/mock"
 
 class TraceDestroyerJobTest < ActiveJob::TestCase
   def test_destroy_called
-    trace = Minitest::Mock.new
+    trace = create(:trace)
+    destroyed = false
 
-    # Tiny little bit of mocking to make activejob happy
-    trace.expect :is_a?, false, [TraceDestroyerJob]
+    # Check that the trace is locked, so that any import of it finishes
+    # first, and that trace.destroy is called
+    trace.stub(:destroy, -> { destroyed = true }) do
+      assert_queries_match(/for update/i, :count => 1) do
+        TraceDestroyerJob.perform_now(trace)
+      end
+    end
 
-    # Check that trace.destroy is called
-    trace.expect :destroy, true
-
-    TraceDestroyerJob.perform_now(trace)
-
-    assert_mock trace
+    assert destroyed
   end
 end
