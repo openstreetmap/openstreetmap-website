@@ -3,8 +3,6 @@
 class SessionsController < Devise::SessionsController
   include SessionMethods
 
-  before_action :configure_permitted_parameters, :only => :create
-
   layout :site_layout
 
   skip_before_action :verify_signed_out_user
@@ -34,8 +32,7 @@ class SessionsController < Devise::SessionsController
     sign_out(:user)
     super do |user|
       @safe_referer = safe_referer(params[:referer]) if params[:referer]
-      # successful_login(user, referer)
-      session[:user] = user.id
+      # TODO: this is reproducing `successful_login(user, @safe_referer)`
       session[:fingerprint] = user.fingerprint
       session_expires_after 28.days if session[:remember_me]
 
@@ -60,10 +57,6 @@ class SessionsController < Devise::SessionsController
   end
 
   private
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_in, keys: [:username])
-  end
 
   def after_sign_in_path_for(user)
     target = @safe_referer || url_for(:controller => :site, :action => :index)

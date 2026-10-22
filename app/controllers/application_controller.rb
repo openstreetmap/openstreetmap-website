@@ -44,8 +44,6 @@ class ApplicationController < ActionController::Base
 
   def authorize_web(skip_terms: false)
     if user_signed_in?
-#      self.current_user = User.find_by(:id => session[:user], :status => %w[active confirmed suspended])
-
       if session[:fingerprint] &&
          session[:fingerprint] != current_user.fingerprint
         reset_session
@@ -71,7 +69,6 @@ class ApplicationController < ActionController::Base
   rescue StandardError => e
     logger.info("Exception authorizing user: #{e}")
     reset_session
-    #self.current_user = nil
   end
 
   def require_user
