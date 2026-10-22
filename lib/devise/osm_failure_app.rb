@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "devise/failure_app"
 
 module Devise

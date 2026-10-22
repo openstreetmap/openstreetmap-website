@@ -52,7 +52,7 @@ class SessionsController < Devise::SessionsController
       # TODO: do we need this?
       session_expires_automatically
 
-      referer = safe_referer(params[:referer]) if params[:referer]
+      safe_referer(params[:referer]) if params[:referer]
     end
   end
 

@@ -39,7 +39,7 @@ require "minitest/focus"
 if ENV["TEST_IN_ORDER"]
   module Minitest
     # Copied from minitest. I just commented out the shuffle
-    def self.run_all_suites reporter, options
+    def self.run_all_suites(reporter, options)
       suites = Runnable.runnables # .shuffle
       parallel, serial = suites.partition { |s| s.run_order == :parallel }
 
@@ -50,7 +50,6 @@ if ENV["TEST_IN_ORDER"]
       # recording results.
       serial.map { |suite| suite.run_suite reporter, options } +
         parallel.map { |suite| suite.run_suite reporter, options }
-
     end
   end
 end
@@ -98,10 +97,10 @@ module ActiveSupport
       def self.runnable_methods
         public_instance_methods(true)
           .grep(/^test_/)
-          .map { { :name => it, :loc => public_instance_method(it).source_location } }
-          .sort_by { it[:loc].reverse }
-          .map { it[:name].to_s }
-          .tap { print "\n#{self.name} " unless it.empty? }
+          .map { |name| { :name => name, :loc => public_instance_method(name).source_location } }
+          .sort_by { |h| h[:loc].reverse }
+          .map { |h| h[:name].to_s }
+          .tap { |name| print "\n#{self.name} " unless name.empty? }
       end
     end
 

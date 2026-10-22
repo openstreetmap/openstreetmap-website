@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "devise/strategies/osm_authenticatable"
 
 # Lifted from https://github.com/erdostom/devise-argon2
@@ -23,7 +25,6 @@ module Devise
           user if user && user.status != "deleted"
         end
       end
-
 
       def valid_password?(password)
         is_valid =

@@ -3,13 +3,13 @@
 OpenStreetMap::Application.routes.draw do
   devise_for(
     :users,
-    path: "",
-    path_names: {
-      sign_in: "login",
-      sign_out: "logout",
+    :path => "",
+    :path_names => {
+      :sign_in => "login",
+      :sign_out => "logout"
     },
-    controllers: {
-      sessions: "sessions",
+    :controllers => {
+      :sessions => "sessions"
     }
   )
   devise_scope :user do
