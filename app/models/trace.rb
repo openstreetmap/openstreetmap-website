@@ -50,7 +50,10 @@ class Trace < ApplicationRecord
 
   validates :user, :associated => true
   validates :name, :presence => true, :length => 1..255, :characters => true
-  validates :description, :presence => { :on => :create }, :length => 1..255, :characters => true
+  # Some old traces have no description, so only require one for new traces
+  # and for traces that already have one
+  validates :description, :presence => true, :if => -> { new_record? || description_in_database.present? }
+  validates :description, :length => ..255, :characters => true
   validates :timestamp, :presence => true
   validates :visibility, :inclusion => VISIBILITIES + LEGACY_VISIBILITIES
   validates :visibility, :inclusion => { :in => VISIBILITIES }, :on => :create
