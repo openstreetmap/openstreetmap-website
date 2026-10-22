@@ -30,6 +30,9 @@ class UserMailer < ApplicationMailer
   def email_confirm
     user, token = params.fetch_values(:user, :token)
 
+    # The new address may have been cleared since this was queued
+    return if user.new_email.blank?
+
     with_recipient_locale user do
       @address = user.new_email
       @url = url_for(:controller => "confirmations", :action => "confirm_email",

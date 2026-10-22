@@ -4,7 +4,7 @@ require "test_helper"
 
 class UserMailerTest < ActionMailer::TestCase
   def test_signup_confirm
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user)
     token = "token-123456"
     referer = "the-referer"
     email = UserMailer.with(
@@ -25,9 +25,11 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_email_confirm
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user, :new_email => "new@example.com")
     token = "token-123456"
     email = UserMailer.with(:user => user, :token => token).email_confirm
+
+    assert_equal ["new@example.com"], email.to
 
     confirmation_url = url_helpers.url_for(
       :controller => "confirmations",
@@ -38,8 +40,20 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(confirmation_url, email.text_part.body.to_s)
   end
 
+  def test_email_confirm_new_email_cleared
+    user = create(:user, :new_email => "new@example.com")
+    UserMailer.with(:user => user, :token => "token-123456").email_confirm.deliver_later
+
+    # User submits the form again, or deletes their account
+    user.update!(:new_email => nil)
+
+    assert_no_emails do
+      perform_enqueued_jobs
+    end
+  end
+
   def test_lost_password
-    user = create(:user, :languages => [I18n.locale])
+    user = create(:user)
     token = "token-123456"
     email = UserMailer.with(:user => user, :token => token).lost_password
 
@@ -140,7 +154,7 @@ class UserMailerTest < ActionMailer::TestCase
   end
 
   def test_note_comment_notification
-    recipient = create(:user, :languages => [I18n.locale])
+    recipient = create(:user)
     commenter = create(:user)
     note = create(:note, :lat => 51.7632, :lon => -0.0076)
     comment = create(:note_comment, :author => commenter, :note => note)
