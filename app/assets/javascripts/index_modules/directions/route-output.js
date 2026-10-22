@@ -20,8 +20,9 @@ function RouteOutput(map) {
       [[this.minorName, this.minorScale], [this.majorName, this.majorScale]] = units;
     }
 
-    print(name, distance) {
+    print(name, value, options = {}) {
       const scope = "javascripts.directions.distance_in_units";
+      const distance = value.toLocaleString(OSM.i18n.locale, { maximumFractionDigits: 0, ...options });
       return OSM.i18n.t(name, { scope, distance });
     }
 
@@ -29,9 +30,9 @@ function RouteOutput(map) {
       const minorValue = m / this.minorScale;
       const majorValue = m / this.majorScale;
 
-      if (minorValue < 1000 || majorValue < 0.25) return this.print(this.minorName, Math.round(minorValue));
-      if (majorValue < 10) return this.print(this.majorName, majorValue.toFixed(1));
-      return this.print(this.majorName, Math.round(majorValue));
+      if (minorValue < 1000 || majorValue < 0.25) return this.print(this.minorName, minorValue);
+      if (majorValue < 10) return this.print(this.majorName, majorValue, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      return this.print(this.majorName, majorValue);
     }
 
     stepDistance(m) {
@@ -39,17 +40,17 @@ function RouteOutput(map) {
       const majorValue = m / this.majorScale;
 
       if (minorValue < 5) return "";
-      if (minorValue < 200) return this.print(this.minorName, Math.round(minorValue / 10) * 10);
-      if (minorValue < 1500 || majorValue < 0.25) return this.print(this.minorName, Math.round(minorValue / 100) * 100);
-      if (majorValue < 5) return this.print(this.majorName, majorValue.toFixed(1));
-      return this.print(this.majorName, Math.round(majorValue));
+      if (minorValue < 200) return this.print(this.minorName, minorValue, { roundingIncrement: 10 });
+      if (minorValue < 1500 || majorValue < 0.25) return this.print(this.minorName, minorValue, { roundingIncrement: 100 });
+      if (majorValue < 5) return this.print(this.majorName, majorValue, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      return this.print(this.majorName, majorValue);
     }
 
     height(m) {
       if (isNaN(m)) return "";
       const minorValue = m / this.minorScale;
 
-      return this.print(this.minorName, Math.round(minorValue));
+      return this.print(this.minorName, minorValue);
     }
 
     time(s) {
@@ -58,7 +59,10 @@ function RouteOutput(map) {
 
       m -= h * 60;
 
-      return h + ":" + (m < 10 ? "0" : "") + m;
+      if (!Intl.DurationFormat) return h + ":" + (m < 10 ? "0" : "") + m;
+
+      return new Intl.DurationFormat(OSM.i18n.locale, { style: "short", minutesDisplay: h ? "auto" : "always" })
+        .format({ hours: h, minutes: m });
     }
   }
 
