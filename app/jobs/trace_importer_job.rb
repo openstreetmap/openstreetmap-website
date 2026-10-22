@@ -4,7 +4,9 @@ class TraceImporterJob < ApplicationJob
   queue_as :traces
 
   def perform(trace)
-    gpx = trace.import
+    # Lock the trace so that TraceDestroyerJob waits for the import to finish,
+    # with a key share lock so that it can still be marked as not visible
+    gpx = trace.with_lock("for key share") { trace.import }
 
     if gpx.actual_points.positive?
       GpxImportSuccessNotifier.with(:record => trace, :possible_points => gpx.actual_points).deliver_later
