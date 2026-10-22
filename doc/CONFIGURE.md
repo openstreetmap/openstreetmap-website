@@ -98,6 +98,24 @@ Alternatively, you can create users manually using the web interface at [http://
    >> quit
    ```
 
+### Administration and Moderation Pages
+
+These pages provide administration and moderation tools for your installation. The links below assume the website is running at `http://localhost:3000`.
+
+Administrator and moderator are separate roles; neither includes the other. Use the console commands above to grant both roles if a user needs both sets of tools.
+
+| Page | Purpose | Who can view | Who can manage |
+| --- | --- | --- | --- |
+| [Users](http://localhost:3000/users/active) | List and filter user accounts (this link selects active users). | Administrators | Administrators |
+| [Issues](http://localhost:3000/issues) | Review and resolve reports about users, notes, diary entries and diary comments. | Administrators and moderators | Administrators and moderators |
+| [User blocks](http://localhost:3000/user_blocks) | Review blocks issued to users. | Public | Moderators |
+| [Redactions](http://localhost:3000/redactions) | Review redactions of historical map data versions. | Public | Moderators |
+| [Moderation zones](http://localhost:3000/moderation_zones) | Restrict anonymous note creation in selected areas. | Moderators | Moderators |
+
+Public listings do not require a login, but changing them requires the role shown above. Issues are only visible to users with the role to which the issue is assigned. Editing and revoking user blocks and moderation zones is subject to further restrictions based on their creator, revoker and active status.
+
+Other controls appear on existing pages: administrators can change account status (including suspension) and grant or revoke roles on user profiles. Both administrators and moderators can hide or unhide diary entries and diary comments on the diary pages.
+
 ## OAuth Setup
 
 There are two built-in applications which communicate via the API, and therefore need to be registered as OAuth 2 applications. These are:
