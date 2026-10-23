@@ -204,6 +204,8 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     assert_redirected_to login_for_oauth_path
     get login_for_oauth_path
 
+    # TODO: This is passing the params in the query string,
+    # not as POST data
     post login_path(:username => user.email, :password => "s3cr3t")
     follow_redirect!
     assert_response :success

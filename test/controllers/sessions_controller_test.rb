@@ -34,25 +34,27 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_login
-    user = create(:user)
-
     get login_path
     assert_redirected_to login_path(:cookie_test => true)
     follow_redirect!
     assert_response :success
     assert_template "sessions/new"
 
-    get login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
+    user1 = create(:user)
+    get login_path, :params => { :username => user1.display_name, :password => "s3cr3t" }
     assert_response :success
     assert_template "sessions/new"
 
-    post login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
+    user2 = create(:user)
+    post login_path, :params => { :username => user2.display_name, :password => "s3cr3t" }
     assert_redirected_to root_path
 
-    post login_path, :params => { :username => " #{user.display_name}", :password => "s3cr3t" }
+    user3 = create(:user)
+    post login_path, :params => { :username => " #{user3.display_name}", :password => "s3cr3t" }
     assert_redirected_to root_path
 
-    post login_path, :params => { :username => "#{user.display_name} ", :password => "s3cr3t" }
+    user4 = create(:user)
+    post login_path, :params => { :username => "#{user4.display_name} ", :password => "s3cr3t" }
     assert_redirected_to root_path
   end
 
@@ -89,6 +91,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal({ :partial => "sessions/suspended_flash" }, flash[:error])
   end
 
+  def test_login_invalid_user
+    post login_path, :params => { :username => "nobody", :password => "noone", :remember_me => "0" }
+    assert_redirected_to login_path(:username => "nobody", :remember_me => false)
+    assert_equal(I18n.t("sessions.new.auth failure"), flash[:error])
+  end
+
   def test_login_invalid_password
     user = create(:user)
 
@@ -105,13 +113,17 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal(I18n.t("sessions.new.reset_to_login"), flash[:warning])
   end
 
+  # TODO: all the below are logging out without first logging
+  # in. Tests should be more realistic than that. In Devise
+  # it does behave differently.
+
   def test_logout_without_referer
-    post logout_path
+    delete logout_path
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
-    post logout_path, :params => { :referer => "/test" }
+    delete logout_path, :params => { :referer => "/test" }
     assert_redirected_to "/test"
   end
 

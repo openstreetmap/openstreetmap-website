@@ -36,6 +36,24 @@ require "rails/test_help"
 require "webmock/minitest"
 require "minitest/focus"
 
+if ENV["TEST_IN_ORDER"]
+  module Minitest
+    # Copied from minitest. I just commented out the shuffle
+    def self.run_all_suites(reporter, options)
+      suites = Runnable.runnables # .shuffle
+      parallel, serial = suites.partition { |s| s.run_order == :parallel }
+
+      # If we run the parallel tests before the serial tests, the parallel tests
+      # could run in parallel with the serial tests. This would be bad because
+      # the serial tests won't lock around Reporter#record. Run the serial tests
+      # first, so that after they complete, the parallel tests will lock when
+      # recording results.
+      serial.map { |suite| suite.run_suite reporter, options } +
+        parallel.map { |suite| suite.run_suite reporter, options }
+    end
+  end
+end
+
 WebMock.disable_net_connect!(:allow_localhost => true, :allow => %w[selenium-default selenium-de selenium-nolang rails-app])
 
 # Scan each job performed for N+1 queries, in the same way as requests are
@@ -72,6 +90,17 @@ module ActiveSupport
 
       parallelize_teardown do
         SimpleCov.result
+      end
+    end
+
+    if ENV["TEST_IN_ORDER"]
+      def self.runnable_methods
+        public_instance_methods(true)
+          .grep(/^test_/)
+          .map { |name| { :name => name, :loc => public_instance_method(name).source_location } }
+          .sort_by { |h| h[:loc].reverse }
+          .map { |h| h[:name].to_s }
+          .tap { |name| print "\n#{self.name} " unless name.empty? }
       end
     end
 
@@ -254,7 +283,7 @@ module ActiveSupport
 
     def session_for(user)
       get login_path
-      post login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
+      post user_session_path, :params => { :username => user.display_name, :password => "s3cr3t" }
       follow_redirect!
     end
 
@@ -442,4 +471,9 @@ module ActiveSupport
       Rails.root.join("test", "fixtures", relpath).read
     end
   end
+end
+
+if ENV["TEST_FAIL_FAST"]
+  require "minitest/fail_fast"
+  Minitest.load :fail_fast
 end

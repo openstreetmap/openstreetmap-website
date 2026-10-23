@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-pass_crypt = PasswordHash.create("s3cr3t").first
+pass_crypt = User.create_password("s3cr3t").first
 
 FactoryBot.define do
   factory :user do
