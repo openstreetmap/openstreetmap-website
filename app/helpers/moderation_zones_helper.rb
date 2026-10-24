@@ -23,6 +23,30 @@ module ModerationZonesHelper
     end
   end
 
+  def moderation_zone_form_ends_at(moderation_zone)
+    moderation_zone.ends_at&.beginning_of_minute
+  end
+
+  # No lower bound once a zone has already ended: editing it (eg: fixing a
+  # typo) shouldn't be blocked just because its expiry is in the past.
+  # Otherwise, don't allow picking a time before now.
+  def moderation_zone_ends_at_min(moderation_zone)
+    return if moderation_zone.persisted? && !moderation_zone.active?
+
+    Time.now.utc.beginning_of_minute
+  end
+
+  def moderation_zone_ends_at_max
+    10.years.from_now.beginning_of_minute
+  end
+
+  def selected_moderation_zone_expiry_type(moderation_zone)
+    param_value = params.dig(:moderation_zone, :expiry_type)
+    return param_value if %w[relative absolute].include?(param_value)
+
+    moderation_zone.persisted? ? "absolute" : "relative"
+  end
+
   def moderation_zone_short_status(moderation_zone)
     if moderation_zone.active?
       t("moderation_zones.helper.short.active")

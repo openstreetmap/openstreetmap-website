@@ -27,5 +27,8 @@ class ModerationZoneTest < ActiveSupport::TestCase
 
     modzone2 = create(:moderation_zone, :ends_at => 1.day.ago)
     assert_not_predicate modzone2, :active?
+
+    # Doesn't crash for a freshly-built record with no ends_at yet.
+    assert_not_predicate ModerationZone.new, :active?
   end
 end

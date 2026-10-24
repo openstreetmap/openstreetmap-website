@@ -59,8 +59,17 @@ class ModerationZonesController < ApplicationController
   end
 
   def moderation_zone_params
-    params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
-      safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
+    params.expect(:moderation_zone => [:name, :reason, :zone, :period, :expiry_type, :ends_at]).tap do |safe_params|
+      expiry_type = safe_params.delete(:expiry_type)
+      raise RailsParam::InvalidParameterError, "expiry_type is invalid" unless %w[relative absolute].include?(expiry_type)
+
+      period = safe_params.delete(:period)
+
+      safe_params[:ends_at] = if expiry_type == "absolute"
+                                Time.zone.parse(safe_params[:ends_at].to_s)&.utc&.beginning_of_minute
+                              else
+                                period.to_i.hours.from_now
+                              end
     end
   end
 
