@@ -316,6 +316,9 @@ zh-HK:
         successfully_declared: 你已成功聲明你的貢獻歸屬公有領域。
         already_declared: 你已聲明你的貢獻歸屬公有領域。
         did_not_confirm: 你尚未聲明你的貢獻歸屬公有領域。
+    auth_deletions:
+      show:
+        title: 資料刪除請求
   browse:
     deleted_ago_by_html: 由%{user}於%{time_ago}刪除
     edited_ago_by_html: 由%{user}於%{time_ago}編輯
@@ -823,9 +826,13 @@ zh-HK:
           aboriginal_lands: 原住民土地
           administrative: 行政邊界
           census: 人口普查邊界
+          low_emission_zone: 低排放區
           national_park: 國家公園
           political: 選區分界
+          postal_code: 郵政編碼
           protected_area: 保護區
+          public_transport: 公共運輸區域
+          timezone: 時區
           "yes": 邊界
         bridge:
           aqueduct: 高架水道
@@ -1001,6 +1008,7 @@ zh-HK:
           milestone: 歷史里程碑
           mine: 礦場
           mine_shaft: 礦井
+          monastery: 古剎
           monument: 古蹟
           railway: 歷史鐵路
           roman_road: 羅馬道路
@@ -1091,7 +1099,7 @@ zh-HK:
           sports_centre: 運動中心
           stadium: 體育館
           swimming_pool: 游泳池
-          track: 跑道
+          track: 賽道（非賽車運動）
           water_park: 水上樂園
           "yes": 休閒
         lock:
@@ -1387,7 +1395,7 @@ zh-HK:
           pet: 寵物店
           pet_grooming: 寵物美容
           photo: 沖曬店
-          seafood: 海鮮店
+          seafood: 海鮮檔
           second_hand: 二手商店
           sewing: 縫紉用品店
           shoes: 鞋店
@@ -1661,6 +1669,7 @@ zh-HK:
         ia: 國際語
         is: 冰島文
         it: 意大利文
+        kw: 康和文
         gcf: 瓜地洛普克里奧爾語
         ku-Latn: 庫爾德文（拉丁字母）
         lv: 拉脫維亞文
@@ -1700,6 +1709,7 @@ zh-HK:
         be-Tarask: 白俄羅斯文（傳統正寫法）
         bg: 保加利亞文
         mk: 馬其頓文
+        mt: 馬耳他文
         mo: 摩爾多瓦文
         ce: 車臣文
         ru: 俄文
@@ -1740,6 +1750,7 @@ zh-HK:
   layouts:
     logo:
       alt_text: OpenStreetMap標誌
+    main_navigation: 主導航
     layer_info: 圖層資訊
     start_mapping: 開始繪圖
     intro_header: 歡迎蒞臨 OpenStreetMap！
@@ -1747,6 +1758,8 @@ zh-HK:
     hosting_partners_2024_html: 網頁寄存由%{fastly}、%{corpmembers}與其他%{partners}支援。
     partners_corpmembers: OSMF企業會員
     partners_partners: 合作伙伴
+    welcome_tou_notice_html: 閣下使用本網站或OpenStreetMap所提供之其他基礎設施，即表示同意%{terms_link}。
+    terms_of_use: 使用條款
     tou: 使用條款
     nothing_to_preview: 並無可供預覽之內容。
     learn_more: 了解更多
@@ -1754,6 +1767,7 @@ zh-HK:
       about: 關於
       communities: 社群
       copyright: 版權
+      donate: 捐助
       edit: 編輯
       edit_with: 用%{editor}來編輯
       export: 匯出
@@ -1768,6 +1782,7 @@ zh-HK:
       select_language: 選擇語言
       sign_up: 註冊
       user_diaries: 用戶日誌
+      navigation: 主選單
     meta:
       openstreetmap_search: OpenStreetMap搜尋
     select_language_button:
@@ -2009,8 +2024,9 @@ zh-HK:
       update_success_flash:
         message: 偏好設定經已更新。
       navigation:
-        preferences: 偏好設定
-        advanced_preferences: 進階偏好設定
+        preferences: 介面
+        notification_preferences: 通知
+        advanced_preferences: 進階
     basic_preferences:
       show:
         title: 我的偏好設定
@@ -2031,6 +2047,12 @@ zh-HK:
           light: 淺色
           dark: 深色
         save: 更新偏好選項
+    notification_preferences:
+      show:
+        title: 通知設定
+        direct_message: 私人訊息
+        delivery_mechanisms:
+          email: 電郵
     advanced_preferences:
       show:
         title: 我的進階偏好設定
@@ -2043,6 +2065,7 @@ zh-HK:
         image: 圖片
         company: 公司
         location: 位置
+        contribution_calendar: 貢獻日曆
     descriptions:
       show:
         title: 編輯個人檔案
@@ -2389,6 +2412,8 @@ zh-HK:
       get_directions_title: 搜尋兩點之間的路綫指引
       from: 由
       to: 前往
+      marker_from: 路綫起點標記
+      marker_to: 路綫終點標記
       where_am_i: 這是哪裏？
       where_am_i_title: 使用搜尋器描述目前位置
       submit_text: 出發
@@ -2558,6 +2583,13 @@ zh-HK:
       image_dimensions_html: 輸出之圖像會以%{width} × %{height}之尺寸顯示%{layer}圖層
       download: 下載
       downloading: 下載中⋯⋯
+  webgl_error_panes:
+    show:
+      compact_message: 此地圖需要WebGL功能。
+      description_html: 抱歉，似乎%{your_browser_does_not_support_webgl}，此乃在網頁上渲染3D圖形之技術。
+      your_browser_does_not_support_webgl: 你的瀏覽器並不支援WebGL
+      webgl_is_required_for_this_map: 此地圖需要WebGL方能顯示。
+      read_more_about_webgl: 了解詳情
   traces:
     visibility:
       private: 私密（只以匿名形式顯示，節點排列不分先後）
@@ -2596,7 +2628,7 @@ zh-HK:
       description: 描述：
       tags: 標籤：
       none: 無
-      edit_trace: 編輯此軌跡
+      edit_trace: 編輯軌跡詳情
       delete_trace: 刪除此軌跡
       trace_not_found: 找不到軌跡！
       visibility: 能見度：
@@ -2606,6 +2638,7 @@ zh-HK:
       count_points: '%{count}個點'
       more: 更多
       trace_details: 檢視軌跡詳細資料
+      trace_actions: 軌跡操作
       view_map: 檢視地圖
       edit_map: 編輯地圖
       public: 公開
@@ -2830,12 +2863,15 @@ zh-HK:
         html: 你的電郵地址不會公開顯示，詳情請參閱%{privacy_policy_link}。
       or: 或
       use external auth: 或使用第三方服務註冊
+    create:
+      not_human: 抱歉，我們未能確認你是真人。如要建立新賬號，必須通過此驗證。
     no_such_user:
       title: 沒有這用戶
       heading: 查無用戶%{user}
       body: 抱歉，沒有名為%{user}的用戶。請檢查您的拼寫，或者您可能按到了錯誤的連結。
       deleted: 已刪除賬號
     show:
+      actions: 操作
       my diary: 我的日誌
       my edits: 我的編輯紀錄
       my traces: 我的軌跡
@@ -3154,12 +3190,16 @@ zh-HK:
         text: 自行編輯內容
       counter_warning_forum_link:
         text: 社群可以幫助你
-      advice: 你的註記將會公開顯示，並可能用於更新地圖，因此請勿輸入個人資料以及擷取自受版權保護地圖來源的資訊。
+      advice: 任何人不論是否擁有OpenStreetMap賬號，皆可查看註記。
+      advice_good_note: 註記以詳細具體為宜，並請避免包含個人資料或擷取自受版權保護地圖來源的資訊。
+      advice_conduct: 與社群其他成員溝通時，應保持友善，耐心傾聽，並尊重對方。
       add: 加入註記
+      error: 新增註記時發生錯誤
     new_readonly:
       title: 新增註記
       warning: OpenStreetMap API現時處於唯讀模式，因此無法加入新註記。
     notes_paging_nav:
+      label: 頁面導覽
       showing_page: 第%{page}頁
       next: 下一頁
       previous: 上一頁
@@ -3179,6 +3219,10 @@ zh-HK:
       tooltip: 圖例
       tooltip_disabled: 此圖層不設圖例
     map:
+      Map:
+        Title: 地圖
+      Marker:
+        Title: 地圖標記
       Popup:
         Close: 關閉
       NavigationControl:
@@ -3189,6 +3233,8 @@ zh-HK:
         LocationNotAvailable: 未能提供位置
         metersPopup: 你身處於此位置的%{count}米以內
         feetPopup: 你身處於此位置的%{count}呎以內
+      AttributionControl:
+        ToggleAttribution: 切換署名
       base:
         standard: 標準
         cycle_map: 單車地圖
@@ -3364,9 +3410,45 @@ zh-HK:
       not_empty: 遮蓋項目尚未清空。在銷毀此遮蓋項目前，請先清除所有歸屬此遮蓋項目的版本。
       flash: 遮蓋項目已被銷毀。
       error: 銷毀此遮蓋項目時出現錯誤。
+  acls:
+    navigation:
+      new_title: 建立新的ACL
+      new: 新ACL
+      actions: ACL操作
+    index:
+      title: ACL
+      empty: 查無ACL可供顯示。
+    page:
+      address: 地址
+      domain: 網域
+      mx: MX伺服器
+      k: 鍵
+      v: 值
+      actions: 操作
+    acl:
+      edit_button: 編輯
+      destroy_button: 刪除
+      confirm: 你是否確定？
+    form:
+      cancel: 取消
+    new:
+      title: 新ACL
+    create:
+      success: 成功新增ACL。
+    edit:
+      title: 編輯ACL
+    update:
+      success: ACL已更新。
+    destroy:
+      success: ACL已刪除。
   validations:
     leading_whitespace: 前頭有空格
     trailing_whitespace: 尾隨有空格
     invalid_characters: 包含無效字元
     url_characters: 包含特定URL字元（%{characters}）
+  moderation_zones:
+    helper:
+      short:
+        ended: 已完結
+        revoked_html: 已被%{name}撤銷
 ...

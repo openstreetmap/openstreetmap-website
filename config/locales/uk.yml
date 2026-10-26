@@ -100,6 +100,10 @@ uk:
           attributes:
             url:
               http_parse_error: URL має починатися з http:// або https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: не можна повернути до застарілого значення
     models:
       acl: Список контролю доступу
       changeset: Набір змін
@@ -137,6 +141,12 @@ uk:
       way_node: Точка лінії
       way_tag: Теґ лінії
     attributes:
+      acl:
+        address: Адреса
+        domain: Домен
+        mx: сервер MX
+        k: Ключ
+        v: Значення
       diary_comment:
         body: Текст
       diary_entry:
@@ -199,6 +209,13 @@ uk:
         pass_crypt: Пароль
         pass_crypt_confirmation: Підтвердьте пароль
     help:
+      acl:
+        address: IP-адреса або CIDR мережі, наприклад, 192.0.2.0/24
+        domain: Домен електронної пошти; піддомени також враховуються
+        mx: Ім’я хосту MX-сервера для домену електронної пошти
+        k: 'Одне з наступного: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Додаткова примітка, наприклад, причина створення цього запису
       doorkeeper/application:
         confidential: Застосунок буде використовуватись там де секретний ключ може
           бути захищений системами підтримання конфіденційності (мобільні застосунки
@@ -285,7 +302,62 @@ uk:
         few: приблизно за %{count} години
         many: приблизно за %{count} годин
         other: ""
+      about_x_months:
+        one: приблизно через %{count} місяць
+        few: приблизно через %{count} місяці
+        many: приблизно через %{count} місяць
+        other: ""
+      about_x_years:
+        one: приблизно через %{count} рік
+        few: приблизно через %{count} роки
+        many: приблизно через %{count} років
+        other: ""
+      almost_x_years:
+        one: приблизно через %{count} рік
+        few: приблизно через %{count} роки
+        many: приблизно через %{count} років
+        other: ""
       half_a_minute: за півхвилини
+      less_than_x_seconds:
+        one: менше ніж %{count} секунду
+        few: менше ніж %{count} секунди
+        many: менше ніж %{count} секунд
+        other: ""
+      less_than_x_minutes:
+        one: менше ніж %{count} хвилину
+        few: менше ніж %{count} хвилини
+        many: менше ніж %{count} хвилин
+        other: ""
+      over_x_years:
+        one: приблизно через %{count} рік
+        few: приблизно через %{count} роки
+        many: приблизно через %{count} років
+        other: ""
+      x_seconds:
+        one: через %{count} секунду
+        few: через %{count} секунди
+        many: через %{count} секунд
+        other: ""
+      x_minutes:
+        one: через %{count} хвилину
+        few: через %{count} хвилини
+        many: через %{count} хвилин
+        other: ""
+      x_days:
+        one: через %{count} день
+        few: через %{count} дні
+        many: через %{count} днів
+        other: ""
+      x_months:
+        one: через %{count} місяць
+        few: через %{count} місяці
+        many: через %{count} місяців
+        other: ""
+      x_years:
+        one: через %{count} рік
+        few: через %{count} роки
+        many: через %{count} років
+        other: ""
   editor:
     default: Типовий (зараз %{name})
     id:
@@ -552,6 +624,9 @@ uk:
       colour_preview: Перегляд кольору %{colour_value}
       email_link: Надіслати електронний лист %{email}
     versions_navigation:
+      node_versions: Версії точки
+      way_versions: Версії лінії
+      relation_versions: Версії звʼязку
       node: Точка
       way: Лінія
       relation: Зв’язок
@@ -568,10 +643,13 @@ uk:
     index:
       node:
         title_html: 'Історія точки: %{name}'
+        actions: Дії з точками
       way:
         title_html: 'Історія лінії: %{name}'
+        actions: Дії з лініями
       relation:
         title_html: 'Історія зв’язку: %{name}'
+        actions: Дії зі звʼязками
       older_versions: Старіші версії
       newer_versions: Новіші версії
     actions:
@@ -739,6 +817,7 @@ uk:
       latest_edit_html: 'Останнє редагування (%{ago}):'
       no_edits: (редагувань немає)
       view_changeset_details: Подивитися подробиці набору змін
+      actions: Дії користувача
     popup:
       your location: Ваше місце розташування
       nearby mapper: Мапери поруч з вами
@@ -752,11 +831,15 @@ uk:
       no followings: Ви поки що не слідкуєте за жодним учасником.
       nearby users: Інші мапери поруч
       no nearby users: Поблизу поки немає маперів, які позначили своє розташування.
+      followed_actions: Дії для користувачів, на яких ви підписані
       followed_changesets: набори змін
       followed_diaries: щоденники
+      nearby_actions: Дії для користувачів поблизу
       nearby_changesets: набори змін від маперів, що знаходяться поруч
       nearby_diaries: дописи в щоденниках маперів, що знаходяться поруч з вами
   notifications:
+    missing_record:
+      body: На жаль, це більше не доступно.
     index:
       title: Сповіщення
       no_notifications: Наразі у вас немає сповіщень
@@ -837,6 +920,7 @@ uk:
       posted_by_html: 'Опубліковано учасником %{link_user} %{created}, мова: %{language_link}'
       updated_at_html: В останнє оновлено %{updated}.
       full_entry: Переглянути весь допис
+      actions: Дії для записів у щоденнику
       comment_link: Коментувати
       reply_link: Надіслати повідомлення автору
       comment_count:
@@ -875,6 +959,7 @@ uk:
       heading: Відписатись від обговорення цього допису щоденника?
       button: Відписатися від обговорення
     navigation:
+      actions: Дії у щоденнику
       in_language: Дописи в щоденнику (%{language})
       my_diary: Мій щоденник
       new: Новий допис у щоденнику
@@ -1867,6 +1952,7 @@ uk:
       report_created_at_html: Вперше повідомлено %{datetime}
       last_resolved_at_html: Востаннє розвʼязано %{datetime}
       last_updated_at_html: В останнє оновлено %{datetime}, %{displayname}
+      actions: Дії для скарг
       resolve: Розв'язати
       ignore: Ігнорувати
       reopen: Повторно відкрити
@@ -2022,6 +2108,7 @@ uk:
         be-Tarask: Білоруська (тарашк.)
         bg: Болгарська
         mk: Македонська
+        mt: Мальтійська
         mo: Молдавська
         ce: Чеченська
         ru: Російська
@@ -2097,6 +2184,7 @@ uk:
       select_language: Обрати мову
       sign_up: Реєстрація
       user_diaries: Щоденники
+      navigation: Основна навігація
     meta:
       openstreetmap_search: Пошук OpenStreetMap
     select_language_button:
@@ -3204,6 +3292,7 @@ uk:
         other: ""
       more: більше
       trace_details: Показати дані треку
+      trace_actions: Дії для треків
       view_map: Переглянути місцезнаходження на карті
       edit_map: Відкрити в редакторі
       public: ЗАГАЛЬНИЙ
@@ -3217,6 +3306,7 @@ uk:
       my_gps_traces: Мої GPS-треки
       public_traces_from: Загальнодоступні GPS треки %{user}
       description: Огляд останніх завантажених треків GPS
+      actions: Дії для списку треків
       tagged_with: '  позначені %{tags}'
       empty_title: Тут ще нічого немає
       empty_upload_html: '%{upload_link} або дізнайтеся більше про запис GPS-треків
@@ -3228,8 +3318,46 @@ uk:
       my_traces: Мої GPS-треки
       traces_from_html: Загальнодоступні GPS треки %{user}
       remove_tag_filter: Прибрати фільтри
+      legacy_traces: Мої застарілі треки
     destroy:
       scheduled_for_deletion: Заплановано для вилучення
+    legacy_visibilities:
+      edit:
+        title: Мої старі GPS-треки
+        description: Це ваші треки, які досі використовують старий рівень видимості —
+          «приватний» або «публічний». Ви можете змінити їх тут на «відстежуваний»
+          або «ідентифікований». Заплановані вдосконалення щодо GPS-треків стосуватимуться
+          лише треків із рівнями видимості «відстежуваний» та «ідентифікований».
+        filter:
+          visibility: Поточна видимість
+          any: Приватні та публічні
+          from: Завантажено з
+          to: Завантажено
+          apply: Фільтр
+        empty: Жоден застарілий трек не збігається з фільтром.
+        new_visibility: Нова видимість
+        no_undo: Цю зміну не можна скасувати.
+        button:
+          one: Змінити %{count} трек
+          few: Змінити %{count} треки
+          many: Змінити %{count} треків
+          other: ""
+        confirmation:
+          header: Підтвердити зміну видимості
+          body:
+            one: Змінити видимість %{count} треку? Цю дію неможливо скасувати.
+            few: Змінити видимість %{count} треків? Цю дію неможливо скасувати.
+            many: Змінити видимість %{count} треків? Цю дію неможливо скасувати.
+            other: ' Цю дію неможливо скасувати.'
+          cancel: Скасувати
+          confirm: Змінити видимість
+      update:
+        updated:
+          one: Змінено видимість %{count} треку.
+          few: Змінено видимість %{count} треків.
+          many: Змінено видимість %{count} треків.
+          other: ""
+        invalid_visibility: Будь ласка, виберіть видність, на яку потрібно перейти.
     offline_warning:
       message: Доступ до системи завантаження GPX-файлів на поточний момент відсутній
     offline:
@@ -3328,6 +3456,12 @@ uk:
       preview: Попередній перегляд
       help: Допомога
     pagination:
+      label: Навігація сторінками
+      acls:
+        older: Старіші ACL
+        newer: Новіші ACL
+        oldest: Найстаріші ACL
+        newest: Найновіші ACL
       changeset_comments:
         older: Старіші коментарі
         newer: Новіші коментарі
@@ -3492,6 +3626,8 @@ uk:
         вводу. Можливо, ви перейшли з помилкового посилання.
       deleted: '''Профіль вилучено'''
     show:
+      actions: Дії
+      admin_actions: Адміністративні дії
       my diary: Мій щоденник
       my edits: Мої редагування
       my traces: Мої треки
@@ -3881,9 +4017,13 @@ uk:
       counter_warning_forum_link:
         text: спільнота допоможе вам
         url: https://community.openstreetmap.org/c/communities/ua/66
-      advice: Ваша нотатка є публічною та може бути використана для оновлення мапи.
-        Будь ласка, не додавайте персональні дані або інформацію, яка міститься на
-        захищених авторським правом мапах чи каталогах.
+      advice: Будь-хто з користувачів може переглянути примітку, навіть не маючи облікового
+        запису в OpenStreetMap!
+      advice_good_note: Хороший опис має бути якомога детальнішим, при цьому слід
+        уникати зазначення особистої інформації, а також вмісту з мап чи каталогів,
+        захищених авторським правом.
+      advice_conduct: Будьте ввічливими, терплячими та поважними під час спілкування
+        з учасниками спільноти.
       add: Додати нотатку
       error: При створенні нотатки сталася помилка
     new_readonly:
@@ -3891,6 +4031,7 @@ uk:
       warning: Неможливо створити нові нотатки, оскільки API OpenStreetMap зараз у
         режимі лише для читання.
     notes_paging_nav:
+      label: Навігація сторінкою
       showing_page: Сторінка %{page}
       next: Далі
       previous: Назад
@@ -4125,15 +4266,48 @@ uk:
         до цієї редакції перед тим як її знищити.
       flash: Редакцію знищено.
       error: Помилка під час знищення цієї редакції.
+  acls:
+    navigation:
+      new_title: Додати новий ACL
+      new: Новий ACL
+      actions: Дії ACL
+    index:
+      title: ACL
+      empty: Немає ACL для показу.
+    page:
+      address: Адреса
+      domain: Домен
+      mx: MX-сервер
+      k: Ключ
+      v: Значення
+      actions: Дії
+    acl:
+      edit_button: Редагувати
+      destroy_button: Вилучити
+      confirm: Ви впевнені?
+    form:
+      cancel: Скасувати
+    new:
+      title: Новий ACL
+    create:
+      success: ACL створено.
+    edit:
+      title: Редагування ACL
+    update:
+      success: ACL оновлено.
+    destroy:
+      success: ACL видалено.
   validations:
     leading_whitespace: має пробіл на початку
     trailing_whitespace: має пробіл в кінці
     invalid_characters: містить неприпустимі символи
     url_characters: містить спеціальні символи URL (%{characters})
+    email_characters: містить помилкові символи (%{characters})
   moderation_zones:
     navigation:
       new_title: Визначте нову зону модерації
       new: Нова зона модерації
+      actions: Дії зони модерації
     index:
       title: Зони модерації
       heading: Зони модерації

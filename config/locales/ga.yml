@@ -61,7 +61,7 @@ ga:
             visibility:
               cannot_change_to_legacy: ní féidir é a athrú ar ais go luach oidhreachta
     models:
-      acl: Liosta Rialaithe Rochtana
+      acl: ACL
       changeset: Tacar athruithe
       changeset_tag: Clib do Thacar athruithe
       country: Tír
@@ -97,6 +97,12 @@ ga:
       way_node: Nód Bealaigh
       way_tag: Clib Bhealaigh
     attributes:
+      acl:
+        address: Seoladh
+        domain: Fearann
+        mx: Freastalaí MX
+        k: Eochair
+        v: Luach
       diary_comment:
         body: Corp
       diary_entry:
@@ -159,6 +165,13 @@ ga:
         pass_crypt: Focal Faire
         pass_crypt_confirmation: Deimhnigh an Focal Faire
     help:
+      acl:
+        address: Seoladh IP nó líonra CIDR, m.sh. 192.0.2.0/24
+        domain: Fearann ​​ríomhphoist; déantar meaitseáil ar fho-fhearainn freisin
+        mx: Ainm ósta freastalaí MX don fhearann ​​ríomhphoist
+        k: 'Ceann de na roghanna seo: no_account_creation, allow_account_creation,
+          no_note_comment, no_trace_download'
+        v: Nóta roghnach, m.sh. an chúis leis an iontráil seo
       doorkeeper/application:
         confidential: Úsáidfear feidhmchlár nuair is féidir rún an chliaint a choinneáil
           faoi rún (níl aipeanna soghluaiste dúchasacha agus aipeanna leathanaigh
@@ -830,6 +843,8 @@ ga:
       nearby_changesets: tacair athruithe úsáideora in aice láimhe
       nearby_diaries: iontrálacha dialainne úsáideora in aice láimhe
   notifications:
+    missing_record:
+      body: Ar an drochuair, níl sé seo ar fáil a thuilleadh.
     index:
       title: Fógraí
       no_notifications: Níl aon fhógraí agat faoi láthair
@@ -2105,6 +2120,7 @@ ga:
         be-Tarask: Bealarúisis (Tarašk.)
         bg: Bulgáiris
         mk: Macadóinis
+        mt: Máltais
         mo: Moldóvach
         ce: Seisnis
         ru: Rúisis
@@ -2993,18 +3009,22 @@ ga:
           Zúmáil isteach nó roghnaigh limistéar níos lú, nó bain triail as ceann de
           na foinsí atá sa liosta thíos chun bulc-íoslódálacha sonraí a dhéanamh.
         planet:
+          url: https://planet.openstreetmap.org/
           title: Planet OSM
           description: Cóipeanna a dhéantar a nuashonrú go rialta de bhunachar sonraí
             iomlán OpenStreetMap
         overpass:
+          url: https://overpass-api.de/api/map
           title: Comhéadan feidhmchláir Overpass
           description: Íoslódáil an bosca teorainn seo ó scáthán den bhunachar sonraí
             OpenStreetMap
         geofabrik:
+          url: https://download.geofabrik.de/
           title: Íoslódálacha Geofabrik
           description: Asbhaintí a thugtar cothrom le dáta go rialta de mhór-ranna,
             tíortha agus cathracha roghnaithe
         other:
+          url: https://wiki.openstreetmap.org/wiki/Downloading_data
           title: Foinsí Eile
           description: Tá liosta de na foinsí breise ar vicí OpenStreetMap
       export_button: Easportáil
@@ -3423,8 +3443,50 @@ ga:
       my_traces: Mo Rianta
       traces_from_html: Rianta Poiblí ó %{user}
       remove_tag_filter: Bain Scagaire Clibeanna
+      legacy_traces: Rian mo Oidhreachta
     destroy:
       scheduled_for_deletion: Lorg sceidealta le scriosadh
+    legacy_visibilities:
+      edit:
+        title: Mo Riananna GPS Ón Am Atá Caite
+        description: Seo iad na rianta agat a úsáideann an sean-shocrú infheictheachta
+          — príobháideach nó poiblí. Is féidir leat iad a athrú anseo go dtí an stádas
+          inrianaithe nó inaitheanta. Ní bhainfidh na feabhsuithe atá beartaithe do
+          rianta GPS ach leis na cinn atá inrianaithe agus inaitheanta.
+        filter:
+          visibility: Infheictheacht reatha
+          any: Príobháideach agus poiblí
+          from: Uaslódáilte ó
+          to: Uaslódáilte chuig
+          apply: Scagaire
+        empty: Níl aon rianta oidhreachta ann a mheaitseálann an scagaire seo.
+        new_visibility: Infheictheacht nua
+        no_undo: Ní féidir an t-athrú seo a chealú.
+        button:
+          one: Athraigh rian amháin
+          two: Athraigh %{count} rian
+          few: Athraigh %{count} rian
+          many: Athraigh %{count} rian
+          other: Athraigh %{count} rian
+        confirmation:
+          header: Deimhnigh an t-athrú infheictheachta
+          body:
+            one: Athraigh infheictheacht %{count} riain? Ní féidir é seo a chealú.
+            two: Athraigh infheictheacht %{count} rian? Ní féidir é seo a chealú.
+            few: Athraigh infheictheacht %{count} rian? Ní féidir é seo a chealú.
+            many: Athraigh infheictheacht %{count} rian? Ní féidir é seo a chealú.
+            other: Athraigh infheictheacht %{count} rian? Ní féidir é seo a chealú.
+          cancel: Cealaigh
+          confirm: Athraigh infheictheacht
+      update:
+        updated:
+          one: Athraíodh infheictheacht %{count} rian.
+          two: Athraíodh infheictheacht %{count} rian.
+          few: Athraíodh infheictheacht %{count} rian.
+          many: Athraíodh infheictheacht %{count} rian.
+          other: Athraíodh infheictheacht %{count} rian.
+        invalid_visibility: Roghnaigh leibhéal infheictheachta le hathrú chuige, le
+          do thoil.
     offline_warning:
       message: Níl córas uaslódála na gcomhad GPX ar fáil faoi láthair
     offline:
@@ -3505,6 +3567,8 @@ ga:
         alt: Deilbhín X
     markdown_help:
       heading_html: Parsáilte le %{kramdown_link}
+      kramdown_url: https://kramdown.gettalong.org/quickref.html
+      kramdown: kramdown
       headings: Ceannteidil
       heading: Ceannteideal
       subheading: Fo-cheannteideal
@@ -3524,6 +3588,11 @@ ga:
       help: Cabhair
     pagination:
       label: Nascleanúint leathanaigh
+      acls:
+        older: ACLanna níos sine
+        newer: ACLanna níos sine
+        oldest: Na ACLanna is sine
+        newest: Na ACLanna is déanaí
       changeset_comments:
         older: Tráchtanna níos sine
         newer: Tráchtanna níos nuaí
@@ -4097,9 +4166,12 @@ ga:
       counter_warning_forum_link:
         text: is féidir leis an bpobal cabhrú leat
         url: https://community.openstreetmap.org/
-      advice: Tá do nóta poiblí agus féadfar í a úsáid chun an léarscáil a nuashonrú,
-        mar sin ná cuir isteach faisnéis phearsanta, ná faisnéis ó léarscáileanna
-        cóipchirtithe ná ó liostaí eolaire.
+      advice: Is féidir le haon duine ón bpobal nóta a fheiceáil, fiú gan cuntas OpenStreetMap!
+      advice_good_note: Ba cheart go mbeadh nóta maith chomh tuairisciúil agus is
+        féidir, agus ag an am céanna gan faisnéis phearsanta a áireamh, ná ábhar ó
+        léarscáileanna nó ó liostaí eolaire atá faoi chosaint cóipchirt.
+      advice_conduct: Bí cineálta, foighneach agus measúil, le do thoil, agus tú ag
+        cumarsáid le baill den phobal.
       add: Cuir Nóta Leis
       error: Tharla earráid agus an nóta á chruthú
     new_readonly:
@@ -4352,11 +4424,43 @@ ga:
         an cheilt seo sula scriosfaidh tú í.
       flash: Scriosadh an cheilt.
       error: Tharla earráid agus an cheilt seo á scriosadh.
+  acls:
+    navigation:
+      new_title: Cuir ACL nua leis
+      new: ACL nua
+      actions: Gníomhartha ACL
+    index:
+      title: ACLanna
+      empty: Níl aon ACLanna le taispeáint.
+    page:
+      address: Seoladh
+      domain: Fearann
+      mx: Freastalaí MX
+      k: Eochair
+      v: Luach
+      actions: Gníomhartha
+    acl:
+      edit_button: Eagar
+      destroy_button: Scrios
+      confirm: An bhfuil tú cinnte?
+    form:
+      cancel: Cealaigh
+    new:
+      title: ACL nua
+    create:
+      success: ACL cruthaithe.
+    edit:
+      title: Ag Eagarthóireacht ACL
+    update:
+      success: ACL nuashonraithe.
+    destroy:
+      success: Scriosadh an ACL.
   validations:
     leading_whitespace: tá spás bán chun tosaigh ann
     trailing_whitespace: tá spás bán ina dhiaidh
     invalid_characters: tá carachtair neamhbhailí ann
     url_characters: ina bhfuil carachtair URL speisialta (%{characters})
+    email_characters: tá carachtair neamhbhailí ann (%{characters})
   moderation_zones:
     navigation:
       new_title: Sainmhínigh crios modhnóireachta nua

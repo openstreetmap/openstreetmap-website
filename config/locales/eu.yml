@@ -112,6 +112,12 @@ eu:
       way_node: Bidearen nodoa
       way_tag: Bidearen etiketa
     attributes:
+      acl:
+        address: Helbidea
+        domain: Domeinua
+        mx: MX zerbitzaria
+        k: Giltza
+        v: Balioa
       diary_comment:
         body: Gorputza
       diary_entry:
@@ -174,6 +180,11 @@ eu:
         pass_crypt: Pasahitza
         pass_crypt_confirmation: 'Berretsi pasahitza:'
     help:
+      acl:
+        address: IP helbide bat edo CIDR sare bat, adibidez, 192.0.2.0/24
+        domain: Posta elektronikoko domeinu bat; azpidomeinuak ere topatzen ditu
+        mx: Posta elektronikoaren domeinuaren MX zerbitzariaren ostalari-izena
+        v: Aukerako oharra, adibidez, sarrera honen arrazoia
       doorkeeper/application:
         confidential: Bezeroaren sekretua isilpean gorde daitekeenean erabiliko da
           aplikazioa (jatorrizko aplikazio mugikorrak eta orri bakarreko aplikazioak
@@ -495,8 +506,9 @@ eu:
         way: bide
         relation: erlazio
     start_rjs:
-      feature_warning: '%{num_features} ezaugarri kargatzen, zure arakatzailea motela
-        edo erantzungabekoa bihur daiteke. Ziur datuak bistaratu nahi dituzula?'
+      feature_warning: '%{num_features} ezaugarriak kargatzeak zure nabigatzailea
+        moteldu edo erantzunik gabe utzi dezake. Ziur datuak bistaratu nahi dituzula?'
+      feature_error: 'Ezaugarriak ezin izan dira kargatu: %{message}'
       load_data: Kargatu datuak
       loading: Kargatzen...
     tag_details:
@@ -511,7 +523,13 @@ eu:
       colour_preview: '%{colour_value} kolore aurrikuspena'
       email_link: Helbide-elektronikoa %{email}
     versions_navigation:
+      node_versions: Nodoen bertsioak
+      way_versions: Bide bertsioak
+      relation_versions: Erlazio bertsioak
+      node: Nodoa
       way: Bidea
+      relation: Erlazioa
+      history: Historia
       version: '#%{version} bertsioa'
       versions_label: 'Bertsioak:'
   feature_queries:
@@ -524,12 +542,17 @@ eu:
     index:
       node:
         title_html: 'Nodoaren historia: %{name}'
+        actions: Nodoen ekintzak
       way:
         title_html: 'Bidearen historia: %{name}'
+        actions: Bideko ekintzak
       relation:
         title_html: 'Erlazioaren historia: %{name}'
+        actions: Erlazio ekintzak
       older_versions: Bertsio Zaharragoak
       newer_versions: Bertsio Berriagoak
+    actions:
+      view_redacted_data: Ikusi datu editatuak
   old_nodes:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} nodoaren %{version} bertsioa aurkitu.
