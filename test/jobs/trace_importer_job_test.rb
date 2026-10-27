@@ -100,6 +100,23 @@ class TraceImporterJobTest < ActiveJob::TestCase
     ActionMailer::Base.deliveries.clear
   end
 
+  def test_import_locks_trace
+    # Check that the trace is locked while it is imported, so that
+    # TraceDestroyerJob has to wait for the import to finish
+    trace = create(:trace)
+
+    gpx = Minitest::Mock.new
+    def gpx.actual_points
+      5
+    end
+
+    trace.stub(:import, gpx) do
+      assert_queries_match(/for key share/i, :count => 1) do
+        TraceImporterJob.perform_now(trace)
+      end
+    end
+  end
+
   private
 
   def exception_backtrace_matcher
