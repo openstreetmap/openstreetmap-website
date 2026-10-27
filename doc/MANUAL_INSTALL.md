@@ -257,4 +257,4 @@ Where `$VERSION` is the version you installed. You can see a list of available v
 gem install bundler
 ```
 
-You should now be able to proceed with the rest of the installation. If you're on macOS, make sure you set up the [config override for the libxml2 location](#macos-click-to-expand) _after_ installing bundler.
+You should now be able to proceed with the rest of the installation. If you're on macOS, make sure you set up the [config override for the libxml2 location](#macos) _after_ installing bundler.
