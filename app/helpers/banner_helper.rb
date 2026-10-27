@@ -25,6 +25,9 @@ module BannerHelper
 
   # returns the least recently seen banner that is not hidden
   def next_banner
+    # logged out users don't get banners until they close the welcome banner
+    return unless current_user || cookies[:_osm_welcome] == "hide"
+
     banners = active_banners
     banner_key = nil
     cookie_key = nil
