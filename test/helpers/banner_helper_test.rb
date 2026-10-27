@@ -3,6 +3,8 @@
 require "test_helper"
 
 class BannerHelperTest < ActionView::TestCase
+  attr_accessor :current_user
+
   def test_banner_without_locales
     banners = { :global => make_banner("global") }
 
@@ -184,6 +186,24 @@ class BannerHelperTest < ActionView::TestCase
       result = active_banners
       assert_includes result.keys, :global
       assert_not_includes result.keys, :italy
+    end
+  end
+
+  def test_next_banner_after_welcome
+    banners = { :global => make_banner("global") }
+
+    stub_const(:BANNERS, banners) do
+      # Logged out user who hasn't closed the welcome banner
+      assert_nil next_banner
+
+      # Logged out user who has closed the welcome banner
+      cookies[:_osm_welcome] = "hide"
+      assert_equal "global", next_banner[:id]
+
+      # Logged in user
+      cookies.delete(:_osm_welcome)
+      self.current_user = create(:user)
+      assert_equal "global", next_banner[:id]
     end
   end
 
