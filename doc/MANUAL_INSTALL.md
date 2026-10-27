@@ -104,9 +104,6 @@ If you want to run the tests, you need `geckodriver` as well:
 brew install geckodriver
 ```
 
-> [!NOTE]
-> OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
-
 ## Step 2: Clone the Repository
 
 The repository is reasonably large (~560MB) and it's unlikely that you'll need the full history. Therefore you can probably do with a shallow clone (~100MB):
