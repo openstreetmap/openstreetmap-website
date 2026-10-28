@@ -18,7 +18,7 @@ module Api
     def show
       # Figure out the bbox
       # check boundary is sane and area within defined
-      # see /config/application.yml
+      # see config/settings.yml
       begin
         raise OSM::APIBadUserInput, "The parameter bbox is required" unless params[:bbox]
 

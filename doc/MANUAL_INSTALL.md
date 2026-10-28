@@ -104,9 +104,6 @@ If you want to run the tests, you need `geckodriver` as well:
 brew install geckodriver
 ```
 
-> [!NOTE]
-> OS X does not have a /home directory by default, so if you are using the GPX functions, you will need to change the directories specified in config/application.yml.
-
 ## Step 2: Clone the Repository
 
 The repository is reasonably large (~560MB) and it's unlikely that you'll need the full history. Therefore you can probably do with a shallow clone (~100MB):
@@ -260,4 +257,4 @@ Where `$VERSION` is the version you installed. You can see a list of available v
 gem install bundler
 ```
 
-You should now be able to proceed with the rest of the installation. If you're on macOS, make sure you set up the [config override for the libxml2 location](#macos-click-to-expand) _after_ installing bundler.
+You should now be able to proceed with the rest of the installation. If you're on macOS, make sure you set up the [config override for the libxml2 location](#macos) _after_ installing bundler.
