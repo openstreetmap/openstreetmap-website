@@ -156,7 +156,9 @@ class UserMailerTest < ActionMailer::TestCase
   def test_message_notification_avatar_original
     svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'
     sender = create(:user)
-    sender.avatar.attach(:io => StringIO.new(svg), :filename => "avatar.svg")
+    blob = ActiveStorage::Blob.create_and_upload!(:io => StringIO.new(svg), :filename => "avatar.svg")
+    ActiveStorage::Attachment.create!(:name => "avatar", :record => sender, :blob => blob)
+    sender.reload
     message = create(:message, :sender => sender)
     email = UserMailer.with(:record => message, :recipient => message.recipient).message_notification
 
