@@ -89,6 +89,12 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     assert_equal({ :partial => "sessions/suspended_flash" }, flash[:error])
   end
 
+  def test_login_invalid_user
+    post login_path, :params => { :username => "nobody", :password => "noone", :remember_me => "0" }
+    assert_redirected_to login_path(:username => "nobody", :remember_me => false)
+    assert_equal(I18n.t("sessions.new.auth failure"), flash[:error])
+  end
+
   def test_login_invalid_password
     user = create(:user)
 
