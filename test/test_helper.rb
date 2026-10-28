@@ -252,9 +252,16 @@ module ActiveSupport
       end
     end
 
-    def session_for(user)
+    def session_for(user, referer: nil)
+      login_params = {
+        :username => user.display_name,
+        :password => "s3cr3t"
+      }
+      login_params[:referer] = referer if referer
+
       get login_path
-      post login_path, :params => { :username => user.display_name, :password => "s3cr3t" }
+      post login_path, :params => login_params
+
       follow_redirect!
     end
 
