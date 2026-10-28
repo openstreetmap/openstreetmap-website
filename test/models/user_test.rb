@@ -79,6 +79,38 @@ class UserTest < ActiveSupport::TestCase
     assert_not_predicate user, :valid?, "should not allow 2 column name"
     user.display_name = "\u{200B}\u{200B}\u{200B}"
     assert_not_predicate user, :valid?, "should not allow 0 column name"
+    user.display_name = "\u{202E}" * 7
+    assert_not_predicate user, :valid?, "should not allow right-to-left overrides"
+    user.display_name = "\u{2800}\u{2800}\u{2800}"
+    assert_not_predicate user, :valid?, "should not allow blank braille patterns"
+    user.display_name = "\u{AD}\u{AD}\u{AD}"
+    assert_not_predicate user, :valid?, "should not allow soft hyphens"
+    user.display_name = "\u{81}\u{81}\u{81}"
+    assert_not_predicate user, :valid?, "should not allow C1 control codes"
+    user.display_name = "\u{E000}\u{E000}\u{E000}"
+    assert_not_predicate user, :valid?, "should not allow private use codepoints"
+    user.display_name = "\u{50000}\u{50000}\u{50000}"
+    assert_not_predicate user, :valid?, "should not allow unassigned codepoints"
+    user.display_name = "\u{1D159}\u{1D159}\u{1D159}"
+    assert_not_predicate user, :valid?, "should not allow null noteheads"
+    user.display_name = "1 2"
+    assert_not_predicate user, :valid?, "should not count spaces"
+    user.display_name = "王伟"
+    assert_predicate user, :valid?, "should allow 2 wide codepoints"
+    user.display_name = "田中"
+    assert_predicate user, :valid?, "should allow 2 wide codepoints"
+    user.display_name = "기호"
+    assert_predicate user, :valid?, "should allow 2 wide codepoints"
+    user.display_name = "می\u{200C}خواهم"
+    assert_predicate user, :valid?, "should allow zero width non-joiners"
+  end
+
+  def test_display_name_width_unchanged_is_valid
+    user = build(:user, :display_name => "\u{2800}\u{2800}\u{2800}")
+    user.save(:validate => false)
+    user.reload
+
+    assert_predicate user, :valid?, "blank display_name is invalid but it hasn't been changed"
   end
 
   def test_display_name_valid
