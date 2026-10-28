@@ -15,11 +15,8 @@ class UserDiariesTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_template "sessions/new"
     # We can now login
-    post "/login", :params => { "username" => user.email, "password" => "s3cr3t", :referer => "/diary/new" }
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "diary_entries/new"
+    session_for(user)
+    get "/diary/new"
 
     # We will make sure that the form exists here, full
     # assert testing of the full form should be done in the
