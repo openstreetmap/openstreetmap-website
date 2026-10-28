@@ -142,7 +142,7 @@ class User < ApplicationRecord
   end
 
   generates_token_for :new_email, :expires_in => 1.week do
-    fingerprint
+    fingerprint(new_email)
   end
 
   generates_token_for :password_reset, :expires_in => 1.week do
@@ -441,10 +441,11 @@ class User < ApplicationRecord
     )
   end
 
-  def fingerprint
+  def fingerprint(*extra)
     digest = Digest::SHA256.new
     digest.update(email)
     digest.update(pass_crypt)
+    extra.each { |value| digest.update(value.to_s) }
     digest.hexdigest
   end
 

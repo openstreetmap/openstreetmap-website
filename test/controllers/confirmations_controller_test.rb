@@ -286,6 +286,43 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     post user_confirm_email_path, :params => { :confirm_string => confirm_string }
     assert_redirected_to account_path
     assert_match(/Confirmed your change of email address/, flash[:notice])
+
+    user.reload
+    assert_equal "test-new@example.com", user.email
+    assert_nil user.new_email
+    assert user.email_valid
+  end
+
+  def test_confirm_new_email_altered
+    user = create(:user, :new_email => "first@example.com", :email_valid => false)
+    original_email = user.email
+    confirm_string = user.generate_token_for(:new_email)
+    user.update!(:new_email => "second@example.com")
+    stub_gravatar_request(user.new_email)
+
+    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    assert_redirected_to account_path
+    assert_match(/confirmation code has expired or does not exist/, flash[:error])
+
+    user.reload
+    assert_equal original_email, user.email
+    assert_equal "second@example.com", user.new_email
+    assert_not user.email_valid
+  end
+
+  def test_confirm_new_email_cleared
+    user = create(:user, :new_email => "first@example.com")
+    original_email = user.email
+    confirm_string = user.generate_token_for(:new_email)
+    user.update!(:new_email => nil)
+
+    post user_confirm_email_path, :params => { :confirm_string => confirm_string }
+    assert_redirected_to account_path
+    assert_match(/confirmation code has expired or does not exist/, flash[:error])
+
+    user.reload
+    assert_equal original_email, user.email
+    assert_nil user.new_email
   end
 
   def test_confirm_new_email_already_confirmed
