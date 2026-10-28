@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 module ModerationZonesHelper
-  def options_for_moderation_zone_period
-    ModerationZone::PERIODS.collect do |h|
+  def options_for_moderation_zone_period(moderation_zone)
+    options = ModerationZone::PERIODS.collect do |h|
       [block_duration_in_words(h.hours), h.to_s]
     end
+
+    options.unshift([t(".period.options.revoke"), 0]) if moderation_zone.persisted?
+
+    options
   end
 
   def selected_option_for_moderation_zone_period(moderation_zone)
