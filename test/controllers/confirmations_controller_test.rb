@@ -269,7 +269,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_match "User No Such User not found.", flash[:error]
   end
 
-  def test_confirm_email_get
+  def test_confirm_new_email_get
     user = create(:user)
     confirm_string = user.generate_token_for(:new_email)
 
@@ -278,7 +278,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_template :confirm_email
   end
 
-  def test_confirm_email_success
+  def test_confirm_new_email_success
     user = create(:user, :new_email => "test-new@example.com")
     stub_gravatar_request(user.new_email)
     confirm_string = user.generate_token_for(:new_email)
@@ -288,7 +288,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/Confirmed your change of email address/, flash[:notice])
   end
 
-  def test_confirm_email_already_confirmed
+  def test_confirm_new_email_already_confirmed
     user = create(:user)
     confirm_string = user.generate_token_for(:new_email)
 
@@ -297,7 +297,7 @@ class ConfirmationsControllerTest < ActionDispatch::IntegrationTest
     assert_match(/already been confirmed/, flash[:error])
   end
 
-  def test_confirm_email_bad_token
+  def test_confirm_new_email_bad_token
     post user_confirm_email_path, :params => { :confirm_string => "XXXXX" }
     assert_redirected_to account_path
     assert_match(/confirmation code has expired or does not exist/, flash[:error])
