@@ -85,7 +85,7 @@ id:
         update: Simpan Perubahan
       user_block:
         create: Buat blok
-        update: Perbarui blok
+        update: Perbarui pemblokiran
   activerecord:
     errors:
       messages:
@@ -98,8 +98,12 @@ id:
           attributes:
             url:
               http_parse_error: Url harus dimulai dengan http:// atau https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: tidak dapat diubah kembali ke nilai lama
     models:
-      acl: Daftar Kendali Akses
+      acl: Daftar Kendali Akses (ACL)
       changeset: Perangkat Perubahan
       changeset_tag: Tanda Perangkat Perubahan
       country: Negara
@@ -135,6 +139,12 @@ id:
       way_node: Simpul Garis
       way_tag: Tanda Garis
     attributes:
+      acl:
+        address: Alamat
+        domain: Domain
+        mx: Peladen MX
+        k: Kunci
+        v: Nilai
       diary_comment:
         body: Isi
       diary_entry:
@@ -164,6 +174,11 @@ id:
         gpx_file: Pilih Berkas Jejak GPS
         visibility: Visibilitas
         tagstring: Label
+      moderation_zone:
+        name: Nama
+        reason: Alasan
+        zone: Zona
+        period: Periode
       message:
         sender: Pengirim
         title: Subyek
@@ -192,6 +207,13 @@ id:
         pass_crypt: Kata Sandi
         pass_crypt_confirmation: Konfirmasi Kata Sandi
     help:
+      acl:
+        address: Alamat IP atau jaringan CIDR, misalnya 192.0.2.0/24
+        domain: Domain surel; subdomain juga dicocokkan
+        mx: Nama tuan rumah peladen MX untuk domain surel
+        k: 'Salah satu dari: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Catatan opsional, misalnya alasan untuk entri ini
       doorkeeper/application:
         confidential: Aplikasi akan digunakan apabila informasi klien bisa dirahasiakan
           (aplikasi ponsel bawaan dan aplikasi sehalaman sifatnya tidak rahasia)
@@ -233,6 +255,32 @@ id:
         other: '%{count} bulan yang lalu'
       x_years:
         other: '%{count} tahun yang lalu'
+    distance_in_words_in:
+      about_x_hours:
+        other: sekitar %{count} jam
+      about_x_months:
+        other: sekitar %{count} bulan
+      about_x_years:
+        other: sekitar %{count} tahun
+      almost_x_years:
+        other: hampir %{count} tahun
+      half_a_minute: dalam setengah menit
+      less_than_x_seconds:
+        other: tak sampai %{count} detik
+      less_than_x_minutes:
+        other: tak sampai %{count} menit
+      over_x_years:
+        other: lebih dari %{count} tahun
+      x_seconds:
+        other: dalam %{count} detik
+      x_minutes:
+        other: dalam %{count} menit
+      x_days:
+        other: dalam %{count} hari
+      x_months:
+        other: dalam %{count} bulan
+      x_years:
+        other: dalam %{count} tahun
   editor:
     default: Tetapan (saat ini %{name})
     id:
@@ -392,6 +440,11 @@ id:
           Anda berada dalam Domain publik.
         did_not_confirm: Anda tidak mengonfirmasi bahwa Anda mempertimbangkan suntingan
           Anda berada pada Domain Publik.
+    auth_deletions:
+      show:
+        title: Permintaan penghapusan data
+        body: Data untuk %{provider} ID %{id} telah dihapus pada %{time} dan telah
+          diputus dari akun OpenStreetMap terkait.
   browse:
     deleted_ago_by_html: Dihapus %{time_ago} oleh %{user}
     edited_ago_by_html: Disunting %{time_ago} oleh %{user}
@@ -470,6 +523,9 @@ id:
       colour_preview: Pratinjau warna %{colour_value}
       email_link: Surel %{email}
     versions_navigation:
+      node_versions: Versi simpul
+      way_versions: Versi garis
+      relation_versions: Versi hubungan
       node: Titik
       way: Garis
       relation: Relasi
@@ -486,10 +542,13 @@ id:
     index:
       node:
         title_html: 'Riwayat Simpul: %{name}'
+        actions: Tindakan simpul
       way:
         title_html: 'Riwayat Jalan: %{name}'
+        actions: Tindakan garis
       relation:
         title_html: 'Riwayat Hubungan: %{name}'
+        actions: Tindakan hubungan
       older_versions: Versi Lama
       newer_versions: Versi Baru
     actions:
@@ -634,6 +693,7 @@ id:
       latest_edit_html: 'Suntingan terbaru (%{ago}):'
       no_edits: (tiada suntingan)
       view_changeset_details: Lihat informasi set perubahan
+      actions: Tindakan pengguna
     popup:
       your location: Lokasi Anda
       nearby mapper: Pembuat peta disekitar Anda
@@ -648,11 +708,15 @@ id:
       nearby users: Pengguna lain terdekat
       no nearby users: Tidak ada pengguna lain yang mengaku untuk melakukan pemetaan
         terdekat.
+      followed_actions: Tindakan untuk pengguna yang Anda ikuti
       followed_changesets: perubahan
       followed_diaries: entri harian
+      nearby_actions: Tindakan untuk pengguna sekitar
       nearby_changesets: Telusuri seluruh set perubahan oleh pengguna terdekat
       nearby_diaries: Telurusi seluruh entri catatan harian oleh pengguna terdekat
   notifications:
+    missing_record:
+      body: Sayangnya, tindakan ini sudah tidak tersedia lagi.
     index:
       title: Pemberitahuan
       no_notifications: Anda belum memiliki pemberitahuan saat ini
@@ -661,16 +725,42 @@ id:
       link_text: bagian preferensi
     changeset_comment:
       headline: Komentar set perubahan
+      description_with_summary_html: Pengguna %{commenter_name_with_link} meninggalkan
+        komentar pada perangkat perubahan %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: Pengguna %{commenter_name_with_link} meninggalkan
+        komentar pada perangkat perubahan %{changeset_id_with_link}
     gpx_details:
       filename: Nama berkas
       description: Deskripsi
+      tags: Tanda
+      total_points: Jumlah total titik
+      imported_points: Jumlah titik yang diimpor
+    gpx_import_failure:
+      headline: Jejak GPS tidak dapat diimpor
+      error_message: Pesan galat
+    gpx_import_success:
+      headline: Jejak GPS berhasil diimpor
+    new_follower:
+      headline: Pengikut baru
+      description_html: Pengguna %{follower_name_with_link} mulai mengikuti Anda.
+        Anda dapat %{link} jika Anda mau.
+      link_text: ikuti balik
     note_comment:
       headline:
         commented: Komentar catatan
         closed: Catatan terselesaikan
         reopened: Catatan dibuka kembali
+      description:
+        commented_html: Pengguna %{commenter_name_with_link} meninggalkan komentar
+          pada catatan %{note_id_with_link} ("%{note_text}")
+        closed_html: Pengguna %{commenter_name_with_link} menyelesaikan catatan %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: Pengguna %{commenter_name_with_link} membuat kembali catatan
+          %{note_id_with_link} ("%{note_text}")
     diary_comment:
       headline: Komentar catatan harian
+      description_html: Pengguna %{commenter_name_with_link} meninggalkan komentar
+        pada entri catatan harian "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Entri Baru Catatan Harian
@@ -707,6 +797,7 @@ id:
       posted_by_html: Diterbitkan oleh %{link_user} pada %{created} dalam %{language_link}.
       updated_at_html: Terakhir diperbarui pada %{updated}.
       full_entry: Lihat catatan lengkap
+      actions: Tindakan entri catatan harian
       comment_link: Komentar di entri ini
       reply_link: Kirim pesan ke penulis
       comment_count:
@@ -743,6 +834,7 @@ id:
       heading: Batal ikuti komentar catatan harian ini?
       button: Batal ikuti komentarnya
     navigation:
+      actions: Tindakan catatan harian
       in_language: Catatan Harian dalam bahasa %{language}
       my_diary: Catatan Harian Saya
       new: Entri baru catatan harian
@@ -1722,6 +1814,7 @@ id:
       report_created_at_html: Pertama dilaporkan pada %{datetime}
       last_resolved_at_html: Terakhir diselesaikan pada %{datetime}
       last_updated_at_html: Terakhir diubah pada %{datetime} oleh %{displayname}
+      actions: Tindakan masalah
       resolve: Selesaikan
       ignore: Abaikan
       reopen: Buka lagi
@@ -1878,6 +1971,7 @@ id:
         be-Tarask: Belarusia (Tarašk.)
         bg: Bulgaria
         mk: Makedonia
+        mt: Malta
         mo: Moldova
         ce: Chechnya
         ru: Rusia
@@ -1953,6 +2047,7 @@ id:
       select_language: Pilih Bahasa
       sign_up: Mendaftar
       user_diaries: Catatan Harian Pengguna
+      navigation: Navigasi utama
     meta:
       openstreetmap_search: Pencarian OpenStreetMap
     select_language_button:
@@ -2770,6 +2865,8 @@ id:
       get_directions_title: Dapatkan petunjuk arah antara dua tempat
       from: Dari
       to: Ke
+      marker_from: Markah awal rute
+      marker_to: Markah akhir rute
       where_am_i: Di mana ini?
       where_am_i_title: Deskripsikan lokasi Anda saat ini menggunakan mesin pencari
       submit_text: Lanjut
@@ -3041,6 +3138,7 @@ id:
         other: '%{count} titik'
       more: selebihnya
       trace_details: Lihat Perincian Jejak
+      trace_actions: Tindakan penjejakan
       view_map: Lihat tempat di peta
       edit_map: Buka di penyunting
       public: UMUM
@@ -3054,6 +3152,7 @@ id:
       my_gps_traces: Jejak GPS Saya
       public_traces_from: Jejak GPS Umum dari %{user}
       description: Ramban unggahan jejak GPS terbaru.
+      actions: Tindakan daftar jejak
       tagged_with: ' ditandai dengan %{tags}'
       empty_title: Masih kosong
       empty_upload_html: '%{upload_link} atau baca lebih lanjut soal penjejakan GPS
@@ -3065,8 +3164,38 @@ id:
       my_traces: Jejak Saya
       traces_from_html: Jejak Publik dari %{user}
       remove_tag_filter: Hapus Penyaring Tanda
+      legacy_traces: Jejak Lama Saya
     destroy:
       scheduled_for_deletion: Trek yang dijadwalkan untuk dihapus
+    legacy_visibilities:
+      edit:
+        title: Jejak GPS Lama Saya
+        description: Ini adalah jejak Anda yang masih menggunakan keterlihatan pribadi
+          atau umum yang lama. Anda dapat mengubahnya di sini menjadi dapat dilacak
+          atau dapat diidentifikasi. Peningkatan yang direncanakan untuk jejak GPS
+          hanya akan mencakup yang dapat dilacak dan dapat diidentifikasi.
+        filter:
+          visibility: Keterlihatan saat ini
+          any: Pribadi dan umum
+          from: Diunggah dari
+          to: Diunggah ke
+          apply: Saring
+        empty: Tidak ada jejak lama yang cocok dengan penyaringan ini
+        new_visibility: Keterlihatan baru
+        no_undo: Perubahan ini tidak dapat dibatalkan.
+        button:
+          other: Ubah %{count} jejak
+        confirmation:
+          header: Konfirmasi perubahan keterlihatan
+          body:
+            other: Ubah keterlihatan dari %{count} jejak? Perubahan ini tidak dapat
+              dibatalkan.
+          cancel: Batal
+          confirm: Ubah keterlihatan
+      update:
+        updated:
+          other: Keterlihatan dari %{count} jejak sudah diubah.
+        invalid_visibility: Harap pilih tingkat keterlihatan yang ingin diubah.
     offline_warning:
       message: Sistem upload file GPX saat ini tidak tersedia
     offline:
@@ -3148,23 +3277,38 @@ id:
       heading: Judul
       subheading: Subjudul
       unordered: Daftar tak berurut
+      ordered: Daftar terurut
       first: Butir pertama
       second: Butir kedua
       link: Tautan
       text: Teks
       image: Gambar
+      alt: Teks alternatif
       url: URL
       codeblock: Blok kode
     richtext_field:
+      edit: Sunting
       preview: Pratayang
+      help: Bantuan
     pagination:
+      label: Navigasi halaman
+      acls:
+        older: Daftar Kendali Akses (ACL) Sebelumnya
+        newer: Daftar Kendali Akses (ACL) Setelahnya
+        oldest: Daftar Kendali Akses (ACL) Terlama
+        newest: Daftar Kendali Akses (ACL) Terbaru
       changeset_comments:
+        older: Komentar Sebelumnya
+        newer: Komentar Setelahnya
+        oldest: Komentar Terlama
         newest: Komentar Terbaru
       diary_comments:
         older: Komentar Lama
+        newer: Komentar Terbaru
         oldest: Komentar Terlama
         newest: Komentar Terbaru
       diary_entries:
+        older: Entri Sebelumnya
         newer: Entri Baru
         oldest: Entri Terlama
         newest: Entri Terbaru
@@ -3174,16 +3318,20 @@ id:
         oldest: Pemberitahuan Terlama
         newest: Pemberitahuan Terbaru
       issues:
+        older: Masalah Sebelumnya
         newer: Masalah Baru
         oldest: Masalah Terlama
         newest: Masalah Terbaru
       traces:
+        older: Jejak Sebelumnya
         newer: Trek-trek terbaru
         oldest: Jejak Terlama
         newest: Jejak Terbaru
       user_blocks:
+        older: Pemblokiran Sebelumnya
         newer: Blokir Baru
         oldest: Blokir Terlama
+        newest: Pemblokiran Terbaru
       users:
         older: Pengguna Lama
         newer: Pengguna Baru
@@ -3310,6 +3458,8 @@ id:
         mungkin tautan yang Anda klik salah.
       deleted: dihapus
     show:
+      actions: Tindakan
+      admin_actions: Tindakan administratif
       my diary: Catatan Harian Saya
       my edits: Suntingan Saya
       my traces: Jejak Saya
@@ -3512,7 +3662,7 @@ id:
         pemblokiran yang dapat menyuntingnya.
       inactive_block_cannot_be_reactivated: Pemblokiran tidak aktif dan tidak dapat
         diaktifkan kembali.
-      success: Blokir diperbarui.
+      success: Pemblokiran diperbarui.
     index:
       title: Blokir oleh pegguna
       heading: Daftar blokir oleh pengguna
@@ -3540,7 +3690,7 @@ id:
         active: aktif
         active_until_read: aktif sampai dibaca
         read_html: dibaca pada %{time}
-        time_in_future_title: '%{time_absolute}; dalam %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} diblokir oleh %{block_by}'
@@ -3664,15 +3814,20 @@ id:
         text: kontribusi sendiri
       counter_warning_forum_link:
         text: Komunitas kontributor akan membantu Anda
-      advice: Catatan Anda bersifat publik dan bisa digunakan untuk memperbarui peta,
-        jadi jangan masukkan informasi pribadi, atau informasi dari peta atau daftar
-        direktori yang berhak cipta.
+      advice: Siapa pun di tempat umum dapat melihat catatan, bahkan tanpa akun OpenStreetMap!
+      advice_good_note: Catatan yang baik haruslah serinci mungkin sambil menghindari
+        informasi pribadi, atau konten dari peta atau daftar direktori yang dilindungi
+        hak cipta.
+      advice_conduct: Mohon bersikap baik, sabar, dan hormat saat berkomunikasi dengan
+        anggota komunitas.
       add: Tambah Catatan
+      error: Terjadi galat saat membuat catatan.
     new_readonly:
       title: Catatan Baru
       warning: Catatan baru gagal dibuat karena API OpenStreetMap sedang dibatasi
         (read-only).
     notes_paging_nav:
+      label: Navigasi halaman
       showing_page: Halaman %{page}
       next: Berikutnya
       previous: Sebelumnya
@@ -3899,9 +4054,79 @@ id:
         ini sebelum merusaknya.
       flash: Redaksi dihancurkan.
       error: Ada kesalahan menghancurkan Redaksi ini.
+  acls:
+    navigation:
+      new_title: Tambahkan Daftar Kendali Akses (ACL) baru
+      new: ACL baru
+      actions: Tindakan ACL
+    index:
+      title: ACL
+      empty: Tidak ada Daftar Kendali Akses (ACL) yang ditampilkan.
+    page:
+      address: Alamat
+      domain: Domain
+      mx: Peladen MX
+      k: Kunci
+      v: Nilai
+      actions: Tindakan
+    acl:
+      edit_button: Sunting
+      destroy_button: Hapus
+      confirm: Apakah Anda yakin?
+    form:
+      cancel: Batal
+    new:
+      title: ACL baru
+    create:
+      success: ACL telah dibuat.
+    edit:
+      title: Menyunting ACL
+    update:
+      success: ACL diperbarui.
+    destroy:
+      success: ACL dihapus.
   validations:
     leading_whitespace: punya ruang putih di depan
     trailing_whitespace: punya ruang putih di belakang
     invalid_characters: mengandung karakter yang tidak dikenal
     url_characters: mengandung karakter URL khusus (%{characters})
+    email_characters: mengandung karakter yang tidak sah (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Tetapkan zona moderasi baru
+      new: Zona Moderasi baru
+      actions: Tindakan zona moderasi
+    index:
+      title: Zona Moderasi
+      heading: Zona Moderasi
+      name: Nama
+      reason: Alasan
+      creator: Pembuat
+      start: Mulai
+      end: Akhir
+      status: Status
+    row:
+      edit: Sunting
+    new:
+      title: Zona Moderasi baru
+      heading: Zona Moderasi baru
+    create:
+      success: Zona moderasi dibuat.
+    edit:
+      title: Menyunting zona moderasi %{name}
+      heading: Menyunting zona moderasi %{name}
+    update:
+      success: Zona moderasi diperbarui.
+      only_creator_can_edit: Hanya moderator yang membuat zona moderasi inilah yang
+        dapat menyuntingnya.
+      only_creator_can_edit_without_revoking: Hanya moderator yang membuat zona moderasi
+        inilah yang dapat menyuntingnya tanpa mencabutnya.
+      only_creator_or_revoker_can_edit: Hanya moderator yang membuat atau mencabut
+        zona moderasi inilah yang dapat menyuntingnya.
+      no_reactivation: Zona moderasi ini tidak aktif dan tidak dapat diaktifkan kembali.
+    helper:
+      short:
+        ended: berakhir
+        active: aktif
+        revoked_html: dicabut oleh %{name}
 ...
