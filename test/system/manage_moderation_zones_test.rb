@@ -40,6 +40,9 @@ class ManageModerationZones < ApplicationSystemTestCase
     sign_in_as(user)
     visit edit_moderation_zone_path(zone)
 
+    # Editing defaults to the absolute-expiry panel, which hides/disables
+    # the period select used below.
+    choose "For a duration"
     select "Revoke moderation zone", :from => :moderation_zone_period
     click_on "Update Moderation zone"
     assert_content "Moderation zone updated"

@@ -15,11 +15,31 @@
     <%= form.hidden_field :zone %>
   <% end %>
 
-  <%= form.select(
-        :period,
-        options_for_moderation_zone_period(moderation_zone),
-        :selected => selected_option_for_moderation_zone_period(moderation_zone)
+  <%= form.collection_radio_buttons(
+        :expiry_type,
+        %w[relative absolute],
+        :itself,
+        ->(type) { t(".#{type}_expiration") },
+        :label => t(".expiration"),
+        :checked => selected_moderation_zone_expiry_type(moderation_zone)
       ) %>
+
+  <div data-expiry-panel="relative">
+    <%= form.select(
+          :period,
+          options_for_moderation_zone_period(moderation_zone),
+          :selected => selected_option_for_moderation_zone_period(moderation_zone)
+        ) %>
+  </div>
+
+  <div data-expiry-panel="absolute">
+    <%= form.datetime_field(
+          :ends_at,
+          :value => moderation_zone_form_ends_at(moderation_zone),
+          :min => moderation_zone_ends_at_min(moderation_zone),
+          :max => moderation_zone_ends_at_max
+        ) %>
+  </div>
 
   <%= form.primary %>
 <% end %>
