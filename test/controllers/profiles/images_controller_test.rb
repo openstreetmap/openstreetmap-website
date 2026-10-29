@@ -92,6 +92,19 @@ module Profiles
       assert_equal "Couldn't update profile image.", flash[:error]
     end
 
+    def test_update_replace_unsupported_image
+      image = Rack::Test::UploadedFile.new(StringIO.new('<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'), "image/svg+xml", :original_filename => "avatar.svg")
+      user = create(:user)
+      session_for(user)
+
+      put profile_image_path, :params => { :avatar_action => "new", :user => { :avatar => image } }
+
+      assert_response :success
+      assert_template :show
+      assert_equal "Couldn't update profile image.", flash[:error]
+      assert_not_predicate user.reload.avatar, :attached?
+    end
+
     def test_update_gravatar
       user = create(:user)
       session_for(user)

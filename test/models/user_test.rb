@@ -492,6 +492,64 @@ class UserTest < ActiveSupport::TestCase
     assert_equal "resolved", issue.reload.status
   end
 
+  def test_avatar_supported_types
+    %w[.png .jpg .gif .webp .tif].each do |extension|
+      user = build(:user)
+      user.avatar = { :io => StringIO.new(Vips::Image.black(1, 1).write_to_buffer(extension)), :filename => "avatar#{extension}" }
+      assert_predicate user, :valid?, "#{extension} avatar should be accepted"
+    end
+  end
+
+  def test_avatar_unsupported_types
+    {
+      "avatar.bmp" => ["BM", 58, 0, 0, 54, 40, 1, 1, 1, 24, 0, 4, 2835, 2835, 0, 0].pack("a2Vv2V4v2V6") + ("\0" * 4),
+      "avatar.ico" => "\0\0\1\0\1\0#{"\0" * 40}",
+      "avatar.psd" => "8BPS\0\1#{"\0" * 40}",
+      "avatar.svg" => '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'
+    }.each do |filename, data|
+      user = build(:user)
+      user.avatar = { :io => StringIO.new(data), :filename => filename }
+      assert_not_predicate user, :valid?, "#{filename} should be rejected"
+      assert_includes user.errors.details[:avatar].pluck(:error), :content_type_invalid
+    end
+  end
+
+  # libvips loads these with libheif, whose decoder plugins aren't always
+  # installed (e.g. there's no HEIC decoder on Ubuntu by default), so only
+  # check that the content type is accepted
+  def test_avatar_heif_types
+    {
+      "avatar.heic" => "\0\0\0\x18ftypheic\0\0\0\0mif1heic#{"\0" * 20}",
+      "avatar.heif" => "\0\0\0\x18ftypmif1\0\0\0\0mif1heic#{"\0" * 20}",
+      "avatar.avif" => "\0\0\0\x1cftypavif\0\0\0\0avifmif1miaf#{"\0" * 20}"
+    }.each do |filename, data|
+      user = build(:user)
+      user.avatar = { :io => StringIO.new(data), :filename => filename }
+      user.validate
+      assert_not_includes user.errors.details[:avatar].pluck(:error), :content_type_invalid, "#{filename} should be accepted"
+    end
+  end
+
+  def test_avatar_size_limit
+    user = build(:user)
+    user.avatar = { :io => StringIO.new(Vips::Image.black(100, 100).write_to_buffer(".png")), :filename => "avatar.png" }
+    assert_predicate user, :valid?
+
+    with_settings(:max_avatar_size => user.avatar.blob.byte_size - 1) do
+      assert_not_predicate user, :valid?
+      assert_includes user.errors.details[:avatar].pluck(:error), :file_size_not_less_than_or_equal_to
+    end
+  end
+
+  def test_avatar_unsupported_type_already_attached
+    user = create(:user)
+    blob = ActiveStorage::Blob.create_and_upload!(:io => StringIO.new('<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'), :filename => "avatar.svg")
+    ActiveStorage::Attachment.create!(:name => "avatar", :record => user, :blob => blob)
+    user.reload
+
+    assert_predicate user, :valid?
+  end
+
   def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
     user.soft_destroy

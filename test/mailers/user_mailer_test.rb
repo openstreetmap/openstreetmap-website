@@ -127,6 +127,47 @@ class UserMailerTest < ActionMailer::TestCase
     assert_match(/<html lang=/, email.html_part.body.to_s)
   end
 
+  def test_message_notification_avatar
+    sender = create(:user)
+    sender.avatar.attach(:io => StringIO.new(Vips::Image.black(100, 100).write_to_buffer(".png")), :filename => "avatar.png")
+    message = create(:message, :sender => sender)
+    email = UserMailer.with(:record => message, :recipient => message.recipient).message_notification
+
+    avatar = email.attachments["avatar.png"]
+    assert_not_nil avatar
+    assert_equal "image/png", avatar.mime_type
+    image = Vips::Image.new_from_buffer(avatar.body.decoded, "")
+    assert_equal [50, 50], [image.width, image.height]
+  end
+
+  def test_message_notification_avatar_converted
+    sender = create(:user)
+    sender.avatar.attach(:io => StringIO.new(Vips::Image.black(100, 100).write_to_buffer(".tif")), :filename => "avatar.tif")
+    message = create(:message, :sender => sender)
+    email = UserMailer.with(:record => message, :recipient => message.recipient).message_notification
+
+    avatar = email.attachments["avatar.png"]
+    assert_not_nil avatar
+    assert_equal "image/png", avatar.mime_type
+    image = Vips::Image.new_from_buffer(avatar.body.decoded, "")
+    assert_equal [50, 50], [image.width, image.height]
+  end
+
+  def test_message_notification_avatar_original
+    svg = '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"/>'
+    sender = create(:user)
+    blob = ActiveStorage::Blob.create_and_upload!(:io => StringIO.new(svg), :filename => "avatar.svg")
+    ActiveStorage::Attachment.create!(:name => "avatar", :record => sender, :blob => blob)
+    sender.reload
+    message = create(:message, :sender => sender)
+    email = UserMailer.with(:record => message, :recipient => message.recipient).message_notification
+
+    avatar = email.attachments["avatar.svg"]
+    assert_not_nil avatar
+    assert_equal "image/svg+xml", avatar.mime_type
+    assert_equal svg, avatar.body.decoded
+  end
+
   def test_diary_comment_notification
     user = create(:user)
     other_user = create(:user)
