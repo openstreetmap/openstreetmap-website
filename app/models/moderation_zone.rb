@@ -46,6 +46,6 @@ class ModerationZone < ApplicationRecord
   end
 
   def active?
-    ends_at.future?
+    ends_at.present? && ends_at.future?
   end
 end

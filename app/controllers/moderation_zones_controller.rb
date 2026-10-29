@@ -63,11 +63,28 @@ class ModerationZonesController < ApplicationController
       mz.param! :name, String
       mz.param! :reason, String
       mz.param! :zone, String
-      mz.param! :period, Integer, :min => 0, :required => true
+      mz.param! :expiry_type, String, :in => %w[relative absolute], :required => true
     end
 
-    params.expect(:moderation_zone => [:name, :reason, :zone, :period]).tap do |safe_params|
-      safe_params[:ends_at] = safe_params.delete("period").to_i.hours.from_now
+    if params.dig(:moderation_zone, :expiry_type) == "absolute"
+      param! :moderation_zone, Hash do |mz|
+        mz.param! :ends_at, String, :required => true
+      end
+    else
+      param! :moderation_zone, Hash do |mz|
+        mz.param! :period, Integer, :min => 0, :required => true
+      end
+    end
+
+    params.expect(:moderation_zone => [:name, :reason, :zone, :period, :expiry_type, :ends_at]).tap do |safe_params|
+      expiry_type = safe_params.delete(:expiry_type)
+      period = safe_params.delete(:period)
+
+      safe_params[:ends_at] = if expiry_type == "absolute"
+                                Time.zone.parse(safe_params[:ends_at])&.utc&.beginning_of_minute
+                              else
+                                period.to_i.hours.from_now
+                              end
     end
   end
 
