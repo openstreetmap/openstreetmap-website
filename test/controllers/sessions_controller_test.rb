@@ -112,11 +112,23 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   def test_logout_without_referer
+    # From logged out
+    post logout_path
+    assert_redirected_to root_path
+
+    # From logged in
+    session_for(create(:user))
     post logout_path
     assert_redirected_to root_path
   end
 
   def test_logout_with_referer
+    # From logged out
+    post logout_path, :params => { :referer => "/test" }
+    assert_redirected_to "/test"
+
+    # From logged in
+    session_for(create(:user))
     post logout_path, :params => { :referer => "/test" }
     assert_redirected_to "/test"
   end
