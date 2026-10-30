@@ -78,12 +78,13 @@ export default function (map) {
   }
 
   return {
-    load(path) {
-      OSM.loadSidebarContent(path)
-        .then(this.init);
+    load(path, signal) {
+      return OSM.loadSidebarContent(path, signal)
+        .then(() => this.init(path, signal));
     },
 
-    init() {
+    init(path, signal) {
+      signal.throwIfAborted();
       map
         .addLayer(locationFilter)
         .on("moveend", update);
