@@ -351,6 +351,19 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert session.key?(:_remember_for)
   end
 
+  def test_login_upgrade_password
+    user = create(
+      :user,
+      :pass_crypt => "ApT/28+FsTBLa/J8paWfgU84SoRiTfeY8HjKWhgHy08=",
+      :pass_salt => "sha512!1000!HR4z+hAvKV2ra1gpbRybtoNzm/CNKe4cf7bPKwdUNrk="
+    )
+    try_password_login user.display_name, "password"
+
+    user.reload
+    assert_match(/\A\$argon2id\$v=19\$m=65536,t=3,p=4\$/, user.pass_crypt)
+    assert_nil user.pass_salt
+  end
+
   def test_login_google_success
     user = create(:user, :auth_provider => "google", :auth_uid => "1234567890")
     OmniAuth.config.add_mock(:google, :uid => user.auth_uid, :extra => {
