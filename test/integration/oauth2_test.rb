@@ -204,9 +204,7 @@ class OAuth2Test < ActionDispatch::IntegrationTest
     assert_redirected_to login_for_oauth_path
     get login_for_oauth_path
 
-    post login_path(:username => user.email, :password => "s3cr3t")
-    follow_redirect!
-    assert_response :success
+    session_for(user)
 
     get oauth_authorization_path(options)
     assert_response :success

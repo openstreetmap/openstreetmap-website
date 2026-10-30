@@ -39,15 +39,7 @@ class UserBlocksTest < ActionDispatch::IntegrationTest
     assert_response :forbidden
 
     # revoke the ban
-    get "/login"
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    post "/login", :params => { "username" => moderator.email, "password" => "s3cr3t", :referer => "/user_blocks/#{block.id}/edit" }
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "user_blocks/edit"
+    session_for(moderator)
     put "/user_blocks/#{block.id}", :params => { :user_block_period => "0",
                                                  :user_block => { :needs_view => false, :reason => "Unblocked" } }
     assert_response :redirect
