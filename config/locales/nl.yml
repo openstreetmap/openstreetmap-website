@@ -198,6 +198,7 @@ nl:
         reason: Reden
         zone: Zone
         period: Periode
+        ends_at: Vervaldatum en -tijd
       message:
         sender: Afzender
         title: Onderwerp
@@ -780,6 +781,8 @@ nl:
       nearby_changesets: wijzigingensets van gebruikers in de buurt
       nearby_diaries: dagboekberichten van gebruikers in de buurt
   notifications:
+    missing_record:
+      body: Dit is helaas niet meer beschikbaar
     index:
       title: Meldingen
       no_notifications: U hebt momenteel geen meldingen
@@ -805,7 +808,7 @@ nl:
     new_follower:
       headline: Nieuwe volger
       description_html: Gebruiker %{follower_name_with_link} is u gaan volgen. U kunt
-        %{link} als je wilt.
+        %{link} als u wilt.
       link_text: die gebruiker ook volgen
     note_comment:
       headline:
@@ -3251,13 +3254,42 @@ nl:
       my_traces: Mijn trajecten
       traces_from_html: Openbare trajecten van %{user}
       remove_tag_filter: Labelfilter verwijderen
+      legacy_traces: Mijn oude trajecten
     destroy:
       scheduled_for_deletion: Traject staat op de lijst voor verwijdering
     legacy_visibilities:
       edit:
+        title: Mijn oude GPS-trajecten
+        description: Dit zijn uw trajecten die nog steeds de oude 'persoonlijk' en
+          'openbaar' zichtbaarheid gebruiken. U kunt deze hier veranderen naar 'traceerbaar'
+          of 'identificeerbaar'. Geplande verbeteringen aan GPS-trajecten zullen alleen
+          betrekking hebben op 'traceerbaar' en 'identificeerbaar'.
+        filter:
+          visibility: Huidige zichtbaarheid
+          any: Persoonlijk en openbaar
+          from: Geüpload vanaf
+          to: Geüpload tot
+          apply: Filteren
+        empty: Er zijn geen oude trajecten gevonden die aan dit filter voldoen.
+        new_visibility: Nieuwe zichtbaarheid
+        no_undo: Deze wijziging kan niet ongedaan worden gemaakt.
+        button:
+          one: Wijzig %{count} traject
+          other: Wijzig %{count} trajecten
         confirmation:
+          header: Bevestig wijziging in zichtbaarheid
+          body:
+            one: De zichtbaarheid van %{count} traject wijzigen? Dit kan niet ongedaan
+              gemaakt worden.
+            other: De zichtbaarheid van %{count} trajecten wijzigen? Dit kan niet
+              ongedaan gemaakt worden.
           cancel: Annuleren
           confirm: Zichtbaarheid wijzigen
+      update:
+        updated:
+          one: De zichtbaarheid van %{count} traject gewijzigd.
+          other: De zichtbaarheid van %{count} trajecten gewijzigd.
+        invalid_visibility: Kies een zichtbaarheidsinstelling om naar toe te veranderen.
     offline_warning:
       message: Het systeem voor het uploaden van GPX-bestanden is momenteel niet beschikbaar
     offline:
@@ -3896,6 +3928,11 @@ nl:
       counter_warning_forum_link:
         text: de gemeenschap helpt u graag
       advice: Iedereen kan een opmerking zien, ook zonder OpenStreetMap-account!
+      advice_good_note: Een goede opmerking is zo gedetailleerd mogelijk, maar vermijdt
+        persoonlijke informatie, of inhoud van auteursrechtelijk beschermde kaarten
+        en adreslijsten.
+      advice_conduct: Wees a.u.b. vriendelijk, geduldig en respectvol wanneer u communiceert
+        met community-leden.
       add: Opmerking toevoegen
       error: Er is een fout opgetreden bij het maken van de opmerking
     new_readonly:
@@ -4165,7 +4202,8 @@ nl:
     leading_whitespace: begint met spaties
     trailing_whitespace: eindigt met spaties
     invalid_characters: bevat ongeldige karakters
-    url_characters: bevat speciale url-tekens (%{characters})
+    url_characters: bevat speciale URL-tekens (%{characters})
+    email_characters: bevat ongeldige tekens (%{characters})
   moderation_zones:
     navigation:
       new_title: Nieuwe moderatiezone definiëren

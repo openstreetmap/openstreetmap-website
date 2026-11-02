@@ -109,6 +109,12 @@ sl:
       way_node: Vozlišče poti
       way_tag: Oznaka poti
     attributes:
+      acl:
+        address: Naslov
+        domain: Domena
+        mx: Strežnik MX
+        k: Ključ
+        v: Vrednost
       diary_comment:
         body: Jedro
       diary_entry:
@@ -143,6 +149,7 @@ sl:
         reason: Razlog
         zone: Področje
         period: Obdobje
+        ends_at: Datum in čas poteka veljavnosti
       message:
         sender: Pošiljatelj
         title: Zadeva
@@ -171,6 +178,13 @@ sl:
         pass_crypt: Geslo
         pass_crypt_confirmation: Potrditev gesla
     help:
+      acl:
+        address: Naslov IP ali omrežje CIDR, npr. 192.0.2.0/24
+        domain: Domena el. pošte; ujemajo se tudi poddomene
+        mx: Ime gostitelja strežnika MX za domeno el. pošte
+        k: 'Eno od: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
+        v: Neobvezna opomba, npr. razlog za ta vnos
       doorkeeper/application:
         confidential: Aplikacija se bo uporabljala, kadar je mogoče skrivnost odjemalca
           ohraniti zaupanja vredno (izvorne mobilne aplikacije in enostranske aplikacije
@@ -566,6 +580,9 @@ sl:
       colour_preview: Predogled barve %{colour_value}
       email_link: E-pošta %{email}
     versions_navigation:
+      node_versions: Različice vozlišča
+      way_versions: Različice poti
+      relation_versions: Različice zvez
       node: Vozlišče
       way: Pot
       relation: Zveza
@@ -582,10 +599,13 @@ sl:
     index:
       node:
         title_html: 'Zgodovina vozlišča: %{name}'
+        actions: Dejanja na vozliščih
       way:
         title_html: 'Zgodovina poti: %{name}'
+        actions: Dejanja na poteh
       relation:
         title_html: 'Zgodovina zveze: %{name}'
+        actions: Dejanja na zvezah
       older_versions: 'Starejše različice:'
       newer_versions: Novejše različice
     actions:
@@ -744,6 +764,7 @@ sl:
       latest_edit_html: 'Zadnje urejanje (%{ago}):'
       no_edits: (brez urejanj)
       view_changeset_details: Ogled podrobnosti sklopa sprememb
+      actions: Uporabniška dejanja
     popup:
       your location: Vaš položaj
       nearby mapper: Bližnji kartograf
@@ -758,11 +779,15 @@ sl:
       nearby users: Drugi bližnji uporabniki
       no nearby users: Ni drugih uporabnikov, ki bi razkrili, da kartirajo v vaši
         bližini.
+      followed_actions: Dejanja za uporabnike, ki jih spremljate
       followed_changesets: sklopi sprememb
       followed_diaries: dnevniški zapisi
+      nearby_actions: Dejanja za uporabnike v bližini
       nearby_changesets: sklopi sprememb bližnjih uporabnikov
       nearby_diaries: dnevniški vnosi bližnjih uporabnikov
   notifications:
+    missing_record:
+      body: Žal to ni več na voljo
     index:
       title: Obvestila
       no_notifications: Trenutno nimate nobenih sporočil
@@ -843,6 +868,7 @@ sl:
       posted_by_html: Objavil %{link_user} v %{created} v jeziku %{language_link}.
       updated_at_html: Nazadnje posodobljeno %{updated}.
       full_entry: Poglej celotni vnos
+      actions: Dejanja na dnevniškem vnosu
       comment_link: Komentiraj ta zapis
       reply_link: Pošlji sporočilo avtorju
       comment_count:
@@ -881,6 +907,7 @@ sl:
       heading: Želite prenehati spremljati razpravo sledečega dnevniškega vpisa?
       button: Prenehaj spremljati razpravo
     navigation:
+      actions: Dejanja dnevnika
       in_language: Dnevniški zapisi v %{language}
       my_diary: Moj dnevnik
       new: Nov dnevniški zapis
@@ -1046,7 +1073,7 @@ sl:
           fountain: Vodomet
           fuel: Polnilna postaja
           gambling: Igre na srečo
-          grave_yard: Pokopališče v bližini cerkve
+          grave_yard: Pokopališče ob cerkvi
           grit_bin: Posoda za pesek
           hospital: Bolnišnica
           hunting_stand: Lovska preža
@@ -1080,7 +1107,7 @@ sl:
           public_bookcase: Javna knjižna omara
           public_building: Javna stavba
           ranger_station: Gozdarska postaja
-          recycling: Reciklirna točka
+          recycling: Reciklirno mesto
           restaurant: Restavracija
           sanitary_dump_station: Sanitarna odlagališča
           school: Šola
@@ -1113,7 +1140,7 @@ sl:
           administrative: Upravna meja
           census: Popisna meja
           low_emission_zone: Območje zmanjšanih izpustov
-          national_park: Nacionalni Park
+          national_park: Narodni Park
           political: Meja volilnega okraja
           postal_code: Poštna številka
           protected_area: Zavarovano območje
@@ -1124,7 +1151,7 @@ sl:
           aqueduct: Akvadukt
           boardwalk: Sprehajališče iz desk
           suspension: Viseči most
-          swing: Vrteči most
+          swing: Nihajni most
           viaduct: Viadukt
           "yes": Most
         building:
@@ -1135,8 +1162,8 @@ sl:
           cabin: Brunarica
           chapel: Kapela
           church: Cerkveno poslopje
-          civic: Občinska stavba
-          college: VIsokošolska stavba
+          civic: Civilna zgradba
+          college: VIsokošolska zgradba
           commercial: Trgovska stavba
           construction: Stavba v gradnji
           cowshed: Hlev za krave
@@ -1150,11 +1177,11 @@ sl:
           greenhouse: Rastlinjak
           hangar: Hangar
           hospital: Poslopje bolnišnice
-          hotel: Poslopje hotela
+          hotel: Hotelska zgradba
           house: Hiša
           houseboat: Hišni čoln
           hut: Koča
-          industrial: Industrijski objekt
+          industrial: Industrijska zgradba
           kindergarten: Poslopje vrtca
           manufacture: Proizvodna stavba
           office: Poslovna stavba
@@ -1163,14 +1190,14 @@ sl:
           retail: Trgovina na drobno
           roof: Streha
           ruins: Razvalina
-          school: Šola
+          school: Šolska zgradba
           semidetached_house: Dvojček
-          service: Servisna stavba
+          service: Služna zgradba
           shed: Lopa
           stable: Hlev za konje
           static_caravan: Stanovanjska prikolica
           sty: Svinjak
-          temple: Tempelj
+          temple: Tempeljska zgradba
           terrace: Vrstne hiše
           train_station: Poslopje železniške postaje
           university: Univerzitetna zgradba
@@ -1179,7 +1206,7 @@ sl:
         club:
           scout: Baza skavtske skupine
           sport: Športni klub
-          "yes": Klub
+          "yes": Društvo
         craft:
           beekeeper: Čebelar
           blacksmith: Kovač
@@ -1207,7 +1234,7 @@ sl:
           winery: Vinogradništvo
           "yes": Obrtnik
         emergency:
-          access_point: Zbirno mesto
+          access_point: Mesto dostopa
           ambulance_station: Reševalna postaja
           assembly_point: Zbirno mesto
           defibrillator: Defibrilator
@@ -1267,9 +1294,9 @@ sl:
           trailhead: Izhodišče poti
           trunk: Hitra cesta
           trunk_link: Priključek na hitro cesto
-          turning_circle: Obračališče
+          turning_circle: Obračalni krog
           turning_loop: Obračališče
-          unclassified: Neopredeljena cesta - Neklasificirana cesta
+          unclassified: Manj pomembna cesta
           "yes": Cesta
         historic:
           aircraft: Zgodovinsko letalo
@@ -1290,7 +1317,7 @@ sl:
           hollow_way: Usekana pot
           house: Hiša
           manor: Graščina
-          memorial: Spomenik
+          memorial: Spominsko obeležje
           milestone: Zgodovinski miljnik
           mine: Rudnik
           mine_shaft: Rudniški jašek
@@ -1303,9 +1330,9 @@ sl:
           stone: Skala
           tomb: Grobnica
           tower: Stolp
-          wayside_chapel: Obcestna kapelica
+          wayside_chapel: Obpotna kapela
           wayside_cross: Obpotni križ
-          wayside_shrine: Kapelica
+          wayside_shrine: Obpotna kapelica
           wreck: Razbitina
           "yes": Zgodovinski kraj
         information:
@@ -1323,17 +1350,17 @@ sl:
           aquaculture: Akvakultura
           basin: Čistilni bazen
           brownfield: Opuščeno območje, kjer so bile stavbe
-          cemetery: Pokopališče, ki ni ob cerkvi
-          commercial: Poslovna cona
+          cemetery: Pokopališče
+          commercial: Poslovno območje
           conservation: Zaščiteno območje
-          construction: Gradbišče
+          construction: Območje gradbišča
           farmland: Kmetijsko zemljišče
           farmyard: Dvorišče kmetije
           forest: Gozd
           garages: Garaže
           grass: Trata
           greenfield: Pripravljeno za gradbišče
-          industrial: Industrijsko podočje
+          industrial: Industrijsko območje
           landfill: Smetišče
           meadow: Travnik
           military: Vojaško območje
@@ -1348,14 +1375,14 @@ sl:
           reservoir_watershed: Vodno zajetje
           residential: Stanovanjsko območje
           retail: Območje prodajaln
-          village_green: Zelenica
+          village_green: Urbano zelenje
           vineyard: Vinograd
           "yes": Raba tal
         leisure:
           adult_gaming_centre: Igralni center za odrasle
           amusement_arcade: Arkadna igralnica
           bandstand: Glasbeni paviljon
-          beach_resort: kopališče
+          beach_resort: Letovišče na plaži
           bird_hide: Ptičja opazovalnica
           bleachers: Tribune
           bowling_alley: Kegljišče
@@ -1367,11 +1394,11 @@ sl:
           fitness_centre: Fitnes center
           fitness_station: Fitnes center
           garden: Vrt
-          golf_course: Igrišče za golf
+          golf_course: Golfišče
           horse_riding: Jahalni center
           ice_rink: Drsališče
           marina: Marina
-          miniature_golf: Mini golf
+          miniature_golf: Minigolf
           nature_reserve: Naravni rezervat
           outdoor_seating: Sedeži na prostem
           park: Park
@@ -1384,14 +1411,14 @@ sl:
           slipway: Rampa
           sports_centre: Športno središče
           stadium: Stadion
-          swimming_pool: Bazen
+          swimming_pool: Plavalni bazen
           track: Dirkalna steza (nemotociklistična)
           water_park: Vodni park
           "yes": Prosti čas
         lock:
           "yes": Zapornica
         man_made:
-          adit: Rudarski jašek
+          adit: Rudarski rov
           advertising: Oglaševanje
           antenna: Antena
           avalanche_protection: Zaščita pred plazovi
@@ -1404,7 +1431,7 @@ sl:
           cairn: Možic
           chimney: Dimnik
           clearcut: Poseka
-          communications_tower: Oddajnik
+          communications_tower: Oddajniški stolp
           crane: Žerjav
           cross: Križ
           dolphin: Privez
@@ -1436,7 +1463,7 @@ sl:
           tower: Stolp
           utility_pole: Drog za infrastrukturo
           wastewater_plant: Čistilna naprava
-          watermill: Vodno kolo
+          watermill: Mlin na vodo
           water_tap: Vodna pipa
           water_tower: Vodni stolp
           water_well: Vodnjak
@@ -1454,10 +1481,10 @@ sl:
         mountain_pass:
           "yes": Gorski prelaz
         natural:
-          atoll: Atol
-          bare_rock: Skalovje
+          atoll: Koralni otok, atol
+          bare_rock: Gola skala
           bay: Zaliv
-          beach: Obala
+          beach: Plaža
           cape: Rt
           cave_entrance: Vhod v jamo
           cliff: Pečina
@@ -1474,7 +1501,7 @@ sl:
           hill: Hrib
           hot_spring: Vroči vrelec
           island: Otok
-          isthmus: Ožina
+          isthmus: Zemeljska ožina
           land: Otok
           marsh: Močvirje
           moor: Barje
@@ -1482,7 +1509,7 @@ sl:
           peak: Vrh
           peninsula: Polotok
           point: Točka
-          reef: Greben
+          reef: Morski greben
           ridge: Greben
           rock: Skala
           saddle: Sedlo
@@ -1497,7 +1524,7 @@ sl:
           tree_row: Drevored
           tundra: Tundra
           valley: Dolina
-          volcano: Vulkan
+          volcano: Ognjenik
           water: Vodovje
           wetland: Mokrišče
           wood: Pragozd
@@ -1521,14 +1548,14 @@ sl:
           lawyer: Odvetnik
           logistics: Logistična pisarna
           newspaper: Novinarski urad
-          ngo: NVO urad
+          ngo: Urad NVO
           notary: Notar
           religion: Verski urad
           research: Raziskovalni urad
           tax_advisor: Davčni svetovalec
           telecommunication: Telekomunikacijski urad
           travel_agent: Potovalna agencija
-          "yes": Pisarne
+          "yes": Pisarna
         place:
           allotments: Vrtički
           archipelago: Otočje
@@ -1542,7 +1569,7 @@ sl:
           houses: Hiše
           island: Otok
           islet: Otoček
-          isolated_dwelling: Osamljena hiša
+          isolated_dwelling: Osamljeno domovanje
           locality: Krajevno ime
           municipality: Občina
           neighbourhood: Mestna četrt
@@ -1555,7 +1582,7 @@ sl:
           state: Zvezna država
           subdivision: Pododdelek
           suburb: Predmestje
-          town: Mesto
+          town: Manjše mesto
           village: Vas
           "yes": Kraj
         railway:
@@ -1570,7 +1597,7 @@ sl:
           level_crossing: Nivojski prehod
           light_rail: Mestna železnica
           miniature: Miniaturna železnica
-          monorail: Monorail
+          monorail: Enotirna železnica
           narrow_gauge: Ozkotirna železnica
           platform: Železniški peron
           preserved: Ohranjena železniška proga
@@ -1580,10 +1607,10 @@ sl:
           station: Železniška postaja
           stop: Železniško postajališče
           subway: Podzemna železnica
-          subway_entrance: Vhod na podzemno
+          subway_entrance: Vhod podzemne železnice
           switch: Kretnica
           tram: Tramvaj
-          tram_stop: Tramvajska postaja
+          tram_stop: Tramvajsko postajališče
           turntable: Okretnica
           yard: Železniško dvorišče
         shop:
@@ -1596,11 +1623,11 @@ sl:
           bag: Prodajalna torbic
           bakery: Pekarna
           bathroom_furnishing: Kopalniška oprema
-          beauty: Salon lepote
+          beauty: Lepotni salon
           bed: Prodajalna posteljnine
           beverages: Trgovina pijač
           bicycle: Kolesarska trgovina
-          bookmaker: Knjigovez
+          bookmaker: Knjigoveznica
           books: Knjigarna
           boutique: Butik
           butcher: Mesar
@@ -1872,6 +1899,7 @@ sl:
       report_created_at_html: Prvič prijavljeno %{datetime}
       last_resolved_at_html: Zadnjič razrešeno %{datetime}
       last_updated_at_html: Zadnjič %{datetime} posodobil_a %{displayname}
+      actions: Dejanja na težavah
       resolve: Razreši
       ignore: Prezri
       reopen: Znova odpri
@@ -2027,6 +2055,7 @@ sl:
         be-Tarask: beloruščina (tarašk.)
         bg: bolgarščina
         mk: makedonščina
+        mt: Malteščina
         mo: moldavščina
         ce: čečenščina
         ru: ruščina
@@ -2102,6 +2131,7 @@ sl:
       select_language: Izberite jezik
       sign_up: Ustvari račun
       user_diaries: Dnevnik
+      navigation: Glavna navigacija
     meta:
       openstreetmap_search: Iskanje po OpenStreetMap
     select_language_button:
@@ -3205,6 +3235,7 @@ sl:
         other: '%{count} točk'
       more: več
       trace_details: Ogled podrobnnosti zemljevida
+      trace_actions: Dejanja na sledeh
       view_map: Ogled lokacije na zemljevidu
       edit_map: Odpri v urejevalniku
       public: JAVNA
@@ -3218,6 +3249,7 @@ sl:
       my_gps_traces: Moje GPS-sledi
       public_traces_from: Javne sledi GPS uporabnika %{user}
       description: Brskajte po nedavnih prenosih sledi GPS
+      actions: Dejanja na seznamu sledi
       tagged_with: z oznako %{tags}
       empty_title: Tukaj še ni ničesar
       empty_upload_html: '%{upload_link} ali izvedite več o sledenju GPS na %{wiki_link}.'
@@ -3229,8 +3261,45 @@ sl:
       my_traces: Moje sledi
       traces_from_html: Javne sledi uporabnika %{user}
       remove_tag_filter: Odstrani filter oznak
+      legacy_traces: Moje zapuščinske sledi
     destroy:
       scheduled_for_deletion: Sled bo izbrisana
+    legacy_visibilities:
+      edit:
+        title: Moje zapuščinske sledi GPS
+        description: To so vaše sledi, ki še vedno uporabljajo staro zasebno ali javno
+          vidnost. Tukaj jih lahko spremenite v sledljive ali prepoznavne. Načrtovane
+          izboljšave GPS sledi bodo zajemale le sledljive in prepoznavne.
+        filter:
+          visibility: Trenutna vidnost
+          any: Zasebno in javno
+          from: Naloženo iz
+          to: Naloženo na
+          apply: Prečisti
+        empty: Nobena zapuščinska sled se ne ujema s tem filtrom.
+        new_visibility: Nova vidnost
+        no_undo: Te spremembe ni mogoče razveljaviti.
+        button:
+          one: Sprememba %{count} sledi
+          two: Sprememba %{count} sledi
+          few: Sprememba %{count} sledi
+          other: Sprememba %{count} sledi
+        confirmation:
+          header: Potrdite spremembo vidnosti
+          body:
+            one: Spremeni vidnost %{count} sledi? Tega ni mogoče razveljaviti.
+            two: Spremeni vidnost %{count} sledi? Tega ni mogoče razveljaviti.
+            few: Spremeni vidnost %{count} sledi? Tega ni mogoče razveljaviti.
+            other: Spremeni vidnost %{count} sledi? Tega ni mogoče razveljaviti.
+          cancel: Prekliči
+          confirm: Spremeni vidnost
+      update:
+        updated:
+          one: Spremenjena vidnost %{count} sledi.
+          two: Spremenjena vidnost %{count} sledi.
+          few: Spremenjena vidnost %{count} sledi.
+          other: Spremenjena vidnost %{count} sledi.
+        invalid_visibility: Izberite vidnost, ki jo želite spremeniti.
     offline_warning:
       message: Sistem za nalaganje GPX-datotek trenutno ni na voljo.
     offline:
@@ -3327,6 +3396,12 @@ sl:
       preview: Predogled
       help: Pomoč
     pagination:
+      label: Navigacija po straneh
+      acls:
+        older: Starejši seznami nadzora dostopa
+        newer: Novejši seznami nadzora dostopa
+        oldest: Najstarejši seznami nadzora dostopa
+        newest: Najnovejši seznami nadzora dostopa
       changeset_comments:
         older: Starejši komentarji
         newer: Novejši komentarji
@@ -3487,6 +3562,8 @@ sl:
         povezavo.
       deleted: izbrisano
     show:
+      actions: Dejanja
+      admin_actions: Administrativna dejanja
       my diary: Moj dnevnik
       my edits: Moji prispevki
       my traces: Moje sledi
@@ -3864,9 +3941,11 @@ sl:
         text: prispevate sami
       counter_warning_forum_link:
         text: skupnost vam lahko pomaga
-      advice: Vaša opomba je javna in se lahko uporabi za posodobitev zemljevida.
-        Ne vnašajte osebnih podatkov ali podatkov iz avtorsko varovanih zemljevidov
-        ali imenikov.
+      advice: Kdorkoli iz javnosti lahko vidi opombo, celo brez računa OpenStreetMap!
+      advice_good_note: Dobra opomba je čim bolj opisna, hkrati pa se izogiba osebnim
+        podatkom ali vsebini z avtorsko zaščitenih zemljevidov ali seznamov v imenikih.
+      advice_conduct: Prosimo, bodite prijazni, potrpežljivi in spoštljivi pri sporazumevanju
+        s člani skupnosti.
       add: Dodaj opombo
       error: Med ustvarjanjem opombe je prišlo do napake
     new_readonly:
@@ -3874,6 +3953,7 @@ sl:
       warning: Novih opomb ni mogoče ustvarjati, ker je API OpenStreetMap trenutno
         v načinu samo za branje.
     notes_paging_nav:
+      label: Navigacija po straneh
       showing_page: Stran %{page}
       next: Naslednja
       previous: Prejšnja
@@ -4111,15 +4191,48 @@ sl:
         tej redakciji, preden jo uničite.
       flash: Redakcija uničena.
       error: Ob uničevanju te redakcije je prišlo do napake.
+  acls:
+    navigation:
+      new_title: Dodaj nov seznam nadzora dostopa
+      new: Nov seznam nadzora dostopa
+      actions: Dejanja na seznamih nadzora dostopa
+    index:
+      title: Seznami nadzora dostopa
+      empty: Ni seznamov nadzora dostopa za prikaz.
+    page:
+      address: Naslov
+      domain: Domena
+      mx: Strežnik MX
+      k: Ključ
+      v: Vrednost
+      actions: Dejanja
+    acl:
+      edit_button: Uredi
+      destroy_button: Izbriši
+      confirm: Ste prepričani?
+    form:
+      cancel: Prekliči
+    new:
+      title: Nov seznam nadzora dostopa
+    create:
+      success: Ustvarjen seznam nadzora dostopa.
+    edit:
+      title: Urejanje seznama nadzora dostopa
+    update:
+      success: Posodobljen seznam nadzora dostopa.
+    destroy:
+      success: Izbrisan seznam nadzora dostopa.
   validations:
     leading_whitespace: ima začetne presledke
     trailing_whitespace: ima končne presledke
     invalid_characters: vsebuje neveljavne znake
     url_characters: vsebuje posebne znake URL (%{characters})
+    email_characters: vsebuje neveljavne znake (%{characters})
   moderation_zones:
     navigation:
       new_title: Določite novo področje moderiranja
       new: Novo področje moderiranja
+      actions: Dejanja na moderacijskem območju
     index:
       title: Področja moderiranja
       heading: Področja moderiranja
@@ -4154,4 +4267,11 @@ sl:
         ended: končano
         active: aktivno
         revoked_html: preklical %{name}
+    form:
+      expiration: Potek veljavnosti
+      relative_expiration: Za obdobje
+      absolute_expiration: Do določenega datuma in ure
+      period:
+        options:
+          revoke: Prekliči območje moderiranja
 ...
