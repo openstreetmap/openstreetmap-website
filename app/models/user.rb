@@ -100,6 +100,10 @@ class User < ApplicationRecord
   scope :active, -> { where(:status => %w[active confirmed]) }
   scope :identifiable, -> { where(:data_public => true) }
 
+  # Types which a) have trusted libvips loaders and also b) can be shown in browsers and email clients,
+  # either directly or because their variants are converted to PNG
+  AVATAR_CONTENT_TYPES = %w[image/png image/jpeg image/gif image/webp image/tiff image/heic image/heif image/avif].freeze
+
   has_one_attached :avatar, :service => Settings.avatar_storage
 
   validates :display_name, :presence => true, :length => { :maximum => 255 },
@@ -124,8 +128,11 @@ class User < ApplicationRecord
   validates :preferred_editor, :inclusion => Editors::ALL_EDITORS, :allow_nil => true
   validates :auth_uid, :unless => proc { |u| u.auth_provider.nil? },
                        :uniqueness => { :scope => :auth_provider }
-  validates :avatar, :image => { :if => proc { |u| u.attachment_changes["avatar"] } },
-                     :processable_file => true
+  validates :avatar, :if => proc { |u| u.attachment_changes["avatar"] },
+                     :attached => true,
+                     :content_type => { :in => AVATAR_CONTENT_TYPES },
+                     :size => { :less_than_or_equal_to => proc { Settings.max_avatar_size } }
+  validates :avatar, :processable_file => true
   validates :description, :length => 0..65536
 
   validates_email_format_of :email, :if => proc { |u| u.email_changed? }
