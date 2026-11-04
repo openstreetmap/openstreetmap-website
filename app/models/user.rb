@@ -160,10 +160,12 @@ class User < ApplicationRecord
   end
 
   def self.lookup(username)
-    user = find_by("email = ? OR display_name = ?", username.strip, username)
+    username.strip!
+
+    user = find_by("email = ? OR display_name = ?", username, username)
 
     if user.nil?
-      users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username.strip, username)
+      users = where("LOWER(email) = LOWER(?) OR LOWER(NORMALIZE(display_name, NFKC)) = LOWER(NORMALIZE(?, NFKC))", username, username)
 
       user = users.first if users.one?
     end
