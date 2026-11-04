@@ -44,16 +44,16 @@ class UserTest < ActiveSupport::TestCase
     bad = %w[hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
              輕觸搖晃的遊戲@ah.com も対応します@s.name a!b@example.com]
 
-    ok.each do |name|
+    ok.each do |email|
       user = build(:user)
-      user.email = name
-      assert user.valid?(:save), "#{name} isn't valid when it should be"
+      user.email = email
+      assert user.valid?(:save), "#{email} isn't valid when it should be"
     end
 
-    bad.each do |name|
+    bad.each do |email|
       user = build(:user)
-      user.email = name
-      assert user.invalid?(:save), "#{name} is valid when it shouldn't be"
+      user.email = email
+      assert user.invalid?(:save), "#{email} is valid when it shouldn't be"
     end
   end
 
