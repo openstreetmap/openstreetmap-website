@@ -10,7 +10,7 @@ module Users
 
       @params = params.permit(:display_name, :before, :after)
 
-      @comments = get_page_items(comments, :includes => [:user, :diary_entry])
+      @comments = get_page_items(comments, :includes => [:user, { :diary_entry => :user }])
     end
   end
 end
