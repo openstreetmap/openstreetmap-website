@@ -42,18 +42,35 @@ class UserTest < ActiveSupport::TestCase
     ok = %w[a@s.com test@shaunmcdonald.me.uk hello_local@ping-d.ng
             test_local@openstreetmap.org test-local@example.com]
     bad = %w[hi ht@ n@ @.com help@.me.uk help"hi.me.uk も対@応します
-             輕觸搖晃的遊戲@ah.com も対応します@s.name]
+             輕觸搖晃的遊戲@ah.com も対応します@s.name a!b@example.com]
 
-    ok.each do |name|
+    ok.each do |email|
       user = build(:user)
-      user.email = name
-      assert user.valid?(:save), "#{name} isn't valid when it should be"
+      user.email = email
+      assert user.valid?(:save), "#{email} isn't valid when it should be"
     end
 
-    bad.each do |name|
+    bad.each do |email|
       user = build(:user)
-      user.email = name
-      assert user.invalid?(:save), "#{name} is valid when it shouldn't be"
+      user.email = email
+      assert user.invalid?(:save), "#{email} is valid when it shouldn't be"
+    end
+  end
+
+  def test_new_email_valid
+    ok = %w[a@s.com]
+    bad = %w[help@.me.uk a!b@example.com]
+
+    ok.each do |email|
+      user = build(:user)
+      user.new_email = email
+      assert user.valid?(:save), "#{email} isn't valid when it should be"
+    end
+
+    bad.each do |email|
+      user = build(:user)
+      user.new_email = email
+      assert user.invalid?(:save), "#{email} is valid when it shouldn't be"
     end
   end
 
