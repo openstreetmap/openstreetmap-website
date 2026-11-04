@@ -19,6 +19,13 @@ class CharactersValidatorTest < ActiveSupport::TestCase
     attr_accessor :chars
   end
 
+  class InvalidEmailCharsValidatable
+    include ActiveModel::Validations
+
+    validates :chars, :characters => { :email_safe => true }
+    attr_accessor :chars
+  end
+
   def test_with_valid_chars
     c = InvalidCharsValidatable.new
 
@@ -61,6 +68,31 @@ class CharactersValidatorTest < ActiveSupport::TestCase
 
     invalid = ["Name.", "you;me", "he\"#", "<hr/>", "50%", "good?",
                "vergrößern,deutsche", "ルシステムに;.も対応します", "輕觸搖/晃的遊戲", "/;.,?%#"]
+
+    invalid.each do |v|
+      c.chars = v
+      assert_not_predicate c, :valid?, "'#{v}' should not be valid"
+    end
+  end
+
+  def test_with_valid_email_chars
+    c = InvalidEmailCharsValidatable.new
+
+    valid = ["a@example.com", "a.b@example.com", "a/b@example.com", "a|b@example.com",
+             "a/.b@example.com"]
+
+    valid.each do |v|
+      c.chars = v
+      assert_predicate c, :valid?, "'#{v}' should be valid"
+    end
+  end
+
+  def test_with_invalid_email_chars
+    c = InvalidEmailCharsValidatable.new
+
+    invalid = [".ab@example.com", "/ab@example.com", "|ab@example.com",
+               "a@b@example.com", "\"a@b\"@example.com", "a%b@example.com", "a!b@example.com",
+               "a/../b@example.com", "\x00a@example.com"]
 
     invalid.each do |v|
       c.chars = v
