@@ -126,6 +126,9 @@ class ChangesetUploadDownloadTest < ActionDispatch::IntegrationTest
     node = create(:node)
     node2 = create(:node)
     way = create(:way)
+    way2 = create(:way)
+    relation = create(:relation)
+    relation2 = create(:relation)
     auth_header = bearer_authorization_header
 
     # create a temporary changeset
@@ -141,20 +144,42 @@ class ChangesetUploadDownloadTest < ActionDispatch::IntegrationTest
       <osmChange>
         <delete>
           <node id='#{node.id}' lon='0.0' lat='0.0' changeset='#{changeset_id}' version='1'/>
+          <way id='#{way.id}' changeset='#{changeset_id}' version='1'/>
+          <relation id='#{relation.id}' changeset='#{changeset_id}' version='1'/>
         </delete>
         <create>
           <node id='-1' lon='0.9' lat='0.9' changeset='#{changeset_id}' version='0'/>
           <node id='-2' lon='0.8' lat='0.9' changeset='#{changeset_id}' version='0'/>
           <node id='-3' lon='0.7' lat='0.9' changeset='#{changeset_id}' version='0'/>
+          <way id='-4' changeset='#{changeset_id}' version='0'>
+            <nd ref='-2'/>
+            <nd ref='#{node2.id}'/>
+          </way>
+          <way id='-5' changeset='#{changeset_id}' version='0'>
+            <nd ref='-3'/>
+            <nd ref='-1'/>
+          </way>
+          <relation id='-6' changeset='#{changeset_id}' version='0'>
+            <member type='node' ref='-1' role='test'/>
+            <member type='way' ref='-4' role='test'/>
+          </relation>
+          <relation id='-7' changeset='#{changeset_id}' version='0'>
+            <member type='way' ref='-5' role='test'/>
+            <member type='node' ref='#{node2.id}' role='test'/>
+          </relation>
         </create>
         <modify>
           <node id='#{node2.id}' lon='2.0' lat='1.5' changeset='#{changeset_id}' version='1'/>
-          <way id='#{way.id}' changeset='#{changeset_id}' version='1'>
+          <way id='#{way2.id}' changeset='#{changeset_id}' version='1'>
             <nd ref='#{node2.id}'/>
             <nd ref='-1'/>
             <nd ref='-2'/>
             <nd ref='-3'/>
           </way>
+          <relation id='#{relation2.id}' changeset='#{changeset_id}' version='1'>
+            <member type='node' ref='#{node2.id}' role='test'/>
+            <member type='way' ref='#{way2.id}' role='test'/>
+          </relation>
         </modify>
       </osmChange>
     CHANGESET
@@ -168,12 +193,17 @@ class ChangesetUploadDownloadTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_dom "osmChange", 1
-    assert_dom "osmChange>create", 3
-    assert_dom "osmChange>delete", 1
-    assert_dom "osmChange>modify", 2
+    assert_dom "osmChange>create", 7
+    assert_dom "osmChange>delete", 3
+    assert_dom "osmChange>modify", 3
     assert_dom "osmChange>create>node", 3
     assert_dom "osmChange>delete>node", 1
     assert_dom "osmChange>modify>node", 1
+    assert_dom "osmChange>create>way", 2
+    assert_dom "osmChange>delete>way", 1
     assert_dom "osmChange>modify>way", 1
+    assert_dom "osmChange>create>relation", 2
+    assert_dom "osmChange>delete>relation", 1
+    assert_dom "osmChange>modify>relation", 1
   end
 end
