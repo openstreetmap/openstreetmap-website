@@ -170,6 +170,8 @@ group :development do
   gem "danger"
   gem "danger-auto_label"
   gem "debug_inspector"
+  # https://github.com/danger/danger/issues/1560
+  gem "git", "< 6.0.0"
   gem "herb"
   gem "i18n-tasks"
   gem "listen"
