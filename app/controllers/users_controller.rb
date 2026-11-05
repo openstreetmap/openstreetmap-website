@@ -163,15 +163,12 @@ class UsersController < ApplicationController
       end
 
       if user
-        case user.status
-        when "pending"
+        if user.pending?
           unconfirmed_login(user, referer)
-        when "active", "confirmed"
-          successful_login(user, referer)
-        when "suspended"
+        elsif user.suspended?
           failed_login({ :partial => "sessions/suspended_flash" }, user.display_name, referer)
         else
-          failed_login(t("sessions.new.auth failure"), user.display_name, referer)
+          successful_login(user, referer)
         end
       else
         email_hmac = UsersController.message_hmac(email) if email_verified && email
