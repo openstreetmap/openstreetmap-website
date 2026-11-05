@@ -166,6 +166,7 @@ class ChangesetsController < ApplicationController
                        .order(:node_id, :version)
                        .offset(ELEMENTS_PER_PAGE * (@current_node_page - 1))
                        .limit(ELEMENTS_PER_PAGE)
+                       .preload(:old_tags)
   end
 
   def load_ways
@@ -175,6 +176,7 @@ class ChangesetsController < ApplicationController
                       .order(:way_id, :version)
                       .offset(ELEMENTS_PER_PAGE * (@current_way_page - 1))
                       .limit(ELEMENTS_PER_PAGE)
+                      .preload(:old_tags)
   end
 
   def load_relations
@@ -184,6 +186,7 @@ class ChangesetsController < ApplicationController
                            .order(:relation_id, :version)
                            .offset(ELEMENTS_PER_PAGE * (@current_relation_page - 1))
                            .limit(ELEMENTS_PER_PAGE)
+                           .preload(:old_tags)
   end
 
   helper_method def element_pages_count(elements_count)
