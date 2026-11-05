@@ -37,11 +37,13 @@ module Accounts
       raise ActionController::BadRequest unless signature == OpenSSL::HMAC.digest("SHA256", Settings.facebook_auth_secret, payload)
 
       data = JSON.parse(Base64.urlsafe_decode64(payload))
-      user = User.find_by!(:auth_provider => "facebook", :auth_uid => data["user_id"])
+      user = User.find_by(:auth_provider => "facebook", :auth_uid => data["user_id"])
 
-      user.auth_provider = nil
-      user.auth_uid = nil
-      user.save!
+      if user
+        user.auth_provider = nil
+        user.auth_uid = nil
+        user.save!
+      end
 
       @confirmation_code = Rails
                            .application

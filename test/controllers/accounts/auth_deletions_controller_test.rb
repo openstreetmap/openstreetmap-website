@@ -55,10 +55,10 @@ module Accounts
       post auth_deletions_path(:provider => "facebook"), :params => { :signed_request => signed_request }
       assert_response :success
 
-      js = ActiveSupport::JSON.decode(@response.body)
-      assert_not_nil js
-      assert_not_nil js["confirmation_code"]
-      assert_equal auth_deletion_url(:provider => "facebook", :confirmation_code => js["confirmation_code"]), js["url"]
+      json = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil json
+      assert_not_nil json["confirmation_code"]
+      assert_equal auth_deletion_url(:provider => "facebook", :confirmation_code => json["confirmation_code"]), json["url"]
 
       assert_nil user.reload.auth_provider
       assert_nil user.reload.auth_uid
@@ -105,7 +105,12 @@ module Accounts
       signed_request = [encoded_signature, payload].join(".")
 
       post auth_deletions_path(:provider => "facebook"), :params => { :signed_request => signed_request }
-      assert_response :not_found
+      assert_response :success
+
+      json = ActiveSupport::JSON.decode(@response.body)
+      assert_not_nil json
+      assert_not_nil json["confirmation_code"]
+      assert_equal auth_deletion_url(:provider => "facebook", :confirmation_code => json["confirmation_code"]), json["url"]
     end
 
     ##
