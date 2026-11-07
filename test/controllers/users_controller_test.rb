@@ -184,7 +184,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference "User.count", 1 do
       assert_difference "ActionMailer::Base.deliveries.size", 1 do
         post users_path, :params => { :user => user.attributes, :referer => "/edit?editor=id#map=1/2/3" }
-        assert_enqueued_with :job => ActionMailer::MailDeliveryJob,
+        assert_enqueued_with :job => MailDeliveryJob,
                              :args => proc { |args| args[3][:params][:referer] == welcome_path(:editor => "id", :zoom => 1, :lat => 2, :lon => 3) }
         perform_enqueued_jobs
       end
