@@ -3,6 +3,8 @@
 require "application_system_test_case"
 
 class ManageModerationZones < ApplicationSystemTestCase
+  driven_by_selenium "default", :preferences => { "ui.prefersReducedMotion" => 1 }
+
   test "Create a moderation zone and fail to put an anonymous note within it" do
     sign_in_as(create(:moderator_user))
 
@@ -30,6 +32,8 @@ class ManageModerationZones < ApplicationSystemTestCase
       click_on "Add Note"
 
       assert_content "There was an error when creating the note"
+      find(".new-note-error summary").click
+      assert_text "You don't have permissions to make changes here. Please either sign in or create an OpenStreetMap account"
     end
   end
 
