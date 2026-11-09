@@ -21,6 +21,7 @@ module Notifications
 
       assert_dom ".web-notification" do
         assert_dom "h2", "New follower"
+        assert_dom "a[href='#{follow_url(follower)}']", "follow them back"
         assert_dom "time", "less than 1 minute ago"
         assert_dom "p", "User Follower started following you. You can follow them back if you wish."
       end

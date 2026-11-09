@@ -26,6 +26,7 @@ module Notifications
 
       assert_dom ".web-notification" do
         assert_dom "h2", "GPS trace imported successfully"
+        assert_dom "h2 a[href='#{show_trace_path(trace.user, trace)}']"
         assert_dom "time", "less than 1 minute ago"
         assert_dom "dd", "test-trace-file.gpx"
         assert_dom "dd", "Test trace file"

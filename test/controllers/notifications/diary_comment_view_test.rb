@@ -15,6 +15,9 @@ module Notifications
 
       assert_dom ".web-notification" do
         assert_dom "h2", "Diary comment"
+        assert_dom "h2 a", 1 do |links|
+          assert_equal diary_entry_path(diary_comment.diary_entry.user, diary_comment.diary_entry), URI.parse(links.first["href"]).path
+        end
         assert_dom "time", "less than 1 minute ago"
         assert_dom "blockquote", diary_comment.body
       end

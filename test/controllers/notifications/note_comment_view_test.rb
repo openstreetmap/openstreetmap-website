@@ -19,6 +19,7 @@ module Notifications
 
       assert_dom ".web-notification" do
         assert_dom "h2", "Note comment"
+        assert_dom "h2 a[href='#{note_path(note_comment.note, :anchor => "c#{note_comment.id}")}']"
         assert_dom "time", "less than 1 minute ago"
         assert_dom "blockquote", note_comment.body
       end
