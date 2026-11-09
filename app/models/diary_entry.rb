@@ -4,17 +4,18 @@
 #
 # Table name: diary_entries
 #
-#  id            :bigint           not null, primary key
-#  user_id       :bigint           not null
-#  title         :string           not null
-#  body          :text             not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  latitude      :float
-#  longitude     :float
-#  language_code :string           default("en"), not null
-#  visible       :boolean          default(TRUE), not null
-#  body_format   :enum             default("markdown"), not null
+#  id               :bigint           not null, primary key
+#  user_id          :bigint           not null
+#  title            :string           not null
+#  body             :text             not null
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  latitude         :float
+#  longitude        :float
+#  language_code    :string           default("en"), not null
+#  visible          :boolean          default(TRUE), not null
+#  body_format      :enum             default("markdown"), not null
+#  comments_enabled :boolean          default(TRUE), not null
 #
 # Indexes
 #
