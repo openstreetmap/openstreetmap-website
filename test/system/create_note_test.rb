@@ -21,6 +21,9 @@ class CreateNoteTest < ApplicationSystemTestCase
 
     within_sidebar do
       assert_button "Add Note", :disabled => true
+      assert_text "Anyone in the public can see a note, even without an OpenStreetMap account!"
+      assert_includes find_field("text")[:placeholder], "A good note is as descriptive as possible"
+      assert_includes find_field("text")[:placeholder], "Please be kind, patient and respectful"
 
       fill_in "text", :with => "Some newly added note description"
       click_on "Add Note"
@@ -150,6 +153,28 @@ class CreateNoteTest < ApplicationSystemTestCase
       assert_content "The test injected a forced error"
       assert_button "Add Note", :disabled => false
     end
+  end
+
+  test "shows the HTTP status when a note error has no error header" do
+    visit new_note_path(:anchor => "map=18/0/0")
+    page.execute_script(<<~JS)
+      window.noteTestFetch = window.fetch;
+      window.fetch = (url, options) => {
+        if (options?.method === "POST" && new URL(url, location.href).pathname === "/api/0.6/notes.json") {
+          return Promise.resolve(new Response("", { status: 503, statusText: "Service Unavailable" }));
+        }
+        return window.noteTestFetch(url, options);
+      };
+    JS
+
+    within_sidebar do
+      fill_in "text", :with => "Some newly added note description"
+      click_on "Add Note"
+      find(".new-note-error summary").click
+      assert_text "HTTP Error 503 Service Unavailable"
+    end
+  ensure
+    page.execute_script("if (window.noteTestFetch) window.fetch = window.noteTestFetch")
   end
 
   private
