@@ -126,10 +126,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         end
         assert_dom "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_dom "input#longitude[name='diary_entry[longitude]']", :count => 1
+        assert_dom "input#diary_entry_comments_enabled[type=checkbox][name='diary_entry[comments_enabled]'][checked]", :count => 1
         assert_dom "input[name=commit][type=submit][value=Publish]", :count => 1
         assert_dom "button[type=button]", :text => "Edit", :count => 1
         assert_dom "button[type=button]", :text => "Preview", :count => 1
-        assert_dom "input", :count => 4
+        assert_dom "input", :count => 6
       end
     end
   end
@@ -295,10 +296,11 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
         assert_select "select#diary_entry_language_code", :count => 1
         assert_select "input#latitude[name='diary_entry[latitude]']", :count => 1
         assert_select "input#longitude[name='diary_entry[longitude]']", :count => 1
+        assert_select "input#diary_entry_comments_enabled[type=checkbox][name='diary_entry[comments_enabled]'][checked]", :count => 1
         assert_select "input[name=commit][type=submit][value=Update]", :count => 1
         assert_select "button[type=button]", :text => "Edit", :count => 1
         assert_select "button[type=button]", :text => "Preview", :count => 1
-        assert_select "input", :count => 5
+        assert_select "input", :count => 7
       end
     end
 
@@ -380,6 +382,23 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to diary_entry_path(user, diary_entry)
     diary_entry.reload
     assert_equal "Updated Title", diary_entry.title
+  end
+
+  def test_update_comments_enabled
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user)
+    assert diary_entry.comments_enabled
+
+    session_for(user)
+    put diary_entry_path(user, diary_entry, :diary_entry => { :comments_enabled => "0" })
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    diary_entry.reload
+    assert_not diary_entry.comments_enabled
+
+    put diary_entry_path(user, diary_entry, :diary_entry => { :comments_enabled => "1" })
+    assert_redirected_to diary_entry_path(user, diary_entry)
+    diary_entry.reload
+    assert diary_entry.comments_enabled
   end
 
   def test_index_all
@@ -641,6 +660,24 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
       assert_select "p#comment#{deleted_user_comment.id}", :count => 0
       assert_select "p#comment#{hidden_comment.id}", :count => 0
     end
+  end
+
+  def test_show_comments_disabled
+    user = create(:user)
+    diary_entry = create(:diary_entry, :user => user, :comments_enabled => false)
+    comment = create(:diary_comment, :diary_entry => diary_entry)
+
+    session_for(create(:user))
+    get diary_entry_path(user, diary_entry)
+    assert_response :success
+    assert_template :show
+    assert_select "div.comments p#comment#{comment.id}", :count => 1
+    assert_select "form[action='#{comment_diary_entry_path(user, diary_entry)}']", :count => 0
+    assert_select "p#newcomment", :text => "The author has turned off comments for this entry.", :count => 1
+
+    get diary_entries_path
+    assert_response :success
+    assert_select "a[href='#{diary_entry_path(user, diary_entry, :anchor => 'newcomment')}']", :count => 0
   end
 
   def test_show_og_title

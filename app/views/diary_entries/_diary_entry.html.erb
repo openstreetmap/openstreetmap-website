@@ -22,7 +22,9 @@
   <nav class="secondary-actions" aria-label="<%= t ".actions" %>">
     <ul>
       <% if params[:action] == 'index' %>
-        <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
+        <% if diary_entry.comments_enabled %>
+          <li><%= link_to t(".comment_link"), diary_entry_path(diary_entry.user, diary_entry, :anchor => "newcomment") %></li>
+        <% end %>
         <li><%= link_to t(".reply_link"), new_message_path(diary_entry.user, :message => { :title => "Re: #{diary_entry.title}" }) %></li>
         <li>
           <% if diary_entry.visible_comments.count > 0 %>
