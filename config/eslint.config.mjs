@@ -9,7 +9,7 @@ export default [
   {
     ignores: [
       "app/assets/javascripts/i18n/",
-      "coverage/assets/",
+      "coverage/",
       "public/assets/",
       "vendor/"
     ]
