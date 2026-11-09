@@ -4,22 +4,37 @@
 # Author: David1010
 # Author: MIKHEIL
 # Author: McDutchie
+# Author: TGaming03
 # Author: Temuri rajavi
 # Author: Გიო ოქრო
 # Author: Იო ოქრო
 ---
 ka:
+  date:
+    formats:
+      contribution_calendar: '%B %-d'
   time:
     formats:
       friendly: '%დ %თ %წ at %ს:%წ'
   helpers:
+    file:
+      prompt: ფაილის არჩევა
     submit:
       diary_comment:
-        create: შენახვა
+        create: კომენტარი
       diary_entry:
         create: გამოქვეყნება
+        update: განახლება
+      issue_comment:
+        create: დაამატეთ კომენტარი
       message:
         create: გაგზავნა
+      oauth2_application:
+        create: რეგისტრაცია
+        update: განახლება
+      redaction:
+        create: შექმენით რედაქცია
+        update: რედაქციის შენახვა
       trace:
         create: ატვირთვა
         update: ცვლილებების შენახვა
@@ -27,18 +42,35 @@ ka:
         create: ბლოკირების შექმნა
         update: განაახლეთ ბლოკირება
   activerecord:
+    errors:
+      messages:
+        display_name_is_user_n: ვერ იქნება user_n, თუ n არ არის თქვენი მომხმარებლის
+          ID
+      models:
+        user_mute:
+          is_already_muted: უკვე გამორთულია
+        social_link:
+          attributes:
+            url:
+              http_parse_error: URL უნდა იწყებოდეს http://-ით ან https://-ით
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: ვერ ბრუნდება ძველ მნიშვნელობაზე
     models:
-      acl: ხელმისაწვდომობის შეზღუდვის სია
+      acl: წვდომის კონტროლის სია
       changeset: ცვლილებების პაკეტი
       changeset_tag: ცვლილებების პაკეტის ტეგი
       country: ქვეყანა
       diary_comment: დღიურის კომენტარი
       diary_entry: დღიურის ჩანაწერი
       friend: მეგობარი
+      issue: გამოცემა
       language: ენა
       message: შეტყობინება
       node: კვანძი
       node_tag: წერტილის ტეგი
+      note: შენიშვნა
       old_node: ძველი კვანძი
       old_node_tag: წერტილის ძველი ტეგი
       old_relation: ძველი ურთიერთობა
@@ -50,6 +82,7 @@ ka:
       relation: ურთიერთობა
       relation_member: ურთიერთობის წევრი
       relation_tag: ურთიერთობის ტეგი
+      report: ანგარიში
       session: სესია
       trace: ბილიკი
       tracepoint: ბილიკის წერტილი
@@ -61,26 +94,39 @@ ka:
       way_node: გზის კვანძი
       way_tag: ხაზის ტეგი
     attributes:
+      acl:
+        address: მისამართი
+        domain: დომენი
+        mx: MX სერვერი
+        k: გასაღები
+        v: ღირებულება
       diary_comment:
         body: ტექსტი
       diary_entry:
         user: მომხმარებელი
         title: თემა
+        body: ტექსტი
         latitude: განედი
         longitude: გრძედი
         language_code: ენა
+      doorkeeper/application:
+        name: სახელი
+        redirect_uri: გადამისამართების URI-ები
+        confidential: კონფიდენციალური განაცხადი?
+        scopes: ნებართვები
       friend:
         user: მომხმარებელი
         friend: მეგობარი
       trace:
         user: მომხმარებელი
         visible: ხილვადობა
-        name: სახელი
+        name: ფაილის სახელი
         size: ზომა
         latitude: განედი
         longitude: გრძედი
         public: საჯარო
         description: აღწერა
+        gpx_file: აირჩიეთ GPS კვალის ფაილი
         visibility: 'ხილვადობა:'
       message:
         sender: გამგზავნი
