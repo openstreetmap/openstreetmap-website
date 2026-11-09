@@ -108,6 +108,7 @@
 # Author: Silovan
 # Author: Sobloku
 # Author: Spider
+# Author: TGaming03
 # Author: Tanzun
 # Author: TarzanASG
 # Author: Thothsum
@@ -178,6 +179,10 @@ ru:
           attributes:
             url:
               http_parse_error: URL должен начинаться с http:// ли https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: невозможно вернуть прежнее значение
     models:
       acl: СКД
       changeset: Пакет правок
@@ -250,6 +255,12 @@ ru:
         gpx_file: Выберите файл GPS-трассировки
         visibility: 'Видимость:'
         tagstring: 'Теги:'
+      moderation_zone:
+        name: Имя
+        reason: Причина
+        zone: Зона
+        period: Период
+        ends_at: Дата и время истечения срока действия
       message:
         sender: Отправитель
         title: Тема
@@ -284,6 +295,7 @@ ru:
         mx: Имя хоста MX-сервера для почтового домена
         k: 'Одно из: no_account_creation, allow_account_creation, no_note_comment,
           no_trace_download'
+        v: Дополнительная запись, например, причина создания этой записи
       doorkeeper/application:
         confidential: Приложение будет использоваться там, где секрет клиента может
           храниться в секрете (собственные мобильные приложения и одностраничные приложения
@@ -364,6 +376,68 @@ ru:
         few: '%{count} года назад'
         many: '%{count} лет назад'
         other: ""
+    distance_in_words_in:
+      about_x_hours:
+        one: примерно через %{count} час
+        few: примерно через %{count} часа
+        many: примерно через %{count} часов
+        other: примерно через %{count} часа
+      about_x_months:
+        one: примерно через %{count} месяц
+        few: примерно через %{count} месяца
+        many: примерно через %{count} месяцев
+        other: примерно через %{count} месяца
+      about_x_years:
+        one: примерно через %{count} год
+        few: примерно через %{count} года
+        many: примерно через %{count} лет
+        other: примерно через %{count} года
+      almost_x_years:
+        one: почти через %{count} год
+        few: почти через %{count} года
+        many: почти через %{count} лет
+        other: почти через %{count} года
+      half_a_minute: через полминуты
+      less_than_x_seconds:
+        one: менее чем через %{count} секунду
+        few: менее чем через %{count} секунды
+        many: менее чем через %{count} секунд
+        other: менее чем через %{count} секунды
+      less_than_x_minutes:
+        one: менее чем через %{count} минуту
+        few: менее чем через %{count} минуты
+        many: менее чем через %{count} минут
+        other: менее чем через %{count} минуты
+      over_x_years:
+        one: более чем через %{count} год
+        few: более чем через %{count} года
+        many: более чем через %{count} лет
+        other: более чем через %{count} года
+      x_seconds:
+        one: через %{count} секунду
+        few: через %{count} секунды
+        many: через %{count} секунд
+        other: через %{count} секунды
+      x_minutes:
+        one: через %{count} минуту
+        few: через %{count} минуты
+        many: через %{count} минут
+        other: через %{count} минуты
+      x_days:
+        one: через %{count} день
+        few: через %{count} дня
+        many: через %{count} дней
+        other: через %{count} дня
+      x_months:
+        one: через %{count} месяц
+        few: через %{count} месяца
+        many: через %{count} месяцев
+        other: через %{count} месяца
+      x_years:
+        one: через %{count} год
+        few: через %{count} года
+        many: через %{count} лет
+        other: через %{count} года
   editor:
     default: По умолчанию (назначен %{name})
     id:
@@ -481,9 +555,8 @@ ru:
         title: Условия
         heading: Условия сотрудничества
         heading_ct: Условия сотрудничества
-        read and accept with tou: Пожалуйста, ознакомьтесь с соглашением для участников
-          и с условиями использования, после чего поставьте оба флажка и нажмите кнопку
-          «Продолжить».
+        read and accept with tou: Пожалуйста, ознакомьтесь с Условиями для авторов
+          и Условиями использования, после чего установите оба флажка и нажмите «Продолжить».
         contributor_terms_explain: Это соглашение регулирует условия ваших существующего
           и будущего вклада.
         read_ct: Я прочитал и согласен с вышеуказанными условиями
@@ -525,6 +598,11 @@ ru:
         already_declared: Вы уже заявили, что считаете свои правки общественным достоянием.
         did_not_confirm: Вы не подтвердили, что считаете свои редактирования общественным
           достоянием.
+    auth_deletions:
+      show:
+        title: Запрос на удаление данных
+        body: Данные провайдера %{provider} с ID %{id} были удалены в %{time}, а связь
+          с соответствующей учётной записью OpenStreetMap была разорвана.
   browse:
     deleted_ago_by_html: Удален %{time_ago} пользователем %{user}
     edited_ago_by_html: Редактировал %{time_ago} %{user}
@@ -619,6 +697,9 @@ ru:
       colour_preview: Просмотр цвета %{colour_value}
       email_link: Электронная почта %{email}
     versions_navigation:
+      node_versions: Версии узлов
+      way_versions: Версии линейных объектов
+      relation_versions: Версии отношений
       node: Точка
       way: Линия
       relation: Отношение
@@ -635,10 +716,13 @@ ru:
     index:
       node:
         title_html: 'История точки: %{name}'
+        actions: Действия с узлами
       way:
         title_html: 'История линии: %{name}'
+        actions: Действия с линиями
       relation:
         title_html: 'История отношения: %{name}'
+        actions: Действия с отношениями
       older_versions: Более старые версии
       newer_versions: Более новые версии
     actions:
@@ -806,6 +890,7 @@ ru:
       latest_edit_html: 'Последняя правка (%{ago}):'
       no_edits: (нет правок)
       view_changeset_details: Просмотреть подробности пакета правок
+      actions: Действия пользователя
     popup:
       your location: Ваше местоположение
       nearby mapper: Ближайший картограф
@@ -820,10 +905,58 @@ ru:
       nearby users: Другие ближайшие пользователи
       no nearby users: Пока нет других пользователей, которые признают, что занимаются
         составлением карты поблизости.
+      followed_actions: Действия для пользователей, на которых вы подписаны
       followed_changesets: пакеты правок
       followed_diaries: дневники
+      nearby_actions: Действия для пользователей находящихся поблизости
       nearby_changesets: пакеты правок соседей
       nearby_diaries: дневники соседей
+  notifications:
+    missing_record:
+      body: К сожалению это больше недоступно
+    index:
+      title: Уведомления
+      no_notifications: На данный момент у вас нет уведомлений
+      point_to_preferences_html: Вы можете настроить получение уведомлений в %{link}.
+      link_text: раздел «Настройки»
+    changeset_comment:
+      headline: Комментарий к набору изменений
+      description_with_summary_html: Пользователь %{commenter_name_with_link} оставил
+        комментарий к набору изменений %{changeset_id_with_link} («%{changeset_summary}»)
+      description_without_summary_html: Пользователь %{commenter_name_with_link} оставил
+        комментарий к пакету правок %{changeset_id_with_link}
+    gpx_details:
+      filename: Имя файла
+      description: Описание
+      tags: Теги
+      total_points: Общее количество точек
+      imported_points: Количество импортированных точек
+    gpx_import_failure:
+      headline: Не удалось импортировать GPS-трек
+      error_message: Сообщение об ошибке
+    gpx_import_success:
+      headline: GPS-трек успешно импортирован
+    new_follower:
+      headline: Новый подписчик
+      description_html: Пользователь %{follower_name_with_link} подписался(-ась) на
+        вас. При желании вы можете %{link}.
+      link_text: подписаться на них в ответ
+    note_comment:
+      headline:
+        commented: Комментарий к заметке
+        closed: Заметка закрыта
+        reopened: Заметка открыта заново
+      description:
+        commented_html: Пользователь %{commenter_name_with_link} оставил комментарий
+          к заметке %{note_id_with_link} («%{note_text}»)
+        closed_html: Пользователь %{commenter_name_with_link} закрыл заметку %{note_id_with_link}
+          («%{note_text}»)
+        reopened_html: Пользователь %{commenter_name_with_link} заново открыл заметку
+          %{note_id_with_link} («%{note_text}»)
+    diary_comment:
+      headline: Комментарий к записи в дневнике
+      description_html: Пользователь %{commenter_name_with_link} оставил комментарий
+        к записи в дневнике «%{diary_entry_title_with_link}»
   diary_entries:
     new:
       title: Новая запись в дневнике
@@ -860,6 +993,7 @@ ru:
       posted_by_html: Опубликован %{link_user} %{created} на языке %{language_link}.
       updated_at_html: Последнее обновление %{updated}.
       full_entry: Смотреть полную запись
+      actions: Действия с записью в дневнике
       comment_link: Оставить комментарий
       reply_link: Написать автору
       comment_count:
@@ -899,6 +1033,7 @@ ru:
       heading: Отписаться от обсуждения следующей записи в дневнике?
       button: Отписаться от обсуждения
     navigation:
+      actions: Действия с дневником
       in_language: Дневниковые записи на языке %{language}
       my_diary: Мой дневник
       new: Новая запись в дневнике
@@ -968,12 +1103,26 @@ ru:
       title: Файл не найден
       description: Не удалось найти файл/каталог/операцию API с таким именем на сервере
         OpenStreetMap (HTTP 404)
+  export:
+    show:
+      title: Встроенная карта OpenStreetMap
   follows:
     show:
       follow:
+        heading: Вы хотите подписаться на пользователя %{user}?
         button: Подписаться на пользователя
+      unfollow:
+        heading: Вы хотите отписаться от пользователя %{user}?
+        button: Отписаться от пользователя
     create:
       success: Вы сейчас подписаны на %{name}!
+      failed: К сожалению, ваш запрос на подписку на %{name} не удался.
+      already_followed: Вы уже подписаны на %{name}.
+      limit_exceeded: В последнее время вы подписались на большое количество пользователей.
+        Пожалуйста подождите некоторое время прежде чем пытаться подписаться на новых.
+    destroy:
+      success: Вы успешно отписались от пользователя %{name}.
+      not_followed: Вы не подписаны на пользователя %{name}.
   geocoder:
     search_osm_nominatim:
       prefix:
@@ -1115,9 +1264,13 @@ ru:
           aboriginal_lands: Земли аборигенов
           administrative: Административная граница
           census: Граница переписного участка
+          low_emission_zone: Зона с низким уровнем выбросов
           national_park: Национальный парк
           political: Избирательная граница
+          postal_code: Почтовый индекс
           protected_area: Охраняемая территория
+          public_transport: Район общественного транспорта
+          timezone: Часовой пояс
           "yes": Граница
         bridge:
           aqueduct: Акведук
@@ -1293,6 +1446,7 @@ ru:
           milestone: Историческая веха
           mine: Рудник
           mine_shaft: Шахтный ствол
+          monastery: Исторический монастырь
           monument: Монумент
           railway: Историческая железная дорога
           roman_road: Римская дорога
@@ -1419,6 +1573,7 @@ ru:
           mineshaft: Шахтный ствол
           monitoring_station: Станция наблюдения
           petroleum_well: Скважина
+          planter: Вазон
           pier: Пирс
           pipeline: Трубопровод
           pumping_station: Насосная станция
@@ -1559,6 +1714,7 @@ ru:
           abandoned: Разобранные железнодорожные пути
           buffer_stop: Буферная остановка
           construction: Ремонт железнодорожных путей
+          crossing: Железнодорожный переезд
           disused: Заброшенная железнодорожная ветка
           funicular: Фуникулёр
           halt: Железнодорожная станция
@@ -1769,10 +1925,39 @@ ru:
         level9: Административная граница (уровень 9)
         level10: Административная граница (уровень 10)
         level11: Административная граница (уровень 11)
+      border_types:
+        arrondissement: Граница округа
+        borough: Границы района
+        cercle: Граница круга
+        city: Граница города
+        comarca: Граница комарки
+        county: Граница округа
+        departement: Границы ведомств
+        department: Границы ведомств
+        district: Границы района
+        distrito: Границы района
+        freguesia: Границы фрегезии
+        local_authority: Границы местных органов власти
+        municipality: Границы муниципалитета
+        municipi: Границы муниципалитета
+        município: Границы муниципалитета
+        nation: Международная граница
+        national: Международная граница
+        neighbourhood: Границы микрорайона
+        parish: Границы прихода
+        province: Граница провинции
+        região: Региональные границы
+        region: Региональные границы
+        state: Граница штата
+        town: Граница города
+        township: Граница городского округа
+        village: Границы деревни
   searches:
     show:
       title:
         latlon: Внутренний
+        nominatim: Nominatim
+        nominatim_reverse: Nominatim
     queries:
       create:
         no_results: Ничего не найдено
@@ -1785,15 +1970,21 @@ ru:
       ascend: Подъём
       descend: Спуск
       kilometers: километров
+      miles_feet: мили, футы
+      miles_yards: мили, ярды
+      distance_units_settings: Настройки единиц измерения расстояния
       download: Скачать маршрут в формате GeoJSON
       filename: маршрут
       directions_courtesy_html: Маршрут предоставлен %{link}
+      check_demo_html: Подробнее на %{link}
   issues:
     index:
       title: Проблемы
       select_status: Выберите статус
       select_type: Выберите тип
+      select_last_managed_by: Выбрать «Последний ответственный»
       reported_user: Пользователь в сообщении
+      not_managed: Не управляется
       search: Найти
       search_guidance: Поиск проблем
       states:
@@ -1807,6 +1998,7 @@ ru:
       status: Статус
       reports: Сообщения
       last_updated: Последнее изменение
+      last_managed: Последнее обновление
       reporting_users: Сообщившие пользователи
       reports_count:
         one: 1 сообщение
@@ -1828,9 +2020,11 @@ ru:
         few: '%{count} сообщения'
         many: '%{count} сообщений'
         other: '%{count} сообщений'
+      no_reports: Сообщений нет
       report_created_at_html: Впервые сообщено %{datetime}
       last_resolved_at_html: Последний раз обработано %{datetime}
       last_updated_at_html: Последнее обновление %{datetime} пользователем %{displayname}
+      actions: Действия с проблемой
       resolve: Обработать
       ignore: Игнорировать
       reopen: Переоткрыть
@@ -1855,7 +2049,17 @@ ru:
       reportable_title:
         diary_comment: '%{entry_title}, коммент. #%{comment_id}'
         note: Заметка № %{note_id}
+      reportable_heading:
+        diary_comment_html: 'Комментарий к дневнику «%{title}» (создан: %{datetime_created},
+          обновлён: %{datetime_updated})'
+        diary_entry_html: 'Запись в дневнике «%{title}» (создана: %{datetime_created},
+          обновлена: %{datetime_updated})'
+        note_html: '%{title} (дата создания: %{datetime_created}, дата обновления:
+          %{datetime_updated})'
+        user_html: Пользователь %{title} зарегистрирован %{datetime_created}
     reporters:
+      index:
+        title: Авторы жалоб по проблеме %{issue_id}
       reporters:
         more_reporters: и ещё %{count}
   issue_comments:
@@ -1903,9 +2107,12 @@ ru:
       languages:
         af: Африкаанс
         gsw: Алеманнский
+        frp: Арпитан
         ast: Астурийский
         az: Азербайджанский
         id: Индонезийский
+        ms: Малайский
+        bcl: Центральный Бикол
         bs: Боснийский
         br: Бретонский
         ca: Каталонский
@@ -1913,26 +2120,43 @@ ru:
         cy: Уэльсский
         da: Датский
         de: Немецкий
+        dsb: Нижнелужицкий
         et: Эстонский
         en: Английский
+        en-GB: Английский (Великобритания)
         es: Испанский
         eo: Эсперанто
         eu: Баскский
         fr: Французский
+        fy: Западнофризский
+        fur: Фриульский
         ga: Ирландский
+        gd: Шотландский гэльский
+        gl: Галисийский
+        aln: Гегский диалект албанского
+        hsb: Верхнелужицкий
         hr: Хорватский
         ia: Интерлингва
         is: Исландский
         it: Итальянский
+        kw: Корнский
+        gcf: Гваделупский креольский
+        ku-Latn: Курдский (латинский)
         lv: Латышский
+        lb: Люксембургский
+        lkt: Лакота
         lt: Литовский
         hu: Венгерский
+        fit: Торнедальский финский
         nl: Нидерландский
         nb: Норвежский (букмол)
         nn: Новонорвежский
+        oc: Окситанский
         nds: Нижненемецкий
         pl: Польский
         pt-PT: Португальский
+        pt: Португальский (Бразилия)
+        ksh: Кёльнский
         ro: Румынский
         sc: Сардинский
         sco: Шотландский
@@ -1940,14 +2164,25 @@ ru:
         scn: Cицилийский
         sk: Словацкий
         sl: Словенский
+        sr-Latn: Сербский (латинский)
+        sh: Сербохорватский (латинский)
         fi: Финский
         sv: Шведский
+        tl: Тагальский
+        kab: Кабильский
         vi: Вьетнамский
         tr: Турецкий
+        yo: Йоруба
+        diq: Димли
         el: Греческий
         ba: Башкирский
+        be: Белорусский
+        be-Tarask: Белорусский (Тарашковский)
         bg: Болгарский
         mk: Македонский
+        mt: Мальтийский
+        mo: Молдавский
+        ce: Чеченский
         ru: Русский
         sr: Сербский (кириллица)
         tt: Татарский (кириллица)
@@ -1956,10 +2191,28 @@ ru:
         yi: Идиш
         he: Иврит
         ar: Арабский
+        skr-arab: Сирайки
         fa: Персидский
+        arz: Египетский арабский
+        pnb: Западный панджаби
+        ps: Пушту
+        nqo: Нко
         ne: Непальский
+        mr: Маратхи
         hi: Хинди
+        bn: Бенгальский
+        pa: Панджаби
+        gu: Гуджарати
+        ta: Тамильский
+        te: Телугу
+        kn: Каннада
+        th: Тайские
+        my: Бирманский
+        shn: Шанский
+        xmf: Мегрельский
         ka: Грузинский
+        km: Кхмерский
+        sat: Сантали
         zh-CN: Китайский (упрощенный)
         zh-TW: Китайский (традиционный)
         zh-HK: Китайский (Гонконг)
@@ -1968,6 +2221,8 @@ ru:
   layouts:
     logo:
       alt_text: Логотип OpenStreetMap
+    main_navigation: Главное меню
+    layer_info: Информация о слое
     start_mapping: Начать картографировать
     intro_header: Добро пожаловать на OpenStreetMap!
     intro_text: OpenStreetMap является картой мира, созданной такими же людьми, как
@@ -1976,6 +2231,9 @@ ru:
       другими %{partners}.
     partners_corpmembers: корпоративные члены OSMF
     partners_partners: партнёрами
+    welcome_tou_notice_html: Используя данный веб-сайт или иную инфраструктуру, предоставляемую
+      Фондом OpenStreetMap, вы соглашаетесь с %{terms_link}.
+    terms_of_use: Условия использования
     tou: Условия использования
     nothing_to_preview: Нечего предпросматривать.
     learn_more: Узнать больше
@@ -1998,6 +2256,9 @@ ru:
       select_language: Выберите язык
       sign_up: Зарегистрироваться
       user_diaries: Дневники участников
+      navigation: Главная навигация
+    meta:
+      openstreetmap_search: Поиск в OpenStreetMap
     select_language_button:
       title: Выберите язык
     offline_flash:
@@ -2005,6 +2266,9 @@ ru:
         проводятся необходимые работы по техническому обслуживанию.
       osm_read_only: База данных OpenStreetMap в данный момент доступна только для
         чтения, так как проводится необходимое техническое обслуживание.
+      expected_restore_html: Ожидается, что работа сервисов будет восстановлена через
+        %{time}.
+      announcement: С объявлением можно ознакомиться здесь.
   user_mailer:
     diary_comment_notification:
       description: 'Запись в дневнике OpenStreetMap #%{id}'
@@ -2031,8 +2295,13 @@ ru:
         на него на %{replyurl}
     follow_notification:
       hi: Здравствуйте, %{to_user},
+      subject: '[OpenStreetMap] Пользователь %{user} подписался на вас'
+      followed_you: Пользователь %{user} подписался на вас на OpenStreetMap.
       see_their_profile: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
       see_their_profile_html: 'Вы можете просмотреть информацию о них по ссылке: %{userurl}.'
+      follow_them: 'Вы также можете подписаться на этого пользователя по ссылке: %{followurl}'
+      follow_them_html: 'Вы также можете подписаться на этого пользователя по ссылке:
+        %{followurl}'
     gpx_details:
       details: 'Подробности вашего файла:'
       filename: Имя файла
@@ -2056,6 +2325,11 @@ ru:
       subject: '[OpenStreetMap] Сбой импорта GPX'
     gpx_success:
       hi: Здравствуйте, %{to_user},
+      imported_successfully: Похоже ваш файл был успешно импортирован в виде GPS-трека.
+      all_your_traces: Все ваши успешно загруженные треки в формате GPX можно найти
+        по адресу %{url}
+      all_your_traces_html: Все ваши успешно загруженные треки в формате GPX можно
+        найти по адресу %{url}.
       subject: '[OpenStreetMap] Импорт GPX прошёл успешно'
     signup_confirm:
       subject: '[OpenStreetMap] Добро пожаловать в OpenStreetMap'
@@ -2081,6 +2355,7 @@ ru:
       click_the_link: Если это вы, пожалуйста, перейдите по ссылке, указанной ниже,
         чтобы сменить ваш пароль.
     note_comment_notification:
+      description: 'Заметка OpenStreetMap #%{id}'
       anonymous: анонимный участник
       greeting: Здравствуйте,
       commented:
@@ -2121,6 +2396,7 @@ ru:
       details: Ответить или узнать больше о заметке %{url}.
       details_html: 'Ответить или узнать больше о заметке: %{url}.'
     changeset_comment_notification:
+      description: OpenStreetMap Пакет правок №%{id}
       hi: Здравствуйте, %{to_user},
       commented:
         subject_own: '[OpenStreetMap] %{commenter} прокомментировал один из ваших
@@ -2155,6 +2431,8 @@ ru:
       success: Ваша учётная запись подтверждена, спасибо за регистрацию!
       already active: Эта учётная запись уже подтверждена.
       unknown token: Такой код подтверждения истек или не существует.
+      if_need_resend: Если вам нужно чтобы мы повторно отправили письмо с подтверждением
+        нажмите кнопку ниже.
       resend_button: Отправить письмо подтверждения снова.
     confirm_resend:
       failure: Участник %{name} не найден.
@@ -2213,6 +2491,7 @@ ru:
     mutes:
       destroy:
         notice: Сообщение перемещено во Входящие
+        error: Сообщение не удалось переместить в папку «Входящие».
     mailboxes:
       heading:
         my_inbox: Мои входящие
@@ -2249,6 +2528,11 @@ ru:
     muted_inboxes:
       show:
         title: Заглушённые сообщения
+        messages:
+          one: У вас %{count} скрытое сообщение
+          few: У вас %{count} скрытых сообщения
+          many: У вас %{count} скрытых сообщений
+          other: У вас %{count} скрытых сообщений
     outboxes:
       show:
         title: Исходящие
@@ -2286,6 +2570,7 @@ ru:
       flash token bad: Невозможно найти такой код подтверждения, проверьте ссылку.
     update:
       flash changed: Ваш пароль был изменён.
+      flash token bad: Не найден этот токен, возможно, стоит проверить URL?
   preferences:
     preferences:
       update:
@@ -2294,6 +2579,7 @@ ru:
         message: Предпочтения обновлены.
       navigation:
         preferences: Настройки
+        notification_preferences: Уведомления
         advanced_preferences: Расширенные настройки
     basic_preferences:
       show:
@@ -2309,10 +2595,29 @@ ru:
           auto: Автоматическая
           light: Светлая
           dark: Тёмная
+        preferred_editor_color_scheme: Предпочтительная цветовая схема редактора
         editor_color_schemes:
+          auto: То же самое что и на веб-сайте
           light: Светлая
           dark: Тёмная
         save: Обновить предпочтения
+    notification_preferences:
+      show:
+        title: Настройки уведомлений
+        changeset_comment: Комментарии к набору изменений
+        diary_comment: Комментарии в дневнике
+        direct_message: Личные сообщения
+        gpx_import_failure: 'Импорт GPS-трека: сбой'
+        gpx_import_success: 'Импорт трека GPX: успешно'
+        new_follower: Новые подписчики
+        note_comment: Комментарии к заметке
+        save: Обновить настройки
+        delivery_mechanisms:
+          email: Электронная почта
+    advanced_preferences:
+      show:
+        title: Мои расширенные настройки
+        save: Обновить настройки
   profiles:
     profile_sections:
       navigation:
@@ -2321,21 +2626,31 @@ ru:
         image: Изображение
         company: Компания
         location: Местоположение
+        contribution_calendar: Календарь взносов
     descriptions:
       show:
         title: Редактирование профиля
         save: Обновить профиль
         cancel: Отмена
+      update:
+        success: Описание профиля обновлено.
+        failure: Не удалось обновить описание профиля.
     links:
       show:
         title: Редактировать профиль
+        save: Обновить профиль
         cancel: Отмена
         social_links:
           title: Ссылки на социальные сети
           remove: Удалить
           add: Добавить ссылку на социальную сеть
+      update:
+        success: Ссылки в профиле обновлены.
+        failure: Не удалось обновить ссылки в профиле.
     images:
       show:
+        title: Редактировать профиль
+        save: Обновить профиль
         cancel: Отмена
         gravatar:
           gravatar: Использовать Gravatar
@@ -2347,9 +2662,17 @@ ru:
         replace image: Заменить текущее изображение
         image size hint: (квадратные изображения, по крайней мере 100×100, работают
           лучше)
+      update:
+        success: Обновлено изображение профиля.
+        failure: Не удалось обновить аватар.
     companies:
       show:
+        title: Редактировать профиль
+        save: Обновить профиль
         cancel: Отмена
+      update:
+        success: Профиль компании обновлен.
+        failure: Не удалось обновить профиль компании.
     locations:
       show:
         title: Редактировать профиль
@@ -2361,13 +2684,29 @@ ru:
         show: Показать
         delete: Удалить
         undelete: Отменить удаление
+      update:
+        success: Местоположение в профиле обновлено.
+        failure: Не удалось обновить местоположение в профиле.
     heatmaps:
       show:
+        title: Настройка календаря публикаций
+        show_contribution_calendar_in_public: Отобразить календарь пожертвований на
+          странице своего профиля
+        save: Обновление настроек календаря взносов
         cancel: Отмена
+      update:
+        success: Обновлен календарь взносов.
+        failure: Не удалось обновить календарь пожертвований.
   sessions:
     new:
       tab_title: Вход
       login_to_authorize_html: Войдите в OpenStreetMap чтобы получить доступ к %{client_app_name}.
+      already_logged_in_html: Вы уже вошли в систему под именем %{user}. Повторный
+        вход приведёт к смене текущей учётной записи.
+      access_another_page: 'Вы попали на эту страницу, пытаясь перейти на другую страницу.
+        Если вы хотите перейти на эту страницу, используя свою текущую учетную запись,
+        нажмите кнопку ниже:'
+      visit_referring_page: Перейти на страницу, с которой был совершен переход
       email or username: Адрес эл. почты или имя пользователя
       password: Пароль
       remember: Запомнить меня
@@ -2375,6 +2714,8 @@ ru:
       login_button: Представиться
       with external: 'Или воспользуйтесь аккаунтом с другого сайта:'
       or: или
+      reset_to_login: К сожалению, срок действия вашего пароля истек. Пожалуйста,
+        сбросьте пароль, чтобы войти в систему.
       auth failure: Извините, вход с этими именем или паролем невозможен.
     destroy:
       title: Выйти
@@ -2426,9 +2767,19 @@ ru:
       legal_1_1_terms_of_use: Условиями использования
       legal_1_1_aup: Политики приемлемого использования
       legal_1_1_privacy_policy: Политикой конфиденциальности
-      legal_2_1_html: |-
-        Пожалуйста, %{contact_the_osmf_link}
-        если у вас есть вопросы по лицензированию, авторскому праву или другие юридические вопросы.
+      legal_1_2_html: Если вы хотите использовать карты или данные OpenStreetMap,
+        пожалуйста, не забудьте указать источник — OpenStreetMap. Более подробную
+        информацию можно найти по ссылке %{attribution_guidelines_link}.
+      legal_attribution_guidelines_title: Рекомендации по указанию авторства
+      legal_1_3_html: В частности, для использования скриншота из OpenStreetMap непосредственно
+        в вашей книге, публикации, фильме или телешоу вам не нужно запрашивать разрешение,
+        поскольку данные OpenStreetMap открыты для использования всеми желающими.
+        Обратитесь к %{attribution_guidelines_link} и ознакомьтесь с существующими
+        примерами в %{attribution_example_film} и %{attribution_example_tv}.
+      legal_attribution_example_film_title: Фильмы
+      legal_attribution_example_tv_title: ТВ-передачи
+      legal_2_1_html: Пожалуйста, %{contact_the_osmf_link} по любым другим вопросам,
+        связанным с лицензированием, авторскими правами или иными юридическими аспектами.
       legal_2_1_contact_the_osmf: свяжитесь с OSMF
       legal_2_2_html: OpenStreetMap, логотип в виде увеличительного стекла и State
         of the Map являются %{registered_trademarks_link}.
@@ -2483,6 +2834,7 @@ ru:
           (CC BY-SA 2.0).
         licensing_3_creative_commons_license: лицензии Creative Commons Attribution-ShareAlike
           2.0
+        licensing_3_creative_commons_license_url: https://creativecommons.org/licenses/by-sa/2.0/deed.ru
         licensing_4_html: Подробнее об использовании наших данных читайте на %{osmf_license_page_link}.
         licensing_4_osmf_license_page: странице лицензии OSMF
         credit_title_html: Как сослаться на OpenStreetMap
@@ -2500,6 +2852,14 @@ ru:
         credit_3_v2025_requirements_on_how_displayed: Требования к отображению
         credit_3_v2025_attribution_guidelines: руководство по атрибуции
         credit_3_v2025_licensing_requirements: требований к лицензированию
+        credit_4_v2025_html: |-
+          В целом,
+          чтобы указать, что данные предоставляются в соответствии с лицензией Open
+          Database License, вы можете разместить ссылку на %{this_copyright_page_link}.
+          Если вы распространяете данные OSM в
+          виде данных, пожалуйста, укажите название лицензии (или лицензий) и разместите прямую ссылку на неё (или на них). В средствах массовой информации,
+          где размещение ссылок невозможно (например, в печатных изданиях),
+          пожалуйста, укажите полный URL-адрес на странице, например %{copyright_page_url}.
         credit_4_v2025_this_copyright_page: эту страницу об авторских правах
         credit_5_v2025_html: 'В этом примере атрибут отображается в углу карты:'
         attribution_example:
@@ -2510,24 +2870,61 @@ ru:
           данных из любых защищённых авторским правом источников (например, с Google
           Maps или печатных карт) не должно проводиться без явного предварительного
           согласия правообладателей.
+        infringement_2_1_html: |-
+          Если вы считаете, что материалы, защищенные авторским правом, были неправомерно
+          добавлены в базу данных OpenStreetMap или на этот сайт, пожалуйста, ознакомьтесь
+          с нашей %{takedown_procedure_link} или подайте заявку напрямую на нашей
+          %{online_filing_page_link}.
+        infringement_2_1_takedown_procedure: процедура снятия с эксплуатации
+        infringement_2_1_online_filing_page: страница для подачи документов онлайн
         trademarks_title: Товарные знаки
         trademarks_1_1_html: |-
           OpenStreetMap, логотип в виде увеличительного стекла и State of the Map являются зарегистрированными товарными знаками фонда
           OpenStreetMap. Если у вас есть вопросы об использовании вами товарных знаков, ознакомьтесь с нашей
           %{trademark_policy_link}.
         trademarks_1_1_trademark_policy: Политику в отношении товарных знаков
+        services_title_html: Дополнительные услуги
+        services_1_html: Хотя OpenStreetMap — это открытые данные, мы не можем предоставлять
+          сторонним лицам бесплатный API или тайлы карты. Ознакомьтесь с нашей %{api_usage_policy_link},
+          %{tile_usage_policy_link} и %{nominatim_usage_policy_link}.
         services_1_api_usage_policy: Политика использования API
+        services_1_tile_usage_policy: Политика использования API
+        services_1_nominatim_usage_policy: Политика использования Nominatim
         contributors_title_html: Кто вносит вклад в наш проект
         contributors_intro_html: 'Участниками проекта являются тысячи отдельных людей.
           Проект также включает данные под свободными лицензиями от национальных картографических
           агентств и от других источников, среди которых:'
+        contributors_at_credit_html: '%{austria}: содержит данные города Вена (%{stadt_wien_link})
+          (на условиях лицензии %{cc_by_link}), земли Форарльберг (%{land_vorarlberg_link})
+          и земли Тироль (на условиях лицензии %{cc_by_at_with_amendments_link}).'
         contributors_at_austria: Австрия
         contributors_at_stadt_wien: город Вена
         contributors_at_land_vorarlberg: Земля Форарльберг
+        contributors_at_cc_by_at_with_amendments: CC BY AT с изменениями
+        contributors_au_credit_html: '%{australia}: включает или разработан с использованием
+          данных об административных границах (Administrative Boundaries) &copy; %{geoscape_australia_link},
+          предоставленных Австралийским Союзом на условиях лицензии %{cc_licence_link}.'
         contributors_au_australia: Австралия
+        contributors_au_geoscape_australia: Геопанорама Австралии
+        contributors_au_cc_licence: Лицензия Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
+        contributors_ca_credit_html: '%{canada}: содержит данные GeoBase&reg;, GeoGratis
+          (&copy; Министерство природных ресурсов Канады), CanVec (&copy; Министерство
+          природных ресурсов Канады) и StatCan (Отдел географии Статистической службы
+          Канады).'
         contributors_ca_canada: Канада
+        contributors_cz_credit_html: '%{czechia}: содержит данные Государственного
+          управления геодезии и кадастра, предоставленные на условиях лицензии %{cc_licence_link}.'
         contributors_cz_czechia: Чехия
+        contributors_cz_cc_licence: Лицензия Creative Commons Attribution 4.0 International
+          (CC BY 4.0)
+        contributors_fi_credit_html: '%{finland}: содержит данные из Топографической
+          базы данных Национальной земельной службы Финляндии и других наборов данных
+          на условиях %{nlsfi_license_link}.'
         contributors_fi_finland: Финляндия
+        contributors_fi_nlsfi_license: Лицензия NLSFI
+        contributors_fr_credit_html: '%{france}: содержит данные, полученные из Генеральной
+          дирекции налогообложения (Direction Générale des Impôts).'
         contributors_fr_france: Франция
         contributors_hr_credit_html: |-
           %{croatia}: Содержит данные из %{dgu_link} и %{open_data_portal}
@@ -2535,15 +2932,39 @@ ru:
         contributors_hr_croatia: Хорватия
         contributors_hr_dgu: Государственное геодезическое управление Хорватии
         contributors_hr_open_data_portal: Национальный портал открытых данных
+        contributors_nl_credit_new_html: '%{netherlands}: содержит данные &copy; AND,
+          2007 год.'
         contributors_nl_netherlands: Нидерланды
+        contributors_nz_credit_html: '%{new_zealand}: содержит данные, полученные
+          из %{linz_data_service_link} и предоставленные на условиях лицензии %{cc_by_link}.'
         contributors_nz_new_zealand: Новая Зеландия
+        contributors_nz_linz_data_service: Служба данных LINZ
         contributors_nz_cc_by: CC BY 4.0
+        contributors_rs_credit_html: '%{serbia}: содержит данные %{rgz_link} и с %{open_data_portal}
+          (общественное достояние Сербии), 2018 год.'
         contributors_rs_serbia: Сербия
+        contributors_rs_rgz: Сербское геодезическое управление
+        contributors_rs_open_data_portal: Национальный портал открытых данных
+        contributors_si_credit_html: '%{slovenia}: содержит данные %{gu_link} и %{mkgp_link}
+          (общественная информация Словении).'
         contributors_si_slovenia: Словения
+        contributors_si_gu: Управление геодезии и картографии
+        contributors_si_mkgp: Министерство сельского хозяйства, лесного хозяйства
+          и продовольствия
+        contributors_es_credit_html: '%{spain}: содержит данные, полученные из Национального
+          географического института Испании (%{ign_link}) и Национальной картографической
+          системы (%{scne_link}), предоставленные на условиях лицензии %{cc_by_link}.'
         contributors_es_spain: Испания
         contributors_es_ign: IGN
         contributors_es_cc_by: CC BY 4.0
+        contributors_za_credit_html: '%{south_africa}: содержит данные, полученные
+          из %{ngi_link}, охраняемые государственным авторским правом.'
         contributors_za_south_africa: Южная Африка
+        contributors_za_ngi: 'Главное управление: Национальная геопространственная
+          информация'
+        contributors_gb_credit_html: '%{united_kingdom}: содержит данные Картографического
+          управления (Ordnance Survey) &copy; Королевское авторское право и право
+          на базу данных 2010–2023 гг.'
         contributors_gb_united_kingdom: Великобритания
         contributors_2_html: |-
           Для получения дополнительной информации об этих и других источниках, которые использовались
@@ -2569,6 +2990,9 @@ ru:
       title: Экспортировать
       manually_select: Выделить другую область
       licence: Лицензия
+      licence_details_html: Данные OpenStreetMap распространяются на условиях лицензии
+        %{odbl_link} (ODbL).
+      odbl: Лицензия Open Data Commons на открытые базы данных
       too_large:
         advice: 'Если этот экспорт пройдёт неудачно, пожалуйста, попробуйте один из
           перечисленных ниже источников:'
@@ -2592,6 +3016,10 @@ ru:
       export_button: Экспортировать
       export_download: Загрузка...
       confirmation:
+        header: Скачать данные в формате XML
+        body: Хотите скачать картографические данные для этого района в формате XML?
+          Обратите внимание, что загрузка данных для обширных территорий может занять
+          некоторое время.
         cancel: Отмена
         download: Скачать
     fixthemap:
@@ -2606,7 +3034,11 @@ ru:
             самостоятельно.
       other_concerns:
         title: Другие проблемы
+        concerns_html: Если у вас есть вопросы по поводу использования наших данных
+          или их содержания, пожалуйста, посетите нашу %{copyright_link} для получения
+          дополнительной юридической информации или свяжитесь с соответствующей %{working_group_link}.
         copyright: страница авторского права
+        working_group: Рабочая группа OSMF
     help:
       title: Получение справки
       introduction: На OpenStreetMap есть несколько ресурсов, где можно узнать о проекте,
@@ -2666,6 +3098,8 @@ ru:
       get_directions_title: Поиск маршрута между двумя точками
       from: Старт
       to: Финиш
+      marker_from: Обозначение начала маршрута
+      marker_to: Обозначение конца маршрута
       where_am_i: Где это?
       where_am_i_title: Опишите ваше местоположение, воспользовавшись инструментом
         поиска
@@ -2675,6 +3109,8 @@ ru:
         bicycle: На велосипеде
         car: На машине
         foot: Пешком
+      providers:
+        description: Услуги по ориентации
     welcome:
       title: Добро пожаловать!
       introduction: Добро пожаловать на OpenStreetMap, открытую и свободную карту
@@ -2771,6 +3207,7 @@ ru:
         track: Просёлочная дорога
         bridleway: Дорога для верховой езды
         cycleway: Велосипедная дорога
+        international_bike_route: Международный велосипедный маршрут
         national_bike_route: Национальная велодорожка
         regional_bike_route: Региональная велодорожка
         local_bike_route: Велодорожка местного значения
@@ -2868,6 +3305,14 @@ ru:
         x %{height}
       download: Скачать
       downloading: Загрузка...
+  webgl_error_panes:
+    show:
+      compact_message: Для работы этой карты требуется WebGL.
+      description_html: К сожалению, похоже, что %{your_browser_does_not_support_webgl}
+        — технологии для рендеринга 3D-графики в вебе.
+      your_browser_does_not_support_webgl: Ваш браузер не поддерживает WebGL
+      webgl_is_required_for_this_map: Для отображения этой карты требуется WebGL.
+      read_more_about_webgl: Подробнее
   traces:
     visibility:
       private: Частный (доступно только анонимно, неупорядоченные точки)
@@ -2915,13 +3360,13 @@ ru:
       points: 'Точек:'
       start_coordinates: 'Координаты начала:'
       coordinates_html: '%{latitude}; %{longitude}'
-      map: на карте
-      edit: править
+      map: посмотреть местоположение на карте
+      edit: открыть в редакторе
       owner: 'Владелец:'
       description: 'Описание:'
       tags: 'Теги:'
       none: Нет
-      edit_trace: Редактировать свойства
+      edit_trace: Редактировать данные трека
       delete_trace: Удалить этот трек
       trace_not_found: Трек не найден!
       visibility: 'Видимость:'
@@ -2935,8 +3380,9 @@ ru:
         other: '%{count} точек'
       more: подробнее
       trace_details: Показать данные трека
-      view_map: Просмотр карты
-      edit_map: Править карту
+      trace_actions: Действия с треком
+      view_map: Посмотреть местоположение на карте
+      edit_map: Открыть в редакторе
       public: ОБЩЕДОСТУПНЫЙ
       identifiable: ИДЕНТИФИЦИРУЕМЫЙ
       private: ЧАСТНЫЙ
@@ -2948,6 +3394,7 @@ ru:
       my_gps_traces: Мои GPS-треки
       public_traces_from: Общедоступные треки пользователя %{user}
       description: Просмотр последних загруженных GPS-треков
+      actions: Действия со списком треков
       tagged_with: 'с тегами: %{tags}'
       empty_title: Здесь пока ничего нет
       empty_upload_html: '%{upload_link} или узнайте больше о GPS-треках на %{wiki_link}.'
@@ -2958,12 +3405,48 @@ ru:
       my_traces: Мои треки
       traces_from_html: Общедоступные трассировки от %{user}
       remove_tag_filter: Удалить фильтр тегов
+      legacy_traces: Мои старые треки
     destroy:
       scheduled_for_deletion: Запланировано к удалению
     legacy_visibilities:
       edit:
+        title: Мои архивные GPS-треки
+        description: Это ваши треки, в которых по-прежнему используется старый уровень
+          видимости — «частный» или «общедоступный». Здесь вы можете изменить их на
+          «отслеживаемый» или «идентифицируемый». Планируемые улучшения, касающиеся
+          GPS-треков, будут касаться только треков с уровнями видимости «отслеживаемый»
+          и «идентифицируемый».
+        filter:
+          visibility: Текущая видимость
+          any: Частный и общедоступный
+          from: Загружено с
+          to: Загружено на
+          apply: Фильтр
+        empty: Ни один из старых записей не соответствует этому фильтру.
+        new_visibility: Новая видимость
+        no_undo: Это изменение нельзя отменить.
+        button:
+          one: Изменить %{count} трек
+          few: Изменить %{count} трека
+          many: Изменить %{count} треков
+          other: Изменить %{count} трека
         confirmation:
+          header: Подтвердить изменение видимости
+          body:
+            one: Изменить видимость %{count} трека? Это действие нельзя отменить.
+            few: Изменить видимость %{count} треков? Это действие нельзя отменить.
+            many: Изменить видимость %{count} треков? Это действие нельзя отменить.
+            other: Изменить видимость %{count} трека? Это действие нельзя отменить.
           cancel: Отмена
+          confirm: Изменить настройки видимости
+      update:
+        updated:
+          one: Изменена видимость %{count} трека.
+          few: Изменена видимость %{count} треков.
+          many: Изменена видимость %{count} треков.
+          other: Изменена видимость %{count} трека.
+        invalid_visibility: Пожалуйста выберите уровень видимости на который хотите
+          перейти.
     offline_warning:
       message: Система загрузки файлов GPX в настоящий момент недоступна
     offline:
@@ -2999,6 +3482,9 @@ ru:
       google:
         title: Войти с помощью Google
         alt: Логотип Google
+      apple:
+        title: Войти с помощью Apple
+        alt: Логотип Apple
       facebook:
         title: Войти с помощью Facebook
         alt: Логотип Facebook
@@ -3014,49 +3500,104 @@ ru:
     share:
       share:
         title: Поделиться
+        alt: Значок «Поделиться»
+      email:
+        title: Поделиться по электронной почте
+        alt: Значок электронной почты
+      bluesky:
+        title: Поделиться через Bluesky
+        alt: Значок Bluesky
+      facebook:
+        title: Поделиться через Facebook
+        alt: Значок Facebook
+      linkedin:
+        title: Поделиться через LinkedIn
+        alt: Значок LinkedIn
+      mastodon:
+        title: Поделиться в Mastodon
+        alt: Значок Mastodon
+      telegram:
+        title: Поделиться в Telegram
+        alt: Значок Telegram
+      x:
+        title: Поделиться в X
+        alt: Значок «X»
     markdown_help:
       heading_html: Синтаксис %{kramdown_link}
       headings: Заголовки
       heading: Заголовок
       subheading: Подзаголовок
       unordered: Неупорядоченный список
+      ordered: Упорядоченный список
       first: Первый элемент
       second: Второй элемент
       link: Ссылка
       text: Текст
       image: Изображение
+      alt: Альтернативный текст
       url: URL
       codeblock: Блок кода
     richtext_field:
+      edit: Править
       preview: Предпросмотр
+      help: Справка
     pagination:
+      label: Навигация по страницам
       acls:
         older: Старейшие СКД
         newer: Новые СКД
         oldest: Старейшие СКД
         newest: Новейшие СКД
+      changeset_comments:
+        older: Старые комментарии
+        newer: Последние комментарии
+        oldest: Самые старые комментарии
+        newest: Последние комментарии
       diary_comments:
         older: Более старые комментарии
+        newer: Последние комментарии
         oldest: Самые старые комментарии
+        newest: Новейшие комментарии
       diary_entries:
+        older: Более старые записи
         newer: Более новые записи
+        oldest: Самые старые записи
+        newest: Последние записи
+      notifications:
+        older: Старые уведомления
+        newer: Последние уведомления
+        oldest: Самые старые уведомления
+        newest: Последние уведомления
       issues:
+        older: Более старые проблемы
         newer: Более новые проблемы
+        oldest: Самые старые проблемы
+        newest: Самые новые проблемы
       traces:
+        older: Более старые треки
         newer: Более новые треки
+        oldest: Самые старые треки
+        newest: Самые новые треки
       user_blocks:
+        older: Более старые блокировки
         newer: Более новые блокировки
+        oldest: Самые старые блокировки
+        newest: Самые новые блокировки
       users:
         older: Участники с большим стажем
         newer: Новые участники
+        oldest: Самые старые пользователи
+        newest: Самые новые пользователи
   oauth:
     permissions:
       missing: Вы не дали разрешение приложению на доступ к данной возможности
     scopes:
+      openid: Войти через OpenStreetMap
       read_prefs: Прочитать настройки пользователя
       write_prefs: Изменить настройки пользователя
       write_diary: Создавать записи в дневнике и комментарии
       write_api: Изменить карту
+      write_changeset_comments: Комментарии к наборам правок
       read_gpx: Читать частные GPS-треки
       write_gpx: Загрузить GPS-треки
       write_notes: Изменить заметки
@@ -3065,6 +3606,7 @@ ru:
       read_email: Читать адрес электронной почты пользователя
       consume_messages: Читать, обновлять статус и удалять сообщения пользователей
       send_messages: Отправлять личные сообщения другим пользователям
+      skip_authorization: Автоматическое одобрение заявки
     for_roles:
       moderator: Это разрешение для действий, доступных только модераторам
   oauth2_applications:
@@ -3122,8 +3664,12 @@ ru:
     new:
       title: Регистрация
       tab_title: Регистрация
+      signup_to_authorize_html: Зарегистрируйтесь в OpenStreetMap, чтобы получить
+        доступ к %{client_app_name}.
       no_auto_account_create: К сожалению, сейчас мы не можем автоматически создать
         для вас учётную запись.
+      please_contact_support_html: Для получения помощи, пожалуйста, обратитесь по
+        ссылке %{support_link} — мы постараемся рассмотреть ваш запрос как можно быстрее.
       support: поддержка
       about:
         header: Свободно редактируемая.
@@ -3132,6 +3678,10 @@ ru:
           и использовать её.
         paragraph_2: Зарегистрируйтесь, чтобы начать вносить свой вклад.
         welcome: Добро пожаловать в OpenStreetMap
+      duplicate_social_email: Если у вас уже есть учётная запись в OpenStreetMap и
+        вы хотите использовать стороннего поставщика услуг аутентификации, пожалуйста,
+        войдите в систему, используя свой пароль, и измените настройки своей учётной
+        записи.
       display name description: Ваше имя, как оно будет видно другим пользователям.
         Вы сможете изменить его позже в настройках.
       by_signing_up:
@@ -3141,13 +3691,20 @@ ru:
         privacy_policy: политику конфиденциальности
         privacy_policy_title: Политика конфиденциальности OSMF, включая раздел об
           адресах электронной почты
+        contributor_terms: Условия для авторов
       continue: Зарегистрироваться
       email_help:
         privacy_policy: политику конфиденциальности
+        privacy_policy_title: Политика конфиденциальности OSMF включая раздел об адресах
+          электронной почты
         html: Ваш адрес не отображается публично, см. нашу %{privacy_policy_link}
           для получения дополнительной информации.
       or: или
       use external auth: либо воспользуйтесь аккаунтом с другого сайта
+      verify_human: Подтвердите, что вы — человек
+    create:
+      not_human: К сожалению, мы не можем подтвердить, что вы — человек. Это необходимо
+        для создания новых учетных записей.
     no_such_user:
       title: Нет такого пользователя
       heading: Пользователя %{user} не существует
@@ -3155,11 +3712,14 @@ ru:
         ввода. Возможно, вы перешли по ошибочной ссылке.
       deleted: удалено
     show:
+      actions: Действия
+      admin_actions: Административные задания
       my diary: Мой дневник
       my edits: Мои правки
       my traces: Мои треки
       my notes: Мои заметки
       my messages: Мои сообщения
+      my_notifications: Мои уведомления
       my profile: Мой профиль
       my_account: Мой аккаунт
       my comments: Мои комментарии
@@ -3174,6 +3734,7 @@ ru:
       edits: Правки
       traces: Треки
       notes: Заметки
+      unfollow: Отписаться
       follow: Подписаться
       mapper since: 'Зарегистрирован:'
       last map edit: Последняя правка карты
@@ -3188,15 +3749,29 @@ ru:
       spam score: 'Оценка спама:'
       block_history: Активные блокировки
       moderator_history: Созданные блокировки
+      revoke_all_blocks: Снять все блокировки
       comments: Комментарии
       create_block: Блокировать этого пользователя
       activate_user: Активировать этого пользователя
       confirm_user: Подтвердить этого пользователя
       unconfirm_user: Не подтверждать эту учётную запись
+      suspend_user: Заблокировать этого пользователя
       unsuspend_user: Разблокировать эту учётную запись
+      undelete_user: Восстановить этого пользователя
       confirm: Подтвердить
       report: Сообщить об этом пользователе
       edit_profile_details: Редактировать данные профиля
+      edit_description: Редактировать описание
+      edit_links: Редактировать ссылки
+      change_image: Сменить изображение
+      edit_company: Редактировать информацию о компании
+      edit_location: Изменить местоположение
+      edit_contribution_calendar: Настройка календаря публикаций
+      contributions:
+        one: '%{count} вклад за последний год'
+        few: '%{count} вклада за последний год'
+        many: '%{count} вкладов за последний год'
+        other: '%{count} вклада за последний год'
       title:
         administrator: Этот пользователь является администратором
         moderator: Этот пользователь является модератором
@@ -3214,7 +3789,10 @@ ru:
         are_you_sure: Вы уверены, что хотите отозвать роль '%{role}' у пользователя
           '%{name}'?
     sidebar_section:
+      home_location: Место проживания
       company: Компания
+      company_tooltip: Информация о принадлежности к компании предоставлена самой
+        компанией и не проверялась
     go_public:
       flash success: Все ваши правки теперь общедоступны, и вы теперь можете редактировать.
     issued_blocks:
@@ -3227,6 +3805,19 @@ ru:
         title: Блокировки для %{name}
         heading_html: Список блокировок пользователя %{name}
         empty: ' %{name} ни разу не был заблокирован.'
+      edit:
+        title: Отозвать все блокировки на %{block_on}
+        heading_html: Отозвать все блокировки на %{block_on}
+        empty: У %{name} нет активных блокировок.
+        confirm: Вы уверены, что хотите отозвать %{active_blocks}?
+        active_blocks:
+          one: '%{count} активная блокировка'
+          few: '%{count} активные блокировки'
+          many: '%{count} активных блокировок'
+          other: '%{count} активной блокировки'
+        revoke: Отозвать!
+      destroy:
+        flash: Все активные блокировки отозваны.
     lists:
       show:
         title: Пользователи
@@ -3245,7 +3836,13 @@ ru:
         no_edits: Без правок
         search: Поиск
       page:
+        found_users:
+          one: Найден %{count} пользователь
+          few: Найдено %{count} пользователя
+          many: Найдено %{count} пользователей
+          other: Найдено %{count} пользователя
         confirm: Подтвердить выделенных пользователей
+        suspend: Заблокировать выбранных пользователей
         empty: Не найдено соответствующих пользователей
       user:
         summary_html: '%{name} создан %{date}, с адреса %{ip_address}'
@@ -3257,6 +3854,8 @@ ru:
         diary_entries: Записи в дневнике
         no_comments: Нету комментариев
     changeset_comments:
+      index:
+        title: Комментарии к наборам изменений добавленные пользователем %{user}
       page:
         changeset: Пакет правок
         when: Когда
@@ -3315,6 +3914,7 @@ ru:
       heading_html: Правка блокировки пользователя %{name}
       period: На какой срок, начиная с этого момента, заблокировать пользователя от
         API.
+      revoke: Отозвать блокировку
     filter:
       block_period: Период блокировки должен быть одним из значений, выбираемых из
         выпадающего списка.
@@ -3323,6 +3923,8 @@ ru:
     update:
       only_creator_can_edit: Только модератор, который создал эту блокировку, может
         править её.
+      only_creator_can_edit_without_revoking: Только модератор, создавший этот блок,
+        может редактировать его без отмены.
       only_creator_or_revoker_can_edit: Только модераторы, которые создали или отозвали
         эту блокировку, могут её редактировать.
       inactive_block_cannot_be_reactivated: Эта блокировка неактивна и не может быть
@@ -3370,6 +3972,8 @@ ru:
         active: активна
         active_until_read: активна до прочтения
         read_html: прочитана %{time}
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
+        time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} заблокирован пользователем %{block_by}'
       heading_html: '%{block_on} заблокирован пользователем %{block_by}'
@@ -3391,6 +3995,10 @@ ru:
       status: Состояние
     navigation:
       all_blocks: Все блокировки
+      blocks_on_me: Блокировки наложенные на меня
+      blocks_on_user_html: Блокировки наложенные на %{user}
+      blocks_by_me: Наложенные мною блокировки
+      blocks_by_user_html: Блокировки наложенные на %{user}
       block: 'Блокировка #%{id}'
       new_block: Новая блокировка
   user_mutes:
@@ -3415,6 +4023,7 @@ ru:
           send_message: Отправить сообщение
     create:
       notice: Вы заглушили пользователя %{name}.
+      error: Не удалось заглушить пользователя %{name}. %{full_message}.
     destroy:
       notice: Вы отменили заглушение пользователя %{name}.
       error: Пользователь не может быть заглушён. Пожалуйста, попробуйте ещё раз.
@@ -3435,6 +4044,7 @@ ru:
       all: Все
       open: Незакрытые
       closed: Закрытые
+      hidden: Скрытый
       status: Статус
     show:
       title: 'Заметка: %{id}'
@@ -3442,6 +4052,7 @@ ru:
       open_title: 'Незакрытая заметка #%{note_name}'
       closed_title: 'Закрытая заметка #%{note_name}'
       hidden_title: 'Скрытая заметка #%{note_name}'
+      description_when_author_is_deleted: Удалено
       description_when_there_is_no_opening_comment: неизвестно
       event_opened_by_html: Создано %{user} %{time_ago}
       event_opened_by_anonymous_html: Создано анонимом %{time_ago}
@@ -3493,15 +4104,21 @@ ru:
         url: https://wiki.openstreetmap.org/wiki/RU:%D0%A0%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE_%D0%BD%D0%BE%D0%B2%D0%B8%D1%87%D0%BA%D0%B0
       counter_warning_forum_link:
         text: сообщество может вам помочь
-      advice: Ваша заметка является общедоступной и может использоваться для обновления
-        карты, поэтому не вводите личную информацию, информацию из защищённых авторскими
-        правами карт или справочников.
+      advice: Любой пользователь может просмотреть заметку, даже не имея учётной записи
+        в OpenStreetMap!
+      advice_good_note: Хорошее примечание должно быть максимально информативным,
+        при этом в нём не должно содержаться личной информации, а также материалов,
+        взятых из карт или списков, защищённых авторским правом.
+      advice_conduct: Пожалуйста, будьте вежливы, терпеливы и уважительны при общении
+        с участниками сообщества.
       add: Добавить заметку
+      error: При создании заметки произошла ошибка
     new_readonly:
       title: Новая заметка
       warning: Новые заметки не могут быть созданы, поскольку API OpenStreetMap в
         настоящий момент находится в режиме только для чтения.
     notes_paging_nav:
+      label: Навигация по странице
       showing_page: Страница %{page}
       next: Следующая
       previous: Предыдущая
@@ -3512,6 +4129,7 @@ ru:
     share:
       title: Вставить на сайт
       view_larger_map: Посмотреть более крупную карту
+      export_failed_title: Ошибка при экспорте карты
       filename: карта
     embed:
       report_problem: Сообщить о проблеме
@@ -3520,6 +4138,10 @@ ru:
       tooltip: Легенда
       tooltip_disabled: Легенда недоступна для этого слоя
     map:
+      Map:
+        Title: Карта
+      Marker:
+        Title: Маркер на карте
       Popup:
         Close: Закрыть
       NavigationControl:
@@ -3527,6 +4149,7 @@ ru:
         ZoomOut: Отдалить
       GeolocateControl:
         FindMyLocation: Показать мое местоположение
+        LocationNotAvailable: Местоположение недоступно
         metersPopup:
           one: Вы находитесь в %{count} метре от этой точки
           few: 'Вы находитесь в %{count} метрах от этой точки '
@@ -3537,12 +4160,15 @@ ru:
           few: Вы находитесь в %{count} футах от этой точки
           many: Вы находитесь в %{count} футах от этой точки
           other: Вы находитесь в %{count} футах от этой точки
+      AttributionControl:
+        ToggleAttribution: Включить/выключить указание авторства
       base:
         standard: Стандартный
         cycle_map: Велосипедная карта
         transport_map: Карта транспорта
         tracestracktop_topo: Топографическая
         hot: Гуманитарная
+        shortbread: Shortbread
       layers:
         header: Слои карты
         notes: Заметки
@@ -3559,6 +4185,8 @@ ru:
       andy_allan: Энди Аллан
       tracestrack_credit: Тайлы предоставлены %{tracestrack_link}
       hotosm_credit: Стиль тайлов от %{hotosm_link} размещен на %{osm_france_link}
+      hotosm_name: Гуманитарная команда OpenStreetMap
+      openmaptiles_credit: Векторные тайлы от %{openmaptiles_link}, хостинг — %{maptiler_link}
     site:
       edit_tooltip: Править карту
       edit_disabled_tooltip: Увеличьте масштаб, чтобы отредактировать карту
@@ -3566,14 +4194,23 @@ ru:
       createnote_disabled_tooltip: Приблизьте карту, чтобы добавить заметку
       queryfeature_tooltip: Что здесь?
       queryfeature_disabled_tooltip: Приблизьте карту для информации об объектах
+    profile:
+      social_link_n: Ссылка на профиль в социальной сети %{n}
+      remove_social_link_n: Удалить ссылку на профиль в социальной сети %{n}
     edit_help: Передвиньте карту и увеличьте место, которые вы хотите править, затем
       кликните здесь.
     directions:
       distance_in_units:
         m: '%{distance}м'
         km: '%{distance}км'
+        ft: '%{distance}фт'
+        yd: '%{distance}ярд'
+        mi: '%{distance}ми'
       errors:
         no_route: Не удалось найти маршрут между этими двумя точками.
+        no_place:
+          title: Поиск не удался
+          body: Не удалось найти «%{place}».
       instructions:
         continue_without_exit: Продолжите по %{name}
         slight_right_without_exit: Плавно поверните направо на %{name}
@@ -3637,6 +4274,7 @@ ru:
         roundabout_with_exit_ordinal: На круговой развязке сверните на %{exit} съезд
           на %{name}
         exit_roundabout: Сверните на %{name}
+        ferry_without_exit: Воспользуйтесь паромом %{name}
         unnamed: дорога
         exit_counts:
           first: первый
@@ -3665,6 +4303,7 @@ ru:
       show_address: Показать адрес
       query_features: Что здесь?
       centre_map: Центрировать карту
+      scroll_to_changeset: Перейти к набору изменений
     home:
       marker_title: Мой домашний адрес
       not_set: Установка места нахождения не установлена для вашей учётной записи
@@ -3676,9 +4315,19 @@ ru:
           few: '%{count} правки %{date}'
           many: '%{count} правок %{date}'
           other: '%{count} правок %{date}'
+    remote_edit:
+      failed:
+        title: Ошибка при редактировании
+        body: Убедитесь что запущены JOSM или Merkaartor и включена опция дистанционного
+          управления
     edit:
       id_not_configured:
         title: iD не был настроен
+        body: Дополнительную информацию см. в файле CONFIGURE.md
+    traces:
+      tagstring:
+        comma_delimited: 'разделенные запятыми:'
+        space_delimited: 'разделенные пробелами:'
   redactions:
     edit:
       heading: Редактировать исправление
@@ -3744,4 +4393,50 @@ ru:
     trailing_whitespace: содержит конечный пробел
     invalid_characters: содержит недопустимые символы
     url_characters: содержит специальные символы в URL (%{characters})
+    email_characters: содержит недопустимые символы (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Определить новую зону модерации
+      new: Новая зона модерации
+      actions: Действия в зоне модерации
+    index:
+      title: Журнал модерации
+      heading: Журнал модерации
+      name: Имя
+      reason: Причина
+      creator: Автор
+      start: Начать
+      end: Конец
+      status: Статус
+    row:
+      edit: Править
+    new:
+      title: Новая зона модерации
+      heading: Новая зона модерации
+    create:
+      success: Зона модерации создана.
+    edit:
+      title: Редактирование зоны модерации %{name}
+      heading: Редактирование зоны модерации %{name}
+    update:
+      success: Зона модерации обновлена.
+      only_creator_can_edit: Редактировать эту зону модерации может только тот модератор
+        который её создал.
+      only_creator_can_edit_without_revoking: Только модератор создавший эту зону
+        модерации может редактировать её без отмены.
+      only_creator_or_revoker_can_edit: Редактировать эту зону модерации могут только
+        те модераторы которые её создали или отменили.
+      no_reactivation: Эта зона модерации неактивна и не может быть восстановлена.
+    helper:
+      short:
+        ended: завершена
+        active: активна
+        revoked_html: отозвана %{name}
+    form:
+      expiration: Срок действия
+      relative_expiration: На протяжении
+      absolute_expiration: До определённой даты и времени
+      period:
+        options:
+          revoke: Отменить зону модерации
 ...

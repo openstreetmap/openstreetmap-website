@@ -166,6 +166,10 @@ es:
           attributes:
             url:
               http_parse_error: La URL debe comenzar con http:// o https://
+        trace:
+          attributes:
+            visibility:
+              cannot_change_to_legacy: no se puede cambiar de nuevo a un valor heredado
     models:
       acl: Lista de control de acceso
       changeset: Conjunto de cambios
@@ -203,6 +207,12 @@ es:
       way_node: Nodo de la vía
       way_tag: Etiqueta de la vía
     attributes:
+      acl:
+        address: Dirección
+        domain: Dominio
+        mx: Servidor MX
+        k: Clave
+        v: Valor
       diary_comment:
         body: Cuerpo
       diary_entry:
@@ -232,6 +242,12 @@ es:
         gpx_file: Seleccionar archivo de traza GPS
         visibility: Visibilidad
         tagstring: Etiquetas
+      moderation_zone:
+        name: Nombre
+        reason: Motivo
+        zone: Zona
+        period: Período
+        ends_at: Fecha y hora de caducidad
       message:
         sender: Remitente
         title: Asunto
@@ -260,6 +276,14 @@ es:
         pass_crypt: Contraseña
         pass_crypt_confirmation: Confirmar contraseña
     help:
+      acl:
+        address: Una dirección IP o red CIDR, por ejemplo, 192.0.2.0/24
+        domain: Un dominio de correo electrónico; también se tienen en cuenta los
+          subdominios.
+        mx: El nombre de host de un servidor MX para el dominio de correo electrónico.
+        k: 'Uno de los siguientes: no_account_creation, allow_account _creation, no_note_comment,
+          no_trace_download'
+        v: Nota opcional, por ejemplo, el motivo de esta entrada.
       doorkeeper/application:
         confidential: La aplicación se utilizará cuando el secreto del cliente se
           pueda mantener confidencial (las aplicaciones móviles nativas y las aplicaciones
@@ -316,6 +340,44 @@ es:
       x_years:
         one: hace %{count} año
         other: hace %{count} años
+    distance_in_words_in:
+      about_x_hours:
+        one: hace cerca de %{count} hora
+        other: hace cerca de %{count} horas
+      about_x_months:
+        one: hace cerca de %{count} mes
+        other: hace cerca de %{count} meses
+      about_x_years:
+        one: hace cerca de %{count} año
+        other: hace cerca de %{count} años
+      almost_x_years:
+        one: hace casi %{count} año
+        other: hace casi %{count} años
+      half_a_minute: en medio minuto
+      less_than_x_seconds:
+        one: hace menos de %{count} segundo
+        other: hace menos de %{count} segundos
+      less_than_x_minutes:
+        one: hace menos de %{count} minuto
+        other: hace menos de %{count} minutos
+      over_x_years:
+        one: hace más de %{count} año
+        other: hace más de %{count} años
+      x_seconds:
+        one: en %{count} segundo
+        other: en %{count} segundos
+      x_minutes:
+        one: en %{count} minuto
+        other: en %{count} minutos
+      x_days:
+        one: en %{count} día
+        other: en %{count} días
+      x_months:
+        one: en %{count} mes
+        other: en %{count} meses
+      x_years:
+        one: en %{count} año
+        other: en %{count} años
   printable_name:
     with_name_html: '%{name} (%{id})'
     current_and_old_links_html: '%{current_link}, %{old_link}'
@@ -581,6 +643,9 @@ es:
       colour_preview: Vista previa del color %{colour_value}
       email_link: Correo electrónico %{email}
     versions_navigation:
+      node_versions: Versiones de nodo
+      way_versions: Versiones de camino
+      relation_versions: Versiones de relación
       node: Nodo
       way: Vía
       relation: Relación
@@ -597,10 +662,13 @@ es:
     index:
       node:
         title_html: 'Historial de nodo: %{name}'
+        actions: Acciones de nodo
       way:
         title_html: 'Historial de vía: %{name}'
+        actions: Acciones de camino
       relation:
         title_html: 'Historial de relación: %{name}'
+        actions: Acciones de relación
       older_versions: Versiones más antiguas
       newer_versions: Versiones más recientes
     actions:
@@ -757,6 +825,7 @@ es:
       latest_edit_html: 'Última edición (%{ago}):'
       no_edits: (sin ediciones)
       view_changeset_details: Ver detalles del conjunto de cambios
+      actions: Acciones de usuario
     popup:
       your location: Tu ubicación
       nearby mapper: Mapeadores cercanos
@@ -770,10 +839,59 @@ es:
       no followings: Aún no sigues a ningún usuario.
       nearby users: Otros usuarios cercanos
       no nearby users: Todavía no hay usuarios que admitan mapear cerca.
+      followed_actions: Acciones para los usuarios que sigues
       followed_changesets: conjunto de cambios
       followed_diaries: entradas del diario
+      nearby_actions: Acciones para usuarios cercanos
       nearby_changesets: conjuntos de cambios de los usuarios cercanos
       nearby_diaries: entradas de diarios de usuarios cercanos
+  notifications:
+    missing_record:
+      body: Desafortunadamente esto ya no está disponible
+    index:
+      title: Notificaciones
+      no_notifications: No tienes notificaciones en este momento
+      point_to_preferences_html: Puedes ajustar cómo recibes las notificaciones en
+        %{link}.
+      link_text: la sección de preferencias
+    changeset_comment:
+      headline: Comentario de cambios
+      description_with_summary_html: El usuario %{commenter_name_with_link} dejó un
+        comentario en el conjunto de cambios %{changeset_id_with_link} ("%{changeset_summary}")
+      description_without_summary_html: El usuario %{commenter_name_with_link} dejó
+        un comentario en el conjunto de cambios %{changeset_id_with_link}
+    gpx_details:
+      filename: Nombre de archivo
+      description: Descripción
+      tags: Etiquetas
+      total_points: Número total de puntos
+      imported_points: Número de puntos importados
+    gpx_import_failure:
+      headline: No se pudo importar la traza GPS.
+      error_message: Mensaje de error
+    gpx_import_success:
+      headline: Se importó correctamente la traza GPS
+    new_follower:
+      headline: Nuevo seguidor
+      description_html: El usuario %{follower_name_with_link} comenzó a seguirte.
+        Puedes %{link} si lo deseas.
+      link_text: síguelos de vuelta
+    note_comment:
+      headline:
+        commented: Comentarios de nota
+        closed: Nota resuelta
+        reopened: Nota reabierta
+      description:
+        commented_html: El usuario %{commenter_name_with_link} dejó un comentario
+          en la nota %{note_id_with_link} ("%{note_text}")
+        closed_html: El usuario %{commenter_name_with_link} resolvió la nota %{note_id_with_link}
+          ("%{note_text}")
+        reopened_html: El usuario %{commenter_name_with_link} reabrió la nota %{note_id_with_link}
+          ("%{note_text}")
+    diary_comment:
+      headline: Comentario de diario
+      description_html: El usuario %{commenter_name_with_link} dejó un comentario
+        en la entrada del diario "%{diary_entry_title_with_link}"
   diary_entries:
     new:
       title: Nueva entrada en el diario
@@ -811,6 +929,7 @@ es:
       posted_by_html: Publicado por %{link_user} el %{created} en %{language_link}.
       updated_at_html: Última actualización en %{updated}.
       full_entry: Ver entrada completa
+      actions: Acciones de entrada del diario
       comment_link: Comentar esta entrada
       reply_link: Enviar un mensaje al autor
       comment_count:
@@ -849,6 +968,7 @@ es:
       heading: ¿Deseas desuscribirte de la siguiente discusión de entrada de diario?
       button: Desuscribirse de la discusión
     navigation:
+      actions: Acciones del diario
       in_language: Entradas de diario en %{language}
       my_diary: Mi diario
       new: Nueva entrada de diario
@@ -1838,6 +1958,7 @@ es:
       report_created_at_html: Denunciado por primera vez el %{datetime}
       last_resolved_at_html: Resuelto por última vez el %{datetime}
       last_updated_at_html: Actualizado por última vez el %{datetime} por %{displayname}
+      actions: Acciones de incidencias
       resolve: Resolver
       ignore: Ignorar
       reopen: Reabrir
@@ -1993,6 +2114,7 @@ es:
         be-Tarask: bielorruso (Tarašk.)
         bg: búlgaro
         mk: macedonio
+        mt: Maltés
         mo: moldavo
         ce: checheno
         ru: ruso
@@ -2071,6 +2193,7 @@ es:
       select_language: Seleccionar idioma
       sign_up: Registrarse
       user_diaries: Diarios de usuario
+      navigation: Navegación principal
     meta:
       openstreetmap_search: Búsqueda en OpenStreetMap
     select_language_button:
@@ -2140,10 +2263,10 @@ es:
       hi: 'Hola, %{to_user}:'
       imported_successfully: Parece que tu archivo fue importado con éxito como una
         traza GPS.
-      all_your_traces: Todas tus trazas GPX cargadas correctamente se pueden encontrar
+      all_your_traces: Todas tus trazas GPX subidas correctamente se pueden encontrar
         en %{url}.
-      all_your_traces_html: Todas tus trazas GPX cargadas correctamente se pueden
-        encontrar en %{url}.
+      all_your_traces_html: Todas tus trazas GPX subidas correctamente se pueden encontrar
+        en %{url}.
       subject: '[OpenStreetMap] Éxito al importar GPX'
     signup_confirm:
       subject: '[OpenStreetMap] OpenStreetMap te da la bienvenida'
@@ -2529,7 +2652,7 @@ es:
       support: el servicio técnico
   site:
     about:
-      heading_html: '%{copyright} Contribuidores %{br} OpenStreetMap'
+      heading_html: '%{copyright}Contribuidores de %{br} OpenStreetMap'
       used_by_html: '%{name} proporciona datos de mapas para miles de sitios web,
         aplicaciones móviles y dispositivos de hardware'
       lede_text: OpenStreetMap lo crea una gran comunidad de mapeadores que aportan
@@ -2939,6 +3062,8 @@ es:
       get_directions_title: Encontrar indicaciones entre dos puntos
       from: Desde
       to: Hacia
+      marker_from: Marcador de inicio de ruta
+      marker_to: Marcador de fin de ruta
       where_am_i: ¿Dónde está esto?
       where_am_i_title: Define la ubicación actual por medio del motor de búsqueda
       submit_text: Ir
@@ -3172,7 +3297,7 @@ es:
       help_url: https://wiki.openstreetmap.org/wiki/ES:Subir
     create:
       upload_trace: Subir traza GPS
-      trace_uploaded: Tu archivo GPX se ha cargado y está esperando su inserción en
+      trace_uploaded: Tu archivo GPX se ha subido y está esperando su inserción en
         la base de datos. Por lo general, esto sucederá en media hora y se te enviará
         un correo electrónico al finalizar.
       upload_failed: Lo sentimos, falló la subida del GPX. Un administrador ha sido
@@ -3196,7 +3321,7 @@ es:
       pending: PENDIENTE
       filename: 'Nombre de archivo:'
       download: descargar
-      uploaded: 'Cargado el:'
+      uploaded: 'Subido el:'
       points: 'Puntos:'
       start_coordinates: 'Coordenadas de inicio:'
       coordinates_html: '%{latitude}; %{longitude}'
@@ -3218,6 +3343,7 @@ es:
         other: '%{count} puntos'
       more: más
       trace_details: Ver detalles de la traza
+      trace_actions: Acciones de traza
       view_map: Vea la ubicación en el mapa
       edit_map: Abrir en el editor
       public: PÚBLICO
@@ -3231,11 +3357,12 @@ es:
       my_gps_traces: Mis trazas GPS
       public_traces_from: Trazas GPS públicas de %{user}
       description: Explorar las trazas GPS recién subidas
+      actions: Acciones de lista de traza
       tagged_with: etiquetado con %{tags}
       empty_title: Todavía no hay nada
       empty_upload_html: '%{upload_link} o conoce más sobre el trazado GPS en la %{wiki_link}
         correspondiente.'
-      upload_new: Carga una traza nueva
+      upload_new: Subir una traza nueva
       wiki_page: página del wiki
       wiki_page_url: https://wiki.openstreetmap.org/wiki/ES:Gu%C3%ADa_del_principiante_1.2
       upload_trace: Subir una traza
@@ -3243,8 +3370,40 @@ es:
       my_traces: Mis trazas
       traces_from_html: Trazas públicas de %{user}
       remove_tag_filter: Eliminar Filtro de Etiquetas
+      legacy_traces: Mis trazas legado
     destroy:
       scheduled_for_deletion: Traza programada para eliminación
+    legacy_visibilities:
+      edit:
+        title: Mis trazas de GPS de legado
+        description: Estos son tus trazas que aún utilizan la antigua visibilidad
+          privada o pública. Puedes cambiarlas aquí a rastreables o identificables.
+          Las mejoras previstas para los registros GPS solo abarcarán los registros
+          rastreables e identificables.
+        filter:
+          visibility: Visibilidad actual
+          any: Privado y público
+          from: Subido desde
+          to: Subido a
+          apply: Filtro
+        empty: No se encontraron trazas legado que coincidan con este filtro.
+        new_visibility: Nueva visibilidad
+        no_undo: Este cambio no se puede deshacer.
+        button:
+          one: Cambio %{count} traza
+          other: Cambio %{count} trazas
+        confirmation:
+          header: Confirmar cambio de visibilidad
+          body:
+            one: ¿Cambiar la visibilidad de %{count} traza? Esto no se puede deshacer.
+            other: ¿Cambiar la visibilidad de %{count} trazas? Esto no se puede deshacer.
+          cancel: Cancelar
+          confirm: Cambiar visibilidad
+      update:
+        updated:
+          one: Se cambió la visibilidad de %{count} traza.
+          other: Se cambió la visibilidad de %{count} trazas.
+        invalid_visibility: Por favor, selecciona un nivel de visibilidad para cambiar.
     offline_warning:
       message: El sistema de subida de archivos GPX no se encuentra disponible en
         este momento
@@ -3342,6 +3501,12 @@ es:
       preview: Previsualizar
       help: Ayuda
     pagination:
+      label: Navegación de página
+      acls:
+        older: Las ACL más viejas
+        newer: Las ACL más recientes
+        oldest: Las ACL más antiguas
+        newest: Las más recientes ACL
       changeset_comments:
         older: Comentarios más antiguos
         newer: Comentarios más recientes
@@ -3357,6 +3522,11 @@ es:
         newer: Entradas más recientes
         oldest: Entradas más antiguas
         newest: Entradas más recientes
+      notifications:
+        older: Notificaciones más antiguas
+        newer: Notificaciones más recientes
+        oldest: Notificaciones más antiguas
+        newest: Notificaciones más recientes
       issues:
         older: Incidencias más antiguas
         newer: Incidencias más recientes
@@ -3501,11 +3671,14 @@ es:
         escritura, o tal vez el enlace en el que hiciste clic sea incorrecto.
       deleted: eliminado
     show:
+      actions: Acciones
+      admin_actions: Acciones administrativas
       my diary: Mi diario
       my edits: Mis ediciones
       my traces: Mis trazas
       my notes: Mis notas
       my messages: Mis mensajes
+      my_notifications: Mis notificaciones
       my profile: Mi perfil
       my_account: Mi cuenta
       my comments: Mis comentarios
@@ -3743,7 +3916,7 @@ es:
         active: activo
         active_until_read: activo hasta leer
         read_html: leído a las %{time}
-        time_in_future_title: '%{time_absolute}; en %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
@@ -3872,9 +4045,13 @@ es:
       counter_warning_forum_link:
         text: La comunidad puede ayudarte
         url: https://community.openstreetmap.org/
-      advice: Tu nota será pública y podría utilizarse para actualizar el mapa, así
-        que no des información personal ni datos provenientes de mapas o catálogos
-        protegidos por derechos de autor.
+      advice: ¡Cualquiera en el público puede ver una nota, incluso sin una cuenta
+        de OpenStreetMap!
+      advice_good_note: Una buena nota es lo más descriptiva posible evitando información
+        personal, o contenido de mapas o listas de directorios protegidos por derechos
+        de autor.
+      advice_conduct: Por favor, se amable, paciente y respetuoso cuando te comuniques
+        con los miembros de la comunidad.
       add: Añadir nota
       error: Hubo un error al crear la nota
     new_readonly:
@@ -3882,6 +4059,7 @@ es:
       warning: No se pueden crear nuevas notas porque la API de OpenStreetMap está
         actualmente en modo de solo lectura.
     notes_paging_nav:
+      label: Navegación de página
       showing_page: Página %{page}
       next: Siguiente
       previous: Anterior
@@ -3904,7 +4082,7 @@ es:
       Map:
         Title: Mapa
       Marker:
-        Title: Marcadores de mapas
+        Title: Marcador de mapa
       Popup:
         Close: Cerrar
       NavigationControl:
@@ -3917,8 +4095,8 @@ es:
           one: Estás a %{count} metro de este punto
           other: Estás a %{count} metros de este punto
         feetPopup:
-          one: Estás a %{count} pie desde este punto
-          other: Estás a %{count} pies desde este punto
+          one: Estás a %{count} pie de este punto
+          other: Estás a %{count} pies de este punto
       AttributionControl:
         ToggleAttribution: Alternar atribución
       base:
@@ -4088,6 +4266,10 @@ es:
       id_not_configured:
         title: iD no ha sido configurado
         body: Por favor, mira CONFIGURE.md para más información
+    traces:
+      tagstring:
+        comma_delimited: 'delimitado por comas:'
+        space_delimited: 'delimitado por espacios:'
   redactions:
     edit:
       heading: Editar censura
@@ -4117,9 +4299,86 @@ es:
         a esta censura antes de destruirla.
       flash: Censura destruida.
       error: Se produjo un error al destruir esta censura.
+  acls:
+    navigation:
+      new_title: Añadir un nuevo ACL
+      new: Nuevo ACL
+      actions: Acciones de ACL
+    index:
+      title: ACLs
+      empty: No hay ACL para mostrar.
+    page:
+      address: Dirección
+      domain: Dominio
+      mx: Servidor MX
+      k: Clave
+      v: Valor
+      actions: Acciones
+    acl:
+      edit_button: Editar
+      destroy_button: Eliminar
+      confirm: ¿Estás seguro?
+    form:
+      cancel: Cancelar
+    new:
+      title: Nuevo ACL
+    create:
+      success: ACL creado.
+    edit:
+      title: Editar el ACL
+    update:
+      success: ACL actualizado.
+    destroy:
+      success: ACL eliminado.
   validations:
     leading_whitespace: tiene espacio en blanco delantero
     trailing_whitespace: tiene espacios en blanco al final
     invalid_characters: contiene caracteres no válidos
     url_characters: Contiene caracteres especiales de URL (%{characters})
+    email_characters: contiene caracteres inválidos (%{characters})
+  moderation_zones:
+    navigation:
+      new_title: Defina una nueva zona de moderación
+      new: Nueva Zona de Moderación
+      actions: Acciones de zona de moderación
+    index:
+      title: Zonas de moderación
+      heading: Zonas de moderación
+      name: Nombre
+      reason: Motivo
+      creator: Creador
+      start: Inicio
+      end: Fin
+      status: Estado
+    row:
+      edit: Editar
+    new:
+      title: Nueva Zona de Moderación
+      heading: Nueva Zona de Moderación
+    create:
+      success: Zona de moderación creada.
+    edit:
+      title: Editar zona de moderación %{name}
+      heading: Editar zona de moderación %{name}
+    update:
+      success: Zona de moderación actualizada.
+      only_creator_can_edit: Solo el moderador que creó esta zona de moderación puede
+        editarla.
+      only_creator_can_edit_without_revoking: Solo el moderador que creó esta zona
+        de moderación puede editarla sin revocarla.
+      only_creator_or_revoker_can_edit: Solo los moderadores que crearon o revocaron
+        esta zona de moderación pueden editarla.
+      no_reactivation: Esta zona de moderación está inactiva y no puede reactivarse.
+    helper:
+      short:
+        ended: finalizado
+        active: activo
+        revoked_html: revocado por %{name}
+    form:
+      expiration: Caducidad
+      relative_expiration: Por una duración
+      absolute_expiration: Hasta una fecha y hora específicas
+      period:
+        options:
+          revoke: Revocar zona de moderación
 ...

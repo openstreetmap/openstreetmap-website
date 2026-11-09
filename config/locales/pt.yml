@@ -204,6 +204,7 @@ pt:
         reason: Motivo
         zone: Zona
         period: Período
+        ends_at: Data e hora de validade
       message:
         sender: Remetente
         title: Assunto
@@ -307,6 +308,30 @@ pt:
         one: em quase %{count} ano
         other: em quase %{count} anos
       half_a_minute: em meio minuto
+      less_than_x_seconds:
+        one: em menos de %{count} segundo
+        other: em menos de %{count} segundos
+      less_than_x_minutes:
+        one: em menos de %{count} minuto
+        other: em menos de %{count} minutos
+      over_x_years:
+        one: em mais de %{count} ano
+        other: em mais de %{count} anos
+      x_seconds:
+        one: em %{count} segundo
+        other: em %{count} segundos
+      x_minutes:
+        one: em %{count} minuto
+        other: em %{count} minutos
+      x_days:
+        one: em %{count} dia
+        other: em %{count} dias
+      x_months:
+        one: em %{count} mês
+        other: em %{count} meses
+      x_years:
+        one: em %{count} ano
+        other: em %{count} anos
   editor:
     default: Padrão (atualmente %{name})
     id:
@@ -561,6 +586,7 @@ pt:
       email_link: E-mail %{email}
     versions_navigation:
       node_versions: Versões do ponto
+      way_versions: Versões da linha
       relation_versions: Versões da relação
       node: Nó
       way: Caminho
@@ -581,6 +607,7 @@ pt:
         actions: Ações do ponto
       way:
         title_html: 'Histórico da linha: %{name}'
+        actions: Ações da linha
       relation:
         title_html: 'Histórico da relação: %{name}'
         actions: Ações da relação
@@ -762,6 +789,8 @@ pt:
       nearby_changesets: conjuntos de alterações de usuários próximos
       nearby_diaries: publicações no diário dos usuários próximos
   notifications:
+    missing_record:
+      body: Infelizmente, isto já não está disponível.
     index:
       title: Notificações
       no_notifications: Você não tem nenhuma notificação no momento
@@ -789,6 +818,7 @@ pt:
       headline: Novo seguidor
       description_html: O usuário %{follower_name_with_link} começou a seguir-te.
         Se quiseres, podes %{link}.
+      link_text: retribuir o gesto
     note_comment:
       headline:
         commented: Comentário da nota
@@ -3246,6 +3276,10 @@ pt:
     legacy_visibilities:
       edit:
         title: Minhas rotas de GPS antigas
+        description: Estas são as suas trilhas que ainda usam a antiga visibilidade
+          privada ou pública. Podes alterá-las aqui para rastreáveis ou identificáveis.
+          As melhorias planeadas para as trilhas de GPS abrangerão apenas as rastreáveis
+          e identificáveis.
         filter:
           visibility: Visibilidade atual
           any: Privada e pública
@@ -3255,6 +3289,9 @@ pt:
         empty: Não há rotas antigas que correspondam a este filtro.
         new_visibility: Nova visibilidade
         no_undo: Esta alteração não pode ser desfeita.
+        button:
+          one: Alterar %{count} trilha
+          other: Alterar %{count} trilhas
         confirmation:
           header: Confirmar alteração de visibilidade.
           body:
@@ -3266,6 +3303,7 @@ pt:
         updated:
           one: Foi alterada a visibilidade de %{count} rota.
           other: Foi alterada a visibilidade de %{count} rotas.
+        invalid_visibility: Escolhe a visibilidade que pretendes atribuir.
     offline_warning:
       message: O sistema de envio de arquivos GPX não está disponível no momento
     offline:
@@ -3769,7 +3807,7 @@ pt:
         active: ativo
         active_until_read: ativo até ler
         read_html: Lido em %{time}
-        time_in_future_title: '%{time_absolute}; em %{time_relative}'
+        time_in_future_title: '%{time_absolute}; %{time_relative}'
         time_in_past_title: '%{time_absolute}; %{time_relative}'
     show:
       title: '%{block_on} bloqueado por %{block_by}'
@@ -3897,9 +3935,12 @@ pt:
         url: https://wiki.openstreetmap.org/wiki/Pt:Beginners%27_guide
       counter_warning_forum_link:
         text: a comunidade pode lhe ajudar
-      advice: A sua nota será pública e pode ser usada para atualizar o mapa, portanto,
-        não insira informações pessoais ou dados de mapas protegidos por direitos
-        autorais ou listas de diretórios.
+      advice: Qualquer pessoa pode ver uma nota, mesmo que não tenha uma conta OpenStreetMap!
+      advice_good_note: Uma boa nota deve ser o mais descritiva possível, evitando
+        informações pessoais e conteúdo de mapas ou listagens protegidas por direitos
+        de autor.
+      advice_conduct: Por favor, mostra gentileza, paciência e respeito quando comunicares
+        com os membros da comunidade.
       add: Incluir nota
       error: Houve um erro ao criar a nota
     new_readonly:
@@ -4172,6 +4213,7 @@ pt:
     trailing_whitespace: tem espaço em branco à direita
     invalid_characters: contém caracteres inválidos
     url_characters: contém caracteres de URL especiais (%{characters})
+    email_characters: contém caracteres inválidos (%{characters})
   moderation_zones:
     navigation:
       new_title: Definir uma nova zona de moderação
@@ -4212,4 +4254,9 @@ pt:
         revoked_html: revogado por %{name}
     form:
       expiration: Expiração
+      relative_expiration: Por um período de tempo
+      absolute_expiration: Até uma data e hora específicas
+      period:
+        options:
+          revoke: Revogar zona de moderação
 ...
