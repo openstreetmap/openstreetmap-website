@@ -153,7 +153,12 @@ OSM.ContextMenu = class {
       e.originalEvent.clientY
     );
 
-    this._popperInstance = Popper.createPopper(virtualReference, this._$element.find(".dropdown-menu")[0], {
+    const $menu = this._$element.find(".dropdown-menu");
+
+    // Never let the menu be taller than the map, so it can always be moved fully into view
+    $menu.css("max-height", this._map.getContainer().clientHeight);
+
+    this._popperInstance = Popper.createPopper(virtualReference, $menu[0], {
       placement: "bottom-start",
       strategy: "absolute",
       modifiers: [
@@ -165,7 +170,11 @@ OSM.ContextMenu = class {
         },
         {
           name: "preventOverflow",
-          options: { boundary: document.getElementById("map") }
+          options: {
+            boundary: this._map.getContainer(),
+            // Shift the menu up or down to keep it inside the map when it fits neither below nor above the click
+            altAxis: true
+          }
         },
         {
           name: "flip",
@@ -178,7 +187,7 @@ OSM.ContextMenu = class {
   }
 
   _render(items) {
-    const $menuList = $("<ul>").addClass("dropdown-menu show shadow cm_dropdown_menu");
+    const $menuList = $("<ul>").addClass("dropdown-menu show shadow cm_dropdown_menu overflow-y-auto");
 
     items.forEach((item) => {
       const $menuItem = item.separator ?
