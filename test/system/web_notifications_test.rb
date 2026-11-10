@@ -59,6 +59,23 @@ class WebNotificationsTest < ApplicationSystemTestCase
     assert_text "This is comment number 10"
   end
 
+  test "changeset notification opens comment and returns to notifications" do
+    changeset_author = create(:user)
+    commenter = create(:user, :display_name => "Commenter")
+    comment = setup_changeset_comment(:changeset_author => changeset_author, :commenter => commenter)
+    sign_in_as(changeset_author)
+    visit notifications_path
+
+    link = find(".web-notification h2 a", :text => "Changeset comment")
+    assert_equal changeset_path(comment.changeset, :anchor => "c#{comment.id}"), URI.parse(link[:href]).request_uri + "##{URI.parse(link[:href]).fragment}"
+    link.click
+    assert_selector "#map .leaflet-pane"
+    assert_selector "article#c#{comment.id}", :text => comment.body
+    page.go_back
+    assert_current_path notifications_path
+    assert_text "Changeset comment"
+  end
+
   private
 
   def setup_changeset_comment(changeset_author:, commenter:, comment_attrs: {})
@@ -68,5 +85,6 @@ class WebNotificationsTest < ApplicationSystemTestCase
     comment = create(:changeset_comment, :changeset => changeset, :author => commenter, **comment_attrs)
     create(:changeset_subscription, :changeset => changeset, :subscriber => commenter)
     ChangesetCommentNotifier.with(:record => comment).deliver
+    comment
   end
 end

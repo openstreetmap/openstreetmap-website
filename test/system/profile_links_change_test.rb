@@ -194,4 +194,34 @@ class ProfileLinksChangeTest < ApplicationSystemTestCase
       assert_link "example.com/valid"
     end
   end
+
+  test "removed link stays submittable after another link fails validation" do
+    user = create(:user)
+    create(:social_link, :user => user, :url => "https://example.com/removed")
+
+    sign_in_as(user)
+    visit user_path(user)
+
+    within_content_body do
+      click_on "Edit Profile Details"
+      click_on "Edit Links"
+      fill_in "Social Profile Link 1", :with => ""
+      click_on "Remove Social Profile Link 1"
+      click_on "Add Social Link"
+      fill_in "Social Profile Link 1", :with => "invalid"
+      click_on "Update Profile"
+
+      assert_field "Social Profile Link 1", :with => "invalid"
+      removed = find("#social_links .social-link-fields.d-none", :visible => :all)
+      assert_predicate removed.find(".social_link_destroy input[type='checkbox']", :visible => :all), :checked?
+      assert_not removed.find_field(:type => "text", :visible => :all).evaluate_script("this.required")
+
+      fill_in "Social Profile Link 1", :with => "https://example.com/kept"
+      click_on "Update Profile"
+
+      assert_link "example.com/kept"
+      assert_no_link "example.com/removed"
+    end
+    assert_equal ["https://example.com/kept"], user.reload.social_links.pluck(:url)
+  end
 end

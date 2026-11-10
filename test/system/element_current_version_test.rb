@@ -3,6 +3,52 @@
 require "application_system_test_case"
 
 class ElementCurrentVersionTest < ApplicationSystemTestCase
+  test "Wikidata previews skip deprecated logos and fall back to current claims" do
+    node = create(:node, :lat => 60, :lon => 30)
+    create(:node_tag, :node => node, :k => "brand:wikidata", :v => "Q42;Q43")
+
+    visit node_path(node)
+    assert_selector "button.wdt-preview"
+    page.execute_script(<<~JS)
+      const originalFetch = window.fetch;
+      const claim = (rank, value) => ({ rank, mainsnak: { datavalue: { value } } });
+      const entity = (id, label, claims) => ({
+        id, labels: { en: { language: "en", value: label } }, descriptions: {}, sitelinks: {}, claims
+      });
+      window.fetch = function (url, options) {
+        if (String(url).startsWith(OSM.WIKIMEDIA_COMMONS_URL)) {
+          const filename = new URL(url).searchParams.get("titles").replace(/^File:/, "");
+          const imageUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E#" + encodeURIComponent(filename);
+          const query = { pages: { 1: { imageinfo: [{ url: imageUrl }] } } };
+          return Promise.resolve(new Response(JSON.stringify({ query }), { status: 200 }));
+        }
+        if (String(url).startsWith(OSM.WIKIDATA_API_URL)) {
+            const entities = {
+              Q42: entity("Q42", "Current brand", {
+                P8972: [claim("deprecated", "Old.svg")],
+                P154: [claim("normal", "Normal.svg"), claim("preferred", "Preferred.svg"), claim("deprecated", "Obsolete.svg")]
+              }),
+              Q43: entity("Q43", "Deprecated-only brand", { P8972: [claim("deprecated", "Only.svg")] })
+            };
+            return Promise.resolve(new Response(JSON.stringify({ entities }), { status: 200 }));
+        }
+        return originalFetch.call(this, url, options);
+
+      };
+    JS
+    click_button :class => "wdt-preview"
+
+    within_sidebar do
+      within("tr", :text => "Current brand") do
+        assert_selector "img[src*='Preferred.svg']", :visible => :all
+        assert_no_selector "img[src*='Old.svg']", :visible => :all
+      end
+      within("tr", :text => "Deprecated-only brand") do
+        assert_no_selector "img", :visible => :all
+      end
+    end
+  end
+
   test "shows a node with one version" do
     node = create(:node, :lat => 60, :lon => 30)
 

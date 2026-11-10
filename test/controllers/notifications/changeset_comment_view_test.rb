@@ -19,6 +19,7 @@ module Notifications
 
       assert_dom ".web-notification" do
         assert_dom "h2", "Changeset comment"
+        assert_dom "h2 a[href='#{changeset_path(changeset_comment.changeset, :anchor => "c#{changeset_comment.id}")}']"
         assert_not_dom "p", /\("/
         assert_dom "time", "less than 1 minute ago"
         assert_dom "blockquote", "Insightful comment"
