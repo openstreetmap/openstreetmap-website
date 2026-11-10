@@ -91,7 +91,7 @@ class User < ApplicationRecord
 
   has_many :reports
 
-  has_many :notifications, :as => :recipient, :class_name => "Noticed::Notification"
+  has_many :web_notifications, -> { where(:type => ApplicationNotifier.web_notification_types) }, :as => :recipient, :class_name => "Noticed::Notification"
 
   has_many :social_links
   accepts_nested_attributes_for :social_links, :allow_destroy => true
