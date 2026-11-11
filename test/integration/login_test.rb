@@ -17,6 +17,45 @@ class LoginTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = false
   end
 
+  def test_form_populates_fields
+    user = create(:user)
+
+    get "/login"
+    assert_redirected_to login_path(:cookie_test => true)
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "input#username", 1 do
+      assert_select "[value]", false
+    end
+    assert_select "input#password", 1 do
+      assert_select "[value=?]", ""
+    end
+    assert_select "input#remember_me", 1 do
+      assert_select "[checked]", false
+    end
+
+    post "/login", :params => { :username => user.display_name, :password => "wrong", :remember_me => "yes", :referer => "/history" }
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "input#username", 1 do
+      assert_select "[value=?]", user.display_name
+    end
+    assert_select "input#password", 1 do
+      assert_select "[value=?]", ""
+    end
+    assert_select "input#remember_me", 1 do
+      assert_select "[checked]", true
+    end
+
+    post "/login", :params => { :username => user.display_name, :password => "s3cr3t", :remember_me => "yes", :referer => "/history" }
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+  end
+
   # It's possible to have multiple accounts in the database with only differences
   # in email case, for hysterical raisins. We need to bypass the validation checks to
   # create users like this nowadays.
@@ -1039,36 +1078,6 @@ class LoginTest < ActionDispatch::IntegrationTest
   private
 
   def try_password_login(username, password, remember_me = nil)
-    get "/login"
-    assert_redirected_to login_path(:cookie_test => true)
-    follow_redirect!
-    assert_response :success
-    assert_template "sessions/new"
-    assert_select "input#username", 1 do
-      assert_select "[value]", false
-    end
-    assert_select "input#password", 1 do
-      assert_select "[value=?]", ""
-    end
-    assert_select "input#remember_me", 1 do
-      assert_select "[checked]", false
-    end
-
-    post "/login", :params => { :username => username, :password => "wrong", :remember_me => remember_me, :referer => "/history" }
-    assert_response :redirect
-    follow_redirect!
-    assert_response :success
-    assert_template "sessions/new"
-    assert_select "input#username", 1 do
-      assert_select "[value=?]", username
-    end
-    assert_select "input#password", 1 do
-      assert_select "[value=?]", ""
-    end
-    assert_select "input#remember_me", 1 do
-      assert_select "[checked]", remember_me == "yes"
-    end
-
     post "/login", :params => { :username => username, :password => password, :remember_me => remember_me, :referer => "/history" }
     assert_response :redirect
     follow_redirect!
