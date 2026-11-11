@@ -149,12 +149,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
 
     sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 1
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 1
 
     session_for(create(:moderator_user))
 
     sidebar_browse_check :note_path, note_with_hidden_comment.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 2
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 2
   end
 
   def test_read_note_hidden_user_comment
@@ -164,12 +164,12 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     end
 
     sidebar_browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 1
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 1
 
     session_for(create(:moderator_user))
 
     sidebar_browse_check :note_path, note_with_hidden_user_comment.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 1
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 1
   end
 
   def test_read_note_hidden_opener
@@ -178,7 +178,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     create(:note_comment, :author => hidden_user, :note => note_with_hidden_opener)
 
     sidebar_browse_check :note_path, note_with_hidden_opener.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 0
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 0
   end
 
   def test_read_note_suspended_opener_and_comment
@@ -187,7 +187,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     create(:note_comment, :note => note, :event => "commented")
 
     sidebar_browse_check :note_path, note.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 1
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 1
   end
 
   def test_read_closed_note
@@ -195,7 +195,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     closed_note = create(:note_with_comments, :closed, :closed_by => user, :comments_count => 2)
 
     sidebar_browse_check :note_path, closed_note.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 2
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 2
     assert_dom "div.details", /Resolved by #{user.display_name}/
 
     user.soft_destroy!
@@ -203,7 +203,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     reset!
 
     sidebar_browse_check :note_path, closed_note.id, "notes/show"
-    assert_dom "article:match('id', ?)", /^c\d+$/, :count => 1
+    assert_dom "article > @id", :text => /^c\d+$/, :count => 1
     assert_dom "div.details", /Resolved by deleted/
   end
 
