@@ -10,6 +10,21 @@ class ReportsControllerTest < ActionDispatch::IntegrationTest
     assert_response :bad_request
   end
 
+  def test_new_invalid_parameters
+    target_user = create(:user)
+    session_for(target_user)
+
+    # Invalid id
+    get new_report_path(:reportable_id => target_user.id + 1, :reportable_type => "User")
+    assert_redirected_to root_path
+    assert_match(/The item you are trying to report could not be found/, flash[:warning])
+
+    # Invalid type
+    get new_report_path(:reportable_id => target_user.id, :reportable_type => "Users")
+    assert_redirected_to root_path
+    assert_match(/The item you are trying to report could not be found/, flash[:warning])
+  end
+
   def test_new_report_without_login
     target_user = create(:user)
     get new_report_path(:reportable_id => target_user.id, :reportable_type => "User")
