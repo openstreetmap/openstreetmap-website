@@ -249,37 +249,15 @@ class UserMailer < ApplicationMailer
   end
 
   def attach_user_avatar(user)
-    @avatar = user_avatar_filename(user)
-    attachments.inline[@avatar] = user_avatar_file(user)
-  end
-
-  def user_avatar_filename(user)
     avatar = user&.avatar
-    if avatar&.attached?
-      case avatar.content_type
-      when "image/png" then "avatar.png"
-      when "image/jpeg" then "avatar.jpg"
-      when "image/gif" then "avatar.gif"
-      when "image/bmp" then "avatar.bmp"
-      when "image/tiff" then "avatar.tif"
-      when "image/svg+xml" then "avatar.svg"
-      else "avatar"
-      end
-    else
-      "avatar.png"
-    end
-  end
 
-  def user_avatar_file(user)
-    avatar = user&.avatar
     if avatar&.attached?
-      if avatar.variable?
-        avatar.variant(:resize_to_limit => [50, 50]).download
-      else
-        avatar.blob.download
-      end
+      avatar = avatar.variant(:resize_to_limit => [50, 50]).processed if avatar.variable?
+      @avatar = "avatar.#{Marcel::Magic.new(avatar.content_type).extensions.first}"
+      attachments.inline[@avatar] = avatar.download
     else
-      Rails.root.join("app/assets/images/avatar_small.png").read
+      @avatar = "avatar.png"
+      attachments.inline[@avatar] = Rails.root.join("app/assets/images/avatar_small.png").read
     end
   end
 
