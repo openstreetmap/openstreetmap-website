@@ -80,9 +80,9 @@ th:
       old_relation: ความสัมพันธ์เดิม
       old_relation_member: สมาชิกของความสัมพันธ์เดิม
       old_relation_tag: แท็กของความสัมพันธ์เดิม
-      old_way: เส้นทางเดิม
-      old_way_node: จุดของเส้นทางเดิม
-      old_way_tag: แท็กของเส้นทางเดิม
+      old_way: ทางเดิม
+      old_way_node: จุดของทางเดิม
+      old_way_tag: แท็กของทางเดิม
       relation: ความสัมพันธ์
       relation_member: สมาชิกของความสัมพันธ์
       relation_tag: แท็กของความสัมพันธ์
@@ -94,10 +94,13 @@ th:
       user: ผู้ใช้งาน
       user_preference: การตั้งค่าผู้ใช้
       user_token: รหัสคำขอผู้ใช้
-      way: เส้นทาง
-      way_node: โหนดเส้นทาง
-      way_tag: แท็กกำกับเส้นทาง
+      way: ทาง
+      way_node: โหนดทาง
+      way_tag: แท็กกำกับทาง
     attributes:
+      acl:
+        k: คีย์
+        v: ค่า
       diary_comment:
         body: เนื้อหา
       diary_entry:
@@ -127,6 +130,12 @@ th:
         gpx_file: เลือกไฟล์การติดตาม GPS
         visibility: 'สถานะการแสดง:'
         tagstring: แท็ก
+      moderation_zone:
+        name: ชื่อ
+        reason: เหตุผล
+        zone: โซน
+        period: ระยะเวลา
+        ends_at: วันและเวลาหมดอายุ
       message:
         sender: ผู้ส่ง
         title: หัวเรื่อง
@@ -354,7 +363,7 @@ th:
     node:
       title_html: 'โหนด: %{name}'
     way:
-      title_html: 'เส้นทาง: %{name}'
+      title_html: 'ทาง: %{name}'
       nodes: โหนด
       nodes_count:
         other: '%{count} โหนด'
@@ -369,7 +378,7 @@ th:
       entry_role_html: '%{type}%{name} ในฐานะ%{role}'
       type:
         node: โหนด
-        way: เส้นทาง
+        way: ทาง
         relation: ความสัมพันธ์
     containing_relation:
       entry_role_html: ความสัมพันธ์%{relation_name} (ในบทบาท%{relation_role})
@@ -380,7 +389,7 @@ th:
       sorry: ขออภัย ข้อมูลสำหรับ %{type} ที่มีรหัส %{id} ใช้เวลานานเกินไปในการดึงข้อมูล
       type:
         node: โหนด
-        way: เส้นทาง
+        way: ทาง
         relation: ความสัมพันธ์
         changeset: ชุดการเปลี่ยนแปลง
         note: โน้ต
@@ -390,7 +399,7 @@ th:
         โปรดไปที่ %{redaction_link} เพื่อดูรายละเอียดเพิ่มเติม
       type:
         node: โหนด
-        way: เส้นทาง
+        way: ทาง
         relation: ความสัมพันธ์
     start_rjs:
       feature_warning: กำลังโหลดส่วนคุณลักษณะ %{num_features} คุณลักษณะ การนี้อาจทำให้เบราว์เซอร์ทำงานช้าลง
@@ -412,8 +421,11 @@ th:
       colour_preview: แสดงตัวอย่างสี %{colour_value}
       email_link: ที่อยู่อีเมล %{email}
     versions_navigation:
+      node_versions: รุ่นของโหนด
+      way_versions: ทางรุ่น
+      relation_versions: รุ่นของความสัมพันธ์
       node: โหนด
-      way: เส้นทาง
+      way: ทาง
       relation: ความสัมพันธ์
       history: ประวัติ
       version: 'เวอร์ชัน #%{version}'
@@ -428,10 +440,13 @@ th:
     index:
       node:
         title_html: 'ประวัติโหนด: %{name}'
+        actions: การกระทำโหนด
       way:
-        title_html: 'ประวัติเส้นทาง: %{name}'
+        title_html: 'ประวัติทาง: %{name}'
+        actions: การกระทำทาง
       relation:
         title_html: 'ประวัติความสัมพันธ์: %{name}'
+        actions: การกระทำความสัมพันธ์
       older_versions: เวอร์ชันที่เก่ากว่า
       newer_versions: เวอร์ชันที่ใหม่กว่า
     actions:
@@ -449,14 +464,14 @@ th:
       sorry: ขออภัย ประวัติของโหนดที่มี ID %{id} ใช้เวลานานเกินไปในการเรียกข้อมูล
   ways:
     not_found_message:
-      sorry: 'ขออภัย ไม่พบเส้นทาง #%{id}'
+      sorry: 'ขออภัย ไม่พบทาง #%{id}'
     timeout:
-      sorry: ขออภัย การเรียกข้อมูลสำหรับเส้นทางที่มี ID %{id} ใช้เวลานานเกินไป
+      sorry: ขออภัย การเรียกข้อมูลสำหรับทาง ที่มี ID %{id} ใช้เวลานานเกินไป
   old_ways:
     not_found_message:
-      sorry: 'ขออภัย ไม่พบเส้นที่ #%{id} เวอร์ชัน %{version}'
+      sorry: 'ขออภัย ไม่พบทางที่ #%{id} เวอร์ชัน %{version}'
     timeout:
-      sorry: ขออภัย ประวัติของเส้นทางที่มี ID %{id} ใช้เวลานานเกินไปในการเรียกข้อมูล
+      sorry: ขออภัย ประวัติของทางที่มี ID %{id} ใช้เวลานานเกินไปในการเรียกข้อมูล
   relations:
     not_found_message:
       sorry: 'ขออภัย ไม่พบความสัมพันธ์ #%{id}'
@@ -542,8 +557,8 @@ th:
     paging_nav:
       nodes_title: โหนด
       nodes_paginated: โหนดที่ (%{x}-%{y} จากทั้งหมด %{count})
-      ways_title: เส้นทาง
-      ways_paginated: เส้นทางที่ (%{x}-%{y} จาก %{count})
+      ways_title: ทาง
+      ways_paginated: ทางที่ (%{x}-%{y} จาก %{count})
       relations_title: ความสัมพันธ์
       relations_paginated: ความสัมพันธ์ (%{x}-%{y} จาก %{count})
       range: '%{x}-%{y} ของ %{count}'
@@ -573,6 +588,7 @@ th:
       latest_edit_html: 'การแก้ไขล่าสุด (%{ago}):'
       no_edits: (ไม่มีรายการแก้ไข)
       view_changeset_details: ดูรายละเอียดชุดการเปลี่ยนแปลง
+      actions: การกระทำผู้ใช้
     popup:
       your location: ตำแหน่งของคุณ
       nearby mapper: คนทำแผนที่ ที่อยู่ใกล้เคียง
@@ -883,7 +899,9 @@ th:
           census: ขอบเขตการสำรวจประชากร
           national_park: อุทยานแห่งชาติ
           political: ขอบเขตการเลือกตั้ง
+          postal_code: รหัสไปรษณีย์
           protected_area: พื้นที่ปกป้อง
+          timezone: เขตเวลา
           "yes": แนวเขต
         bridge:
           aqueduct: สะพานส่งน้ำ
@@ -1059,6 +1077,7 @@ th:
           milestone: หลักกิโลประวัติศาสตร์
           mine: เหมือง
           mine_shaft: ปล่องเหมือง
+          monastery: อารามทางประวัติศาสตร์
           monument: อนุสาวรีย์
           railway: รางรถไฟประวัติศาสตร์
           roman_road: ถนนโรมัน
@@ -1149,7 +1168,7 @@ th:
           sports_centre: ศูนย์กีฬา
           stadium: สนามกีฬา
           swimming_pool: สระว่ายน้ำ
-          track: ลู่วิ่ง
+          track: สนามแข่งรถ (ไม่มีเครื่องยนต์)
           water_park: สวนน้ำ
           "yes": สถานที่เพื่อนันทนาการ
         lock:
@@ -1185,6 +1204,7 @@ th:
           mineshaft: ปล่องเหมือง
           monitoring_station: สถานีตรวจอากาศ
           petroleum_well: บ่อน้ำมัน
+          planter: กระถางต้นไม้
           pier: ท่าเรือ
           pipeline: ท่อ
           pumping_station: สถานีสูบ
@@ -1325,6 +1345,7 @@ th:
           abandoned: ทางรถไฟร้าง
           buffer_stop: แป้นปะทะ
           construction: ทางรถไฟกำลังสร้าง
+          crossing: ทางข้ามทางรถไฟ
           disused: ทางรถไฟเลิกใช้แล้ว
           funicular: ทางรถไฟไต่เขา
           halt: ที่หยุดรถไฟ
@@ -1586,6 +1607,7 @@ th:
       download: ดาวน์โหลดเส้นทางเป็น GeoJSON
       filename: เส้นทาง
       directions_courtesy_html: เอื้อเฟื้อเส้นทางโดย %{link}
+      check_demo_html: ดูรายละเอียดเพิ่มเติมได้ที่ %{link}
   issues:
     index:
       title: ปัญหา
@@ -1711,6 +1733,7 @@ th:
         az: ภาษาอาเซอรี
         id: ภาษาอินโดนีเซีย
         ms: ภาษามลายู
+        bcl: บิโคลกลาง
         bs: ภาษาบอสเนีย
         br: ภาษาเบรอตาญ
         ca: ภาษากาตาลา
@@ -1823,6 +1846,7 @@ th:
       และ %{partners}
     partners_corpmembers: สมาชิกองค์กร OSMF
     partners_partners: องค์กรพันธมิตร
+    terms_of_use: ข้อกำหนดการใช้งาน
     tou: ข้อกำหนดการใช้งาน
     nothing_to_preview: ไม่มีอะไรให้แสดงตัวอย่าง
     learn_more: เรียนรู้เพิ่มเติม
@@ -1830,6 +1854,7 @@ th:
       about: เกี่ยวกับ
       communities: ชุมชน
       copyright: ลิขสิทธิ์
+      donate: บริจาค
       edit: แก้ไข
       edit_with: แก้ไขด้วย %{editor}
       export: ส่งออก
@@ -1844,6 +1869,8 @@ th:
       select_language: เลือกภาษา
       sign_up: สมัครบัญชี
       user_diaries: บันทึกของผู้ใช้
+    meta:
+      openstreetmap_search: ค้นหา OpenStreetMap
     select_language_button:
       title: เลือกภาษา
     offline_flash:
@@ -2520,7 +2547,10 @@ th:
         paragraph_1: 'เมื่อคุณเข้ามาทำแผนที่ใน OpenStreetMap, คุณจะพบกับศัพท์เฉพาะหลายคำ
           ซึ่งความหมายจะอธิบายไว้เบื้องต้นที่ด้านล่างนี้:'
         an_editor_html: '%{editor} คือโปรแกรมหรือเว็บไซต์ที่คุณสามารถใช้แก้ไขแผนที่'
+        a_way_html: '%{way}คือเส้นหรือพื้นที่ เช่นถนน ทางน้ำ ทะเลสาบ หรืออาคาร'
+        a_tag_html: '%{tag}คือข้อมูลที่เกี่ยวกับโหนดหรือทาง เช่นชื่อของร้านอาหาร หรือความเร็วจำกัดของถนน'
         editor: เครื่องมือแก้ไข
+        way: ทาง
       rules:
         title: อย่าลืมกติกา!
       start_mapping: เริ่มการทำแผนที่
@@ -3253,7 +3283,7 @@ th:
           tenth: ที่สิบ
     query:
       node: หมุด
-      way: เส้นทาง
+      way: ทาง
       relation: ความสัมพันธ์
       nothing_found: ไม่พบคุณลักษณะ
       error: 'มีความผิดพลาดขณะติดต่อ %{server}: %{error}'
