@@ -47,7 +47,7 @@ class AccountsController < ApplicationController
     if current_user.deletion_allowed?
       current_user.soft_destroy!
 
-      session.delete(:user)
+      sign_out
       session_expires_automatically
 
       flash[:notice] = t ".success"

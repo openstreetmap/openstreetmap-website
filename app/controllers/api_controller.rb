@@ -9,6 +9,8 @@ class ApiController < ApplicationController
 
   private
 
+  attr_accessor :current_user
+
   ##
   # Set allowed request formats if no explicit format has been
   # requested via a URL suffix. Allowed formats are taken from

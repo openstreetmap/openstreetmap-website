@@ -149,10 +149,10 @@ class PasswordsControllerTest < ActionDispatch::IntegrationTest
     # Test setting a new password
     post user_reset_password_path, :params => { :token => token, :user => { :pass_crypt => "new_password", :pass_crypt_confirmation => "new_password" } }
     assert_redirected_to root_path
-    assert_equal user.id, session[:user]
+    assert_equal user.id, session.to_h["warden.user.user.key"].first.first
     user.reload
     assert_equal "active", user.status
     assert user.email_valid
-    assert user.password_matches?("new_password")
+    assert user.valid_password?("new_password")
   end
 end
