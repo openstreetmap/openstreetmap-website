@@ -20,7 +20,7 @@ module TagParser
       telephone_links(key, value) ||
       colour_preview(key, value) ||
       wiki_link("tag", key, value) ||
-      split_value(key, value).map { |x| basic_link(key, x) }
+      split_value(key, value).map { |x| wiki_link("tag", key, x)&.first || basic_link(key, x) }
   end
 
   def self.wiki_link(type, *components)
