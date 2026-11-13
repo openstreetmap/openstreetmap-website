@@ -36,8 +36,8 @@ module BrowseTagsHelper
       svg + safe_join(wdt, ";")
     elsif wmc = wikimedia_commons_link(key, value)
       link_to h(wmc[:title]), wmc[:url], :title => t("browse.tag_details.wikimedia_commons_link", :page => wmc[:title])
-    elsif url = wiki_link("tag", "#{key}=#{value}")
-      link_to h(value), url, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value)
+    elsif url = wiki_tag_link(key, value)
+      url
     elsif email = email_link(key, value)
       mail_to(email, :title => t("browse.tag_details.email_link", :email => email))
     elsif phones = telephone_links(key, value)
@@ -55,7 +55,7 @@ module BrowseTagsHelper
     elsif %w[opening_hours collection_times service_times].include?(key)
       tag2link_link(key, value) || linkify(h(value))
     else
-      safe_join(value.split(";", -1).map { |x| tag2link_link(key, x) || linkify(h(x)) }, ";")
+      safe_join(value.split(";", -1).map { |x| wiki_tag_link(key, x) || tag2link_link(key, x) || linkify(h(x)) }, ";")
     end
   end
 
@@ -140,6 +140,13 @@ module BrowseTagsHelper
       }
     end
     nil
+  end
+
+  def wiki_tag_link(key, value)
+    link = wiki_link("tag", "#{key}=#{value}")
+    return nil unless link
+
+    link_to(h(value), link, :title => t("browse.tag_details.wiki_link.tag", :key => key, :value => value))
   end
 
   def tag2link_link(key, value)

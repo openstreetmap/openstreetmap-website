@@ -21,6 +21,17 @@ class BrowseTagsHelperTest < ActionView::TestCase
     html = format_value("highway", "unknown")
     assert_dom_equal "unknown", html
 
+    html = format_value("cuisine", "burger;pizza")
+    assert_dom_equal(
+      "<a href=\"https://wiki.openstreetmap.org/wiki/Tag:cuisine=burger?uselang=en\" title=\"The wiki description page for the cuisine=burger tag\">burger</a>" \
+      ";" \
+      "<a href=\"https://wiki.openstreetmap.org/wiki/Tag:cuisine=pizza?uselang=en\" title=\"The wiki description page for the cuisine=pizza tag\">pizza</a>",
+      html
+    )
+
+    html = format_value("cuisine", "burger;unknown")
+    assert_dom_equal "<a href=\"https://wiki.openstreetmap.org/wiki/Tag:cuisine=burger?uselang=en\" title=\"The wiki description page for the cuisine=burger tag\">burger</a>;unknown", html
+
     html = format_value("unknown", "unknown")
     assert_dom_equal "unknown", html
 
@@ -76,6 +87,10 @@ class BrowseTagsHelperTest < ActionView::TestCase
 
     html = format_value("email", "foo@example.com")
     assert_dom_equal "<a title=\"Email foo@example.com\" href=\"mailto:foo@example.com\">foo@example.com</a>", html
+
+    # prefer wiki pages over tag2link:
+    html = format_value("opening_hours", "24/7")
+    assert_dom_equal "<a href=\"https://wiki.openstreetmap.org/wiki/Tag:opening hours=24/7?uselang=en\" title=\"The wiki description page for the opening_hours=24/7 tag\">24/7</a>", html
 
     html = format_value("opening_hours", "Mo-Fr 09:00-12:00;Sa 09:00-17:00")
     dom = parse_html html
