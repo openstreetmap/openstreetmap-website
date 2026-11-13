@@ -75,11 +75,21 @@
                                        :data => { :method => "DELETE",
                                                   :url => api_note_url(@note, "json") } %>
           <% end -%>
-          <%= button_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
-                                        :data => { :method => "POST",
-                                                   :url => close_api_note_url(@note, "json"),
-                                                   :default_action_text => t(".resolve"),
-                                                   :comment_action_text => t(".comment_and_resolve") } %>
+          <% if can_resolve_without_comment?(current_user, @note) -%>
+            <%= button_tag t(".resolve"), :name => "close", :class => "btn btn-primary",
+                                          :data => { :method => "POST",
+                                                     :url => close_api_note_url(@note, "json"),
+                                                     :default_action_text => t(".resolve"),
+                                                     :comment_action_text => t(".comment_and_resolve"),
+                                                     :can_resolve_without_comment => true } %>
+          <% else -%>
+            <%= button_tag t(".comment_and_resolve"), :name => "close", :class => "btn btn-primary",
+                                                      :disabled => true,
+                                                      :data => { :method => "POST",
+                                                                 :url => close_api_note_url(@note, "json"),
+                                                                 :default_action_text => t(".comment_and_resolve"),
+                                                                 :comment_action_text => t(".comment_and_resolve") } %>
+          <% end -%>
           <%= button_tag t(".comment"), :name => "comment", :class => "btn btn-primary", :disabled => true,
                                         :data => { :method => "POST",
                                                    :url => comment_api_note_url(@note, "json") } %>
