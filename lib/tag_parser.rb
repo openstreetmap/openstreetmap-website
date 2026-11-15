@@ -8,28 +8,27 @@ module TagParser
   WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
   def self.parse_key(key)
-    data = { :text => ERB::Util.html_escape(key) }
-    url = wiki_link("key", key)
-    data.merge!({ :url => url, :type => :"wiki_link.key", :key => key }) if url
-    data
+    url = wiki_link("key", key)&.first
+    return url if url
+
+    { :text => ERB::Util.html_escape(key) }
   end
 
   def self.parse_value(key, value)
     if wp = wikipedia_links(key, value)
-      wp.map { |w| { :text => ERB::Util.html_escape(w[:title]), :url => w[:url], :type => :wikipedia_link, :page => w[:title] } }
+      wp
     elsif wdt = wikidata_links(key, value)
-      widget = { :type => :html, :widget => :wikidata_preview, :qids => wdt.pluck(:title), :count => wdt.pluck(:title).length }
-      wdt.map { |w| { :text => w[:title], :url => w[:url], :type => :wikidata_link, :page => w[:title].strip } }.unshift(widget)
+      wdt
     elsif wmc = wikimedia_commons_link(key, value)
-      [{ :text => ERB::Util.html_escape(wmc[:title]), :url => wmc[:url], :type => :wikimedia_commons_link, :page => wmc[:title] }]
+      wmc
     elsif email = email_link(key, value)
-      [{ :text => ERB::Util.html_escape(email), :url => email, :type => :email_link, :email => email }]
+      email
     elsif phones = telephone_links(key, value)
-      phones.map { |p| { :text => ERB::Util.html_escape(p[:phone_number]), :url => p[:url], :type => :telephone_link, :phone_number => p[:phone_number] } }
+      phones
     elsif colour_value = colour_preview(key, value)
-      [{ :type => :html, :widget => :colour_preview, :colour_value => colour_value }, { :text => colour_value }]
-    elsif url = wiki_link("tag", "#{key}=#{value}")
-      [{ :text => ERB::Util.html_escape(value), :url => url, :type => :"wiki_link.tag", :key => key, :value => value }]
+      colour_value
+    elsif url = wiki_link("tag", key, value)
+      url
     elsif %w[opening_hours collection_times service_times].include?(key)
       [basic_link(key, value)]
     else
@@ -37,19 +36,22 @@ module TagParser
     end
   end
 
-  def self.wiki_link(type, title)
+  def self.wiki_link(type, *components)
     # update-wiki-pages does s/ /_/g on keys before saving them, we
     # have to replace spaces with underscore so we'll link
     # e.g. `source=Isle of Man Government aerial imagery (2001)' to
     # the correct page.
-    lookup = title.tr(" ", "_")
+    lookup = components.join("=").tr(" ", "_")
 
     page = @wiki_pages_dict.dig(I18n.locale.to_s, type, lookup) ||
            @wiki_pages_dict.dig("en", type, lookup)
 
     return unless page
 
-    wiki_url("wiki.openstreetmap.org", page)
+    hash = { :text => ERB::Util.html_escape(components.last), :url => wiki_url("wiki.openstreetmap.org", page), :type => :"wiki_link.#{type}", :key => components.first }
+    hash[:value] = components[1] if components.size > 1
+
+    [hash]
   end
 
   def self.wikipedia_links(key, value)
@@ -80,7 +82,7 @@ module TagParser
       url = wiki_url("#{page_lang}.wikipedia.org", title)
       url += "##{section}" if section
 
-      { :url => url, :title => wiki_value }
+      { :text => ERB::Util.html_escape(wiki_value), :url => url, :type => :wikipedia_link, :page => wiki_value }
     end
   end
 
@@ -91,29 +93,29 @@ module TagParser
   def self.wikidata_links(key, value)
     # The simple wikidata-tag (this is limited to only one value)
     if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
-      return [{
-        :url => wiki_url("www.wikidata.org", value, "entity"),
-        :title => value
-      }]
+      qids = [value]
     elsif key =~ /^#{SECONDARY_WIKI_PREFIX_PATTERN}wikidata$/o &&
           # Value has to be a semicolon-separated list of wikidata-IDs (whitespaces allowed before and after semicolons)
           value =~ /^#{QID_PATTERN}(?:\s*;\s*#{QID_PATTERN})*$/o
       # Splitting at every semicolon to get a separate hash for each wikidata-ID
-      return value.split(";").map do |id|
-        { :title => id, :url => wiki_url("www.wikidata.org", id.strip, "entity") }
-      end
+      qids = value.split(";")
     end
-    nil
+    return unless qids
+
+    widget = { :type => :html, :widget => :wikidata_preview, :qids => qids.map(&:strip), :count => qids.length }
+    qids.map { |id| { :text => id, :url => wiki_url("www.wikidata.org", id.strip, "entity"), :type => :wikidata_link, :page => id.strip } }.unshift(widget)
   end
 
   def self.wikimedia_commons_link(key, value)
     if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikimedia_commons$/o && value =~ /^(file|category):([^#]+)/i
       namespace = Regexp.last_match(1)
       title = Regexp.last_match(2)
-      return {
+      return [{
+        :text => ERB::Util.html_escape(value),
         :url => wiki_url("commons.wikimedia.org", "#{namespace}:#{ERB::Util.url_encode title}"),
-        :title => value
-      }
+        :type => :wikimedia_commons_link,
+        :page => value
+      }]
     end
     nil
   end
@@ -142,9 +144,9 @@ module TagParser
     # remove any leading and trailing whitespace
     email = value.strip
 
-    return email if email.match?(URI::MailTo::EMAIL_REGEXP)
+    return unless email.match?(URI::MailTo::EMAIL_REGEXP)
 
-    nil
+    [{ :text => ERB::Util.html_escape(email), :url => email, :type => :email_link, :email => email }]
   end
 
   def self.telephone_links(_key, value)
@@ -166,7 +168,7 @@ module TagParser
         # for tel: URL, remove all whitespace
         # "+1 (234) 567-8901 " -> "tel:+1(234)567-8901"
         phone_no_whitespace = phone_number.gsub(/\s+/, "")
-        { :phone_number => phone_number, :url => "tel:#{phone_no_whitespace}" }
+        { :text => ERB::Util.html_escape(phone_number), :url => "tel:#{phone_no_whitespace}", :type => :telephone_link, :phone_number => phone_number }
       end
     end
     nil
@@ -190,7 +192,7 @@ module TagParser
          violet wheat white whitesmoke yellow yellowgreen]
     return nil unless value =~ /^#([0-9a-fA-F]{3}){1,2}$/ || w3c_colors.include?(value.downcase)
 
-    value
+    [{ :type => :html, :widget => :colour_preview, :colour_value => value }, { :text => value }]
   end
 
   def self.init(paths)
