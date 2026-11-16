@@ -372,30 +372,6 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
-  def test_text_to_html_linkify_recognize_wiki_key_value_path
-    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=(?<value>[^\"?#<>\\s]+)"], :path_template => "Tag:\\k<key>=\\k<value>", :host => "http://example.wiki" }] }) do
-      r = RichText.new("text", "foo surface=metal bar")
-      assert_html r do
-        assert_dom "a", :count => 1, :text => "http://example.wiki/Tag:surface=metal" do
-          assert_dom "> @href", "http://example.wiki/Tag:surface=metal"
-          assert_dom "> @rel", "nofollow noopener noreferrer"
-        end
-      end
-    end
-  end
-
-  def test_text_to_html_linkify_recognize_wiki_key_path
-    with_settings(:linkify => { :detection_rules => [{ :patterns => ["(?<key>[^\"?#<>/\\s]+)=\\*?"], :path_template => "Key:\\k<key>", :host => "http://example.wiki" }] }) do
-      r = RichText.new("text", "foo surface=* bar")
-      assert_html r do
-        assert_dom "a", :count => 1, :text => "http://example.wiki/Key:surface" do
-          assert_dom "> @href", "http://example.wiki/Key:surface"
-          assert_dom "> @rel", "nofollow noopener noreferrer"
-        end
-      end
-    end
-  end
-
   def test_text_to_html_linkify_openstreetmap_links
     with_settings(:server_url => "www.openstreetmap.org", :server_protocol => "https") do
       cases = {
@@ -422,18 +398,6 @@ class RichTextTest < ActiveSupport::TestCase
 
         "https://www.openstreetmap.org/user/aharvey" =>
           ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
-
-        "https://wiki.openstreetmap.org/wiki/Key:boundary" =>
-          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
-
-        "https://wiki.openstreetmap.org/wiki/Tag:boundary=place" =>
-          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
-
-        "boundary=*" =>
-          ["boundary=*", "https://wiki.openstreetmap.org/wiki/Key:boundary"],
-
-        "boundary=place" =>
-          ["boundary=place", "https://wiki.openstreetmap.org/wiki/Tag:boundary=place"],
 
         "@aharvey" =>
           ["@aharvey", "https://www.openstreetmap.org/user/aharvey"],
@@ -514,30 +478,87 @@ class RichTextTest < ActiveSupport::TestCase
     assert_equal t0.delete("`"), t1.strip
   end
 
+  def test_text_to_html_linkify_links_keys
+    r = RichText.new("text", "foo boundary=* bar")
+    assert_html r do
+      assert_dom "a", :count => 1
+      assert_dom "a[href*='Key:boundary']", :text => "boundary"
+    end
+  end
+
   def test_text_to_html_linkify_trims_punctuation
     r = RichText.new("text", "foo `surface=metal) bar inscription=🙂 baz")
     assert_html r do
-      assert_dom "a", :count => 1
-      assert_dom "a[href$='Tag:surface=metal']", :text => "surface=metal"
+      assert_dom "a", :count => 2
+      assert_dom "a[href*='Key:surface']", :text => "surface"
+      assert_dom "a[href*='Tag:surface=metal']", :text => "metal"
+    end
+  end
+
+  def test_text_to_html_linkify_ignores_unknown_values
+    r = RichText.new("text", "foo `highway=residence` bar `surface=unknown` baz")
+    assert_html r do
+      assert_dom "a", :count => 2
+      assert_dom "a[href*='Key:highway']", :text => "highway"
+      assert_dom "a[href*='Key:surface']", :text => "surface"
+    end
+  end
+
+  def test_text_to_html_linkify_uses_tag_linker
+    r = RichText.new("text", "foo `wikidata=Q123` bar")
+    assert_html r do
+      assert_dom "a", :count => 2
+      assert_dom "a[href*='Key:wikidata']", :text => "wikidata"
+      assert_dom "a[href*='wikidata.org']", :text => "Q123"
+    end
+  end
+
+  def test_text_to_html_linkify_uses_tag2link
+    r = RichText.new("text", "foo `mapillary=123;456` bar")
+    assert_html r do
+      assert_dom "a", :count => 3
+      assert_dom "a[href*='Key:mapillary']", :text => "mapillary"
+      assert_dom "a[href*='mapillary.com']", :text => "123"
+      assert_dom "a[href*='mapillary.com']", :text => "456"
+    end
+  end
+
+  def test_text_to_html_linkify_localises_tag_links
+    I18n.with_locale "tr" do
+      r = RichText.new("text", "foo highway=* and specifically highway=primary bar")
+      assert_html r do
+        assert_dom "a", :count => 3
+        assert_dom "a[href*='/Tr:Key:highway']", :text => "highway", :count => 2
+        assert_dom "a[href*='/Tr:Tag:highway=primary']", :text => "primary"
+      end
+    end
+  end
+
+  def test_text_to_html_linkify_keeps_wiki_link_destinations
+    I18n.with_locale "tr" do
+      r = RichText.new("text", "foo osm.wiki/wiki/Key:highway and specifically osm.wiki/DE:Tag:highway=primary bar")
+      assert_html r do
+        assert_dom "a", :count => 2
+        assert_dom "a[href*='/Key:highway']", :text => "osm.wiki/Key:highway"
+        assert_dom "a[href*='/DE:Tag:highway=primary']", :text => "osm.wiki/DE:Tag:highway=primary"
+      end
     end
   end
 
   def test_text_to_html_linkify_recognizes_non_standard_wiki_pages
-    r_paren = RichText.new("text", "foo source=Isle_of_Man_Government_1:25000_map_(2007) bar")
-    assert_html r_paren do
-      assert_dom "a[href*='Tag:source']", :text => "source=Isle_of_Man_Government_1:25000_map_(2007)"
-    end
     r_latin_ext = RichText.new("text", "foo cuisine=açaí bar")
     assert_html r_latin_ext do
-      assert_dom "a[href*='Tag:cuisine']", :text => "cuisine=açaí"
+      assert_dom "a[href*='Tag:cuisine']", :text => "açaí"
     end
     r_cyrillic = RichText.new("text", "foo name=Продукты bar")
     assert_html r_cyrillic do
-      assert_dom "a[href*='Tag:name']", :text => "name=Продукты"
+      assert_dom "a[href*='Tag:name']", :text => "Продукты"
     end
-    r_cjk = RichText.new("text", "foo shop=園芸店 bar")
-    assert_html r_cjk do
-      assert_dom "a[href*='Tag:shop']", :text => "shop=園芸店"
+    I18n.with_locale "ja" do
+      r_cjk = RichText.new("text", "foo shop=園芸店 bar")
+      assert_html r_cjk do
+        assert_dom "a[href*='Tag:shop']", :text => "園芸店"
+      end
     end
   end
 
