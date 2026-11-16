@@ -127,27 +127,142 @@ ka:
         public: საჯარო
         description: აღწერა
         gpx_file: აირჩიეთ GPS კვალის ფაილი
-        visibility: 'ხილვადობა:'
+        visibility: ხილვადობა
+        tagstring: თეგები
+      moderation_zone:
+        name: სახელი
+        reason: მიზეზი
+        zone: ზონა
+        period: პერიოდი
+        ends_at: ვადის გასვლის თარიღი და დრო
       message:
         sender: გამგზავნი
         title: თემა
         body: ტექსტი
         recipient: მიმღები
       redaction:
+        title: სათაური
         description: აღწერა
+      report:
+        category: აირჩიეთ შეტყობინების მიზეზი
+        details: გთხოვთ, მოგვაწოდოთ დამატებითი დეტალები პრობლემის შესახებ (სავალდებულოა).
       user:
+        auth_provider: ავთენტიფიკაციის პროვაიდერი
+        auth_uid: ავთენტიფიკაციის UID
         email: ელ. ფოსტა
-        new_email: 'ახალი ელ. ფოსტის მისამართი:'
+        new_email: ელფოსტის ახალი მისამართი
         active: აქტიური
         display_name: სახელი ეკრანზე
-        description: აღწერა
-        home_lat: 'განედი:'
-        home_lon: 'გრძედი:'
-        languages: ენები
+        description: პროფილის აღწერა
+        company: კომპანია
+        home_lat: განედი
+        home_lon: გრძედი
+        home_location_name: სახლის ადგილმდებარეობის სახელი
+        languages: სასურველი ენები
+        preferred_editor: სასურველი რედაქტორი
         pass_crypt: პაროლი
+        pass_crypt_confirmation: დაადასტურეთ პაროლი
     help:
+      acl:
+        address: IP-მისამართი ან CIDR-ქსელი, მაგ. 192.0.2.0/24
+        domain: ელფოსტის დომენი; ქვედომენებიც შეესაბამება
+        mx: ელფოსტის დომენისთვის განკუთვნილი MX სერვერის ჰოსტის სახელი
+        k: 'ერთი შემდეგი მნიშვნელობიდან: no_account_creation, allow_account_creation,
+          no_note_comment, no_trace_download'
+        v: არასავალდებულო შენიშვნა, მაგალითად — ამ ჩანაწერის მიზეზი
+      doorkeeper/application:
+        confidential: აპლიკაცია გამოყენებული იქნება ისეთ შემთხვევაში, როდესაც შესაძლებელია
+          „კლიენტის საიდუმლოს“ (client secret) კონფიდენციალურობის დაცვა (მობილური
+          აპლიკაციები და ერთგვერდიანი ვებ-აპლიკაციები კონფიდენციალურობას ვერ უზრუნველყოფენ)
+        redirect_uri: გამოიყენეთ თითო სტრიქონი თითოეული URI-ისთვის
       trace:
         tagstring: მძიმის შემდეგ
+      user_block:
+        reason: მომხმარებლის დაბლოკვის მიზეზი. გთხოვთ, იყოთ მაქსიმალურად მშვიდი და
+          გონივრული; აღწერეთ სიტუაცია რაც შეიძლება დეტალურად და გაითვალისწინეთ, რომ
+          თქვენი შეტყობინება საჯარო იქნება. გახსოვდეთ, რომ ყველა მომხმარებელს არ ესმის
+          საზოგადოებაში მიღებული სპეციფიკური ტერმინოლოგია, ამიტომ ეცადეთ, გამოიყენოთ
+          ყველასთვის გასაგები ენა.
+        needs_view: საჭიროა თუ არა მომხმარებლის სისტემაში შესვლა, სანამ ეს ბლოკი მოიხსნება?
+      user:
+        new_email: (საჯაროდ არასდროს გამოჩნდება)
+  datetime:
+    distance_in_words_ago:
+      about_x_hours:
+        one: დაახლოებით %{count} საათის წინ
+        other: დაახლოებით %{count} საათის წინ
+      about_x_months:
+        one: დაახლოებით %{count} თვის წინ
+        other: დაახლოებით %{count} თვის წინ
+      about_x_years:
+        one: დაახლოებით %{count} წლის წინ
+        other: დაახლოებით %{count} წლის წინ
+      almost_x_years:
+        one: თითქმის %{count} წლის წინ
+        other: თითქმის %{count} წლის წინ
+      half_a_minute: ნახევარი წუთის წინ
+      less_than_x_seconds:
+        one: '%{count} წამზე ნაკლები ხნის წინ'
+        other: '%{count} წამზე ნაკლები ხნის წინ'
+      less_than_x_minutes:
+        one: '%{count} წუთზე ნაკლები ხნის წინ'
+        other: '%{count} წუთზე ნაკლები ხნის წინ'
+      over_x_years:
+        one: '%{count} წელზე მეტი ხნის წინ'
+        other: '%{count} წელზე მეტი ხნის წინ'
+      x_seconds:
+        one: '%{count} წამის წინ'
+        other: '%{count} წამის წინ'
+      x_minutes:
+        one: '%{count} წუთის წინ'
+        other: '%{count} წუთის წინ'
+      x_days:
+        one: '%{count} დღის წინ'
+        other: '%{count} დღის წინ'
+      x_months:
+        one: '%{count} თვის წინ'
+        other: '%{count} თვის წინ'
+      x_years:
+        one: '%{count} წლის წინ'
+        other: '%{count} წლის წინ'
+    distance_in_words_in:
+      about_x_hours:
+        one: დაახლოებით %{count} საათში
+        other: დაახლოებით %{count} საათში
+      about_x_months:
+        one: დაახლოებით %{count} თვეში
+        other: დაახლოებით %{count} თვეში
+      about_x_years:
+        one: დაახლოებით %{count} წელიწადში
+        other: დაახლოებით %{count} წელიწადში
+      almost_x_years:
+        one: თითქმის %{count} წელიწადში
+        other: თითქმის %{count} წელიწადში
+      half_a_minute: ნახევარ წუთში
+      less_than_x_seconds:
+        one: '%{count} წამზე ნაკლებ დროში'
+        other: '%{count} წამზე ნაკლებ დროში'
+      less_than_x_minutes:
+        one: '%{count} წუთზე ნაკლებ დროში'
+        other: '%{count} წუთზე ნაკლებ დროში'
+      over_x_years:
+        one: '%{count} წელზე მეტ ხანში'
+        other: '%{count} წელზე მეტ ხანში'
+      x_seconds:
+        one: '%{count} წამში'
+        other: '%{count} წამში'
+      x_minutes:
+        one: '%{count} წუთში'
+        other: '%{count} წუთში'
+      x_days:
+        one: '%{count} დღეში'
+        other: '%{count} დღეში'
+      x_months:
+        one: '%{count} თვეში'
+        other: '%{count} თვეში'
+      x_years:
+        one: '%{count} წელიწადში'
+        other: '%{count} წელიწადში'
   editor:
     default: უპირობოდ (ამჟამად %{name})
     id:
@@ -155,40 +270,195 @@ ka:
       description: iD (ბრაუზერის რედაქტორი)
     remote:
       name: დისტანციური მართვა
-      description: დისტანციური მათვა (JOSM, ან Merkaartor)
+      description: დისტანციური მართვა (JOSM, Potlatch, Merkaartor)
+  auth:
+    providers:
+      none: არცერთი
+      google: Google
+      apple: Apple
+      facebook: Facebook
+      github: GitHub
+      wikipedia: Wikipedia
   api:
     notes:
       comment:
-        opened_at_html: შეიქმნა %{when} წინ
-        opened_at_by_html: შექმნა %{when} წინ მომხმარებელმა %{user}
-        commented_at_html: განახლდა %{when} წინ
-        commented_at_by_html: განაახლა %{when} წინ მომხმარებელმა %{user}
+        opened_at_html: შექმნილია %{when}
+        opened_at_by_html: შექმნილია %{when}, ავტორი — %{user}
+        commented_at_html: განახლდა %{when}
+        commented_at_by_html: განახლებულია %{when}, ავტორი — %{user}
+        closed_at_html: გადაჭრილია %{when}
+        closed_at_by_html: მოგვარებულია %{when}, %{user}-ის მიერ
+        reopened_at_html: ხელახლა გააქტიურდა %{when}
+        reopened_at_by_html: ხელახლა გააქტიურდა %{when}, %{user}-ის მიერ
+      rss:
+        title: OpenStreetMap-ის შენიშვნები
+        description_all: შეტყობინებული, კომენტირებული ან დახურული შენიშვნების სია
+        description_area: შენიშვნების სია, შეტყობინებული, კომენტირებული ან დახურული
+          თქვენს ტერიტორიაზე [(%{min_lat}|%{min_lon}) -- (%{max_lat}|%{max_lon})]
+        description_item: RSS-არხი %{id} ჩანაწერისთვის
+        opened: ახალი შენიშვნა (%{place}-ის მახლობლად)
+        commented: ახალი კომენტარი (%{place}-ის მახლობლად)
+        closed: დახურული შენიშვნა (%{place}-ის მახლობლად)
+        reopened: ხელახლა გააქტიურებული შენიშვნა (%{place}-ის მახლობლად)
       entry:
         comment: კომენტარი
+        full: სრული შენიშვნა
   accounts:
     show:
       title: ანგარიშის რედაქტირება
-      current email address: 'ელ-ფოსტის ამჟამინდელი მისამართი:'
+      my_account: ჩემი ანგარიში
+      current email address: ელფოსტის მიმდინარე მისამართი
+      external auth: გარე ავტენტიფიკაცია
+      contributor_terms:
+        heading: ავტორის პირობები
+        agreed: თქვენ დაეთანხმეთ წვლილის შეტანის პირობებს — %{date}.
+        not_agreed: თქვენ ჯერ არ დათანხმებიხართ ავტორის პირობებს.
+        agreed_with_pd: თქვენ ასევე განაცხადეთ, რომ თქვენს მიერ შეტანილ ცვლილებებს
+          საზოგადოებრივ საკუთრებად მიიჩნევთ.
+        not_agreed_with_pd: თქვენ არ განგიცხადებიათ, რომ თქვენს მიერ შეტანილ ცვლილებებს
+          საზოგადოებრივ საკუთრებად მიიჩნევთ.
+        review: გადახედეთ პირობებს
+        review_and_accept: გადახედეთ და მიიღეთ პირობები
+        consider_pd: განიხილეთ საზოგადოებრივი საკუთრება
+      terms_of_use:
+        heading: გამოყენების პირობები
+        agreed: თქვენ დაეთანხმეთ გამოყენების პირობებს — %{date}.
+        not_agreed: თქვენ ჯერ არ დათანხმებიხართ გამოყენების პირობებს.
+        review: გადახედეთ პირობებს
+        review_and_accept: გადახედეთ და მიიღეთ პირობები
       save changes button: ცვლილებების შენახვა
+      delete_account: ანგარიშის წაშლა...
+    go_public:
+      heading: საჯარო რედაქტირება
+      currently_not_public: ამჟამად თქვენი ცვლილებები ანონიმურია; სხვა მომხმარებლებს
+        არ შეუძლიათ თქვენთვის შეტყობინებების გამოგზავნა ან თქვენი ადგილმდებარეობის
+        ნახვა. იმისათვის, რომ აჩვენოთ, თუ რა შეცვალეთ, და მისცეთ სხვებს ვებგვერდის
+        საშუალებით თქვენთან დაკავშირების შესაძლებლობა, დააჭირეთ ქვემოთ მოცემულ ღილაკს.
+      only_public_can_edit: 0.6 API-ზე გადასვლის შემდეგ, რუკის მონაცემების რედაქტირება
+        მხოლოდ საჯარო მომხმარებლებს შეუძლიათ.
+      find_out_why: გაიგე, რატომ
+      email_not_revealed: თქვენი ელფოსტის მისამართი საჯარო არ გახდება.
+      not_reversible: ამ მოქმედების გაუქმება შეუძლებელია; ამიერიდან ყველა ახალი მომხმარებელი,
+        ნაგულისხმევად, საჯაროა.
+      make_edits_public_button: გახადე ჩემი ყველა შესწორება საჯარო
+    update:
+      success_confirm_needed: მომხმარებლის ინფორმაცია წარმატებით განახლდა. შეამოწმეთ
+        ელფოსტა — იქ დაგხვდებათ შეტყობინება თქვენი ახალი ელფოსტის მისამართის დასადასტურებლად.
+      success: მომხმარებლის ინფორმაცია წარმატებით განახლდა.
+    destroy:
+      success: ანგარიში წაშლილია.
+    deletions:
+      show:
+        title: ჩემი ანგარიშის წაშლა
+        warning: გაფრთხილება! ანგარიშის წაშლის პროცესი საბოლოოა და მისი უკან დაბრუნება
+          შეუძლებელია.
+        delete_account: ანგარიშის წაშლა
+        delete_introduction: 'თქვენი OpenStreetMap-ის ანგარიშის წაშლა შეგიძლიათ ქვემოთ
+          მოცემული ღილაკის გამოყენებით. გთხოვთ, გაითვალისწინოთ შემდეგი დეტალები:'
+        delete_profile: თქვენი პროფილის ინფორმაცია, მათ შორის ავატარი, აღწერა და საცხოვრებელი
+          ადგილი, წაიშლება.
+        delete_display_name: თქვენი საჩვენებელი სახელი წაიშლება და მისი გამოყენება
+          სხვა ანგარიშებს შეეძლებათ.
+        retain_caveats: 'თუმცა, თქვენ შესახებ გარკვეული ინფორმაცია OpenStreetMap-ზე
+          თქვენი ანგარიშის წაშლის შემდეგაც დარჩება:'
+        retain_edits: რუკის მონაცემთა ბაზაში თქვენ მიერ შეტანილი ცვლილებები (ასეთის
+          არსებობის შემთხვევაში) შენარჩუნდება.
+        retain_traces: თქვენს მიერ ატვირთული კვალი (ასეთის არსებობის შემთხვევაში)
+          შენახული იქნება.
+        retain_diary_entries: თქვენი დღიურის ჩანაწერები და მათზე დატოვებული კომენტარები
+          (ასეთის არსებობის შემთხვევაში) შენახული იქნება, თუმცა სხვებისთვის ხილვადი
+          აღარ იქნება.
+        retain_notes: რუკაზე დატანილი თქვენი ჩანაწერები და მათზე დართული კომენტარები
+          (ასეთის არსებობის შემთხვევაში) შენარჩუნდება, თუმცა ხედვის არედან დაიფარება.
+        retain_changeset_discussions: თქვენი ცვლილებათა პაკეტების განხილვები, ასეთის
+          არსებობის შემთხვევაში, შენარჩუნდება.
+        retain_email: თქვენი ელფოსტის მისამართი შენახული იქნება.
+        recent_editing_html: ვინაიდან თქვენი ანგარიში ახლახან დაარედაქტირეთ, მისი
+          წაშლა ამჟამად შეუძლებელია. წაშლა შესაძლებელი იქნება %{time}-ში.
+        confirm_delete: დარწმუნებული ხარ?
+        cancel: გაუქმება
     terms:
       show:
+        title: პირობები
+        heading: პირობები
+        heading_ct: ავტორის პირობები
+        read and accept with tou: გთხოვთ, გაეცნოთ „ავტორთა პირობებსა“ და „გამოყენების
+          პირობებს“, გაეცნობის შემდეგ მონიშნეთ ორივე ველი და დააჭირეთ ღილაკს „გაგრძელება“.
+        contributor_terms_explain: ეს შეთანხმება არეგულირებს თქვენი არსებული და სამომავლო
+          შენატანების პირობებს.
+        read_ct: წავიკითხე და ვეთანხმები ავტორთა ზემოაღნიშნულ პირობებს
+        tou_explain:
+          html: ეს %{tou_link} არეგულირებს ვებსაიტისა და OSMF-ის მიერ უზრუნველყოფილი
+            სხვა ინფრასტრუქტურის გამოყენებას. გთხოვთ, გადახვიდეთ ბმულზე, გაეცნოთ ტექსტს
+            და დაეთანხმოთ მას.
+          tou: გამოყენების პირობები
+        read_tou: წავიკითხე და ვეთანხმები გამოყენების პირობებს
+        guidance_info_html: 'ინფორმაცია, რომელიც დაგეხმარებათ ამ პირობების გაგებაში:
+          %{readable_summary_link} და რამდენიმე %{informal_translations_link}.'
+        readable_summary: ადამიანისთვის გასაგები შეჯამება
+        informal_translations: არაფორმალური თარგმანები
+        continue: გაგრძელება
+        cancel: გაუქმება
+        you need to accept or decline: გთხოვთ, გაეცნოთ და შემდეგ დაეთანხმოთ ან უარყოთ
+          „ავტორის ახალი პირობები“, რათა გააგრძელოთ მუშაობა.
         legale_select: 'გთხოვთ, აირჩიეთ თქვენი ქვეყანა:'
         legale_names:
           france: საფრანგეთი
           italy: იტალია
           rest_of_world: დანარჩენი მსოფლიო
+      update:
+        terms accepted: გმადლობთ, რომ დაეთანხმეთ ახალ პირობებს მონაწილეებისთვის!
+      terms_declined_flash:
+        terms_declined_html: ვწუხვართ, რომ გადაწყვიტეთ, არ დაეთანხმოთ ავტორთა ახალ
+          პირობებს. დამატებითი ინფორმაციისთვის, გთხოვთ, იხილოთ %{terms_declined_link}.
+        terms_declined_link: ეს ვიკი-გვერდი
+    pd_declarations:
+      show:
+        title: ჩათვალეთ, რომ ჩემი წვლილი საჯარო დომენშია
+        consider_pd: ჩემს მიერ შეტანილ წვლილს საჯარო დომენად მივიჩნევ
+        consider_pd_why: რატომ უნდა მინდოდეს, რომ ჩემი წვლილი საჯარო დომენში იყოს?
+        confirm: დადასტურება
+      create:
+        successfully_declared: თქვენ წარმატებით განაცხადეთ, რომ თქვენს მიერ შეტანილ
+          ცვლილებებს საზოგადოებრივ საკუთრებად მიიჩნევთ.
+        already_declared: თქვენ უკვე განაცხადეთ, რომ თქვენს მიერ შეტანილ ცვლილებებს
+          საზოგადოებრივ საკუთრებად მიიჩნევთ.
+        did_not_confirm: თქვენ არ დაადასტურეთ, რომ თქვენს მიერ შეტანილ ცვლილებებს
+          საზოგადოებრივ საკუთრებად მიიჩნევთ.
+    auth_deletions:
+      show:
+        title: მონაცემების წაშლის მოთხოვნა
+        body: '%{provider}-ის ID %{id}-ის მონაცემები წაიშალა %{time}-ზე და გაითიშა
+          დაკავშირებული OpenStreetMap-ის ანგარიშისგან.'
   browse:
+    deleted_ago_by_html: წაშლილია %{time_ago}, %{user}-ის მიერ
+    edited_ago_by_html: რედაქტირებულია %{time_ago}, %{user}-ის მიერ
     version: ვერსია
+    redacted_version: რედაქტირებული ვერსია
     in_changeset: ცვლილებების პაკეტი
     anonymous: ანონიმი
     no_comment: (უკომენტარო)
+    part_of: ნაწილი
+    part_of_relations:
+      one: '%{count} რელაცია'
+      other: '%{count} რელაცია'
+    part_of_ways:
+      one: '%{count} გზა'
+      other: '%{count} გზები'
     download_xml: XML-ის ჩამოტვირთვა
+    view_unredacted_history: იხილეთ დაუფარავი ისტორია
     location: 'მდებარეობა:'
     node:
       title_html: 'წერტილი: %{name}'
     way:
       title_html: 'ხაზი: %{name}'
       nodes: წერტილები
+      nodes_count:
+        one: '%{count} კვანძი'
+        other: '%{count} კვანძი'
+      also_part_of_html:
+        one: გზის ნაწილი %{related_ways}
+        other: გზების ნაწილი %{related_ways}
     relation:
       title_html: 'ურთიერთობა: %{name}'
       members: წევრები
