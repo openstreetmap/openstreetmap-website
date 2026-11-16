@@ -76,7 +76,7 @@ eu:
             visibility:
               cannot_change_to_legacy: ezin da balio zahar batera itzuli
     models:
-      acl: Kontrol zerrendara sartu
+      acl: ACL
       changeset: Aldaketa multzoa
       changeset_tag: Aldaketa multzoaren etiketa
       country: Herrialdea
@@ -152,6 +152,7 @@ eu:
         reason: Arrazoia
         zone: Zona
         period: Epea
+        ends_at: Iraungitze data eta ordua
       message:
         sender: Igorlea
         title: Gaia
@@ -553,9 +554,18 @@ eu:
       newer_versions: Bertsio Berriagoak
     actions:
       view_redacted_data: Ikusi datu editatuak
+  nodes:
+    not_found_message:
+      sorry: '%{id} nodoa ezin izan da aurkitu.'
+    timeout:
+      sorry: '%{id} IDa duen nodoaren datuak berreskuratzeko denbora gehiegi behar
+        izan da.'
   old_nodes:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} nodoaren %{version} bertsioa aurkitu.
+    timeout:
+      sorry: '%{id} IDa duen nodoaren historia berreskuratzeko denbora gehiegi behar
+        izan da.'
   ways:
     not_found_message:
       sorry: 'Barkatu, #%{id} bidea ezin izan da aurkitu.'
@@ -565,9 +575,32 @@ eu:
   old_ways:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} bidearen %{version} bertsioa aurkitu.
+    timeout:
+      sorry: '%{id} id-a duen bidearen historia berreskuratzeko denbora gehiegi behar
+        izan da.'
+  relations:
+    not_found_message:
+      sorry: '%{id} erlazioa ezin izan da aurkitu.'
+    timeout:
+      sorry: '%{id} IDa duen nodoaren datuak berreskuratzeko denbora gehiegi behar
+        izan da.'
+  relation_members:
+    not_found_message:
+      sorry: '%{id} erlazioa ezin izan da aurkitu.'
+    timeout:
+      sorry: '%{id} IDa duen nodoaren datuak berreskuratzeko denbora gehiegi behar
+        izan da.'
   old_relations:
     not_found_message:
       sorry: Barkatu, ezin izan da %{id} erlazioaren %{version} bertsioa aurkitu.
+    timeout:
+      sorry: '%{id} IDa duen nodoaren historia berreskuratzeko denbora gehiegi behar
+        izan da.'
+  old_relation_members:
+    not_found_message:
+      sorry: '%{id} erlazioaren %{version} bertsioa ezin izan da aurkitu.'
+    timeout:
+      sorry: '%{id} id-a duen erlazioko kideek denbora gehiegi behar izan dute berreskuratzeko.'
   changeset_comments:
     feeds:
       comment:
@@ -585,6 +618,7 @@ eu:
       title: Aldaketak
       title_user: '%{user}k egindako aldaketak'
       title_user_link_html: '%{user_link}-(e)k eginiko aldaketak'
+      title_followed: Jarraitzen dituzun erabiltzaileen aldaketa-multzoak
       title_nearby: Hurbil dauden erabiltzaileek egindako aldaketak
       empty: Ez da aldaketarik aurkitu.
       empty_area: Inguru honetan ez dago aldaketarik.
@@ -592,6 +626,8 @@ eu:
       no_more: Aldaketa gehiagorik ez da aurkitu.
       no_more_area: Inguru honetan ez dago aldaketa gehiagorik.
       no_more_user: Erabiltzaile honek ez du aldaketa gehiagorik egin.
+      older_changesets: Aldaketa-multzo zaharragoak
+      newer_changesets: Aldaketa-multzo berriagoak
       feed:
         title: '%{id} aldaketak'
         title_comment: '%{id} aldaketa - %{comment}'
@@ -600,6 +636,8 @@ eu:
         belongs_to: Egilea
     show:
       title: 'Aldaketa: %{id}'
+      created: 'Sortua: %{when}'
+      closed: 'Itxita: %{when}'
       created_ago_html: Sortua orain dela %{time_ago}
       closed_ago_html: Itxia orain dela %{time_ago}
       created_ago_by_html: '%{user}-ek %{time_ago} sortua'
@@ -618,9 +656,14 @@ eu:
       changesetxml: Aldaketaren XML kodea
       osmchangexml: osmChange XML kodea
     paging_nav:
+      nodes_title: Nodoak
       nodes_paginated: Nodoak (%{x}-%{y} %{count}-tik)
+      ways_title: Bideak
       ways_paginated: Bideak (%{x}-%{y} %{count}-tik)
+      relations_title: Erlazioak
       relations_paginated: Erlazioak (%{x}-%{y} %{count}-tik)
+    not_found_message:
+      sorry: '#%{id} aldaketa-multzoa ezin izan da aurkitu.'
     timeout:
       sorry: Barkatu, zuk eskatutako aldaketen zerrenda berreskuratzeko denbora gehiegi
         behar izan da.
@@ -630,7 +673,15 @@ eu:
         heading: Aldaketa multzoko eztabaida honetara harpidetu nahi duzu?
         button: Eztabaidara harpidetu
       unsubscribe:
+        heading: Hurrengo aldaketa-multzoaren eztabaidatik harpidetza kendu nahi duzu?
         button: Eztabaidatik harpidetza kendu
+    heading:
+      title: '%{id} aldaketa multzoa'
+      created_by_html: '%{link_user}k sortu zuen %{created}ean.'
+    no_such_entry:
+      heading: Ez dago sarrerarik %{id} id-arekin
+      body: Ez dago %{id} id-arekin aldaketa multzorik. Egiaztatu ortografia, edo
+        agian klik egin duzun esteka okerra da.
   dashboards:
     contact:
       km away: '%{count} km-tara'
@@ -638,18 +689,37 @@ eu:
       latest_edit_html: 'Azken aldaketa (%{ago}):'
       no_edits: (aldaketarik gabe)
       view_changeset_details: Ikusi aldaketen xehetasunak
+      actions: Erabiltzailearen ekintzak
     popup:
       your location: Zure kokapena
       nearby mapper: Hurbileko mapeatzaileak
+      following: Jarraitzen
     show:
       title: Nire Arbela
       no_home_location_html: '%{edit_profile_link} eta ezarri zure etxeko kokapena
         inguruko erabiltzaileak ikusteko.'
       edit_your_profile: Zure perfila aldatu
+      followings: Jarraitzen dituzun erabiltzaileak
+      no followings: Ez duzu erabiltzailerik jarraitu oraindik.
       nearby users: Gertuko beste erabiltzaile batzuk
       no nearby users: Ez dago oraindik hurbileko mapa editatzea onartzen duen erabiltzailerik.
+      followed_actions: Jarraitzen dituzun erabiltzaileentzako ekintzak
+      followed_changesets: Aldaketa multzoa
+      followed_diaries: Egunerokoan idatzitakoak
+      nearby_actions: Inguruko erabiltzaileentzako ekintzak
       nearby_changesets: inguruko erabiltzaileen aldaketak
       nearby_diaries: inguruko erabiltzaileen eguneroko sarrerak
+  notifications:
+    missing_record:
+      body: Zoritxarrez, hau ez dago gehiago eskuragarri
+    index:
+      title: Jakinarazpenak
+      no_notifications: Ez duzu jakinarazpenik une honetan
+      point_to_preferences_html: Jakinarazpenak nola jaso nahi dituzun zehatz dezakezu
+        %{link} atalean.
+      link_text: lehentasunen atala
+    changeset_comment:
+      headline: Aldaketa-multzoaren iruzkina
   diary_entries:
     new:
       title: Eguneroko Sarrera Berria
@@ -1968,8 +2038,6 @@ eu:
         keep image: Oraingo irudia mantendu
         delete image: Oraingo irudia kendu
         replace image: Oraingo irudia ordezkatu
-        image size hint: (gutxienez 100x100ko irudi koadroak hobeto funtzionatzen
-          dute)
     locations:
       show:
         no home location: Zure etxe-helbidea ez duzu txertatu.

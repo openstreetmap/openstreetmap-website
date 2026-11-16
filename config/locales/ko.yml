@@ -185,6 +185,7 @@ ko:
         reason: 이유
         zone: 구역
         period: 기간
+        ends_at: 만료 기한과 시간
       message:
         sender: 보낸 사람
         title: 제목
@@ -215,6 +216,10 @@ ko:
     help:
       acl:
         address: 'IP 주소 또는 CIDR 네트워크(예: 192.0.2.0/24)'
+        domain: 이메일 주소의 도메인; 하위 도메인 또한 일치
+        mx: 이메일 도메인 MX 서버의 호스트 이름
+        k: '다음 중 하나: no_account_creation, allow_account_creation, no_note_comment,
+          no_trace_download'
       doorkeeper/application:
         confidential: 클라이언트 비밀을 유지할 수 있는 곳에서 애플리케이션이 사용됩니다 (네이티브 모바일 앱과 싱글 페이지 앱은
           기밀이 아닙니다).
@@ -2306,7 +2311,8 @@ ko:
         keep image: 현재 그림 유지
         delete image: 현재 그림 제거
         replace image: 현재 그림 바꾸기
-        image size hint: (100x100 이하의 정사각형 그림이 최적)
+        image upload hint: (PNG, JPEG, GIF, WebP, TIFF, HEIC or AVIF up to %{max_size};
+          최소 100x100 크기의 정사각형 이미지가 가장 적합합니다)
       update:
         success: 프로필 이미지가 업데이트되었습니다.
         failure: 프로필 이미지를 업데이트할 수 없습니다.
@@ -3773,4 +3779,6 @@ ko:
     helper:
       short:
         revoked_html: '%{name}님에 의해 취소됨'
+    form:
+      expiration: 만료
 ...
