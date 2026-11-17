@@ -4,7 +4,6 @@ export default function (map) {
     .on("click", ".search_results_entry a.set_position", clickSearchResult);
 
   const markers = L.layerGroup().addTo(map);
-  let processedResults = 0;
 
   function clickSearchMore(e) {
     e.preventDefault();
@@ -25,15 +24,23 @@ export default function (map) {
     })
       .then(response => response.text())
       .then(html => {
+        const sources = $("#sidebar_content .search_results_entry[data-href]");
+        const source = $target.closest(".search_results_entry[data-href]");
+        const sourceIndex = sources.index(source);
+        if (sourceIndex === -1) return;
+
+        const offset = source.find(".results-list > li").length;
         const result = $(html);
         $target.replaceWith(result);
-        result.filter("ul").children().each(showSearchResult);
+        // Interleave the sources so each can draw its markers as soon as it responds.
+        result.filter(".results-list").children().each((i, item) => {
+          const rowOffset = (offset + i) * sources.length;
+          showSearchResult($(item), rowOffset + sourceIndex);
+        });
       });
   }
 
-  function showSearchResult() {
-    const index = processedResults++;
-    const listItem = $(this);
+  function showSearchResult(listItem, index) {
     const inverseGoldenAngle = (Math.sqrt(5) - 1) * 180;
     const color = `hwb(${(index * inverseGoldenAngle) % 360}deg 5% 5%)`;
     listItem.css("--marker-color", color);
@@ -87,7 +94,7 @@ export default function (map) {
         fetchReplace(this.dataset, entry.children().first())
           .then(() => {
             // go to first result of first geocoder
-            if (index === 0) {
+            if (index === 0 && this.isConnected) {
               const firstResult = entry.find("*[data-lat][data-lon]:first").first();
               if (firstResult.length) {
                 panToSearchResult(firstResult.data());
@@ -101,7 +108,6 @@ export default function (map) {
 
     unload() {
       markers.clearLayers();
-      processedResults = 0;
     }
   };
 }
