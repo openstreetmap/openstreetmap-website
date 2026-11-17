@@ -35,10 +35,14 @@ class TraceLinestringJob < ApplicationJob
     sql = <<~SQL.squish
       INSERT INTO gpx_tracks (gpx_id, trackid, segment, geom, started_at, ended_at)
       SELECT gpx_id, trackid, segment,
-             CASE WHEN count(*) = 1
-                  THEN ST_SetSRID((array_agg(pt))[1], 4326)
-                  ELSE ST_SetSRID(ST_MakeLine(pt ORDER BY seq), 4326)
-             END,
+             /* The division leaves noise in the last bits of each coordinate.
+                Rounding to 7 decimals, the precision of gps_points, clears it
+                and the geometry compresses better. */
+             ST_QuantizeCoordinates(
+               CASE WHEN count(*) = 1
+                    THEN ST_SetSRID((array_agg(pt))[1], 4326)
+                    ELSE ST_SetSRID(ST_MakeLine(pt ORDER BY seq), 4326)
+               END, 7),
              min("timestamp"), max("timestamp")
       FROM (
         SELECT gpx_id, trackid, seq, pt, "timestamp",
