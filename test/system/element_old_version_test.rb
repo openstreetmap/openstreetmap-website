@@ -34,6 +34,22 @@ class ElementOldVersionTest < ApplicationSystemTestCase
     end
   end
 
+  test "highlights the selected historical way on the map" do
+    way = create(:way, :with_history, :version => 2)
+    old_way = way.old_ways.find_by!(:version => 1)
+    [30, 31].each_with_index do |lon, i|
+      node = create(:node)
+      create(:old_node, :current_node => node, :timestamp => old_way.timestamp, :lat => 60, :lon => lon)
+      create(:old_way_node, :old_way => old_way, :node => node, :sequence_id => i + 1)
+    end
+
+    visit old_way_path(way, 1)
+    assert_selector "#map .leaflet-overlay-pane path"
+
+    within_sidebar { click_on "Version #2" }
+    assert_no_selector "#map .leaflet-overlay-pane path"
+  end
+
   test "shows a relation with one version" do
     relation = create(:relation, :with_history)
 

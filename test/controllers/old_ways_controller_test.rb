@@ -46,6 +46,66 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => "map"
   end
 
+  def test_show_map_geometry
+    way = create(:way, :with_history, :version => 2)
+    old_way = way.old_ways.find_by!(:version => 1)
+    first, second = create_list(:node, 2)
+    [second, first, second].each_with_index do |node, i|
+      create(:old_way_node, :old_way => old_way, :node => node, :sequence_id => i + 1)
+    end
+    create(:old_node, :current_node => first, :timestamp => old_way.timestamp, :lat => 51, :lon => -2)
+    create(:old_node, :current_node => first, :version => 2, :timestamp => old_way.timestamp + 1.second, :lat => 54, :lon => -3)
+    create(:old_node, :current_node => second, :timestamp => old_way.timestamp - 1.day, :lat => 50, :lon => -1)
+    create(:old_way_tag, :old_way => old_way, :k => "building", :v => "yes")
+
+    get old_way_path(way, 1, :format => :json)
+
+    assert_response :success
+    assert_equal [
+      { "type" => "node", "id" => first.id, "lat" => 51, "lon" => -2 },
+      { "type" => "node", "id" => second.id, "lat" => 50, "lon" => -1 },
+      { "type" => "way", "id" => way.id, "nodes" => [second.id, first.id, second.id], "tags" => { "building" => "yes" } }
+    ], response.parsed_body.fetch("elements")
+  end
+
+  def test_show_map_geometry_with_unavailable_node
+    way = create(:way, :with_history)
+    old_way = way.old_ways.first
+    node = create(:node)
+    create(:old_way_node, :old_way => old_way, :node => node)
+
+    get old_way_path(way, 1, :format => :json)
+    assert_empty response.parsed_body.fetch("elements")
+
+    create(:old_node, :current_node => node, :timestamp => old_way.timestamp - 1.day)
+    historical_node = create(:old_node, :current_node => node, :version => 2, :timestamp => old_way.timestamp, :visible => false)
+
+    get old_way_path(way, 1, :format => :json)
+    assert_empty response.parsed_body.fetch("elements")
+
+    historical_node.update!(:visible => true, :redaction => create(:redaction))
+
+    get old_way_path(way, 1, :format => :json)
+    assert_empty response.parsed_body.fetch("elements")
+  end
+
+  def test_show_map_geometry_with_unavailable_way
+    way = create(:way, :with_history)
+    old_way = way.old_ways.first
+    node = create(:node)
+    create(:old_node, :current_node => node, :timestamp => old_way.timestamp)
+    create(:old_way_node, :old_way => old_way, :node => node)
+    old_way.update!(:visible => false)
+
+    get old_way_path(way, 1, :format => :json)
+    assert_empty response.parsed_body.fetch("elements")
+
+    old_way.update!(:visible => true, :redaction => create(:redaction))
+
+    get old_way_path(way, 1, :format => :json)
+    assert_empty response.parsed_body.fetch("elements")
+  end
+
   def test_show_with_shared_nodes
     node = create(:node, :with_history)
     way = create(:way, :with_history)
