@@ -59,15 +59,17 @@ class TraceLinestringJob < ApplicationJob
                    floor(sum(CASE WHEN jump > #{Settings.max_distance_between_track_points} THEN 0 ELSE jump END)
                            OVER (PARTITION BY gpx_id, trackid ORDER BY seq) / #{Settings.max_track_segment_length}) AS part
             FROM (
-              /* seq gives a fixed order, timestamps can repeat. jump is the distance to the previous point */
+              /* seq gives a fixed order. Timestamps can repeat, and then the points
+                 keep the order they were saved in (row_position), which is the order
+                 of the file. jump is the distance to the previous point */
               SELECT gpx_id, trackid, pt, "timestamp",
-                     row_number() OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp") AS seq,
-                     COALESCE(ST_DistanceSphere(pt, lag(pt) OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp")), 0) AS jump
+                     row_number() OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp", row_position) AS seq,
+                     COALESCE(ST_DistanceSphere(pt, lag(pt) OVER (PARTITION BY gpx_id, trackid ORDER BY "timestamp", row_position)), 0) AS jump
               FROM (
                 /* gps_points saves the coordinates as integers, so we divide them
                    here. When gps_points is gone, the import can use the degrees
                    from the file. */
-                SELECT gpx_id, trackid, "timestamp",
+                SELECT gpx_id, trackid, "timestamp", ctid AS row_position,
                        ST_MakePoint(longitude / #{GeoRecord::SCALE}.0,
                                     latitude / #{GeoRecord::SCALE}.0,
                                     COALESCE(altitude, 0),
