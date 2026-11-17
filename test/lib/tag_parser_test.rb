@@ -4,489 +4,500 @@ require "test_helper"
 
 class TagParserTest < ActiveSupport::TestCase
   def test_wiki_link
-    define_singleton_method(:wiki_link) { |*args| TagParser.wiki_link(*args) }
+    links = TagParser.wiki_link("key", "highway")
+    assert_equal [{ :text => "highway", :url => "https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en", :type => :"wiki_link.key", :key => "highway" }], links
 
-    link = wiki_link("key", "highway")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Key:highway?uselang=en", link
-
-    link = wiki_link("tag", "highway=primary")
-    assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", link
+    links = TagParser.wiki_link("tag", "highway", "primary")
+    assert_equal [{ :text => "primary", :url => "https://wiki.openstreetmap.org/wiki/Tag:highway=primary?uselang=en", :type => :"wiki_link.tag", :key => "highway", :value => "primary" }], links
 
     I18n.with_locale "de" do
-      link = wiki_link("key", "highway")
-      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", link
+      links = TagParser.wiki_link("key", "highway")
+      assert_equal [{ :text => "highway", :url => "https://wiki.openstreetmap.org/wiki/DE:Key:highway?uselang=de", :type => :"wiki_link.key", :key => "highway" }], links
 
-      link = wiki_link("tag", "highway=primary")
-      assert_equal "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", link
+      links = TagParser.wiki_link("tag", "highway", "primary")
+      assert_equal [{ :text => "primary", :url => "https://wiki.openstreetmap.org/wiki/DE:Tag:highway=primary?uselang=de", :type => :"wiki_link.tag", :key => "highway", :value => "primary" }], links
     end
 
     I18n.with_locale "tr" do
-      link = wiki_link("key", "highway")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", link
+      links = TagParser.wiki_link("key", "highway")
+      assert_equal [{ :text => "highway", :url => "https://wiki.openstreetmap.org/wiki/Tr:Key:highway?uselang=tr", :type => :"wiki_link.key", :key => "highway" }], links
 
-      link = wiki_link("tag", "highway=path")
-      assert_equal "https://wiki.openstreetmap.org/wiki/Tag:highway=path?uselang=tr", link
+      links = TagParser.wiki_link("tag", "highway", "path")
+      assert_equal [{ :text => "path", :url => "https://wiki.openstreetmap.org/wiki/Tag:highway=path?uselang=tr", :type => :"wiki_link.tag", :key => "highway", :value => "path" }], links
     end
   end
 
   def test_wikidata_links
-    define_singleton_method(:wikidata_links) { |*args| TagParser.wikidata_links(*args) }
-
     ### Non-prefixed wikidata-tag (only one value allowed)
 
     # Non-wikidata tag
-    links = wikidata_links("foo", "Test")
+    links = TagParser.wikidata_links("foo", "Test")
     assert_nil links
 
     # No URLs allowed
-    links = wikidata_links("wikidata", "http://www.wikidata.org/entity/Q1")
+    links = TagParser.wikidata_links("wikidata", "http://www.wikidata.org/entity/Q1")
     assert_nil links
 
     # No language-prefixes (as wikidata is multilanguage)
-    links = wikidata_links("wikidata", "en:Q1")
+    links = TagParser.wikidata_links("wikidata", "en:Q1")
     assert_nil links
 
     # Needs a leading Q
-    links = wikidata_links("wikidata", "1")
+    links = TagParser.wikidata_links("wikidata", "1")
     assert_nil links
 
     # No leading zeros allowed
-    links = wikidata_links("wikidata", "Q0123")
+    links = TagParser.wikidata_links("wikidata", "Q0123")
     assert_nil links
 
     # A valid value
-    links = wikidata_links("wikidata", "Q42")
-    assert_equal 1, links.length
-    assert_equal "https://www.wikidata.org/entity/Q42?uselang=en", links[0][:url]
-    assert_equal "Q42", links[0][:title]
+    links = TagParser.wikidata_links("wikidata", "Q42")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q42"], :count => 1 }, links[0])
+    assert_equal({ :text => "Q42", :url => "https://www.wikidata.org/entity/Q42?uselang=en", :type => :wikidata_link, :page => "Q42" }, links[1])
 
     # the language of the wikidata-page should match the current locale
     I18n.with_locale "zh-CN" do
-      links = wikidata_links("wikidata", "Q1234")
-      assert_equal 1, links.length
-      assert_equal "https://www.wikidata.org/entity/Q1234?uselang=zh-CN", links[0][:url]
-      assert_equal "Q1234", links[0][:title]
+      links = TagParser.wikidata_links("wikidata", "Q1234")
+      assert_equal 2, links.length
+      assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q1234"], :count => 1 }, links[0])
+      assert_equal({ :text => "Q1234", :url => "https://www.wikidata.org/entity/Q1234?uselang=zh-CN", :type => :wikidata_link, :page => "Q1234" }, links[1])
     end
 
     ### Prefixed wikidata-tags
 
     # examples for secondary wikidata keys
-    links = wikidata_links("operator:wikidata", "Q24")
-    assert_equal "https://www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
-    assert_equal "Q24", links[0][:title]
+    links = TagParser.wikidata_links("operator:wikidata", "Q24")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q24"], :count => 1 }, links[0])
+    assert_equal({ :text => "Q24", :url => "https://www.wikidata.org/entity/Q24?uselang=en", :type => :wikidata_link, :page => "Q24" }, links[1])
 
-    links = wikidata_links("buried:wikidata", "Q24")
-    assert_equal "https://www.wikidata.org/entity/Q24?uselang=en", links[0][:url]
-    assert_equal "Q24", links[0][:title]
+    links = TagParser.wikidata_links("buried:wikidata", "Q24")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q24"], :count => 1 }, links[0])
+    assert_equal({ :text => "Q24", :url => "https://www.wikidata.org/entity/Q24?uselang=en", :type => :wikidata_link, :page => "Q24" }, links[1])
 
-    links = wikidata_links("species:wikidata", "Q26899")
-    assert_equal "https://www.wikidata.org/entity/Q26899?uselang=en", links[0][:url]
-    assert_equal "Q26899", links[0][:title]
+    links = TagParser.wikidata_links("species:wikidata", "Q26899")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q26899"], :count => 1 }, links[0])
+    assert_equal({ :text => "Q26899", :url => "https://www.wikidata.org/entity/Q26899?uselang=en", :type => :wikidata_link, :page => "Q26899" }, links[1])
 
-    links = wikidata_links("name:etymology:wikidata", "Q121745508")
-    assert_equal "https://www.wikidata.org/entity/Q121745508?uselang=en", links[0][:url]
-    assert_equal "Q121745508", links[0][:title]
+    links = TagParser.wikidata_links("name:etymology:wikidata", "Q121745508")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => ["Q121745508"], :count => 1 }, links[0])
+    assert_equal({ :text => "Q121745508", :url => "https://www.wikidata.org/entity/Q121745508?uselang=en", :type => :wikidata_link, :page => "Q121745508" }, links[1])
 
     # Another one with multiple values and I18n
     I18n.with_locale "dsb" do
-      links = wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
-      assert_equal 3, links.length
-      assert_equal "https://www.wikidata.org/entity/Q936?uselang=dsb", links[0][:url]
-      assert_equal "Q936", links[0][:title]
-      assert_equal "https://www.wikidata.org/entity/Q2013?uselang=dsb", links[1][:url]
-      assert_equal "Q2013", links[1][:title]
-      assert_equal "https://www.wikidata.org/entity/Q1568346?uselang=dsb", links[2][:url]
-      assert_equal "Q1568346", links[2][:title]
+      links = TagParser.wikidata_links("brand:wikidata", "Q936;Q2013;Q1568346")
+      assert_equal 4, links.length
+      assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => %w[Q936 Q2013 Q1568346], :count => 3 }, links[0])
+      assert_equal({ :text => "Q936", :url => "https://www.wikidata.org/entity/Q936?uselang=dsb", :type => :wikidata_link, :page => "Q936" }, links[1])
+      assert_equal({ :text => "Q2013", :url => "https://www.wikidata.org/entity/Q2013?uselang=dsb", :type => :wikidata_link, :page => "Q2013" }, links[2])
+      assert_equal({ :text => "Q1568346", :url => "https://www.wikidata.org/entity/Q1568346?uselang=dsb", :type => :wikidata_link, :page => "Q1568346" }, links[3])
     end
 
     # and now with whitespaces...
-    links = wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
-    assert_equal 4, links.length
-    assert_equal "https://www.wikidata.org/entity/Q6542248?uselang=en", links[0][:url]
-    assert_equal "Q6542248 ", links[0][:title]
-    assert_equal "https://www.wikidata.org/entity/Q180?uselang=en", links[1][:url]
-    assert_equal "\tQ180\n ", links[1][:title]
-    assert_equal "https://www.wikidata.org/entity/Q364?uselang=en", links[2][:url]
-    assert_equal "\rQ364\t\n\r ", links[2][:title]
-    assert_equal "https://www.wikidata.org/entity/Q4006?uselang=en", links[3][:url]
-    assert_equal "\nQ4006", links[3][:title]
+    links = TagParser.wikidata_links("subject:wikidata", "Q6542248 ;\tQ180\n ;\rQ364\t\n\r ;\nQ4006")
+    assert_equal 5, links.length
+    assert_equal({ :type => :html, :widget => :wikidata_preview, :qids => %w[Q6542248 Q180 Q364 Q4006], :count => 4 }, links[0])
+    assert_equal({ :text => "Q6542248 ", :url => "https://www.wikidata.org/entity/Q6542248?uselang=en", :type => :wikidata_link, :page => "Q6542248" }, links[1])
+    assert_equal({ :text => "\tQ180\n ", :url => "https://www.wikidata.org/entity/Q180?uselang=en", :type => :wikidata_link, :page => "Q180" }, links[2])
+    assert_equal({ :text => "\rQ364\t\n\r ", :url => "https://www.wikidata.org/entity/Q364?uselang=en", :type => :wikidata_link, :page => "Q364" }, links[3])
+    assert_equal({ :text => "\nQ4006", :url => "https://www.wikidata.org/entity/Q4006?uselang=en", :type => :wikidata_link, :page => "Q4006" }, links[4])
 
-    links = wikidata_links("source:species:wikidata", "PlantNet.org AI")
+    links = TagParser.wikidata_links("source:species:wikidata", "PlantNet.org AI")
     assert_nil links
   end
 
   def test_wikipedia_links
-    define_singleton_method(:wikipedia_links) { |*args| TagParser.wikipedia_links(*args) }
-
-    links = wikipedia_links("wikipedia", "http://en.wikipedia.org/wiki/Full%20URL")
+    links = TagParser.wikipedia_links("wikipedia", "http://en.wikipedia.org/wiki/Full%20URL")
     assert_nil links
 
-    links = wikipedia_links("wikipedia", "https://en.wikipedia.org/wiki/Full%20URL")
+    links = TagParser.wikipedia_links("wikipedia", "https://en.wikipedia.org/wiki/Full%20URL")
     assert_nil links
 
-    links = wikipedia_links("wikipedia", "Test")
+    links = TagParser.wikipedia_links("wikipedia", "Test")
     assert_nil links
 
-    links = wikipedia_links("wikipedia", "de:Test")
+    links = TagParser.wikipedia_links("wikipedia", "de:Test")
     assert_equal 1, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", links[0][:url]
-    assert_equal "de:Test", links[0][:title]
+    assert_equal({ :text => "de:Test", :url => "https://de.wikipedia.org/wiki/Test?uselang=en", :type => :wikipedia_link, :page => "de:Test" }, links[0])
 
-    links = wikipedia_links("wikipedia:fr", "Portsea")
+    links = TagParser.wikipedia_links("wikipedia:fr", "Portsea")
     assert_equal 1, links.length
-    assert_equal "https://fr.wikipedia.org/wiki/Portsea?uselang=en", links[0][:url]
-    assert_equal "Portsea", links[0][:title]
+    assert_equal({ :text => "Portsea", :url => "https://fr.wikipedia.org/wiki/Portsea?uselang=en", :type => :wikipedia_link, :page => "Portsea" }, links[0])
 
-    links = wikipedia_links("wikipedia:fr", "de:Test")
+    links = TagParser.wikipedia_links("wikipedia:fr", "de:Test")
     assert_equal 1, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Test?uselang=en", links[0][:url]
-    assert_equal "de:Test", links[0][:title]
+    assert_equal({ :text => "de:Test", :url => "https://de.wikipedia.org/wiki/Test?uselang=en", :type => :wikipedia_link, :page => "de:Test" }, links[0])
 
-    links = wikipedia_links("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
+    links = TagParser.wikipedia_links("wikipedia", "de:Englischer Garten (München)#Japanisches Teehaus")
     assert_equal 1, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Englischer_Garten_%28M%C3%BCnchen%29?uselang=en#Japanisches_Teehaus", links[0][:url]
-    assert_equal "de:Englischer Garten (München)#Japanisches Teehaus", links[0][:title]
+    assert_equal({
+                   :text => "de:Englischer Garten (München)#Japanisches Teehaus",
+                   :url => "https://de.wikipedia.org/wiki/Englischer_Garten_%28M%C3%BCnchen%29?uselang=en#Japanisches_Teehaus",
+                   :type => :wikipedia_link,
+                   :page => "de:Englischer Garten (München)#Japanisches Teehaus"
+                 }, links[0])
 
-    links = wikipedia_links("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
+    links = TagParser.wikipedia_links("wikipedia", "de:Alte Brücke (Heidelberg)#Brückenaffe")
     assert_equal 1, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Alte_Br%C3%BCcke_%28Heidelberg%29?uselang=en#Br%C3%BCckenaffe", links[0][:url]
-    assert_equal "de:Alte Brücke (Heidelberg)#Brückenaffe", links[0][:title]
+    assert_equal({
+                   :text => "de:Alte Brücke (Heidelberg)#Brückenaffe",
+                   :url => "https://de.wikipedia.org/wiki/Alte_Br%C3%BCcke_%28Heidelberg%29?uselang=en#Br%C3%BCckenaffe",
+                   :type => :wikipedia_link,
+                   :page => "de:Alte Brücke (Heidelberg)#Brückenaffe"
+                 }, links[0])
 
-    links = wikipedia_links("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
+    links = TagParser.wikipedia_links("wikipedia", "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus")
     assert_equal 1, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Liste_der_Baudenkm%C3%A4ler_in_Eichst%C3%A4tt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus", links[0][:url]
-    assert_equal "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus", links[0][:title]
+    assert_equal({
+                   :text => "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus",
+                   :url => "https://de.wikipedia.org/wiki/Liste_der_Baudenkm%C3%A4ler_in_Eichst%C3%A4tt?uselang=en#Br%C3%BCckenstra%C3%9Fe_1%2C_Ehemaliges_Bauernhaus",
+                   :type => :wikipedia_link,
+                   :page => "de:Liste der Baudenkmäler in Eichstätt#Brückenstraße 1, Ehemaliges Bauernhaus"
+                 }, links[0])
 
-    links = wikipedia_links("wikipedia", "en:Are Years What? (for Marianne Moore)")
+    links = TagParser.wikipedia_links("wikipedia", "en:Are Years What? (for Marianne Moore)")
     assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Are_Years_What%3F_%28for_Marianne_Moore%29?uselang=en", links[0][:url]
-    assert_equal "en:Are Years What? (for Marianne Moore)", links[0][:title]
+    assert_equal({
+                   :text => "en:Are Years What? (for Marianne Moore)",
+                   :url => "https://en.wikipedia.org/wiki/Are_Years_What%3F_%28for_Marianne_Moore%29?uselang=en",
+                   :type => :wikipedia_link,
+                   :page => "en:Are Years What? (for Marianne Moore)"
+                 }, links[0])
 
     I18n.with_locale "pt-BR" do
-      links = wikipedia_links("wikipedia", "zh-classical:Test#Section")
+      links = TagParser.wikipedia_links("wikipedia", "zh-classical:Test#Section")
       assert_equal 1, links.length
-      assert_equal "https://zh-classical.wikipedia.org/wiki/Test?uselang=pt-BR#Section", links[0][:url]
-      assert_equal "zh-classical:Test#Section", links[0][:title]
+      assert_equal({ :text => "zh-classical:Test#Section", :url => "https://zh-classical.wikipedia.org/wiki/Test?uselang=pt-BR#Section", :type => :wikipedia_link, :page => "zh-classical:Test#Section" }, links[0])
     end
 
-    links = wikipedia_links("subject:wikipedia", "en:Catherine McAuley")
+    links = TagParser.wikipedia_links("subject:wikipedia", "en:Catherine McAuley")
     assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Catherine_McAuley?uselang=en", links[0][:url]
-    assert_equal "en:Catherine McAuley", links[0][:title]
+    assert_equal({ :text => "en:Catherine McAuley", :url => "https://en.wikipedia.org/wiki/Catherine_McAuley?uselang=en", :type => :wikipedia_link, :page => "en:Catherine McAuley" }, links[0])
 
-    links = wikipedia_links("artist:wikipedia", "en:Pablo Picasso")
+    links = TagParser.wikipedia_links("artist:wikipedia", "en:Pablo Picasso")
     assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Pablo_Picasso?uselang=en", links[0][:url]
-    assert_equal "en:Pablo Picasso", links[0][:title]
+    assert_equal({ :text => "en:Pablo Picasso", :url => "https://en.wikipedia.org/wiki/Pablo_Picasso?uselang=en", :type => :wikipedia_link, :page => "en:Pablo Picasso" }, links[0])
 
-    links = wikipedia_links("architect:wikipedia", "en:Frank Lloyd Wright")
+    links = TagParser.wikipedia_links("architect:wikipedia", "en:Frank Lloyd Wright")
     assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Frank_Lloyd_Wright?uselang=en", links[0][:url]
-    assert_equal "en:Frank Lloyd Wright", links[0][:title]
+    assert_equal({ :text => "en:Frank Lloyd Wright", :url => "https://en.wikipedia.org/wiki/Frank_Lloyd_Wright?uselang=en", :type => :wikipedia_link, :page => "en:Frank Lloyd Wright" }, links[0])
 
-    links = wikipedia_links("buried:wikipedia", "en:Stephen Hawking")
+    links = TagParser.wikipedia_links("buried:wikipedia", "en:Stephen Hawking")
     assert_equal 1, links.length
-    assert_equal "https://en.wikipedia.org/wiki/Stephen_Hawking?uselang=en", links[0][:url]
-    assert_equal "en:Stephen Hawking", links[0][:title]
+    assert_equal({ :text => "en:Stephen Hawking", :url => "https://en.wikipedia.org/wiki/Stephen_Hawking?uselang=en", :type => :wikipedia_link, :page => "en:Stephen Hawking" }, links[0])
 
-    links = wikipedia_links("foo", "Test")
+    links = TagParser.wikipedia_links("foo", "Test")
     assert_nil links
 
     # Multiple values separated by ;
-    links = wikipedia_links("wikipedia", "Test;Hello")
+    links = TagParser.wikipedia_links("wikipedia", "Test;Hello")
     assert_nil links
 
-    links = wikipedia_links("wikipedia", "de:Berlin;en:London;fr:Paris")
+    links = TagParser.wikipedia_links("wikipedia", "de:Berlin;en:London;fr:Paris")
     assert_equal 3, links.length
-    assert_equal "https://de.wikipedia.org/wiki/Berlin?uselang=en", links[0][:url]
-    assert_equal "de:Berlin", links[0][:title]
-    assert_equal "https://en.wikipedia.org/wiki/London?uselang=en", links[1][:url]
-    assert_equal "en:London", links[1][:title]
-    assert_equal "https://fr.wikipedia.org/wiki/Paris?uselang=en", links[2][:url]
-    assert_equal "fr:Paris", links[2][:title]
+    assert_equal({ :text => "de:Berlin", :url => "https://de.wikipedia.org/wiki/Berlin?uselang=en", :type => :wikipedia_link, :page => "de:Berlin" }, links[0])
+    assert_equal({ :text => "en:London", :url => "https://en.wikipedia.org/wiki/London?uselang=en", :type => :wikipedia_link, :page => "en:London" }, links[1])
+    assert_equal({ :text => "fr:Paris", :url => "https://fr.wikipedia.org/wiki/Paris?uselang=en", :type => :wikipedia_link, :page => "fr:Paris" }, links[2])
 
-    links = wikipedia_links("fixme:wikipedia", "The wikipedia tag links to a list article, not an article about this specific feature.")
+    links = TagParser.wikipedia_links("fixme:wikipedia", "The wikipedia tag links to a list article, not an article about this specific feature.")
     assert_nil links
   end
 
   def test_wikimedia_commons_link
-    define_singleton_method(:wikimedia_commons_link) { |*args| TagParser.wikimedia_commons_link(*args) }
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "http://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
+    assert_nil links
 
-    link = wikimedia_commons_link("wikimedia_commons", "http://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
-    assert_nil link
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "https://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
+    assert_nil links
 
-    link = wikimedia_commons_link("wikimedia_commons", "https://commons.wikimedia.org/wiki/File:Full%20URL.jpg")
-    assert_nil link
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "Test.jpg")
+    assert_nil links
 
-    link = wikimedia_commons_link("wikimedia_commons", "Test.jpg")
-    assert_nil link
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
+    assert_equal 1, links.length
+    assert_equal({ :text => "File:Test.jpg", :url => "https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=en", :type => :wikimedia_commons_link, :page => "File:Test.jpg" }, links[0])
 
-    link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
-    assert_equal "https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=en", link[:url]
-    assert_equal "File:Test.jpg", link[:title]
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "Category:Test_Category")
+    assert_equal 1, links.length
+    assert_equal({ :text => "Category:Test_Category", :url => "https://commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", :type => :wikimedia_commons_link, :page => "Category:Test_Category" }, links[0])
 
-    link = wikimedia_commons_link("wikimedia_commons", "Category:Test_Category")
-    assert_equal "https://commons.wikimedia.org/wiki/Category:Test_Category?uselang=en", link[:url]
-    assert_equal "Category:Test_Category", link[:title]
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "Category:What If? (Bonn)")
+    assert_equal 1, links.length
+    assert_equal({ :text => "Category:What If? (Bonn)", :url => "https://commons.wikimedia.org/wiki/Category:What%20If%3F%20%28Bonn%29?uselang=en", :type => :wikimedia_commons_link, :page => "Category:What If? (Bonn)" }, links[0])
 
-    link = wikimedia_commons_link("wikimedia_commons", "Category:What If? (Bonn)")
-    assert_equal "https://commons.wikimedia.org/wiki/Category:What%20If%3F%20%28Bonn%29?uselang=en", link[:url]
-    assert_equal "Category:What If? (Bonn)", link[:title]
-
-    link = wikimedia_commons_link("wikimedia_commons", "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg")
-    assert_equal "https://commons.wikimedia.org/wiki/File:Corsica-vizzavona-abri-southwell.jpg?uselang=en", link[:url]
-    assert_equal "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg", link[:title]
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg")
+    assert_equal 1, links.length
+    assert_equal({
+                   :text => "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg",
+                   :url => "https://commons.wikimedia.org/wiki/File:Corsica-vizzavona-abri-southwell.jpg?uselang=en",
+                   :type => :wikimedia_commons_link,
+                   :page => "File:Corsica-vizzavona-abri-southwell.jpg#mediaviewer/File:Corsica-vizzavona-abri-southwell.jpg"
+                 }, links[0])
 
     # Reject namespaces other than File and Category
-    link = wikimedia_commons_link("wikimedia_commons", "Commons:Featured pictures")
-    assert_nil link
+    links = TagParser.wikimedia_commons_link("wikimedia_commons", "Commons:Featured pictures")
+    assert_nil links
 
     # Secondary Wikimedia Commons links
-    link = wikimedia_commons_link("artist:wikimedia_commons", "File:Unknown Artist Portrait.jpg")
-    assert_equal "https://commons.wikimedia.org/wiki/File:Unknown%20Artist%20Portrait.jpg?uselang=en", link[:url]
-    assert_equal "File:Unknown Artist Portrait.jpg", link[:title]
+    links = TagParser.wikimedia_commons_link("artist:wikimedia_commons", "File:Unknown Artist Portrait.jpg")
+    assert_equal 1, links.length
+    assert_equal({ :text => "File:Unknown Artist Portrait.jpg", :url => "https://commons.wikimedia.org/wiki/File:Unknown%20Artist%20Portrait.jpg?uselang=en", :type => :wikimedia_commons_link, :page => "File:Unknown Artist Portrait.jpg" }, links[0])
 
     I18n.with_locale "pt-BR" do
-      link = wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
-      assert_equal "https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", link[:url]
-      assert_equal "File:Test.jpg", link[:title]
+      links = TagParser.wikimedia_commons_link("wikimedia_commons", "File:Test.jpg")
+      assert_equal 1, links.length
+      assert_equal({ :text => "File:Test.jpg", :url => "https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=pt-BR", :type => :wikimedia_commons_link, :page => "File:Test.jpg" }, links[0])
     end
 
-    link = wikimedia_commons_link("foo", "Test")
-    assert_nil link
+    links = TagParser.wikimedia_commons_link("foo", "Test")
+    assert_nil links
   end
 
   def test_email_link
-    define_singleton_method(:email_link) { |*args| TagParser.email_link(*args) }
+    links = TagParser.email_link("foo", "Test")
+    assert_nil links
 
-    email = email_link("foo", "Test")
-    assert_nil email
+    links = TagParser.email_link("email", "123")
+    assert_nil links
 
-    email = email_link("email", "123")
-    assert_nil email
+    links = TagParser.email_link("email", "Abc.example.com")
+    assert_nil links
 
-    email = email_link("email", "Abc.example.com")
-    assert_nil email
+    links = TagParser.email_link("email", "a@b@c.com")
+    assert_nil links
 
-    email = email_link("email", "a@b@c.com")
-    assert_nil email
+    links = TagParser.email_link("email", "just\"not\"right@example.com")
+    assert_nil links
 
-    email = email_link("email", "just\"not\"right@example.com")
-    assert_nil email
+    links = TagParser.email_link("email", "123 abcdefg@space.com")
+    assert_nil links
 
-    email = email_link("email", "123 abcdefg@space.com")
-    assert_nil email
+    links = TagParser.email_link("email", "test@ abc")
+    assert_nil links
 
-    email = email_link("email", "test@ abc")
-    assert_nil email
+    links = TagParser.email_link("email", "using;semicolon@test.com")
+    assert_nil links
 
-    email = email_link("email", "using;semicolon@test.com")
-    assert_nil email
+    links = TagParser.email_link("email", "x@example.com")
+    assert_equal 1, links.length
+    assert_equal({ :text => "x@example.com", :url => "x@example.com", :type => :email_link, :email => "x@example.com" }, links[0])
 
-    email = email_link("email", "x@example.com")
-    assert_equal "x@example.com", email
+    links = TagParser.email_link("email", "other.email-with-hyphen@example.com")
+    assert_equal 1, links.length
+    assert_equal({ :text => "other.email-with-hyphen@example.com", :url => "other.email-with-hyphen@example.com", :type => :email_link, :email => "other.email-with-hyphen@example.com" }, links[0])
 
-    email = email_link("email", "other.email-with-hyphen@example.com")
-    assert_equal "other.email-with-hyphen@example.com", email
+    links = TagParser.email_link("email", "user.name+tag+sorting@example.com")
+    assert_equal 1, links.length
+    assert_equal({ :text => "user.name+tag+sorting@example.com", :url => "user.name+tag+sorting@example.com", :type => :email_link, :email => "user.name+tag+sorting@example.com" }, links[0])
 
-    email = email_link("email", "user.name+tag+sorting@example.com")
-    assert_equal "user.name+tag+sorting@example.com", email
+    links = TagParser.email_link("email", "dash-in@both-parts.com")
+    assert_equal 1, links.length
+    assert_equal({ :text => "dash-in@both-parts.com", :url => "dash-in@both-parts.com", :type => :email_link, :email => "dash-in@both-parts.com" }, links[0])
 
-    email = email_link("email", "dash-in@both-parts.com")
-    assert_equal "dash-in@both-parts.com", email
-
-    email = email_link("email", "example@s.example")
-    assert_equal "example@s.example", email
+    links = TagParser.email_link("email", "example@s.example")
+    assert_equal 1, links.length
+    assert_equal({ :text => "example@s.example", :url => "example@s.example", :type => :email_link, :email => "example@s.example" }, links[0])
 
     # Strips whitespace at ends
-    email = email_link("email", " test@email.com ")
-    assert_equal "test@email.com", email
+    links = TagParser.email_link("email", " test@email.com ")
+    assert_equal 1, links.length
+    assert_equal({ :text => "test@email.com", :url => "test@email.com", :type => :email_link, :email => "test@email.com" }, links[0])
 
-    email = email_link("contact:email", "example@example.com")
-    assert_equal "example@example.com", email
+    links = TagParser.email_link("contact:email", "example@example.com")
+    assert_equal 1, links.length
+    assert_equal({ :text => "example@example.com", :url => "example@example.com", :type => :email_link, :email => "example@example.com" }, links[0])
 
-    email = email_link("maxweight:conditional", "none@agricultural")
-    assert_nil email
+    links = TagParser.email_link("maxweight:conditional", "none@agricultural")
+    assert_nil links
   end
 
   def test_telephone_links
-    define_singleton_method(:telephone_links) { |*args| TagParser.telephone_links(*args) }
-
-    links = telephone_links("foo", "Test")
+    links = TagParser.telephone_links("foo", "Test")
     assert_nil links
 
-    links = telephone_links("phone", "+123")
+    links = TagParser.telephone_links("phone", "+123")
     assert_nil links
 
-    links = telephone_links("phone", "123")
+    links = TagParser.telephone_links("phone", "123")
     assert_nil links
 
-    links = telephone_links("phone", "123 abcdefg")
+    links = TagParser.telephone_links("phone", "123 abcdefg")
     assert_nil links
 
-    links = telephone_links("phone", "+1234567890 abc")
+    links = TagParser.telephone_links("phone", "+1234567890 abc")
     assert_nil links
 
     # If multiple numbers are listed, all must be valid
-    links = telephone_links("phone", "+1234567890; +223")
+    links = TagParser.telephone_links("phone", "+1234567890; +223")
     assert_nil links
 
-    links = telephone_links("phone", "1234567890")
+    links = TagParser.telephone_links("phone", "1234567890")
     assert_nil links
 
-    links = telephone_links("phone", "+1234567890")
+    links = TagParser.telephone_links("phone", "+1234567890")
     assert_equal 1, links.length
-    assert_equal "+1234567890", links[0][:phone_number]
-    assert_equal "tel:+1234567890", links[0][:url]
+    assert_equal({ :text => "+1234567890", :url => "tel:+1234567890", :type => :telephone_link, :phone_number => "+1234567890" }, links[0])
 
-    links = telephone_links("phone", "+1234-567-890")
+    links = TagParser.telephone_links("phone", "+1234-567-890")
     assert_equal 1, links.length
-    assert_equal "+1234-567-890", links[0][:phone_number]
-    assert_equal "tel:+1234-567-890", links[0][:url]
+    assert_equal({ :text => "+1234-567-890", :url => "tel:+1234-567-890", :type => :telephone_link, :phone_number => "+1234-567-890" }, links[0])
 
-    links = telephone_links("phone", "+1234/567/890")
+    links = TagParser.telephone_links("phone", "+1234/567/890")
     assert_equal 1, links.length
-    assert_equal "+1234/567/890", links[0][:phone_number]
-    assert_equal "tel:+1234/567/890", links[0][:url]
+    assert_equal({ :text => "+1234/567/890", :url => "tel:+1234/567/890", :type => :telephone_link, :phone_number => "+1234/567/890" }, links[0])
 
-    links = telephone_links("phone", "+1234.567.890")
+    links = TagParser.telephone_links("phone", "+1234.567.890")
     assert_equal 1, links.length
-    assert_equal "+1234.567.890", links[0][:phone_number]
-    assert_equal "tel:+1234.567.890", links[0][:url]
+    assert_equal({ :text => "+1234.567.890", :url => "tel:+1234.567.890", :type => :telephone_link, :phone_number => "+1234.567.890" }, links[0])
 
-    links = telephone_links("phone", "   +1234 567-890	")
+    links = TagParser.telephone_links("phone", "   +1234 567-890	")
     assert_equal 1, links.length
-    assert_equal "+1234 567-890", links[0][:phone_number]
-    assert_equal "tel:+1234567-890", links[0][:url]
+    assert_equal({ :text => "+1234 567-890", :url => "tel:+1234567-890", :type => :telephone_link, :phone_number => "+1234 567-890" }, links[0])
 
-    links = telephone_links("phone", "+1 234-567-890")
+    links = TagParser.telephone_links("phone", "+1 234-567-890")
     assert_equal 1, links.length
-    assert_equal "+1 234-567-890", links[0][:phone_number]
-    assert_equal "tel:+1234-567-890", links[0][:url]
+    assert_equal({ :text => "+1 234-567-890", :url => "tel:+1234-567-890", :type => :telephone_link, :phone_number => "+1 234-567-890" }, links[0])
 
-    links = telephone_links("phone", "+1 (234) 567-890")
+    links = TagParser.telephone_links("phone", "+1 (234) 567-890")
     assert_equal 1, links.length
-    assert_equal "+1 (234) 567-890", links[0][:phone_number]
-    assert_equal "tel:+1(234)567-890", links[0][:url]
+    assert_equal({ :text => "+1 (234) 567-890", :url => "tel:+1(234)567-890", :type => :telephone_link, :phone_number => "+1 (234) 567-890" }, links[0])
 
     # Multiple valid phone numbers separated by ;
-    links = telephone_links("phone", "+1234567890; +22334455667788")
+    links = TagParser.telephone_links("phone", "+1234567890; +22334455667788")
     assert_equal 2, links.length
-    assert_equal "+1234567890", links[0][:phone_number]
-    assert_equal "tel:+1234567890", links[0][:url]
-    assert_equal "+22334455667788", links[1][:phone_number]
-    assert_equal "tel:+22334455667788", links[1][:url]
+    assert_equal({ :text => "+1234567890", :url => "tel:+1234567890", :type => :telephone_link, :phone_number => "+1234567890" }, links[0])
+    assert_equal({ :text => "+22334455667788", :url => "tel:+22334455667788", :type => :telephone_link, :phone_number => "+22334455667788" }, links[1])
 
-    links = telephone_links("phone", "+1 (234) 567-890 ;  +22(33)4455.66.7788 ")
+    links = TagParser.telephone_links("phone", "+1 (234) 567-890 ;  +22(33)4455.66.7788 ")
     assert_equal 2, links.length
-    assert_equal "+1 (234) 567-890", links[0][:phone_number]
-    assert_equal "tel:+1(234)567-890", links[0][:url]
-    assert_equal "+22(33)4455.66.7788", links[1][:phone_number]
-    assert_equal "tel:+22(33)4455.66.7788", links[1][:url]
+    assert_equal({ :text => "+1 (234) 567-890", :url => "tel:+1(234)567-890", :type => :telephone_link, :phone_number => "+1 (234) 567-890" }, links[0])
+    assert_equal({ :text => "+22(33)4455.66.7788", :url => "tel:+22(33)4455.66.7788", :type => :telephone_link, :phone_number => "+22(33)4455.66.7788" }, links[1])
   end
 
   def test_colour_preview
-    define_singleton_method(:colour_preview) { |*args| TagParser.colour_preview(*args) }
-
     # basic positive tests
-    colour = colour_preview("colour", "red")
-    assert_equal "red", colour
+    links = TagParser.colour_preview("colour", "red")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "red" }, links[0])
+    assert_equal({ :text => "red" }, links[1])
 
-    colour = colour_preview("colour", "Red")
-    assert_equal "Red", colour
+    links = TagParser.colour_preview("colour", "Red")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "Red" }, links[0])
+    assert_equal({ :text => "Red" }, links[1])
 
-    colour = colour_preview("colour", "darkRed")
-    assert_equal "darkRed", colour
+    links = TagParser.colour_preview("colour", "darkRed")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "darkRed" }, links[0])
+    assert_equal({ :text => "darkRed" }, links[1])
 
-    colour = colour_preview("colour", "#f00")
-    assert_equal "#f00", colour
+    links = TagParser.colour_preview("colour", "#f00")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#f00" }, links[0])
+    assert_equal({ :text => "#f00" }, links[1])
 
-    colour = colour_preview("colour", "#fF0000")
-    assert_equal "#fF0000", colour
+    links = TagParser.colour_preview("colour", "#fF0000")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#fF0000" }, links[0])
+    assert_equal({ :text => "#fF0000" }, links[1])
 
     # other tag variants:
-    colour = colour_preview("building:colour", "#f00")
-    assert_equal "#f00", colour
+    links = TagParser.colour_preview("building:colour", "#f00")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#f00" }, links[0])
+    assert_equal({ :text => "#f00" }, links[1])
 
-    colour = colour_preview("ref:colour", "#f00")
-    assert_equal "#f00", colour
+    links = TagParser.colour_preview("ref:colour", "#f00")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#f00" }, links[0])
+    assert_equal({ :text => "#f00" }, links[1])
 
-    colour = colour_preview("int_ref:colour", "green")
-    assert_equal "green", colour
+    links = TagParser.colour_preview("int_ref:colour", "green")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "green" }, links[0])
+    assert_equal({ :text => "green" }, links[1])
 
-    colour = colour_preview("roof:colour", "#f00")
-    assert_equal "#f00", colour
+    links = TagParser.colour_preview("roof:colour", "#f00")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#f00" }, links[0])
+    assert_equal({ :text => "#f00" }, links[1])
 
-    colour = colour_preview("seamark:beacon_lateral:colour", "#f00")
-    assert_equal "#f00", colour
+    links = TagParser.colour_preview("seamark:beacon_lateral:colour", "#f00")
+    assert_equal 2, links.length
+    assert_equal({ :type => :html, :widget => :colour_preview, :colour_value => "#f00" }, links[0])
+    assert_equal({ :text => "#f00" }, links[1])
 
     # negative tests:
-    colour = colour_preview("colour", "")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "")
+    assert_nil links
 
-    colour = colour_preview("colour", "   ")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "   ")
+    assert_nil links
 
-    colour = colour_preview("colour", nil)
-    assert_nil colour
+    links = TagParser.colour_preview("colour", nil)
+    assert_nil links
 
     # ignore US spelling variant
-    colour = colour_preview("color", "red")
-    assert_nil colour
+    links = TagParser.colour_preview("color", "red")
+    assert_nil links
 
     # irrelevant tag names
-    colour = colour_preview("building", "red")
-    assert_nil colour
+    links = TagParser.colour_preview("building", "red")
+    assert_nil links
 
-    colour = colour_preview("ref:colour_no", "red")
-    assert_nil colour
+    links = TagParser.colour_preview("ref:colour_no", "red")
+    assert_nil links
 
-    colour = colour_preview("ref:colour-bg", "red")
-    assert_nil colour
+    links = TagParser.colour_preview("ref:colour-bg", "red")
+    assert_nil links
 
-    colour = colour_preview("int_ref", "red")
-    assert_nil colour
+    links = TagParser.colour_preview("int_ref", "red")
+    assert_nil links
 
     # invalid hex codes
-    colour = colour_preview("colour", "#")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#")
+    assert_nil links
 
-    colour = colour_preview("colour", "#ff")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#ff")
+    assert_nil links
 
-    colour = colour_preview("colour", "#ffff")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#ffff")
+    assert_nil links
 
-    colour = colour_preview("colour", "#fffffff")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#fffffff")
+    assert_nil links
 
-    colour = colour_preview("colour", "#ggg")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#ggg")
+    assert_nil links
 
-    colour = colour_preview("colour", "#ff 00 00")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "#ff 00 00")
+    assert_nil links
 
     # invalid w3c color names:
-    colour = colour_preview("colour", "r")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "r")
+    assert_nil links
 
-    colour = colour_preview("colour", "ffffff")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "ffffff")
+    assert_nil links
 
-    colour = colour_preview("colour", "f00")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "f00")
+    assert_nil links
 
-    colour = colour_preview("colour", "xxxred")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "xxxred")
+    assert_nil links
 
-    colour = colour_preview("colour", "dark red")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "dark red")
+    assert_nil links
 
-    colour = colour_preview("colour", "dark_red")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "dark_red")
+    assert_nil links
 
-    colour = colour_preview("colour", "ADarkDummyLongColourNameWithAPurpleUndertone")
-    assert_nil colour
+    links = TagParser.colour_preview("colour", "ADarkDummyLongColourNameWithAPurpleUndertone")
+    assert_nil links
   end
 
   def test_basic_link
