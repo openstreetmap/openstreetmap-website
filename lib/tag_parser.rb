@@ -8,32 +8,19 @@ module TagParser
   WIKIPEDIA_PROJECT_IDENTIFIER_PATTERN = /[a-z]{2,3}(?:-[a-z]{2,3})?|be-tarask|roa-tara|simple|zh-classical|zh-min-nan/
 
   def self.parse_key(key)
-    url = wiki_link("key", key)&.first
-    return url if url
-
-    { :text => ERB::Util.html_escape(key) }
+    wiki_link("key", key)&.first ||
+      { :text => ERB::Util.html_escape(key) }
   end
 
   def self.parse_value(key, value)
-    if wp = wikipedia_links(key, value)
-      wp
-    elsif wdt = wikidata_links(key, value)
-      wdt
-    elsif wmc = wikimedia_commons_link(key, value)
-      wmc
-    elsif email = email_link(key, value)
-      email
-    elsif phones = telephone_links(key, value)
-      phones
-    elsif colour_value = colour_preview(key, value)
-      colour_value
-    elsif url = wiki_link("tag", key, value)
-      url
-    elsif %w[opening_hours collection_times service_times].include?(key)
-      [basic_link(key, value)]
-    else
-      value.split(";", -1).map { |x| basic_link(key, x) }
-    end
+    wikipedia_links(key, value) ||
+      wikidata_links(key, value) ||
+      wikimedia_commons_link(key, value) ||
+      email_link(key, value) ||
+      telephone_links(key, value) ||
+      colour_preview(key, value) ||
+      wiki_link("tag", key, value) ||
+      split_value(key, value).map { |x| basic_link(key, x) }
   end
 
   def self.wiki_link(type, *components)
@@ -118,6 +105,14 @@ module TagParser
       }]
     end
     nil
+  end
+
+  private_class_method def self.split_value(key, value)
+    if %w[opening_hours collection_times service_times].include?(key)
+      [value]
+    else
+      value.split(";", -1)
+    end
   end
 
   def self.basic_link(key, value)
