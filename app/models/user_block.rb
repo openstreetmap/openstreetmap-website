@@ -74,7 +74,7 @@ class UserBlock < ApplicationRecord
     update(
       :ends_at => Time.now.utc,
       :deactivates_at => Time.now.utc,
-      :revoker_id => revoker.id,
+      :revoker => revoker,
       :needs_view => false
     )
   end
