@@ -142,6 +142,7 @@ class User < ApplicationRecord
 
   before_save :encrypt_password
   before_save :update_tile
+  before_save :normalise_avatar
   after_save :spam_check
 
   generates_token_for :new_user, :expires_in => 1.week do
@@ -537,5 +538,23 @@ class User < ApplicationRecord
 
   def update_tile
     self.home_tile = QuadTile.tile_for_point(home_lat, home_lon) if home_location?
+  end
+
+  # Replace a newly uploaded avatar with a normalised copy, before it is stored.
+  def normalise_avatar
+    change = attachment_changes["avatar"]
+    return if change.nil? || change.is_a?(ActiveStorage::Attached::Changes::DeleteOne)
+    raise ArgumentError, "Unsupported avatar change: #{change.class}" unless change.is_a?(ActiveStorage::Attached::Changes::CreateOne)
+
+    source = case change.attachable
+             when ActionDispatch::Http::UploadedFile then change.attachable
+             when Hash then change.attachable.fetch(:io)
+             else raise ArgumentError, "Unsupported avatar attachable: #{change.attachable.class}"
+             end
+
+    self.avatar = AvatarNormaliser.normalise(source, change.blob.content_type)
+  rescue Vips::Error
+    errors.add(:avatar, :file_not_processable)
+    throw :abort
   end
 end
