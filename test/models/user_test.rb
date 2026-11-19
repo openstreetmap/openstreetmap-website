@@ -567,6 +567,119 @@ class UserTest < ActiveSupport::TestCase
     assert_predicate user, :valid?
   end
 
+  def test_avatar_normalised_strips_metadata
+    image = Vips::Image.black(20, 10, :bands => 3).copy
+    image.set_type(GObject::GSTR_TYPE, "exif-ifd0-ImageDescription", "Somewhere secret")
+    image.set_type(GObject::GINT_TYPE, "orientation", 6)
+    data = image.write_to_buffer(".jpg")
+    assert_includes Vips::Image.new_from_buffer(data, "").get_fields, "exif-data"
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "IMG_1234.jpg")
+
+    stored = Vips::Image.new_from_buffer(user.avatar.blob.download, "")
+    assert_empty stored.get_fields.grep(/exif|xmp|iptc|icc|orientation/)
+    assert_equal [10, 20], [stored.width, stored.height], "should be rotated upright before orientation is stripped"
+    assert_equal "image/jpeg", user.avatar.content_type
+    assert_equal "avatar.jpg", user.avatar.filename.to_s
+    assert_equal 1, ActiveStorage::Blob.count, "should not store the original image"
+  end
+
+  def test_avatar_normalised_colour_profile
+    srgb_green = Vips::Image.black(10, 10).new_from_image([0, 128, 0])
+    # Converting to Display P3 changes the pixel values, and embeds the P3 profile
+    p3_green = srgb_green.icc_transform("p3", :input_profile => "srgb")
+    data = p3_green.write_to_buffer(".png")
+    loaded = Vips::Image.new_from_buffer(data, "")
+    assert_includes loaded.get_fields, "icc-profile-data"
+    [55, 126, 34].zip(loaded.getpoint(0, 0)).each do |expected, actual|
+      assert_in_delta expected, actual, 2, "should be stored as P3 values"
+    end
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "avatar.png")
+
+    stored = Vips::Image.new_from_buffer(user.avatar.blob.download, "")
+    assert_not_includes stored.get_fields, "icc-profile-data"
+    [0, 128, 0].zip(stored.getpoint(0, 0)).each do |expected, actual|
+      assert_in_delta expected, actual, 2, "should be converted back to sRGB values"
+    end
+  end
+
+  def test_avatar_normalised_size
+    data = Vips::Image.black(1000, 600).write_to_buffer(".png")
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "avatar.png")
+
+    stored = Vips::Image.new_from_buffer(user.avatar.blob.download, "")
+    assert_equal [512, 307], [stored.width, stored.height]
+    assert_equal "image/png", user.avatar.content_type
+  end
+
+  def test_avatar_normalised_small_image_not_enlarged
+    data = Vips::Image.black(30, 40).write_to_buffer(".png")
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "avatar.png")
+
+    stored = Vips::Image.new_from_buffer(user.avatar.blob.download, "")
+    assert_equal [30, 40], [stored.width, stored.height]
+  end
+
+  def test_avatar_normalised_first_frame_only
+    # libvips represents an animation as its frames stacked vertically, so tell
+    # the saver how tall each frame is
+    black = Vips::Image.black(10, 10)
+    white = black.new_from_image(255)
+    data = black.join(white, :vertical).write_to_buffer(".gif", :page_height => 10)
+    assert_equal 2, Vips::Image.new_from_buffer(data, "").get("n-pages")
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "avatar.gif")
+
+    stored = Vips::Image.new_from_buffer(user.avatar.blob.download, "")
+    assert_equal 1, stored.get("n-pages"), "should only store one frame"
+    assert_equal [10, 10], [stored.width, stored.height]
+    assert_equal [0, 0, 0, 255], stored.getpoint(0, 0), "should be the first frame (opaque black)"
+    assert_equal "image/gif", user.avatar.content_type
+  end
+
+  def test_avatar_normalised_non_web_type_converted_to_png
+    data = Vips::Image.black(10, 10).write_to_buffer(".tif")
+
+    user = create(:user)
+    user.avatar.attach(:io => StringIO.new(data), :filename => "avatar.tif")
+
+    assert_equal "image/png", user.avatar.content_type
+    assert_equal "avatar.png", user.avatar.filename.to_s
+    assert_equal "image/png", Marcel::MimeType.for(StringIO.new(user.avatar.blob.download)), "should store PNG data"
+  end
+
+  def test_avatar_normalisation_failure
+    data = Vips::Image.black(10, 10).write_to_buffer(".png")
+
+    user = create(:user)
+
+    Vips::Image.stub(:new_from_buffer, ->(*) { raise Vips::Error, "decode failed" }) do
+      user.avatar = { :io => StringIO.new(data), :filename => "avatar.png" }
+      assert_not user.save
+    end
+
+    assert_includes user.errors.details[:avatar].pluck(:error), :file_not_processable
+    assert_not_predicate user.reload.avatar, :attached?
+    assert_equal 0, ActiveStorage::Blob.count
+  end
+
+  def test_avatar_unsupported_attachable
+    data = Vips::Image.black(10, 10).write_to_buffer(".png")
+    blob = ActiveStorage::Blob.create_and_upload!(:io => StringIO.new(data), :filename => "avatar.png")
+    user = create(:user)
+
+    assert_raises(ArgumentError) { user.avatar.attach(blob) }
+    assert_not_predicate user.reload.avatar, :attached?
+  end
+
   def test_soft_destroy
     user = create(:user, :with_home_location, :description => "foo")
     user.soft_destroy

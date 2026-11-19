@@ -64,6 +64,10 @@ module Profiles
       assert_template :show
       assert_dom ".alert-success", :text => "Profile image updated."
 
+      user.reload
+      assert_equal "avatar.gif", user.avatar.filename.to_s, "should store the normalised image"
+      assert_equal 1, ActiveStorage::Blob.count, "should not store the original image"
+
       get profile_image_path
 
       assert_dom "form > div > div.col-sm-10 > div.form-check > input[name=avatar_action][checked][value=?]", "keep"
