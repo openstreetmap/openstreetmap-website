@@ -545,18 +545,35 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_to_html_linkify_skips_punctuation
+    r = RichText.new("text", "These ways represent the geometries of main river channels, the very definition of waterway=river. They are not theoretical routing constructs.")
+    assert_html r do
+      assert_dom "a", :count => 2
+      assert_dom "a[href*='Key:waterway']", :text => "waterway"
+      assert_dom "a[href*='Tag:waterway=river']", :text => "river"
+    end
+  end
+
   def test_text_to_html_linkify_recognizes_non_standard_wiki_pages
+    r_us = RichText.new("text", "foo public_transport=stop_position bar")
+    assert_html r_us do
+      assert_dom "a[href*='Key:public_transport']", :text => "public_transport"
+      assert_dom "a[href*='Tag:public_transport=stop_position']", :text => "stop_position"
+    end
     r_latin_ext = RichText.new("text", "foo cuisine=açaí bar")
     assert_html r_latin_ext do
+      assert_dom "a[href*='Key:cuisine']", :text => "cuisine"
       assert_dom "a[href*='Tag:cuisine']", :text => "açaí"
     end
     r_cyrillic = RichText.new("text", "foo name=Продукты bar")
     assert_html r_cyrillic do
+      assert_dom "a[href*='Key:name']", :text => "name"
       assert_dom "a[href*='Tag:name']", :text => "Продукты"
     end
     I18n.with_locale "ja" do
       r_cjk = RichText.new("text", "foo shop=園芸店 bar")
       assert_html r_cjk do
+        assert_dom "a[href*='Key:shop']", :text => "shop"
         assert_dom "a[href*='Tag:shop']", :text => "園芸店"
       end
     end

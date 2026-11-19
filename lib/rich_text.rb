@@ -138,9 +138,9 @@ module RichText
 
     def expand_tag_shorthands(text)
       # Does the text look like it contains a key=* or key=value pattern?
-      wiki_safe_key_chars = "[\\wÀ-ʯ,.:-]"
-      wiki_safe_value_chars = "[\\p{Word},.:;+%/-]"
-      tag_pattern = /(?<=^|#{URL_UNSAFE_CHARS})\b(#{wiki_safe_key_chars}+) ?= ?(\*|#{wiki_safe_value_chars}+)/
+      wiki_safe_key_chars = "[\\wÀ-ʯ,.:-]+"
+      wiki_safe_value_chars = "[\\p{Word},.:;+%/-]*\\p{Word}"
+      tag_pattern = /(?<=^|#{URL_UNSAFE_CHARS})\b(#{wiki_safe_key_chars}) ?= ?(\*|#{wiki_safe_value_chars})/
 
       match = text.match?(tag_pattern)
 
