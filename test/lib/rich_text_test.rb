@@ -546,6 +546,10 @@ class RichTextTest < ActiveSupport::TestCase
   end
 
   def test_text_to_html_linkify_recognizes_non_standard_wiki_pages
+    r_us = RichText.new("text", "foo public_transport=stop_position bar")
+    assert_html r_us do
+      assert_dom "a[href*='Tag:public_transport=stop_position']", :text => "stop_position"
+    end
     r_latin_ext = RichText.new("text", "foo cuisine=açaí bar")
     assert_html r_latin_ext do
       assert_dom "a[href*='Tag:cuisine']", :text => "açaí"

@@ -74,7 +74,7 @@ module TagParser
   end
 
   private_class_method def self.wiki_url(project, title, ns = "wiki", locale = I18n.locale)
-    "https://#{project}/#{ns}/#{title}?uselang=#{locale}"
+    "https://#{project}/#{ns}/#{title.tr(' ', '_')}?uselang=#{locale}"
   end
 
   def self.wikidata_links(key, value)
