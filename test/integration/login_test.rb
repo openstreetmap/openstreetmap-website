@@ -422,6 +422,28 @@ class LoginTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_login_google_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "google", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:google, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "google", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "google")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
+  end
+
   def test_login_google_blocked
     user = create(:user, :auth_provider => "google", :auth_uid => "1234567890")
     create(:user_block, :needs_view, :user => user)
@@ -556,6 +578,28 @@ class LoginTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_login_apple_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "apple", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:apple, :uid => user.auth_uid, :extra => {
+                               :id_info => { "openid_id" => "http://localhost:1123/fred.bloggs" }
+                             })
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "apple", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "apple")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
+  end
+
   def test_login_apple_blocked
     user = create(:user, :auth_provider => "apple", :auth_uid => "1234567890")
     create(:user_block, :needs_view, :user => user)
@@ -664,6 +708,26 @@ class LoginTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_login_facebook_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "facebook", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:facebook, :uid => user.auth_uid)
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "facebook", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "facebook")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
+  end
+
   def test_login_facebook_blocked
     user = create(:user, :auth_provider => "facebook", :auth_uid => "1234567890")
     create(:user_block, :needs_view, :user => user)
@@ -766,6 +830,26 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
+  end
+
+  def test_login_microsoft_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "microsoft", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:microsoft, :uid => user.auth_uid)
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "microsoft", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "microsoft")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
   end
 
   def test_login_microsoft_blocked
@@ -872,6 +956,26 @@ class LoginTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_login_github_soft_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "github", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:github, :uid => user.auth_uid)
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "github", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "github")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
+  end
+
   def test_login_github_blocked
     user = create(:user, :auth_provider => "github", :auth_uid => "1234567890")
     create(:user_block, :needs_view, :user => user)
@@ -974,6 +1078,26 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_select "div.alert.alert-danger", /your account has been suspended/ do
       assert_select "a[href='mailto:openstreetmap@example.com']", "support"
     end
+  end
+
+  def test_login_wikipedia_deleted
+    user = create(:user, :legacy_deleted, :auth_provider => "wikipedia", :auth_uid => "1234567890")
+    OmniAuth.config.add_mock(:wikipedia, :uid => user.auth_uid)
+
+    get "/login", :params => { :referer => "/history" }
+    assert_redirected_to login_path("cookie_test" => "true", "referer" => "/history")
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    post auth_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    assert_redirected_to auth_success_path(:provider => "wikipedia", :origin => "/login?referer=%2Fhistory", :referer => "/history")
+    follow_redirect!
+    assert_response :redirect
+    follow_redirect!
+    assert_response :success
+    assert_template "sessions/new"
+    assert_select "span.username", false
+    assert_select "div.alert.alert-danger", /could not log in with those details/
   end
 
   def test_login_wikipedia_blocked
