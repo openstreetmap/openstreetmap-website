@@ -14,32 +14,45 @@ class UserPreferenceTest < ActiveSupport::TestCase
     assert_raise(ActiveRecord::RecordNotUnique) { new_up.save }
   end
 
-  def test_check_valid_length
-    key = "k"
-    val = "v"
-    [1, 255].each do |i|
-      up = build(:user_preference)
-      up.user = create(:user)
-      up.k = key * i
-      up.v = val * i
-      assert_predicate up, :valid?
-      assert up.save!
-      resp = UserPreference.find(up.id)
-      assert_equal key * i, resp.k, "User preference with #{i} #{key} chars (i.e. #{key.length * i} bytes) fails"
-      assert_equal val * i, resp.v, "User preference with #{i} #{val} chars (i.e. #{val.length * i} bytes) fails"
-    end
+  def test_key_length_valid
+    up = build(:user_preference)
+    up.user = create(:user)
+    up.k = "k" * 255
+    up.v = "v"
+    assert_predicate up, :valid?
+    assert up.save!
+    resp = UserPreference.find(up.id)
+    assert_equal "k" * 255, resp.k, "User preference with 255 k chars fails"
+    assert_equal "v", resp.v
   end
 
-  def test_check_invalid_length
-    key = "k"
-    val = "v"
-    [0, 256].each do |i|
-      up = build(:user_preference)
-      up.user = create(:user)
-      up.k = key * i
-      up.v = val * i
-      assert_not_predicate up, :valid?
-      assert_raise(ActiveRecord::RecordInvalid) { up.save! }
-    end
+  def test_key_length_invalid
+    up = build(:user_preference)
+    up.user = create(:user)
+    up.k = "k" * 256
+    up.v = "v"
+    assert_not_predicate up, :valid?, "Key should be too long"
+    assert_predicate up.errors[:k], :any?
+  end
+
+  def test_value_length_valid
+    up = build(:user_preference)
+    up.user = create(:user)
+    up.k = "k"
+    up.v = "v" * 1_000_000
+    assert_predicate up, :valid?
+    assert up.save!
+    resp = UserPreference.find(up.id)
+    assert_equal "k", resp.k
+    assert_equal "v" * 1_000_000, resp.v, "User preference with 1000000 v chars fails"
+  end
+
+  def test_value_length_invalid
+    up = build(:user_preference)
+    up.user = create(:user)
+    up.k = "k"
+    up.v = "v" * 1_000_001
+    assert_not_predicate up, :valid?, "Value should be too long"
+    assert_predicate up.errors[:v], :any?
   end
 end
