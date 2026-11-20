@@ -18,7 +18,7 @@ class SiteTest < ApplicationSystemTestCase
     assert_selector ".tooltip", :text => "Layers"
   end
 
-  test "tooltip shows for Legend button on Standard layer" do
+  test "tooltip shows for Legend button on OSM Carto layer" do
     visit "/"
 
     assert_no_selector ".tooltip"

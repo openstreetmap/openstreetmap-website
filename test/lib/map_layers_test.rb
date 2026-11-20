@@ -19,10 +19,10 @@ class MapLayersTest < ActiveSupport::TestCase
     end
   end
 
-  def test_first_layer_is_standard_layer
+  def test_first_layer_is_osm_carto_layer
     layers = MapLayers.full_definitions("config/layers.yml")
     first_layer = layers.first
 
-    assert_equal "standard", first_layer["nameId"], "Expected first layer to have nameId 'standard'"
+    assert_equal "osm_carto", first_layer["nameId"], "Expected first layer to have nameId 'osm_carto'"
   end
 end
