@@ -27,13 +27,13 @@ module Api
         # get all the elements in the changeset which haven't been redacted
         # and stick them in a big array.
         elements = if show_redactions?
-                     [changeset.old_nodes,
-                      changeset.old_ways,
-                      changeset.old_relations].flatten
+                     [changeset.old_nodes.preload(:old_tags),
+                      changeset.old_ways.preload(:old_nodes, :old_tags),
+                      changeset.old_relations.preload(:old_members, :old_tags)].flatten
                    else
-                     [changeset.old_nodes.unredacted,
-                      changeset.old_ways.unredacted,
-                      changeset.old_relations.unredacted].flatten
+                     [changeset.old_nodes.unredacted.preload(:old_tags),
+                      changeset.old_ways.unredacted.preload(:old_nodes, :old_tags),
+                      changeset.old_relations.unredacted.preload(:old_members, :old_tags)].flatten
                    end
 
         # sort the elements by timestamp and version number, as this is the
