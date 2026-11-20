@@ -12,6 +12,10 @@ module Api
           { :path => "/api/0.6/changeset/1/download", :method => :get },
           { :controller => "api/changesets/downloads", :action => "show", :changeset_id => "1" }
         )
+        assert_routing(
+          { :path => "/api/0.6/changeset/1/download.json", :method => :get },
+          { :controller => "api/changesets/downloads", :action => "show", :changeset_id => "1", :format => "json" }
+        )
       end
 
       def test_show_empty
@@ -25,6 +29,23 @@ module Api
           assert_dom "modify", 0
           assert_dom "delete", 0
         end
+      end
+
+      def test_show_empty_json
+        changeset = create(:changeset)
+
+        get api_changeset_download_path(changeset), :params => { :format => "json" }
+        assert_response :success
+
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js
+
+        assert_equal Settings.api_version, js["version"]
+        assert_equal Settings.generator, js["generator"]
+
+        assert_equal 0, js["osmChange"]["create"].count
+        assert_equal 0, js["osmChange"]["modify"].count
+        assert_equal 0, js["osmChange"]["delete"].count
       end
 
       def test_show_created_elements
@@ -96,6 +117,71 @@ module Api
             end
           end
         end
+      end
+
+      def test_show_created_elements_json # rubocop:disable Metrics/AbcSize
+        changeset = create(:changeset)
+        old_node1 = create(:old_node, :changeset => changeset, :version => 1, :latitude => (60.12345 * OldNode::SCALE).to_i, :longitude => (30.54321 * OldNode::SCALE).to_i)
+        create(:old_node_tag, :old_node => old_node1, :k => "highway", :v => "crossing")
+        create(:old_node_tag, :old_node => old_node1, :k => "crossing", :v => "marked")
+        old_node2 = create(:old_node, :changeset => changeset, :version => 1, :latitude => (60.23456 * OldNode::SCALE).to_i, :longitude => (30.65432 * OldNode::SCALE).to_i)
+        create(:old_node_tag, :old_node => old_node2, :k => "highway", :v => "traffic_signals")
+        old_way = create(:old_way, :changeset => changeset, :version => 1)
+        create(:old_way_tag, :old_way => old_way, :k => "highway", :v => "secondary")
+        create(:old_way_tag, :old_way => old_way, :k => "name", :v => "Some Street")
+        create(:old_way_node, :old_way => old_way, :node => old_node1.current_node, :sequence_id => 1)
+        create(:old_way_node, :old_way => old_way, :node => old_node2.current_node, :sequence_id => 2)
+        old_relation = create(:old_relation, :changeset => changeset, :version => 1)
+        create(:old_relation_tag, :old_relation => old_relation, :k => "type", :v => "restriction")
+        create(:old_relation_member, :old_relation => old_relation, :member => old_way.current_way, :member_role => "from", :sequence_id => 1)
+        create(:old_relation_member, :old_relation => old_relation, :member => old_node2.current_node, :member_role => "via", :sequence_id => 2)
+
+        get api_changeset_download_path(changeset), :params => { :format => "json" }
+        assert_response :success
+
+        js = ActiveSupport::JSON.decode(@response.body)
+        assert_not_nil js
+
+        assert_equal Settings.api_version, js["version"]
+        assert_equal Settings.generator, js["generator"]
+
+        assert_equal 4, js["osmChange"]["create"].count
+        assert_equal 0, js["osmChange"]["modify"].count
+        assert_equal 0, js["osmChange"]["delete"].count
+
+        # old_node1
+        assert_equal old_node1.node_id, js["osmChange"]["create"][0]["id"]
+        assert_equal "node", js["osmChange"]["create"][0]["type"]
+        assert_equal 1, js["osmChange"]["create"][0]["version"]
+        assert_equal "crossing", js["osmChange"]["create"][0]["tags"]["highway"]
+        assert_equal "marked", js["osmChange"]["create"][0]["tags"]["crossing"]
+        assert_in_delta(60.1234500, js["osmChange"]["create"][0]["lat"])
+        assert_in_delta(30.5432100, js["osmChange"]["create"][0]["lon"])
+
+        # old_node2
+        assert_equal old_node2.node_id, js["osmChange"]["create"][1]["id"]
+        assert_equal "node", js["osmChange"]["create"][1]["type"]
+        assert_equal 1, js["osmChange"]["create"][1]["version"]
+        assert_equal "traffic_signals", js["osmChange"]["create"][1]["tags"]["highway"]
+        assert_in_delta(60.2345600, js["osmChange"]["create"][1]["lat"])
+        assert_in_delta(30.6543200, js["osmChange"]["create"][1]["lon"])
+
+        # old_way
+        assert_equal old_way.way_id, js["osmChange"]["create"][2]["id"]
+        assert_equal "way", js["osmChange"]["create"][2]["type"]
+        assert_equal 1, js["osmChange"]["create"][2]["version"]
+        assert_equal "secondary", js["osmChange"]["create"][2]["tags"]["highway"]
+        assert_equal "Some Street", js["osmChange"]["create"][2]["tags"]["name"]
+        assert_equal old_node1.node_id, js["osmChange"]["create"][2]["nodes"][0]
+        assert_equal old_node2.node_id, js["osmChange"]["create"][2]["nodes"][1]
+
+        # old_relation
+        assert_equal old_relation.relation_id, js["osmChange"]["create"][3]["id"]
+        assert_equal "relation", js["osmChange"]["create"][3]["type"]
+        assert_equal 1, js["osmChange"]["create"][3]["version"]
+        assert_equal "restriction", js["osmChange"]["create"][3]["tags"]["type"]
+        assert_equal old_way.way_id, js["osmChange"]["create"][3]["members"][0]["ref"]
+        assert_equal old_node2.node_id, js["osmChange"]["create"][3]["members"][1]["ref"]
       end
 
       def test_show_edited_elements
