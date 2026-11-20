@@ -33,7 +33,8 @@ class NoteCommentsTest < ApplicationSystemTestCase
     within_sidebar do
       assert_no_content "Comment from #{user.display_name}"
       assert_no_content "Some newly added note comment"
-      assert_button "Resolve"
+      assert_no_button "Resolve"
+      assert_button "Comment & Resolve", :disabled => true
       assert_button "Comment", :disabled => true
 
       fill_in "text", :with => "Some newly added note comment"
