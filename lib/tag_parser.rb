@@ -23,7 +23,7 @@ module TagParser
       split_value(key, value).map { |x| basic_link(key, x) }
   end
 
-  def self.wiki_link(type, *components)
+  private_class_method def self.wiki_link(type, *components)
     # update-wiki-pages does s/ /_/g on keys before saving them, we
     # have to replace spaces with underscore so we'll link
     # e.g. `source=Isle of Man Government aerial imagery (2001)' to
@@ -41,7 +41,7 @@ module TagParser
     [hash]
   end
 
-  def self.wikipedia_links(key, value)
+  private_class_method def self.wikipedia_links(key, value)
     # Some k/v's are wikipedia=http://en.wikipedia.org/wiki/Full%20URL
     return nil if %r{^https?://}.match?(value)
 
@@ -77,7 +77,7 @@ module TagParser
     "https://#{project}/#{ns}/#{title.tr(' ', '_')}?uselang=#{locale}"
   end
 
-  def self.wikidata_links(key, value)
+  private_class_method def self.wikidata_links(key, value)
     # The simple wikidata-tag (this is limited to only one value)
     if key == "wikidata" && value =~ /^#{QID_PATTERN}$/o
       qids = [value]
@@ -93,7 +93,7 @@ module TagParser
     qids.map { |id| { :text => id, :url => wiki_url("www.wikidata.org", id.strip, "entity"), :type => :wikidata_link, :page => id.strip } }.unshift(widget)
   end
 
-  def self.wikimedia_commons_link(key, value)
+  private_class_method def self.wikimedia_commons_link(key, value)
     if key =~ /^(?:#{SECONDARY_WIKI_PREFIX_PATTERN})?wikimedia_commons$/o && value =~ /^(file|category):([^#]+)/i
       namespace = Regexp.last_match(1)
       title = Regexp.last_match(2)
@@ -115,7 +115,7 @@ module TagParser
     end
   end
 
-  def self.basic_link(key, value)
+  private_class_method def self.basic_link(key, value)
     return { :text => RichText.auto_link(value) } if %r{\Ahttps?://}.match?(value)
 
     url_template = @tag2link_dict[key]
@@ -125,7 +125,7 @@ module TagParser
     { :text => value, :url => link, :type => :tag2link_link, :key => key }
   end
 
-  def self.email_link(key, value)
+  private_class_method def self.email_link(key, value)
     # Avoid converting conditional tags into emails, since EMAIL_REGEXP is quite permissive
     return nil unless %w[email contact:email].include? key
 
@@ -144,7 +144,7 @@ module TagParser
     [{ :text => ERB::Util.html_escape(email), :url => email, :type => :email_link, :email => email }]
   end
 
-  def self.telephone_links(_key, value)
+  private_class_method def self.telephone_links(_key, value)
     # Does it look like a global phone number? eg "+1 (234) 567-8901 "
     # or a list of alternate numbers separated by ;
     #
@@ -169,7 +169,7 @@ module TagParser
     nil
   end
 
-  def self.colour_preview(key, value)
+  private_class_method def self.colour_preview(key, value)
     return nil unless key =~ /^(?>.+:)?colour$/ && !value.nil? # see discussion at https://github.com/openstreetmap/openstreetmap-website/pull/1779
 
     # does value look like a colour? ( 3 or 6 digit hex code or w3c colour name)
