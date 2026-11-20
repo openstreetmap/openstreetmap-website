@@ -67,6 +67,64 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows route time in hours and minutes" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.03687 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_distance", :text => "4.1km"
+      assert_selector "#directions_route_time", :text => "34 hr, 10 min", :normalize_ws => true
+      assert_selector "#directions_route_steps .distance", :text => "4.1km"
+    end
+  end
+
+  test "shows short route time in minutes only" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.00018 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_time", :text => "10 min", :normalize_ws => true
+    end
+  end
+
+  test "formats route numbers for the page locale" do
+    visit directions_path(:locale => "de")
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.03687 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_distance", :text => "4,1km"
+      assert_selector "#directions_route_time", :text => "34 Std., 10 Min.", :normalize_ws => true
+      assert_selector "#directions_route_steps .distance", :text => "4,1km"
+    end
+  end
+
+  test "rounds short step distances" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing
+    find_by_id("route_to").set("60.00168 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_steps .distance", :exact_text => "190m"
+    end
+
+    find_by_id("route_to").set("60.0111 30").send_keys :enter
+
+    within_sidebar do
+      assert_selector "#directions_route_steps .distance", :exact_text => "1,200m"
+    end
+  end
+
   private
 
   def stub_straight_routing(start_instruction: "Start here", finish_instruction: "Finish there")
