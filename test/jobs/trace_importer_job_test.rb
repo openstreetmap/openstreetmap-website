@@ -26,6 +26,19 @@ class TraceImporterJobTest < ActiveJob::TestCase
     ActionMailer::Base.deliveries.clear
   end
 
+  def test_import_creates_linestrings
+    # Check that the points of an imported trace are also saved as geometries
+    trace = create(:trace, :inserted => false, :fixture => "a")
+
+    perform_enqueued_jobs do
+      TraceImporterJob.perform_now(trace)
+    end
+
+    assert_equal 1, trace.gpx_tracks.count
+
+    ActionMailer::Base.deliveries.clear
+  end
+
   def test_failure_notification
     # Check that the user gets a failure notification when the trace has no valid points
     trace = create(:trace, :tags => build_list(:tracetag, 2))
