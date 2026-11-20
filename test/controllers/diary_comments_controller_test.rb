@@ -83,6 +83,27 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_create_comments_disabled
+    user = create(:user)
+    other_user = create(:user)
+    entry = create(:diary_entry, :user => user, :comments_enabled => false)
+    create(:diary_entry_subscription, :diary_entry => entry, :user => user)
+
+    session_for(other_user)
+
+    assert_no_difference "ActionMailer::Base.deliveries.size" do
+      assert_no_difference "DiaryComment.count" do
+        assert_no_difference "entry.subscribers.count" do
+          perform_enqueued_jobs do
+            post comment_diary_entry_path(entry.user, entry, :diary_comment => { :body => "New comment" })
+          end
+        end
+      end
+    end
+    assert_redirected_to diary_entry_path(entry.user, entry)
+    assert_equal "The author has turned off comments for this entry.", flash[:error]
+  end
+
   def test_create_spammy
     user = create(:user)
     other_user = create(:user)

@@ -747,7 +747,8 @@ CREATE TABLE public.diary_entries (
     longitude double precision,
     language_code character varying DEFAULT 'en'::character varying NOT NULL,
     visible boolean DEFAULT true NOT NULL,
-    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL
+    body_format public.format_enum DEFAULT 'markdown'::public.format_enum NOT NULL,
+    comments_enabled boolean DEFAULT true NOT NULL
 );
 
 
@@ -3781,6 +3782,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('23'),
 ('22'),
 ('21'),
+('20261109120000'),
 ('20260624101500'),
 ('20260604105008'),
 ('20260604103822'),

@@ -15,6 +15,13 @@ class DiaryCommentsController < ApplicationController
 
   def create
     @diary_entry = DiaryEntry.find(params.expect(:id))
+
+    unless @diary_entry.comments_enabled
+      flash[:error] = t ".comments_disabled"
+      redirect_to diary_entry_path(@diary_entry.user, @diary_entry)
+      return
+    end
+
     @comments = @diary_entry.visible_comments
     @diary_comment = @diary_entry.comments.build(comment_params)
     @diary_comment.user = current_user
