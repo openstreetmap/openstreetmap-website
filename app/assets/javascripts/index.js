@@ -29,6 +29,7 @@ $(function () {
 
     return new Promise((resolve, reject) => {
       $("#sidebar_content_frame")
+        .empty()
         .one("turbo:frame-render", event => {
           const response = event.originalEvent.detail.fetchResponse.response;
 
