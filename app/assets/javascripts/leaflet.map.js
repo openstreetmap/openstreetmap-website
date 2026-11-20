@@ -302,7 +302,10 @@ L.OSM.Map = L.Map.extend({
     } else { // element handled by L.OSM.DataLayer
       const map = this;
       this._objectLoader = new AbortController();
-      fetch(OSM.apiUrl(object), {
+      // The API's /way/:id/full endpoint only returns the current geometry.
+      const url = object.type === "way" && object.version ?
+        `/way/${object.id}/history/${object.version}.json` : OSM.apiUrl(object);
+      fetch(url, {
         headers: { accept: "application/json", ...OSM.oauth },
         signal: this._objectLoader.signal
       })
