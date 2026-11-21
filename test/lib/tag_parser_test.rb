@@ -512,6 +512,11 @@ class TagParserTest < ActiveSupport::TestCase
     assert_equal "https://resultmaps.neis-one.org/osm-changesets?comment=maproulette", url
   end
 
+  def test_basic_link_encodes_query_values
+    url = TagParser.basic_link("opening_hours", "easter +6 days off \"Ostern\"; Mo-Fr 08:00-12:00 & 13:00-17:00 #1")[:url]
+    assert_equal "https://openingh.openstreetmap.de/evaluation_tool/?EXP=easter%20%2B6%20days%20off%20%22Ostern%22%3B%20Mo-Fr%2008%3A00-12%3A00%20%26%2013%3A00-17%3A00%20%231", url
+  end
+
   def test_build_tag2link_dict_rejects_deprecated_and_third_party
     data = [
       { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "deprecated", "source" => "osmwiki:P8" },
