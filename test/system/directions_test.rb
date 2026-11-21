@@ -67,6 +67,28 @@ class DirectionsSystemTest < ApplicationSystemTestCase
     end
   end
 
+  test "shows the route again on enter after sidebar close" do
+    visit directions_path
+
+    find_by_id("route_from").set("60 30").send_keys :enter
+    stub_straight_routing(:start_instruction => "Start popup text")
+    find_by_id("route_to").set("61 31").send_keys :enter
+
+    within_sidebar do
+      assert_content "Start popup text"
+    end
+
+    find("#sidebar .sidebar-close-controls button[aria-label='Close']").click
+
+    assert_no_selector "#sidebar_content", :text => "Start popup text"
+
+    find_by_id("route_to").send_keys :enter
+
+    within_sidebar do
+      assert_content "Start popup text"
+    end
+  end
+
   private
 
   def stub_straight_routing(start_instruction: "Start here", finish_instruction: "Finish there")
