@@ -357,6 +357,10 @@ OpenStreetMap::Application.routes.draw do
   get "/preferences/edit", :to => redirect(:path => "/preferences/basic"), :as => nil
 
   resources :notifications, :only => [:index]
+  namespace :notifications do
+    resources :reads, :only => [:create]
+    resources :unreads, :only => [:create]
+  end
 
   # friendships
   scope "/user/:display_name" do
