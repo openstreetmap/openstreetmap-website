@@ -73,5 +73,9 @@
         container.find("button[data-bs-target$='_edit']").tab("show");
       }
     });
+    // Bootstrap's arrow key navigation skips disabled tabs but not hidden ones
+    $(".richtext_container button[data-bs-target$='_help']").each(function () {
+      $(this).prop("disabled", !$(this).is(":visible"));
+    });
   }
 }());
