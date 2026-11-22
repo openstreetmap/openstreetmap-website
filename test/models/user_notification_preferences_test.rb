@@ -6,6 +6,7 @@ class UserNotificationPreferencesTest < ActiveSupport::TestCase
   def test_all_enabled_by_default
     preferences = UserNotificationPreferences.new(create(:user))
     assert_equal ["email"], preferences.changeset_comment
+    assert_equal ["email"], preferences.changeset_comment_mention
     assert_equal ["email"], preferences.diary_comment
     assert_equal ["email"], preferences.direct_message
     assert_equal ["email"], preferences.gpx_import_failure
