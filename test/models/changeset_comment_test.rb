@@ -70,4 +70,34 @@ class ChangesetCommentTest < ActiveSupport::TestCase
 
     assert_equal comment.notifiable_subscribers.sort, [commenter1, commenter3].sort
   end
+
+  def test_mentioned_users
+    sangyoon = create(:user, :display_name => "Sangyoon")
+    dion = create(:user, :display_name => "Dion")
+    create(:user, :display_name => "Bystander")
+    comment = create(:changeset_comment, :body => "@Sangyoon and @Dion, please check")
+
+    assert_equal [sangyoon, dion].sort, comment.mentioned_users.sort
+  end
+
+  def test_mentioned_users_unknown_name
+    comment = create(:changeset_comment, :body => "@NoSuchUser please check")
+
+    assert_empty comment.mentioned_users
+  end
+
+  def test_mentioned_users_is_case_sensitive
+    create(:user, :display_name => "Sangyoon")
+    comment = create(:changeset_comment, :body => "@sangyoon please check")
+
+    assert_empty comment.mentioned_users
+  end
+
+  def test_mentioned_users_excludes_inactive_users
+    create(:user, :suspended, :display_name => "Suspended")
+    create(:user, :deleted, :display_name => "Deleted")
+    comment = create(:changeset_comment, :body => "@Suspended @Deleted please check")
+
+    assert_empty comment.mentioned_users
+  end
 end

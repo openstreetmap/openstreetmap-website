@@ -45,4 +45,10 @@ class ChangesetComment < ApplicationRecord
   def notifiable_subscribers
     changeset.visible_subscribers.where.not(:id => author_id)
   end
+
+  # Active users whose profile the comment links to, matching
+  # display names exactly as profile pages do
+  def mentioned_users
+    User.active.where(:display_name => body.mentioned_display_names)
+  end
 end
