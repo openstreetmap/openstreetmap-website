@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TagParser
-  SECONDARY_WIKI_PREFIX_PATTERN = /[a-z:_-]+:/
+  SECONDARY_WIKI_PREFIX_PATTERN = /.+:/
   QID_PATTERN = /[Qq][1-9][0-9]*/
 
   # regex to match all wikipedia locale project identifiers
