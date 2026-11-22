@@ -51,4 +51,11 @@ class ChangesetComment < ApplicationRecord
   def mentioned_users
     User.active.where(:display_name => body.mentioned_display_names)
   end
+
+  # Mentioned users other than the author, leaving out subscribers
+  # as they are already told about the comment
+  def notifiable_mentioned_users
+    mentioned_users.where.not(:id => author_id)
+                   .where.not(:id => changeset.subscribers.select(:id))
+  end
 end

@@ -93,6 +93,18 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     assert_empty comment.mentioned_users
   end
 
+  def test_notifiable_mentioned_users
+    author = create(:user, :display_name => "Author")
+    subscriber = create(:user, :display_name => "Subscriber")
+    mentioned = create(:user, :display_name => "Mentioned")
+    changeset = create(:changeset)
+    create(:changeset_subscription, :changeset => changeset, :subscriber => subscriber)
+    comment = create(:changeset_comment, :changeset => changeset, :author => author,
+                                         :body => "@Author @Subscriber @Mentioned please check")
+
+    assert_equal [mentioned], comment.notifiable_mentioned_users.to_a
+  end
+
   def test_mentioned_users_excludes_inactive_users
     create(:user, :suspended, :display_name => "Suspended")
     create(:user, :deleted, :display_name => "Deleted")
