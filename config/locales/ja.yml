@@ -204,6 +204,7 @@ ja:
         reason: 理由
         zone: 地域
         period: 期間
+        ends_at: 有効期限と時刻
       message:
         sender: 送信者
         title: 件名
@@ -704,6 +705,8 @@ ja:
       nearby_changesets: 周辺の利用者の変更セット
       nearby_diaries: 周辺の利用者の日記エントリ
   notifications:
+    missing_record:
+      body: 残念ながら、こちらはもう提供していません
     index:
       title: 通知
       no_notifications: 現在通知はありません
@@ -1752,7 +1755,9 @@ ja:
       title: 問題点
       select_status: 状態を選択
       select_type: タイプを選択
+      select_last_managed_by: 最後に管理したユーザーを選択
       reported_user: 通報された利用者
+      not_managed: 未管理
       search: 検索
       search_guidance: '検索の問題点:'
       states:
@@ -1766,6 +1771,7 @@ ja:
       status: 状態
       reports: 報告
       last_updated: 最近の更新
+      last_managed: 直近の変更
       reporting_users: 報告者
       reports_count:
         other: '%{count}件のレポート'
@@ -1812,6 +1818,14 @@ ja:
         note: '注記 #%{note_id}'
       reportable_heading:
         diary_comment_html: '日記へのコメント %{title} 作成日時: %{datetime_created}、更新日時: %{datetime_updated}'
+        diary_entry_html: 日記へのコメント %{title} 作成日時は %{datetime_created}、更新日時は %{datetime_updated}
+        note_html: '%{title} の作成日時は %{datetime_created}、更新日時は %{datetime_updated}'
+        user_html: ユーザー %{title} の作成は %{datetime_created}
+    reporters:
+      index:
+        title: '問題 #%{issue_id} の報告者'
+      reporters:
+        more_reporters: および %{count} 件
   issue_comments:
     create:
       comment_created: コメントは無事作成されました
@@ -2036,6 +2050,8 @@ ja:
       followed_you: OpenStreetMapで%{user}さんがあなたをフォローしました
       see_their_profile: '%{userurl} でプロフィールを閲覧できます。'
       see_their_profile_html: '%{userurl} でプロフィールを閲覧できます。'
+      follow_them: また、先方のフォローは %{followurl} でも可能です。
+      follow_them_html: また、先方のフォローは %{followurl} でも可能です。
     gpx_details:
       details: 'ファイルの詳細:'
       filename: ファイル名
