@@ -2471,6 +2471,8 @@ fi:
         keep image: Säilytä nykyinen kuva
         delete image: Poista nykyinen kuva
         replace image: Korvaa nykyinen kuva
+        image upload hint: '(PNG, JPEG, GIF, WebP, TIFF, HEIC tai AVIF enintään %{max_size}:
+          neliönmuotoiset kuvat, joiden koko on vähintään 100x100, toimivat parhaiten)'
       update:
         success: Profiilikuva päivitetty.
         failure: Profiilikuvan päivittäminen epäonnistui.
@@ -3361,7 +3363,7 @@ fi:
       write_gpx: GPS-jälkien tallentaminen
       write_notes: Karttailmoitusten muokkaaminen
       write_redactions: Sensuroida kartta-aineistoa
-      write_blocks: Käyttäjäestojen määrääminen ja kumoaminen
+      write_blocks: Käyttäjäestojen luominen ja kumoaminen
       read_email: Lue käyttäjän sähköpostiosoite
       consume_messages: Käyttäjäviestien lukeminen, tilan päivittäminen ja poistaminen
       send_messages: Yksityisviestien lähettäminen muille käyttäjille
@@ -3417,8 +3419,8 @@ fi:
       last_authorized: Viimeksi valtuutettu
       no_applications_html: '%{oauth2} -sovelluksille ei ole vielä myönnetty käyttöoikeuksia.'
     application:
-      revoke: Peruuta käyttöoikeus
-      confirm_revoke: Peruutetaanko tämän sovelluksen käyttöoikeus?
+      revoke: Kumoa käyttöoikeus
+      confirm_revoke: Kumotaanko tämän sovelluksen käyttöoikeus?
   users:
     new:
       title: Rekisteröidy
@@ -3504,7 +3506,7 @@ fi:
       spam score: 'Spam-pisteet:'
       block_history: Aktiiviset estot
       moderator_history: Tehdyt estot
-      revoke_all_blocks: Peruuta kaikki estot
+      revoke_all_blocks: Kumoa kaikki estot
       comments: Kommentit
       create_block: Estä tämä käyttäjä
       activate_user: Aktivoi tämä käyttäjä
@@ -3535,10 +3537,10 @@ fi:
         importer: Myönnä tuojan käyttöoikeudet
         are_you_sure: Haluatko varmasti lisätä käyttäjän ”%{name}” ryhmään ”%{role}”?
       revoke:
-        administrator: Poista ylläpitäjän oikeudet
-        moderator: Poista moderaattorin oikeudet
-        importer: Poista tuojan käyttöoikeudet
-        are_you_sure: Haluatko varmasti poistaa käyttäjän ”%{name}” ryhmästä ”%{role}”?
+        administrator: Kumoa ylläpitäjän oikeudet
+        moderator: Kumoa moderaattorin oikeudet
+        importer: Kumoa tuojan käyttöoikeudet
+        are_you_sure: Haluatko varmasti kumota käyttäjän ”%{name}” roolin ”%{role}”?
     sidebar_section:
       home_location: Kotipaikka
       company: Yritys
@@ -3559,13 +3561,13 @@ fi:
         title: Peruutetaan kaikki %{block_on} estot
         heading_html: Peruutetaan kaikki %{block_on} estot
         empty: Käyttäjällä %{name} ei ole aktiivisia estoja.
-        confirm: 'Haluatko varmasti poistaa seuraavat: %{active_blocks}?'
+        confirm: 'Haluatko varmasti kumota seuraavat: %{active_blocks}?'
         active_blocks:
           one: '%{count} aktiivinen esto'
           other: '%{count} aktiivista estoa'
-        revoke: Peruuta esto!
+        revoke: Kumoa esto!
       destroy:
-        flash: Kaikki aktiiviset estot on peruttu.
+        flash: Kaikki aktiiviset estot on kumottu.
     lists:
       show:
         title: Käyttäjät
@@ -3638,13 +3640,13 @@ fi:
       not_a_role: Merkkijono '%{role}' ei ole kelvollinen rooli.
       already_has_role: Käyttäjällä on jo rooli %{role}.
       doesnt_have_role: Käyttäjällä ei ole roolia %{role}.
-      not_revoke_admin_current_user: Ei voida perua järjestelmänvalvojan roolia nykyiseltä
+      not_revoke_admin_current_user: Ei voida kumota järjestelmänvalvojan roolia nykyiseltä
         käyttäjältä.
   user_blocks:
     model:
       non_moderator_update: Sinun on oltava moderaattori luodaksesi tai muokataksesi
         estoa.
-      non_moderator_revoke: Sinun on oltava moderaattori poistaaksesi eston.
+      non_moderator_revoke: Sinun on oltava moderaattori kumoaksesi eston.
     not_found:
       sorry: Estotunnusta %{id} ei löytynyt.
       back: Takaisin hakemistoon
@@ -3657,7 +3659,7 @@ fi:
       heading_html: Muokataan käyttäjän %{name} estoa
       period: Kuinka pitkäksi aikaa käyttäjää estetään käyttämästä APIa, laskettuna
         tästä hetkestä.
-      revoke: Poista esto
+      revoke: Kumoa esto
     filter:
       block_period: Eston ajanjakson täytyy olla yksi pudotusvalikossa olevista arvoista.
     create:
@@ -4153,5 +4155,9 @@ fi:
         revoked_html: '%{name} kumoama'
     form:
       expiration: Vanhentuu
+      relative_expiration: Tietyn ajan
       absolute_expiration: Tiettyyn päivämäärään ja kellonaikaan asti
+      period:
+        options:
+          revoke: Kumoa moderointialue
 ...
