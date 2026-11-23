@@ -142,6 +142,29 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
     end
   end
 
+  test "can subscribe and unsubscribe after opening the changeset from an element" do
+    changeset = create(:changeset, :closed)
+    node = create(:node, :changeset => changeset)
+    user = create(:user)
+    sign_in_as(user)
+    visit node_path(node)
+
+    within_sidebar do
+      click_on changeset.id.to_s
+      assert_comment_can_be_written
+
+      click_on "Subscribe"
+
+      assert_button "Unsubscribe"
+      assert_comment_can_be_written
+
+      click_on "Unsubscribe"
+
+      assert_button "Subscribe"
+      assert_comment_can_be_written
+    end
+  end
+
   test "can't subscribe when blocked" do
     changeset = create(:changeset, :closed)
     user = create(:user)
@@ -159,6 +182,16 @@ class ChangesetCommentsTest < ApplicationSystemTestCase
       assert_text "Your access to the API has been blocked"
       assert_button "Subscribe"
       assert_no_button "Unsubscribe"
+    end
+  end
+
+  private
+
+  # Wait until changeset.js init() has run. Only then typing enables Comment.
+  def assert_comment_can_be_written
+    page.document.synchronize do
+      fill_in "text", :with => "x"
+      raise Capybara::ExpectationNotMet unless has_button?("Comment", :disabled => false, :wait => 0)
     end
   end
 end
