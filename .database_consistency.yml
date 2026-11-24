@@ -1,10 +1,4 @@
 ---
-# These checkers throw errors with our db, so they need
-# to be completely disabled.
-DatabaseConsistencyCheckers:
-  # https://github.com/djezzzl/database_consistency/issues/274
-  MissingDependentDestroyChecker:
-    enabled: false
 # The following is a TODO list
 Changeset:
   id:
@@ -173,6 +167,13 @@ Message:
   sender:
     MissingDependentDestroyChecker:
       enabled: false
+ModerationZone:
+  creator:
+    MissingDependentDestroyChecker:
+      enabled: false
+  revoker:
+    MissingDependentDestroyChecker:
+      enabled: false
 Node:
   changeset:
     MissingDependentDestroyChecker:
@@ -268,6 +269,9 @@ OldNodeTag:
   node_id:
     NullConstraintChecker:
       enabled: false
+  old_node:
+    MissingDependentDestroyChecker:
+      enabled: false
   version:
     NullConstraintChecker:
       enabled: false
@@ -294,10 +298,16 @@ OldRelationMember:
   member_role:
     NullConstraintChecker:
       enabled: false
+  old_relation:
+    MissingDependentDestroyChecker:
+      enabled: false
   relation_id:
     NullConstraintChecker:
       enabled: false
 OldRelationTag:
+  old_relation:
+    MissingDependentDestroyChecker:
+      enabled: false
   relation_id:
     NullConstraintChecker:
       enabled: false
@@ -327,6 +337,9 @@ OldWayNode:
   node:
     ForeignKeyChecker:
       enabled: false
+  old_way:
+    MissingDependentDestroyChecker:
+      enabled: false
   sequence_id:
     NullConstraintChecker:
       enabled: false
@@ -339,6 +352,9 @@ OldWayNode:
 OldWayTag:
   k:
     NullConstraintChecker:
+      enabled: false
+  old_way:
+    MissingDependentDestroyChecker:
       enabled: false
   v:
     NullConstraintChecker:
