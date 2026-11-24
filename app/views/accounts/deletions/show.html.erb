@@ -31,6 +31,8 @@
   <li><%= t ".retain_email" %></li>
 </ul>
 
+<p><%= t ".details_change_html", :settings_link => link_to(t(".settings_page"), account_path) %></p>
+
 <% if current_user.deletion_allowed? %>
   <%= link_to t(".delete_account"), account_path, { :method => :delete, :class => "btn btn-danger", :data => { :confirm => t(".confirm_delete") } } %>
 <% else %>
