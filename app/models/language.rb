@@ -10,7 +10,7 @@
 #
 
 class Language < ApplicationRecord
-  has_many :diary_entries, :foreign_key => "language", :inverse_of => :language
+  has_many :diary_entries, :foreign_key => :language_code, :inverse_of => :language
 
   validates :english_name, :presence => true
 
