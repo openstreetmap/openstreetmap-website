@@ -584,6 +584,24 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to :action => :feed
   end
 
+  ##
+  # Requests for formats we don't offer should be rejected, not raise
+  def test_index_unsupported_format
+    get history_path(:format => "txt")
+
+    assert_response :not_acceptable
+  end
+
+  def test_show_unsupported_format
+    changeset = create(:changeset)
+
+    get changeset_path(changeset, :format => "json")
+    assert_response :not_acceptable
+
+    get changeset_path(changeset), :headers => { "Accept" => "application/json" }
+    assert_response :not_acceptable
+  end
+
   private
 
   ##

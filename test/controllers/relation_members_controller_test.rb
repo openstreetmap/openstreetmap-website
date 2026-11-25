@@ -33,4 +33,12 @@ class RelationMembersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :error
   end
+
+  def test_show_unsupported_format
+    relation = create(:relation)
+
+    get relation_members_path(relation, :format => "xml")
+
+    assert_response :not_acceptable
+  end
 end

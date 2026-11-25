@@ -20,4 +20,10 @@ class WebglErrorPanesControllerTest < ActionDispatch::IntegrationTest
     assert_template :layout => false
     assert_select "div.maplibre-error"
   end
+
+  def test_show_unsupported_format
+    get webgl_error_pane_path, :headers => { "Accept" => "application/json" }
+
+    assert_response :not_acceptable
+  end
 end

@@ -71,7 +71,9 @@ class ChangesetsController < ApplicationController
 
       @changesets = get_page_items(changesets, :includes => [:user, :changeset_tags, :comments])
 
-      render :action => :index, :layout => false
+      respond_to do |format|
+        format.any(:html, :atom) { render :action => :index, :layout => false }
+      end
     end
   end
 
@@ -108,7 +110,9 @@ class ChangesetsController < ApplicationController
         @next_by_user = changesets.where("id > ?", @changeset.id).reorder(:id => :asc).first
         @prev_by_user = changesets.where(:id => ...@changeset.id).reorder(:id => :desc).first
       end
-      render :layout => map_layout
+      respond_to do |format|
+        format.html { render :layout => map_layout }
+      end
     end
   rescue ActiveRecord::RecordNotFound
     render :template => "browse/not_found", :status => :not_found, :layout => map_layout

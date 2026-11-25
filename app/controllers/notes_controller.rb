@@ -36,7 +36,9 @@ class NotesController < ApplicationController
       @next_page = true
     end
 
-    render :layout => "site"
+    respond_to do |format|
+      format.html { render :layout => "site" }
+    end
   end
 
   def show
