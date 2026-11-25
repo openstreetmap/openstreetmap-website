@@ -6,6 +6,8 @@ class WebglErrorPanesController < ApplicationController
   authorize_resource :class => false
 
   def show
-    render :layout => false
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
   end
 end

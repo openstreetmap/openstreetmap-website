@@ -976,6 +976,14 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  def test_show_missing_entry_unsupported_format
+    user = create(:user)
+
+    get diary_entry_path(user, 999999), :headers => { "Accept" => "image/webp,image/*" }
+
+    assert_response :not_acceptable
+  end
+
   private
 
   def check_diary_index(*entries)

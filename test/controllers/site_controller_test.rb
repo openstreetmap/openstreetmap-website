@@ -234,6 +234,14 @@ class SiteControllerTest < ActionDispatch::IntegrationTest
     assert_template "index"
   end
 
+  def test_edit_remote_unsupported_format
+    session_for(create(:user))
+
+    get edit_path(:editor => "remote", :format => "jpg")
+
+    assert_response :not_acceptable
+  end
+
   # Test the right editor gets used when the URL has an override
   def test_edit_with_override
     session_for(create(:user))

@@ -19,6 +19,14 @@ class OldRelationMembersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  def test_show_unsupported_format
+    relation = create(:relation, :with_history)
+
+    get old_relation_members_path(relation, 1, :format => "xml")
+
+    assert_response :not_acceptable
+  end
+
   def test_show_redacted_to_unauthorized_users
     relation = create(:relation, :with_history, :version => 2)
     relation.old_relations.find_by(:version => 1).redact!(create(:redaction))

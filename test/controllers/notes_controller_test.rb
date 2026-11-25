@@ -69,6 +69,14 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  def test_index_unsupported_format
+    user = create(:user)
+
+    get user_notes_path(user, :format => "xml")
+
+    assert_response :not_acceptable
+  end
+
   def test_index_paged
     user = create(:user)
 

@@ -10,6 +10,8 @@ class LayersPanesController < ApplicationController
     @overlay_layers = [{ :layer_id => "noteLayer", :name => "notes", :max_area => Settings.max_note_request_area },
                        { :layer_id => "dataLayer", :name => "data", :max_area => Settings.max_request_area },
                        { :layer_id => "gpsLayer", :name => "gps" }]
-    render :layout => false
+    respond_to do |format|
+      format.html { render :layout => false }
+    end
   end
 end

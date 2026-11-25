@@ -72,7 +72,9 @@ class DiaryEntriesController < ApplicationController
       @comments = can?(:unhide, DiaryComment) ? @diary_entry.comments : @diary_entry.visible_comments
     else
       @title = t "diary_entries.no_such_entry.title", :id => params[:id]
-      render :action => "no_such_entry", :status => :not_found
+      respond_to do |format|
+        format.html { render :action => "no_such_entry", :status => :not_found }
+      end
     end
   end
 

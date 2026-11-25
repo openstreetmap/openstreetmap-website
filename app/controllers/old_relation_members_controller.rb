@@ -9,7 +9,9 @@ class OldRelationMembersController < OldElementsController
 
     return deny_access(nil) if @feature.redacted? && params[:show_redactions].blank?
 
-    render :partial => "browse/relation_member_frame", :locals => { :relation => @feature, :frame_id => @frame_id }
+    respond_to do |format|
+      format.html { render :partial => "browse/relation_member_frame", :locals => { :relation => @feature, :frame_id => @frame_id } }
+    end
   rescue ActiveRecord::RecordNotFound
     render "browse/not_found", :status => :not_found
   end

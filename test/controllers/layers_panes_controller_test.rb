@@ -19,4 +19,10 @@ class LayersPanesControllerTest < ActionDispatch::IntegrationTest
     assert_template "layers_panes/show"
     assert_template :layout => false
   end
+
+  def test_show_unsupported_format
+    get layers_pane_path(:format => "jpg")
+
+    assert_response :not_acceptable
+  end
 end
