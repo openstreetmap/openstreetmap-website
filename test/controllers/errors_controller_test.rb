@@ -40,5 +40,28 @@ class ErrorsControllerTest < ActionDispatch::IntegrationTest
   def test_internal_server_error
     get "/500"
     assert_response :internal_server_error
+    assert_template "errors/internal_server_error"
+  end
+
+  ##
+  # rails sets action_dispatch.original_path to the path of the request
+  # that failed when it calls this controller to render the error
+  def test_internal_server_error_api
+    get "/500", :env => { "action_dispatch.original_path" => "/api/0.6/node/1" }
+    assert_response :internal_server_error
+    assert_equal "text/plain", @response.media_type
+    assert_equal "Internal Server Error", @response.body
+    assert_equal "Internal Server Error", @response.headers["Error"]
+  end
+
+  ##
+  # errors requested with the X-Error-Format header are returned with a
+  # 200 status, with the real status in the body
+  def test_internal_server_error_api_error_format_xml
+    get "/500", :headers => { "X-Error-Format" => "xml" }, :env => { "action_dispatch.original_path" => "/api/0.6/node/1" }
+    assert_response :success
+    assert_equal "application/xml", @response.media_type
+    assert_dom "osmError > status", :text => /\A500\b/
+    assert_dom "osmError > message", :text => "Internal Server Error"
   end
 end
