@@ -202,9 +202,16 @@ module TagParser
   end
 
   def self.build_tag2link_dict(data)
+    excluded = {
+      "wikipedia.org" => "wikipedia",
+      "wikidata.org" => "wikidata",
+      "commons.wikimedia.org" => "wikimedia_commons",
+      "wiki.openstreetmap.org" => "language"
+    }
     data
-      # exclude deprecated, third-party, and non-HTTP URLs
-      .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" || !item["url"].match?(%r{\Ahttps?://[^$]}) }
+      # exclude deprecated, third-party, already handled, static, and non-HTTP URLs
+      .reject { |item| item["rank"] == "deprecated" || item["source"] == "wikidata:P3303" || excluded.any? { |domain, subkey| item["url"].include?(domain) && item["key"].include?(subkey) } }
+      .filter { |item| item["url"].include?("$1") && item["url"].match?(%r{\Ahttps?://[^$]}) }
       .group_by { |item| item["key"].sub(/^Key:/, "") }
       .transform_values { |items| choose_best_tag2link_item(items) }
       .compact
