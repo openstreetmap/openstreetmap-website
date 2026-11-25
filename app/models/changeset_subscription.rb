@@ -22,4 +22,6 @@ class ChangesetSubscription < ApplicationRecord
 
   belongs_to :subscriber, :class_name => "User"
   belongs_to :changeset
+
+  validates :changeset_id, :uniqueness => { :scope => :subscriber_id }
 end
