@@ -138,12 +138,6 @@ class ApiController < ApplicationController
     report_error message, :bad_request
   rescue OSM::APIError => e
     report_error e.message, e.status
-  rescue AbstractController::ActionNotFound, CanCan::AccessDenied => e
-    raise
-  rescue StandardError => e
-    logger.info("API threw unexpected #{e.class} exception: #{e.message}")
-    e.backtrace.each { |l| logger.info(l) }
-    report_error "#{e.class}: #{e.message}", :internal_server_error
   end
 
   ##

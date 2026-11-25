@@ -183,6 +183,19 @@ module Api
       check_json_details(js, user, true, false)
     end
 
+    ##
+    # an unexpected error while authenticating should be raised as it
+    # is, and not hidden by an error about authorization not being checked
+    def test_details_unexpected_error
+      auth_header = bearer_authorization_header
+
+      User.stub(:find, ->(*) { raise ActiveRecord::ConnectionNotEstablished, "database unavailable" }) do
+        assert_raises ActiveRecord::ConnectionNotEstablished do
+          get api_user_details_path, :headers => auth_header
+        end
+      end
+    end
+
     def test_details_oauth2
       user = create(:user,
                     :home_lat => 12.1, :home_lon => 23.4,
