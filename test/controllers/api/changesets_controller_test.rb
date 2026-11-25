@@ -281,6 +281,25 @@ module Api
       assert_response :bad_request, "cannot use order=oldest with time"
     end
 
+    ##
+    # test that array and hash time parameters are rejected with a bad request
+    def test_index_invalid_time_parameters
+      get api_changesets_path(:from => "abc")
+      assert_response :bad_request, "'abc' isn't a valid time"
+
+      get api_changesets_path(:from => ["2020"])
+      assert_response :bad_request
+
+      get api_changesets_path(:from => { :a => "1" })
+      assert_response :bad_request
+
+      get api_changesets_path(:from => "2020-01-01", :to => ["2020"])
+      assert_response :bad_request
+
+      get api_changesets_path(:from => "2020-01-01", :to => { :a => "1" })
+      assert_response :bad_request
+    end
+
     # -----------------------
     # Test simple changeset creation
     # -----------------------
