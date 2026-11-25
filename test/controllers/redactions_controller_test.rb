@@ -73,7 +73,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get new_redaction_path
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_create_moderator
@@ -95,7 +95,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     post redactions_path(:redaction => { :title => "Foo", :description => "Description here." })
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_destroy_moderator_empty
@@ -124,7 +124,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     delete redaction_path(create(:redaction))
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_edit
@@ -145,7 +145,7 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get edit_redaction_path(create(:redaction))
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_update_moderator
@@ -173,6 +173,6 @@ class RedactionsControllerTest < ActionDispatch::IntegrationTest
     redaction = create(:redaction)
 
     put redaction_path(redaction, :redaction => { :title => "Foo", :description => "Description here." })
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 end

@@ -34,7 +34,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
   test "index, as normal user" do
     session_for(create(:user))
     get moderation_zones_url
-    assert_redirected_to "/403"
+    assert_response :forbidden
   end
 
   test "index, as moderator" do
@@ -59,7 +59,9 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
   test "new, as normal user" do
     session_for(create(:user))
     get new_moderation_zone_url
-    assert_redirected_to "/403"
+    assert_response :forbidden
+    assert_template "errors/forbidden"
+    assert_template :layout => "error"
   end
 
   test "new, as moderator" do
@@ -90,7 +92,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     )
-    assert_redirected_to "/403"
+    assert_response :forbidden
   end
 
   test "create, as moderator" do
@@ -169,7 +171,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     moderation_zone = create(:moderation_zone, :ends_at => 1.year.from_now)
     get edit_moderation_zone_url(moderation_zone)
-    assert_redirected_to "/403"
+    assert_response :forbidden
   end
 
   test "edit, as moderator" do
@@ -216,7 +218,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
         }
       }
     )
-    assert_redirected_to "/403"
+    assert_response :forbidden
   end
 
   test "update, as moderator" do
@@ -328,6 +330,7 @@ class ModerationZonesControllerTest < ActionDispatch::IntegrationTest
       }
     )
     assert_response :bad_request
+    assert_template "errors/bad_request"
 
     moderation_zone.reload
     assert_nil moderation_zone.revoker

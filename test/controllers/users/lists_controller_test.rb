@@ -48,13 +48,13 @@ module Users
 
       # Shouldn't work when logged in as a normal user
       get users_list_path
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       session_for(moderator_user)
 
       # Shouldn't work when logged in as a moderator
       get users_list_path
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       session_for(administrator_user)
 
@@ -194,10 +194,10 @@ module Users
 
       %w[-1 fred].each do |id|
         get users_list_path(:before => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
 
         get users_list_path(:after => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
       end
     end
 
@@ -220,7 +220,7 @@ module Users
       assert_no_difference "User.active.count" do
         put users_list_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
       end
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
       assert_equal "pending", inactive_user.reload.status
       assert_equal "suspended", suspended_user.reload.status
 
@@ -230,7 +230,7 @@ module Users
       assert_no_difference "User.active.count" do
         put users_list_path, :params => { :confirm => 1, :user => { inactive_user.id => 1, suspended_user.id => 1 } }
       end
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
       assert_equal "pending", inactive_user.reload.status
       assert_equal "suspended", suspended_user.reload.status
 
@@ -276,7 +276,7 @@ module Users
       assert_no_difference "User.active.count" do
         put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
       assert_equal "suspended", suspended_user.reload.status
@@ -288,7 +288,7 @@ module Users
       assert_no_difference "User.active.count" do
         put users_list_path, :params => { :suspend => 1, :user => { normal_user.id => 1, confirmed_user.id => 1, suspended_user.id => 1 } }
       end
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
       assert_equal "active", normal_user.reload.status
       assert_equal "confirmed", confirmed_user.reload.status
       assert_equal "suspended", suspended_user.reload.status

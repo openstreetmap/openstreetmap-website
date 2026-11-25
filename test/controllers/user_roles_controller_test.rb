@@ -33,7 +33,7 @@ class UserRolesControllerTest < ActionDispatch::IntegrationTest
 
     # Granting should still fail
     post user_role_path(target_user, "moderator")
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
 
     # Login as an administrator
     session_for(administrator_user)
@@ -93,7 +93,7 @@ class UserRolesControllerTest < ActionDispatch::IntegrationTest
 
     # Revoking should still fail
     delete user_role_path(target_user, "moderator")
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
 
     # Login as an administrator
     session_for(administrator_user)

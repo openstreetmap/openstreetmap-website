@@ -301,7 +301,7 @@ class ApplicationController < ActionController::Base
     if current_user
       set_locale
       respond_to do |format|
-        format.html { redirect_to :controller => "/errors", :action => "forbidden" }
+        format.html { render "errors/forbidden", :layout => "error", :status => :forbidden }
         format.any { report_error t("application.permission_denied"), :forbidden }
       end
     elsif request.get?
@@ -315,13 +315,10 @@ class ApplicationController < ActionController::Base
   end
 
   def invalid_parameter(_exception)
-    if request.get?
-      respond_to do |format|
-        format.html { redirect_to :controller => "/errors", :action => "bad_request" }
-        format.any { head :bad_request }
-      end
-    else
-      head :bad_request
+    set_locale
+    respond_to do |format|
+      format.html { render "errors/bad_request", :layout => "error", :status => :bad_request }
+      format.any { head :bad_request }
     end
   end
 

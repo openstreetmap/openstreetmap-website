@@ -43,7 +43,7 @@ class OldRelationMembersControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     get old_relation_members_path(relation, 1, :params => { :show_redactions => true })
 
-    assert_response :redirect
+    assert_response :forbidden
   end
 
   def test_show_not_found

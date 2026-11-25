@@ -41,7 +41,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get acls_path
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_index_administrator
@@ -57,10 +57,10 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
 
     %w[-1 fred].each do |id|
       get acls_path(:before => id)
-      assert_redirected_to :controller => "errors", :action => "bad_request"
+      assert_response :bad_request
 
       get acls_path(:after => id)
-      assert_redirected_to :controller => "errors", :action => "bad_request"
+      assert_response :bad_request
     end
   end
 
@@ -73,7 +73,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get new_acl_path
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_new_administrator
@@ -97,7 +97,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "Acl.count" do
       post acls_path(:acl => { :address => "192.0.2.0/24", :k => "no_account_creation" })
     end
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_create_administrator
@@ -120,7 +120,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
 
     get edit_acl_path(create(:acl))
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_edit_administrator
@@ -144,7 +144,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     acl = create(:acl, :k => "no_account_creation")
 
     put acl_path(acl, :acl => { :k => "no_note_comment" })
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
     assert_equal "no_account_creation", acl.reload.k
   end
 
@@ -173,7 +173,7 @@ class AclsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference "Acl.count" do
       delete acl_path(acl)
     end
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
   end
 
   def test_destroy_administrator

@@ -83,10 +83,10 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
   def test_index_invalid_xhr
     %w[-1 0 fred].each do |id|
       get history_path(:format => "html", :list => "1", :before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
 
       get history_path(:format => "html", :list => "1", :after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
     end
   end
 
@@ -121,7 +121,7 @@ class ChangesetsControllerTest < ActionDispatch::IntegrationTest
 
   def test_index_bbox_invalid
     get history_path(:format => "html", :bbox => "4.5,4.5,5.5", :list => "1"), :xhr => true
-    assert_redirected_to :controller => :errors, :action => :bad_request
+    assert_response :bad_request
 
     get history_feed_path(:bbox => "4.5,4.5,5.5")
     assert_response :bad_request
