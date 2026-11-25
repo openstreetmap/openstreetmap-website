@@ -29,9 +29,19 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
-    respond_to do |format|
-      format.html { render :status => :internal_server_error }
-      format.any { render :status => :internal_server_error, :plain => "" }
+    if api_request?
+      report_error "Internal Server Error", :internal_server_error
+    else
+      respond_to do |format|
+        format.html { render :status => :internal_server_error }
+        format.any { render :status => :internal_server_error, :plain => "" }
+      end
     end
+  end
+
+  private
+
+  def api_request?
+    request.env["action_dispatch.original_path"]&.start_with?("/api/")
   end
 end

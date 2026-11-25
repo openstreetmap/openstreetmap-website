@@ -308,6 +308,19 @@ module Api
       assert_equal "2021-02-03T00:00:00Z", Time.parse(@response.header["Last-Modified"]).utc.xmlschema
     end
 
+    ##
+    # unexpected errors should not be caught, so that they can be
+    # reported and turned into an error response by rails
+    def test_show_unexpected_error
+      node = create(:node)
+
+      Node.stub(:includes, ->(*) { raise ActiveRecord::ConnectionNotEstablished, "database unavailable" }) do
+        assert_raises ActiveRecord::ConnectionNotEstablished do
+          get api_node_path(node)
+        end
+      end
+    end
+
     def test_show_lat_lon_decimal_format
       node = create(:node, :latitude => (0.00004 * OldNode::SCALE).to_i, :longitude => (0.00008 * OldNode::SCALE).to_i)
 
