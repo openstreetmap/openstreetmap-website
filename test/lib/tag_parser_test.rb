@@ -40,15 +40,15 @@ class TagParserTest < ActiveSupport::TestCase
 
     # No language-prefixes (as wikidata is multilanguage)
     links = TagParser.parse_value("wikidata", "en:Q1")
-    assert_equal [{ :text => "en:Q1", :url => "https://www.wikidata.org/entity/en:Q1", :type => :tag2link_link, :key => "wikidata" }], links
+    assert_equal [{ :text => "en:Q1" }], links
 
     # Needs a leading Q
     links = TagParser.parse_value("wikidata", "1")
-    assert_equal [{ :text => "1", :url => "https://www.wikidata.org/entity/1", :type => :tag2link_link, :key => "wikidata" }], links
+    assert_equal [{ :text => "1" }], links
 
     # No leading zeros allowed
     links = TagParser.parse_value("wikidata", "Q0123")
-    assert_equal [{ :text => "Q0123", :url => "https://www.wikidata.org/entity/Q0123", :type => :tag2link_link, :key => "wikidata" }], links
+    assert_equal [{ :text => "Q0123" }], links
 
     # A valid value
     links = TagParser.parse_value("wikidata", "Q42")
@@ -125,7 +125,7 @@ class TagParserTest < ActiveSupport::TestCase
     assert_equal [{ :text => "<a href=\"https://en.wikipedia.org/wiki/Full%20URL\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://en.wikipedia.org/wiki/Full%20URL</a>" }], links
 
     links = TagParser.parse_value("wikipedia", "Test")
-    assert_equal [{ :text => "Test", :url => "https://wikipedia.org/wiki/Test", :type => :tag2link_link, :key => "wikipedia" }], links
+    assert_equal [{ :text => "Test" }], links
 
     links = TagParser.parse_value("wikipedia", "de:Test")
     assert_equal [{ :text => "de:Test", :url => "https://de.wikipedia.org/wiki/Test?uselang=en", :type => :wikipedia_link, :page => "de:Test" }], links
@@ -183,10 +183,7 @@ class TagParserTest < ActiveSupport::TestCase
 
     # Multiple values separated by ;
     links = TagParser.parse_value("wikipedia", "Test;Hello")
-    assert_equal [
-      { :text => "Test", :url => "https://wikipedia.org/wiki/Test", :type => :tag2link_link, :key => "wikipedia" },
-      { :text => "Hello", :url => "https://wikipedia.org/wiki/Hello", :type => :tag2link_link, :key => "wikipedia" }
-    ], links
+    assert_equal [{ :text => "Test" }, { :text => "Hello" }], links
 
     links = TagParser.parse_value("wikipedia", "de:Berlin;en:London;fr:Paris")
     assert_equal [
@@ -221,7 +218,7 @@ class TagParserTest < ActiveSupport::TestCase
     assert_equal [{ :text => "<a href=\"https://commons.wikimedia.org/wiki/File:Full%20URL.jpg\" rel=\"nofollow noopener noreferrer\" dir=\"auto\">https://commons.wikimedia.org/wiki/File:Full%20URL.jpg</a>" }], links
 
     links = TagParser.parse_value("wikimedia_commons", "Test.jpg")
-    assert_equal [{ :text => "Test.jpg", :url => "https://commons.wikimedia.org/wiki/Test.jpg", :type => :tag2link_link, :key => "wikimedia_commons" }], links
+    assert_equal [{ :text => "Test.jpg" }], links
 
     links = TagParser.parse_value("wikimedia_commons", "File:Test.jpg")
     assert_equal [{ :text => "File:Test.jpg", :url => "https://commons.wikimedia.org/wiki/File:Test.jpg?uselang=en", :type => :wikimedia_commons_link, :page => "File:Test.jpg" }], links
@@ -244,7 +241,7 @@ class TagParserTest < ActiveSupport::TestCase
 
     # Reject namespaces other than File and Category
     links = TagParser.parse_value("wikimedia_commons", "Commons:Featured pictures")
-    assert_equal [{ :text => "Commons:Featured pictures", :url => "https://commons.wikimedia.org/wiki/Commons:Featured pictures", :type => :tag2link_link, :key => "wikimedia_commons" }], links
+    assert_equal [{ :text => "Commons:Featured pictures" }], links
   end
 
   def test_parse_value_wikimedia_commons_links_secondary
@@ -503,16 +500,22 @@ class TagParserTest < ActiveSupport::TestCase
     assert_equal [{ :text => "Feb Su[-5] 08:00+ \"#leapyearshop&sale\"", :url => "https://openingh.openstreetmap.de/evaluation_tool/?EXP=Feb%20Su%5B-5%5D%2008%3A00%2B%20%22%23leapyearshop%26sale%22", :type => :tag2link_link, :key => "opening_hours" }], links
   end
 
-  def test_build_tag2link_dict_rejects_deprecated_and_third_party
+  def test_build_tag2link_dict_rejects_inadequate
     data = [
-      { "key" => "Key:example", "url" => "http://example.com/$1", "rank" => "deprecated", "source" => "osmwiki:P8" },
-      { "key" => "Key:example2", "url" => "http://example2.com/$1", "rank" => "preferred", "source" => "wikidata:P3303" },
-      { "key" => "Key:example3", "url" => "http://example3.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
+      { "key" => "Key:deprecated_example", "url" => "http://deprecated.example.com/$1", "rank" => "deprecated", "source" => "osmwiki:P8" },
+      { "key" => "Key:third-party_example", "url" => "http://third-party.example.com/$1", "rank" => "preferred", "source" => "wikidata:P3303" },
+      { "key" => "Key:static_example", "url" => "http://static.example.com/", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:wikipedia", "url" => "https://wikipedia.org/wiki/$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:phone", "url" => "tel:$1", "rank" => "normal", "source" => "osmwiki:P8" },
+      { "key" => "Key:control", "url" => "http://control.example.com/$1", "rank" => "preferred", "source" => "osmwiki:P8" }
     ]
     dict = TagParser.build_tag2link_dict(data)
-    assert_not_includes dict, "example"
-    assert_not_includes dict, "example2"
-    assert_includes dict, "example3"
+    assert_not_includes dict, "deprecated_example"
+    assert_not_includes dict, "third-party_example"
+    assert_not_includes dict, "static_example"
+    assert_not_includes dict, "wikipedia"
+    assert_not_includes dict, "phone"
+    assert_includes dict, "control"
   end
 
   def test_build_tag2link_dict_chooses_single_preferred_item
