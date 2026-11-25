@@ -63,8 +63,9 @@ module Accounts
       session_for(user)
 
       get account_terms_path(:legale => "..")
-      assert_response :redirect
-      assert_redirected_to :controller => "/errors", :action => :bad_request
+      assert_response :bad_request
+      assert_template "errors/bad_request"
+      assert_template :layout => "error"
     end
 
     def test_show_with_multiline_legale
@@ -72,8 +73,7 @@ module Accounts
       session_for(user)
 
       get account_terms_path(:legale => "../../config/settings\nGB")
-      assert_response :redirect
-      assert_redirected_to :controller => "/errors", :action => :bad_request
+      assert_response :bad_request
     end
 
     def test_show_xhr

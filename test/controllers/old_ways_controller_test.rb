@@ -33,7 +33,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     get way_history_path(:id => way, :params => { :show_redactions => true })
 
-    assert_response :redirect
+    assert_response :forbidden
   end
 
   def test_show
@@ -78,7 +78,7 @@ class OldWaysControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     get old_way_path(way, 1, :params => { :show_redactions => true })
 
-    assert_response :redirect
+    assert_response :forbidden
   end
 
   def test_show_not_found

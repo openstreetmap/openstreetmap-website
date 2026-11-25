@@ -95,10 +95,10 @@ module Users
 
       %w[-1 fred].each do |id|
         get user_received_blocks_path(user, :before => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
 
         get user_received_blocks_path(user, :after => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
       end
     end
 
@@ -121,7 +121,7 @@ module Users
 
       # Check that normal users can't load the revoke all blocks page
       get edit_user_received_blocks_path(blocked_user)
-      assert_redirected_to :controller => "/errors", :action => "forbidden"
+      assert_response :forbidden
 
       # Login as a moderator
       session_for(create(:moderator_user))
@@ -149,7 +149,7 @@ module Users
       # Check that normal users can't revoke all blocks
       session_for(create(:user))
       delete user_received_blocks_path(blocked_user, :confirm => true)
-      assert_redirected_to :controller => "/errors", :action => "forbidden"
+      assert_response :forbidden
 
       blocks.each(&:reload)
       assert_predicate active_block1, :active?

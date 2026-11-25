@@ -23,7 +23,7 @@ module Users
       # Now try as a normal user
       session_for(user)
       put user_status_path(user, :event => "confirm")
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       # Finally try as an administrator
       session_for(create(:administrator_user))
@@ -42,7 +42,7 @@ module Users
       # Now try as a normal user
       session_for(user)
       put user_status_path(user, :event => "suspend")
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       # Finally try as an administrator
       session_for(create(:administrator_user))
@@ -61,7 +61,7 @@ module Users
       # Now try as a normal user
       session_for(user)
       put user_status_path(user, :event => "soft_destroy")
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       # Finally try as an administrator
       session_for(create(:administrator_user))
@@ -92,7 +92,7 @@ module Users
       # Now try as a normal user
       session_for(create(:user))
       put user_status_path(user, :event => "undelete")
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
 
       # Double-checking that there were no changes to the user
       assert_predicate user.reload, :deleted?

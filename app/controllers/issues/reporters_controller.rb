@@ -22,8 +22,6 @@ module Issues
       }
 
       render :partial => "reporters", :locals => { :issue => @issue, :unique_reporters => @unique_reporters } if turbo_frame_request?
-    rescue ActiveRecord::RecordNotFound
-      redirect_to :controller => "/errors", :action => "not_found"
     end
   end
 end

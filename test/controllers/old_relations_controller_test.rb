@@ -33,7 +33,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     get relation_history_path(:id => relation, :params => { :show_redactions => true })
 
-    assert_response :redirect
+    assert_response :forbidden
   end
 
   def test_show
@@ -73,7 +73,7 @@ class OldRelationsControllerTest < ActionDispatch::IntegrationTest
     session_for(create(:user))
     get old_relation_path(relation, 1, :params => { :show_redactions => true })
 
-    assert_response :redirect
+    assert_response :forbidden
   end
 
   def test_show_not_found

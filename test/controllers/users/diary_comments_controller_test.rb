@@ -75,10 +75,10 @@ module Users
 
       %w[-1 fred].each do |id|
         get user_diary_comments_path(user, :before => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
 
         get user_diary_comments_path(user, :after => id)
-        assert_redirected_to :controller => "/errors", :action => :bad_request
+        assert_response :bad_request
       end
     end
   end

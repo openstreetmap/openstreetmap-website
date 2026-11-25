@@ -98,7 +98,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
 
     %w[-1 0 fred].each do |page|
       get user_notes_path(user, :page => page)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
     end
   end
 
@@ -106,7 +106,7 @@ class NotesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
 
     get user_notes_path(user, :status => "invalid")
-    assert_redirected_to :controller => :errors, :action => :bad_request
+    assert_response :bad_request
   end
 
   def test_index_user_not_found_language

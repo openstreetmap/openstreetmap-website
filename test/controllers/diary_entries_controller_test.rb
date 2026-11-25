@@ -485,10 +485,10 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Try some invalid paged accesses
     %w[-1 fred].each do |id|
       get diary_entries_path(:before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
 
       get diary_entries_path(:after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
     end
   end
 
@@ -795,7 +795,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(create(:user))
     post hide_diary_entry_path(author, diary_entry)
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
     assert DiaryEntry.find(diary_entry.id).visible
 
     # Now try as the author
@@ -836,7 +836,7 @@ class DiaryEntriesControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(create(:user))
     post unhide_diary_entry_path(author, diary_entry)
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
     assert_not DiaryEntry.find(diary_entry.id).visible
 
     # Now try as the author

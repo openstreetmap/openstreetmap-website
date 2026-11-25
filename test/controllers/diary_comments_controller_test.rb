@@ -136,7 +136,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post hide_diary_comment_path(diary_comment)
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
     assert DiaryComment.find(diary_comment.id).visible
 
     # Try as a moderator
@@ -168,7 +168,7 @@ class DiaryCommentsControllerTest < ActionDispatch::IntegrationTest
     # Now try as a normal user
     session_for(user)
     post unhide_diary_comment_path(diary_comment)
-    assert_redirected_to :controller => :errors, :action => :forbidden
+    assert_response :forbidden
     assert_not DiaryComment.find(diary_comment.id).visible
 
     # Now try as a moderator

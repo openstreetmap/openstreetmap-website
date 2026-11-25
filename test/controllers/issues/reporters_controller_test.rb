@@ -17,14 +17,14 @@ module Issues
       session_for(create(:moderator_user))
       get issue_reporters_path(999111)
 
-      assert_redirected_to :controller => "/errors", :action => :not_found
+      assert_response :not_found
     end
 
     def test_index_missing_issue_as_administrator
       session_for(create(:administrator_user))
       get issue_reporters_path(999111)
 
-      assert_redirected_to :controller => "/errors", :action => :not_found
+      assert_response :not_found
     end
 
     def test_index_assigned_to_moderator_as_unauthorized
@@ -41,7 +41,7 @@ module Issues
       session_for(create(:user))
       get issue_reporters_path(issue)
 
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
     end
 
     def test_index_assigned_to_moderator_as_administrator
@@ -50,7 +50,7 @@ module Issues
       session_for(create(:administrator_user))
       get issue_reporters_path(issue)
 
-      assert_redirected_to :controller => "/errors", :action => :not_found
+      assert_response :not_found
     end
 
     def test_index_assigned_to_moderator_as_moderator
@@ -85,7 +85,7 @@ module Issues
       session_for(create(:user))
       get issue_reporters_path(issue)
 
-      assert_redirected_to :controller => "/errors", :action => :forbidden
+      assert_response :forbidden
     end
 
     def test_index_assigned_to_administrator_as_moderator
@@ -94,7 +94,7 @@ module Issues
       session_for(create(:moderator_user))
       get issue_reporters_path(issue)
 
-      assert_redirected_to :controller => "/errors", :action => :not_found
+      assert_response :not_found
     end
 
     def test_index_assigned_to_administrator_as_administrator

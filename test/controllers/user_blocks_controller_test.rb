@@ -96,10 +96,10 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
   def test_index_invalid_paged
     %w[-1 fred].each do |id|
       get user_blocks_path(:before => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
 
       get user_blocks_path(:after => id)
-      assert_redirected_to :controller => :errors, :action => :bad_request
+      assert_response :bad_request
     end
   end
 
@@ -263,7 +263,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block creation page
     get new_user_block_path(target_user)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
 
     # Login as a moderator
     session_for(create(:moderator_user))
@@ -303,7 +303,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't load the block edit page
     get edit_user_block_path(active_block)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
 
     # Login as a moderator
     session_for(other_moderator_user)
@@ -389,7 +389,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't create blocks
     post user_blocks_path
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
 
     # Login as a moderator
     session_for(moderator_user)
@@ -462,7 +462,7 @@ class UserBlocksControllerTest < ActionDispatch::IntegrationTest
 
     # Check that normal users can't update blocks
     put user_block_path(active_block)
-    assert_redirected_to :controller => "errors", :action => "forbidden"
+    assert_response :forbidden
 
     # Login as the moderator
     session_for(moderator_user)
