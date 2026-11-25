@@ -1,18 +1,6 @@
 ---
-# These checkers throw errors with our db, so they need
-# to be completely disabled.
-DatabaseConsistencyCheckers:
-  # https://github.com/djezzzl/database_consistency/issues/274
-  MissingDependentDestroyChecker:
-    enabled: false
-  # https://github.com/djezzzl/database_consistency/issues/217
-  ForeignKeyCascadeChecker:
-    enabled: false
 # The following is a TODO list
 Changeset:
-  changeset_tags:
-    MissingIndexChecker:
-      enabled: false
   id:
     ColumnPresenceChecker:
       enabled: false
@@ -86,9 +74,6 @@ ChangesetComment:
 ChangesetSubscription:
   changeset:
     MissingDependentDestroyChecker:
-      enabled: false
-  index_changesets_subscribers_on_subscriber_id_and_changeset_id:
-    UniqueIndexChecker:
       enabled: false
   subscriber:
     MissingDependentDestroyChecker:
@@ -172,11 +157,6 @@ Language:
   code:
     PrimaryKeyTypeChecker:
       enabled: false
-  diary_entries:
-    ForeignKeyTypeChecker:
-      enabled: false
-    MissingIndexChecker:
-      enabled: false
 Message:
   recipient:
     MissingDependentDestroyChecker:
@@ -184,12 +164,16 @@ Message:
   sender:
     MissingDependentDestroyChecker:
       enabled: false
+ModerationZone:
+  creator:
+    MissingDependentDestroyChecker:
+      enabled: false
+  revoker:
+    MissingDependentDestroyChecker:
+      enabled: false
 Node:
   changeset:
     MissingDependentDestroyChecker:
-      enabled: false
-  element_tags:
-    MissingIndexChecker:
       enabled: false
   id:
     ColumnPresenceChecker:
@@ -201,9 +185,6 @@ Node:
       enabled: false
   longitude:
     NumericalityConstraintChecker:
-      enabled: false
-  old_nodes:
-    MissingIndexChecker:
       enabled: false
   tile:
     NullConstraintChecker:
@@ -285,6 +266,9 @@ OldNodeTag:
   node_id:
     NullConstraintChecker:
       enabled: false
+  old_node:
+    MissingDependentDestroyChecker:
+      enabled: false
   version:
     NullConstraintChecker:
       enabled: false
@@ -311,10 +295,16 @@ OldRelationMember:
   member_role:
     NullConstraintChecker:
       enabled: false
+  old_relation:
+    MissingDependentDestroyChecker:
+      enabled: false
   relation_id:
     NullConstraintChecker:
       enabled: false
 OldRelationTag:
+  old_relation:
+    MissingDependentDestroyChecker:
+      enabled: false
   relation_id:
     NullConstraintChecker:
       enabled: false
@@ -344,6 +334,9 @@ OldWayNode:
   node:
     ForeignKeyChecker:
       enabled: false
+  old_way:
+    MissingDependentDestroyChecker:
+      enabled: false
   sequence_id:
     NullConstraintChecker:
       enabled: false
@@ -356,6 +349,9 @@ OldWayNode:
 OldWayTag:
   k:
     NullConstraintChecker:
+      enabled: false
+  old_way:
+    MissingDependentDestroyChecker:
       enabled: false
   v:
     NullConstraintChecker:
@@ -386,19 +382,10 @@ Relation:
   changeset:
     MissingDependentDestroyChecker:
       enabled: false
-  element_tags:
-    MissingIndexChecker:
-      enabled: false
   id:
     ColumnPresenceChecker:
       enabled: false
     NumericalityConstraintChecker:
-      enabled: false
-  old_relations:
-    MissingIndexChecker:
-      enabled: false
-  relation_members:
-    MissingIndexChecker:
       enabled: false
   version:
     NumericalityConstraintChecker:
@@ -434,6 +421,9 @@ Trace:
   inserted:
     NullConstraintChecker:
       enabled: false
+  gpx_tracks:
+    ForeignKeyCascadeChecker:
+      enabled: false
   tags:
     ForeignKeyCascadeChecker:
       enabled: false
@@ -460,9 +450,6 @@ User:
   creation_time:
     NullConstraintChecker:
       enabled: false
-  diary_entry_subscriptions:
-    MissingIndexChecker:
-      enabled: false
   home_lat:
     NumericalityConstraintChecker:
       enabled: false
@@ -481,14 +468,8 @@ User:
   lower(email):
     MissingUniqueIndexChecker:
       enabled: false
-  note_subscriptions:
-    MissingIndexChecker:
-      enabled: false
   pass_crypt:
     NullConstraintChecker:
-      enabled: false
-  preferences:
-    MissingIndexChecker:
       enabled: false
   reports:
     ForeignKeyTypeChecker:
@@ -537,22 +518,13 @@ Way:
   changeset:
     MissingDependentDestroyChecker:
       enabled: false
-  element_tags:
-    MissingIndexChecker:
-      enabled: false
   id:
     ColumnPresenceChecker:
       enabled: false
     NumericalityConstraintChecker:
       enabled: false
-  old_ways:
-    MissingIndexChecker:
-      enabled: false
   version:
     NumericalityConstraintChecker:
-      enabled: false
-  way_nodes:
-    MissingIndexChecker:
       enabled: false
 WayNode:
   node:
