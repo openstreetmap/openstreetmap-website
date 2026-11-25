@@ -194,7 +194,7 @@ module Api
         assert_response :success
 
         assert_dom "osmError[version='#{Settings.api_version}'][generator='#{Settings.generator}']", 1
-        assert_dom "osmError>status", 1
+        assert_dom "osmError>status", :count => 1, :text => "409 Conflict"
         assert_dom "osmError>message", 1
       end
 
