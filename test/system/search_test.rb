@@ -56,6 +56,35 @@ class SearchTest < ApplicationSystemTestCase
     assert_link "Broxbourne, Hertfordshire, East of England, England, United Kingdom"
   end
 
+  test "search result colors stay the same whichever source responds first" do
+    colors = %w[latlon_query nominatim_reverse_query].map do |delayed_source|
+      visit "/#map=15/51.76320/-0.00760"
+      page.execute_script(<<~JS, delayed_source)
+        const delayedPath = arguments[0];
+        const fetch = window.fetch.bind(window);
+        const gate = new Promise(resolve => { window.releaseSearchResult = resolve; });
+        window.fetch = async (...args) => {
+          const response = await fetch(...args);
+          if (new URL(response.url).pathname.endsWith("/" + delayedPath)) await gate;
+          return response;
+        };
+      JS
+
+      click_on "Where is this?"
+      rows = "#sidebar_content .results-list > li"
+      assert_selector "#{rows}[style*='--marker-color']", :count => 1
+      first_color = find(rows).style("--marker-color").fetch("--marker-color")
+      assert_selector "#map .activatable use[color='#{first_color.strip}']", :visible => :all
+
+      page.execute_script("window.releaseSearchResult()")
+      assert_selector "#{rows}[style*='--marker-color']", :count => 2
+      all(rows).map { |row| row.style("--marker-color").fetch("--marker-color").strip }
+    end
+
+    assert_equal colors.first, colors.last
+    assert_equal 2, colors.first.uniq.size
+  end
+
   test "query search link sets search input value" do
     visit search_path(:query => "2.341, 7.896")
 
