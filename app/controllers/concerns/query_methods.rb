@@ -51,7 +51,7 @@ module QueryMethods
     if params[:from]
       begin
         from = Time.parse(params[:from]).utc
-      rescue ArgumentError
+      rescue ArgumentError, TypeError
         raise OSM::APIBadUserInput, "Date #{params[:from]} is in a wrong format"
       end
 
@@ -61,7 +61,7 @@ module QueryMethods
              else
                Time.now.utc
              end
-      rescue ArgumentError
+      rescue ArgumentError, TypeError
         raise OSM::APIBadUserInput, "Date #{params[:to]} is in a wrong format"
       end
 
