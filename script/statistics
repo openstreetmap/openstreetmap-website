@@ -5,6 +5,12 @@ require_relative File.join("..", "config", "environment")
 
 ActiveRecord::Base.connection.execute("SET statement_timeout = 0 ")
 
+class Numeric
+  def format
+    to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1 ').reverse
+  end
+end
+
 start_time = Time.now.utc
 
 puts "<html>"
@@ -26,11 +32,11 @@ begin
     relation_count = Relation.where(:visible => true).count
 
     puts "<table>"
-    puts "<tr><td>Number of users</td><td>#{user_count}</td></tr>"
-    puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count}</td></tr>"
-    puts "<tr><td>Number of nodes</td><td>#{node_count}</td></tr>"
-    puts "<tr><td>Number of ways</td><td>#{way_count}</td></tr>"
-    puts "<tr><td>Number of relations</td><td>#{relation_count}</td></tr>"
+    puts "<tr><td>Number of users</td><td>#{user_count.format}</td></tr>"
+    puts "<tr><td>Number of uploaded GPS points</td><td>#{tracepoint_count.format}</td></tr>"
+    puts "<tr><td>Number of nodes</td><td>#{node_count.format}</td></tr>"
+    puts "<tr><td>Number of ways</td><td>#{way_count.format}</td></tr>"
+    puts "<tr><td>Number of relations</td><td>#{relation_count.format}</td></tr>"
     puts "</table>"
 
     puts '<h2 id="top-traces">Top 50 users for uploads of GPS data</h2>'
@@ -39,7 +45,7 @@ begin
 
     Trace.where(:inserted => true).group(:user_id).order(:sum_size => :desc).limit(50).sum(:size).each do |user, count|
       display_name = User.find(user).display_name.gsub("@", " at ").gsub(".", " dot ")
-      puts "<tr><td><a href=\"https://www.openstreetmap.org/user/#{display_name}\">#{display_name}</a></td><td>#{count}</td></tr>"
+      puts "<tr><td><a href=\"https://www.openstreetmap.org/user/#{display_name}\">#{display_name}</a></td><td>#{count.format}</td></tr>"
     end
 
     puts "</table>"
@@ -52,13 +58,13 @@ begin
     week_count = Trace.where("timestamp > NOW() - '7 DAYS'::INTERVAL").distinct.count(:user_id)
     month_count = Trace.where("timestamp > NOW() - '28 DAYS'::INTERVAL").distinct.count(:user_id)
 
-    puts "<tr><th>GPX Files</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
+    puts "<tr><th>GPX Files</th><td>#{day_count.format}</td><td>#{week_count.format}</td><td>#{month_count.format}</td></tr>"
 
     day_count = OldNode.where("timestamp > NOW() - '1 DAY'::INTERVAL").joins(:changeset).distinct.count(:user_id)
     week_count = OldNode.where("timestamp > NOW() - '7 DAYS'::INTERVAL").joins(:changeset).distinct.count(:user_id)
     month_count = OldNode.where("timestamp > NOW() - '28 DAYS'::INTERVAL").joins(:changeset).distinct.count(:user_id)
 
-    puts "<tr><th>Nodes</th><td>#{day_count}</td><td>#{week_count}</td><td>#{month_count}</td></tr>"
+    puts "<tr><th>Nodes</th><td>#{day_count.format}</td><td>#{week_count.format}</td><td>#{month_count.format}</td></tr>"
 
     puts "</table>"
 
@@ -78,7 +84,7 @@ begin
         else
           display_name = User.find(column[0]).display_name.gsub("@", " at ").gsub(".", " dot ")
           count = column[1]
-          puts "<td>#{count} <a href=\"https://www.openstreetmap.org/user/#{display_name}\">#{display_name}</a></td>"
+          puts "<td>#{count.format} <a href=\"https://www.openstreetmap.org/user/#{display_name}\">#{display_name}</a></td>"
         end
       end
       puts "</tr>"
