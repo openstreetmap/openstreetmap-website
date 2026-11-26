@@ -33,7 +33,7 @@ class OldWay < ApplicationRecord
   belongs_to :redaction, :optional => true
   belongs_to :current_way, :class_name => "Way", :foreign_key => "way_id", :inverse_of => :old_ways
 
-  has_many :old_nodes, :class_name => "OldWayNode", :foreign_key => [:way_id, :version], :inverse_of => :old_way
+  has_many :old_nodes, -> { order(:sequence_id) }, :class_name => "OldWayNode", :foreign_key => [:way_id, :version], :inverse_of => :old_way
   has_many :old_tags, :class_name => "OldWayTag", :foreign_key => [:way_id, :version], :inverse_of => :old_way
 
   validates :changeset, :associated => true
@@ -75,7 +75,7 @@ class OldWay < ApplicationRecord
   end
 
   def nds
-    @nds ||= old_nodes.order(:sequence_id).collect(&:node_id)
+    @nds ||= old_nodes.collect(&:node_id)
   end
 
   def tags
