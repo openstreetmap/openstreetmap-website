@@ -238,6 +238,28 @@ class UserMailer < ApplicationMailer
     end
   end
 
+  def changeset_comment_mention_notification
+    comment, recipient = params.fetch_values(:record, :recipient)
+
+    with_recipient_locale recipient do
+      @to_user = recipient.display_name
+      @changeset_url = changeset_url(comment.changeset)
+      @comment = comment.body
+      @commenter = comment.author.display_name
+      @changeset_comment = comment.changeset.comment
+      @time = comment.created_at
+      @changeset_author = comment.changeset.user.display_name
+      @preferences_url = notification_preferences_url
+      @author = @commenter
+
+      attach_user_avatar(comment.author)
+
+      set_references("changeset", comment.changeset)
+
+      mail :to => recipient.email, :subject => t(".subject", :commenter => @commenter)
+    end
+  end
+
   private
 
   def set_shared_template_vars

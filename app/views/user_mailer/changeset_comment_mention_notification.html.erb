@@ -1,0 +1,25 @@
+<p>
+  <%= t ".hi", :to_user => @to_user %>
+</p>
+<p>
+  <%= t ".mentioned_html", :commenter => link_to_user(@commenter), :time => @time, :changeset_author => @changeset_author %>
+  <% if @changeset_comment %>
+    <%= t ".partial_changeset_with_comment_html", :changeset_comment => tag.em(@changeset_comment) %>
+  <% else %>
+    <%= t ".partial_changeset_without_comment" %>
+  <% end %>
+</p>
+
+<%= message_body :author => @author, :avatar => @avatar do %>
+  <%= @comment.to_html %>
+<% end %>
+
+<p>
+  <%= t ".details_html", :url => link_to(@changeset_url, @changeset_url) %>
+</p>
+
+<% content_for :footer do %>
+  <p>
+    <%= t ".preferences_html", :url => link_to(@preferences_url, @preferences_url) %>
+  </p>
+<% end %>
