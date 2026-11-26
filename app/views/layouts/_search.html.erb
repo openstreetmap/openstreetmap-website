@@ -76,5 +76,7 @@
                        :title => t("site.search.reverse_directions_text") %>
       </div>
     </div>
+    <%# Forms with several text fields are only submitted by enter when they have a submit button %>
+    <%= submit_tag t("site.search.submit_text"), :name => nil, :class => "visually-hidden", :tabindex => -1, :aria => { :hidden => "true" }, :data => { :disable_with => false } %>
   </form>
 <% end %>
