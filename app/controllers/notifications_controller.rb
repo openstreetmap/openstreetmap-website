@@ -5,6 +5,7 @@ class NotificationsController < ApplicationController
 
   LISTABLE_NOTIFICATIONS = %w[
     ChangesetCommentNotifier::Notification
+    ChangesetCommentMentionNotifier::Notification
     DiaryCommentNotifier::Notification
     GpxImportFailureNotifier::Notification
     GpxImportSuccessNotifier::Notification
