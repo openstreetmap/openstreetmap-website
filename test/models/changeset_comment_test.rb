@@ -93,6 +93,17 @@ class ChangesetCommentTest < ActiveSupport::TestCase
     assert_empty comment.mentioned_users
   end
 
+  def test_mentioned_users_limited_to_first_mentions
+    first = create(:user, :display_name => "First")
+    second = create(:user, :display_name => "Second")
+    create(:user, :display_name => "Third")
+    comment = create(:changeset_comment, :body => "@First @Second @Third please check")
+
+    with_settings(:max_changeset_comment_mentions => 2) do
+      assert_equal [first, second].sort, comment.mentioned_users.sort
+    end
+  end
+
   def test_notifiable_mentioned_users
     author = create(:user, :display_name => "Author")
     subscriber = create(:user, :display_name => "Subscriber")
