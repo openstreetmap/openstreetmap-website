@@ -186,6 +186,44 @@ To allow [Notes](https://wiki.openstreetmap.org/wiki/Notes) and changeset discus
 > oauth_key: "eRHPm4GtEnw9ovB1Iw7EcCLGtUb66bXbAAspv3aJxlI"
 > ```
 
+### Enabling OpenID Connect Discovery
+
+Some OAuth client libraries (for example NextAuth) use the [OpenID Connect discovery](https://openid.net/specs/openid-connect-discovery-1_0.html) document at `/.well-known/openid-configuration` to configure themselves. This endpoint is available on the production server, but it is not available on a development installation until a signing key for `id_token`s is configured. Without it, requests to `http://localhost:3000/.well-known/openid-configuration` return a 404 Not Found error.
+
+1. **Generate a private key:**
+
+   ```bash
+   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048
+   ```
+
+2. **Configure the signing key and server URL:**
+   - Edit `config/settings.local.yml`
+   - Add the `doorkeeper_signing_key` setting with the complete output of the previous command, including the `BEGIN` and `END` lines, indented as shown below
+   - Set `server_url` to the host and port of your development server. It is used as the `issuer` in the discovery document, and OpenID Connect clients will reject the configuration if it does not match the URL they fetched it from
+   - Restart your rails server
+
+> [!TIP]
+> **Example configuration in `settings.local.yml`:**
+> ```yaml
+> # The server protocol and host
+> server_url: "localhost:3000"
+> # Private key for signing id_tokens
+> doorkeeper_signing_key: |
+>   -----BEGIN PRIVATE KEY-----
+>   MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQ…
+>   …
+>   -----END PRIVATE KEY-----
+> ```
+
+You can then check that the endpoint works, and that the `issuer` it reports is `http://localhost:3000`, with:
+
+```bash
+curl http://localhost:3000/.well-known/openid-configuration
+```
+
+> [!NOTE]
+> The routes are only defined when the application starts, so the server must be restarted after adding the key. Keep the key private if your development server is reachable by others, and never reuse it on a production server.
+
 ## Development Tools
 
 ### Viewing Rails Logs
