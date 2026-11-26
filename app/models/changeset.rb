@@ -42,9 +42,6 @@ class Changeset < ApplicationRecord
 
   has_many :changeset_tags
 
-  has_many :nodes
-  has_many :ways
-  has_many :relations
   has_many :old_nodes
   has_many :old_ways
   has_many :old_relations

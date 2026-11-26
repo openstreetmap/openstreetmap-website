@@ -79,7 +79,6 @@ class User < ApplicationRecord
 
   has_many :blocks, :class_name => "UserBlock"
   has_many :blocks_created, :class_name => "UserBlock", :foreign_key => :creator_id, :inverse_of => :creator
-  has_many :blocks_revoked, :class_name => "UserBlock", :foreign_key => :revoker_id, :inverse_of => :revoker
 
   has_many :mutes, -> { order(:created_at => :desc) }, :class_name => "UserMute", :foreign_key => :owner_id, :inverse_of => :owner
   has_many :muted_users, :through => :mutes, :source => :subject
