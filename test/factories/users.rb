@@ -51,6 +51,12 @@ FactoryBot.define do
       end
     end
 
+    trait :legacy_deleted do
+      after(:build) do |user, _evaluator|
+        user.mark_deleted
+      end
+    end
+
     factory :importer_user do
       after(:create) do |user, _evaluator|
         create(:user_role, :role => "importer", :user => user)
