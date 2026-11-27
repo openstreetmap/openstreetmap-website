@@ -161,14 +161,13 @@ class DirectionsSystemTest < ApplicationSystemTestCase
   end
 
   def stub_routing(callback_code)
+    assert_selector ".routing_modes input:checked", :visible => :all
     execute_script <<~SCRIPT
-      $(() => {
-        for (const engine of OSM.directionsEngines) {
-          engine.getRoute = function(points, signal) {
-              #{callback_code}
-          };
-        }
-      });
+      for (const engine of OSM.directionsEngines) {
+        engine.getRoute = function(points, signal) {
+          #{callback_code}
+        };
+      }
     SCRIPT
   end
 
