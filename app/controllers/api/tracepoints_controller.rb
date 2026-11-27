@@ -2,6 +2,8 @@
 
 module Api
   class TracepointsController < ApiController
+    before_action :authorize
+
     authorize_resource
 
     # Get an XML response containing a list of tracepoints that have been uploaded

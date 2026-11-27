@@ -27,6 +27,24 @@ module Api
       )
     end
 
+    def test_index_anonymous
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1")
+      assert_response :unauthorized
+    end
+
+    def test_index_without_scopes
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1"), :headers => bearer_authorization_header(:scopes => [])
+      assert_response :success
+    end
+
+    def test_index_blocked_user
+      user = create(:user)
+      create(:user_block, :user => user)
+
+      get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1"), :headers => bearer_authorization_header(user)
+      assert_response :forbidden
+    end
+
     def test_tracepoints_public
       point = create(:trace, :without_validations, :visibility => "public", :latitude => 1, :longitude => 1) do |trace|
         create(:tracepoint, :trace => trace, :latitude => 1 * GeoRecord::SCALE, :longitude => 1 * GeoRecord::SCALE)
@@ -36,7 +54,7 @@ module Api
       maxlon = point.longitude + 0.001
       maxlat = point.latitude + 0.001
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get api_tracepoints_path(:bbox => bbox)
+      get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk" do
@@ -58,7 +76,7 @@ module Api
       maxlon = point.longitude + 0.002
       maxlat = point.latitude + 0.002
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get api_tracepoints_path(:bbox => bbox)
+      get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk", :count => 1 do
@@ -85,7 +103,7 @@ module Api
       maxlon = point.longitude + 0.002
       maxlat = point.latitude + 0.002
       bbox = "#{minlon},#{minlat},#{maxlon},#{maxlat}"
-      get api_tracepoints_path(:bbox => bbox)
+      get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
       assert_response :success
       assert_select "gpx[version='1.0'][creator='OpenStreetMap.org']", :count => 1 do
         assert_select "trk", :count => 1 do
@@ -103,32 +121,32 @@ module Api
 
     def test_tracepoints_disabled
       with_settings(:traces_disabled => true) do
-        get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1")
+        get api_tracepoints_path(:bbox => "-0.1,-0.1,0.1,0.1"), :headers => bearer_authorization_header
         assert_response :not_found
       end
     end
 
     def test_index_without_bbox
-      get api_tracepoints_path
+      get api_tracepoints_path, :headers => bearer_authorization_header
       assert_response :bad_request
       assert_equal "The parameter bbox is required", @response.body, "A bbox param was expected"
     end
 
     def test_traces_page_less_than_zero
       -10.upto(-1) do |i|
-        get api_tracepoints_path(:page => i, :bbox => "-0.1,-0.1,0.1,0.1")
+        get api_tracepoints_path(:page => i, :bbox => "-0.1,-0.1,0.1,0.1"), :headers => bearer_authorization_header
         assert_response :bad_request
         assert_equal "Page number must be greater than or equal to 0", @response.body, "The page number was #{i}"
       end
       0.upto(10) do |i|
-        get api_tracepoints_path(:page => i, :bbox => "-0.1,-0.1,0.1,0.1")
+        get api_tracepoints_path(:page => i, :bbox => "-0.1,-0.1,0.1,0.1"), :headers => bearer_authorization_header
         assert_response :success, "The page number was #{i} and should have been accepted"
       end
     end
 
     def test_bbox_too_big
       @badbigbbox.each do |bbox|
-        get api_tracepoints_path(:bbox => bbox)
+        get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
         assert_response :bad_request, "The bbox:#{bbox} was expected to be too big"
         assert_equal "The maximum bbox size is #{Settings.max_request_area}, and your request was too large. Either request a smaller area, or use planet.osm", @response.body, "bbox: #{bbox}"
       end
@@ -136,7 +154,7 @@ module Api
 
     def test_bbox_malformed
       @badmalformedbbox.each do |bbox|
-        get api_tracepoints_path(:bbox => bbox)
+        get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
         assert_response :bad_request, "The bbox:#{bbox} was expected to be malformed"
         assert_equal "The parameter bbox must be of the form min_lon,min_lat,max_lon,max_lat", @response.body, "bbox: #{bbox}"
       end
@@ -144,7 +162,7 @@ module Api
 
     def test_bbox_lon_mixedup
       @badlonmixedbbox.each do |bbox|
-        get api_tracepoints_path(:bbox => bbox)
+        get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the longitude mixed up"
         assert_equal "The minimum longitude must be less than the maximum longitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -152,7 +170,7 @@ module Api
 
     def test_bbox_lat_mixedup
       @badlatmixedbbox.each do |bbox|
-        get api_tracepoints_path(:bbox => bbox)
+        get api_tracepoints_path(:bbox => bbox), :headers => bearer_authorization_header
         assert_response :bad_request, "The bbox:#{bbox} was expected to have the latitude mixed up"
         assert_equal "The minimum latitude must be less than the maximum latitude, but it wasn't", @response.body, "bbox: #{bbox}"
       end
@@ -162,7 +180,7 @@ module Api
     def test_lat_lon_xml_format
       create(:tracepoint, :latitude => (0.00004 * GeoRecord::SCALE).to_i, :longitude => (0.00008 * GeoRecord::SCALE).to_i)
 
-      get api_tracepoints_path(:bbox => "0,0,0.1,0.1")
+      get api_tracepoints_path(:bbox => "0,0,0.1,0.1"), :headers => bearer_authorization_header
       assert_match(/lat="0.0000400"/, response.body)
       assert_match(/lon="0.0000800"/, response.body)
     end

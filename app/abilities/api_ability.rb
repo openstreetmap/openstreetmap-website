@@ -12,12 +12,13 @@ class ApiAbility
 
       can :read, Changeset
       can :read, ChangesetComment
-      can :read, Tracepoint
       can :read, User
       can :read, [Node, Way, Relation, OldNode, OldWay, OldRelation]
       can :read, UserBlock
 
       if user&.active?
+        can :read, Tracepoint
+
         can [:create, :comment, :close, :reopen], Note if scopes.include?("write_notes")
         can [:create, :destroy], NoteSubscription if scopes.include?("write_notes")
 
