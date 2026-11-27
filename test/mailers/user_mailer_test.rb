@@ -224,6 +224,21 @@ class UserMailerTest < ActionMailer::TestCase
     assert_select body, "a[href='#{unsubscribe_url}']", :count => 1
   end
 
+  def test_changeset_comment_mention_notification
+    commenter = create(:user, :display_name => "Commenter")
+    mentioned = create(:user, :display_name => "Mentioned")
+    changeset = create(:changeset)
+    changeset_comment = create(:changeset_comment, :changeset => changeset, :author => commenter,
+                                                   :body => "@Mentioned please check")
+    email = UserMailer.with(:record => changeset_comment, :recipient => mentioned).changeset_comment_mention_notification
+    body = parse_html_body(email)
+
+    assert_equal [mentioned.email], email.to
+    assert_equal "[OpenStreetMap] Commenter mentioned you in a changeset comment", email.subject
+    assert_select body, "a[href^='#{url_helpers.changeset_url(changeset)}']"
+    assert_select body, "a[href='#{url_helpers.notification_preferences_url}']", :count => 1
+  end
+
   private
 
   def parse_html_body(email)

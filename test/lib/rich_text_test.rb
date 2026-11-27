@@ -780,6 +780,46 @@ class RichTextTest < ActiveSupport::TestCase
     end
   end
 
+  def test_text_mentioned_display_names_single
+    r = RichText.new("text", "@Sangyoon can you check this?")
+    assert_equal ["Sangyoon"], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_trailing_punctuation
+    r = RichText.new("text", "Thanks @Sangyoon, looks good. (@Dion)")
+    assert_equal %w[Sangyoon Dion], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_multiple_and_duplicates
+    r = RichText.new("text", "cc @Sangyoon and @Dion. @Sangyoon again")
+    assert_equal %w[Sangyoon Dion], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_non_ascii
+    r = RichText.new("text", "merci @José")
+    assert_equal ["José"], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_profile_url
+    r = RichText.new("text", "see #{Settings.server_protocol}://#{Settings.server_url}/user/Sangyoon please")
+    assert_equal ["Sangyoon"], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_profile_subpage
+    r = RichText.new("text", "look at @Sangyoon/history")
+    assert_equal ["Sangyoon"], r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_ignores_other_links
+    r = RichText.new("text", "email a@b.com or see https://example.com/user/Sangyoon")
+    assert_empty r.mentioned_display_names
+  end
+
+  def test_text_mentioned_display_names_none
+    r = RichText.new("text", "No mentions here.")
+    assert_empty r.mentioned_display_names
+  end
+
   private
 
   def assert_html(richtext, &block)

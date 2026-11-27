@@ -270,6 +270,28 @@ module Api
       assert_email_not_received commenter_user.email
     end
 
+    def test_create_with_mentions
+      creator_user = create(:user, :display_name => "Creator")
+      changeset = create(:changeset, :closed, :user => creator_user)
+      changeset.subscribers << creator_user
+      mentioned_user = create(:user, :display_name => "Mentioned")
+      commenter_user = create(:user, :display_name => "Commenter")
+      auth_header = bearer_authorization_header commenter_user
+
+      assert_difference "ChangesetComment.count", 1 do
+        assert_difference "ActionMailer::Base.deliveries.size", 2 do
+          perform_enqueued_jobs do
+            post api_changeset_changeset_comments_path(changeset, :text => "@Creator @Mentioned @Commenter please check"), :headers => auth_header
+            assert_response :success
+          end
+        end
+      end
+
+      assert_email_received creator_user.email, "[OpenStreetMap] Commenter has commented on one of your changesets"
+      assert_email_received mentioned_user.email, "[OpenStreetMap] Commenter mentioned you in a changeset comment"
+      assert_email_not_received commenter_user.email
+    end
+
     ##
     # create comment rate limit for new users
     def test_create_by_new_user_with_rate_limit

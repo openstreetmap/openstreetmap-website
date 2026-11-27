@@ -6,6 +6,7 @@ class UserNotificationPreferences
 
   EVENTS = %w[
     changeset_comment
+    changeset_comment_mention
     diary_comment
     direct_message
     gpx_import_failure

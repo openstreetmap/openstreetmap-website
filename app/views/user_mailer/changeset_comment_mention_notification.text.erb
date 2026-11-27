@@ -1,0 +1,16 @@
+<%= t ".hi", :to_user => @to_user %>
+
+<%= t ".mentioned", :commenter => @commenter, :time => @time, :changeset_author => @changeset_author %>
+<% if @changeset_comment %>
+<%= t ".partial_changeset_with_comment", :changeset_comment => @changeset_comment %>
+<% else %>
+<%= t ".partial_changeset_without_comment" %>
+<% end %>
+
+==
+<%= @comment.to_text %>
+==
+
+<%= t ".details", :url => @changeset_url %>
+
+<%= t ".preferences", :url => @preferences_url %>

@@ -334,5 +334,17 @@ module RichText
     def to_text
       to_s
     end
+
+    # Display names of users on this site that the text links to,
+    # whether written as "@name" or as a pasted profile URL
+    def mentioned_display_names
+      user_prefix = "#{Settings.server_protocol}://#{Settings.server_url}/user/"
+
+      Nokogiri::HTML::DocumentFragment.parse(to_html)
+                                      .css("a[href^='#{user_prefix}']")
+                                      .filter_map { |link| link["href"].delete_prefix(user_prefix).split(%r{[/?#]}).first }
+                                      .map { |name| URI.decode_uri_component(name) }
+                                      .uniq
+    end
   end
 end

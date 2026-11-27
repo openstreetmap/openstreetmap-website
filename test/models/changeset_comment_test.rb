@@ -70,4 +70,57 @@ class ChangesetCommentTest < ActiveSupport::TestCase
 
     assert_equal comment.notifiable_subscribers.sort, [commenter1, commenter3].sort
   end
+
+  def test_mentioned_users
+    sangyoon = create(:user, :display_name => "Sangyoon")
+    dion = create(:user, :display_name => "Dion")
+    create(:user, :display_name => "Bystander")
+    comment = create(:changeset_comment, :body => "@Sangyoon and @Dion, please check")
+
+    assert_equal [sangyoon, dion].sort, comment.mentioned_users.sort
+  end
+
+  def test_mentioned_users_unknown_name
+    comment = create(:changeset_comment, :body => "@NoSuchUser please check")
+
+    assert_empty comment.mentioned_users
+  end
+
+  def test_mentioned_users_is_case_sensitive
+    create(:user, :display_name => "Sangyoon")
+    comment = create(:changeset_comment, :body => "@sangyoon please check")
+
+    assert_empty comment.mentioned_users
+  end
+
+  def test_mentioned_users_limited_to_first_mentions
+    first = create(:user, :display_name => "First")
+    second = create(:user, :display_name => "Second")
+    create(:user, :display_name => "Third")
+    comment = create(:changeset_comment, :body => "@First @Second @Third please check")
+
+    with_settings(:max_changeset_comment_mentions => 2) do
+      assert_equal [first, second].sort, comment.mentioned_users.sort
+    end
+  end
+
+  def test_notifiable_mentioned_users
+    author = create(:user, :display_name => "Author")
+    subscriber = create(:user, :display_name => "Subscriber")
+    mentioned = create(:user, :display_name => "Mentioned")
+    changeset = create(:changeset)
+    create(:changeset_subscription, :changeset => changeset, :subscriber => subscriber)
+    comment = create(:changeset_comment, :changeset => changeset, :author => author,
+                                         :body => "@Author @Subscriber @Mentioned please check")
+
+    assert_equal [mentioned], comment.notifiable_mentioned_users.to_a
+  end
+
+  def test_mentioned_users_excludes_inactive_users
+    create(:user, :suspended, :display_name => "Suspended")
+    create(:user, :deleted, :display_name => "Deleted")
+    comment = create(:changeset_comment, :body => "@Suspended @Deleted please check")
+
+    assert_empty comment.mentioned_users
+  end
 end

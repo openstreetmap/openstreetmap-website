@@ -11,7 +11,7 @@ class NotificationPreferencesTest < ApplicationSystemTestCase
 
     visit notification_preferences_path
 
-    assert_selector ".notification_preferences input:checked", :count => 7
+    assert_selector ".notification_preferences input:checked", :count => 8
 
     follow1 = create(:follow, :following => user)
     perform_enqueued_jobs do
@@ -26,7 +26,7 @@ class NotificationPreferencesTest < ApplicationSystemTestCase
     uncheck "user_notification_preferences_gpx_import_success_email"
     click_on "Update Preferences"
 
-    assert_selector ".notification_preferences input:checked", :count => 5
+    assert_selector ".notification_preferences input:checked", :count => 6
     assert_selector "input#user_notification_preferences_new_follower_email:not(checked)"
 
     follow2 = create(:follow, :following => user)

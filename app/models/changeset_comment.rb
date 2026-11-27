@@ -45,4 +45,20 @@ class ChangesetComment < ApplicationRecord
   def notifiable_subscribers
     changeset.visible_subscribers.where.not(:id => author_id)
   end
+
+  # Active users whose profile the comment links to, matching
+  # display names exactly as profile pages do. Only the first
+  # few mentions count, to limit how many users one comment notifies.
+  def mentioned_users
+    display_names = body.mentioned_display_names.first(Settings.max_changeset_comment_mentions)
+
+    User.active.where(:display_name => display_names)
+  end
+
+  # Mentioned users other than the author, leaving out subscribers
+  # as they are already told about the comment
+  def notifiable_mentioned_users
+    mentioned_users.where.not(:id => author_id)
+                   .where.not(:id => changeset.subscribers.select(:id))
+  end
 end

@@ -46,6 +46,9 @@ module Api
       # Notify current subscribers of the new comment
       ChangesetCommentNotifier.with(:record => comment).deliver_later
 
+      # Notify users mentioned in the comment who are not already subscribers
+      ChangesetCommentMentionNotifier.with(:record => comment).deliver_later
+
       # Add the commenter to the subscribers if necessary
       changeset.subscribers << current_user unless changeset.subscribers.exists?(current_user.id)
 

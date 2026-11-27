@@ -90,4 +90,10 @@ class UserMailerPreview < ActionMailer::Preview
     comment = create(:changeset_comment)
     UserMailer.with(:record => comment, :recipient => recipient).changeset_comment_notification
   end
+
+  def changeset_comment_mention_notification
+    recipient = create(:user, :languages => [I18n.locale], :display_name => "MentionedMapper")
+    comment = create(:changeset_comment, :body => "@MentionedMapper could you check this junction?")
+    UserMailer.with(:record => comment, :recipient => recipient).changeset_comment_mention_notification
+  end
 end
