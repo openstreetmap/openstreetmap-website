@@ -1,6 +1,8 @@
 /* exported Endpoint */
 function Endpoint(map, input, marker, dragCallback, changeCallback) {
   const endpoint = {};
+  const picker = input.next("select");
+  let entrances = [];
 
   endpoint.marker = L.marker([0, 0], {
     icon: OSM.getMarker(marker),
@@ -13,6 +15,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     endpoint.marker.on("dragend", markerDragListener);
     input.on("keydown", inputKeydownListener);
     input.on("change", inputChangeListener);
+    picker.on("change", entranceChangeListener);
   };
 
   endpoint.disableListeners = function () {
@@ -20,7 +23,19 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     endpoint.marker.off("dragend", markerDragListener);
     input.off("keydown", inputKeydownListener);
     input.off("change", inputChangeListener);
+    picker.off("change", entranceChangeListener);
   };
+
+  function entranceChangeListener(e) {
+    picker.val(e.target.value);
+    setLatLng(L.latLng(entrances[e.target.value]));
+    changeCallback();
+  }
+
+  function clearEntrances() {
+    entrances = [];
+    picker.empty().prop("hidden", true);
+  }
 
   function markerDragListener(e) {
     const { lat, lng } = OSM.cropLocation(e.target.getLatLng(), map.getZoom());
@@ -29,6 +44,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
 
+    clearEntrances();
     setLatLng(latlng);
     setInputValueFromLatLng(latlng);
     endpoint.value = input.val();
@@ -50,6 +66,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
     input.removeClass("is-invalid");
+    clearEntrances();
 
     const coordinatesMatch = value.match(/^\s*([+-]?\d+(?:\.\d*)?)(?:\s+|\s*[/,]\s*)([+-]?\d+(?:\.\d*)?)\s*$/);
     const latlng = coordinatesMatch && L.latLng(coordinatesMatch[1], coordinatesMatch[2]);
@@ -84,6 +101,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
   endpoint.clearValue = function () {
     if (endpoint.geocodeRequest) endpoint.geocodeRequest.abort();
     delete endpoint.geocodeRequest;
+    clearEntrances();
     removeLatLng();
     delete endpoint.value;
     input.val("");
@@ -99,15 +117,22 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
     if (g1) endpoint.cachedReverseGeocode = g1;
   };
 
-  function findPreferredEntrance(entrances, types) {
-    if (!entrances) return null;
+  function setGeocodedLocation(place) {
+    entrances = (place.entrances || []).filter(e =>
+      ["main", "yes"].includes(e.type) &&
+      ["yes", "public", "permissive", "customers", "designated"].includes(e.extratags?.access || "yes")
+    );
+    const preferred = entrances.find(e => e.type === "main") || entrances[0];
+    setLatLng(L.latLng(preferred || place));
 
-    for (const t of types) {
-      const matchId = entrances.find(e => e.type === t);
-      if (matchId) return matchId;
-    }
+    if (entrances.length < 2) return;
 
-    return null;
+    entrances.forEach((entrance, index) => {
+      const label = entrance.extratags?.name || entrance.extratags?.ref || `${entrance.lat}, ${entrance.lon}`;
+      const key = entrance.type === "main" ? "main_entrance" : "entrance";
+      picker.append(new Option(OSM.i18n.t("javascripts.directions." + key, { label }), index));
+    });
+    picker.val(String(entrances.indexOf(preferred))).prop("hidden", false);
   }
 
   function getGeocode() {
@@ -129,7 +154,7 @@ function Endpoint(map, input, marker, dragCallback, changeCallback) {
         return;
       }
 
-      setLatLng(L.latLng(findPreferredEntrance(json[0].entrances, ["main", "yes"]) || json[0]));
+      setGeocodedLocation(json[0]);
 
       endpoint.value = json[0].display_name;
       input.val(json[0].display_name);

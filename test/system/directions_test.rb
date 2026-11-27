@@ -3,6 +3,44 @@
 require "application_system_test_case"
 
 class DirectionsSystemTest < ApplicationSystemTestCase
+  test "routes to a different mapped entrance" do
+    visit directions_path
+    stub_straight_routing(:finish_instruction => "Arrive at ${points[1].lat}, ${points[1].lng}")
+    stub_entrance_search([
+                           { :type => "yes", :lat => "61.1", :lon => "31", :extratags => { :ref => "West" } },
+                           { :type => "main", :lat => "61.2", :lon => "31", :extratags => { :name => "North" } },
+                           { :type => "main", :lat => "61.3", :lon => "31", :extratags => { :access => "private" } }
+                         ])
+
+    fill_in "route_from", :with => "60 30"
+    fill_in("route_to", :with => "Museum").send_keys :tab
+    assert_select "Destination entrance", :options => ["Entrance (West)", "Main entrance (North)"], :selected => "Main entrance (North)"
+    assert_text "Arrive at 61.2, 31"
+
+    select "Entrance (West)", :from => "Destination entrance"
+    assert_text "Arrive at 61.1, 31"
+    assert_field "route_to", :with => "Museum"
+
+    fill_in("route_to", :with => "62 32").send_keys :tab
+    assert_text "Arrive at 62, 32"
+    assert_no_select "Destination entrance"
+  end
+
+  test "routes directly to the only eligible entrance or to the place when there are none" do
+    visit directions_path
+    stub_straight_routing(:finish_instruction => "Arrive at ${points[1].lat}, ${points[1].lng}")
+    stub_entrance_search([{ :type => "yes", :lat => "61.1", :lon => "31" }])
+    fill_in "route_from", :with => "60 30"
+    fill_in("route_to", :with => "Museum").send_keys :tab
+    assert_text "Arrive at 61.1, 31"
+    assert_no_select "Destination entrance"
+
+    stub_entrance_search(nil)
+    fill_in("route_to", :with => "Another museum").send_keys :tab
+    assert_text "Arrive at 61, 31"
+    assert_no_select "Destination entrance"
+  end
+
   test "updates route output on mode change" do
     visit directions_path
 
@@ -91,6 +129,21 @@ class DirectionsSystemTest < ApplicationSystemTestCase
 
   private
 
+  def stub_entrance_search(entrances)
+    page.execute_script(<<~JS, entrances)
+      const entrances = arguments[0];
+      const originalFetch = window.fetch;
+      window.fetch = function(input, init) {
+        const url = new URL(input.url || input, location.href);
+        if (url.href.startsWith(OSM.NOMINATIM_URL + "search?") && url.searchParams.get("entrances") === "1") {
+          return Promise.resolve(Response.json([{ display_name: url.searchParams.get("q"), lat: "61", lon: "31", entrances }]));
+        }
+        if (url.href.startsWith(OSM.NOMINATIM_URL + "reverse?")) return Promise.resolve(Response.json({}));
+        return originalFetch.call(this, input, init);
+      };
+    JS
+  end
+
   def stub_straight_routing(start_instruction: "Start here", finish_instruction: "Finish there")
     stub_routing <<~CALLBACK
       const distance = points[0].distanceTo(points[1]);
@@ -108,14 +161,13 @@ class DirectionsSystemTest < ApplicationSystemTestCase
   end
 
   def stub_routing(callback_code)
+    assert_selector ".routing_modes input:checked", :visible => :all
     execute_script <<~SCRIPT
-      $(() => {
-        for (const engine of OSM.directionsEngines) {
-          engine.getRoute = function(points, signal) {
-              #{callback_code}
-          };
-        }
-      });
+      for (const engine of OSM.directionsEngines) {
+        engine.getRoute = function(points, signal) {
+          #{callback_code}
+        };
+      }
     SCRIPT
   end
 
