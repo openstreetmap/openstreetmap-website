@@ -78,7 +78,6 @@ header.navbar {
   }
 
   h1 {
-    height: $headerHeight;
     font-size: 18px;
     gap: $lineheight * 0.5;
   }
@@ -205,16 +204,6 @@ header nav {
 /* Rules for the sidebar and main map area */
 
 .map-layout {
-  #content {
-    overflow: hidden;
-    position: absolute;
-    top: $headerHeight;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
   #sidebar, #map, #map-ui {
     position: relative;
     flex-basis: 50%;
@@ -280,10 +269,6 @@ header nav {
   }
 
   @include media-breakpoint-up(md) {
-    #content {
-      flex-direction: row;
-    }
-
     #sidebar {
       flex-basis: $sidebarWidth;
     }
@@ -582,17 +567,6 @@ tr.turn {
     > * {
         margin: -1px;
     }
-  }
-}
-
-/* Rules for edit pages */
-
-.site-edit {
-  #content {
-    position: absolute;
-    top: $headerHeight;
-    bottom: 0;
-    width: 100%;
   }
 }
 

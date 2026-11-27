@@ -3,7 +3,7 @@
 <header class="navbar navbar-expand-md bg-body flex-column flex-md-row align-items-stretch p-0 position-relative flex-nowrap z-3">
   <h1 class="d-flex m-0 align-items-center fw-semibold">
     <a href="<%= root_path %>" class="icon-link gap-1 me-auto text-body-emphasis text-decoration-none geolink">
-      <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :size => 30 %>
+      <%= image_tag "osm_logo.svg", :alt => t("layouts.logo.alt_text"), :width => 30, :height => 35, :class => "object-fit-contain" %>
       <%= t "layouts.project_name.title" %>
     </a>
     <%= render "layouts/select_language_button", :extra_classes => ["border-secondary border-opacity-10 d-md-none"] %>
@@ -45,7 +45,7 @@
         </li>
       </ul>
 
-      <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block py-0", { "border-secondary-subtle" => current_user&.id }] %>
+      <%= render "layouts/select_language_button", :extra_classes => ["d-none d-md-block", { "border-secondary-subtle" => current_user&.id }] %>
       <% if current_user && current_user.id %>
         <div class="d-flex dropdown user-menu logged-in">
           <button class="d-flex gap-1 align-items-center justify-content-center dropdown-toggle btn btn-outline-secondary border-secondary-subtle bg-body text-secondary px-2 py-1 flex-grow-1 mw-100" type="button" data-bs-toggle="dropdown">
