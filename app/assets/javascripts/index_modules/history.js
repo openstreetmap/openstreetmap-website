@@ -111,9 +111,9 @@ export default function (map) {
 
   function toggleChangesetHighlight(id, state) {
     changesetsLayer.toggleChangesetHighlight(id, state);
-    $("#sidebar_content .changesets ol li").removeClass("selected");
+    $("#sidebar_content .changesets ol li").removeClass("active");
     if (state) {
-      $("#changeset_" + id).addClass("selected");
+      $("#changeset_" + id).addClass("active");
     }
   }
 
@@ -260,13 +260,13 @@ export default function (map) {
       OSM.router.replace("/history" + window.location.hash);
       loadFirstChangesets();
     } else {
-      $("#sidebar_content .changesets ol li").removeClass("selected");
+      $("#sidebar_content .changesets ol li").removeClass("active");
       changesetsLayer.updateChangesetsGeometry(map);
     }
   }
 
   function zoomEndListener() {
-    $("#sidebar_content .changesets ol li").removeClass("selected");
+    $("#sidebar_content .changesets ol li").removeClass("active");
     changesetsLayer.updateChangesetsGeometry(map);
   }
 
