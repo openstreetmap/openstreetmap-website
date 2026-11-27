@@ -2,7 +2,7 @@
   <h1><%= t(".send_message_to_html", :name => link_to(@message.recipient.display_name, @message.recipient)) %></h1>
 <% end %>
 
-<%= bootstrap_form_for @message do |f| %>
+<%= bootstrap_form_for @message, :html => { :data => { :unsaved_changes_warning => true } } do |f| %>
   <%= hidden_field_tag :display_name, @message.recipient.display_name, :autocomplete => "off" %>
   <%= f.text_field :title %>
   <%= f.richtext_field :body, :cols => 80, :rows => 20 %>
