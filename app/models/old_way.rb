@@ -78,6 +78,22 @@ class OldWay < ApplicationRecord
     @nds ||= old_nodes.order(:sequence_id).collect(&:node_id)
   end
 
+  def map_elements
+    return [] unless visible? && redaction_id.nil?
+
+    node_ids = nds
+    return [] if node_ids.empty?
+
+    # Select each node's version at the time of the way edit before checking visibility.
+    nodes = OldNode.where(:node_id => node_ids, :timestamp => ..timestamp)
+                   .select("DISTINCT ON (node_id) nodes.*")
+                   .order(:node_id, :version => :desc).to_a
+    return [] unless nodes.size == node_ids.uniq.size && nodes.all? { |node| node.visible? && node.redaction_id.nil? }
+
+    elements = nodes.map { |node| { :type => "node", :id => node.node_id, :lat => node.lat, :lon => node.lon } }
+    elements << { :type => "way", :id => way_id, :nodes => node_ids, :tags => tags }
+  end
+
   def tags
     @tags ||= old_tags.to_h { |t| [t.k, t.v] }
   end

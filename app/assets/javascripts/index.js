@@ -265,7 +265,7 @@ $(function () {
     "/node/:id(/history)": { module: "index_element", part: m => m.mappedElement("node") },
     "/node/:id/history/:version": { module: "index_element", part: m => m.mappedElement("node") },
     "/way/:id(/history)": { module: "index_element", part: m => m.mappedElement("way") },
-    "/way/:id/history/:version": { module: "index_element", part: m => m.element("way") },
+    "/way/:id/history/:version": { module: "index_element", part: m => m.mappedElement("way") },
     "/relation/:id(/history)": { module: "index_element", part: m => m.mappedElement("relation") },
     "/relation/:id/history/:version": { module: "index_element", part: m => m.element("relation") },
     "/changeset/:id": "changeset",
